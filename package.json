@@ -1,0 +1,49 @@
+{
+  "name": "@nasa/hds-core",
+  "version": "0.2.0",
+  "description": "NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.",
+  "license": "SEE LICENSE.MD",
+  "private": true,
+  "main": "dist/js/hds-core.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/js/hds-core.esm.js",
+      "require": "./dist/js/hds-core.umd.js"
+    },
+    "./css": "./dist/css/hds-core.css",
+    "./css/min": "./dist/css/hds-core.min.css",
+    "./scss": "./src/scss/styles.scss",
+    "./assets": "./dist/assets/"
+  },
+  "files": [
+    "dist/",
+    "src/scss/",
+    "src/assets/"
+  ],
+  "scripts": {
+    "build": "gulp build",
+    "build:sass": "gulp buildSass",
+    "copy:assets": "gulp copyAssets",
+    "watch": "gulp watch",
+    "init": "gulp init"
+  },
+  "peerDependencies": {
+    "@uswds/uswds": "^3.3.0"
+  },
+  "devDependencies": {
+    "@uswds/compile": "^1.0.0",
+    "gulp": "^4.0.2"
+  },
+  "keywords": [
+    "nasa",
+    "hds",
+    "horizon-design-system",
+    "uswds",
+    "design-tokens",
+    "sass"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nasa/hds-core.git"
+  }
+}
