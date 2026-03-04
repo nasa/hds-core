@@ -1,0 +1,582 @@
+// ============================================================
+// HDS USWDS Theme Custom Styles
+// @nasa/hds-core
+// ============================================================
+// HDS-specific overrides to USWDS component styles.
+// For HDS-only components, see _hds-components.scss.
+//
+// All colors:   color("token-name")
+// All spacing:  units(N)
+// All type:     size("body", "xs") or size("heading", "md")
+// Breakpoints:  @include at-media("tablet")
+// ============================================================
+
+@use "uswds-core" as *;
+
+
+// ============================================================
+// HEADER & FOOTER
+// ============================================================
+
+.usa-header,
+.usa-footer,
+.usa-nav__submenu,
+.usa-megamenu {
+  a {
+    text-decoration-line: none;
+  }
+}
+
+.usa-header--basic .usa-nav-container {
+  align-items: center;
+
+  .usa-navbar {
+    width: auto;
+  }
+}
+
+// HDS uses borders on nav items, not the container
+.usa-footer__primary-content,
+.usa-footer__nav {
+  border: 0 !important;
+}
+
+.usa-footer__nav {
+  @include at-media-max("tablet-lg") {
+    nav > ul {
+      border-bottom-color: color("base-mid-darker");
+      padding-bottom: units(2) !important;
+      padding-top: units(2) !important;
+    }
+  }
+}
+
+
+// ============================================================
+// NAVIGATION — AGENCY NAVBAR
+// ============================================================
+
+.usa-navbar.agency-navbar {
+  border: 0;
+  position: relative;
+
+  .usa-nav__primary > .usa-nav__primary-item > a,
+  .usa-nav__primary button {
+    padding: units(3) units(2);
+  }
+
+  .usa-button--arrow {
+    padding: units(2) 0 !important;
+  }
+
+  @include at-media-max("desktop") {
+    .usa-nav {
+      padding: units(3);
+    }
+
+    .usa-nav__submenu {
+      padding: 0 0 1em 0;
+      margin-block-end: 1em;
+
+      .usa-nav__submenu {
+        padding: 0 1em;
+        margin-block-end: 0;
+      }
+    }
+
+    ul.usa-nav__primary {
+      display: grid;
+      gap: units(3);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+
+      > li {
+        border-right: 1px solid color("base-light");
+        padding-right: 1em;
+      }
+
+      .usa-button--arrow {
+        padding-top: 0 !important;
+      }
+    }
+  }
+
+  @include at-media-max("tablet") {
+    .usa-nav__submenu {
+      border-bottom: 1px solid color("base-light");
+      padding-right: 0;
+
+      .usa-nav__submenu {
+        border: 0;
+      }
+    }
+
+    ul.usa-nav__primary {
+      display: block;
+
+      > li {
+        border: 0;
+      }
+    }
+  }
+}
+
+.usa-nav__close {
+  margin: -1.5em 0;
+  position: absolute;
+  right: units(2);
+  @include u-z(100);
+
+  img {
+    width: units(2);
+  }
+}
+
+.usa-js-mobile-nav--active {
+  overflow: hidden !important;
+
+  .usa-header {
+    position: relative;
+  }
+
+  @include at-media-max("desktop") {
+    overflow: visible;
+  }
+}
+
+
+// ============================================================
+// NAVIGATION — GLOBAL NAV TRIGGER
+// ============================================================
+
+.usa-nav__global-nav-trigger {
+  span:after {
+    mask-size: 1em !important;
+    mask-position: top center !important;
+  }
+
+  &[aria-expanded="true"] span:after {
+    mask-image:
+      url('../img/hds-icons/Arrow/Circle-Up.svg'),
+      linear-gradient(transparent, transparent) !important;
+  }
+
+  &[aria-expanded="false"] span:after {
+    mask-image:
+      url('../img/hds-icons/Arrow/Circle-Down.svg'),
+      linear-gradient(transparent, transparent) !important;
+  }
+}
+
+.usa-nav__mobile-menu-trigger {
+  padding-right: units(2.5);
+  width: 100%;
+
+  &[aria-expanded="false"] {
+    background-image: url('../img/hds-icons/Arrow/Circle-Down.svg');
+    background-size: 1.2rem;
+  }
+
+  &[aria-expanded="true"] {
+    background-image: url('../img/hds-icons/Arrow/Circle-Up.svg');
+    background-size: 1.2rem;
+  }
+}
+
+.usa-nav__mobile-menu {
+  padding: 1em 0;
+}
+
+
+// ============================================================
+// NAVIGATION — PRIMARY NAV LINKS
+// ============================================================
+
+// HDS does not use the USWDS underline active indicator
+.usa-nav__link:hover::after,
+.usa-nav__primary-item > .usa-current::after {
+  display: none !important;
+}
+
+// HDS uses no hover background on primary nav links
+.usa-nav__primary a:hover {
+  background: transparent !important;
+}
+
+.usa-menu-btn {
+  background: transparent;
+  border: 0;
+
+  &:hover {
+    background-color: color("primary");
+  }
+}
+
+
+// ============================================================
+// NAVIGATION — SUBMENUS
+// ============================================================
+
+.usa-nav__submenu {
+  padding: units(3);
+
+  @include at-media("desktop") {
+    padding: units(2);
+  }
+
+  .usa-nav__submenu {
+    padding: 0 1em;
+    position: relative !important;
+    width: 100%;
+  }
+}
+
+.usa-nav__submenu-item {
+  border: 0;
+  font-size: size("body", "xs");
+
+  @include at-media("desktop") {
+    font-size: size("body", "2xs");
+  }
+
+  a {
+    color: inherit !important;
+    padding: .5em 0 !important;
+
+    &:hover {
+      background: transparent !important;
+      text-decoration-line: underline !important;
+    }
+  }
+}
+
+
+// ============================================================
+// AGENCY LOGO
+// ============================================================
+
+.agency-logo {
+  .site-logo__text {
+    display: flex;
+    align-items: center;
+    gap: units(1);
+  }
+}
+
+
+// ============================================================
+// ACCORDION
+// ============================================================
+
+.usa-accordion {
+  border-left: 0;
+}
+
+.usa-accordion__button {
+  background-color: color("base-lighter");
+  color: color("base-darkest");
+
+  &:hover {
+    background-color: color("base-light");
+  }
+}
+
+.usa-accordion__content {
+  background-color: color("base-lightest");
+  border-top: 0;
+}
+
+
+// ============================================================
+// BANNER
+// ============================================================
+
+.usa-banner {
+  background-color: color("base-lighter");
+  font-size: size("body", "2xs");
+}
+
+.usa-banner__header {
+  padding-block: units(1);
+}
+
+.usa-banner__button {
+  text-decoration-line: underline;
+}
+
+
+// ============================================================
+// BREADCRUMB
+// ============================================================
+
+.usa-breadcrumb {
+  background-color: transparent;
+  font-size: size("body", "2xs");
+}
+
+.usa-breadcrumb__link,
+.usa-breadcrumb__link:visited,
+.usa-breadcrumb__link:active,
+.usa-breadcrumb__link:hover {
+  color: inherit;
+}
+
+
+// ============================================================
+// BUTTONS
+// ============================================================
+
+.usa-button {
+  border-radius: 0;
+}
+
+.usa-button--outline {
+  box-shadow: inset 0 0 0 2px color("base-darkest");
+  color: color("base-darkest");
+
+  &:hover {
+    box-shadow: inset 0 0 0 2px color("base-mid-darkest");
+    color: color("base-mid-darkest");
+  }
+}
+
+// Primary arrow button (CTA style)
+.usa-button--arrow {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  color: color("base-darkest");
+  font-family: family("heading");
+  font-size: size("heading", "xs");
+  font-weight: font-weight("bold");
+  line-height: var(--hds-line-height-button);
+  padding: 0;
+  text-decoration-line: none;
+
+  &:after {
+    background: url('../img/hds-icons/Primary-Arrow.svg') center center no-repeat;
+    border-radius: 1.2em;
+    content: '';
+    display: inline-block;
+    height: 1.2em;
+    margin-left: .3em;
+    opacity: .99;
+    vertical-align: text-bottom;
+    width: 1.2em;
+  }
+
+  &:hover {
+    background-color: transparent;
+    text-decoration-line: none;
+
+    &:after {
+      transition: filter 0.2s;
+      filter: grayscale(70%) contrast(3) brightness(0.95);
+    }
+  }
+
+  &:focus {
+    outline-offset: var(--hds-border-size-2px);
+  }
+
+  &.is-external:after {
+    transform: rotate(-45deg);
+  }
+}
+
+// Share buttons row
+.usa-button-group.share-buttons {
+  flex-direction: row !important;
+}
+
+
+// ============================================================
+// CARDS
+// ============================================================
+
+.usa-card__container {
+  border-radius: 0;
+  border-color: color("base-light");
+}
+
+.usa-card__heading {
+  color: color("base-darkest");
+}
+
+
+// ============================================================
+// FORMS
+// ============================================================
+
+.usa-input,
+.usa-select,
+.usa-textarea {
+  border-radius: 0;
+  border-color: color("base-mid-darker");
+}
+
+.usa-input:focus,
+.usa-select:focus,
+.usa-textarea:focus {
+  outline: 2px solid color("primary");
+  outline-offset: 0;
+}
+
+.usa-label {
+  font-weight: font-weight("semibold");
+}
+
+.usa-input--error {
+  border-color: color("error");
+  border-width: 4px;
+}
+
+
+// ============================================================
+// IN-PAGE NAVIGATION
+// ============================================================
+
+.usa-in-page-nav {
+  background-color: color("base-lighter");
+  border-radius: 0;
+  border-left: 4px solid color("base-mid-darker");
+}
+
+.usa-in-page-nav__link {
+  color: color("base-darker");
+
+  &:hover {
+    color: color("base-darkest");
+  }
+}
+
+.usa-in-page-nav__link--active {
+  border-left-color: color("primary");
+  color: color("primary");
+  font-weight: font-weight("semibold");
+}
+
+
+// ============================================================
+// PAGINATION
+// ============================================================
+
+.usa-pagination__button {
+  border-radius: 0;
+}
+
+.usa-pagination__page-no {
+  &.usa-current {
+    background-color: color("primary");
+  }
+}
+
+
+// ============================================================
+// ALERTS
+// ============================================================
+
+.usa-alert {
+  border-radius: 0;
+  border-left-width: 4px;
+}
+
+
+// ============================================================
+// SUMMARY BOX
+// ============================================================
+
+.usa-summary-box {
+  border-color: color("accent-cool");
+  border-radius: var(--hds-border-radius-summary);
+}
+
+
+// ============================================================
+// TABLES
+// ============================================================
+
+.usa-table {
+  border: 0;
+
+  thead th {
+    background-color: color("base-lighter");
+    color: color("base-darkest");
+    border-bottom: 2px solid color("base-mid-darker");
+  }
+
+  tbody td,
+  tbody th {
+    border-bottom: 1px solid color("base-light");
+  }
+
+  &.usa-table--striped {
+    tbody tr:nth-child(odd) td,
+    tbody tr:nth-child(odd) th {
+      background-color: color("base-lighter");
+    }
+  }
+}
+
+
+// ============================================================
+// TAGS
+// ============================================================
+
+.usa-tag {
+  border-radius: 0;
+  background-color: color("base-mid-darker");
+  font-size: size("body", "3xs");
+  font-weight: font-weight("semibold");
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+
+// ============================================================
+// STEP INDICATOR
+// ============================================================
+
+.usa-step-indicator__segment--current
+.usa-step-indicator__segment-label {
+  color: color("primary");
+}
+
+
+// ============================================================
+// GRID UTILITIES
+// ============================================================
+
+// Reverse column order on mobile for specified breakpoints
+@each $token, $value in $theme-utility-breakpoints {
+  @if $value {
+    .grid-reverse-#{$token} {
+      @include at-media-max("#{$token}") {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+}
+
+// Section default vertical padding
+.usa-section {
+  padding-block: units(8);
+}
+
+// Horizontal list variant
+.usa-list--horizontal {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: units(3);
+  row-gap: units(1.5);
+
+  li {
+    margin-bottom: 0;
+  }
+}
+
+// Top-level only list (hides nested lists)
+.usa-list--top-level {
+  ul {
+    display: none;
+  }
+}

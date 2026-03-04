@@ -1,0 +1,192 @@
+// ============================================================
+// HDS Mixins
+// @nasa/hds-core
+// ============================================================
+// Shared Sass mixins used across HDS base and component styles.
+// Must be loaded before _hds-base.scss and _hds-components.scss.
+//
+// All colors:  color("token-name")
+// All spacing: units(N)
+// All type:    size("body", "xs") or size("heading", "md")
+// ============================================================
+
+@use "uswds-core" as *;
+
+
+// ============================================================
+// ACCESSIBILITY
+// ============================================================
+
+// Visually hides an element while keeping it accessible to
+// screen readers. Use instead of display:none for a11y content.
+@mixin visually-hidden {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+
+// ============================================================
+// TYPOGRAPHY
+// ============================================================
+
+// Small uppercase label — used for metadata, tags, eyebrows
+@mixin label-uppercase {
+  font-family: family("heading");
+  font-size: size("heading", "3xs");
+  font-weight: font-weight("bold");
+  letter-spacing: .5px;
+  line-height: var(--hds-line-height-label);
+  text-transform: uppercase;
+}
+
+// Muted metadata text — dates, categories, post info
+@mixin metadata {
+  color: color("base-mid-darker");
+  @include label-uppercase;
+}
+
+// Lead / intro paragraph
+@mixin intro-text {
+  font-size: size("body", "md");
+  font-weight: font-weight("light");
+  line-height: var(--hds-line-height-intro);
+}
+
+
+// ============================================================
+// BUTTONS
+// ============================================================
+
+@mixin button-padding-border {
+  border-radius: var(--hds-border-radius-button);
+  border-style: solid;
+  border-width: var(--hds-border-width-button);
+  padding-block: units(1.5);
+  padding-inline: units(2.5);
+}
+
+@mixin button-typography {
+  font-family: family("heading");
+  font-size: size("heading", "xs");
+  font-weight: font-weight("semibold");
+  line-height: var(--hds-line-height-button);
+  text-decoration-line: none;
+}
+
+@mixin button-color {
+  background-color: color("secondary");
+  border-color: color("secondary");
+  color: color("base-lightest");
+
+  svg {
+    fill: color("base-lightest");
+  }
+}
+
+// Full standard button (padding + typography + color)
+@mixin button-styles {
+  @include button-padding-border;
+  @include button-typography;
+  @include button-color;
+}
+
+@mixin button-hover {
+  &:hover {
+    background-color: color("secondary-dark");
+    border-color: color("secondary-dark");
+    color: color("base-lightest");
+    text-decoration-line: none;
+  }
+
+  &:active {
+    background-color: color("secondary-darker");
+    border-color: color("secondary-darker");
+  }
+
+  &:focus {
+    outline: 2px solid color("primary");
+    outline-offset: 2px;
+    text-decoration-line: none;
+  }
+}
+
+// Outline button variant
+@mixin button-outline {
+  @include button-padding-border;
+  @include button-typography;
+  background-color: transparent;
+  border-color: color("secondary");
+  color: color("secondary");
+
+  &:hover {
+    background-color: color("secondary");
+    color: color("base-lightest");
+    text-decoration-line: none;
+  }
+
+  &:focus {
+    outline: 2px solid color("primary");
+    outline-offset: 2px;
+  }
+}
+
+// Arrow CTA button — transparent with red circle arrow icon
+@mixin button-arrow {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  color: color("base-darkest");
+  font-family: family("heading");
+  font-size: size("heading", "xs");
+  font-weight: font-weight("bold");
+  line-height: var(--hds-line-height-button);
+  padding: 0;
+  text-decoration-line: none;
+
+  &:after {
+    background: url('../img/hds-icons/Primary-Arrow.svg') center center no-repeat;
+    border-radius: 1.2em;
+    content: '';
+    display: inline-block;
+    height: 1.2em;
+    margin-left: .3em;
+    opacity: .99;
+    vertical-align: text-bottom;
+    width: 1.2em;
+  }
+
+  &:hover {
+    background-color: transparent;
+    text-decoration-line: none;
+
+    &:after {
+      filter: grayscale(70%) contrast(3) brightness(0.95);
+      transition: filter 0.2s;
+    }
+  }
+
+  // Rotate arrow for external links
+  &.is-external:after {
+    transform: rotate(-45deg);
+  }
+}
+
+// Round icon-only button
+@mixin button-round {
+  align-items: center;
+  border-radius: 2em;
+  display: flex;
+  height: 2em;
+  justify-content: center;
+  padding: .25em;
+  position: relative;
+  width: 2em;
+}

@@ -1,0 +1,294 @@
+// ============================================================
+// HDS Tokens
+// @nasa/hds-core
+// ============================================================
+// Defines all HDS design token values as Sass maps, and
+// outputs them as CSS custom properties on :root.
+//
+// HOW TO USE COLORS
+// -----------------
+// Always use USWDS token patterns for color in Sass:
+//   color("primary")          → NASA Blue
+//   color("base-darker")      → exact Carbon 90
+//   color("base-mid-darker")  → exact Carbon 60
+//   .bg-primary / .text-primary / .border-base-mid-darker
+//
+// The full HDS color token reference is in the HDS docs.
+// You do not need to know whether a token is "core USWDS"
+// or "added by HDS" — use the HDS color docs as your guide.
+//
+// ABOUT BASE-DARK AND BASE-DARKER
+// --------------------------------
+// These two tokens exist in both USWDS (as approximate grays)
+// and in the HDS extended palette (as exact Carbon hex values).
+// The extended palette entries override the USWDS approximations
+// in all utility classes and color() function calls, so:
+//   color("base-dark")    → exact Carbon 80 (#2E2E32)
+//   color("base-darker")  → exact Carbon 90 (#17171B)
+//
+// CSS CUSTOM PROPERTIES
+// ----------------------
+// All token values are also available as CSS custom properties
+// on :root for use in plain CSS or JavaScript:
+//   var(--hds-color-nasa-blue)
+//   var(--hds-font-weight-bold)
+//   var(--hds-border-radius-button)
+// ============================================================
+
+@use "uswds-core" as *;
+@use "sass:map";
+
+
+// ============================================================
+// HDS BRAND COLOR REFERENCE VARIABLES
+// For internal use in this file and _hds-uswds-theme.scss.
+// In component Sass, use color() instead.
+// ============================================================
+
+$hds-color-carbon-black:          #000000;
+$hds-color-spacesuit-white:       #FFFFFF;
+$hds-color-nasa-red:              #F64137;
+$hds-color-nasa-blue:             #1C67E3;
+$hds-color-carbon-90:             #17171B;
+$hds-color-carbon-80:             #2E2E32;
+$hds-color-carbon-70:             #444447;
+$hds-color-carbon-60:             #58585B;
+$hds-color-carbon-50:             #77777A;
+$hds-color-carbon-40:             #959599;
+$hds-color-carbon-30:             #B9B9BB;
+$hds-color-carbon-20:             #D1D1D1;
+$hds-color-carbon-10:             #E3E3E3;
+$hds-color-carbon-05:             #F6F6F6;
+$hds-color-nasa-red-tint:         #FF5C52;
+$hds-color-nasa-red-shade:        #B60109;
+$hds-color-nasa-blue-tint:        #288BFF;
+$hds-color-nasa-blue-shade:       #0B3D91;
+$hds-color-international-orange:  #EA6F24;
+$hds-color-active-green:          #47DA84;
+
+
+// ============================================================
+// HDS EXTENDED COLOR PALETTE
+// ============================================================
+// Registered with USWDS via $global-color-palettes in
+// _hds-uswds-theme.scss. This makes all tokens below available
+// as standard USWDS color utilities:
+//   color("base-mid-darker") / .bg-base-mid-darker / .text-base-mid-darker
+//
+// base-dark and base-darker are intentionally included here
+// with exact HDS hex values. They override the USWDS theme
+// token approximations (gray-60, gray-70) in all utility
+// classes and color() function calls.
+// ============================================================
+
+$hds-extended-palette: (
+  // Mid-Carbon scale (Carbon 20–70)
+  // These fill the gap between USWDS's base-light and base-dark.
+  "base-mid-lightest":    #D1D1D1,  // Carbon 20
+  "base-mid-lighter":     #B9B9BB,  // Carbon 30
+  "base-mid-light":       #959599,  // Carbon 40
+  "base-mid-dark":        #77777A,  // Carbon 50
+  "base-mid-darker":      #58585B,  // Carbon 60
+  "base-mid-darkest":     #444447,  // Carbon 70
+
+  // Carbon 80 and 90 — override USWDS approximations with exact values
+  "base-dark":            #2E2E32,  // Carbon 80
+  "base-darker":          #17171B,  // Carbon 90
+
+  // HDS accent colors — retain their own names per HDS Core guidance
+  "international-orange": #EA6F24,
+  "active-green":         #47DA84,
+);
+
+
+// ============================================================
+// TYPE SCALE
+// ============================================================
+// Integer values map to USWDS's internal font size table.
+// Used to configure USWDS $theme-type-scale-* settings
+// in _hds-uswds-theme.scss.
+//
+// Full HDS typography reference: HDS Core docs — Typography
+//
+// TODO:  The $hds-type-scale map uses "4xl": 19 for H1-2xl / Number-lg (~120px). This is an HDS addition beyond the standard USWDS type scale per the HDS Core proposal typography table.  However, File 3 (_hds-uswds-theme.scss) only configures up to $theme-type-scale-3xl — there is no $theme-type-scale-4xl setting in USWDS. The "4xl" entry in $hds-type-scale is therefore currently unused and unresolved.
+// ============================================================
+
+$hds-type-scale: (
+  "3xs":  1,   // ~12px  — label (div), figcaption
+  "2xs":  3,   // ~14px  — H6, label (form)
+  "xs":   5,   // ~16px  — H5, body, button
+  "sm":   7,   // ~18px  — H4
+  "md":   9,   // ~22px  — H3
+  "lg":   11,  // ~28px  — Number-xs
+  "xl":   13,  // ~36px  — H2, blockquote, Number-sm
+  "2xl":  15,  // ~48px  — H1, Number-md
+  "3xl":  18,  // ~80px  — H1-xl
+  "4xl":  19,  // ~120px — H1-2xl, Number-lg
+);
+
+
+// ============================================================
+// FONT WEIGHTS
+// ============================================================
+
+$hds-weights: (
+  "thin":     200,
+  "light":    300,
+  "normal":   400,
+  "medium":   500,
+  "semibold": 600,
+  "bold":     700,
+  "heavy":    800,
+);
+
+
+// ============================================================
+// LINE HEIGHTS
+// ============================================================
+// Values are USWDS line-height scale integers, resolved to
+// actual values via USWDS's line-height() function below.
+
+$hds-line-heights: (
+  "body":    4,  // ~1.5
+  "heading": 1,  // 1
+  "intro":   3,  // ~1.35
+  "input":   2,  // ~1.15
+  "button":  1,  // 1
+  "code":    3,  // ~1.35
+  "table":   2,  // ~1.15
+  "label":   4,  // ~1.5
+);
+
+
+// ============================================================
+// BORDER WIDTHS
+// ============================================================
+
+$hds-border-sizes: (
+  "0":    0,
+  "1px":  "1px",
+  "2px":  "2px",
+  "05":   "4px",
+  "1":    "8px",
+  "105":  "12px",
+  "2":    "16px",
+);
+
+
+// ============================================================
+// BORDER RADII
+// ============================================================
+
+$hds-border-radii: (
+  "0":    0,
+  "sm":   "2px",
+  "md":   "4px",
+  "lg":   "8px",
+  "xl":   "16px",
+  "pill": "99rem",
+);
+
+
+// ============================================================
+// COMPONENT BORDER RADIUS ASSIGNMENTS
+// ============================================================
+// Maps component names to border radius token keys above.
+// var(--hds-border-radius-button), var(--hds-border-radius-card), etc.
+
+$hds-radius-settings: (
+  "button":     "0",
+  "card":       "0",
+  "checkbox":   "sm",
+  "input-tile": "sm",
+  "modal":      "sm",
+  "pagination": "0",
+  "summary":    "md",
+);
+
+
+// ============================================================
+// COMPONENT BORDER WIDTH ASSIGNMENTS
+// ============================================================
+// Maps component names to border width values.
+// var(--hds-border-width-button), var(--hds-border-width-card), etc.
+
+$hds-width-settings: (
+  "accordion":    "0",
+  "button":       "2px",
+  "card":         "1px",
+  "input-tile":   "1px",
+  "input-select": "1px",
+  "input-state":  "1px",
+  "pagination":   "1px",
+  "summary":      "1px",
+  "table":        "1px",
+);
+
+
+// ============================================================
+// CSS CUSTOM PROPERTIES
+// ============================================================
+// All HDS token values output to :root.
+// Use USWDS token functions (color(), size(), etc.) in Sass.
+// Use these custom properties in plain CSS or JavaScript.
+// ============================================================
+
+:root {
+
+  // Extended palette colors — var(--hds-color-base-mid-darker)
+  @each $name, $color in $hds-extended-palette {
+    --hds-color-#{$name}: #{$color};
+  }
+
+  // All HDS brand colors — var(--hds-color-nasa-blue)
+  --hds-color-carbon-black:          #{$hds-color-carbon-black};
+  --hds-color-spacesuit-white:       #{$hds-color-spacesuit-white};
+  --hds-color-nasa-red:              #{$hds-color-nasa-red};
+  --hds-color-nasa-blue:             #{$hds-color-nasa-blue};
+  --hds-color-carbon-90:             #{$hds-color-carbon-90};
+  --hds-color-carbon-80:             #{$hds-color-carbon-80};
+  --hds-color-carbon-70:             #{$hds-color-carbon-70};
+  --hds-color-carbon-60:             #{$hds-color-carbon-60};
+  --hds-color-carbon-50:             #{$hds-color-carbon-50};
+  --hds-color-carbon-40:             #{$hds-color-carbon-40};
+  --hds-color-carbon-30:             #{$hds-color-carbon-30};
+  --hds-color-carbon-20:             #{$hds-color-carbon-20};
+  --hds-color-carbon-10:             #{$hds-color-carbon-10};
+  --hds-color-carbon-05:             #{$hds-color-carbon-05};
+  --hds-color-nasa-red-tint:         #{$hds-color-nasa-red-tint};
+  --hds-color-nasa-red-shade:        #{$hds-color-nasa-red-shade};
+  --hds-color-nasa-blue-tint:        #{$hds-color-nasa-blue-tint};
+  --hds-color-nasa-blue-shade:       #{$hds-color-nasa-blue-shade};
+  --hds-color-international-orange:  #{$hds-color-international-orange};
+  --hds-color-active-green:          #{$hds-color-active-green};
+
+  // Font weights — var(--hds-font-weight-bold)
+  @each $name, $weight in $hds-weights {
+    --hds-font-weight-#{$name}: #{$weight};
+  }
+
+  // Line heights — var(--hds-line-height-body)
+  @each $name, $height in $hds-line-heights {
+    --hds-line-height-#{$name}: #{line-height(body, $height)};
+  }
+
+  // Border widths — var(--hds-border-size-2px)
+  @each $name, $width in $hds-border-sizes {
+    --hds-border-size-#{$name}: #{$width};
+  }
+
+  // Border radii — var(--hds-border-radius-sm)
+  @each $name, $radius in $hds-border-radii {
+    --hds-border-radius-#{$name}: #{$radius};
+  }
+
+  // Component border radius — var(--hds-border-radius-button)
+  @each $name, $token in $hds-radius-settings {
+    --hds-border-radius-#{$name}: var(--hds-border-radius-#{$token});
+  }
+
+  // Component border width — var(--hds-border-width-button)
+  @each $name, $value in $hds-width-settings {
+    --hds-border-width-#{$name}: #{$value};
+  }
+}
