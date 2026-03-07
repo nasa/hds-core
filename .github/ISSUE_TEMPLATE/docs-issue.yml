@@ -8,7 +8,8 @@ body:
         ## Documentation Issue
 
         Help us improve the HDS Core docs. This covers the README,
-        inline code comments, and any published documentation.
+        inline code comments, and the main documentation located at
+        [website.nasa.gov/hds-core](https://website.nasa.gov/hds-core) (internal NASA access only).
 
   - type: dropdown
     id: doc-type
@@ -29,9 +30,9 @@ body:
       label: "Where is the issue?"
       options:
         - "README.md"
-        - "HDS documentation site"
         - "Inline code comments"
         - "CHANGELOG / release notes"
+        - "HDS docs (website.nasa.gov/hds-core)"
         - "Other"
     validations:
       required: true
