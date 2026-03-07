@@ -1,0 +1,68 @@
+name: "📖 Documentation Issue"
+description: "Report incorrect, missing, or unclear documentation"
+labels: ["documentation", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Documentation Issue
+
+        Help us improve the HDS Core docs. This covers the README,
+        inline code comments, and any published documentation.
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: "What type of documentation issue?"
+      options:
+        - "Incorrect information"
+        - "Missing information"
+        - "Unclear or confusing"
+        - "Outdated (doesn't match current release)"
+        - "Typo or formatting"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: doc-location
+    attributes:
+      label: "Where is the issue?"
+      options:
+        - "README.md"
+        - "HDS documentation site"
+        - "Inline code comments"
+        - "CHANGELOG / release notes"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: doc-section
+    attributes:
+      label: "Section or URL"
+      description: >-
+        Which section of the README, or a link to the specific page.
+      placeholder: "README → Usage → Option A: Sass Pipeline, step 1"
+    validations:
+      required: false
+
+  - type: textarea
+    id: doc-problem
+    attributes:
+      label: "What's wrong?"
+      description: "Describe the problem with the current documentation."
+      placeholder: |
+        The README says to add one Sass load path, but you actually need
+        two paths for `@forward` to resolve correctly when using...
+    validations:
+      required: true
+
+  - type: textarea
+    id: doc-suggestion
+    attributes:
+      label: "Suggested fix"
+      description: >-
+        If you know what the documentation should say, please share.
+        A PR is also welcome!
+    validations:
+      required: false

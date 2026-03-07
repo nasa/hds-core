@@ -1,0 +1,243 @@
+title: "Ideas"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 HDS Core Feature Idea
+
+        Thanks for sharing your idea! HDS Core is the shared design-token
+        and style foundation for NASA's public websites, so community input 
+        on what to build next is incredibly valuable.
+
+        **This board is for big-picture feature proposals** — things like
+        new component patterns, new token categories, asset additions, or
+        workflow improvements. For smaller bugs or to-dos, please
+        [open an Issue](https://github.com/nasa/hds-core/issues/new) instead.
+
+        ### ℹ️ Two review tracks
+
+        - If your idea is **already specced in the HDS Figma library**,
+          it follows a streamlined implementation review — we primarily
+          check that the code matches the design spec.
+        - If your idea is **not in HDS Figma**, it will need design and
+          branding review by NASA's creative director before development
+          can begin. This can still be a very quick process, so don't
+          hold back--we want to see your ideas for new components!
+
+  # ── 1. WHAT ──────────────────────────────────────────────
+  - type: input
+    id: title-summary
+    attributes:
+      label: "Feature name"
+      description: >-
+        A short, descriptive name for the idea or new component.
+      placeholder: "HDS icon font"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Feature area"
+      description: "Which part of HDS Core does this relate to?"
+      options:
+        - "Design tokens (colors, typography, spacing)"
+        - "Component patterns (cards, search, archive layouts, etc.)"
+        - "Assets (fonts, icons, images)"
+        - "JavaScript behaviors"
+        - "Color scheme palettes (light, midtone, dark variants)"
+        - "Build tooling / developer experience"
+        - "Documentation"
+        - "Accessibility"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe the idea"
+      description: >-
+        What should this feature do? What problem does it solve or what
+        capability does it add? Be as specific as you can.
+      placeholder: |
+        Provide a woff2 icon font generated from the existing HDS SVG icon set
+        so teams that can't easily use inline SVGs (e.g., email templates,
+        legacy CMS environments) have an alternative icon delivery method...
+    validations:
+      required: true
+
+  # ── 2. WHO NEEDS IT & WHY ────────────────────────────────
+  - type: textarea
+    id: use-case
+    attributes:
+      label: "Use case / user story"
+      description: >-
+        Who benefits from this and in what scenario? Help us understand
+        the real-world context.
+      placeholder: |
+        As a developer building a static site with Eleventy, I want to
+        use HDS icons without an SVG sprite pipeline so that I can
+        reference icons in CSS pseudo-elements and email templates.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: "Primary audience"
+      description: "Who would primarily use this feature?"
+      options:
+        - "Front-end developers"
+        - "Designers"
+        - "Content editors / site managers"
+        - "All of the above"
+        - "Other (describe in your use case above)"
+    validations:
+      required: false
+
+  # ── 3. HDS DESIGN STATUS ────────────────────────────────
+  - type: markdown
+    attributes:
+      value: |
+        ### HDS Design Status
+
+        HDS has an extensive Figma library that includes components, icons,
+        patterns, and specifications beyond what's currently built in HDS
+        Core. The review process depends on whether your idea is already
+        part of the approved HDS design system:
+
+        - **Already in HDS Figma** → Primarily an implementation review
+          (does the code match the Figma spec?)
+        - **Not in HDS Figma** → Requires design and branding review by
+          NASA's creative director before development
+
+  - type: dropdown
+    id: figma-status
+    attributes:
+      label: "Is this already in the HDS Figma library?"
+      description: >-
+        Check the HDS Figma project (or ask the HDS design team if
+        you're unsure). This determines the review track.
+      options:
+        - "✅ Yes — fully specced in HDS Figma"
+        - "🟡 Partially — some elements exist but not complete"
+        - "❌ No — this is a net-new design proposal"
+        - "🤷 Not sure — I don't have access or couldn't find it"
+    validations:
+      required: true
+
+  - type: input
+    id: figma-reference
+    attributes:
+      label: "Figma reference"
+      description: >-
+        If this exists in Figma, paste a link to the relevant frame or
+        page. This helps the team locate the spec quickly.
+      placeholder: "https://www.figma.com/file/..."
+    validations:
+      required: false
+
+  # ── 4. IMPLEMENTATION MATURITY / PRIOR ART ───────────────
+  - type: dropdown
+    id: maturity
+    attributes:
+      label: "Implementation maturity"
+      description: >-
+        Has this idea (or something close) already been built somewhere?
+        This helps us gauge effort and risk.
+      options:
+        - "✅ Production — already running on a live NASA site or project"
+        - "🧪 Prototype — built as a proof-of-concept or in a dev branch"
+        - "🔍 Seen elsewhere — exists in another design system or library (not NASA)"
+        - "💭 Concept only — not yet implemented anywhere that I know of"
+    validations:
+      required: true
+
+  - type: textarea
+    id: prior-art-details
+    attributes:
+      label: "Prior art details"
+      description: >-
+        If you selected anything other than "Concept only," please share
+        details: Which project or site? Link to repo, PR, or live page?
+        What worked well and what didn't? If you've seen it in a non-NASA
+        design system, link to their docs.
+      placeholder: |
+        We built an icon font from HDS SVGs for the [Project Name] email
+        templates using Fantasticon. Repo: https://...
+        It works well for single-color icons but doesn't support
+        multi-color SVGs. Build added ~15 s to the pipeline.
+    validations:
+      required: false
+
+  # ── 5. SCOPE & COMPATIBILITY ─────────────────────────────
+  - type: dropdown
+    id: uswds-relationship
+    attributes:
+      label: "Relationship to USWDS"
+      description: >-
+        HDS Core extends USWDS — how does this idea relate?
+      options:
+        - "Configures / themes an existing USWDS component"
+        - "Extends USWDS with something it doesn't provide"
+        - "Replaces / overrides a USWDS default"
+        - "Independent of USWDS"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: "Potential breaking change?"
+      description: >-
+        Would adopting this require existing HDS Core consumers to change
+        their code?
+      options:
+        - "No — purely additive"
+        - "Maybe — could affect existing tokens or styles"
+        - "Yes — would change existing APIs or output"
+        - "Not sure"
+    validations:
+      required: false
+
+  # ── 6. ANYTHING ELSE ─────────────────────────────────────
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives considered"
+      description: >-
+        Have you considered other ways to solve this? What are the
+        trade-offs?
+      placeholder: |
+        Alternative: Provide a shared SVG sprite file instead of an icon
+        font. Trade-off: better multi-color support, but doesn't solve
+        the email/CSS pseudo-element use case.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional context"
+      description: >-
+        Screenshots, mockups, links, code snippets, or anything else
+        that helps illustrate the idea.
+    validations:
+      required: false
+
+  # ── 7. WILLINGNESS TO CONTRIBUTE ─────────────────────────
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: "Would you contribute to this?"
+      description: >-
+        Not required at all — just helps us understand capacity.
+      options:
+        - "Yes — I could submit a PR"
+        - "Partially — I could help with design/research/testing"
+        - "No — just suggesting, but happy to provide feedback"
+    validations:
+      required: false

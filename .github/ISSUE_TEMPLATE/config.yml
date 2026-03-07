@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "💡 Feature Idea / Proposal"
+    url: https://github.com/nasa/hds-core/discussions/categories/ideas
+    about: >-
+      Have a big-picture feature idea for HDS Core, or a proposal for a new  
+      feature? Post it in Discussions → Ideas where the community can upvote 
+      and discuss. Issues are for bugs, docs fixes, and small scoped tasks.
+  - name: "❓ Question / Help"
+    url: https://github.com/nasa/hds-core/discussions/categories/q-a
+    about: >-
+      Need help using HDS Core in your project, or want a peer review of your
+      implementation? Ask in Discussions → Q&A instead of opening an Issue.

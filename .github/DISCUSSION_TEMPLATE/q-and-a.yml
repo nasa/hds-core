@@ -1,0 +1,97 @@
+title: "Q&A"
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ❓ HDS Core Question
+
+        Ask anything about using `@nasa/hds-core` in your project.
+        The HDS team and community will do their best to help.
+
+        **Before posting**, please check:
+        - The [README](https://github.com/nasa/hds-core#readme) (especially the Usage section)
+        - [Existing Q&A threads](https://github.com/nasa/hds-core/discussions/categories/q-a) for similar questions
+        - The [HDS Core documentation](https://website.nasa.gov/hds-core) (internal NASA access only) for HDS specs and Figma links
+        - The [USWDS documentation](https://designsystem.digital.gov/) for general USWDS component usage
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: "Topic area"
+      description: "What's your question about?"
+      options:
+        - "Installation / setup"
+        - "Sass pipeline integration"
+        - "Pre-compiled CSS usage"
+        - "Design tokens / CSS custom properties"
+        - "Colors / extended palette"
+        - "Typography (fonts, sizes, weights)"
+        - "Component styling / overrides"
+        - "Assets (fonts, icons)"
+        - "Build tooling (Gulp, Webpack, Vite, etc.)"
+        - "USWDS compatibility"
+        - "Upgrading / migration"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: "Your question"
+      description: >-
+        Be as specific as you can. Include code snippets, error messages,
+        or config files if relevant.
+      placeholder: |
+        I'm trying to use HDS Core with Vite in a Next.js project.
+        I've added the Sass load paths to my vite.config.js like this:
+
+        ```js
+        css: {
+          preprocessorOptions: {
+            scss: {
+              loadPaths: [
+                'node_modules/@uswds/uswds/packages',
+                'node_modules/@nasa/hds-core/src/scss',
+              ]
+            }
+          }
+        }
+        ```
+
+        But I'm getting `Can't find stylesheet to import` when I
+        `@forward "@nasa/hds-core/src/scss/styles"`. What am I missing?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: integration
+    attributes:
+      label: "How are you using HDS Core?"
+      options:
+        - "Sass pipeline (Option A)"
+        - "Pre-compiled CSS (Option B)"
+        - "Haven't started yet — evaluating"
+        - "Other"
+    validations:
+      required: false
+
+  - type: input
+    id: environment
+    attributes:
+      label: "Environment (if relevant)"
+      description: "HDS Core version, USWDS version, build tool, Node version"
+      placeholder: "hds-core 0.1.0, uswds 3.3.0, Vite 5.x, Node 20"
+    validations:
+      required: false
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: "What have you already tried?"
+      description: >-
+        Knowing what you've attempted helps us avoid suggesting things
+        you've already ruled out.
+    validations:
+      required: false
