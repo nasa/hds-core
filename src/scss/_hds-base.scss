@@ -1,13 +1,12 @@
 // ============================================================
 // HDS Base Styles
 // @nasa/hds-core
+// Docs: https://nasa.github.io/hds-core/base
 // ============================================================
 // Base and reset styles for standard HTML elements.
 // Supplements USWDS's normalize layer with HDS-specific defaults.
-//
-// All colors:  color("token-name")
-// All spacing: units(N)
-// All type:    size("body", "xs") or size("heading", "md")
+// All color values use palette vars with fallbacks so they work
+// both inside and outside palette containers.
 // ============================================================
 
 @use "uswds-core" as *;
@@ -17,8 +16,6 @@
 // ============================================================
 // HEADINGS
 // ============================================================
-// USWDS normalize overrides browser h1 defaults.
-// This restores HDS h1 margin values on top of that.
 
 h1 {
   font-family: family("heading");
@@ -28,25 +25,13 @@ h1 {
   margin-block-end: units(2);
 }
 
-h2 {
+h2, h3 {
   font-family: family("heading");
   font-weight: font-weight("bold");
   line-height: var(--hds-line-height-heading);
 }
 
-h3 {
-  font-family: family("heading");
-  font-weight: font-weight("bold");
-  line-height: var(--hds-line-height-heading);
-}
-
-h4 {
-  font-family: family("heading");
-  font-weight: font-weight("semibold");
-  line-height: var(--hds-line-height-heading);
-}
-
-h5 {
+h4, h5 {
   font-family: family("heading");
   font-weight: font-weight("semibold");
   line-height: var(--hds-line-height-heading);
@@ -64,7 +49,8 @@ h6 {
 // ============================================================
 
 body {
-  color: color("base-darker");
+  background-color: var(--hds-palette-bg, #{color("base-lightest")});
+  color: var(--hds-palette-text, #{color("base-darker")});
   font-family: family("body");
   font-size: size("body", "xs");
   line-height: var(--hds-line-height-body);
@@ -85,43 +71,34 @@ p {
 // ============================================================
 
 a {
-  color: color("base-darker");
+  color: var(--hds-palette-link-text, #{color("base-darker")});
   text-decoration-line: underline;
-  text-decoration-color: color("base-mid-darker");
+  text-decoration-color: var(--hds-palette-link-underline, #{color("base-mid-darker")});
   text-underline-offset: 2px;
 
-  &:hover,
-  &:focus {
-    color: color("base-darkest");
-    text-decoration-color: color("base-darkest");
+  &:hover, &:focus {
+    text-decoration-color: var(--hds-palette-link-text, #{color("base-darkest")});
   }
 
   &:visited {
-    color: color("base-darker");
+    color: var(--hds-palette-link-text, #{color("base-darker")});
   }
 
   &:focus {
-    outline: 2px dotted color("primary");
+    outline: 2px dotted var(--hds-palette-link-text, #{color("primary")});
     outline-offset: 1px;
   }
 }
 
-// External link icon
-a.is-external:where(:not(.usa-button):not(.usa-button--arrow)) {
-  &:after {
-    background-color: currentColor;
-    content: '';
-    display: inline-block;
-    height: 1.75ex;
-    margin-inline: .25em .1em;
-    mask-image: url(../img/usa-icons/launch.svg),
-      linear-gradient(transparent, transparent);
-    mask-position: center center;
-    mask-repeat: no-repeat;
-    mask-size: 1.75ex 1.75ex;
-    vertical-align: middle;
-    width: 1.75ex;
-  }
+// External link icon — swap USWDS launch icon to HDS diagonal arrow
+.usa-link--external::after {
+  background-color: currentColor !important;
+  background-image: none !important;
+  mask-image: url('../img/hds-icons/arrow-line-diagonal.svg'),
+    linear-gradient(transparent, transparent);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 1.75ex 1.75ex;
 }
 
 
@@ -137,8 +114,165 @@ button:not([disabled]):focus,
 input:not([disabled]):focus,
 select:not([disabled]):focus,
 textarea:not([disabled]):focus {
-  outline: 2px dotted color("primary");
+  outline: 2px dotted var(--hds-palette-link-text, #{color("primary")});
   outline-offset: 1px;
+}
+
+
+// ============================================================
+// BUTTONS
+// ============================================================
+
+button:where(
+  :not([role="presentation"])
+  :not([class*="usa-"])
+  :not([class*="hds-btn"])
+  :not([disabled])
+),
+input[type="submit"] {
+  @include button-styles;
+  @include button-hover;
+}
+
+a.button {
+  text-decoration-line: none;
+  @include button-styles;
+  @include button-hover;
+}
+
+
+// ============================================================
+// PRIMARY ARROW BUTTON
+// ============================================================
+// Red circle + arrow generated entirely via CSS ::after.
+// Arrow direction auto-swaps for external links via
+// .usa-link--external. No SVG markup needed in HTML.
+// ============================================================
+
+$_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M10 6l8 6-8 6z'/%3E%3C/svg%3E");
+$_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M6 6h10v2H9.4l8.3 8.3-1.4 1.4L8 9.4V16H6z'/%3E%3C/svg%3E");
+
+.hds-btn--primary {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--hds-palette-heading, #{color("base-darkest")});
+  font-family: family("heading");
+  font-size: size("heading", "xs");
+  font-weight: font-weight("bold");
+  line-height: var(--hds-line-height-button);
+  padding: 0;
+  text-decoration-line: none;
+
+  &::after {
+    background-color: var(--hds-palette-btn-primary-bg, #{color("primary")});
+    background-image: #{$_arrow-right};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 55%;
+    border-radius: 50%;
+    content: '';
+    display: inline-block;
+    height: 1.2em;
+    margin-inline-start: .3em;
+    vertical-align: text-bottom;
+    width: 1.2em;
+  }
+
+  // External links: swap horizontal arrow to diagonal
+  &.usa-link--external::after {
+    background-image: #{$_arrow-diagonal};
+  }
+
+  &:hover {
+    text-decoration-line: none;
+
+    &::after {
+      filter: brightness(0.85);
+      transition: filter 0.2s;
+    }
+  }
+
+  &:focus {
+    outline: 2px dotted var(--hds-palette-link-text, #{color("primary")});
+    outline-offset: 2px;
+  }
+}
+
+
+// ============================================================
+// BLOCKQUOTE
+// ============================================================
+
+blockquote {
+  border-left: 4px solid var(--hds-palette-border, #{color("base-light")});
+  margin-inline-start: 0;
+  padding-inline-start: units(3);
+
+  // International Orange quote icon
+  &:before {
+    background-color: color("international-orange");
+    content: '';
+    display: block;
+    height: .8em;
+    margin-block-end: units(1);
+    mask-image: url('../img/hds-icons/quote.svg');
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+    width: .8em;
+  }
+
+  p {
+    font-size: size("heading", "xl");
+    font-weight: font-weight("light");
+    line-height: var(--hds-line-height-intro);
+  }
+
+  cite {
+    @include label-uppercase;
+    color: var(--hds-palette-muted, #{color("base-mid-darker")});
+    display: block;
+    margin-block-start: units(1);
+  }
+}
+
+
+// ============================================================
+// CODE
+// ============================================================
+
+code, pre {
+  font-family: family("mono");
+  font-size: size("body", "2xs");
+}
+
+pre {
+  background: color("base-lighter");
+  border-left: 4px solid var(--hds-palette-border, #{color("base-mid-darker")});
+  overflow-x: auto;
+  padding: units(2);
+}
+
+code {
+  background: color("base-lighter");
+  padding: .1em .3em;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+
+// ============================================================
+// HORIZONTAL RULE
+// ============================================================
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--hds-palette-border, #{color("base-light")});
+  margin-block: units(4);
 }
 
 
@@ -146,8 +280,7 @@ textarea:not([disabled]):focus {
 // LISTS
 // ============================================================
 
-ul,
-ol {
+ul, ol {
   padding-inline-start: units(3);
 }
 
@@ -173,7 +306,7 @@ figure {
 }
 
 figcaption {
-  color: color("base-mid-darker");
+  color: var(--hds-palette-muted, #{color("base-mid-darker")});
   display: block;
   font-family: family("heading");
   font-size: size("heading", "3xs");
@@ -194,8 +327,7 @@ table {
   width: 100%;
 }
 
-th,
-td {
+th, td {
   font-size: size("body", "xs");
   line-height: var(--hds-line-height-table);
   padding: units(1.5) units(2);
@@ -208,12 +340,14 @@ th {
 }
 
 td {
-  border-top: var(--hds-border-width-table) solid color("base-light");
+  border-top: var(--hds-border-width-table) solid var(--hds-palette-border, #{color("base-light")});
 }
 
 
 // ============================================================
 // FORMS
+// Light backgrounds only for now. Dark palette form elements
+// are TODO — see https://nasa.github.io/hds-core/palettes#forms
 // ============================================================
 
 input[type="text"],
@@ -288,98 +422,9 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 
 
 // ============================================================
-// BUTTONS
+// ACCESSIBILITY UTILITIES
 // ============================================================
 
-button:where(
-  :not([role="presentation"])
-  :not([class*="usa-"])
-  :not([disabled])
-),
-input[type="submit"] {
-  @include button-styles;
-  @include button-hover;
-}
-
-a.button {
-  text-decoration-line: none;
-  @include button-styles;
-  @include button-hover;
-}
-
-
-// ============================================================
-// BLOCKQUOTE
-// ============================================================
-
-blockquote {
-  border-left: 4px solid color("base-light");
-  margin-inline-start: 0;
-  padding-inline-start: units(3);
-
-  // International Orange quote icon
-  &:before {
-    background-color: color("international-orange");
-    content: '';
-    display: block;
-    height: .8em;
-    margin-block-end: units(1);
-    mask-image: url('../img/hds-icons/Quote.svg');
-    mask-position: 50% 50%;
-    mask-repeat: no-repeat;
-    mask-size: 100%;
-    width: .8em;
-  }
-
-  p {
-    font-size: size("heading", "xl");
-    font-weight: font-weight("light");
-    line-height: var(--hds-line-height-intro);
-  }
-
-  cite {
-    @include label-uppercase;
-    color: color("base-mid-darker");
-    display: block;
-    margin-block-start: units(1);
-  }
-}
-
-
-// ============================================================
-// CODE
-// ============================================================
-
-code,
-pre {
-  font-family: family("mono");
-  font-size: size("body", "2xs");
-}
-
-pre {
-  background: color("base-lighter");
-  border-left: 4px solid color("base-mid-darker");
-  overflow-x: auto;
-  padding: units(2);
-}
-
-code {
-  background: color("base-lighter");
-  padding: .1em .3em;
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-
-
-// ============================================================
-// HORIZONTAL RULE
-// ============================================================
-
-hr {
-  border: 0;
-  border-top: 1px solid color("base-light");
-  margin-block: units(4);
+.hds-sr-only {
+  @include visually-hidden;
 }

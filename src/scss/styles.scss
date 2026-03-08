@@ -1,14 +1,13 @@
 // ============================================================
 // HDS Core — Main Entry Point
 // @nasa/hds-core
+// Docs: https://nasa.github.io/hds-core
 // ============================================================
 // Load order matters. Do not reorder these imports.
 //
-// Consuming projects must add these to their Sass load paths:
+// Consuming projects must add these Sass load paths:
 //   - node_modules/@uswds/uswds/packages
 //   - node_modules/@nasa/hds-core/src/scss
-//
-// See README for Webpack, Vite, and Gulp setup examples.
 // ============================================================
 
 // 1. HDS design tokens + CSS custom properties
@@ -28,3 +27,12 @@
 
 // 6. HDS base/reset element styles
 @forward "hds-base";
+
+// 7. HDS color palette definitions
+@forward "hds-palettes";
+
+// 8. HDS palette-aware element + component styles
+@forward "hds-palette-elements";
+
+// 9. Print overrides
+@forward "hds-print";

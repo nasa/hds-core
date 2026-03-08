@@ -1,0 +1,169 @@
+// ============================================================
+// HDS Color Palettes
+// @nasa/hds-core
+// Docs: https://nasa.github.io/hds-core/palettes
+// ============================================================
+// Apply via class or data attribute:
+//   <section class="hds-palette-dark">
+//   <section data-hds-palette="dark">
+//
+// Palettes: white, light, midtone
+// Experimental palettes: dark, blue
+// Reserved palette: black (header and footer only)
+//
+// USWDS utility classes (!important) override palette values.
+// ============================================================
+
+@use "hds-tokens" as *;
+
+$hds-enable-experimental-palettes: false !default;
+$hds-enable-auto-dark-mode: false !default;
+
+
+// --- Palette selector mixin ---
+@mixin palette($name) {
+  [data-hds-palette="#{$name}"],
+  .hds-palette-#{$name} {
+    @content;
+  }
+}
+
+
+// --- Shared color schemes ---
+
+// Values that never change across any palette
+@mixin _scheme-universal {
+  --hds-palette-btn-primary-bg:   #{$hds-color-nasa-red};
+  --hds-palette-btn-filled-text:  #{$hds-color-spacesuit-white};
+  --hds-palette-checkbox-fill:    #{$hds-color-nasa-blue};
+  --hds-palette-social-fill:      #{$hds-color-carbon-60};
+  --hds-palette-social-icon:      #{$hds-color-carbon-05};
+}
+
+// Shared by palettes: white, light
+@mixin _scheme-light {
+  --hds-palette-heading:           #{$hds-color-carbon-black};
+  --hds-palette-text:              #{$hds-color-carbon-90};
+  --hds-palette-link-text:         #{$hds-color-carbon-90};
+  --hds-palette-link-underline:    #{$hds-color-carbon-60};
+  --hds-palette-muted:             #{$hds-color-carbon-60};
+  --hds-palette-border:            #{$hds-color-carbon-20};
+  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
+  --hds-palette-checkbox-text:     #{$hds-color-carbon-80};
+  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-shade};
+  --hds-palette-utility-fill:      #{$hds-color-spacesuit-white};
+  --hds-palette-utility-stroke:    #{$hds-color-carbon-20};
+  --hds-palette-utility-icon:      #{$hds-color-carbon-black};
+  --hds-palette-icon:              #{$hds-color-carbon-black};
+}
+
+// Shared by palettes: dark, black
+@mixin _scheme-dark {
+  --hds-palette-heading:           #{$hds-color-spacesuit-white};
+  --hds-palette-text:              #{$hds-color-spacesuit-white};
+  --hds-palette-link-text:         #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline:    #{$hds-color-carbon-30};
+  --hds-palette-muted:             #{$hds-color-carbon-30};
+  --hds-palette-border:            #{$hds-color-carbon-60};
+  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
+  --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
+  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-fill:      #{$hds-color-carbon-black};
+  --hds-palette-utility-stroke:    #{$hds-color-carbon-60};
+  --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
+  --hds-palette-icon:              #{$hds-color-spacesuit-white};
+}
+
+
+// ============================================================
+// STABLE PALETTES
+// ============================================================
+
+// Palette 1 — White (Spacesuit White, default)
+:root,
+[data-hds-palette="white"],
+.hds-palette-white {
+  @include _scheme-universal;
+  @include _scheme-light;
+  --hds-palette-bg: #{$hds-color-spacesuit-white};
+}
+
+// Palette 2 — Light (Carbon 05)
+@include palette("light") {
+  @include _scheme-universal;
+  @include _scheme-light;
+  --hds-palette-bg: #{$hds-color-carbon-05};
+}
+
+// Palette 3 — Midtone (Carbon 20)
+@include palette("midtone") {
+  @include _scheme-universal;
+  --hds-palette-bg:                #{$hds-color-carbon-20};
+  --hds-palette-heading:           #{$hds-color-carbon-black};
+  --hds-palette-text:              #{$hds-color-carbon-black};
+  --hds-palette-link-text:         #{$hds-color-carbon-90};
+  --hds-palette-link-underline:    #{$hds-color-carbon-60};
+  --hds-palette-muted:             #{$hds-color-carbon-80};
+  --hds-palette-border:            #{$hds-color-carbon-40};
+  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
+  --hds-palette-checkbox-text:     #{$hds-color-carbon-80};
+  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-shade};
+  --hds-palette-utility-fill:      #{$hds-color-spacesuit-white};
+  --hds-palette-utility-stroke:    #{$hds-color-carbon-40};
+  --hds-palette-utility-icon:      #{$hds-color-carbon-black};
+  --hds-palette-icon:              #{$hds-color-carbon-black};
+}
+
+
+// ============================================================
+// EXPERIMENTAL PALETTES
+// Enable: $hds-enable-experimental-palettes: true
+// These may change without notice. Do not use in production.
+// ============================================================
+
+@if $hds-enable-experimental-palettes {
+
+  // Palette 4 — Dark (Carbon 90)
+  @include palette("dark") {
+    @include _scheme-universal;
+    @include _scheme-dark;
+    --hds-palette-bg: #{$hds-color-carbon-90};
+  }
+
+  // Palette 5 — Blue (NASA Blue Shade)
+  @include palette("blue") {
+    @include _scheme-universal;
+    --hds-palette-bg:                #{$hds-color-nasa-blue-shade};
+    --hds-palette-heading:           #{$hds-color-spacesuit-white};
+    --hds-palette-text:              #{$hds-color-spacesuit-white};
+    --hds-palette-link-text:         #{$hds-color-spacesuit-white};
+    --hds-palette-link-underline:    #{$hds-color-carbon-30};
+    --hds-palette-muted:             #{$hds-color-carbon-10};
+    --hds-palette-border:            #{$hds-color-carbon-40};
+    --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
+    --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
+    --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
+    --hds-palette-utility-fill:      #{$hds-color-nasa-blue};
+    --hds-palette-utility-stroke:    #{$hds-color-nasa-blue-tint};
+    --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
+    --hds-palette-icon:              #{$hds-color-spacesuit-white};
+  }
+
+  // Palette 6 — Black (Carbon Black, reserved for headers/footers)
+  @include palette("black") {
+    @include _scheme-universal;
+    @include _scheme-dark;
+    --hds-palette-bg: #{$hds-color-carbon-black};
+  }
+}
+
+// OS dark mode — always opt-in, requires experimental palettes
+@if $hds-enable-auto-dark-mode and $hds-enable-experimental-palettes {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-hds-palette]):not([class*="hds-palette-"]) {
+      @include _scheme-universal;
+      @include _scheme-dark;
+      --hds-palette-bg: #{$hds-color-carbon-90};
+    }
+  }
+}
