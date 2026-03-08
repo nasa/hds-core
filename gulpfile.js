@@ -1,82 +1,53 @@
-/**
- * gulpfile.js
- * @nasa/hds-core
- *
- * Builds HDS Core CSS from Sass source using @uswds/compile.
- * Also copies static assets (fonts, icons) to dist/.
- *
- * Available commands:
- *   npx gulp build        — full build (Sass + assets)
- *   npx gulp buildSass    — compile Sass to CSS only
- *   npx gulp copyAssets   — copy fonts and icons to dist/ only
- *   npx gulp watch        — watch Sass for changes and recompile
- *   npx gulp init         — one-time USWDS asset initialization
- */
-
-const uswds = require("@uswds/compile");
 const gulp = require("gulp");
-const path = require("path");
+const uswds = require("@uswds/compile");
+const svgSprite = require("gulp-svg-sprite");
 
-// ============================================================
-// USWDS VERSION
-// ============================================================
+// USWDS compile paths
 uswds.settings.version = 3;
+uswds.paths.dist.css = "./dist/css";
+uswds.paths.dist.theme = "./src/scss";
+uswds.paths.dist.img = "./dist/assets/img";
+uswds.paths.dist.fonts = "./dist/assets/fonts";
+uswds.paths.dist.js = "./dist/js";
+uswds.paths.src.projectSass = "./src/scss";
 
-// ============================================================
-// PATH SETTINGS
-// ============================================================
-// These tell @uswds/compile where to find things and where
-// to put compiled output.
-
-uswds.paths.dist.theme = "./src/scss";       // where our Sass source lives
-uswds.paths.dist.css = "./dist/css";         // compiled CSS output
-uswds.paths.dist.fonts = "./dist/assets/fonts";  // USWDS fonts output
-uswds.paths.dist.img = "./dist/assets/img";  // USWDS images output
-uswds.paths.dist.js = "./dist/assets/js";    // USWDS JS output
-
-// ============================================================
-// SASS ENTRY POINT
-// ============================================================
-// Override the default @uswds/compile entry point to use
-// our own styles.scss instead of the USWDS default.
-
-uswds.paths.dist.sassEntryPoint = "./src/scss/styles.scss";
-
-// ============================================================
-// ASSET COPY TASK
-// ============================================================
-// Copies HDS-specific fonts and icons from src/assets/ to
-// dist/assets/. USWDS assets (public-sans, usa-icons, etc.)
-// are handled separately by the uswds.copyAssets task.
-
+// Copy HDS fonts and icons to dist
 function copyHdsAssets() {
   return gulp
-    .src("./src/assets/**/*", { encoding: false })
-    .pipe(gulp.dest("./dist/assets/"));
+    .src("src/assets/**/*", { encoding: false })
+    .pipe(gulp.dest("dist/assets"));
 }
 
-// ============================================================
-// EXPORTED GULP TASKS
-// ============================================================
+// Generate SVG sprite from flat icon directory
+function buildSprite() {
+  return gulp
+    .src("src/assets/img/hds-icons/*.svg")
+    .pipe(
+      svgSprite({
+        mode: {
+          symbol: {
+            dest: ".",
+            sprite: "hds-sprite.svg",
+          },
+        },
+        shape: {
+          id: {
+            generator: function (name) {
+              // Strip path and .svg extension → clean ID
+              return name.replace(/\.svg$/, "");
+            },
+          },
+        },
+      })
+    )
+    .pipe(gulp.dest("dist/assets/img"));
+}
 
-// One-time setup: copies USWDS static assets (fonts, icons,
-// JS) to dist/. Run once after npm install.
-exports.init = uswds.init;
-
-// Compile Sass to CSS only
-exports.buildSass = uswds.compile;
-
-// Copy HDS assets only
-exports.copyAssets = copyHdsAssets;
-
-// Full build: compile Sass + copy HDS assets
-exports.build = gulp.series(
-  uswds.compile,
-  copyHdsAssets
-);
-
-// Watch Sass for changes and recompile automatically
+// Tasks
+exports.compile = uswds.compile;
 exports.watch = uswds.watch;
+exports.copyAssets = copyHdsAssets;
+exports.sprite = buildSprite;
 
-// Default task (running `npx gulp` with no arguments)
-exports.default = exports.build;
+exports.init = gulp.series(uswds.init, copyHdsAssets, buildSprite);
+exports.build = gulp.series(uswds.compile, copyHdsAssets, buildSprite);
