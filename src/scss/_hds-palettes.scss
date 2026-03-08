@@ -1,24 +1,40 @@
 // ============================================================
 // HDS Color Palettes
 // @nasa/hds-core
-// Docs: https://nasa.github.io/hds-core/palettes
+// Docs: https://website.nasa.gov/hds-core/palettes
 // ============================================================
 // Apply via class or data attribute:
 //   <section class="hds-palette-dark">
 //   <section data-hds-palette="dark">
 //
-// Palettes: white, light, midtone
-// Experimental palettes: dark, blue
-// Reserved palette: black (header and footer only)
+// Stable palettes: white, light, midtone
+// Experimental palettes: dark, blue, black
 //
 // USWDS utility classes (!important) override palette values.
+//
+// SECTIONS:
+//   §1 Configuration Flags
+//   §2 Shared Color Schemes
+//   §3 Stable Palettes (white, light, midtone)
+//   §4 Experimental Palettes (dark, blue, black)
+//   §5 Auto Dark Mode
 // ============================================================
 
 @use "hds-tokens" as *;
 
-$hds-enable-experimental-palettes: false !default;
+
+// ============================================================
+// §1 CONFIGURATION FLAGS
+// ============================================================
+
+$hds-enable-experimental-palettes: true !default;
 $hds-enable-auto-dark-mode: false !default;
 
+
+// ============================================================
+// §2 SHARED COLOR SCHEMES
+// Docs: https://website.nasa.gov/hds-core/palettes#color-schemes
+// ============================================================
 
 // --- Palette selector mixin ---
 @mixin palette($name) {
@@ -27,9 +43,6 @@ $hds-enable-auto-dark-mode: false !default;
     @content;
   }
 }
-
-
-// --- Shared color schemes ---
 
 // Values that never change across any palette
 @mixin _scheme-universal {
@@ -76,7 +89,8 @@ $hds-enable-auto-dark-mode: false !default;
 
 
 // ============================================================
-// STABLE PALETTES
+// §3 STABLE PALETTES
+// Docs: https://website.nasa.gov/hds-core/palettes#stable
 // ============================================================
 
 // Palette 1 — White (Spacesuit White, default)
@@ -116,7 +130,9 @@ $hds-enable-auto-dark-mode: false !default;
 
 
 // ============================================================
-// EXPERIMENTAL PALETTES
+// §4 EXPERIMENTAL PALETTES
+// Docs: https://website.nasa.gov/hds-core/palettes#experimental
+// ============================================================
 // Enable: $hds-enable-experimental-palettes: true
 // These may change without notice. Do not use in production.
 // ============================================================
@@ -157,7 +173,14 @@ $hds-enable-auto-dark-mode: false !default;
   }
 }
 
-// OS dark mode — always opt-in, requires experimental palettes
+
+// ============================================================
+// §5 AUTO DARK MODE
+// Docs: https://website.nasa.gov/hds-core/palettes#dark-mode
+// ============================================================
+// OS dark mode — always opt-in, requires experimental palettes.
+// ============================================================
+
 @if $hds-enable-auto-dark-mode and $hds-enable-experimental-palettes {
   @media (prefers-color-scheme: dark) {
     :root:not([data-hds-palette]):not([class*="hds-palette-"]) {

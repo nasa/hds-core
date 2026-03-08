@@ -1,0 +1,545 @@
+// ============================================================
+// HDS Components
+// @nasa/hds-core
+// Docs: https://website.nasa.gov/hds-core/components
+// ============================================================
+// USWDS component overrides and HDS-specific components.
+// Loaded AFTER _hds-custom-styles.scss (foundations).
+//
+// This file grows over time as HDS adds component patterns.
+//
+// COLOR CONVENTION:
+//   HDS colors   → $hds-color-* variables (exact hex values)
+//   State colors  → color("error"), color("warning"), etc.
+//   Typography    → family(), size(), font-weight() (USWDS functions)
+//   Spacing       → units() (USWDS function)
+//
+// SECTIONS:
+//   §1  Navigation (header, footer, primary nav, megamenu)
+//   §2  Banner
+//   §3  Breadcrumb
+//   §4  Buttons
+//   §5  Forms
+//   §6  In-Page Navigation
+//   §7  Pagination
+//   §8  Accordion
+//   §9  Alerts
+//   §10 Grid Utilities
+//   §11 HDS Primary Arrow Button
+//   §12 HDS Icon Buttons
+//
+// Deep-link from dev docs: _hds-components.scss §5 Forms
+// ============================================================
+
+@use "uswds-core" as *;
+@use "hds-tokens" as *;
+
+
+// ============================================================
+// §1 NAVIGATION
+// Docs: https://website.nasa.gov/hds-core/components#navigation
+// See also: https://designsystem.digital.gov/components/header/
+// ============================================================
+
+
+// ------------------------------------------------------------
+// §1.1 Header & Footer Link Resets
+// ------------------------------------------------------------
+
+.usa-header,
+.usa-footer,
+.usa-nav__submenu,
+.usa-megamenu {
+  a { text-decoration-line: none; }
+}
+
+.usa-header--basic .usa-nav-container {
+  align-items: center;
+  .usa-navbar { width: auto; }
+}
+
+.usa-footer__primary-content,
+.usa-footer__nav {
+  border: 0 !important;
+}
+
+.usa-footer__nav {
+  @include at-media-max("tablet-lg") {
+    nav > ul {
+      border-bottom-color: $hds-color-carbon-60;
+      padding-bottom: units(2) !important;
+      padding-top: units(2) !important;
+    }
+  }
+}
+
+
+// ------------------------------------------------------------
+// §1.2 Agency Navbar
+// Docs: https://website.nasa.gov/hds-core/components#agency-navbar
+// ------------------------------------------------------------
+
+.usa-navbar.agency-navbar {
+  border: 0;
+  position: relative;
+
+  .usa-nav__primary > .usa-nav__primary-item > a,
+  .usa-nav__primary button {
+    padding: units(3) units(2);
+  }
+
+  .usa-button--arrow {
+    padding: units(2) 0 !important;
+  }
+
+  @include at-media-max("desktop") {
+    .usa-nav { padding: units(3); }
+  }
+}
+
+
+// ------------------------------------------------------------
+// §1.3 Navigation Menu Triggers
+// Docs: https://website.nasa.gov/hds-core/components#navigation
+// ------------------------------------------------------------
+
+.usa-nav__global-nav-trigger {
+  span:after {
+    background-color: currentColor;
+    mask-size: 1em !important;
+    mask-position: top center !important;
+    mask-repeat: no-repeat;
+  }
+
+  &[aria-expanded="true"] span:after {
+    mask-image:
+      url('../img/hds-icons/arrow-chevron-up.svg'),
+      linear-gradient(transparent, transparent) !important;
+  }
+
+  &[aria-expanded="false"] span:after {
+    mask-image:
+      url('../img/hds-icons/arrow-chevron-down.svg'),
+      linear-gradient(transparent, transparent) !important;
+  }
+}
+
+.usa-nav__mobile-menu-trigger {
+  padding-right: units(2.5);
+  width: 100%;
+
+  // Switched from background-image to mask-image so the
+  // chevron inherits currentColor and works across palettes.
+  &[aria-expanded="false"] {
+    background-color: currentColor;
+    background-image: none;
+    mask-image: url('../img/hds-icons/arrow-chevron-down.svg');
+    mask-position: right center;
+    mask-repeat: no-repeat;
+    mask-size: 1.2rem;
+  }
+
+  &[aria-expanded="true"] {
+    background-color: currentColor;
+    background-image: none;
+    mask-image: url('../img/hds-icons/arrow-chevron-up.svg');
+    mask-position: right center;
+    mask-repeat: no-repeat;
+    mask-size: 1.2rem;
+  }
+}
+
+.usa-nav__mobile-menu { padding: 1em 0; }
+
+
+// ------------------------------------------------------------
+// §1.4 Primary Nav Links
+// Docs: https://website.nasa.gov/hds-core/components#primary-nav
+// See also: https://designsystem.digital.gov/components/header/
+// ------------------------------------------------------------
+
+// (Add primary nav link overrides here as needed)
+
+
+// ============================================================
+// §2 BANNER
+// Docs: https://website.nasa.gov/hds-core/components#banner
+// See also: https://designsystem.digital.gov/components/banner/
+// ============================================================
+// Always light background, outside palette context.
+// ============================================================
+
+.usa-banner {
+  background-color: $hds-color-carbon-05;
+  font-size: size("body", "2xs");
+}
+
+.usa-banner__header { padding-block: units(1); }
+.usa-banner__button { text-decoration-line: underline; }
+
+
+// ============================================================
+// §3 BREADCRUMB
+// Docs: https://website.nasa.gov/hds-core/components#breadcrumb
+// See also: https://designsystem.digital.gov/components/breadcrumb/
+// ============================================================
+
+.usa-breadcrumb {
+  background-color: transparent;
+  font-size: size("body", "2xs");
+}
+
+.usa-breadcrumb__link,
+.usa-breadcrumb__link:visited,
+.usa-breadcrumb__link:active,
+.usa-breadcrumb__link:hover {
+  color: inherit;
+}
+
+
+// ============================================================
+// §4 BUTTONS
+// Docs: https://website.nasa.gov/hds-core/components#buttons
+// See also: https://designsystem.digital.gov/components/button/
+// ============================================================
+
+.usa-button { border-radius: 0; }
+
+.usa-button--outline {
+  box-shadow: inset 0 0 0 2px var(--hds-palette-heading, #{$hds-color-carbon-black});
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+
+  &:hover {
+    box-shadow: inset 0 0 0 2px var(--hds-palette-text, #{$hds-color-carbon-70});
+    color: var(--hds-palette-text, #{$hds-color-carbon-70});
+  }
+}
+
+
+// ============================================================
+// §5 FORMS
+// Docs: https://website.nasa.gov/hds-core/components#forms
+// See also: https://designsystem.digital.gov/components/form/
+// ============================================================
+// Light backgrounds only — dark palette forms are TODO.
+// ============================================================
+
+.usa-input,
+.usa-select,
+.usa-textarea {
+  border-radius: 0;
+  border-color: $hds-color-carbon-60;
+}
+
+.usa-input:focus,
+.usa-select:focus,
+.usa-textarea:focus {
+  outline: 2px solid $hds-color-nasa-blue;
+  outline-offset: 0;
+}
+
+.usa-label { font-weight: font-weight("semibold"); }
+
+.usa-input--error {
+  border-color: color("error");
+  border-width: 4px;
+}
+
+
+// ============================================================
+// §6 IN-PAGE NAVIGATION
+// Docs: https://website.nasa.gov/hds-core/components#in-page-nav
+// See also: https://designsystem.digital.gov/components/in-page-navigation/
+// ============================================================
+
+.usa-in-page-nav {
+  background-color: $hds-color-carbon-05;
+  border-radius: 0;
+  border-left: 4px solid $hds-color-carbon-60;
+}
+
+.usa-in-page-nav__link {
+  color: $hds-color-carbon-90;
+  &:hover { color: $hds-color-carbon-black; }
+}
+
+.usa-in-page-nav__link--active {
+  border-left-color: $hds-color-nasa-blue;
+  color: $hds-color-nasa-blue;
+  font-weight: font-weight("semibold");
+}
+
+
+// ============================================================
+// §7 PAGINATION
+// Docs: https://website.nasa.gov/hds-core/components#pagination
+// See also: https://designsystem.digital.gov/components/pagination/
+// ============================================================
+
+.usa-pagination__button { border-radius: 0; }
+
+.usa-pagination__page-no {
+  &.usa-current { background-color: $hds-color-nasa-blue; }
+}
+
+
+// ============================================================
+// §8 ACCORDION
+// Docs: https://website.nasa.gov/hds-core/components#accordion
+// See also: https://designsystem.digital.gov/components/accordion/
+// ============================================================
+
+.usa-accordion { border-left: 0; }
+
+.usa-accordion__button {
+  background-color: $hds-color-carbon-05;
+  color: $hds-color-carbon-black;
+  &:hover { background-color: $hds-color-carbon-10; }
+}
+
+.usa-accordion__content {
+  background-color: $hds-color-spacesuit-white;
+  border-top: 0;
+}
+
+
+// ============================================================
+// §9 ALERTS
+// Docs: https://website.nasa.gov/hds-core/components#alerts
+// See also: https://designsystem.digital.gov/components/alert/
+// ============================================================
+
+.usa-alert {
+  border-radius: 0;
+  border-left-width: 4px;
+}
+
+
+// ============================================================
+// §10 GRID UTILITIES
+// Docs: https://website.nasa.gov/hds-core/components#grid
+// See also: https://designsystem.digital.gov/utilities/layout-grid/
+// ============================================================
+
+@each $token, $value in $theme-utility-breakpoints {
+  @if $value {
+    .grid-reverse-#{$token} {
+      @include at-media-max("#{$token}") {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+}
+
+.usa-section { padding-block: units(8); }
+
+.usa-list--horizontal {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: units(3);
+  row-gap: units(1.5);
+  li { margin-bottom: 0; }
+}
+
+.usa-list--top-level {
+  ul { display: none; }
+}
+
+
+// ============================================================
+// §11 HDS PRIMARY ARROW BUTTON
+// Docs: https://website.nasa.gov/hds-core/components#primary-arrow
+// ============================================================
+// Text + CSS ::after red circle with white arrow.
+// Arrow direction auto-swaps for external links via
+// .usa-link--external. No SVG markup needed in HTML.
+// ============================================================
+
+$_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M10 6l8 6-8 6z'/%3E%3C/svg%3E");
+$_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M6 6h10v2H9.4l8.3 8.3-1.4 1.4L8 9.4V16H6z'/%3E%3C/svg%3E");
+
+.hds-btn--primary {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  font-family: family("heading");
+  font-size: size("heading", "xs");
+  font-weight: font-weight("bold");
+  line-height: var(--hds-line-height-button);
+  padding: 0;
+  text-decoration-line: none;
+
+  &::after {
+    background-color: var(--hds-palette-btn-primary-bg, #{$hds-color-nasa-red});
+    background-image: #{$_arrow-right};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 55%;
+    border-radius: 50%;
+    content: '';
+    display: inline-block;
+    height: 1.2em;
+    margin-inline-start: .3em;
+    vertical-align: text-bottom;
+    width: 1.2em;
+  }
+
+  // External links: swap horizontal arrow to diagonal
+  &.usa-link--external::after {
+    background-image: #{$_arrow-diagonal};
+  }
+
+  &:hover {
+    text-decoration-line: none;
+
+    &::after {
+      filter: brightness(0.85);
+      transition: filter 0.2s;
+    }
+  }
+
+  &:focus {
+    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-nasa-blue});
+    outline-offset: 2px;
+  }
+}
+
+
+// ============================================================
+// §12 HDS ICON BUTTONS
+// Docs: https://website.nasa.gov/hds-core/components#icon-buttons
+// ============================================================
+// Interactive circle containers. Require aria-label when used
+// without visible text. SVG inside always gets aria-hidden="true".
+//
+// Roles:
+//   --cta         NASA Red, navigates to a new page
+//   --secondary   NASA Blue filled, on-page actions
+//   --outline     NASA Blue border, lower emphasis
+//   --utility     Neutral/adaptive, carousel/accordion controls
+//   --social      Social media share/follow links
+//   --interactive Small tooltip/popover triggers
+//
+// Sizes:
+//   --sm          Inline with text
+//   --lg          Hero CTAs
+// ============================================================
+
+
+// ------------------------------------------------------------
+// §12.1 Icon Button Base
+// ------------------------------------------------------------
+
+.hds-btn-icon {
+  align-items: center;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  height: 2em;
+  justify-content: center;
+  padding: 0;
+  width: 2em;
+
+  &:focus-visible {
+    outline: 2px solid var(--hds-palette-link-text, currentColor);
+    outline-offset: 2px;
+  }
+
+  .hds-icon {
+    fill: currentColor;
+    height: 1em;
+    pointer-events: none;
+    width: 1em;
+  }
+}
+
+
+// ------------------------------------------------------------
+// §12.2 Icon Button Roles
+// ------------------------------------------------------------
+
+// CTA — NASA Red, navigates to a new page
+.hds-btn-icon--cta {
+  background-color: var(--hds-palette-btn-primary-bg);
+  border-color: var(--hds-palette-btn-primary-bg);
+  color: var(--hds-palette-btn-filled-text);
+}
+
+// Secondary filled — NASA Blue, on-page actions (download, share)
+.hds-btn-icon--secondary {
+  background-color: var(--hds-palette-btn-secondary-bg);
+  border-color: var(--hds-palette-btn-secondary-bg);
+  color: var(--hds-palette-btn-filled-text);
+}
+
+// Secondary outline — NASA Blue border, lower emphasis
+.hds-btn-icon--outline {
+  background-color: transparent;
+  border-color: var(--hds-palette-btn-secondary-bg);
+  color: var(--hds-palette-heading);
+}
+
+// Utility — neutral/adaptive, carousel and accordion controls
+.hds-btn-icon--utility {
+  background-color: var(--hds-palette-utility-fill);
+  border-color: var(--hds-palette-utility-stroke);
+  color: var(--hds-palette-utility-icon);
+}
+
+// Social — social media share/follow links
+.hds-btn-icon--social {
+  background-color: var(--hds-palette-social-fill);
+  border-color: var(--hds-palette-social-fill);
+  color: var(--hds-palette-social-icon);
+}
+
+// Interactive — small tooltip/popover triggers over images
+.hds-btn-icon--interactive {
+  background-color: var(--hds-palette-utility-fill);
+  border-color: var(--hds-palette-utility-stroke);
+  color: var(--hds-palette-utility-icon);
+  height: 1.5em;
+  width: 1.5em;
+}
+
+
+// ------------------------------------------------------------
+// §12.3 Icon Button Sizes
+// ------------------------------------------------------------
+
+// Small — inline with button text (e.g. primary arrow buttons)
+.hds-btn-icon--sm {
+  border-width: 0;
+  height: 1.2em;
+  width: 1.2em;
+
+  .hds-icon {
+    height: 0.65em;
+    width: 0.65em;
+  }
+}
+
+// Large — hero CTAs
+.hds-btn-icon--lg {
+  height: 2.5em;
+  width: 2.5em;
+}
+
+
+// ------------------------------------------------------------
+// §12.4 Inline Glyph (no circle container)
+// Docs: https://website.nasa.gov/hds-core/components#glyph
+// ------------------------------------------------------------
+// For bare icons inline with text. Inherits color from parent.
+// ============================================================
+
+.hds-glyph {
+  display: inline-block;
+  fill: currentColor;
+  height: 1em;
+  vertical-align: middle;
+  width: 1em;
+}

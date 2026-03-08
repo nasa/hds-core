@@ -1,32 +1,42 @@
 // ============================================================
 // HDS USWDS Theme Settings
 // @nasa/hds-core
+// Docs: https://website.nasa.gov/hds-core/theme
 // ============================================================
 // Configures USWDS with HDS values by passing HDS token values
 // into USWDS's theme settings system.
-//
-// Also registers the HDS extended color palette so all HDS
-// color tokens work as standard USWDS utility classes.
 //
 // This file must load BEFORE @forward "uswds" in styles.scss.
 //
 // ABOUT BASE COLOR APPROXIMATIONS
 // ---------------------------------
-// USWDS theme token settings expect USWDS system color token
+// USWDS theme token settings require USWDS system color token
 // strings (e.g. "gray-50"), not arbitrary hex values. The HDS
-// Carbon scale grays don't have exact matches in USWDS's system
-// color set, so the base family uses closest approximations.
+// Carbon scale doesn't have exact matches in USWDS's system
+// palette, so the base family uses closest approximations.
 //
-// Exceptions where exact matches exist:
-//   base-lightest = "white"  → exact Spacesuit White (#FFFFFF)
-//   base-darkest  = "black"  → exact Carbon Black    (#000000)
-//   ink           = "black"  → exact Carbon Black    (#000000)
+// Exact matches:
+//   base-lightest = "white"  → Spacesuit White (#FFFFFF)
+//   base-darkest  = "black"  → Carbon Black    (#000000)
+//   ink           = "black"  → Carbon Black    (#000000)
 //
-// For base-dark (Carbon 80) and base-darker (Carbon 90), the
-// USWDS approximations have large deltas. These are overridden
-// with exact hex values via $global-color-palettes so that
-// color("base-dark"), .bg-base-dark etc. always resolve to
-// exact HDS values. See _hds-tokens.scss for details.
+// Close matches (delta ≤ 5):
+//   base-lighter  = "gray-5"  → Carbon 05 (#F6F6F6 ≈ #f0f0f0)
+//   base-light    = "gray-10" → Carbon 10 (#E3E3E3 ≈ #e6e6e6)
+//   base          = "gray-50" → Carbon 50 (#77777A ≈ #757575)
+//   base-dark     = "gray-80" → Carbon 80 (#2E2E32 ≈ #2d2d2d)
+//   base-darker   = "gray-90" → Carbon 90 (#17171B ≈ #1b1b1b)
+//
+// All HDS custom and component styles use exact $hds-color-*
+// values (not USWDS color() calls) to ensure pixel-perfect
+// adherence to the HDS spec. USWDS components that render
+// visible Carbon colors are overridden in _hds-components.scss
+// with exact HDS values.
+//
+// HDS-specific colors (Carbon mid-range, International Orange,
+// Active Green) are not registered with USWDS's utility system.
+// Use $hds-color-* Sass variables or var(--hds-color-*) CSS
+// custom properties for these colors.
 // ============================================================
 
 @use "hds-tokens" as hds;
@@ -44,33 +54,21 @@
   // ----------------------------------------------------------
   // Asset Paths
   // ----------------------------------------------------------
-  // Relative to the compiled CSS output location.
-  // Override in your project's build config if needed.
-  $theme-image-path: "../img",
-  $theme-font-path:  "../fonts",
-
-  // ----------------------------------------------------------
-  // HDS Extended Color Palette
-  // ----------------------------------------------------------
-  // Registers HDS-specific color tokens with USWDS's utility
-  // system. After this, all tokens in $hds-extended-palette
-  // work exactly like standard USWDS theme tokens:
-  //   color("base-mid-darker") / .bg-base-mid-darker / etc.
-  $global-color-palettes: (hds.$hds-extended-palette,),
+  $theme-image-path: "../assets/img",
+  $theme-font-path:  "../assets/fonts",
 
   // ----------------------------------------------------------
   // Base Color Family — Carbon Scale
   // ----------------------------------------------------------
-  // "white" and "black" are exact USWDS system color tokens.
-  // All others are closest USWDS gray approximations.
-  // base-dark and base-darker are overridden with exact values
-  // via $global-color-palettes above — see file header note.
+  // Closest USWDS system token approximations.
+  // See header comment for delta analysis.
+  // ----------------------------------------------------------
   $theme-color-base-lightest: "white",    // Spacesuit White — exact
-  $theme-color-base-lighter:  "gray-10",  // Carbon 05 — approx
-  $theme-color-base-light:    "gray-30",  // Carbon 10 — approx
-  $theme-color-base:          "gray-50",  // Carbon 50 — approx
-  $theme-color-base-dark:     "gray-60",  // Carbon 80 — overridden, see note
-  $theme-color-base-darker:   "gray-70",  // Carbon 90 — overridden, see note
+  $theme-color-base-lighter:  "gray-5",   // Carbon 05 #F6F6F6 ≈ #f0f0f0
+  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
+  $theme-color-base:          "gray-50",  // Carbon 50 #77777A ≈ #757575
+  $theme-color-base-dark:     "gray-80",  // Carbon 80 #2E2E32 ≈ #2d2d2d
+  $theme-color-base-darker:   "gray-90",  // Carbon 90 #17171B ≈ #1b1b1b
   $theme-color-base-darkest:  "black",    // Carbon Black — exact
   $theme-color-base-ink:      "black",    // Carbon Black — exact
 
@@ -106,8 +104,6 @@
   // ----------------------------------------------------------
   // Accent Warm
   // ----------------------------------------------------------
-  // International Orange is not mapped here — it keeps its own
-  // name in the HDS extended palette per HDS Core guidance.
   $theme-color-accent-warm-lighter: "orange-10v",
   $theme-color-accent-warm-light:   "orange-20v",
   $theme-color-accent-warm:         "orange-40v",
@@ -144,8 +140,6 @@
   // ----------------------------------------------------------
   // State: Success
   // ----------------------------------------------------------
-  // Active Green is not mapped here — it keeps its own name
-  // in the HDS extended palette per HDS Core guidance.
   $theme-color-success-lighter: "green-cool-5v",
   $theme-color-success-light:   "green-cool-10v",
   $theme-color-success:         "green-cool-30v",
@@ -185,12 +179,6 @@
   // ----------------------------------------------------------
   // Font Families
   // ----------------------------------------------------------
-  // Inter → heading, ui, alt roles (via "serif" type slot)
-  // Public Sans → body, sans roles
-  // DM Mono → mono, code role
-  //
-  // Note: "serif" type slot is assigned Inter (a sans-serif)
-  // so we can use $theme-font-role-heading as intended.
   $theme-font-type-sans:    "public-sans",
   $theme-font-type-mono:    "dm-mono",
   $theme-font-type-serif:   "inter",
@@ -262,31 +250,29 @@
   // ----------------------------------------------------------
   // Type Scale
   // ----------------------------------------------------------
-  // Integer values map to USWDS's internal font size table.
-  // See _hds-tokens.scss $hds-type-scale for full reference.
-  $theme-type-scale-3xs: 1,   // ~12px
-  $theme-type-scale-2xs: 3,   // ~14px
-  $theme-type-scale-xs:  5,   // ~16px
-  $theme-type-scale-sm:  7,   // ~18px
-  $theme-type-scale-md:  9,   // ~22px
-  $theme-type-scale-lg:  11,  // ~28px
-  $theme-type-scale-xl:  13,  // ~36px
-  $theme-type-scale-2xl: 15,  // ~48px
-  $theme-type-scale-3xl: 18,  // ~80px
+  $theme-type-scale-3xs: 1,
+  $theme-type-scale-2xs: 3,
+  $theme-type-scale-xs:  5,
+  $theme-type-scale-sm:  7,
+  $theme-type-scale-md:  9,
+  $theme-type-scale-lg:  11,
+  $theme-type-scale-xl:  13,
+  $theme-type-scale-2xl: 15,
+  $theme-type-scale-3xl: 18,
 
   // ----------------------------------------------------------
   // Element Type Defaults
   // ----------------------------------------------------------
   $theme-body-font-family:  "body",
-  $theme-body-font-size:    "xs",   // 16px
-  $theme-h1-font-size:      "xl",   // 36px
-  $theme-h2-font-size:      "lg",   // 28px
-  $theme-h3-font-size:      "md",   // 22px
-  $theme-h4-font-size:      "sm",   // 18px
-  $theme-h5-font-size:      "xs",   // 16px
-  $theme-h6-font-size:      "2xs",  // 14px
-  $theme-small-font-size:   "3xs",  // 12px
-  $theme-display-font-size: "3xl",  // 80px
+  $theme-body-font-size:    "xs",
+  $theme-h1-font-size:      "xl",
+  $theme-h2-font-size:      "lg",
+  $theme-h3-font-size:      "md",
+  $theme-h4-font-size:      "sm",
+  $theme-h5-font-size:      "xs",
+  $theme-h6-font-size:      "2xs",
+  $theme-small-font-size:   "3xs",
+  $theme-display-font-size: "3xl",
 
   // ----------------------------------------------------------
   // Line Heights & Weights
@@ -310,13 +296,13 @@
   $theme-utility-breakpoints: (
     "card":       false,
     "card-lg":    false,
-    "mobile":     true,   // 320px
-    "mobile-lg":  true,   // 480px
-    "tablet":     true,   // 640px
-    "tablet-lg":  true,   // 880px
-    "desktop":    true,   // 1024px
-    "desktop-lg": true,   // 1200px
-    "widescreen": true,   // 1400px
+    "mobile":     true,
+    "mobile-lg":  true,
+    "tablet":     true,
+    "tablet-lg":  true,
+    "desktop":    true,
+    "desktop-lg": true,
+    "widescreen": true,
   ),
 
   $theme-column-gap-sm:             2px,

@@ -1,38 +1,20 @@
 // ============================================================
 // HDS Core — Main Entry Point
 // @nasa/hds-core
-// Docs: https://nasa.github.io/hds-core
+// Docs: https://website.nasa.gov/hds-core/
 // ============================================================
-// Load order matters. Do not reorder these imports.
+// Follows USWDS's required load order:
+//   1. Theme config   — configure USWDS before it loads
+//   2. USWDS library  — the full design system
+//   3. Custom styles  — HDS foundations: tokens, mixins, base
+//   4. Components     — USWDS overrides + HDS components
+//   5. Palettes       — opt-in color palette system
 //
-// Consuming projects must add these Sass load paths:
-//   - node_modules/@uswds/uswds/packages
-//   - node_modules/@nasa/hds-core/src/scss
+// See: https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/
 // ============================================================
 
-// 1. HDS design tokens + CSS custom properties
-@forward "hds-tokens";
-
-// 2. USWDS theme settings configured with HDS values
-@forward "hds-uswds-theme";
-
-// 3. Full USWDS source
-@forward "uswds";
-
-// 4. HDS overrides to USWDS component styles
-@forward "hds-uswds-theme-custom-styles";
-
-// 5. HDS shared Sass mixins
-@forward "hds-mixins";
-
-// 6. HDS base/reset element styles
-@forward "hds-base";
-
-// 7. HDS color palette definitions
-@forward "hds-palettes";
-
-// 8. HDS palette-aware element + component styles
-@forward "hds-palette-elements";
-
-// 9. Print overrides
-@forward "hds-print";
+@forward "hds-uswds-theme";    // 1. Configure USWDS with HDS values
+@forward "uswds";               // 2. Full USWDS library
+@forward "hds-custom-styles";   // 3. Foundations: tokens, mixins, base, print
+@forward "hds-components";      // 4. USWDS overrides + HDS components
+@forward "hds-palettes";        // 5. Palette system (opt-in per section)
