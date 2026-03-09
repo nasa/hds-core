@@ -5,11 +5,14 @@ const svgSprite = require("gulp-svg-sprite");
 // USWDS compile paths
 uswds.settings.version = 3;
 uswds.paths.dist.css = "./dist/css";
-uswds.paths.dist.theme = "./src/scss";
 uswds.paths.dist.img = "./dist/assets/img";
 uswds.paths.dist.fonts = "./dist/assets/fonts";
 uswds.paths.dist.js = "./dist/js";
 uswds.paths.src.projectSass = "./src/scss";
+
+// NOTE: We intentionally do NOT set uswds.paths.dist.theme
+// HDS Core provides its own theme files; we don't want USWDS
+// to scaffold or overwrite them.
 
 // Copy HDS fonts and icons to dist
 function copyHdsAssets() {
@@ -33,7 +36,6 @@ function buildSprite() {
         shape: {
           id: {
             generator: function (name) {
-              // Strip path and .svg extension → clean ID
               return name.replace(/\.svg$/, "");
             },
           },
@@ -49,5 +51,8 @@ exports.watch = uswds.watch;
 exports.copyAssets = copyHdsAssets;
 exports.sprite = buildSprite;
 
-exports.init = gulp.series(uswds.init, copyHdsAssets, buildSprite);
+// Init: Copy USWDS assets (fonts, images, JS) + HDS assets + sprite
+// Uses copyAll instead of init to avoid overwriting HDS theme files
+exports.init = gulp.series(uswds.copyAll, copyHdsAssets, buildSprite);
+
 exports.build = gulp.series(uswds.compile, copyHdsAssets, buildSprite);

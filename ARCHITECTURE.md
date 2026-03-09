@@ -443,3 +443,4 @@ Cross-linked between the two.
 - [ ] GitHub Issues for all TODOs
 - [ ] GitHub Wiki documentation
 - [ ] WordPress site documentation updates
+- [ ] Optimize USWDS asset copying (exclude deprecated icons, unused components)
