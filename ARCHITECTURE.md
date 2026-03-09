@@ -192,6 +192,7 @@ $hds-enable-auto-dark-mode: true;         // OS dark mode (requires experimental
 - `--hds-palette-text`
 - `--hds-palette-link-text`
 - `--hds-palette-link-underline`
+- `--hds-palette-link-arrow`
 - `--hds-palette-muted`
 - `--hds-palette-border`
 - `--hds-palette-btn-secondary-bg`
@@ -443,4 +444,4 @@ Cross-linked between the two.
 - [ ] GitHub Issues for all TODOs
 - [ ] GitHub Wiki documentation
 - [ ] WordPress site documentation updates
-- [ ] Optimize USWDS asset copying (exclude deprecated icons, unused components)
+- [ ] Optimize USWDS asset copying (exclude deprecated icons, unused components; offer "lite" vs "full" install)

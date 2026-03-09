@@ -56,9 +56,9 @@ Shipping as experimental allows internal testing and refinement while preventing
 
 ---
 
-## 4. Palette element colors simplified to 19 semantic variables
+## 4. Palette element colors simplified to 20 semantic variables
 
-**Proposal:** Each palette table lists individual colors for label, metadata, caption, heading, paragraph, link text, link underline, primary button text, checkbox text/fill/stroke, CTA fill/text, secondary CTA fill/text, secondary circle filled/outline, utility circle fill/stroke/icon, social fill/icon, and UI borders.
+**Proposal:** Each palette table lists individual colors for label, metadata, caption, heading, paragraph, link text, link underline, link arrow, primary button text, checkbox text/fill/stroke, CTA fill/text, secondary CTA fill/text, secondary circle filled/outline, utility circle fill/stroke/icon, social fill/icon, and UI borders.
 
 **Change:** These have been consolidated based on an audit showing that many values are always identical:
 
@@ -76,7 +76,7 @@ Additionally, five values that never change across any palette are set once glob
 - Social circle fill → always Carbon 60
 - Social circle icon → always Carbon 05
 
-**Result:** 19 total variables per palette instead of ~30, with zero loss of visual fidelity. Every element renders identically to the Proposal specs.
+**Result:** 20 total variables per palette instead of ~30, with zero loss of visual fidelity. Every element renders identically to the Proposal specs.
 
 **Why:** Fewer variables means fewer places for inconsistencies to creep in, and a simpler mental model for both designers creating new palette variants and developers implementing them.
 
@@ -232,7 +232,7 @@ dist/assets/img/
 | 1 | Descriptive palette names | Naming convention |
 | 2 | Dark palettes experimental | Rollout strategy |
 | 3 | OS dark mode opt-in | Default behavior |
-| 4 | 19 consolidated variables | Technical simplification |
+| 4 | 20 consolidated variables | Technical simplification |
 | 5 | Icons as glyph + CSS container | Asset architecture |
 | 6 | Fixed-color button graphics in separate folder | Asset architecture |
 | 7 | Primary arrow as CSS (SVG fallback available) | Implementation approach |
