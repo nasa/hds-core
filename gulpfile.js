@@ -10,6 +10,11 @@ uswds.paths.dist.fonts = "./dist/assets/fonts";
 uswds.paths.dist.js = "./dist/js";
 uswds.paths.src.projectSass = "./src/scss";
 
+// This tells USWDS where theme files live for compilation.
+// We use individual copy tasks (not init/copyAll) to avoid
+// USWDS overwriting our HDS theme files.
+uswds.paths.dist.theme = "./src/scss";
+
 // Copy HDS fonts and icons to dist
 function copyHdsAssets() {
   return gulp
@@ -48,8 +53,8 @@ exports.copyAssets = copyHdsAssets;
 exports.sprite = buildSprite;
 
 // Init: Copy USWDS assets (fonts, images, JS) + HDS assets + sprite
-// We use individual copy tasks instead of copyAll/init to avoid
-// USWDS overwriting HDS theme files (styles.scss, _uswds-theme.scss, etc.)
+// Uses individual copy tasks instead of init/copyAll to prevent
+// USWDS from overwriting HDS theme files in src/scss/
 exports.init = gulp.series(
   uswds.copyFonts,
   uswds.copyImages,
