@@ -44,7 +44,7 @@ $hds-enable-auto-dark-mode: false !default;
   }
 }
 
-// Values that never change across any palette
+// --- Values that never change across any palette ---
 @mixin _scheme-universal {
   --hds-palette-btn-primary-bg:   #{$hds-color-nasa-red};
   --hds-palette-btn-filled-text:  #{$hds-color-spacesuit-white};
@@ -53,12 +53,15 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-social-icon:      #{$hds-color-carbon-05};
 }
 
-// Shared by palettes: white, light
+// --- Shared by palettes: white, light ---
+// Per HDS Core Proposal:
+//   Link: Underline, arrow: Carbon 60 / Text: Carbon 90
 @mixin _scheme-light {
   --hds-palette-heading:           #{$hds-color-carbon-black};
   --hds-palette-text:              #{$hds-color-carbon-90};
   --hds-palette-link-text:         #{$hds-color-carbon-90};
   --hds-palette-link-underline:    #{$hds-color-carbon-60};
+  --hds-palette-link-arrow:        #{$hds-color-carbon-60};
   --hds-palette-muted:             #{$hds-color-carbon-60};
   --hds-palette-border:            #{$hds-color-carbon-20};
   --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
@@ -70,12 +73,15 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-icon:              #{$hds-color-carbon-black};
 }
 
-// Shared by palettes: dark, black
+// --- Shared by palettes: dark, black ---
+// Per HDS Core Proposal:
+//   Link: Underline: Carbon 30 / Arrow: Carbon 40 / Text: Spacesuit white
 @mixin _scheme-dark {
   --hds-palette-heading:           #{$hds-color-spacesuit-white};
   --hds-palette-text:              #{$hds-color-spacesuit-white};
   --hds-palette-link-text:         #{$hds-color-spacesuit-white};
   --hds-palette-link-underline:    #{$hds-color-carbon-30};
+  --hds-palette-link-arrow:        #{$hds-color-carbon-40};
   --hds-palette-muted:             #{$hds-color-carbon-30};
   --hds-palette-border:            #{$hds-color-carbon-60};
   --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
@@ -94,6 +100,7 @@ $hds-enable-auto-dark-mode: false !default;
 // ============================================================
 
 // Palette 1 — White (Spacesuit White, default)
+// Per HDS Core Proposal: Palette one, white—Spacesuit White
 :root,
 [data-hds-palette="white"],
 .hds-palette-white {
@@ -103,6 +110,8 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // Palette 2 — Light (Carbon 05)
+// Per HDS Core Proposal: Palette two, light—Carbon 05
+// Same values as white palette per Proposal
 @include palette("light") {
   @include _scheme-universal;
   @include _scheme-light;
@@ -110,6 +119,9 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // Palette 3 — Midtone (Carbon 20)
+// Per HDS Core Proposal: Palette three, midtone—Carbon 20
+// Unique values: Heading/Paragraph = Carbon Black, Muted = Carbon 80,
+// Border = Carbon 40, Utility stroke = Carbon 40
 @include palette("midtone") {
   @include _scheme-universal;
   --hds-palette-bg:                #{$hds-color-carbon-20};
@@ -117,6 +129,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-text:              #{$hds-color-carbon-black};
   --hds-palette-link-text:         #{$hds-color-carbon-90};
   --hds-palette-link-underline:    #{$hds-color-carbon-60};
+  --hds-palette-link-arrow:        #{$hds-color-carbon-60};
   --hds-palette-muted:             #{$hds-color-carbon-80};
   --hds-palette-border:            #{$hds-color-carbon-40};
   --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
@@ -140,6 +153,7 @@ $hds-enable-auto-dark-mode: false !default;
 @if $hds-enable-experimental-palettes {
 
   // Palette 4 — Dark (Carbon 90)
+  // Per HDS Core Proposal: Palette four, dark—Carbon 90
   @include palette("dark") {
     @include _scheme-universal;
     @include _scheme-dark;
@@ -147,6 +161,9 @@ $hds-enable-auto-dark-mode: false !default;
   }
 
   // Palette 5 — Blue (NASA Blue Shade)
+  // Per HDS Core Proposal: Palette five, blue—Blue Shade
+  // Unique values: Muted = Carbon 10, Border = Carbon 40,
+  // Utility fill = NASA Blue, Utility stroke = NASA Blue Tint
   @include palette("blue") {
     @include _scheme-universal;
     --hds-palette-bg:                #{$hds-color-nasa-blue-shade};
@@ -154,6 +171,7 @@ $hds-enable-auto-dark-mode: false !default;
     --hds-palette-text:              #{$hds-color-spacesuit-white};
     --hds-palette-link-text:         #{$hds-color-spacesuit-white};
     --hds-palette-link-underline:    #{$hds-color-carbon-30};
+    --hds-palette-link-arrow:        #{$hds-color-carbon-40};
     --hds-palette-muted:             #{$hds-color-carbon-10};
     --hds-palette-border:            #{$hds-color-carbon-40};
     --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
@@ -165,7 +183,9 @@ $hds-enable-auto-dark-mode: false !default;
     --hds-palette-icon:              #{$hds-color-spacesuit-white};
   }
 
-  // Palette 6 — Black (Carbon Black, reserved for headers/footers)
+  // Palette 6 — Black (Carbon Black)
+  // Per HDS Core Proposal: Palette six, black—Carbon Black
+  // Reserved for headers and footers
   @include palette("black") {
     @include _scheme-universal;
     @include _scheme-dark;

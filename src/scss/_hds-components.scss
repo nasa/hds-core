@@ -543,3 +543,25 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   vertical-align: middle;
   width: 1em;
 }
+
+// ============================================================
+// §13 EXTERNAL LINKS
+// Docs: https://website.nasa.gov/hds-core/components#external-links
+// See also: https://designsystem.digital.gov/components/link/
+// ============================================================
+// Replaces USWDS "launch" icon with HDS diagonal arrow per
+// HDS wayfinding rule: diagonal arrows = leaving NASA.
+// Arrow color uses --hds-palette-link-arrow (varies per palette).
+// ============================================================
+
+.usa-link--external::after {
+  // IE11 fallback
+  background-image: url('../img/hds-icons/arrow-line-diagonal.svg');
+
+  @supports (mask: url("")) {
+    background: none;
+    background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+    mask-image: url('../img/hds-icons/arrow-line-diagonal.svg'),
+      linear-gradient(transparent, transparent);
+  }
+}
