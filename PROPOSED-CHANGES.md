@@ -1,9 +1,10 @@
 # HDS Core — Design Decisions Summary for Creative Director Review
 
 **Date:** March 2026
-**Context:** During implementation of the HDS Core Proposal as a distributable code package (`@nasa/hds-core`), several design-level decisions were made that refine or extend the original Proposal. This document summarizes each decision and its rationale for your review and approval.
 
-**What hasn't changed:** All color hex values, font families, font sizes, spacing tokens, grid settings, and line heights from the approved HDS Core Proposal are preserved exactly. The changes below are about **naming, organization, and structural patterns** — not about the visual design itself.
+**Context:** During implementation of the HDS Core Proposal as a distributable code package (@nasa/hds-core), several design-level decisions were made that refine or extend the original Proposal. This document summarizes each decision and its rationale for review and approval.
+
+**What hasn't changed:** All color hex values, font families, font sizes, spacing tokens, grid settings, and line heights from the approved HDS Core Proposal are preserved exactly. The changes below are about naming, organization, and structural patterns — not about the visual design itself.
 
 ---
 
@@ -14,13 +15,13 @@
 **Change:** Palettes are referenced by descriptive name:
 
 | Proposal | New name | Background color |
-|---|---|---|
-| Palette one | **white** | Spacesuit White (#FFFFFF) |
-| Palette two | **light** | Carbon 05 (#F6F6F6) |
-| Palette three | **midtone** | Carbon 20 (#D1D1D1) |
-| Palette four | **dark** | Carbon 90 (#17171B) |
-| Palette five | **blue** | NASA Blue Shade (#0B3D91) |
-| Palette six | **black** | Carbon Black (#000000) |
+|----------|----------|------------------|
+| Palette one | `white` | Spacesuit White (#FFFFFF) |
+| Palette two | `light` | Carbon 05 (#F6F6F6) |
+| Palette three | `midtone` | Carbon 20 (#D1D1D1) |
+| Palette four | `dark` | Carbon 90 (#17171B) |
+| Palette five | `blue` | NASA Blue Shade (#0B3D91) |
+| Palette six | `black` | Carbon Black (#000000) |
 
 **Why:** Palette numbers require memorization and a reference table. A designer or developer reading "dark" immediately understands the intent. "White" and "black" form a natural pair as bookends of the palette range. "Light" for Carbon 05 is intuitive — it's the light-but-not-white option. Descriptive naming is the universal standard across all major design systems (Material Design, IBM Carbon, Atlassian, Bootstrap). The Proposal's palette numbers remain documented for cross-reference.
 
@@ -62,11 +63,11 @@ Shipping as experimental allows internal testing and refinement while preventing
 **Change:** These have been consolidated based on an audit showing that many values are always identical:
 
 | Elements that always share the same color | Combined as |
-|---|---|
-| Label, metadata, caption, utility button text | **muted** (one variable) |
-| Heading, primary button text, outline button icon | **heading** (one variable) |
-| Text on any filled button (red CTA, blue CTA, secondary circle, checkbox icon, primary arrow icon) | **btn-filled-text** (always Spacesuit White) |
-| Blue CTA fill, secondary circle fill, outline circle stroke | **btn-secondary-bg** (one variable) |
+|------------------------------------------|-------------|
+| Label, metadata, caption, utility button text | `muted` (one variable) |
+| Heading, primary button text, outline button icon | `heading` (one variable) |
+| Text on any filled button (red CTA, blue CTA, secondary circle, checkbox icon, primary arrow icon) | `btn-filled-text` (always Spacesuit White) |
+| Blue CTA fill, secondary circle fill, outline circle stroke | `btn-secondary-bg` (one variable) |
 
 Additionally, five values that never change across any palette are set once globally rather than repeated six times:
 - CTA/primary arrow button fill → always NASA Red
@@ -101,36 +102,38 @@ The same download arrow glyph appears inside a blue filled circle, a blue outlin
 - Every major design system (USWDS, Material, Carbon, Heroicons, Phosphor) ships single-color icons
 - Reduces the total icon file count (no light/dark variants needed)
 
-**What stays the same:** Tag icons (tag-article, tag-video, etc.) keep their built-in circles since they're always decorative and always appear at a fixed appearance. The Arrow/Circle-* files also remain available with embedded circles for developers who prefer self-contained SVG files.
+---
+
+## 6. Fixed-color button graphics stored separately from themeable icons
+
+**Context:** The original HDS (2022) includes Interactives buttons (6 icons with NASA Blue fill + white outline + white icon) and a Primary Arrow graphic (red circle + white arrow). These have colors "baked in" and do not respond to palette theming. The HDS Core Proposal (2025) does not address how to handle these multi-color assets.
+
+**Change:** Create a separate `src/img/hds-buttons/` directory for fixed-color button graphics, distinct from `src/img/hds-icons/` (which contains themeable `currentColor` icons compiled into a sprite).
+
+**Rationale:**
+- Maintains clear separation between themeable icons and fixed-color assets
+- Aligns with HDS taxonomy (Iconography = Foundation; Buttons = Elements)
+- Prevents developer confusion about color behavior
+- Primary Arrow SVG provides fallback for edge cases where CSS implementation is impractical
+
+**Contents of `hds-buttons/` directory:**
+- `interactive-close.svg`
+- `interactive-less-info.svg`
+- `interactive-location.svg`
+- `interactive-menu.svg`
+- `interactive-more-info.svg`
+- `interactive-play.svg`
+- `primary-arrow.svg`
+
+**Note:** These 7 files are NOT included in the icon sprite and must be referenced as standalone files.
 
 ---
 
-## 6. Icon naming flattened and standardized
+## 7. Primary arrow button implemented in CSS
 
-**Proposal:** Icons organized in nested folders with PascalCase names (e.g., `Arrow/Chevron-Down.svg`, `Eyes/Gas Giant.svg`)
+**Proposal:** Primary buttons use Primary-Arrow.svg — a red circle with a white arrow inside
 
-**Change:** All icons moved to a single flat directory with lowercase-hyphenated names and category prefixes:
-
-| Before | After |
-|---|---|
-| `Arrow/Chevron-Down.svg` | `arrow-chevron-down.svg` |
-| `Eyes/Gas Giant.svg` | `eye-gas-giant.svg` |
-| `File/Archive.svg` | `file-archive.svg` |
-| `Tag/Acitvity.svg` | `tag-activity.svg` (typo fixed) |
-
-**Why:**
-- **Name collisions:** `Archive.svg` existed at root AND under `File/`. `Image.svg` existed under `File/` AND `Tag/`. `Close.svg` existed at root AND under `Interactives/`. These collisions break the SVG sprite system that allows efficient icon loading.
-- **Spaces in filenames:** `Gas Giant.svg` breaks in URLs and build tools
-- **Industry standard:** USWDS, Material Icons, Heroicons, GitHub Octicons, and Phosphor all use flat directories with lowercase-hyphenated names
-- **Category prefixes** (`arrow-`, `file-`, `tag-`, `eye-`, `interactive-`) make the full inventory scannable and enable editor autocomplete
-
----
-
-## 7. Primary button arrow generated by CSS, not an SVG file
-
-**Proposal:** Primary buttons use `Primary-Arrow.svg` — a red circle with a white arrow inside
-
-**Change:** The red circle + white arrow after primary button text (e.g., "Learn More →") is generated entirely by CSS. The `Primary-Arrow.svg` file is removed from the icon set.
+**Change:** The red circle + white arrow after primary button text (e.g., "Learn More →") is generated entirely by CSS. The Primary-Arrow.svg file is retained in `hds-buttons/` as a fallback but is not the default implementation.
 
 **Why:**
 - The SVG had hardcoded NASA Red and white, making it impossible to adjust per palette
@@ -142,12 +145,12 @@ The same download arrow glyph appears inside a blue filled circle, a blue outlin
 
 ## 8. External link arrow uses HDS diagonal instead of USWDS launch icon
 
-**Proposal:** `Arrow / Line-diagonal` reserved for external links and primary buttons to non-NASA sites
+**Proposal:** Arrow / Line-diagonal reserved for external links and primary buttons to non-NASA sites
 
 **Change:** When a link is marked as external, the trailing icon uses the HDS diagonal arrow instead of USWDS's default "launch" icon (a square with an arrow pointing out).
 
 **Why:**
-- The Proposal explicitly reserves `Arrow / Line-diagonal` for external use
+- The Proposal explicitly reserves Arrow / Line-diagonal for external use
 - USWDS's launch icon is visually inconsistent with HDS's arrow system
 - Maintains the HDS wayfinding rule: horizontal arrows = internal navigation, diagonal arrows = leaving NASA
 - External link accessibility text ("External." / "External, opens in a new tab.") is provided automatically by USWDS's built-in CSS — no additional work needed
@@ -161,13 +164,13 @@ The same download arrow glyph appears inside a blue filled circle, a blue outlin
 **Change:** Icon button components have named roles that structurally enforce this rule:
 
 | Role name | Color | Meaning |
-|---|---|---|
-| **cta** | NASA Red | Navigates to a new page |
-| **secondary** | NASA Blue | On-page action (download, share) |
-| **outline** | NASA Blue border | Lower-emphasis on-page action |
-| **utility** | Neutral (varies per palette) | UI controls (carousel, accordion) |
-| **social** | Carbon 60 | Social media sharing/linking |
-| **interactive** | Neutral (varies per palette) | Tooltip/popover triggers |
+|-----------|-------|---------|
+| `cta` | NASA Red | Navigates to a new page |
+| `secondary` | NASA Blue | On-page action (download, share) |
+| `outline` | NASA Blue border | Lower-emphasis on-page action |
+| `utility` | Neutral (varies per palette) | UI controls (carousel, accordion) |
+| `social` | Carbon 60 | Social media sharing/linking |
+| `interactive` | Neutral (varies per palette) | Tooltip/popover triggers |
 
 **Why:** These names map directly to the HDS Buttons documentation terminology. By naming the roles semantically, it becomes structurally difficult for a developer to accidentally use a red (navigation) icon for an on-page action, or a blue (on-page) icon for a navigation link. The wayfinding rule is enforced by the system rather than relying on individual developer knowledge.
 
@@ -177,37 +180,65 @@ The same download arrow glyph appears inside a blue filled circle, a blue outlin
 
 **Change:** The component naming and documentation enforce these accessibility patterns by default:
 
-**Icon buttons without visible text** (e.g., a standalone download circle) require a screen-reader-accessible label describing the action. The component naming makes it clear these are interactive buttons, not decorative icons.
+- **Icon buttons without visible text** (e.g., a standalone download circle) require a screen-reader-accessible label describing the action. The component naming makes it clear these are interactive buttons, not decorative icons.
 
-**Icons alongside text** (e.g., the arrow next to "Learn More") are automatically hidden from screen readers since the visible text already describes the action. Announcing both the text and the icon would be redundant.
+- **Icons alongside text** (e.g., the arrow next to "Learn More") are automatically hidden from screen readers since the visible text already describes the action. Announcing both the text and the icon would be redundant.
 
-**External links** automatically get:
-- A diagonal arrow icon (visual signal)
-- Screen reader text announcing "External" or "External, opens in a new tab" (accessible signal)
-- Both provided by USWDS's built-in external link CSS — no custom code needed
+- **External links** automatically get:
+  - A diagonal arrow icon (visual signal)
+  - Screen reader text announcing "External" or "External, opens in a new tab" (accessible signal)
+  - Both provided by USWDS's built-in external link CSS — no custom code needed
 
 **Why:** The HDS Accessibility documentation states: "Color provides signals on HDS buttons and links, but ARIA labeling ensures their meaning and intent is clear to non-sighted users." These patterns ensure the design system makes it easy to do the right thing and hard to accidentally create inaccessible interfaces.
 
 ---
 
-## Summary of what needs your approval
+## 11. Image asset directory structure with namespaced folders
 
-| # | Decision | Visual impact |
-|---|---|---|
-| 1 | Palette names: white/light/midtone/dark/blue/black | None — naming only |
-| 2 | Palettes 4–6 experimental until fully specified | None — same designs, gated for production |
-| 3 | OS dark mode opt-in only | None — matches current nasa.gov behavior |
-| 4 | Element colors consolidated to 19 variables | None — identical visual output |
-| 5 | Icons split into glyph + CSS container | None when assembled — enables palette switching |
-| 6 | Icon filenames flattened and standardized | None — organizational only |
-| 7 | Primary button arrow generated by CSS | None — identical visual output |
-| 8 | External link uses HDS diagonal arrow | Minor — replaces USWDS launch icon with HDS arrow per Proposal |
-| 9 | Wayfinding rule enforced by component roles | None — codifies existing Proposal guidance |
-| 10 | Accessibility patterns built in | None visible — screen reader improvements |
+**Context:** The HDS Core build output (`/dist/assets/img/`) coexists with numerous USWDS-generated asset folders (`usa-icons/`, `usa-icons-bg/`, `uswds-icons/`, `material-icons/`, etc.). HDS assets need to be immediately identifiable and not get lost in this mix.
 
-**None of these decisions change the approved visual design.** They are implementation and organizational decisions that make the approved design work correctly across palettes, across screen readers, and across the range of CMS platforms HDS Core is meant to support.
+**Change:** Source images are organized into namespaced folders:
+
+```
+src/img/
+├── hds-icons/           ← currentColor icons → compiled to hds-sprite.svg
+├── hds-buttons/         ← fixed-color button graphics (standalone files)
+└── nasa-branding/       ← nasa-logo.svg and future brand assets
+```
+
+**Output in `/dist/assets/img/`:**
+
+```
+dist/assets/img/
+├── hds-icons/           ← copied from source
+├── hds-buttons/         ← copied from source
+├── hds-sprite.svg       ← generated sprite (remains at root for easy paths)
+├── nasa-branding/       ← copied from source
+└── [USWDS-generated folders...]
+```
+
+**Why:**
+- `hds-` prefix makes HDS assets immediately identifiable
+- `nasa-branding/` uses `nasa-` prefix because it's NASA's brand, not HDS-specific (future-proofs for meatball variants, wordmark, etc.)
+- `hds-sprite.svg` stays at img root for simpler path references
+- Clear separation prevents confusion and makes maintenance easier
 
 ---
 
-*For detailed technical implementation: see the `develop` branch of the `@nasa/hds-core` repository.*
-*For design specs and Figma links: see website.nasa.gov/hds-core/*
+## Summary of what needs approval
+
+| # | Decision | Type |
+|---|----------|------|
+| 1 | Descriptive palette names | Naming convention |
+| 2 | Dark palettes experimental | Rollout strategy |
+| 3 | OS dark mode opt-in | Default behavior |
+| 4 | 19 consolidated variables | Technical simplification |
+| 5 | Icons as glyph + CSS container | Asset architecture |
+| 6 | Fixed-color button graphics in separate folder | Asset architecture |
+| 7 | Primary arrow as CSS (SVG fallback available) | Implementation approach |
+| 8 | HDS diagonal arrow for external links | Visual consistency |
+| 9 | Role names enforce wayfinding rule | Component architecture |
+| 10 | Accessibility patterns built-in | Component defaults |
+| 11 | Namespaced image folders | File organization |
+
+None of these change what the final rendered site looks like. They are all decisions about how to organize, name, and implement the visual specifications already approved in the HDS Core Proposal (2025).
