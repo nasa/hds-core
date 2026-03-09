@@ -1,0 +1,7 @@
+<svg viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="10" cy="10" r="9.5" fill="none" stroke="currentColor"/>
+<path d="M11.5 14C11.5 14.8284 10.8284 15.5 10 15.5C9.17157 15.5 8.5 14.8284 8.5 14H11.5Z" fill="currentColor"/>
+<path d="M6 9C6 7 7.79086 5 10 5C12.2091 5 14 7 14 9C14 10.1889 14 13 14 13H6C6 13 6 11 6 9Z" fill="currentColor"/>
+<path d="M9 5C9 4.44772 9.44772 4 10 4C10.5523 4 11 4.44772 11 5V6H9V5Z" fill="currentColor"/>
+<path d="M5 12L6 11H14L15 12V13H5V12Z" fill="currentColor"/>
+</svg>
