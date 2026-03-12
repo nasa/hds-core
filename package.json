@@ -1,6 +1,6 @@
 {
   "name": "@nasa/hds-core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.",
   "license": "SEE LICENSE.MD",
   "private": true,
@@ -22,17 +22,17 @@
   ],
   "scripts": {
     "build": "gulp build",
-    "build:sass": "gulp buildSass",
     "copy:assets": "gulp copyAssets",
     "watch": "gulp watch",
     "init": "gulp init"
   },
   "peerDependencies": {
-    "@uswds/uswds": "^3.3.0"
+    "@uswds/uswds": "^3.13.0"
   },
   "devDependencies": {
     "@uswds/compile": "^1.0.0",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-svg-sprite": "^2.0.3"
   },
   "keywords": [
     "nasa",
@@ -45,5 +45,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/nasa/hds-core.git"
+  },
+  "dependencies": {
+    "@nasa/hds-core": "github:nasa/hds-core"
   }
 }

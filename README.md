@@ -1,227 +1,128 @@
-# @nasa/hds-core
+# HDS Core
 
-**NASA Horizon Design System (HDS) Core** — design tokens, base styles, and USWDS theme configuration for NASA websites.
+**NASA's Horizon Design System as a distributable code package.**
 
-HDS Core is a lightweight Sass package that sits on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/) and configures it with NASA's Horizon Design System values. It is meant to be CMS-agnostic and work with any web project that uses USWDS.
-
-For complete HDS documentation including color palettes, typography scales, spacing guidelines, grid specifications, and component usage, visit the [HDS Core documentation site](https://website.nasa.gov/hds-core) (internal NASA access only).
-
----
-
-## What This Package Provides
-
-- USWDS theme settings pre-configured with HDS values
-- HDS design tokens as Sass maps and CSS custom properties
-- HDS extended color palette registered with USWDS's utility system
-- Base styles for standard HTML elements
-- Shared Sass mixins for typography, buttons, and accessibility
-- HDS-specific overrides to USWDS component styles
-- HDS icon and font assets (Inter, DM Mono)
-- Pre-compiled CSS for projects without a Sass pipeline
-
----
-
-## Requirements
-
-- [Node.js](https://nodejs.org/) (LTS version recommended)
-- npm
-- [@uswds/uswds](https://www.npmjs.com/package/@uswds/uswds) ^3.3.0
-
----
+HDS Core (`@nasa/hds-core`) is a CMS-agnostic Sass package that configures [USWDS](https://designsystem.digital.gov/) with NASA's Horizon Design System values. It provides the HDS color palette, typography, spacing, icons, and component styles.
 
 ## Installation
 
-### From npm (when published)
-
 ```bash
-npm install @uswds/uswds @nasa/hds-core
+npm install @nasa/hds-core @uswds/uswds
 ```
 
-### From GitHub
-
-```bash
-npm install @uswds/uswds
-npm install github:nasa/hds-core
-```
-
-### Local development
-
-```bash
-npm install @uswds/uswds
-npm install file:../path/to/hds-core
-```
-
----
+> **Note:** `@uswds/uswds` is a peer dependency and must be installed alongside HDS Core.
 
 ## Usage
 
-### Option A: Sass Pipeline (Recommended)
+### Option A: Sass (Recommended)
 
-Best for projects with an existing Sass build process. Gives full access to HDS tokens, USWDS functions, and shared mixins.
+1. Add these Sass load paths to your compiler:
 
-**1. Add these Sass load paths to your compiler:**
+   ```
+   node_modules/@uswds/uswds/packages
+   node_modules/@nasa/hds-core/src/scss
+   ```
 
-```
-node_modules/@uswds/uswds/packages
-node_modules/@nasa/hds-core/src/scss
-```
+2. Import HDS Core in your Sass entry point:
 
-<details>
-<summary>Gulp example</summary>
+   ```scss
+   @forward "@nasa/hds-core/src/scss/styles";
+   ```
 
-```js
-.pipe(
-  sass({
-    includePaths: [
-      "./node_modules/@uswds/uswds/packages",
-      "./node_modules/@nasa/hds-core/src/scss",
-    ],
-  })
-)
-```
+   To add your own styles:
 
-</details>
+   ```scss
+   @forward "@nasa/hds-core/src/scss/styles";
+   @forward "my-project-styles";
+   ```
 
-<details>
-<summary>Webpack example</summary>
+3. Use USWDS functions and HDS tokens:
 
-```js
-{
-  loader: "sass-loader",
-  options: {
-    sassOptions: {
-      includePaths: [
-        "./node_modules/@uswds/uswds/packages",
-        "./node_modules/@nasa/hds-core/src/scss",
-      ],
-    },
-  },
-}
-```
-
-</details>
-
-<details>
-<summary>Vite example</summary>
-
-```js
-export default {
-  css: {
-    preprocessorOptions: {
-      scss: {
-        includePaths: [
-          "./node_modules/@uswds/uswds/packages",
-          "./node_modules/@nasa/hds-core/src/scss",
-        ],
-      },
-    },
-  },
-};
-```
-
-</details>
-
-**2. Import HDS Core in your Sass entry point:**
-
-```scss
-@forward "@nasa/hds-core/src/scss/styles";
-```
-
-To add your own styles on top:
-
-```scss
-@forward "@nasa/hds-core/src/scss/styles";
-@forward "my-project-styles";
-```
-
-**3. Use USWDS functions with HDS values in your Sass:**
-
-```scss
-.my-component {
-  background-color: color("base-lighter");
-  border-left: 4px solid color("base-mid-darker");
-  color: color("base-darker");
-  font-family: family("heading");
-  font-size: size("heading", "md");
-  font-weight: font-weight("semibold");
-  padding: units(3);
-}
-```
-
-All standard USWDS functions (`color()`, `size()`, `family()`, `font-weight()`, `units()`), mixins (`@include at-media()`, `@include u-bg()`), and utility classes (`.bg-primary`, `.text-base-darker`, `.padding-3`) work normally and resolve to HDS values.
+   ```scss
+   .my-component {
+     background-color: $hds-color-carbon-05;
+     color: $hds-color-carbon-90;
+     font-family: family("heading");
+     font-size: size("heading", "md");
+     padding: units(3);
+   }
+   ```
 
 ### Option B: Pre-compiled CSS
 
-For projects without a Sass build pipeline:
-
 ```html
-<link rel="stylesheet" href="node_modules/@uswds/uswds/dist/css/uswds.min.css">
-<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds-core.css">
-<script src="node_modules/@uswds/uswds/dist/js/uswds.min.js"></script>
+<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.css">
 ```
 
-HDS tokens are available as CSS custom properties:
+Use CSS custom properties:
 
 ```css
 .my-element {
   color: var(--hds-color-nasa-blue);
   font-weight: var(--hds-font-weight-bold);
-  line-height: var(--hds-line-height-body);
-  border-radius: var(--hds-border-radius-button);
 }
 ```
 
-See the [HDS documentation site](https://TODO-ADD-URL-HERE) for the complete list of available tokens and custom properties.
+---
+
+## Color Palettes
+
+HDS Core includes 6 color palettes. Apply via data attribute:
+
+```html
+<section data-hds-palette="white">...</section>
+<section data-hds-palette="light">...</section>
+<section data-hds-palette="midtone">...</section>
+```
+
+| Palette | Background | Status |
+|---------|------------|--------|
+| `white` | Spacesuit White | Stable (default) |
+| `light` | Carbon 05 | Stable |
+| `midtone` | Carbon 20 | Stable |
+| `dark` | Carbon 90 | Experimental |
+| `blue` | NASA Blue Shade | Experimental |
+| `black` | Carbon Black | Experimental |
+
+**To enable experimental palettes:**
+
+```scss
+$hds-enable-experimental-palettes: true;
+@forward "@nasa/hds-core/src/scss/styles";
+```
+
+---
+
+## Icons
+
+HDS icons are provided as an SVG sprite:
+
+```html
+<svg class="hds-icon" aria-hidden="true" focusable="false">
+  <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+</svg>
+```
+
+Icon buttons use `.hds-btn-icon` with role modifiers: `--cta`, `--secondary`, `--outline`, `--utility`, `--social`, `--interactive`
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for complete icon system documentation.
 
 ---
 
 ## Relationship to USWDS
 
-HDS Core is an extension of USWDS, not a replacement. It:
+HDS Core is an **extension** of USWDS, not a replacement. It:
 
-1. **Configures** USWDS theme tokens with HDS values
-2. **Extends** USWDS with additional color tokens via `$global-color-palettes`
-3. **Overrides** specific USWDS component styles to match HDS specifications
-4. **Adds** HDS-specific base styles, mixins, and design tokens
+- Configures USWDS theme tokens with HDS values
+- Overrides specific USWDS component styles to match HDS specifications
+- Adds HDS-specific design tokens, mixins, and components
+- Provides the HDS color palette system
 
-USWDS is a required peer dependency. All USWDS documentation, components, utility classes, and patterns continue to work — they just render with HDS values. Refer to the [USWDS documentation](https://designsystem.digital.gov/) for component usage and the [HDS documentation](https://TODO-ADD-URL-HERE) for HDS-specific guidance.
+USWDS is a required peer dependency. All USWDS components, utility classes, and patterns continue to work — they render with HDS values.
 
----
-
-## Project Structure
-
-```
-hds-core/
-├── package.json
-├── gulpfile.js
-├── .browserslistrc
-├── .gitignore
-├── README.md
-│
-├── src/
-│   ├── scss/
-│   │   ├── styles.scss                          # Main Sass entry point
-│   │   ├── _hds-tokens.scss                     # HDS design tokens
-│   │   ├── _hds-uswds-theme.scss                # USWDS theme configuration
-│   │   ├── _hds-uswds-theme-custom-styles.scss  # USWDS component overrides
-│   │   ├── _hds-mixins.scss                     # Shared Sass mixins
-│   │   └── _hds-base.scss                       # Base HTML element styles
-│   │
-│   └── assets/
-│       ├── fonts/
-│       │   ├── inter/                           # Inter font files
-│       │   └── dm-mono/                         # DM Mono font files
-│       └── img/
-│           ├── hds-icons/                       # HDS SVG icons
-│           └── nasa-logo.svg
-│
-└── dist/                                        # Generated by build
-    ├── css/
-    │   └── hds-core.css
-    └── assets/
-        ├── fonts/
-        └── img/
-```
+**Documentation:**
+- [USWDS documentation](https://designsystem.digital.gov/) — component usage
+- [HDS documentation](https://website.nasa.gov/hds-core/) — HDS-specific guidance
 
 ---
 
@@ -233,51 +134,64 @@ hds-core/
 git clone https://github.com/nasa/hds-core.git
 cd hds-core
 npm install
-npm install @uswds/uswds
 ```
 
-### One-time initialization
+### Commands
 
-Copies USWDS static assets (fonts, icons, JS) to `dist/`:
+| Command | Purpose |
+|---------|---------|
+| `npx gulp init` | One-time setup: copies USWDS assets, generates icon sprite |
+| `npx gulp build` | Compiles Sass, copies assets, generates sprite |
+| `npx gulp watch` | Recompiles on file changes |
+| `npx serve .` | Preview at `http://localhost:3000/test.html` |
+
+### Clean Build
 
 ```bash
-npx gulp init
-```
-
-### Build
-
-Compiles Sass to CSS and copies HDS assets to `dist/`:
-
-```bash
+rm -rf dist/
 npx gulp build
 ```
 
-### Watch
+---
 
-Recompiles automatically when Sass files change:
+## Project Structure
 
-```bash
-npx gulp watch
+```
+hds-core/
+├── src/
+│   ├── scss/
+│   │   ├── styles.scss           # Entry point
+│   │   ├── _hds-tokens.scss      # Design tokens
+│   │   ├── _hds-uswds-theme.scss # USWDS configuration
+│   │   ├── _hds-custom-styles.scss
+│   │   ├── _hds-components.scss
+│   │   └── _hds-palettes.scss
+│   └── img/
+│       ├── hds-icons/            # Themeable icons → sprite
+│       ├── hds-buttons/          # Fixed-color button graphics
+│       └── nasa-branding/        # NASA logo and brand assets
+│
+└── dist/                         # Generated output
+    ├── css/styles.css
+    └── assets/
+        ├── fonts/
+        └── img/
+            ├── hds-sprite.svg
+            ├── hds-icons/
+            ├── hds-buttons/
+            └── nasa-branding/
 ```
 
-### Testing in another project
-
-Install HDS Core locally in a test project:
-
-```bash
-cd my-test-project
-npm install file:../path/to/hds-core
-```
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed documentation.
 
 ---
 
 ## What's Not Yet Included
 
-The following are planned for future releases:
-
 - JavaScript behaviors (header resize, social share, etc.)
 - HDS component patterns (cards, search, archive layouts)
-- HDS color scheme palettes (light, midtone, dark variants)
+- Dark palette form elements
+- Visual regression testing
 
 ---
 
@@ -285,8 +199,6 @@ The following are planned for future releases:
 
 This package is maintained by the NASA HDS team. To suggest changes or report issues, please open an issue in this repository.
 
----
-
 ## License
 
-TBD — pending NASA open source review.
+See [LICENSE.md](LICENSE.md).

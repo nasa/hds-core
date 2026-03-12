@@ -1,0 +1,6 @@
+<svg viewBox="-2 -2 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect x="7.63359" y="13.0778" width="8" height="1" transform="rotate(135 7.63359 13.0778)" fill="currentColor" stroke="currentColor"/>
+<rect x="12.5626" y="6.73462" width="8" height="1" transform="rotate(-45 12.5626 6.73462)" fill="currentColor" stroke="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7 13H1V11H9L9 19H7L7 13Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13 7L13 1L11 1L11 9L19 9L19 7L13 7Z" fill="currentColor"/>
+</svg>
