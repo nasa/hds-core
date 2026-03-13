@@ -549,7 +549,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // Docs: https://website.nasa.gov/hds-core/components#links
 // See also: https://designsystem.digital.gov/components/link/
 // ============================================================
-// HDS links use a dashed underline as the defining element.
+// HDS links use a dotted underline as the defining element.
 // Text color matches paragraph; underline/arrow use muted color.
 // 
 // Usage:
@@ -569,7 +569,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
   text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
   text-decoration-line: underline;
-  text-decoration-style: dashed;
+  text-decoration-style: dotted;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
 
