@@ -7,17 +7,13 @@
 //   <section class="hds-palette-dark">
 //   <section data-hds-palette="dark">
 //
-// Stable palettes: white, light, midtone
-// Experimental palettes: dark, blue, black
-//
 // USWDS utility classes (!important) override palette values.
 //
 // SECTIONS:
 //   §1 Configuration Flags
 //   §2 Shared Color Schemes
-//   §3 Stable Palettes (white, light, midtone)
-//   §4 Experimental Palettes (dark, blue, black)
-//   §5 Auto Dark Mode
+//   §3 Palettes
+//   §4 Auto Dark Mode
 // ============================================================
 
 @use "hds-tokens" as *;
@@ -27,7 +23,8 @@
 // §1 CONFIGURATION FLAGS
 // ============================================================
 
-$hds-enable-experimental-palettes: true !default;
+// Reserved for future experimental features
+$hds-enable-experimental-palettes: false !default;
 $hds-enable-auto-dark-mode: false !default;
 
 
@@ -44,18 +41,16 @@ $hds-enable-auto-dark-mode: false !default;
   }
 }
 
-// --- Values that never change across any palette ---
+// --- Universal values (same across all palettes) ---
 @mixin _scheme-universal {
-  --hds-palette-btn-primary-bg:   #{$hds-color-nasa-red};
-  --hds-palette-btn-filled-text:  #{$hds-color-spacesuit-white};
-  --hds-palette-checkbox-fill:    #{$hds-color-nasa-blue};
-  --hds-palette-social-fill:      #{$hds-color-carbon-60};
-  --hds-palette-social-icon:      #{$hds-color-carbon-05};
+  --hds-palette-btn-primary-bg:    #{$hds-color-nasa-red};
+  --hds-palette-btn-filled-text:   #{$hds-color-spacesuit-white};
+  --hds-palette-checkbox-fill:     #{$hds-color-nasa-blue};
+  --hds-palette-social-fill:       #{$hds-color-carbon-60};
+  --hds-palette-social-icon:       #{$hds-color-carbon-05};
 }
 
-// --- Shared by palettes: white, light ---
-// Per HDS Core Proposal:
-//   Link: Underline, arrow: Carbon 60 / Text: Carbon 90
+// --- Light scheme (white, light, midtone) ---
 @mixin _scheme-light {
   --hds-palette-heading:           #{$hds-color-carbon-black};
   --hds-palette-text:              #{$hds-color-carbon-90};
@@ -73,21 +68,19 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-icon:              #{$hds-color-carbon-black};
 }
 
-// --- Shared by palettes: dark, black ---
-// Per HDS Core Proposal:
-//   Link: Underline: Carbon 30 / Arrow: Carbon 40 / Text: Spacesuit white
+// --- Dark scheme (dark, black) ---
 @mixin _scheme-dark {
   --hds-palette-heading:           #{$hds-color-spacesuit-white};
   --hds-palette-text:              #{$hds-color-spacesuit-white};
   --hds-palette-link-text:         #{$hds-color-spacesuit-white};
-  --hds-palette-link-underline:    #{$hds-color-carbon-30};
+  --hds-palette-link-underline:    #{$hds-color-carbon-40};
   --hds-palette-link-arrow:        #{$hds-color-carbon-40};
-  --hds-palette-muted:             #{$hds-color-carbon-30};
+  --hds-palette-muted:             #{$hds-color-carbon-40};
   --hds-palette-border:            #{$hds-color-carbon-60};
   --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
   --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
   --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-fill:      #{$hds-color-carbon-black};
+  --hds-palette-utility-fill:      #{$hds-color-carbon-80};
   --hds-palette-utility-stroke:    #{$hds-color-carbon-60};
   --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
   --hds-palette-icon:              #{$hds-color-spacesuit-white};
@@ -95,12 +88,11 @@ $hds-enable-auto-dark-mode: false !default;
 
 
 // ============================================================
-// §3 STABLE PALETTES
-// Docs: https://website.nasa.gov/hds-core/palettes#stable
+// §3 PALETTES
+// Docs: https://website.nasa.gov/hds-core/palettes
 // ============================================================
 
 // Palette 1 — White (Spacesuit White, default)
-// Per HDS Core Proposal: Palette one, white—Spacesuit White
 :root,
 [data-hds-palette="white"],
 .hds-palette-white {
@@ -110,8 +102,6 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // Palette 2 — Light (Carbon 05)
-// Per HDS Core Proposal: Palette two, light—Carbon 05
-// Same values as white palette per Proposal
 @include palette("light") {
   @include _scheme-universal;
   @include _scheme-light;
@@ -119,91 +109,59 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // Palette 3 — Midtone (Carbon 20)
-// Per HDS Core Proposal: Palette three, midtone—Carbon 20
-// Unique values: Heading/Paragraph = Carbon Black, Muted = Carbon 80,
-// Border = Carbon 40, Utility stroke = Carbon 40
 @include palette("midtone") {
   @include _scheme-universal;
-  --hds-palette-bg:                #{$hds-color-carbon-20};
-  --hds-palette-heading:           #{$hds-color-carbon-black};
-  --hds-palette-text:              #{$hds-color-carbon-black};
-  --hds-palette-link-text:         #{$hds-color-carbon-90};
-  --hds-palette-link-underline:    #{$hds-color-carbon-60};
-  --hds-palette-link-arrow:        #{$hds-color-carbon-60};
-  --hds-palette-muted:             #{$hds-color-carbon-80};
+  @include _scheme-light;
+  --hds-palette-bg: #{$hds-color-carbon-20};
+}
+
+// Palette 4 — Dark (Carbon 90)
+@include palette("dark") {
+  @include _scheme-universal;
+  @include _scheme-dark;
+  --hds-palette-bg: #{$hds-color-carbon-90};
+}
+
+// Palette 5 — Blue (NASA Blue Shade)
+// Unique values differ from standard dark scheme
+@include palette("blue") {
+  @include _scheme-universal;
+  --hds-palette-bg:                #{$hds-color-nasa-blue-shade};
+  --hds-palette-heading:           #{$hds-color-spacesuit-white};
+  --hds-palette-text:              #{$hds-color-spacesuit-white};
+  --hds-palette-link-text:         #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline:    #{$hds-color-carbon-30};
+  --hds-palette-link-arrow:        #{$hds-color-carbon-40};
+  --hds-palette-muted:             #{$hds-color-carbon-10};
   --hds-palette-border:            #{$hds-color-carbon-40};
-  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
-  --hds-palette-checkbox-text:     #{$hds-color-carbon-80};
-  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-shade};
-  --hds-palette-utility-fill:      #{$hds-color-spacesuit-white};
-  --hds-palette-utility-stroke:    #{$hds-color-carbon-40};
-  --hds-palette-utility-icon:      #{$hds-color-carbon-black};
-  --hds-palette-icon:              #{$hds-color-carbon-black};
+  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
+  --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
+  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-fill:      #{$hds-color-nasa-blue};
+  --hds-palette-utility-stroke:    #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
+  --hds-palette-icon:              #{$hds-color-spacesuit-white};
+}
+
+// Palette 6 — Black (Carbon Black, header/footer only)
+@include palette("black") {
+  @include _scheme-universal;
+  @include _scheme-dark;
+  --hds-palette-bg: #{$hds-color-carbon-black};
 }
 
 
 // ============================================================
-// §4 EXPERIMENTAL PALETTES
-// Docs: https://website.nasa.gov/hds-core/palettes#experimental
-// ============================================================
-// Enable: $hds-enable-experimental-palettes: true
-// These may change without notice. Do not use in production.
-// ============================================================
-
-@if $hds-enable-experimental-palettes {
-
-  // Palette 4 — Dark (Carbon 90)
-  // Per HDS Core Proposal: Palette four, dark—Carbon 90
-  @include palette("dark") {
-    @include _scheme-universal;
-    @include _scheme-dark;
-    --hds-palette-bg: #{$hds-color-carbon-90};
-  }
-
-  // Palette 5 — Blue (NASA Blue Shade)
-  // Per HDS Core Proposal: Palette five, blue—Blue Shade
-  // Unique values: Muted = Carbon 10, Border = Carbon 40,
-  // Utility fill = NASA Blue, Utility stroke = NASA Blue Tint
-  @include palette("blue") {
-    @include _scheme-universal;
-    --hds-palette-bg:                #{$hds-color-nasa-blue-shade};
-    --hds-palette-heading:           #{$hds-color-spacesuit-white};
-    --hds-palette-text:              #{$hds-color-spacesuit-white};
-    --hds-palette-link-text:         #{$hds-color-spacesuit-white};
-    --hds-palette-link-underline:    #{$hds-color-carbon-30};
-    --hds-palette-link-arrow:        #{$hds-color-carbon-40};
-    --hds-palette-muted:             #{$hds-color-carbon-10};
-    --hds-palette-border:            #{$hds-color-carbon-40};
-    --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
-    --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
-    --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
-    --hds-palette-utility-fill:      #{$hds-color-nasa-blue};
-    --hds-palette-utility-stroke:    #{$hds-color-nasa-blue-tint};
-    --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
-    --hds-palette-icon:              #{$hds-color-spacesuit-white};
-  }
-
-  // Palette 6 — Black (Carbon Black)
-  // Per HDS Core Proposal: Palette six, black—Carbon Black
-  // Reserved for headers and footers
-  @include palette("black") {
-    @include _scheme-universal;
-    @include _scheme-dark;
-    --hds-palette-bg: #{$hds-color-carbon-black};
-  }
-}
-
-
-// ============================================================
-// §5 AUTO DARK MODE
+// §4 AUTO DARK MODE
 // Docs: https://website.nasa.gov/hds-core/palettes#dark-mode
 // ============================================================
-// OS dark mode — always opt-in, requires experimental palettes.
+// Opt-in: Set $hds-enable-auto-dark-mode: true
+// Automatically applies dark palette when OS is in dark mode.
 // ============================================================
 
-@if $hds-enable-auto-dark-mode and $hds-enable-experimental-palettes {
+@if $hds-enable-auto-dark-mode {
   @media (prefers-color-scheme: dark) {
-    :root:not([data-hds-palette]):not([class*="hds-palette-"]) {
+    :root {
       @include _scheme-universal;
       @include _scheme-dark;
       --hds-palette-bg: #{$hds-color-carbon-90};
