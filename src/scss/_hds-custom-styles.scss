@@ -334,43 +334,6 @@ p {
 
 
 // ------------------------------------------------------------
-// §4.3 Links
-// Docs: https://website.nasa.gov/hds-core/base#links
-// ------------------------------------------------------------
-
-a {
-  color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-  text-decoration-line: underline;
-  text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
-  text-underline-offset: 2px;
-
-  &:hover, &:focus {
-    text-decoration-color: var(--hds-palette-link-text, #{$hds-color-carbon-black});
-  }
-
-  &:visited {
-    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-  }
-
-  &:focus {
-    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-nasa-blue});
-    outline-offset: 1px;
-  }
-}
-
-// External link icon — swap USWDS launch icon to HDS diagonal arrow
-.usa-link--external::after {
-  background-color: currentColor !important;
-  background-image: none !important;
-  mask-image: url('../img/hds-icons/arrow-line-diagonal.svg'),
-    linear-gradient(transparent, transparent);
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: 1.75ex 1.75ex;
-}
-
-
-// ------------------------------------------------------------
 // §4.4 Blockquote
 // Docs: https://website.nasa.gov/hds-core/base#blockquote
 // ------------------------------------------------------------
@@ -387,7 +350,7 @@ blockquote {
     display: block;
     height: .8em;
     margin-block-end: units(1);
-    mask-image: url('../img/hds-icons/quote.svg');
+    mask-image: url('../assets/img/hds-icons/quote.svg');
     mask-position: 50% 50%;
     mask-repeat: no-repeat;
     mask-size: 100%;
@@ -606,7 +569,6 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 // ------------------------------------------------------------
 
 [contenteditable="true"]:focus,
-[href]:focus,
 [tabindex]:focus,
 iframe:focus,
 button:not([disabled]):focus,
@@ -683,22 +645,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   caption,
   .hds-caption {
     color: var(--hds-palette-muted);
-  }
-}
-
-
-// ------------------------------------------------------------
-// §5.3 Palette Links
-// ------------------------------------------------------------
-
-#{$_p} {
-  a:where(:not([class*="usa-"]):not([class*="hds-btn"])) {
-    color: var(--hds-palette-link-text);
-    text-decoration-color: var(--hds-palette-link-underline);
-
-    &:hover, &:focus {
-      text-decoration-color: var(--hds-palette-link-text);
-    }
   }
 }
 

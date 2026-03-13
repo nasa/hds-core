@@ -113,13 +113,13 @@
 
   &[aria-expanded="true"] span:after {
     mask-image:
-      url('../img/hds-icons/arrow-chevron-up.svg'),
+      url('../assets/img/hds-icons/arrow-chevron-up.svg'),
       linear-gradient(transparent, transparent) !important;
   }
 
   &[aria-expanded="false"] span:after {
     mask-image:
-      url('../img/hds-icons/arrow-chevron-down.svg'),
+      url('../assets/img/hds-icons/arrow-chevron-down.svg'),
       linear-gradient(transparent, transparent) !important;
   }
 }
@@ -133,7 +133,7 @@
   &[aria-expanded="false"] {
     background-color: currentColor;
     background-image: none;
-    mask-image: url('../img/hds-icons/arrow-chevron-down.svg');
+    mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
     mask-position: right center;
     mask-repeat: no-repeat;
     mask-size: 1.2rem;
@@ -142,7 +142,7 @@
   &[aria-expanded="true"] {
     background-color: currentColor;
     background-image: none;
-    mask-image: url('../img/hds-icons/arrow-chevron-up.svg');
+    mask-image: url('../assets/img/hds-icons/arrow-chevron-up.svg');
     mask-position: right center;
     mask-repeat: no-repeat;
     mask-size: 1.2rem;
@@ -545,23 +545,74 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ============================================================
-// §13 EXTERNAL LINKS
-// Docs: https://website.nasa.gov/hds-core/components#external-links
+// §13 LINKS
+// Docs: https://website.nasa.gov/hds-core/components#links
 // See also: https://designsystem.digital.gov/components/link/
 // ============================================================
-// Replaces USWDS "launch" icon with HDS diagonal arrow per
-// HDS wayfinding rule: diagonal arrows = leaving NASA.
-// Arrow color uses --hds-palette-link-arrow (varies per palette).
+// HDS links use a dashed underline as the defining element.
+// Text color matches paragraph; underline/arrow use muted color.
+// 
+// Usage:
+//   - Explicit: <a class="usa-link" href="#">Link</a>
+//   - Prose container: <div class="usa-prose"><a href="#">Link</a></div>
+//   - Global: Set $theme-global-link-styles: true in your theme
+//
+// External links get HDS diagonal arrow (not USWDS launch icon).
 // ============================================================
 
-.usa-link--external::after {
-  // IE11 fallback
-  background-image: url('../img/hds-icons/arrow-line-diagonal.svg');
 
-  @supports (mask: url("")) {
-    background: none;
-    background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
-    mask-image: url('../img/hds-icons/arrow-line-diagonal.svg'),
-      linear-gradient(transparent, transparent);
+// ------------------------------------------------------------
+// §13.1 Base Link Styling
+// ------------------------------------------------------------
+
+.usa-link {
+  color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+  text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+
+  &:visited {
+    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
   }
+
+  &:hover,
+  &:active {
+    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+    text-decoration-style: solid;
+  }
+
+  &:focus {
+    outline: 1px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+    outline-offset: 2px;
+  }
+}
+
+
+// ------------------------------------------------------------
+// §13.2 External Link Arrow
+// ------------------------------------------------------------
+// Replaces USWDS "launch" icon with HDS diagonal arrow per
+// HDS wayfinding rule: diagonal arrows = leaving NASA.
+// ------------------------------------------------------------
+
+.usa-link--external::after {
+  background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+  mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'),
+    linear-gradient(transparent, transparent);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+}
+
+
+// ------------------------------------------------------------
+// §13.3 Internal Link Escape Hatch
+// ------------------------------------------------------------
+// For links that look external but shouldn't show the arrow
+// (e.g., links to nasa.gov subdomains).
+// ------------------------------------------------------------
+
+.hds-link--internal::after {
+  display: none !important;
 }
