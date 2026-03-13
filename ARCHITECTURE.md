@@ -1,6 +1,3 @@
-## ARCHITECTURE.md (Full Updated File)
-
-```markdown
 # HDS Core Architecture Decisions
 
 **Last updated:** 2026-03-08
@@ -444,4 +441,5 @@ Cross-linked between the two.
 - [ ] GitHub Issues for all TODOs
 - [ ] GitHub Wiki documentation
 - [ ] WordPress site documentation updates
+
 - [ ] Optimize USWDS asset copying (exclude deprecated icons, unused components; offer "lite" vs "full" install)
