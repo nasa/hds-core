@@ -2,3 +2,5 @@
 /dist/
 /assets/
 *.css.map
+*storybook.log
+storybook-static
