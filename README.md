@@ -67,6 +67,37 @@ Use CSS custom properties:
 }
 ```
 
+## Global Element Styles
+
+By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.). This mirrors USWDS behavior and prevents conflicts with existing styles in your project.
+
+To enable bare element styling, set USWDS flags in your theme configuration:
+
+```scss
+@use "uswds-core" with (
+  // Style the <body> element
+  $theme-style-body-element: true,
+
+  // Style headings, lists, tables, blockquotes, code, forms, buttons
+  $theme-global-content-styles: true,
+
+  // Style bare <a> tags (also enabled by content styles)
+  $theme-global-link-styles: true,
+
+  // Style bare <p> tags (also enabled by content styles)
+  $theme-global-paragraph-styles: true,
+);
+```
+
+When disabled (the default), use USWDS classes to activate styling:
+
+- `.usa-prose` wraps body content sections with full typography
+- `.usa-link` applies link styling to individual anchors
+- `.usa-button` applies button styling
+- `.usa-intro` applies lead/intro paragraph styling
+
+These class-based styles are always active regardless of the flags above.
+
 ## Color Palettes
 
 Apply via class or data attribute:
@@ -76,18 +107,40 @@ Apply via class or data attribute:
 <section data-hds-palette="dark">...</section>
 ```
 
-| Palette   | Background                      |
-|-----------|---------------------------------|
-| `white`   | Spacesuit White (default)       |
-| `light`   | Carbon 05                       |
-| `midtone` | Carbon 20                       |
-| `dark`    | Carbon 90                       |
-| `blue`    | NASA Blue Shade                 |
+| Palette   | Background                          |
+|-----------|-------------------------------------|
+| `white`   | Spacesuit White (default)           |
+| `light`   | Carbon 05                           |
+| `midtone` | Carbon 20                           |
+| `dark`    | Carbon 90                           |
+| `blue`    | NASA Blue Shade                     |
 | `black`   | Carbon Black (headers/footers only) |
+
+### Using Colors in Custom Styles
+
+For exact HDS colors, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties. USWDS `color()` functions return approximate values for Carbon colors. See DESIGN.md § Three Color Systems for details.
+
+```scss
+// Sass — exact HDS hex
+.my-element { color: $hds-color-carbon-90; }
+
+// CSS — exact HDS hex
+.my-element { color: var(--hds-color-carbon-90); }
+```
+
+## Buttons
+
+HDS Core swaps the USWDS primary/secondary color families to match HDS brand guidelines:
+
+- **`.usa-button`** renders NASA Red (primary action / navigates away)
+- **`.usa-button--secondary`** renders NASA Blue (on-page action)
+- **`.usa-button--outline`** renders NASA Blue border (lower emphasis on-page)
+
+This follows the HDS wayfinding rule: **red = navigates away, blue = stays on page**.
 
 ## Link Styling
 
-HDS Core does not style base `<a>` tags. Choose your approach:
+By default, bare `<a>` tags receive no HDS styling. Link treatment is opt-in. Choose your approach:
 
 | Method           | Scope        | How                                                        |
 |------------------|--------------|------------------------------------------------------------|
@@ -95,9 +148,20 @@ HDS Core does not style base `<a>` tags. Choose your approach:
 | Prose container  | Per-section  | `<div class="usa-prose">` wraps body content               |
 | Global setting   | Site-wide    | `$theme-global-link-styles: true` in your theme            |
 
+HDS links use body text color for the text itself. The dotted underline and external arrow provide the visual affordance.
+
 ### External Links
 
 External links automatically receive an HDS diagonal arrow icon via CSS `::after`. The arrow replaces the USWDS launch icon and follows the HDS wayfinding rule: diagonal arrows indicate leaving the current site.
+
+Add screen reader text for accessibility:
+
+```html
+<a class="usa-link usa-link--external" href="https://example.com">
+  Example site
+  <span class="usa-sr-only">(external)</span>
+</a>
+```
 
 To suppress the arrow on external-looking links that stay within NASA (e.g., nasa.gov subdomains), add `.hds-link--internal`:
 
@@ -105,6 +169,28 @@ To suppress the arrow on external-looking links that stay within NASA (e.g., nas
 <a class="usa-link usa-link--external hds-link--internal"
    href="https://science.nasa.gov/">science.nasa.gov</a>
 ```
+
+## Typography
+
+HDS Core uses three font families:
+
+| Font        | Role                        | Usage                        |
+|-------------|-----------------------------|------------------------------|
+| Inter       | `family("heading")`, `family("ui")` | Headings, buttons, UI    |
+| Public Sans | `family("body")`            | Body text, captions          |
+| DM Mono     | `family("code")`, `family("alt")` | Code, labels, eyebrows  |
+
+Typography utility classes:
+
+| Class          | Font        | Use                    |
+|----------------|-------------|------------------------|
+| `.hds-label`, `.hds-eyebrow` | DM Mono Bold | Section labels |
+| `.hds-metadata` | Inter Bold | Dates, categories      |
+| `.hds-caption` | Public Sans Normal | Figcaptions, supplemental text |
+
+For lead/intro paragraphs, use `.usa-intro`.
+
+For screen-reader-only text, use `.usa-sr-only`.
 
 ## Icons
 
@@ -180,21 +266,22 @@ Storybook is the primary documentation for HDS Core component usage, visual refe
 
 HDS Core is an extension of USWDS, not a replacement. It:
 
-- Configures USWDS theme tokens with HDS values
-- Overrides specific USWDS component styles to match HDS specs
-- Adds HDS-specific design tokens, mixins, and components
+- Configures USWDS theme tokens with HDS values (including primary/secondary color swap)
+- Overrides specific USWDS component styles to match HDS specs (`usa-*` classes, Tier 1)
+- Adds HDS-specific design tokens, mixins, and components (`hds-*` classes, Tier 3)
 - Provides the HDS color palette system
+- Respects all USWDS global style flags (`$theme-global-content-styles`, etc.)
 
-All USWDS components, utility classes, and patterns continue to work.
+All USWDS components, utility classes, and patterns continue to work. See DESIGN.md § Class Naming Convention for the full tier system.
 
 ## Documentation
 
-| Audience         | Location          |
-|------------------|-------------------|
-| Using HDS Core   | This README       |
-| Contributing     | ARCHITECTURE.md   |
-| Design decisions | DESIGN.md         |
-| Designers        | website.nasa.gov/hds-core |
+| Audience          | Location            |
+|-------------------|---------------------|
+| Using HDS Core    | This README         |
+| Contributing      | ARCHITECTURE.md     |
+| Design decisions  | DESIGN.md           |
+| Designers         | website.nasa.gov/hds-core |
 
 ## Contributing
 
