@@ -73,19 +73,18 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-heading:           #{$hds-color-spacesuit-white};
   --hds-palette-text:              #{$hds-color-spacesuit-white};
   --hds-palette-link-text:         #{$hds-color-spacesuit-white};
-  --hds-palette-link-underline:    #{$hds-color-carbon-40};
+  --hds-palette-link-underline:    #{$hds-color-carbon-30};   // C5: was Carbon 40
   --hds-palette-link-arrow:        #{$hds-color-carbon-40};
-  --hds-palette-muted:             #{$hds-color-carbon-40};
+  --hds-palette-muted:             #{$hds-color-carbon-30};   // C5: was Carbon 40
   --hds-palette-border:            #{$hds-color-carbon-60};
   --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
   --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
   --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-fill:      #{$hds-color-carbon-80};
+  --hds-palette-utility-fill:      #{$hds-color-carbon-black}; // C7: was Carbon 80
   --hds-palette-utility-stroke:    #{$hds-color-carbon-60};
   --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
   --hds-palette-icon:              #{$hds-color-spacesuit-white};
 }
-
 
 // ============================================================
 // §3 PALETTES
@@ -109,10 +108,16 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // Palette 3 — Midtone (Carbon 20)
+// Overrides _scheme-light values for higher contrast on
+// midtone background. See HDS Core Proposal palette tables.
 @include palette("midtone") {
   @include _scheme-universal;
   @include _scheme-light;
-  --hds-palette-bg: #{$hds-color-carbon-20};
+  --hds-palette-bg:              #{$hds-color-carbon-20};
+  --hds-palette-text:            #{$hds-color-carbon-black};  // C1: was Carbon 90
+  --hds-palette-muted:           #{$hds-color-carbon-80};     // C2: was Carbon 60
+  --hds-palette-border:          #{$hds-color-carbon-40};     // C3: was Carbon 20
+  --hds-palette-utility-stroke:  #{$hds-color-carbon-40};     // C4: was Carbon 20
 }
 
 // Palette 4 — Dark (Carbon 90)
