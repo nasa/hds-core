@@ -1,5 +1,3 @@
-import '../dist/css/styles.css';
-
 const preview = {
   parameters: {
     controls: {
@@ -10,7 +8,7 @@ const preview = {
     },
     options: {
       storySort: {
-        order: ['Welcome', 'Elements', 'Components'],
+        order: ['Overview', 'Foundations', 'Components'],
       },
     },
   },
