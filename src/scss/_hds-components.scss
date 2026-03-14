@@ -8,6 +8,11 @@
 //
 // This file grows over time as HDS adds component patterns.
 //
+// CLASS NAMING (see DESIGN.md):
+//   Tier 1: usa-* override — 1:1 USWDS map, HDS-themed
+//   Tier 2: hds-* divergent — different markup/purpose than USWDS twin
+//   Tier 3: hds-* only — no USWDS equivalent
+//
 // COLOR CONVENTION:
 //   HDS colors   → $hds-color-* variables (exact hex values)
 //   State colors  → color("error"), color("warning"), etc.
@@ -27,6 +32,8 @@
 //   §10 Grid Utilities
 //   §11 HDS Primary Arrow Button
 //   §12 HDS Icon Buttons
+//   §13 Links
+//   §14 Intro Text
 //
 // Deep-link from dev docs: _hds-components.scss §5 Forms
 // ============================================================
@@ -202,16 +209,23 @@
 // Docs: https://website.nasa.gov/hds-core/components#buttons
 // See also: https://designsystem.digital.gov/components/button/
 // ============================================================
+// Tier 1 overrides. After the primary/secondary swap,
+// .usa-button automatically renders NASA Red (primary).
+// .usa-button--secondary automatically renders NASA Blue.
+// ============================================================
 
 .usa-button { border-radius: 0; }
 
+// Outline buttons use NASA Blue (secondary) per HDS spec.
+// Filled on hover matches HDS "Outline Secondary Button" pattern.
 .usa-button--outline {
-  box-shadow: inset 0 0 0 2px var(--hds-palette-heading, #{$hds-color-carbon-black});
-  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
+  color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
 
   &:hover {
-    box-shadow: inset 0 0 0 2px var(--hds-palette-text, #{$hds-color-carbon-70});
-    color: var(--hds-palette-text, #{$hds-color-carbon-70});
+    background-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
+    color: var(--hds-palette-btn-filled-text, #{$hds-color-spacesuit-white});
   }
 }
 
@@ -350,6 +364,7 @@
 // §11 HDS PRIMARY ARROW BUTTON
 // Docs: https://website.nasa.gov/hds-core/components#primary-arrow
 // ============================================================
+// Tier 3 — no USWDS equivalent.
 // Text + CSS ::after red circle with white arrow.
 // Arrow direction auto-swaps for external links via
 // .usa-link--external. No SVG markup needed in HTML.
@@ -400,7 +415,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 
   &:focus {
-    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-nasa-blue});
+    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-carbon-90});
     outline-offset: 2px;
   }
 }
@@ -410,6 +425,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // §12 HDS ICON BUTTONS
 // Docs: https://website.nasa.gov/hds-core/components#icon-buttons
 // ============================================================
+// Tier 3 — no USWDS equivalent.
 // Interactive circle containers. Require aria-label when used
 // without visible text. SVG inside always gets aria-hidden="true".
 //
@@ -533,6 +549,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // §12.4 Inline Glyph (no circle container)
 // Docs: https://website.nasa.gov/hds-core/components#glyph
 // ------------------------------------------------------------
+// Tier 3 — no USWDS equivalent.
 // For bare icons inline with text. Inherits color from parent.
 // ============================================================
 
@@ -544,14 +561,16 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   vertical-align: baseline;
 }
 
+
 // ============================================================
 // §13 LINKS
 // Docs: https://website.nasa.gov/hds-core/components#links
 // See also: https://designsystem.digital.gov/components/link/
 // ============================================================
+// Tier 1 override — .usa-link and .usa-link--external.
 // HDS links use a dotted underline as the defining element.
 // Text color matches paragraph; underline/arrow use muted color.
-// 
+//
 // Usage:
 //   - Explicit: <a class="usa-link" href="#">Link</a>
 //   - Prose container: <div class="usa-prose"><a href="#">Link</a></div>
@@ -604,6 +623,12 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // USWDS defaults (inline-block, middle) so the arrow flows
 // as part of the text line, aligning correctly regardless
 // of line-height.
+//
+// NOTE: USWDS's built-in SR label for external links
+// ($theme-external-link-sr-label-tab-new/same) is overridden
+// by this ::after replacement. Add SR text manually:
+//   <span class="usa-sr-only">(external)</span>
+// See: https://website.nasa.gov/hds-core/components#links
 // ------------------------------------------------------------
 
 .usa-link--external::after {
@@ -622,10 +647,27 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ------------------------------------------------------------
 // §13.3 Internal Link Escape Hatch
 // ------------------------------------------------------------
+// Tier 3 — HDS-specific modifier on Tier 1 .usa-link.
 // For links that look external but shouldn't show the arrow
 // (e.g., links to nasa.gov subdomains).
 // ------------------------------------------------------------
 
 .hds-link--internal::after {
   display: none !important;
+}
+
+
+// ============================================================
+// §14 INTRO TEXT
+// Docs: https://website.nasa.gov/hds-core/components#intro
+// See also: https://designsystem.digital.gov/components/intro/
+// ============================================================
+// Tier 1 override — replaces USWDS .usa-intro with HDS values.
+// Use .usa-intro instead of the removed .hds-intro class.
+// ============================================================
+
+.usa-intro {
+  font-size: size("body", "md");
+  font-weight: font-weight("light");
+  line-height: var(--hds-line-height-intro);
 }
