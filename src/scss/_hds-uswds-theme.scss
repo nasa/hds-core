@@ -37,6 +37,14 @@
 // Active Green) are not registered with USWDS's utility system.
 // Use $hds-color-* Sass variables or var(--hds-color-*) CSS
 // custom properties for these colors.
+//
+// PRIMARY / SECONDARY SWAP
+// ---------------------------------
+// USWDS defaults: primary = blue, secondary = red.
+// HDS Core Proposal: primary = NASA Red, secondary = NASA Blue.
+// This file swaps the families so that USWDS components like
+// .usa-button automatically render with HDS brand colors.
+// See DESIGN.md § Class Naming Convention for rationale.
 // ============================================================
 
 @use "hds-tokens" as hds;
@@ -63,9 +71,9 @@
   // Closest USWDS system token approximations.
   // See header comment for delta analysis.
   // ----------------------------------------------------------
+  $theme-color-base-family:   "gray",     // Carbon is neutral gray, not gray-cool
   $theme-color-base-lightest: "white",    // Spacesuit White — exact
-  $theme-color-base-lighter:  "gray-5",   // Carbon 05 #F6F6F6 ≈ #f0f0f0
-  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
+  $theme-color-base-lighter:  "gray-5",   // Carbon 05 #F6F6F6 ≈ #f0f0f0  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
   $theme-color-base:          "gray-50",  // Carbon 50 #77777A ≈ #757575
   $theme-color-base-dark:     "gray-80",  // Carbon 80 #2E2E32 ≈ #2d2d2d
   $theme-color-base-darker:   "gray-90",  // Carbon 90 #17171B ≈ #1b1b1b
@@ -73,24 +81,34 @@
   $theme-color-base-ink:      "black",    // Carbon Black — exact
 
   // ----------------------------------------------------------
-  // Primary Color Family — NASA Blue
+  // Primary Color Family — NASA Red
   // ----------------------------------------------------------
-  $theme-color-primary-lighter: "blue-10v",
-  $theme-color-primary-light:   "blue-40v",
-  $theme-color-primary:         "blue-60v",
-  $theme-color-primary-vivid:   "blue-warm-60v",
-  $theme-color-primary-dark:    "blue-70v",
-  $theme-color-primary-darker:  "blue-80v",
+  // HDS primary = brand action color (CTA, navigation away).
+  // USWDS default was blue; swapped per HDS Core Proposal so
+  // .usa-button automatically renders NASA Red.
+  // ----------------------------------------------------------
+  $theme-color-primary-family:  "red",
+  $theme-color-primary-lighter: "red-10",
+  $theme-color-primary-light:   "red-30",
+  $theme-color-primary:         "red-50",
+  $theme-color-primary-vivid:   "red-cool-50v",
+  $theme-color-primary-dark:    "red-60v",
+  $theme-color-primary-darker:  "red-70v",
 
   // ----------------------------------------------------------
-  // Secondary Color Family — NASA Red
+  // Secondary Color Family — NASA Blue
   // ----------------------------------------------------------
-  $theme-color-secondary-lighter: "red-10",
-  $theme-color-secondary-light:   "red-30",
-  $theme-color-secondary:         "red-50",
-  $theme-color-secondary-vivid:   "red-cool-50v",
-  $theme-color-secondary-dark:    "red-60v",
-  $theme-color-secondary-darker:  "red-70v",
+  // HDS secondary = interactive/on-page actions.
+  // USWDS default was red; swapped per HDS Core Proposal so
+  // .usa-button--secondary automatically renders NASA Blue.
+  // ----------------------------------------------------------
+  $theme-color-secondary-family:  "blue",
+  $theme-color-secondary-lighter: "blue-10v",
+  $theme-color-secondary-light:   "blue-40v",
+  $theme-color-secondary:         "blue-60v",
+  $theme-color-secondary-vivid:   "blue-warm-60v",
+  $theme-color-secondary-dark:    "blue-70v",
+  $theme-color-secondary-darker:  "blue-80v",
 
   // ----------------------------------------------------------
   // Accent Cool
@@ -164,17 +182,24 @@
   // ----------------------------------------------------------
   // Color Schemes
   // ----------------------------------------------------------
+  // HDS links use body text color (not brand color) for the
+  // text itself. The underline/arrow provides the visual
+  // affordance. These "ink" values prevent bare <a> tags from
+  // turning NASA Red after the primary/secondary swap.
+  // Full HDS link styling (underline, arrow) is applied via
+  // .usa-link overrides in _hds-components.scss.
+  // ----------------------------------------------------------
   $theme-body-background-color:     "white",
   $theme-text-color:                "ink",
   $theme-text-reverse-color:        "base-lightest",
   $theme-focus-color:               "info",
-  $theme-link-color:                "primary",
-  $theme-link-visited-color:        "primary",
-  $theme-link-hover-color:          "primary-dark",
-  $theme-link-active-color:         "primary-darker",
-  $theme-link-reverse-color:        "primary-lighter",
-  $theme-link-reverse-hover-color:  "primary-light",
-  $theme-link-reverse-active-color: "primary-light",
+  $theme-link-color:                "ink",
+  $theme-link-visited-color:        "ink",
+  $theme-link-hover-color:          "ink",
+  $theme-link-active-color:         "ink",
+  $theme-link-reverse-color:        "base-lightest",
+  $theme-link-reverse-hover-color:  "base-lightest",
+  $theme-link-reverse-active-color: "base-lightest",
 
   // ----------------------------------------------------------
   // Font Families
@@ -186,18 +211,18 @@
   $theme-font-role-body:    "sans",
   $theme-font-role-ui:      "serif",
   $theme-font-role-code:    "mono",
-  $theme-font-role-alt:     "serif",
+  $theme-font-role-alt:     "mono",
 
   $theme-typeface-tokens: (
     "inter": (
       "display-name": "Inter",
       "cap-height":   364px,
-      "stack":        "Helvetica, Arial, sans-serif",
+      "stack":        "'Helvetica Neue', Helvetica, Arial, sans-serif",
     ),
     "dm-mono": (
       "display-name": "DM Mono",
       "cap-height":   364px,
-      "stack":        "monospace",
+      "stack":        "'Consolas', 'Courier', monospace",
     ),
     "public-sans": (
       "display-name": "Public Sans",
@@ -221,6 +246,13 @@
     ),
   ),
 
+  // DM Mono only ships Light (300), Regular (400), and
+  // Medium (500) weights. HDS spec calls for "bold" labels
+  // (.hds-label, .hds-eyebrow) — the browser will synthesize
+  // faux bold from Medium. Acceptable tradeoff: DM Mono Medium
+  // is already visually heavier than most monospace regulars.
+  // If faux bold proves problematic, change .hds-label to
+  // font-weight: 500 in _hds-custom-styles.scss.
   $theme-font-mono-custom-src: (
     dir: "dm-mono",
     roman: (
@@ -265,8 +297,8 @@
   // ----------------------------------------------------------
   $theme-body-font-family:  "body",
   $theme-body-font-size:    "xs",
-  $theme-h1-font-size:      "xl",
-  $theme-h2-font-size:      "lg",
+  $theme-h1-font-size:      "2xl",
+  $theme-h2-font-size:      "xl",
   $theme-h3-font-size:      "md",
   $theme-h4-font-size:      "sm",
   $theme-h5-font-size:      "xs",
