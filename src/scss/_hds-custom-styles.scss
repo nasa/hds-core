@@ -255,6 +255,7 @@
 .hds-eyebrow {
   @include label-uppercase;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  font-family: family("mono");
 }
 
 .hds-metadata {
@@ -264,7 +265,7 @@
 .hds-caption {
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   display: block;
-  font-family: family("heading");
+  font-family: family("body");
   font-size: size("heading", "3xs");
   font-weight: font-weight("normal");
   line-height: var(--hds-line-height-label);

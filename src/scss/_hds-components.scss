@@ -540,8 +540,8 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   display: inline-block;
   fill: currentColor;
   height: 1em;
-  vertical-align: middle;
   width: 1em;
+  vertical-align: baseline;
 }
 
 // ============================================================
@@ -595,14 +595,27 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ------------------------------------------------------------
 // Replaces USWDS "launch" icon with HDS diagonal arrow per
 // HDS wayfinding rule: diagonal arrows = leaving NASA.
+//
+// Pure CSS via ::after + mask-image. Arrow auto-appears on
+// any .usa-link--external and auto-suppresses on
+// .hds-link--internal.
+//
+// display: inline and vertical-align: baseline override
+// USWDS defaults (inline-block, middle) so the arrow flows
+// as part of the text line, aligning correctly regardless
+// of line-height.
 // ------------------------------------------------------------
 
 .usa-link--external::after {
   background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+  content: '\a0';
+  display: inline !important;
   mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'),
     linear-gradient(transparent, transparent);
-  mask-size: contain;
+  mask-size: 0.75em;
+  mask-position: center;
   mask-repeat: no-repeat;
+  vertical-align: baseline;
 }
 
 
