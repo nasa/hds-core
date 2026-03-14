@@ -24,8 +24,8 @@
 // Docs: https://website.nasa.gov/hds-core/tokens#brand-colors
 // ============================================================
 // In component Sass, prefer USWDS token functions instead:
-//   color("primary") → NASA Blue
-//   color("secondary") → NASA Red
+//   color("primary") → NASA Red
+//   color("secondary") → NASA Blue
 //   color("base-darker") → Carbon 90
 // These variables are used by _hds-palettes.scss and to
 // output CSS custom properties (var(--hds-color-nasa-blue)).
@@ -109,13 +109,13 @@ $hds-type-scale: (
 // ============================================================
 
 $hds-weights: (
-  "thin":     200,
+  "thin":     false,
   "light":    300,
   "normal":   400,
   "medium":   500,
   "semibold": 600,
   "bold":     700,
-  "heavy":    800,
+  "heavy":    false,
 );
 
 
@@ -129,14 +129,36 @@ $hds-weights: (
 // ============================================================
 
 $hds-line-heights: (
-  "body":    4,  // ~1.5
-  "heading": 1,  // 1
-  "intro":   3,  // ~1.35
-  "input":   2,  // ~1.15
-  "button":  1,  // 1
-  "code":    3,  // ~1.35
-  "table":   2,  // ~1.15
-  "label":   4,  // ~1.5
+  "body":    5,  // 1.62 ≈ proposal 160%
+  "heading": 1,  // 1.0  = proposal 100% (H1 default)
+  "intro":   3,  // 1.35 ≈ proposal intro/lead
+  "input":   2,  // 1.15
+  "button":  3,  // 1.35 ≈ proposal 120%
+  "code":    3,  // 1.35
+  "table":   2,  // 1.15
+  "label":   6,  // 1.75 ≈ proposal 180%
+);
+
+
+// ============================================================
+// § LETTERSPACING
+// Docs: https://website.nasa.gov/hds-core/tokens#letterspacing
+// ============================================================
+// Custom HDS letterspacing values. Tokens neg-4 through neg-7
+// extend beyond USWDS's built-in range for tight display type.
+// ============================================================
+
+$hds-letterspacing: (
+  "neg-7": -5.5px,  // H1-2xl (120px)
+  "neg-6": -4px,    // H1-xl (80px)
+  "neg-5": -3px,    // H1 (48px)
+  "neg-4": -1.5px,  // H1 alternate
+  "neg-3": -1px,    // H2 (36px)
+  "neg-2": -0.5px,  // H3, H4, H5 (22px, 18px, 16px)
+  "neg-1": -0.25px, // H6 (14px)
+  "auto":  0,
+  "1":     0.25px,  // Label, metadata, caption
+  "2":     3.5px,   // Label (div) uppercase wide
 );
 
 
