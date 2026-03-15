@@ -351,8 +351,9 @@
   $theme-header-min-width:          "desktop",
 
   // ----------------------------------------------------------
-  // Component Border Radius & Width
+  // Component Settings
   // ----------------------------------------------------------
+  // Border radius
   $theme-button-border-radius:            map.get(hds.$hds-radius-settings, "button"),
   $theme-card-border-radius:              map.get(hds.$hds-radius-settings, "card"),
   $theme-checkbox-border-radius:          map.get(hds.$hds-radius-settings, "checkbox"),
@@ -361,6 +362,7 @@
   $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, "pagination"),
   $theme-summary-box-border-radius:       map.get(hds.$hds-radius-settings, "summary"),
 
+  // Border / stroke width
   $theme-button-stroke-width:             map.get(hds.$hds-width-settings, "button"),
   $theme-card-border-width:               map.get(hds.$hds-width-settings, "card"),
   $theme-input-select-border-width:       map.get(hds.$hds-width-settings, "input-select"),
@@ -368,5 +370,8 @@
   $theme-input-state-border-width:        map.get(hds.$hds-width-settings, "input-state"),
   $theme-pagination-button-border-width:  map.get(hds.$hds-width-settings, "pagination"),
   $theme-summary-box-border-width:        map.get(hds.$hds-width-settings, "summary"),
+
+  // Button typography
+  $theme-button-font-family:              "heading",
 
 );

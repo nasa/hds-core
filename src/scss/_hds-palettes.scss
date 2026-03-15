@@ -52,38 +52,44 @@ $hds-enable-auto-dark-mode: false !default;
 
 // --- Light scheme (white, light, midtone) ---
 @mixin _scheme-light {
-  --hds-palette-heading:           #{$hds-color-carbon-black};
-  --hds-palette-text:              #{$hds-color-carbon-90};
-  --hds-palette-link-text:         #{$hds-color-carbon-90};
-  --hds-palette-link-underline:    #{$hds-color-carbon-60};
-  --hds-palette-link-arrow:        #{$hds-color-carbon-60};
-  --hds-palette-muted:             #{$hds-color-carbon-60};
-  --hds-palette-border:            #{$hds-color-carbon-20};
-  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue};
-  --hds-palette-checkbox-text:     #{$hds-color-carbon-80};
-  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-shade};
-  --hds-palette-utility-fill:      #{$hds-color-spacesuit-white};
-  --hds-palette-utility-stroke:    #{$hds-color-carbon-20};
-  --hds-palette-utility-icon:      #{$hds-color-carbon-black};
-  --hds-palette-icon:              #{$hds-color-carbon-black};
+  --hds-palette-heading:                #{$hds-color-carbon-black};
+  --hds-palette-text:                   #{$hds-color-carbon-90};
+  --hds-palette-link-text:              #{$hds-color-carbon-90};
+  --hds-palette-link-underline:         #{$hds-color-carbon-60};
+  --hds-palette-link-arrow:             #{$hds-color-carbon-60};
+  --hds-palette-muted:                  #{$hds-color-carbon-60};
+  --hds-palette-border:                 #{$hds-color-carbon-20};
+  --hds-palette-btn-secondary-bg:       #{$hds-color-nasa-blue};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
+  --hds-palette-btn-disabled-stroke:    #{$hds-color-carbon-20};
+  --hds-palette-btn-disabled-text:      #{$hds-color-carbon-30};
+  --hds-palette-checkbox-text:          #{$hds-color-carbon-80};
+  --hds-palette-checkbox-stroke:        #{$hds-color-nasa-blue-shade};
+  --hds-palette-utility-fill:           #{$hds-color-spacesuit-white};
+  --hds-palette-utility-stroke:         #{$hds-color-carbon-20};
+  --hds-palette-utility-icon:           #{$hds-color-carbon-black};
+  --hds-palette-icon:                   #{$hds-color-carbon-black};
 }
 
 // --- Dark scheme (dark, black) ---
 @mixin _scheme-dark {
-  --hds-palette-heading:           #{$hds-color-spacesuit-white};
-  --hds-palette-text:              #{$hds-color-spacesuit-white};
-  --hds-palette-link-text:         #{$hds-color-spacesuit-white};
-  --hds-palette-link-underline:    #{$hds-color-carbon-30};   // C5: was Carbon 40
-  --hds-palette-link-arrow:        #{$hds-color-carbon-40};
-  --hds-palette-muted:             #{$hds-color-carbon-30};   // C5: was Carbon 40
-  --hds-palette-border:            #{$hds-color-carbon-60};
-  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
-  --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
-  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-fill:      #{$hds-color-carbon-black}; // C7: was Carbon 80
-  --hds-palette-utility-stroke:    #{$hds-color-carbon-60};
-  --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
-  --hds-palette-icon:              #{$hds-color-spacesuit-white};
+  --hds-palette-heading:                #{$hds-color-spacesuit-white};
+  --hds-palette-text:                   #{$hds-color-spacesuit-white};
+  --hds-palette-link-text:              #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline:         #{$hds-color-carbon-30};   // C5: was Carbon 40
+  --hds-palette-link-arrow:             #{$hds-color-carbon-40};
+  --hds-palette-muted:                  #{$hds-color-carbon-30};   // C5: was Carbon 40
+  --hds-palette-border:                 #{$hds-color-carbon-60};
+  --hds-palette-btn-secondary-bg:       #{$hds-color-nasa-blue-tint};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  --hds-palette-btn-disabled-stroke:    #{$hds-color-carbon-50};
+  --hds-palette-btn-disabled-text:      #{$hds-color-carbon-60};
+  --hds-palette-checkbox-text:          #{$hds-color-carbon-20};
+  --hds-palette-checkbox-stroke:        #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-fill:           #{$hds-color-carbon-black}; // C7: was Carbon 80
+  --hds-palette-utility-stroke:         #{$hds-color-carbon-60};
+  --hds-palette-utility-icon:           #{$hds-color-spacesuit-white};
+  --hds-palette-icon:                   #{$hds-color-spacesuit-white};
 }
 
 // ============================================================
@@ -118,6 +124,11 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted:           #{$hds-color-carbon-80};     // C2: was Carbon 60
   --hds-palette-border:          #{$hds-color-carbon-40};     // C3: was Carbon 20
   --hds-palette-utility-stroke:  #{$hds-color-carbon-40};     // C4: was Carbon 20
+  // TODO: Disabled button stroke is Carbon 20 on a Carbon 20
+  // background — invisible. Needs creative director review.
+  // Proposed override:
+  // --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
+  // --hds-palette-btn-disabled-text:   #{$hds-color-carbon-50};
 }
 
 // Palette 4 — Dark (Carbon 90)
@@ -131,21 +142,24 @@ $hds-enable-auto-dark-mode: false !default;
 // Unique values differ from standard dark scheme
 @include palette("blue") {
   @include _scheme-universal;
-  --hds-palette-bg:                #{$hds-color-nasa-blue-shade};
-  --hds-palette-heading:           #{$hds-color-spacesuit-white};
-  --hds-palette-text:              #{$hds-color-spacesuit-white};
-  --hds-palette-link-text:         #{$hds-color-spacesuit-white};
-  --hds-palette-link-underline:    #{$hds-color-carbon-30};
-  --hds-palette-link-arrow:        #{$hds-color-carbon-40};
-  --hds-palette-muted:             #{$hds-color-carbon-10};
-  --hds-palette-border:            #{$hds-color-carbon-40};
-  --hds-palette-btn-secondary-bg:  #{$hds-color-nasa-blue-tint};
-  --hds-palette-checkbox-text:     #{$hds-color-carbon-20};
-  --hds-palette-checkbox-stroke:   #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-fill:      #{$hds-color-nasa-blue};
-  --hds-palette-utility-stroke:    #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-icon:      #{$hds-color-spacesuit-white};
-  --hds-palette-icon:              #{$hds-color-spacesuit-white};
+  --hds-palette-bg:                     #{$hds-color-nasa-blue-shade};
+  --hds-palette-heading:                #{$hds-color-spacesuit-white};
+  --hds-palette-text:                   #{$hds-color-spacesuit-white};
+  --hds-palette-link-text:              #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline:         #{$hds-color-carbon-30};
+  --hds-palette-link-arrow:             #{$hds-color-carbon-40};
+  --hds-palette-muted:                  #{$hds-color-carbon-10};
+  --hds-palette-border:                 #{$hds-color-carbon-40};
+  --hds-palette-btn-secondary-bg:       #{$hds-color-nasa-blue-tint};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  --hds-palette-btn-disabled-stroke:    #{$hds-color-carbon-50};
+  --hds-palette-btn-disabled-text:      #{$hds-color-carbon-60};
+  --hds-palette-checkbox-text:          #{$hds-color-carbon-20};
+  --hds-palette-checkbox-stroke:        #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-fill:           #{$hds-color-nasa-blue};
+  --hds-palette-utility-stroke:         #{$hds-color-nasa-blue-tint};
+  --hds-palette-utility-icon:           #{$hds-color-spacesuit-white};
+  --hds-palette-icon:                   #{$hds-color-spacesuit-white};
 }
 
 // Palette 6 — Black (Carbon Black, header/footer only)
