@@ -260,7 +260,8 @@ npm run storybook
 
 Use the palette switcher (paintbrush icon) in the toolbar to test across all palettes.
 
-Storybook is the primary documentation for HDS Core component usage, visual reference, and palette behavior. Foundations documentation (color, typography, spacing) is available on the [HDS website](https://website.nasa.gov/hds-core).
+Storybook is the primary documentation for HDS Core — components, foundations (color, typography, spacing, icons), and palette behavior.
+
 
 ## Relationship to USWDS
 
@@ -276,12 +277,12 @@ All USWDS components, utility classes, and patterns continue to work. See DESIGN
 
 ## Documentation
 
-| Audience          | Location            |
+| Need              | Location            |
 |-------------------|---------------------|
 | Using HDS Core    | This README         |
+| Visual reference  | Storybook           |
 | Contributing      | ARCHITECTURE.md     |
 | Design decisions  | DESIGN.md           |
-| Designers         | website.nasa.gov/hds-core |
 
 ## Contributing
 
