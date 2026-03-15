@@ -2,7 +2,7 @@
 
 Visual and UX decisions for designers and developers.
 
-Last updated: 2026-03-14
+Last updated: 2026-03-15
 
 ## Class Naming Convention
 
@@ -129,12 +129,17 @@ Full HDS link treatment (dotted underline, arrow) is applied via `.usa-link` ove
 
 **Original HDS:** ~30 individual color assignments per palette
 
-**HDS Core:** 20 semantic variables
+**HDS Core:** 23 semantic variables
 
 Elements sharing the same color are combined:
 - Label, metadata, caption → `muted`
 - Heading, primary button text → `heading`
 - Text on filled buttons → `btn-filled-text`
+
+Button-specific variables added for palette-aware behavior:
+- `btn-secondary-bg-hover` — secondary button hover color
+- `btn-disabled-stroke` — disabled outline button border
+- `btn-disabled-text` — disabled button text
 
 **Why:** Fewer variables = fewer inconsistencies, simpler mental model.
 
@@ -290,6 +295,58 @@ This rule applies to both HDS icon buttons (`.hds-btn-icon--*`, Tier 3) and USWD
 
 **Why:** Naming roles semantically makes it hard to accidentally violate the rule.
 
+### USWDS ↔ HDS Button Mapping
+
+HDS and USWDS use the same terms to mean different things. This mapping is critical for developers moving between the two systems:
+
+| USWDS Term | USWDS Meaning | HDS Equivalent |
+|---|---|---|
+| "Primary" (`.usa-button`) | Filled rectangle, most important action | **HDS "CTA"** — NASA Red filled |
+| "Secondary" (`.usa-button--secondary`) | Filled rectangle, secondary color | **HDS "Secondary Filled"** — NASA Blue |
+| "Outline" (`.usa-button--outline`) | Transparent with stroke | **HDS "Outline Secondary"** — NASA Blue border |
+| N/A | No equivalent | **HDS "Primary"** — text + red circle arrow (`.hds-btn--primary`) |
+
+**USWDS variants HDS uses:**
+
+| USWDS Class | HDS Role | Tier |
+|---|---|---|
+| `.usa-button` | CTA — NASA Red filled | 1 |
+| `.usa-button--secondary` | Secondary filled — NASA Blue | 1 |
+| `.usa-button--outline` | Outline — NASA Blue border | 1 |
+| `.usa-button--outline.usa-button--inverse` | Outline on dark (non-palette fallback) | 1 |
+| `.usa-button--unstyled` | Utility reset — pass-through, no override | 1 |
+
+**USWDS variants HDS does not use:**
+
+| USWDS Class | Reason |
+|---|---|
+| `.usa-button--accent-cool` | HDS two-color system (Red + Blue) maps to wayfinding meaning. A third color would break the rule. |
+| `.usa-button--accent-warm` | Same as accent-cool |
+| `.usa-button--base` | HDS uses icon circle buttons (`.hds-btn-icon--utility`) for neutral/low-emphasis actions instead |
+| `.usa-button--big` | Not overridden. USWDS default works if a consumer needs it. |
+
+### Button States
+
+**Hover:** Explicit HDS values — NASA Red Shade (CTA), NASA Blue Shade (secondary filled), border darkens (outline). USWDS auto-darkening is overridden because USWDS has no theme setting for hover color and its Sass math doesn't reliably produce the exact HDS shade tokens.
+
+**Active:** Visually identical to hover. HDS does not define a distinct active state. This is consistent with Apple HIG's approach for many controls.
+
+**Focus:** 2px dashed Carbon 30 ring with 2px offset, universal across all button types. Not yet addressed in HDS Core Proposal palettes — pending creative director review.
+
+**Disabled:** Color-based, not opacity-based. Filled buttons get Carbon 20 fill with white text. Outline buttons get palette-aware muted border and text. Disabled buttons do not respond to hover or focus.
+
+### Outline Inverse — Two-Layer Approach
+
+HDS outline buttons on dark backgrounds differ from USWDS: the border stays **NASA Blue** (not monotone white like USWDS `--inverse`). Only the text flips to white.
+
+Two mechanisms provide this:
+
+1. **Palette-aware (automatic):** `.usa-button--outline` inside an HDS palette wrapper reads custom properties that automatically adapt border and text colors. No extra class needed.
+
+2. **Manual fallback:** `.usa-button--outline.usa-button--inverse` provides dark-background styling for developers on dark backgrounds without an HDS palette wrapper.
+
+**Why:** USWDS sites migrating to HDS can use `--inverse` immediately. Sites using HDS palettes get automatic adaptation.
+
 ### Glyph + CSS Container Architecture
 
 **Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in)
@@ -310,11 +367,9 @@ This rule applies to both HDS icon buttons (`.hds-btn-icon--*`, Tier 3) and USWD
 
 **Original HDS:** Uses `Primary-Arrow.svg`
 
-**HDS Core:** CSS `::after` pseudo-element generates circle and arrow
+**HDS Core:** CSS `::after` pseudo-element generates circle and line arrow via inline SVG data-URI.
 
-**Why:** Arrow direction auto-swaps for external links. No SVG markup needed in HTML.
-
-**Known issue:** The current arrow glyph is a filled triangle. The HDS spec shows a line arrow (`arrow-line-right.svg`). This is a pending fix.
+**Why:** Arrow direction auto-swaps for external links. No SVG markup needed in HTML. Data-URI is required because the arrow must be hardcoded white (not `currentColor`) — `currentColor` doesn't work inside `background-image`, only `mask-image`, and `mask-image` would mask the red circle container rather than layering an arrow on top.
 
 ### Fixed-Color Button Graphics
 
@@ -377,6 +432,18 @@ HDS Core does not automatically switch palettes based on OS dark mode.
 
 The HDS Core Proposal defines a `tv` breakpoint at 1920px with wider gutters (`grid-gap-4`). HDS Core currently stops at `widescreen` (1400px) with `$theme-grid-container-max-width: "widescreen"`. The TV breakpoint is deferred — USWDS does not have a built-in `tv` breakpoint, and adding one requires custom breakpoint registration. This will be revisited when TV-scale layouts are needed.
 
+## Creative Director Review
+
+Pending visual sign-offs, to be reviewed once visible in Storybook:
+
+| Item | Question | Context |
+|------|----------|---------|
+| Focus ring color | Is universal Carbon 30 correct across all palettes, or does it need per-palette tuning for contrast? | HDS Core Proposal doesn't address focus states in palettes |
+| CTA hover on dark palettes | Does NASA Red Shade work on dark/blue/black backgrounds? | Figma only shows light-background hover |
+| Secondary filled hover on dark | Does NASA Blue (one step darker from Blue Tint) look right? | Inferred from "darken by one shade step" pattern |
+| Midtone disabled buttons | Carbon 20 stroke on Carbon 20 background is invisible — what values should midtone use? | Proposed: Carbon 40 stroke, Carbon 50 text |
+| Primary arrow size variants | Figma shows 6 sizes (14–36) — confirm which are needed for initial release | Deferred until this review |
+
 ## What Hasn't Changed
 
 All of these match the approved HDS Core Proposal exactly:
@@ -399,3 +466,5 @@ Intentional deviations from the HDS Core Proposal, with rationale:
 | DM Mono bold | Bold (700) | Faux bold from Medium (500) | DM Mono doesn't ship a 700 weight |
 | Type normalization | Normalize all three fonts | Deferred (all use same cap-height) | Requires measurement work; noted as tech debt |
 | TV breakpoint | 1920px | Deferred | USWDS doesn't have built-in TV breakpoint |
+| Button font family | Not specified | Inter (via `"heading"` slot) | Figma shows Inter for all button text |
+| Button active state | Not specified | Matches hover (no distinct active) | Consistent with Apple HIG; HDS Figma shows no active state |

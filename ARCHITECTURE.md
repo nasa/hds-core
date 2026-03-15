@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-14
+Last updated: 2026-03-15
 
 ## Package Overview
 
@@ -24,8 +24,9 @@ hds-core/
 ├── .storybook/            # Storybook config (not shipped)
 ├── stories/               # Component stories (not shipped)
 │   ├── components/
-│   │   ├── Link.stories.js
-│   │   └── IconButton.stories.js
+│   │   ├── Button.stories.js
+│   │   ├── IconButton.stories.js
+│   │   └── Link.stories.js
 │   └── foundations/
 │       ├── Icons.stories.js
 │       └── PaletteSpec.stories.js
@@ -77,10 +78,10 @@ styles.scss
 | File                       | Purpose                                           |
 |----------------------------|---------------------------------------------------|
 | `_hds-tokens.scss`         | Pure Sass variables/maps. No USWDS dependency. Includes brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
-| `_hds-uswds-theme.scss`   | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid. |
+| `_hds-uswds-theme.scss`   | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
 | `_hds-custom-styles.scss`  | CSS custom properties, mixins, utilities, base element styles (gated behind USWDS flags), palette wiring, print styles. |
 | `_hds-components.scss`     | Tier 1 USWDS component overrides (`usa-*`) + Tier 3 HDS-only components (`hds-*`). See DESIGN.md § Class Naming Convention. |
-| `_hds-palettes.scss`       | 6 palette definitions with shared scheme mixins and per-palette overrides. |
+| `_hds-palettes.scss`       | 6 palette definitions with shared scheme mixins and per-palette overrides. 23 semantic variables per palette. |
 
 ## Asset Paths
 
@@ -211,14 +212,14 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | §1 | Navigation (header, footer, nav) | 1 | Link resets, menu triggers |
 | §2 | Banner | 1 | Light background, outside palette context |
 | §3 | Breadcrumb | 1 | |
-| §4 | Buttons | 1 | `.usa-button` = NASA Red, `.usa-button--outline` = NASA Blue |
+| §4 | Buttons | 1 | Palette-aware CTA (Red), secondary (Blue), outline (Blue border). Explicit hover/disabled. See DESIGN.md § Button States. |
 | §5 | Forms | 1 | Light backgrounds only (dark TODO) |
 | §6 | In-Page Navigation | 1 | Active state = NASA Blue |
 | §7 | Pagination | 1 | Current page = NASA Blue |
 | §8 | Accordion | 1 | |
 | §9 | Alerts | 1 | |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
-| §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS-generated arrow |
+| §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
 | §12 | Icon Buttons | 3 | `.hds-btn-icon--*` — 6 roles, 2 sizes |
 | §13 | Links | 1+3 | `.usa-link` override + `.hds-link--internal` escape |
 | §14 | Intro Text | 1 | `.usa-intro` override |
@@ -280,13 +281,19 @@ If `dist/` has been deleted, `npx gulp init` must run before `npx gulp build`. T
 
 **Static assets:** `dist/` is served via `staticDirs` in `main.js`. Sprite paths in stories use `/assets/img/hds-sprite.svg#icon-name`.
 
+**Addons:**
+- `@storybook/addon-docs` — documentation pages
+- `@storybook/addon-a11y` — accessibility testing
+- `storybook-addon-pseudo-states` — hover/focus/active state simulation (installed, configuration pending)
+
 **Story structure:**
 ```
 stories/
-├── components/         # Component stories + future MDX docs
-│   ├── Link.stories.js
-│   └── IconButton.stories.js
-└── foundations/        # Design system reference
+├── components/
+│   ├── Button.stories.js
+│   ├── IconButton.stories.js
+│   └── Link.stories.js
+└── foundations/
     ├── Color.stories.js
     ├── Grid.stories.js
     ├── Icons.stories.js
@@ -301,42 +308,33 @@ stories/
 
 ## Pending Work
 
-### Component Stories
-- [ ] Button stories (§4 + §11 primary arrow)
-- [ ] Form Elements stories (§5)
-
-### Visual / Spec
-- [ ] Primary arrow icon: replace filled triangle with line arrow
-- [ ] Spec verification pass across all components against Figma
-- [ ] Figma visual tuning: external link arrow size (0.75em) and spacing
-- [ ] External link arrow: minor extra spacing after icon
-- [ ] Utility button component for palette spec (circle glyph as button)
-- [ ] Icon button outline thickness vs spec
-- [ ] `.hds-caption`: confirm uppercase + letterspacing against Figma
-- [ ] Blockquote line-height: 1.35 (USWDS token 3) vs proposal 1.2
-- [ ] Typography: add responsive font-size ranges per heading level
-- [ ] Investigate and clean up unknown sprite IDs (bfa, bga, bha, bia, bja, bka, bla, bma, caa, dra)
-
-### Testing
-- [ ] Test `.usa-prose a` styling with HDS overrides
-- [ ] Test `$theme-global-link-styles: true` with bare content
-- [ ] Test `$theme-global-content-styles: true` with all §4 gates
-- [ ] Test `$theme-style-body-element: true`
-- [ ] Screen reader testing (NVDA, VoiceOver)
-- [ ] Validate SR approach for external links (`<span class="usa-sr-only">(external)</span>`)
-- [ ] Visual regression testing
-- [ ] Link focus ring accessibility review (1px dotted vs 2px solid)
+### Bugs
+- [ ] Disabled buttons still show visual changes on hover despite `:not(:disabled)` guards — likely USWDS specificity issue. Inspect compiled CSS to identify competing selector.
 
 ### Components
-- [ ] Dark palette form elements
+- [ ] Icon button hover and disabled states (§12)
+- [ ] Primary arrow button size variants — Figma shows 6 sizes (14–36), pending creative director review
+- [ ] Dark palette form elements (§5)
 - [ ] Checkbox HDS styling
-- [ ] Verify `$hds-extended-palette` is wired via `$global-color-palettes` for USWDS utility class generation
-- [ ] 4xl type token (120px): add custom classes for H1-2xl / Number-lg
+- [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Data visualization color palette (USWDS-mapped, per proposal appendix)
+- [ ] Verify `$hds-extended-palette` is wired via `$global-color-palettes` for USWDS utility class generation
 
-### Documentation & Infrastructure
-- [ ] Overview story (Storybook landing page)
+### Storybook
+- [ ] Storybook 9/10 modernization pass — review new features, CSF updates, configure `storybook-addon-pseudo-states`
+- [ ] Remaining component stories as components are completed (Form Elements next)
+- [ ] Remove any unneeded color variants unless they are specific USWDS override classes (every Story already supports swapping palettes)
+- [ ] Overview story (landing page)
 - [ ] Accessibility foundation story
-- [ ] WordPress documentation updates
+
+### Pre-1.0 Verification
+- [ ] Spec verification pass across all components against Figma (visual details: arrow sizing, caption styles, blockquote line-height, icon button outline thickness, responsive typography, etc.)
+- [ ] Creative director visual review (see DESIGN.md § Creative Director Review for full list)
+- [ ] Accessibility testing — screen reader (NVDA, VoiceOver), SR approach for external links, focus ring contrast review
+- [ ] Integration testing — `.usa-prose a` styling, `$theme-global-link-styles`, `$theme-global-content-styles`, `$theme-style-body-element`
+- [ ] Clean up unknown sprite IDs (bfa, bga, bha, bia, bja, bka, bla, bma, caa, dra)
+
+### Infrastructure
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
-- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2 infrastructure)
+- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
+- [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions
