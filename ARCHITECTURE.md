@@ -235,6 +235,11 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 - Colors baked in (NASA Blue/Red + white)
 - Not in sprite, referenced as standalone files
 
+**Icon naming prefixes:**
+  arrow-*   Directional arrows
+  tag-*     Tag/category markers  
+  logo-*    Third-party platform marks (Figma, USWDS, social media)
+
 ### Inline Glyphs
 
 `.hds-glyph` renders bare icons inline with text without a button container. Uses `display: inline-block`, `height: 1em`, `vertical-align: baseline`. Do not add `vertical-align: middle` — baseline alignment is correct for 1em-height inline icons.
@@ -271,40 +276,24 @@ If `dist/` has been deleted, `npx gulp init` must run before `npx gulp build`. T
 
 ## Storybook
 
-**Version:** Storybook 10 with Vite
+**Version:** Storybook 10 with Vite (ESM-only)
 
-**Stories:** HTML template literals (not React/Twig)
+**Stories:** HTML template literals (not React/Twig). JSX used only for docs helpers (Note.jsx).
 
-**CSS loading:** Loaded as a static asset via `<link>` in `preview-head.html`, not as a Vite module import. This avoids Vite module caching issues when CSS is rebuilt externally by Gulp.
+**CSS loading:** Loaded as a static asset via <link> in preview-head.html, not as a Vite module import. This avoids Vite module caching issues when CSS is rebuilt externally by Gulp.
 
-**Palette testing:** Toolbar switcher (paintbrush icon) applies palette wrapper via decorator in `preview.js`.
+**Palette testing:** Toolbar switcher (paintbrush icon) applies palette wrapper via decorator in preview.js.
 
-**Static assets:** `dist/` is served via `staticDirs` in `main.js`. Sprite paths in stories use `/assets/img/hds-sprite.svg#icon-name`.
+**Static assets:** dist/ is served via staticDirs in main.js. Sprite paths in stories use /assets/img/hds-sprite.svg#icon-name. USWDS icons available via /assets/img/sprite.svg#icon-name.
 
 **Addons:**
-- `@storybook/addon-docs` — documentation pages
-- `@storybook/addon-a11y` — accessibility testing
-- `storybook-addon-pseudo-states` — hover/focus/active state simulation (installed, configuration pending)
+- @storybook/addon-docs — documentation pages + remark-gfm for markdown tables
+- @storybook/addon-a11y — accessibility testing
+- storybook-addon-pseudo-states — hover/focus/active state simulation (installed, configuration pending)
 
-**Story structure:**
-```
-stories/
-├── components/
-│   ├── Button.stories.js
-│   ├── IconButton.stories.js
-│   └── Link.stories.js
-└── foundations/
-    ├── Color.stories.js
-    ├── Grid.stories.js
-    ├── Icons.stories.js
-    ├── PaletteSpec.stories.js
-    ├── Spacing.stories.js
-    └── Typography.stories.js
-```
+Codespaces: Vite file watching requires polling mode. Configured via viteFinal in main.js with usePolling: true.
 
-**Sidebar organization:** Story titles use `Components/` and `Foundations/` prefixes. Sort order defined in `preview.js`: `['Overview', 'Foundations', 'Components']`.
-
-**Codespaces:** Vite file watching requires polling mode. Configured via `viteFinal` in `main.js` with `usePolling: true`.
+See DOCUMENTATION.md for all docs conventions: sidebar structure, MDX patterns, callout system, story helpers, and cross-linking.
 
 ## Pending Work
 
@@ -321,11 +310,9 @@ stories/
 - [ ] Verify `$hds-extended-palette` is wired via `$global-color-palettes` for USWDS utility class generation
 
 ### Storybook
-- [ ] Storybook 9/10 modernization pass — review new features, CSF updates, configure `storybook-addon-pseudo-states`
-- [ ] Remaining component stories as components are completed (Form Elements next)
-- [ ] Remove any unneeded color variants unless they are specific USWDS override classes (every Story already supports swapping palettes)
-- [ ] Overview story (landing page)
-- [ ] Accessibility foundation story
+[ ] Configure storybook-addon-pseudo-states
+[ ] Remaining component stories as components are completed (Form Elements next)
+[ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
 
 ### Pre-1.0 Verification
 - [ ] Spec verification pass across all components against Figma (visual details: arrow sizing, caption styles, blockquote line-height, icon button outline thickness, responsive typography, etc.)
