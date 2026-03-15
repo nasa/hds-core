@@ -38,16 +38,17 @@ If a USWDS site could adopt HDS Core and the component works without changing HT
 
 Bare HTML element styles (headings, paragraphs, links, tables, forms, etc.) are gated behind existing USWDS settings. Developers control whether global styles are applied — HDS Core respects their choice:
 
-| USWDS Setting                      | Controls                                  |
-|------------------------------------|-------------------------------------------|
-| `$theme-style-body-element`        | `<body>` font, color, background          |
-| `$theme-global-content-styles`     | `h1`–`h6`, `blockquote`, `table`, `ul`/`ol`, `code`, `hr`, `img`, `figure`, forms, bare `<button>` |
-| `$theme-global-paragraph-styles`   | `<p>` margins (also enabled by content)   |
-| `$theme-global-link-styles`        | `<a>` underline/color (also enabled by content) |
+| USWDS Setting | Controls |
+| --- | --- |
+| `$theme-style-body-element` | `<body>` font, color, background |
+| `$theme-global-content-styles` | `h1`–`h6`, `blockquote`, `table`, `ul`/`ol`, `code`, `hr`, `img`, `figure`, forms, bare `<button>` |
+| `$theme-global-paragraph-styles` | `<p>` margins (also enabled by content) |
+| `$theme-global-link-styles` | `<a>` underline/color (also enabled by content) |
 
 All flags default to `false` (USWDS defaults). When `false`, developers use `.usa-prose` containers or explicit `usa-*` classes to activate styling.
 
 **Always active regardless of flags:**
+
 - Focus styles (accessibility requirement)
 - Palette element wiring (only applies inside palette containers)
 - `.usa-*` component overrides (Tier 1)
@@ -64,6 +65,7 @@ All flags default to `false` (USWDS defaults). When `false`, developers use `.us
 **HDS Core:** `primary` = NASA Red, `secondary` = NASA Blue.
 
 This swap is defined in the HDS Core Proposal. It means:
+
 - `.usa-button` automatically renders NASA Red (CTA / navigates away)
 - `.usa-button--secondary` automatically renders NASA Blue (on-page action)
 - `color("primary")` returns NASA Red throughout USWDS components
@@ -76,7 +78,7 @@ This swap is defined in the HDS Core Proposal. It means:
 HDS Core has three ways to reference colors. They serve different purposes:
 
 | Method | Syntax | Values | Use When |
-|--------|--------|--------|----------|
+| --- | --- | --- | --- |
 | USWDS theme tokens | `color("base-darker")` | Approximate (USWDS system palette) | Inside USWDS functions/mixins |
 | HDS Sass variables | `$hds-color-carbon-90` | Exact HDS hex | In custom Sass |
 | CSS custom properties | `var(--hds-color-carbon-90)` | Exact HDS hex | In plain CSS or JS |
@@ -84,6 +86,7 @@ HDS Core has three ways to reference colors. They serve different purposes:
 **Important:** USWDS theme tokens use approximate values because USWDS requires its own system color token strings (e.g., `"gray-90"`), not arbitrary hex values. The HDS Carbon scale doesn't have exact matches.
 
 For example:
+
 - `color("base-darker")` → USWDS `gray-90` → `#1b1b1b`
 - `$hds-color-carbon-90` → `#17171B`
 
@@ -115,12 +118,12 @@ Full HDS link treatment (dotted underline, arrow) is applied via `.usa-link` ove
 **HDS Core:** Descriptive names
 
 | Original      | HDS Core  | Background                          |
-|---------------|-----------|-------------------------------------|
+| ------------- | --------- | ----------------------------------- |
 | Palette one   | `white`   | Spacesuit White (#FFFFFF) — default |
-| Palette two   | `light`   | Carbon 05 (#F6F6F6)                |
-| Palette three | `midtone` | Carbon 20 (#D1D1D1)                |
-| Palette four  | `dark`    | Carbon 90 (#17171B)                |
-| Palette five  | `blue`    | NASA Blue Shade (#0B3D91)          |
+| Palette two   | `light`   | Carbon 05 (#F6F6F6)                 |
+| Palette three | `midtone` | Carbon 20 (#D1D1D1)                 |
+| Palette four  | `dark`    | Carbon 90 (#17171B)                 |
+| Palette five  | `blue`    | NASA Blue Shade (#0B3D91)           |
 | Palette six   | `black`   | Carbon Black (#000000)              |
 
 **Why:** `hds-palette-dark` communicates intent; `hds-palette-4` requires lookup.
@@ -132,11 +135,13 @@ Full HDS link treatment (dotted underline, arrow) is applied via `.usa-link` ove
 **HDS Core:** 23 semantic variables
 
 Elements sharing the same color are combined:
+
 - Label, metadata, caption → `muted`
 - Heading, primary button text → `heading`
 - Text on filled buttons → `btn-filled-text`
 
 Button-specific variables added for palette-aware behavior:
+
 - `btn-secondary-bg-hover` — secondary button hover color
 - `btn-disabled-stroke` — disabled outline button border
 - `btn-disabled-text` — disabled button text
@@ -148,6 +153,7 @@ Button-specific variables added for palette-aware behavior:
 The white and light palettes share a light scheme mixin. The dark and black palettes share a dark scheme mixin. The midtone and blue palettes override specific values after the shared mixin:
 
 **Midtone** overrides from light scheme:
+
 - `text` → Carbon Black (was Carbon 90) for higher contrast on gray background
 - `muted` → Carbon 80 (was Carbon 60)
 - `border` → Carbon 40 (was Carbon 20)
@@ -156,6 +162,7 @@ The white and light palettes share a light scheme mixin. The dark and black pale
 **Blue** is fully custom (doesn't use either shared mixin).
 
 **Dark scheme** separates underline and arrow colors:
+
 - `link-underline` → Carbon 30
 - `link-arrow` → Carbon 40
 
@@ -175,11 +182,11 @@ This split is intentional per the HDS Core Proposal. HDS Core has separate CSS c
 
 USWDS has four type slots: `sans`, `serif`, `mono`, `cond`. HDS needs three fonts in three slots:
 
-| HDS Font    | USWDS Slot | Role Tokens                    |
-|-------------|------------|--------------------------------|
-| Public Sans | `sans`     | `body`                         |
-| Inter       | `serif`    | `heading`, `ui`, `alt`→`mono`  |
-| DM Mono     | `mono`     | `code`, `alt`                  |
+| HDS Font    | USWDS Slot | Role Tokens                   |
+| ----------- | ---------- | ----------------------------- |
+| Public Sans | `sans`     | `body`                        |
+| Inter       | `serif`    | `heading`, `ui`, `alt`→`mono` |
+| DM Mono     | `mono`     | `code`, `alt`                 |
 
 **`family("serif")` returns Inter (a sans-serif font).** This is a USWDS architectural constraint — there are only four slots and `serif` is the only one available for Inter after `sans` and `mono` are taken.
 
@@ -192,7 +199,7 @@ USWDS has four type slots: `sans`, `serif`, `mono`, `cond`. HDS needs three font
 **HDS Core:** Per-element values, set as raw CSS values in `_hds-custom-styles.scss`:
 
 | Element | Line-Height | Letterspacing | Weight   |
-|---------|-------------|---------------|----------|
+| ------- | ----------- | ------------- | -------- |
 | H1      | 1 (100%)    | -1.5px        | 700 bold |
 | H2      | 1.1 (110%)  | -1px          | 700 bold |
 | H3      | 1.2 (120%)  | -0.5px        | 700 bold |
@@ -211,7 +218,7 @@ Paragraph line-height is 160% per the HDS Core Proposal. USWDS line-height token
 **HDS spec:** Three distinct font treatments for small uppercase text:
 
 | Element  | Font        | Weight |
-|----------|-------------|--------|
+| -------- | ----------- | ------ |
 | Label    | DM Mono     | Bold   |
 | Metadata | Inter       | Bold   |
 | Caption  | Public Sans | Normal |
@@ -249,6 +256,7 @@ Link text color stays constant. Only the underline changes from dotted to solid 
 ### Bare Link Styling
 
 Bare `<a>` tag styling is gated behind USWDS flags (`$theme-global-link-styles` or `$theme-global-content-styles`). When enabled, bare links receive HDS treatment (body-text color, dotted underline). When disabled (the default), link styling is opt-in via:
+
 - `.usa-link` class (Tier 1)
 - `.usa-prose` container
 - `$theme-global-link-styles: true`
@@ -284,7 +292,7 @@ Key CSS decisions:
 HDS rule: Red = navigates away. Blue = stays on page.
 
 | Role          | Color            | Meaning                |
-|---------------|------------------|------------------------|
+| ------------- | ---------------- | ---------------------- |
 | `--cta`       | NASA Red         | Navigates to new page  |
 | `--secondary` | NASA Blue        | On-page action         |
 | `--outline`   | NASA Blue border | Lower emphasis on-page |
@@ -300,7 +308,7 @@ This rule applies to both HDS icon buttons (`.hds-btn-icon--*`, Tier 3) and USWD
 HDS and USWDS use the same terms to mean different things. This mapping is critical for developers moving between the two systems:
 
 | USWDS Term | USWDS Meaning | HDS Equivalent |
-|---|---|---|
+| --- | --- | --- |
 | "Primary" (`.usa-button`) | Filled rectangle, most important action | **HDS "CTA"** — NASA Red filled |
 | "Secondary" (`.usa-button--secondary`) | Filled rectangle, secondary color | **HDS "Secondary Filled"** — NASA Blue |
 | "Outline" (`.usa-button--outline`) | Transparent with stroke | **HDS "Outline Secondary"** — NASA Blue border |
@@ -308,18 +316,18 @@ HDS and USWDS use the same terms to mean different things. This mapping is criti
 
 **USWDS variants HDS uses:**
 
-| USWDS Class | HDS Role | Tier |
-|---|---|---|
-| `.usa-button` | CTA — NASA Red filled | 1 |
-| `.usa-button--secondary` | Secondary filled — NASA Blue | 1 |
-| `.usa-button--outline` | Outline — NASA Blue border | 1 |
-| `.usa-button--outline.usa-button--inverse` | Outline on dark (non-palette fallback) | 1 |
-| `.usa-button--unstyled` | Utility reset — pass-through, no override | 1 |
+| USWDS Class                                | HDS Role                                  | Tier |
+| ------------------------------------------ | ----------------------------------------- | ---- |
+| `.usa-button`                              | CTA — NASA Red filled                     | 1    |
+| `.usa-button--secondary`                   | Secondary filled — NASA Blue              | 1    |
+| `.usa-button--outline`                     | Outline — NASA Blue border                | 1    |
+| `.usa-button--outline.usa-button--inverse` | Outline on dark (non-palette fallback)    | 1    |
+| `.usa-button--unstyled`                    | Utility reset — pass-through, no override | 1    |
 
 **USWDS variants HDS does not use:**
 
 | USWDS Class | Reason |
-|---|---|
+| --- | --- |
 | `.usa-button--accent-cool` | HDS two-color system (Red + Blue) maps to wayfinding meaning. A third color would break the rule. |
 | `.usa-button--accent-warm` | Same as accent-cool |
 | `.usa-button--base` | HDS uses icon circle buttons (`.hds-btn-icon--utility`) for neutral/low-emphasis actions instead |
@@ -352,6 +360,7 @@ Two mechanisms provide this:
 **Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in)
 
 **HDS Core:** Two layers:
+
 1. **Glyph** — Single-color SVG (`currentColor`)
 2. **Container** — CSS-styled circle
 
@@ -375,10 +384,10 @@ Two mechanisms provide this:
 
 Seven graphics have colors baked in and don't respond to palettes:
 
-| File                    | Appearance                  |
-|-------------------------|-----------------------------|
-| `interactive-*.svg` (6) | NASA Blue fill, white icon  |
-| `primary-arrow.svg`    | NASA Red fill, white arrow   |
+| File                    | Appearance                 |
+| ----------------------- | -------------------------- |
+| `interactive-*.svg` (6) | NASA Blue fill, white icon |
+| `primary-arrow.svg`     | NASA Red fill, white arrow |
 
 These are intentional brand elements per HDS spec.
 
@@ -389,7 +398,7 @@ These are intentional brand elements per HDS spec.
 HDS Core ships both development and production CSS:
 
 | File             | Purpose                            |
-|------------------|------------------------------------|
+| ---------------- | ---------------------------------- |
 | `styles.css`     | Development (readable, debuggable) |
 | `styles.min.css` | Production                         |
 
@@ -413,10 +422,10 @@ HDS Core uses Storybook as its primary component documentation for designers and
 
 Story structure mirrors the sidebar:
 
-| Category   | Content                                         |
-|------------|-------------------------------------------------|
-| Foundations | Icons inventory, Palette Spec reference          |
-| Components | Link, Icon Button, Button, Form Elements         |
+| Category    | Content                                  |
+| ----------- | ---------------------------------------- |
+| Foundations | Icons inventory, Palette Spec reference  |
+| Components  | Link, Icon Button, Button, Form Elements |
 
 **Why:** Single source of truth that can't drift from the code. When styles update, the documentation updates automatically. Small team can't maintain parallel documentation surfaces.
 
@@ -437,7 +446,7 @@ The HDS Core Proposal defines a `tv` breakpoint at 1920px with wider gutters (`g
 Pending visual sign-offs, to be reviewed once visible in Storybook:
 
 | Item | Question | Context |
-|------|----------|---------|
+| --- | --- | --- |
 | Focus ring color | Is universal Carbon 30 correct across all palettes, or does it need per-palette tuning for contrast? | HDS Core Proposal doesn't address focus states in palettes |
 | CTA hover on dark palettes | Does NASA Red Shade work on dark/blue/black backgrounds? | Figma only shows light-background hover |
 | Secondary filled hover on dark | Does NASA Blue (one step darker from Blue Tint) look right? | Inferred from "darken by one shade step" pattern |
@@ -447,6 +456,7 @@ Pending visual sign-offs, to be reviewed once visible in Storybook:
 ## What Hasn't Changed
 
 All of these match the approved HDS Core Proposal exactly:
+
 - Color hex values (all 20 brand/Carbon colors)
 - Font families (Inter, Public Sans, DM Mono)
 - Font size scale (3xs through 4xl)
@@ -460,7 +470,7 @@ All of these match the approved HDS Core Proposal exactly:
 Intentional deviations from the HDS Core Proposal, with rationale:
 
 | Area | Proposal | HDS Core | Rationale |
-|------|----------|----------|-----------|
+| --- | --- | --- | --- |
 | Line-height values | Exact percentages (100%, 110%, etc.) | Closest USWDS token or raw CSS value | USWDS line-height scale is too coarse for exact mapping |
 | `text-decoration-style` | Dashed | Dotted | CSS `dashed` looks wrong; `dotted` is closer to Figma |
 | DM Mono bold | Bold (700) | Faux bold from Medium (500) | DM Mono doesn't ship a 700 weight |

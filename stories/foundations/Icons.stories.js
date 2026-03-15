@@ -52,7 +52,7 @@ const iconGroup = (title, names, size = '1.5rem') => `
   <div style="margin-block-end: 2rem;">
     <h3>${title}</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
-      ${names.map(n => iconCell(n, size)).join('')}
+      ${names.map((n) => iconCell(n, size)).join('')}
     </div>
   </div>
 `;
@@ -62,59 +62,119 @@ const iconGroup = (title, names, size = '1.5rem') => `
 // ============================================================
 
 const ARROWS_LINE = [
-  'arrow-line-diagonal', 'arrow-line-down', 'arrow-line-left',
-  'arrow-line-right', 'arrow-line-up',
+  'arrow-line-diagonal',
+  'arrow-line-down',
+  'arrow-line-left',
+  'arrow-line-right',
+  'arrow-line-up',
 ];
 
 const ARROWS_CHEVRON = [
-  'arrow-chevron-down', 'arrow-chevron-left',
-  'arrow-chevron-right', 'arrow-chevron-up',
+  'arrow-chevron-down',
+  'arrow-chevron-left',
+  'arrow-chevron-right',
+  'arrow-chevron-up',
 ];
 
 const ARROWS_CIRCLE = [
-  'arrow-circle-double-left', 'arrow-circle-double-right',
-  'arrow-circle-down', 'arrow-circle-left',
-  'arrow-circle-right', 'arrow-circle-up',
+  'arrow-circle-double-left',
+  'arrow-circle-double-right',
+  'arrow-circle-down',
+  'arrow-circle-left',
+  'arrow-circle-right',
+  'arrow-circle-up',
 ];
 
 const ARROWS_FILLED = [
-  'arrow-filled-down', 'arrow-filled-left',
-  'arrow-filled-right', 'arrow-filled-up',
+  'arrow-filled-down',
+  'arrow-filled-left',
+  'arrow-filled-right',
+  'arrow-filled-up',
 ];
 
 const ACTIONS = [
-  'archive', 'calendar', 'check', 'check-circled',
-  'close', 'collapse', 'comment', 'download',
-  'error', 'expand', 'facility', 'filter',
-  'info', 'list', 'location', 'map',
-  'menu', 'minus', 'pause', 'play',
-  'plus', 'print', 'quote', 'rotate',
-  'rss', 'search', 'selection', 'settings',
-  'share', 'slideshow', 'sound-off', 'sound-on',
-  'subscribe', 'view-grid', 'view-list', 'view-mosaic',
-  'view-single', 'x-circled',
+  'archive',
+  'calendar',
+  'check',
+  'check-circled',
+  'close',
+  'collapse',
+  'comment',
+  'download',
+  'error',
+  'expand',
+  'facility',
+  'filter',
+  'info',
+  'list',
+  'location',
+  'map',
+  'menu',
+  'minus',
+  'pause',
+  'play',
+  'plus',
+  'print',
+  'quote',
+  'rotate',
+  'rss',
+  'search',
+  'selection',
+  'settings',
+  'share',
+  'slideshow',
+  'sound-off',
+  'sound-on',
+  'subscribe',
+  'view-grid',
+  'view-list',
+  'view-mosaic',
+  'view-single',
+  'x-circled',
 ];
 
-const SPACE = [
-  'asteroid', 'gas-giant', 'moon',
-  'orbiter', 'rover', 'terrestrial',
-];
+const SPACE = ['asteroid', 'gas-giant', 'moon', 'orbiter', 'rover', 'terrestrial'];
 
 const FILES = [
-  'file-archive', 'file-audio', 'file-code',
-  'file-document', 'file-generic', 'file-image',
-  'file-spreadsheet', 'file-video',
+  'file-archive',
+  'file-audio',
+  'file-code',
+  'file-document',
+  'file-generic',
+  'file-image',
+  'file-spreadsheet',
+  'file-video',
 ];
 
 const TAGS = [
-  'tag-activity', 'tag-all', 'tag-article', 'tag-bio',
-  'tag-blog', 'tag-data', 'tag-encyclopedia', 'tag-event',
-  'tag-feature', 'tag-file', 'tag-gallery', 'tag-image',
-  'tag-infographic', 'tag-interactive', 'tag-landing',
-  'tag-launch', 'tag-media-advisory', 'tag-movie',
-  'tag-notification', 'tag-podcast', 'tag-press-release',
-  'tag-previously-aired', 'tag-slideshow', 'tag-sound',
-  'tag-status-update', 'tag-subscribe', 'tag-topic', 'tag-video',
+  'tag-activity',
+  'tag-all',
+  'tag-article',
+  'tag-bio',
+  'tag-blog',
+  'tag-data',
+  'tag-encyclopedia',
+  'tag-event',
+  'tag-feature',
+  'tag-file',
+  'tag-gallery',
+  'tag-image',
+  'tag-infographic',
+  'tag-interactive',
+  'tag-landing',
+  'tag-launch',
+  'tag-media-advisory',
+  'tag-movie',
+  'tag-notification',
+  'tag-podcast',
+  'tag-press-release',
+  'tag-previously-aired',
+  'tag-slideshow',
+  'tag-sound',
+  'tag-status-update',
+  'tag-subscribe',
+  'tag-topic',
+  'tag-video',
 ];
 
 // ============================================================
@@ -179,7 +239,7 @@ export const TagIcons = {
       </p>
 
       <div style="display: flex; flex-wrap: wrap; gap: 0.25rem; margin-block: 2rem;">
-        ${TAGS.map(n => tagCell(n)).join('')}
+        ${TAGS.map((n) => tagCell(n)).join('')}
       </div>
 
       <p style="font-size: 0.875rem; opacity: 0.7;">

@@ -20,6 +20,8 @@
     "copy:assets": "gulp copyAssets",
     "watch": "gulp watch",
     "init": "gulp init",
+    "format": "prettier --write \"**/*.{md,mdx,js,json}\"",
+    "format:check": "prettier --check \"**/*.{md,mdx,js,json}\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -41,6 +43,7 @@
     "gulp-svg-sprite": "^2.0.3",
     "gulp-terser": "^2.1.0",
     "playwright": "^1.58.2",
+    "prettier": "^3.8.1",
     "remark-gfm": "^4.0.1",
     "storybook": "^10.2.17",
     "storybook-addon-pseudo-states": "^10.2.19",

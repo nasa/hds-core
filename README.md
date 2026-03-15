@@ -24,14 +24,14 @@ Add these Sass load paths to your compiler:
 Import HDS Core in your Sass entry point:
 
 ```scss
-@forward "@nasa/hds-core/src/scss/styles";
+@forward '@nasa/hds-core/src/scss/styles';
 ```
 
 To add your own styles:
 
 ```scss
-@forward "@nasa/hds-core/src/scss/styles";
-@forward "my-project-styles";
+@forward '@nasa/hds-core/src/scss/styles';
+@forward 'my-project-styles';
 ```
 
 Use USWDS functions and HDS tokens:
@@ -40,8 +40,8 @@ Use USWDS functions and HDS tokens:
 .my-component {
   background-color: $hds-color-carbon-05;
   color: $hds-color-carbon-90;
-  font-family: family("heading");
-  font-size: size("heading", "md");
+  font-family: family('heading');
+  font-size: size('heading', 'md');
   padding: units(3);
 }
 ```
@@ -49,13 +49,13 @@ Use USWDS functions and HDS tokens:
 ### Option B: Pre-compiled CSS
 
 ```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.css">
+<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.css" />
 ```
 
 A minified version is also available:
 
 ```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.min.css">
+<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.min.css" />
 ```
 
 Use CSS custom properties:
@@ -74,7 +74,7 @@ By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<
 To enable bare element styling, set USWDS flags in your theme configuration:
 
 ```scss
-@use "uswds-core" with (
+@use 'uswds-core' with (
   // Style the <body> element
   $theme-style-body-element: true,
 
@@ -85,7 +85,7 @@ To enable bare element styling, set USWDS flags in your theme configuration:
   $theme-global-link-styles: true,
 
   // Style bare <p> tags (also enabled by content styles)
-  $theme-global-paragraph-styles: true,
+  $theme-global-paragraph-styles: true
 );
 ```
 
@@ -108,7 +108,7 @@ Apply via class or data attribute:
 ```
 
 | Palette   | Background                          |
-|-----------|-------------------------------------|
+| --------- | ----------------------------------- |
 | `white`   | Spacesuit White (default)           |
 | `light`   | Carbon 05                           |
 | `midtone` | Carbon 20                           |
@@ -122,10 +122,14 @@ For exact HDS colors, use `$hds-color-*` Sass variables or `var(--hds-color-*)` 
 
 ```scss
 // Sass — exact HDS hex
-.my-element { color: $hds-color-carbon-90; }
+.my-element {
+  color: $hds-color-carbon-90;
+}
 
 // CSS — exact HDS hex
-.my-element { color: var(--hds-color-carbon-90); }
+.my-element {
+  color: var(--hds-color-carbon-90);
+}
 ```
 
 ## Buttons
@@ -142,11 +146,11 @@ This follows the HDS wayfinding rule: **red = navigates away, blue = stays on pa
 
 By default, bare `<a>` tags receive no HDS styling. Link treatment is opt-in. Choose your approach:
 
-| Method           | Scope        | How                                                        |
-|------------------|--------------|------------------------------------------------------------|
-| Explicit class   | Per-link     | `<a class="usa-link" href="#">Link</a>`                    |
-| Prose container  | Per-section  | `<div class="usa-prose">` wraps body content               |
-| Global setting   | Site-wide    | `$theme-global-link-styles: true` in your theme            |
+| Method          | Scope       | How                                             |
+| --------------- | ----------- | ----------------------------------------------- |
+| Explicit class  | Per-link    | `<a class="usa-link" href="#">Link</a>`         |
+| Prose container | Per-section | `<div class="usa-prose">` wraps body content    |
+| Global setting  | Site-wide   | `$theme-global-link-styles: true` in your theme |
 
 HDS links use body text color for the text itself. The dotted underline and external arrow provide the visual affordance.
 
@@ -166,27 +170,28 @@ Add screen reader text for accessibility:
 To suppress the arrow on external-looking links that stay within NASA (e.g., nasa.gov subdomains), add `.hds-link--internal`:
 
 ```html
-<a class="usa-link usa-link--external hds-link--internal"
-   href="https://science.nasa.gov/">science.nasa.gov</a>
+<a class="usa-link usa-link--external hds-link--internal" href="https://science.nasa.gov/"
+  >science.nasa.gov</a
+>
 ```
 
 ## Typography
 
 HDS Core uses three font families:
 
-| Font        | Role                        | Usage                        |
-|-------------|-----------------------------|------------------------------|
-| Inter       | `family("heading")`, `family("ui")` | Headings, buttons, UI    |
-| Public Sans | `family("body")`            | Body text, captions          |
-| DM Mono     | `family("code")`, `family("alt")` | Code, labels, eyebrows  |
+| Font        | Role                                | Usage                  |
+| ----------- | ----------------------------------- | ---------------------- |
+| Inter       | `family("heading")`, `family("ui")` | Headings, buttons, UI  |
+| Public Sans | `family("body")`                    | Body text, captions    |
+| DM Mono     | `family("code")`, `family("alt")`   | Code, labels, eyebrows |
 
 Typography utility classes:
 
-| Class          | Font        | Use                    |
-|----------------|-------------|------------------------|
-| `.hds-label`, `.hds-eyebrow` | DM Mono Bold | Section labels |
-| `.hds-metadata` | Inter Bold | Dates, categories      |
-| `.hds-caption` | Public Sans Normal | Figcaptions, supplemental text |
+| Class                        | Font               | Use                            |
+| ---------------------------- | ------------------ | ------------------------------ |
+| `.hds-label`, `.hds-eyebrow` | DM Mono Bold       | Section labels                 |
+| `.hds-metadata`              | Inter Bold         | Dates, categories              |
+| `.hds-caption`               | Public Sans Normal | Figcaptions, supplemental text |
 
 For lead/intro paragraphs, use `.usa-intro`.
 
@@ -202,8 +207,7 @@ HDS icons are provided as an SVG sprite:
 </svg>
 ```
 
-Icon buttons use `.hds-btn-icon` with role modifiers:
-`--cta`, `--secondary`, `--outline`, `--utility`, `--social`, `--interactive`
+Icon buttons use `.hds-btn-icon` with role modifiers: `--cta`, `--secondary`, `--outline`, `--utility`, `--social`, `--interactive`
 
 ## Development
 
@@ -217,12 +221,12 @@ npm install
 
 ### Commands
 
-| Command               | Purpose                                          |
-|-----------------------|--------------------------------------------------|
-| `npx gulp init`       | Copy USWDS assets, HDS assets, generate sprite   |
-| `npx gulp build`      | Compile Sass, copy assets, sprite, minify CSS     |
-| `npx gulp watch`      | Recompile on Sass file changes                    |
-| `npm run storybook`   | Start Storybook at localhost:6006                 |
+| Command             | Purpose                                        |
+| ------------------- | ---------------------------------------------- |
+| `npx gulp init`     | Copy USWDS assets, HDS assets, generate sprite |
+| `npx gulp build`    | Compile Sass, copy assets, sprite, minify CSS  |
+| `npx gulp watch`    | Recompile on Sass file changes                 |
+| `npm run storybook` | Start Storybook at localhost:6006              |
 
 ### Clean Build
 
@@ -262,7 +266,6 @@ Use the palette switcher (paintbrush icon) in the toolbar to test across all pal
 
 Storybook is the primary documentation for HDS Core — components, foundations (color, typography, spacing, icons), and palette behavior.
 
-
 ## Relationship to USWDS
 
 HDS Core is an extension of USWDS, not a replacement. It:
@@ -277,12 +280,12 @@ All USWDS components, utility classes, and patterns continue to work. See DESIGN
 
 ## Documentation
 
-| Need              | Location            |
-|-------------------|---------------------|
-| Using HDS Core    | This README         |
-| Visual reference  | Storybook           |
-| Contributing      | ARCHITECTURE.md     |
-| Design decisions  | DESIGN.md           |
+| Need             | Location        |
+| ---------------- | --------------- |
+| Using HDS Core   | This README     |
+| Visual reference | Storybook       |
+| Contributing     | ARCHITECTURE.md |
+| Design decisions | DESIGN.md       |
 
 ## Contributing
 

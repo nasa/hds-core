@@ -3,8 +3,7 @@
 // Covers §4 (USWDS button overrides) and §11 (primary arrow)
 //
 // Sidebar structure:
-//   Guidance  — Button.mdx (design rationale, usage rules)
-//   Reference — auto-generated from these stories (autodocs)
+//   Guidance   — Button.mdx (design rationale, Canvas embeds, usage rules)
 //   Playground — interactive story with controls
 // ============================================================
 
@@ -24,17 +23,6 @@ const gridItem = (labelText, content) => `
 
 export default {
   title: 'Components/Button',
-  tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'HDS buttons use USWDS `.usa-button` classes with NASA brand colors. ' +
-          'Red = navigates away · Blue = stays on page. ' +
-          'See the **Guidance** tab for design rationale and usage rules.',
-      },
-    },
-  },
   argTypes: {
     label: {
       control: 'text',
@@ -75,19 +63,9 @@ export default {
   },
 };
 
-
 // ── Playground (visible in sidebar) ──────────────────────────
 
 export const Playground = {
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Interactive button. Use controls to change variant and state. ' +
-          'Use palette toolbar to test across all 6 palettes.',
-      },
-    },
-  },
   render: ({ label, variant, disabled, ariaDisabled }) => {
     const needsDarkBg = variant === 'usa-button--outline usa-button--inverse';
     const attrs = [];
@@ -113,105 +91,74 @@ export const Playground = {
   },
 };
 
-
-// ── Primary Arrow (docs-only) ────────────────────────────────
+// ── Primary Arrow (embedded in Guidance via Canvas) ──────────
 
 export const PrimaryArrow = {
   name: 'Primary Arrow',
   tags: ['!dev'],
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'HDS-only Tier 3 component. Red pill-shaped link with animated ' +
-          'CSS arrow. Pairs with `.usa-link--external` for external destinations.',
-      },
-    },
-  },
-  render: () => grid(`
-    ${gridItem('Internal',
-      '<a class="hds-btn--primary" href="#">Explore the Mission</a>'
-    )}
-    ${gridItem('External',
-      '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>'
+  render: () =>
+    grid(`
+    ${gridItem('Internal', '<a class="hds-btn--primary" href="#">Explore the Mission</a>')}
+    ${gridItem(
+      'External',
+      '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>',
     )}
   `),
 };
 
-
-// ── Filled Variants (docs-only) ──────────────────────────────
+// ── Filled Variants (embedded in Guidance via Canvas) ────────
 
 export const FilledVariants = {
   name: 'Filled Variants',
   tags: ['!dev'],
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Call to Action (red) navigates away. Secondary (blue) stays on page.',
-      },
-    },
-  },
-  render: () => grid(`
-    ${gridItem('Call to Action',
-      '<button class="usa-button" type="button">Download Report</button>'
+  render: () =>
+    grid(`
+    ${gridItem(
+      'Call to Action',
+      '<button class="usa-button" type="button">Download Report</button>',
     )}
-    ${gridItem('Secondary Filled',
-      '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>'
+    ${gridItem(
+      'Secondary Filled',
+      '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>',
     )}
-    ${gridItem('Unstyled',
-      '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>'
+    ${gridItem(
+      'Unstyled',
+      '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>',
     )}
   `),
 };
 
-
-// ── Outline Variant (docs-only) ──────────────────────────────
+// ── Outline Variant (embedded in Guidance via Canvas) ────────
 
 export const OutlineVariant = {
   name: 'Outline',
   tags: ['!dev'],
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Lower-emphasis on-page action. NASA Blue border. ' +
-          'Adapts automatically on dark palette backgrounds.',
-      },
-    },
-  },
-  render: () => grid(`
-    ${gridItem('Outline',
-      '<button class="usa-button usa-button--outline" type="button">View Details</button>'
+  render: () =>
+    grid(`
+    ${gridItem(
+      'Outline',
+      '<button class="usa-button usa-button--outline" type="button">View Details</button>',
     )}
   `),
 };
 
-
-// ── Disabled States (docs-only) ──────────────────────────────
+// ── Disabled States (embedded in Guidance via Canvas) ────────
 
 export const DisabledStates = {
   tags: ['!dev'],
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Color-based disabled states, not USWDS opacity. ' +
-          'Both `disabled` and `aria-disabled` receive identical styling.',
-      },
-    },
-  },
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 2rem;">
       <div>
         ${label('Filled — disabled')}
         <div style="margin-top: 0.5rem;">
           ${grid(`
-            ${gridItem('Call to Action',
-              '<button class="usa-button" type="button" disabled="disabled">Download Report</button>'
+            ${gridItem(
+              'Call to Action',
+              '<button class="usa-button" type="button" disabled="disabled">Download Report</button>',
             )}
-            ${gridItem('Secondary Filled',
-              '<button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button>'
+            ${gridItem(
+              'Secondary Filled',
+              '<button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button>',
             )}
           `)}
         </div>
@@ -220,11 +167,13 @@ export const DisabledStates = {
         ${label('Filled — aria-disabled')}
         <div style="margin-top: 0.5rem;">
           ${grid(`
-            ${gridItem('Call to Action',
-              '<button class="usa-button" type="button" aria-disabled="true">Download Report</button>'
+            ${gridItem(
+              'Call to Action',
+              '<button class="usa-button" type="button" aria-disabled="true">Download Report</button>',
             )}
-            ${gridItem('Secondary Filled',
-              '<button class="usa-button usa-button--secondary" type="button" aria-disabled="true">Apply Filters</button>'
+            ${gridItem(
+              'Secondary Filled',
+              '<button class="usa-button usa-button--secondary" type="button" aria-disabled="true">Apply Filters</button>',
             )}
           `)}
         </div>
@@ -233,11 +182,13 @@ export const DisabledStates = {
         ${label('Outline — disabled')}
         <div style="margin-top: 0.5rem;">
           ${grid(`
-            ${gridItem('disabled',
-              '<button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button>'
+            ${gridItem(
+              'disabled',
+              '<button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button>',
             )}
-            ${gridItem('aria-disabled',
-              '<button class="usa-button usa-button--outline" type="button" aria-disabled="true">View Details</button>'
+            ${gridItem(
+              'aria-disabled',
+              '<button class="usa-button usa-button--outline" type="button" aria-disabled="true">View Details</button>',
             )}
           `)}
         </div>

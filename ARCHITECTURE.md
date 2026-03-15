@@ -6,13 +6,13 @@ Last updated: 2026-03-15
 
 ## Package Overview
 
-| Key          | Value                                         |
-|--------------|-----------------------------------------------|
-| Name         | `@nasa/hds-core`                              |
-| Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0`  |
-| Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`    |
-| Minification | `gulp-clean-css`, `gulp-rename`               |
-| Storybook    | v10, Vite, HTML template literals             |
+| Key          | Value                                       |
+| ------------ | ------------------------------------------- |
+| Name         | `@nasa/hds-core`                            |
+| Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0` |
+| Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`  |
+| Minification | `gulp-clean-css`, `gulp-rename`             |
+| Storybook    | v10, Vite, HTML template literals           |
 
 ## File Structure
 
@@ -75,13 +75,13 @@ styles.scss
 
 ## File Responsibilities
 
-| File                       | Purpose                                           |
-|----------------------------|---------------------------------------------------|
-| `_hds-tokens.scss`         | Pure Sass variables/maps. No USWDS dependency. Includes brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
-| `_hds-uswds-theme.scss`   | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
-| `_hds-custom-styles.scss`  | CSS custom properties, mixins, utilities, base element styles (gated behind USWDS flags), palette wiring, print styles. |
-| `_hds-components.scss`     | Tier 1 USWDS component overrides (`usa-*`) + Tier 3 HDS-only components (`hds-*`). See DESIGN.md § Class Naming Convention. |
-| `_hds-palettes.scss`       | 6 palette definitions with shared scheme mixins and per-palette overrides. 23 semantic variables per palette. |
+| File | Purpose |
+| --- | --- |
+| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Includes brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
+| `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
+| `_hds-custom-styles.scss` | CSS custom properties, mixins, utilities, base element styles (gated behind USWDS flags), palette wiring, print styles. |
+| `_hds-components.scss` | Tier 1 USWDS component overrides (`usa-*`) + Tier 3 HDS-only components (`hds-*`). See DESIGN.md § Class Naming Convention. |
+| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins and per-palette overrides. 23 semantic variables per palette. |
 
 ## Asset Paths
 
@@ -104,14 +104,14 @@ mask-image: url('../img/hds-icons/arrow-line-diagonal.svg');
 
 ## Color Convention
 
-| Context                | Use                                     |
-|------------------------|-----------------------------------------|
-| HDS brand/Carbon colors | `$hds-color-*`                         |
-| USWDS state colors     | `color("error")`                        |
-| USWDS theme colors     | `color("primary")` → NASA Red, `color("secondary")` → NASA Blue |
-| Typography             | `family("heading")`, `size("body", "xs")` |
-| Spacing                | `units(3)`                              |
-| CSS/JS consumers       | `var(--hds-color-*)`                    |
+| Context                 | Use                                                             |
+| ----------------------- | --------------------------------------------------------------- |
+| HDS brand/Carbon colors | `$hds-color-*`                                                  |
+| USWDS state colors      | `color("error")`                                                |
+| USWDS theme colors      | `color("primary")` → NASA Red, `color("secondary")` → NASA Blue |
+| Typography              | `family("heading")`, `size("body", "xs")`                       |
+| Spacing                 | `units(3)`                                                      |
+| CSS/JS consumers        | `var(--hds-color-*)`                                            |
 
 **Important:** `color("base-darker")` returns a USWDS approximation, not the exact HDS hex. Use `$hds-color-carbon-90` for exact values. See DESIGN.md § Three Color Systems.
 
@@ -127,14 +127,14 @@ color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 
 Palettes use shared scheme mixins with per-palette overrides:
 
-| Palette | Base Scheme | Overrides |
-|---------|-------------|-----------|
-| White   | `_scheme-light` | None (default) |
-| Light   | `_scheme-light` | Background only |
+| Palette | Base Scheme     | Overrides                           |
+| ------- | --------------- | ----------------------------------- |
+| White   | `_scheme-light` | None (default)                      |
+| Light   | `_scheme-light` | Background only                     |
 | Midtone | `_scheme-light` | text, muted, border, utility-stroke |
-| Dark    | `_scheme-dark`  | Background only |
-| Blue    | Fully custom | All values defined inline |
-| Black   | `_scheme-dark`  | Background only |
+| Dark    | `_scheme-dark`  | Background only                     |
+| Blue    | Fully custom    | All values defined inline           |
+| Black   | `_scheme-dark`  | Background only                     |
 
 Dark scheme separates `--hds-palette-link-underline` (Carbon 30) from `--hds-palette-link-arrow` (Carbon 40). This split is intentional per the HDS Core Proposal.
 
@@ -142,20 +142,20 @@ Dark scheme separates `--hds-palette-link-underline` (Carbon 30) from `--hds-pal
 
 Three visually similar but typographically distinct classes:
 
-| Class                         | Font        | Weight  | Use                          |
-|-------------------------------|-------------|---------|------------------------------|
-| `.hds-label`, `.hds-eyebrow` | DM Mono     | Bold    | Section labels               |
-| `.hds-metadata`              | Inter       | Bold    | Dates, categories            |
-| `.hds-caption`               | Public Sans | Normal  | Figcaptions, supplemental text |
+| Class                        | Font        | Weight | Use                            |
+| ---------------------------- | ----------- | ------ | ------------------------------ |
+| `.hds-label`, `.hds-eyebrow` | DM Mono     | Bold   | Section labels                 |
+| `.hds-metadata`              | Inter       | Bold   | Dates, categories              |
+| `.hds-caption`               | Public Sans | Normal | Figcaptions, supplemental text |
 
 All share uppercase, small size, and 0.25px letterspacing. The `label-uppercase` mixin provides the shared treatment; `.hds-label` overrides `font-family` to DM Mono.
 
 ### Removed Classes
 
-| Removed Class | Replacement | Reason |
-|---------------|-------------|--------|
-| `.hds-sr-only` | `.usa-sr-only` | USWDS provides identical implementation (Tier 1) |
-| `.hds-intro` | `.usa-intro` | Overridden in `_hds-components.scss` §14 (Tier 1) |
+| Removed Class  | Replacement    | Reason                                            |
+| -------------- | -------------- | ------------------------------------------------- |
+| `.hds-sr-only` | `.usa-sr-only` | USWDS provides identical implementation (Tier 1)  |
+| `.hds-intro`   | `.usa-intro`   | Overridden in `_hds-components.scss` §14 (Tier 1) |
 
 The `visually-hidden` and `intro-text` mixins are kept for internal use.
 
@@ -164,13 +164,14 @@ The `visually-hidden` and `intro-text` mixins are kept for internal use.
 Bare HTML element styles in `_hds-custom-styles.scss` §4 are gated behind USWDS settings flags:
 
 | Flag | Controls | Default |
-|------|----------|---------|
+| --- | --- | --- |
 | `$theme-style-body-element` | `<body>` | `false` |
 | `$theme-global-content-styles` | `h1`–`h6`, blockquote, table, lists, code, hr, img, figure, forms, bare `<button>` | `false` |
 | `$theme-global-paragraph-styles` | `<p>` (also enabled by content flag) | `false` |
 | `$theme-global-link-styles` | `<a>` (also enabled by content flag) | `false` |
 
 **Always active** (not gated):
+
 - §4.11 Focus styles (accessibility)
 - §5 Palette element wiring (only applies inside palette containers)
 - All `usa-*` overrides in `_hds-components.scss`
@@ -182,17 +183,15 @@ See DESIGN.md § Global Element Styles for rationale.
 
 HDS Core's link styling has two layers:
 
-**Layer 1 — Bare `<a>` tags** (gated):
-When `$theme-global-link-styles` or `$theme-global-content-styles` is `true`, bare `<a>` tags receive HDS treatment (body-text color, dotted underline) via `_hds-custom-styles.scss` §4.3.
+**Layer 1 — Bare `<a>` tags** (gated): When `$theme-global-link-styles` or `$theme-global-content-styles` is `true`, bare `<a>` tags receive HDS treatment (body-text color, dotted underline) via `_hds-custom-styles.scss` §4.3.
 
-**Layer 2 — `.usa-link` class** (always active):
-Full HDS link treatment via Tier 1 overrides in `_hds-components.scss` §13:
+**Layer 2 — `.usa-link` class** (always active): Full HDS link treatment via Tier 1 overrides in `_hds-components.scss` §13:
 
-| Selector                          | Purpose                        |
-|-----------------------------------|--------------------------------|
-| `.usa-link`                       | Full HDS link treatment        |
-| `.usa-link--external::after`      | HDS diagonal arrow icon        |
-| `.hds-link--internal`             | Escape hatch to hide arrow     |
+| Selector                     | Purpose                    |
+| ---------------------------- | -------------------------- |
+| `.usa-link`                  | Full HDS link treatment    |
+| `.usa-link--external::after` | HDS diagonal arrow icon    |
+| `.hds-link--internal`        | Escape hatch to hide arrow |
 
 ### External Link Arrow
 
@@ -208,16 +207,16 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 ## Component Sections (`_hds-components.scss`)
 
 | Section | Component | Tier | Notes |
-|---------|-----------|------|-------|
+| --- | --- | --- | --- |
 | §1 | Navigation (header, footer, nav) | 1 | Link resets, menu triggers |
 | §2 | Banner | 1 | Light background, outside palette context |
-| §3 | Breadcrumb | 1 | |
+| §3 | Breadcrumb | 1 |  |
 | §4 | Buttons | 1 | Palette-aware CTA (Red), secondary (Blue), outline (Blue border). Explicit hover/disabled. See DESIGN.md § Button States. |
 | §5 | Forms | 1 | Light backgrounds only (dark TODO) |
 | §6 | In-Page Navigation | 1 | Active state = NASA Blue |
 | §7 | Pagination | 1 | Current page = NASA Blue |
-| §8 | Accordion | 1 | |
-| §9 | Alerts | 1 | |
+| §8 | Accordion | 1 |  |
+| §9 | Alerts | 1 |  |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
 | §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
 | §12 | Icon Buttons | 3 | `.hds-btn-icon--*` — 6 roles, 2 sizes |
@@ -227,18 +226,18 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 ## Icon Architecture
 
 **Themeable icons** (`hds-icons/`):
+
 - Use `currentColor` for fill
 - Compiled into `hds-sprite.svg`
 - Color controlled by CSS
 
 **Fixed-color graphics** (`hds-buttons/`):
+
 - Colors baked in (NASA Blue/Red + white)
 - Not in sprite, referenced as standalone files
 
-**Icon naming prefixes:**
-  arrow-*   Directional arrows
-  tag-*     Tag/category markers  
-  logo-*    Third-party platform marks (Figma, USWDS, social media)
+**Icon naming prefixes:** arrow-_ Directional arrows tag-_ Tag/category markers  
+ logo-\* Third-party platform marks (Figma, USWDS, social media)
 
 ### Inline Glyphs
 
@@ -248,19 +247,20 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 
 ### Gulpfile Tasks
 
-| Task           | Purpose                                     |
-|----------------|---------------------------------------------|
-| `init`         | Copy USWDS assets + HDS assets + sprite     |
-| `build`        | Compile Sass → copy assets → sprite → minify CSS |
-| `compile`      | Sass compilation only (via `@uswds/compile`) |
-| `watch`        | Recompile on Sass changes                    |
-| `copyAssets`   | Copy HDS fonts and icons to dist             |
-| `sprite`       | Generate SVG sprite                          |
-| `minifyCss`    | Minify compiled CSS + sourcemap              |
+| Task         | Purpose                                          |
+| ------------ | ------------------------------------------------ |
+| `init`       | Copy USWDS assets + HDS assets + sprite          |
+| `build`      | Compile Sass → copy assets → sprite → minify CSS |
+| `compile`    | Sass compilation only (via `@uswds/compile`)     |
+| `watch`      | Recompile on Sass changes                        |
+| `copyAssets` | Copy HDS fonts and icons to dist                 |
+| `sprite`     | Generate SVG sprite                              |
+| `minifyCss`  | Minify compiled CSS + sourcemap                  |
 
 ### Build Order
 
 `build` runs in series:
+
 1. `uswds.compile` — Sass → CSS
 2. `copyHdsAssets` — fonts, icons to dist
 3. `buildSprite` — SVG sprite generation
@@ -287,6 +287,7 @@ If `dist/` has been deleted, `npx gulp init` must run before `npx gulp build`. T
 **Static assets:** dist/ is served via staticDirs in main.js. Sprite paths in stories use /assets/img/hds-sprite.svg#icon-name. USWDS icons available via /assets/img/sprite.svg#icon-name.
 
 **Addons:**
+
 - @storybook/addon-docs — documentation pages + remark-gfm for markdown tables
 - @storybook/addon-a11y — accessibility testing
 - storybook-addon-pseudo-states — hover/focus/active state simulation (installed, configuration pending)
@@ -298,9 +299,11 @@ See DOCUMENTATION.md for all docs conventions: sidebar structure, MDX patterns, 
 ## Pending Work
 
 ### Bugs
+
 - [ ] Disabled buttons still show visual changes on hover despite `:not(:disabled)` guards — likely USWDS specificity issue. Inspect compiled CSS to identify competing selector.
 
 ### Components
+
 - [ ] Icon button hover and disabled states (§12)
 - [ ] Primary arrow button size variants — Figma shows 6 sizes (14–36), pending creative director review
 - [ ] Dark palette form elements (§5)
@@ -310,11 +313,11 @@ See DOCUMENTATION.md for all docs conventions: sidebar structure, MDX patterns, 
 - [ ] Verify `$hds-extended-palette` is wired via `$global-color-palettes` for USWDS utility class generation
 
 ### Storybook
-[ ] Configure storybook-addon-pseudo-states
-[ ] Remaining component stories as components are completed (Form Elements next)
-[ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
+
+[ ] Configure storybook-addon-pseudo-states [ ] Remaining component stories as components are completed (Form Elements next) [ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
 
 ### Pre-1.0 Verification
+
 - [ ] Spec verification pass across all components against Figma (visual details: arrow sizing, caption styles, blockquote line-height, icon button outline thickness, responsive typography, etc.)
 - [ ] Creative director visual review (see DESIGN.md § Creative Director Review for full list)
 - [ ] Accessibility testing — screen reader (NVDA, VoiceOver), SR approach for external links, focus ring contrast review
@@ -322,6 +325,7 @@ See DOCUMENTATION.md for all docs conventions: sidebar structure, MDX patterns, 
 - [ ] Clean up unknown sprite IDs (bfa, bga, bha, bia, bja, bka, bla, bma, caa, dra)
 
 ### Infrastructure
+
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
 - [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions

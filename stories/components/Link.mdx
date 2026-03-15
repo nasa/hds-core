@@ -1,0 +1,142 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as LinkStories from './Link.stories';
+
+<Meta of={LinkStories} name="Guidance" />
+
+# Link
+
+Links are lightweight navigational elements that direct visitors to other pages on and off the NASA website. The dotted underline is the defining visual element.
+
+HDS links use **body-text color** — not a brand color — for the link text itself. The dotted underline and (for external links) the diagonal arrow provide the visual affordance. This is a Tier 1 USWDS override (`.usa-link`) with one Tier 3 HDS-only modifier (`.hds-link--internal`).
+
+## Variants
+
+### Internal link
+
+The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the current text color with a dotted underline.
+
+<Canvas of={LinkStories.InternalLink} />
+<p class="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+### External link
+
+Add `.usa-link--external` to display a diagonal arrow icon after the link text. Use this for any URL that takes the visitor **outside of NASA.gov**.
+
+<Canvas of={LinkStories.ExternalLink} />
+<p class="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+The arrow is generated with pure CSS (`::after` + `mask-image`) — no SVG markup or JavaScript needed.
+
+<Note type="code">
+  The arrow uses <code>display: inline</code> so it flows as part of the text line and scales
+  proportionally in headings and body text. The small underline gap before the arrow is a known CSS
+  limitation shared by USWDS, GOV.UK, and other government design systems.
+</Note>
+
+### Internal escape hatch
+
+Some NASA properties (e.g., `science.nasa.gov`) use external URLs but are still NASA destinations. Add `.hds-link--internal` alongside `.usa-link--external` to suppress the arrow while keeping any CMS-driven external class intact.
+
+<Canvas of={LinkStories.InternalEscapeHatch} />
+<p class="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+<Note type="uswds">
+  USWDS applies the external arrow automatically when <code>.usa-link--external</code> is present.
+  The <code>.hds-link--internal</code> class is an HDS-only escape hatch (Tier 3) that overrides
+  this behavior.
+</Note>
+
+## When to use the link component
+
+- **Navigating to another page** — internal or external.
+- **Inline within body text** — links can be embedded in any paragraph or heading.
+- **Standalone navigation** — a subtle alternative to a button when the action is purely navigational.
+- **Lists of options** — multiple links grouped together for section-level navigation.
+
+## When to consider something else
+
+- **Triggering an on-page action** (toggle, submit, open modal) — use a [Button](?path=/docs/components-button--guidance).
+- **Primary call-to-action** — use a [Button](?path=/docs/components-button--guidance) (CTA or secondary) for high-emphasis actions.
+- **Icon-only actions** — use an [Icon Button](?path=/docs/components-icon-button--guidance).
+
+## Usability guidance
+
+- **Don't rely on color alone.** HDS links use body-text color intentionally — the dotted underline is the affordance. This meets WCAG 1.4.1 (Use of Color).
+- **Write meaningful link text.** Avoid "click here" or "read more." The link text should make sense out of context (e.g., in a screen reader's links list).
+- **Mark external links consistently.** Any URL that leaves NASA.gov should get `.usa-link--external` unless the destination is a NASA subdomain using `.hds-link--internal`.
+- **Links inherit font size.** There are no link-specific size classes. Links scale with their parent text — body, heading, caption, etc.
+
+## Links in headings
+
+Links work in any heading level. The external arrow scales proportionally with the heading font size.
+
+<Canvas of={LinkStories.LinksInHeadings} />
+<p class="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+## Links in paragraphs
+
+The most common usage pattern. Multiple internal and external links can be mixed within the same paragraph.
+
+<Canvas of={LinkStories.LinksInParagraph} />
+<p class="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+## Hover behavior
+
+Link text color stays constant on hover. Only the underline changes — **dotted → solid**. This is intentional: the subtle transition signals interactivity without a jarring color shift.
+
+<Note type="figma">
+  The HDS Figma spec shows a dashed underline with a "2, 3" dash pattern. CSS <code>dashed</code>{' '}
+  produces long dashes that look dramatically different, so HDS Core uses <code>dotted</code> as the
+  closest CSS approximation.
+</Note>
+
+## Dark palette behavior
+
+On dark palettes, HDS separates the underline and arrow colors for optimal contrast:
+
+| Element   | Light palettes  | Dark palettes      |
+| --------- | --------------- | ------------------ |
+| Link text | Body text color | Palette text color |
+| Underline | Body text color | Carbon 30          |
+| Arrow     | Body text color | Carbon 40          |
+
+This split uses separate CSS custom properties (`--hds-palette-link-underline` and `--hds-palette-link-arrow`).
+
+## Bare link styling (opt-in)
+
+By default, bare `<a>` tags are unstyled. HDS link treatment only applies via `.usa-link` or inside a `.usa-prose` container. To enable global bare link styling, set either of these USWDS flags to `true`:
+
+- `$theme-global-link-styles`
+- `$theme-global-content-styles`
+
+<Note type="uswds">
+  This mirrors USWDS's default behavior exactly. Existing USWDS sites migrating to HDS Core keep
+  their existing scoping behavior without any new configuration flags.
+</Note>
+
+## Accessibility
+
+- **Screen readers and external links:** The HDS external arrow CSS overrides USWDS's built-in screen reader labels. Developers **must** add SR text manually:
+
+  ```html
+  <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer">
+    Example<span class="usa-sr-only"> (external)</span>
+  </a>
+  ```
+
+- **Visited state:** HDS intentionally sets visited link color to the same as the default (`"ink"`). This prevents visited links from introducing unexpected color contrast issues across palettes.
+
+- **Focus ring:** 2px dashed Carbon 30 ring with 2px offset, consistent across all interactive elements.
+
+- **Underline as affordance:** Because HDS links use body-text color instead of a distinct link color, the dotted underline is the **sole** visual differentiator. Never remove the underline from `.usa-link`.

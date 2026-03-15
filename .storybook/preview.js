@@ -11,7 +11,8 @@ const preview = {
         order: [
           'Overview',
           'Foundations',
-          'Components', ['*', ['Guidance', 'Reference', 'Playground']],
+          'Components',
+          ['*', ['Guidance', 'Reference', 'Playground']],
         ],
       },
     },
