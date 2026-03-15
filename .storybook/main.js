@@ -3,7 +3,8 @@ const config = {
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
-  ],
+    'storybook-addon-pseudo-states',
+    ],
   framework: {
     name: '@storybook/html-vite',
     options: {},
