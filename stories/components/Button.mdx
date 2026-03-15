@@ -1,0 +1,204 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as ButtonStories from './Button.stories';
+
+<Meta title="Components/Button/Guidance" />
+
+# Button
+
+A button draws attention to important actions with a large selectable
+surface. HDS buttons use USWDS `.usa-button` classes with NASA brand
+colors — no markup changes needed for existing USWDS sites
+(**Tier 1 override**).
+
+## Primary arrow button
+
+`.hds-btn--primary` is an **HDS-only component (Tier 3)** — a red
+pill-shaped link with an animated CSS arrow. Use it for editorial CTA
+links in hero banners and content cards.
+
+<Canvas of={ButtonStories.PrimaryArrow} />
+
+<p className="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+- Always an `<a>` tag — it's a navigation link, never a form action
+- Pairs with `.usa-link--external` for external destinations — the
+  arrow changes from a line to a diagonal
+- Palette-aware — text and arrow adapt automatically on dark backgrounds
+
+<Note type="code">
+The arrow is a pure CSS `::after` pseudo-element using a data-URI SVG,
+not an icon from the sprite. It inherits color automatically and works
+without the sprite sheet loaded.
+</Note>
+
+<Note type="figma">
+Figma shows 6 size variants (14px–36px). HDS Core currently ships the
+default size only. Additional sizes are pending creative director review.
+</Note>
+
+## Filled buttons
+
+HDS ships two filled button variants. Both use USWDS markup — only the
+colors change.
+
+<table>
+  <thead>
+    <tr>
+      <th>Variant</th>
+      <th>Color</th>
+      <th>Class</th>
+      <th>Use when the action…</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Call to Action</strong></td>
+      <td><span style={{display:'inline-block',width:'0.85em',height:'0.85em',backgroundColor:'#FC3D21',borderRadius:'50%',verticalAlign:'middle',marginRight:'0.35em'}} /> NASA Red</td>
+      <td><code>.usa-button</code></td>
+      <td><strong>Navigates away</strong> from the current page</td>
+    </tr>
+    <tr>
+      <td><strong>Secondary Filled</strong></td>
+      <td><span style={{display:'inline-block',width:'0.85em',height:'0.85em',backgroundColor:'#1B4596',borderRadius:'50%',verticalAlign:'middle',marginRight:'0.35em'}} /> NASA Blue</td>
+      <td><code>.usa-button--secondary</code></td>
+      <td><strong>Stays on</strong> the current page</td>
+    </tr>
+  </tbody>
+</table>
+
+Use one Call to Action (red) button per visible section. Pair with
+Secondary or Outline for additional actions.
+
+<Canvas of={ButtonStories.FilledVariants} />
+
+<p className="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+<Note type="uswds">
+USWDS defaults to primary = blue, secondary = red. HDS Core flips this
+at the theme level. `.usa-button` renders red and
+`.usa-button--secondary` renders blue — no class changes needed.
+</Note>
+
+## Outline button
+
+A lower-emphasis on-page action with a NASA Blue border. On dark
+backgrounds, the border stays NASA Blue and only the text flips to white.
+
+Two mechanisms provide dark-background styling:
+
+- **Palette-aware (automatic):** `.usa-button--outline` inside an HDS
+  palette wrapper adapts automatically. No extra class needed.
+- **Manual fallback:** Add `.usa-button--inverse` for dark backgrounds
+  without a palette wrapper.
+
+<Canvas of={ButtonStories.OutlineVariant} />
+
+<p className="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+<Note type="uswds">
+USWDS `--inverse` turns the entire outline button white (border + text).
+In HDS Core, only the text flips to white — the border stays NASA Blue.
+</Note>
+
+## When to use the button component
+
+- Use the **primary arrow** (`.hds-btn--primary`) for editorial CTA
+  links in hero sections and content cards.
+- Use the **Call to Action** (red, `.usa-button`) when the action
+  **navigates the user away** — downloads, applications, key tasks.
+- Use the **Secondary Filled** (blue, `.usa-button--secondary`) when
+  the action **stays on the current page** — submit, filter, search.
+- Use the **Outline** (`.usa-button--outline`) for lower-emphasis
+  on-page actions.
+- Use a button for **important actions** you want users to take on
+  the page.
+
+## When to consider something else
+
+- If the action is **less important**, consider a text link instead.
+- For **icon-only actions** (play, download, share), use
+  [Icon Button](?path=/story/components-icon-button--all-roles) instead.
+- For **inline text navigation** within body content, use
+  [Link](?path=/story/components-link--default).
+- If a **navigation link looks like a button**, use an `<a>` tag with
+  button classes — not a `<button>`. Correct semantics matter for
+  assistive technology.
+- Avoid more than **one red button per visible section**. Pair a CTA
+  with secondary or outline buttons to establish hierarchy.
+
+## Usability guidance
+
+- **Be concise.** Use action verbs: "Download", "Submit", "Apply Now."
+  Avoid vague labels like "Click here" or "Go."
+- **Labels should make sense out of context.** Screen reader users may
+  encounter buttons without surrounding text.
+- **Use sentence case** for button labels.
+
+<Note type="figma">
+The HDS Figma spec does not define a button active state. HDS Core
+uses the same visual treatment for hover and active, consistent with
+Apple HIG.
+</Note>
+
+## Disabled states
+
+HDS uses **color-based disabled styling**, not opacity.
+
+<table>
+  <thead>
+    <tr>
+      <th>Variant</th>
+      <th>Disabled appearance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Filled (CTA, Secondary)</td>
+      <td>Carbon 20 fill + white text</td>
+    </tr>
+    <tr>
+      <td>Outline (light backgrounds)</td>
+      <td>Muted border + muted text</td>
+    </tr>
+    <tr>
+      <td>Outline (dark backgrounds)</td>
+      <td>Palette-aware muted border + muted text</td>
+    </tr>
+  </tbody>
+</table>
+
+Disabled buttons do not respond to hover or focus.
+
+<Canvas of={ButtonStories.DisabledStates} />
+
+<p className="hds-caption">
+  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+</p>
+
+<Note type="uswds">
+USWDS uses `opacity` for disabled buttons. HDS Core uses explicit color
+changes for palette-aware disabled styling.
+</Note>
+
+## Accessibility
+
+- Use **semantic elements:** `<button>` for actions, `<a>` for
+  navigation. If a link looks like a button, apply button classes
+  to the `<a>`.
+- Use **`disabled`** for truly inactive buttons — removed from tab
+  order and announced as disabled by screen readers.
+- Use **`aria-disabled="true"`** when the button should remain
+  **focusable** — for example, to explain via tooltip why the action
+  is unavailable. Both receive identical visual styling.
+- **Don't remove focus styles.** HDS Core applies a visible focus ring
+  on all interactive elements.
+- **Write descriptive labels.** "Download fiscal year 2025 report"
+  is better than "Download." Supplement short labels with `aria-label`
+  or `aria-describedby` when needed.

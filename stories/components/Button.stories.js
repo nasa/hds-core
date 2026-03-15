@@ -1,22 +1,40 @@
 // ============================================================
-// Button Stories
-// @nasa/hds-core
-// ============================================================
-// Covers §4 (USWDS button overrides) and provides visual
-// testing for palette-aware behavior.
+// Button Stories — @nasa/hds-core
+// Covers §4 (USWDS button overrides) and §11 (primary arrow)
 //
-// NOTE: Hover/focus/active states require real interaction
-// or the storybook-addon-pseudo-states addon. A static matrix
-// of interactive states will be added in the Storybook
-// modernization pass.
-//
-// Palette testing: Use the paintbrush toolbar switcher to
-// cycle palettes. The "All Variants" and "Disabled States"
-// stories include a built-in dark context for outline-inverse.
+// Sidebar structure:
+//   Guidance  — Button.mdx (design rationale, usage rules)
+//   Reference — auto-generated from these stories (autodocs)
+//   Playground — interactive story with controls
 // ============================================================
+
+// Shared helpers for consistent story presentation
+const label = (text) => `<span class="hds-label">${text}</span>`;
+
+const grid = (items) => `
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+    ${items}
+  </div>`;
+
+const gridItem = (labelText, content) => `
+  <div style="min-width: 10rem;">
+    ${label(labelText)}
+    <div style="margin-top: 0.5rem;">${content}</div>
+  </div>`;
 
 export default {
   title: 'Components/Button',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'HDS buttons use USWDS `.usa-button` classes with NASA brand colors. ' +
+          'Red = navigates away · Blue = stays on page. ' +
+          'See the **Guidance** tab for design rationale and usage rules.',
+      },
+    },
+  },
   argTypes: {
     label: {
       control: 'text',
@@ -58,15 +76,18 @@ export default {
 };
 
 
-// ============================================================
-// Playground
-// ============================================================
-// Interactive single button. Use controls panel to change
-// variant, text, and disabled state. Use palette toolbar
-// to test across all 6 palettes.
-// ============================================================
+// ── Playground (visible in sidebar) ──────────────────────────
 
 export const Playground = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Interactive button. Use controls to change variant and state. ' +
+          'Use palette toolbar to test across all 6 palettes.',
+      },
+    },
+  },
   render: ({ label, variant, disabled, ariaDisabled }) => {
     const needsDarkBg = variant === 'usa-button--outline usa-button--inverse';
     const attrs = [];
@@ -93,150 +114,134 @@ export const Playground = {
 };
 
 
-// ============================================================
-// All Variants
-// ============================================================
-// Side-by-side matrix for quick visual comparison.
-// Includes a dark strip for outline-inverse.
-// ============================================================
+// ── Primary Arrow (docs-only) ────────────────────────────────
 
-export const AllVariants = {
-  render: () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-
-      <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">CTA (Primary Red)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button" type="button">Download</button>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Secondary Filled (Blue)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--secondary" type="button">Download</button>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Outline — On Light</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline" type="button">Download</button>
-        </div>
-      </div>
-
-      <div style="background-color: #17171B; padding: 2rem; margin: 0 -1rem;">
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #B9B9BB; margin-bottom: 1rem;">Outline — On Dark (Inverse Fallback)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline usa-button--inverse" type="button">Download</button>
-        </div>
-      </div>
-
-      <div style="background-color: #17171B; padding: 2rem; margin: 0 -1rem;" data-hds-palette="dark">
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #B9B9BB; margin-bottom: 1rem;">Outline — Dark Palette (Automatic)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline" type="button">Download</button>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Unstyled</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--unstyled" type="button">Download</button>
-        </div>
-      </div>
-<div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Primary Arrow (§11) — Internal</h3>
-        <div style="display: flex; gap: 2rem; align-items: center;">
-          <a class="hds-btn--primary" href="#">Explore</a>
-          <a class="hds-btn--primary" href="#">Learn More</a>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Primary Arrow (§11) — External</h3>
-        <div style="display: flex; gap: 2rem; align-items: center;">
-          <a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>
-          <a class="hds-btn--primary usa-link--external" href="https://youtube.com">Watch on YouTube</a>
-        </div>
-      </div>
-
-      <div style="background-color: #17171B; padding: 2rem; margin: 0 -1rem;" data-hds-palette="dark">
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #B9B9BB; margin-bottom: 1rem;">Primary Arrow (§11) — Dark Palette</h3>
-        <div style="display: flex; gap: 2rem; align-items: center;">
-          <a class="hds-btn--primary" href="#">Explore</a>
-          <a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>
-        </div>
-      </div>
-      
-    </div>
-  `,
-  argTypes: {
-    label: { table: { disable: true } },
-    variant: { table: { disable: true } },
-    disabled: { table: { disable: true } },
-    ariaDisabled: { table: { disable: true } },
+export const PrimaryArrow = {
+  name: 'Primary Arrow',
+  tags: ['!dev'],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'HDS-only Tier 3 component. Red pill-shaped link with animated ' +
+          'CSS arrow. Pairs with `.usa-link--external` for external destinations.',
+      },
+    },
   },
+  render: () => grid(`
+    ${gridItem('Internal',
+      '<a class="hds-btn--primary" href="#">Explore the Mission</a>'
+    )}
+    ${gridItem('External',
+      '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>'
+    )}
+  `),
 };
 
 
-// ============================================================
-// Disabled States
-// ============================================================
-// Verifies HDS color-based disabled (not USWDS opacity).
-// Shows both `disabled` and `aria-disabled` per USWDS guidance.
-// ============================================================
+// ── Filled Variants (docs-only) ──────────────────────────────
+
+export const FilledVariants = {
+  name: 'Filled Variants',
+  tags: ['!dev'],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Call to Action (red) navigates away. Secondary (blue) stays on page.',
+      },
+    },
+  },
+  render: () => grid(`
+    ${gridItem('Call to Action',
+      '<button class="usa-button" type="button">Download Report</button>'
+    )}
+    ${gridItem('Secondary Filled',
+      '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>'
+    )}
+    ${gridItem('Unstyled',
+      '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>'
+    )}
+  `),
+};
+
+
+// ── Outline Variant (docs-only) ──────────────────────────────
+
+export const OutlineVariant = {
+  name: 'Outline',
+  tags: ['!dev'],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Lower-emphasis on-page action. NASA Blue border. ' +
+          'Adapts automatically on dark palette backgrounds.',
+      },
+    },
+  },
+  render: () => grid(`
+    ${gridItem('Outline',
+      '<button class="usa-button usa-button--outline" type="button">View Details</button>'
+    )}
+  `),
+};
+
+
+// ── Disabled States (docs-only) ──────────────────────────────
 
 export const DisabledStates = {
+  tags: ['!dev'],
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Color-based disabled states, not USWDS opacity. ' +
+          'Both `disabled` and `aria-disabled` receive identical styling.',
+      },
+    },
+  },
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 2rem;">
-
       <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Filled — disabled</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button" type="button" disabled="disabled">CTA</button>
-          <button class="usa-button usa-button--secondary" type="button" disabled="disabled">Secondary</button>
+        ${label('Filled — disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Call to Action',
+              '<button class="usa-button" type="button" disabled="disabled">Download Report</button>'
+            )}
+            ${gridItem('Secondary Filled',
+              '<button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button>'
+            )}
+          `)}
         </div>
       </div>
-
       <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Filled — aria-disabled</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button" type="button" aria-disabled="true">CTA</button>
-          <button class="usa-button usa-button--secondary" type="button" aria-disabled="true">Secondary</button>
+        ${label('Filled — aria-disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Call to Action',
+              '<button class="usa-button" type="button" aria-disabled="true">Download Report</button>'
+            )}
+            ${gridItem('Secondary Filled',
+              '<button class="usa-button usa-button--secondary" type="button" aria-disabled="true">Apply Filters</button>'
+            )}
+          `)}
         </div>
       </div>
-
       <div>
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #58585B; margin-bottom: 1rem;">Outline — disabled (on light)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline" type="button" disabled="disabled">Outline</button>
-          <button class="usa-button usa-button--outline" type="button" aria-disabled="true">aria-disabled</button>
+        ${label('Outline — disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('disabled',
+              '<button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button>'
+            )}
+            ${gridItem('aria-disabled',
+              '<button class="usa-button usa-button--outline" type="button" aria-disabled="true">View Details</button>'
+            )}
+          `)}
         </div>
       </div>
-
-      <div style="background-color: #17171B; padding: 2rem; margin: 0 -1rem;">
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #B9B9BB; margin-bottom: 1rem;">Outline — disabled (inverse fallback)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline usa-button--inverse" type="button" disabled="disabled">Outline</button>
-          <button class="usa-button usa-button--outline usa-button--inverse" type="button" aria-disabled="true">aria-disabled</button>
-        </div>
-      </div>
-
-      <div style="background-color: #17171B; padding: 2rem; margin: 0 -1rem;" data-hds-palette="dark">
-        <h3 class="site-preview-heading" style="font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #B9B9BB; margin-bottom: 1rem;">Outline — disabled (dark palette)</h3>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <button class="usa-button usa-button--outline" type="button" disabled="disabled">Outline</button>
-          <button class="usa-button usa-button--outline" type="button" aria-disabled="true">aria-disabled</button>
-        </div>
-      </div>
-
     </div>
   `,
-  argTypes: {
-    label: { table: { disable: true } },
-    variant: { table: { disable: true } },
-    disabled: { table: { disable: true } },
-    ariaDisabled: { table: { disable: true } },
-  },
 };
