@@ -1,15 +1,32 @@
+import remarkGfm from 'remark-gfm';
+
 const config = {
-  stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: [
+    '../stories/**/*.mdx',
+    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
   addons: [
-    '@storybook/addon-docs',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
     '@storybook/addon-a11y',
     'storybook-addon-pseudo-states',
-    ],
+  ],
+  docs: {
+    defaultName: 'Reference',
+  },
   framework: {
     name: '@storybook/html-vite',
     options: {},
   },
-  staticDirs: ['../dist'],
+  staticDirs: ['../dist', '../stories/assets'],
   viteFinal: async (config) => {
     config.server = config.server || {};
     config.server.watch = config.server.watch || {};

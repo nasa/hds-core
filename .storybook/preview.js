@@ -8,7 +8,11 @@ const preview = {
     },
     options: {
       storySort: {
-        order: ['Overview', 'Foundations', 'Components'],
+        order: [
+          'Overview',
+          'Foundations',
+          'Components', ['*', ['Guidance', 'Reference', 'Playground']],
+        ],
       },
     },
   },
