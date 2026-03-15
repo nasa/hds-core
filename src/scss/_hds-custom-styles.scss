@@ -243,12 +243,6 @@
 // Docs: https://website.nasa.gov/hds-core/utilities
 // ============================================================
 
-// .hds-sr-only removed — use .usa-sr-only (USWDS Tier 1).
-// The visually-hidden mixin is kept for internal use.
-
-// .hds-intro removed — use .usa-intro (USWDS Tier 1).
-// Override for .usa-intro lives in _hds-components.scss.
-
 .hds-label,
 .hds-eyebrow {
   @include label-uppercase;
