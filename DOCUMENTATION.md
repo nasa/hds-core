@@ -235,12 +235,16 @@ stories/
     Note.jsx                 # Callout note component
     icons.js                 # Shared icon ID arrays (HDS + USWDS)
   components/
-    Button.mdx               # Guidance page
-    Button.stories.js         # Canvas-embed stories + Playground
-    IconButton.mdx            # Guidance page
-    IconButton.stories.js     # Canvas-embed stories + Playground
-    Link.mdx                  # Guidance page
-    Link.stories.js           # Canvas-embed stories + Playground
+      Breadcrumb.mdx            # Guidance page
+      Breadcrumb.stories.js     # Canvas-embed stories + Playground
+      Button.mdx                # Guidance page
+      Button.stories.js         # Canvas-embed stories + Playground
+      IconButton.mdx            # Guidance page
+      IconButton.stories.js     # Canvas-embed stories + Playground
+      IntroText.mdx             # Guidance page
+      IntroText.stories.js      # Canvas-embed stories + Playground
+      Link.mdx                  # Guidance page
+      Link.stories.js           # Canvas-embed stories + Playground
   foundations/
     Color.stories.js
     Grid.stories.js
@@ -260,8 +264,6 @@ stories/
 
 ## Pending Docs Work
 
-- [ ] Style `.hds-note` callouts — neutral gray background/border, spacing between consecutive notes
-- [ ] Note `code.svg` creative review in GitHub Discussions (currently referencing USWDS sprite)
 - [ ] Overview landing page (MDX)
 - [ ] Accessibility foundation story
 - [ ] Convert other foundation stories to MDX for consistency

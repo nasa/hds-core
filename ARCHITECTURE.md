@@ -1,3 +1,8 @@
+Here's the clean updated file. I'll call out every change at the end.
+
+## `ARCHITECTURE.md`
+
+```markdown
 # HDS Core Architecture
 
 Technical decisions and conventions for contributors.
@@ -23,9 +28,19 @@ hds-core/
 │
 ├── .storybook/            # Storybook config (not shipped)
 ├── stories/               # Component stories (not shipped)
+│   ├── helpers/
+│   │   ├── Note.jsx
+│   │   └── icons.js
 │   ├── components/
+│   │   ├── Breadcrumb.mdx
+│   │   ├── Breadcrumb.stories.js
+│   │   ├── Button.mdx
 │   │   ├── Button.stories.js
+│   │   ├── IconButton.mdx
 │   │   ├── IconButton.stories.js
+│   │   ├── IntroText.mdx
+│   │   ├── IntroText.stories.js
+│   │   ├── Link.mdx
 │   │   └── Link.stories.js
 │   └── foundations/
 │       ├── Icons.stories.js
@@ -210,18 +225,18 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | --- | --- | --- | --- |
 | §1 | Navigation (header, footer, nav) | 1 | Link resets, menu triggers |
 | §2 | Banner | 1 | Light background, outside palette context |
-| §3 | Breadcrumb | 1 |  |
+| §3 | Breadcrumb | 1 | Transparent bg, slash separators (not USWDS chevron), palette-aware colors (muted base, heading for current page + hover), hover semibold + dotted underline |
 | §4 | Buttons | 1 | Palette-aware CTA (Red), secondary (Blue), outline (Blue border). Explicit hover/disabled. See DESIGN.md § Button States. |
 | §5 | Forms | 1 | Light backgrounds only (dark TODO) |
 | §6 | In-Page Navigation | 1 | Active state = NASA Blue |
 | §7 | Pagination | 1 | Current page = NASA Blue |
-| §8 | Accordion | 1 |  |
-| §9 | Alerts | 1 |  |
+| §8 | Accordion | 1 | No left border, light bg, hover darker |
+| §9 | Alerts | 1 | border-radius: 0, border-left-width: 4px. Pure USWDS — not in HDS Figma. No Storybook stories. |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
 | §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
-| §12 | Icon Buttons 3 .hds-btn-icon--\* — 6 roles, 3 sizes (sm, default, lg) |
+| §12 | Icon Buttons | 3 | `.hds-btn-icon--*` — 6 roles, 3 sizes (sm, default, lg). Interactive role uses hardcoded colors (not palette vars). |
 | §13 | Links | 1+3 | `.usa-link` override + `.hds-link--internal` escape |
-| §14 | Intro Text | 1 | `.usa-intro` override |
+| §14 | Intro Text | 1 | `.usa-intro` — Public Sans 400, size("body", "sm") ~18px, line-height token 4 (1.52 ≈ 150%), letter-spacing neg-1 (-0.25px). Source: Figma (Proposal silent on intro text). |
 
 ## Icon Architecture
 
@@ -280,19 +295,19 @@ If `dist/` has been deleted, `npx gulp init` must run before `npx gulp build`. T
 
 **Stories:** HTML template literals (not React/Twig). JSX used only for docs helpers (Note.jsx).
 
-**CSS loading:** Loaded as a static asset via <link> in preview-head.html, not as a Vite module import. This avoids Vite module caching issues when CSS is rebuilt externally by Gulp.
+**CSS loading:** Loaded as a static asset via `<link>` in preview-head.html, not as a Vite module import. This avoids Vite module caching issues when CSS is rebuilt externally by Gulp.
 
 **Palette testing:** Toolbar switcher (paintbrush icon) applies palette wrapper via decorator in preview.js.
 
-**Static assets:** dist/ is served via staticDirs in main.js. Sprite paths in stories use /assets/img/hds-sprite.svg#icon-name. USWDS icons available via /assets/img/sprite.svg#icon-name.
+**Static assets:** `dist/` is served via `staticDirs` in main.js. Sprite paths in stories use `/assets/img/hds-sprite.svg#icon-name`. USWDS icons available via `/assets/img/sprite.svg#icon-name`.
 
 **Addons:**
 
-- @storybook/addon-docs — documentation pages + remark-gfm for markdown tables
-- @storybook/addon-a11y — accessibility testing
-- storybook-addon-pseudo-states — hover/focus/active state simulation (installed, configuration pending)
+- `@storybook/addon-docs` — documentation pages + remark-gfm for markdown tables
+- `@storybook/addon-a11y` — accessibility testing
+- `storybook-addon-pseudo-states` — hover/focus/active state simulation (installed, configuration pending)
 
-**Codespaces:** Vite file watching requires polling mode. Configured via viteFinal in main.js with usePolling: true.
+**Codespaces:** Vite file watching requires polling mode. Configured via `viteFinal` in main.js with `usePolling: true`.
 
 See **DOCUMENTATION.md** for all docs conventions: sidebar structure, MDX patterns, callout system, story helpers, and cross-linking.
 
@@ -305,13 +320,37 @@ See **DOCUMENTATION.md** for all docs conventions: sidebar structure, MDX patter
 
 Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
+### Completed Component Stories (Guidance + Playground)
+
+| Component | CSS Section | Tier | Status |
+|---|---|---|---|
+| Breadcrumb | §3 | 1 | ✅ |
+| Button (CTA, Secondary, Outline) | §4 | 1 | ✅ |
+| Icon Button | §12 | 3 | ✅ |
+| Intro Text | §14 | 1 | ✅ |
+| Link | §13 | 1+3 | ✅ |
+| Primary Arrow Button | §11 | 3 | ✅ (in Button) |
+
+### Sections with CSS but no stories yet
+
+| Section | Component | Tier | Notes |
+|---|---|---|---|
+| §1 | Navigation (header/footer) | 1 | Complex — Phase 2 candidate |
+| §2 | Banner | 1 | Needs USWDS JS for expand/collapse |
+| §5 | Forms | 1 | Light palettes only — dark deferred |
+| §6 | In-Page Navigation | 1 | Needs USWDS JS for scroll spy |
+| §7 | Pagination | 1 | Small, no JS needed |
+| §8 | Accordion | 1 | Needs USWDS JS for toggle |
+| §9 | Alerts | 1 | Pure USWDS, not in HDS Figma |
+| §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
+
 ## Pending Work
 
 ### Bugs
 
 - [ ] Disabled buttons still show visual changes on hover despite `:not(:disabled)` guards — likely USWDS specificity issue. Inspect compiled CSS to identify competing selector.
 - [ ] Unstyled button (looks like a link) is getting a NASA Red/Shade fill on hover
-- [ ] Storybook Code tab disappears on Playground stories despite `docs.source.type: 'dynamic'` in preview.js — may need per-story `parameters.docs.source.code` override or Storybook 10 bug. Canvas "Show code" in Guidance pages works correctly.
+- [ ] Storybook Code tab disappears on Playground stories despite `docs.source.type: 'dynamic'` — may need per-story override or Storybook 10 bug
 
 ### Components
 
@@ -325,7 +364,9 @@ Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
 ### Storybook
 
-[ ] Configure storybook-addon-pseudo-states [ ] Remaining component stories as components are completed (Form Elements next) [ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
+- [ ] Configure storybook-addon-pseudo-states
+- [ ] Remaining component stories as components are completed
+- [ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
 
 ### Pre-1.0 Verification
 
