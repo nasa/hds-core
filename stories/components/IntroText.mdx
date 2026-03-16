@@ -1,0 +1,48 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as IntroTextStories from './IntroText.stories';
+
+<Meta title="Components/Intro Text/Guidance" />
+
+# Intro Text
+
+Intro text is a larger, lighter lead paragraph that introduces a page or section. It uses the USWDS `.usa-intro` class with HDS typographic overrides (**Tier 1**).
+
+<Canvas of={IntroTextStories.Default} />
+<p class="hds-caption">Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.</p>
+
+## With body text
+
+Intro text is typically the first paragraph on a page, followed by regular body text. The size contrast establishes visual hierarchy.
+
+<Canvas of={IntroTextStories.WithBodyText} />
+
+## In page context
+
+Intro text works alongside headings and body text to create a clear content hierarchy across all palettes.
+
+<Canvas of={IntroTextStories.InPaletteContext} />
+
+## When to use intro text
+
+- **Lead paragraph** at the top of a page or major section.
+- **Setting context** before detailed body content.
+- **One per page or section** — multiple intro paragraphs dilute the hierarchy.
+
+## When to consider something else
+
+- For **regular body text**, use a standard `<p>` tag.
+- For **pull quotes or callouts**, use a blockquote or alert instead.
+- For **subheadings**, use heading elements (`<h2>`–`<h6>`), not oversized paragraph text.
+
+## Usability guidance
+
+- **Keep it short.** One to two sentences. If it's longer, the size difference becomes fatiguing.
+- **One per visible section.** Multiple intro paragraphs compete for attention.
+- **Don't use it for emphasis.** If you need to highlight a specific phrase, use `<strong>` within regular text.
+
+## Accessibility
+
+- Intro text is a `<p>` element — no special ARIA roles needed.
+- Screen readers announce it as a normal paragraph. The visual size difference is purely presentational.
+- Ensure sufficient color contrast on all palettes. The palette system handles this automatically via `--hds-palette-text`.
