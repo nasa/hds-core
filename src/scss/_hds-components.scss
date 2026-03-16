@@ -670,10 +670,13 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // Interactive — small tooltip/popover triggers over images
+// Uses fixed-color SVGs (hds-buttons/interactive-*.svg) with
+// baked-in NASA Blue fill + white icon. Does NOT use palette
+// vars — color stays constant across all palettes.
 .hds-btn-icon--interactive {
-  background-color: var(--hds-palette-utility-fill);
-  border-color: var(--hds-palette-utility-stroke);
-  color: var(--hds-palette-utility-icon);
+  background-color: #{$hds-color-nasa-blue};
+  border-color: #{$hds-color-nasa-blue};
+  color: #{$hds-color-spacesuit-white};
   height: 1.5em;
   width: 1.5em;
 }
