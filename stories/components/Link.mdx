@@ -18,7 +18,7 @@ The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the cu
 
 <Canvas of={LinkStories.InternalLink} />
 <p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+  Use the palette switcher (🖌 toolbar at top) to preview on all six HDS backgrounds.
 </p>
 
 ### External link
@@ -26,9 +26,6 @@ The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the cu
 Add `.usa-link--external` to display a diagonal arrow icon after the link text. Use this for any URL that takes the visitor **outside of NASA.gov**.
 
 <Canvas of={LinkStories.ExternalLink} />
-<p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</p>
 
 The arrow is generated with pure CSS (`::after` + `mask-image`) — no SVG markup or JavaScript needed.
 
@@ -43,9 +40,6 @@ The arrow is generated with pure CSS (`::after` + `mask-image`) — no SVG marku
 Some NASA properties (e.g., `science.nasa.gov`) use external URLs but are still NASA destinations. Add `.hds-link--internal` alongside `.usa-link--external` to suppress the arrow while keeping any CMS-driven external class intact.
 
 <Canvas of={LinkStories.InternalEscapeHatch} />
-<p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</p>
 
 <Note type="uswds">
   USWDS applies the external arrow automatically when <code>.usa-link--external</code> is present.
@@ -78,18 +72,12 @@ Some NASA properties (e.g., `science.nasa.gov`) use external URLs but are still 
 Links work in any heading level. The external arrow scales proportionally with the heading font size.
 
 <Canvas of={LinkStories.LinksInHeadings} />
-<p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</p>
 
 ## Links in paragraphs
 
 The most common usage pattern. Multiple internal and external links can be mixed within the same paragraph.
 
 <Canvas of={LinkStories.LinksInParagraph} />
-<p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</p>
 
 ## Hover behavior
 
