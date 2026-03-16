@@ -142,8 +142,9 @@
 }
 
 @mixin intro-text {
-  font-size: size("body", "md");
-  font-weight: font-weight("light");
+  font-size: size("body", "sm");
+  font-weight: font-weight("normal");
+  letter-spacing: map.get($hds-letterspacing, "neg-1");
   line-height: var(--hds-line-height-intro);
 }
 
