@@ -6,14 +6,14 @@ const preview = {
         date: /Date$/i,
       },
     },
+    docs: {
+      source: {
+        type: 'dynamic',
+      },
+    },
     options: {
       storySort: {
-        order: [
-          'Overview',
-          'Foundations',
-          'Components',
-          ['*', ['Guidance', 'Reference', 'Playground']],
-        ],
+        order: ['Overview', 'Foundations', 'Components', ['*', ['Guidance', 'Playground']]],
       },
     },
   },
@@ -25,7 +25,7 @@ const preview = {
         title: 'Palette',
         icon: 'paintbrush',
         items: [
-          { value: 'none', title: 'None (default)' },
+          { value: 'none', title: 'No palette (default)' },
           { value: 'white', title: 'White' },
           { value: 'light', title: 'Light' },
           { value: 'midtone', title: 'Midtone' },

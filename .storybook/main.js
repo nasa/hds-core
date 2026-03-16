@@ -19,6 +19,9 @@ const config = {
   docs: {
     defaultName: 'Reference',
   },
+  features: {
+    disableSaveFromUI: true,
+  },
   framework: {
     name: '@storybook/html-vite',
     options: {},
