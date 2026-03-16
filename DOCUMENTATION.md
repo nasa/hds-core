@@ -77,13 +77,15 @@ import * as ButtonStories from './Button.stories';
 
 If the import path errors, try `'@storybook/blocks'` instead.
 
-Below each Canvas, add a palette hint using the HDS caption component:
+Below the **first** Canvas on each Guidance page, add a palette hint using the HDS caption component:
 
 ```mdx
 <p class="hds-caption">
   Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 </p>
 ```
+
+Include the palette caption **under the first Canvas only** on each Guidance page. Once a user sees it, repeating it adds noise.
 
 Do NOT hardcode dark background sections in story renders. The palette toolbar decorator applies to Canvas embeds — users switch palettes via the toolbar.
 
@@ -146,6 +148,33 @@ const gridItem = (labelText, content) => `
 - `flex-wrap: wrap` so grids adapt to narrow viewports
 - Button text should reflect realistic NASA use cases, not generic labels
 
+### Icon lists
+
+Shared icon ID arrays live in `stories/helpers/icons.js`. Import in any story that needs an icon picker:
+
+```js
+import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
+```
+
+Available exports:
+
+| Export             | Contents                             | Use in                        |
+| ------------------ | ------------------------------------ | ----------------------------- |
+| `hdsUiIcons`       | UI icons only (no tag-\*)            | Icon buttons, action bars     |
+| `hdsTagIcons`      | Tag/category icons only              | Chips, filters, content types |
+| `hdsIcons`         | All HDS (UI + Tag)                   | Full icon pickers             |
+| `uswdsUniqueIcons` | USWDS icons with no HDS equivalent   | USWDS compatibility testing   |
+| `uswdsPortedIcons` | USWDS icons replaced by HDS versions | Reference / porting history   |
+| `uswdsIcons`       | All USWDS (unique + ported)          | Full USWDS pickers            |
+
+When porting a USWDS icon to HDS, move it from `uswdsUniqueIcons` to `uswdsPortedIcons` and add the HDS name to the appropriate HDS array.
+
+To regenerate after adding or removing icons:
+
+```bash
+ls src/assets/img/hds-icons/*.svg | xargs -I{} basename {} .svg | sort
+```
+
 ## Cross-Linking Between Stories
 
 Use plain markdown links with Storybook query paths:
@@ -204,11 +233,12 @@ stories/
   assets/                    # Storybook-only images (screenshots, not shipped)
   helpers/
     Note.jsx                 # Callout note component
+    icons.js                 # Shared icon ID arrays (HDS + USWDS)
   components/
     Button.mdx               # Guidance page
     Button.stories.js         # Canvas-embed stories + Playground
-    IconButton.mdx            # Guidance page (TODO)
-    IconButton.stories.js     # Stories
+    IconButton.mdx            # Guidance page
+    IconButton.stories.js     # Canvas-embed stories + Playground
     Link.mdx                  # Guidance page
     Link.stories.js           # Canvas-embed stories + Playground
   foundations/
@@ -224,17 +254,15 @@ stories/
 
 | File | Purpose |
 | --- | --- |
-| `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, docs.defaultName |
-| `.storybook/preview.js` | Palette toolbar, decorators, storySort |
+| `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, docs.defaultName, disableSaveFromUI |
+| `.storybook/preview.js` | Palette toolbar, decorators, storySort, dynamic source |
 | `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
 
 ## Pending Docs Work
 
-- [ ] Apply Guidance / Playground pattern to Icon Button
 - [ ] Style `.hds-note` callouts — neutral gray background/border, spacing between consecutive notes
 - [ ] Note `code.svg` creative review in GitHub Discussions (currently referencing USWDS sprite)
 - [ ] Overview landing page (MDX)
 - [ ] Accessibility foundation story
 - [ ] Convert other foundation stories to MDX for consistency
 - [ ] Explore reusable story helpers as shared module (if helpers diverge across files)
-- [ ] Update Button stories to remove `tags: ['autodocs']` and align with 2-tab pattern

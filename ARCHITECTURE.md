@@ -219,7 +219,7 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | §9 | Alerts | 1 |  |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
 | §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
-| §12 | Icon Buttons | 3 | `.hds-btn-icon--*` — 6 roles, 2 sizes |
+| §12 | Icon Buttons 3 .hds-btn-icon--\* — 6 roles, 3 sizes (sm, default, lg) |
 | §13 | Links | 1+3 | `.usa-link` override + `.hds-link--internal` escape |
 | §14 | Intro Text | 1 | `.usa-intro` override |
 
@@ -292,15 +292,26 @@ If `dist/` has been deleted, `npx gulp init` must run before `npx gulp build`. T
 - @storybook/addon-a11y — accessibility testing
 - storybook-addon-pseudo-states — hover/focus/active state simulation (installed, configuration pending)
 
-Codespaces: Vite file watching requires polling mode. Configured via viteFinal in main.js with usePolling: true.
+**Codespaces:** Vite file watching requires polling mode. Configured via viteFinal in main.js with usePolling: true.
 
-See DOCUMENTATION.md for all docs conventions: sidebar structure, MDX patterns, callout system, story helpers, and cross-linking.
+See **DOCUMENTATION.md** for all docs conventions: sidebar structure, MDX patterns, callout system, story helpers, and cross-linking.
+
+**Shared data helpers** live in `stories/helpers/` alongside JSX components:
+
+| File       | Content                           | Extension         |
+| ---------- | --------------------------------- | ----------------- |
+| `Note.jsx` | React callout component           | `.jsx` (uses JSX) |
+| `icons.js` | Icon ID arrays for story controls | `.js` (pure data) |
+
+Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
 ## Pending Work
 
 ### Bugs
 
 - [ ] Disabled buttons still show visual changes on hover despite `:not(:disabled)` guards — likely USWDS specificity issue. Inspect compiled CSS to identify competing selector.
+- [ ] Unstyled button (looks like a link) is getting a NASA Red/Shade fill on hover
+- [ ] Storybook Code tab disappears on Playground stories despite `docs.source.type: 'dynamic'` in preview.js — may need per-story `parameters.docs.source.code` override or Storybook 10 bug. Canvas "Show code" in Guidance pages works correctly.
 
 ### Components
 
