@@ -38,6 +38,7 @@
 // Deep-link from dev docs: _hds-components.scss §5 Forms
 // ============================================================
 
+@use "sass:map";
 @use "uswds-core" as *;
 @use "hds-tokens" as *;
 
