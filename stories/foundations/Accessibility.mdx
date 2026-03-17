@@ -1,0 +1,91 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Accessibility" />
+
+# Accessibility
+
+HDS is designed to meet **WCAG 2.1 AAA** standards. All text and background combinations maintain a contrast ratio of at least **7.0:1**. See [Color](?path=/docs/foundations-color--docs) for details on how HDS colors are selected with accessibility in mind.
+
+The best approach to accessibility is to consider it throughout the entire process — from stakeholder discussions through design, development, testing, and distribution — rather than attempting to address it after the build is complete.
+
+## What HDS Core handles for you
+
+HDS Core's color palettes, typography, and component styles are built with accessibility in mind. When you use HDS components as documented, you get:
+
+- **AAA color contrast** across all six palettes
+- **Focus indicators** on all interactive elements (visible on keyboard navigation)
+- **Semantic HTML** in all recommended component markup
+
+These are automatic — you don't need to configure them.
+
+## What you need to handle
+
+### Color usage
+
+Never use color as the only way to communicate information. If color indicates a status or category, provide a text alternative as well.
+
+> **Example:** A red error border on a form field should always be paired with a visible error message — don't rely on the border color alone.
+
+### Semantic hierarchy
+
+Use heading levels (`<h1>` through `<h6>`) in correct order to reflect the structure of your page. Screen readers use headings to build a mental model of the interface — skipping levels or using headings out of order makes navigation difficult.
+
+- Every page should have exactly one `<h1>`
+- Don't skip levels (e.g., `<h2>` to `<h4>`)
+- Use headings for structure, not for visual sizing — use [Typography](?path=/docs/foundations-typography--docs) classes to control appearance independently of heading level
+
+### Screen readers and keyboard access
+
+- All interactive elements must be reachable by keyboard (`Tab`, `Enter`, `Space`, arrow keys as appropriate)
+- Define logical tab order — if your page has layered regions, menus, or submenus, define [ARIA landmark roles](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/) to help screen reader users navigate between sections
+- Use `.usa-sr-only` for text that should be read by screen readers but not displayed visually (e.g., "(external)" after external links)
+
+### Alternative text for images
+
+Every image needs one of these three treatments:
+
+| Scenario | What to do |
+| --- | --- |
+| Image conveys essential information | Write descriptive `alt` text that communicates the content |
+| Image has adjacent text that already describes it | Use `alt=""` to avoid redundancy — the screen reader skips it |
+| Image is purely decorative | Use `alt=""` so screen readers ignore it entirely |
+
+The best time to write alt text is when the image is created or selected. If that didn't happen, each image needs to be evaluated in context.
+
+### Icons
+
+All HDS icons in the sprite have descriptive names that are coded into the application. When using icons:
+
+- **Decorative icons** (next to visible text that already describes the action): add `aria-hidden="true"` and `focusable="false"` to the `<svg>`
+- **Meaningful icons** (the icon is the only indicator of an action, such as an icon-only button): add an `aria-label` to the button or a `.usa-sr-only` text span
+
+See each component's Accessibility section for specific ARIA requirements.
+
+### Hover states and tooltips
+
+If hover states or tooltips convey information that isn't available any other way, that information needs a visible or screen-reader-accessible alternative. Hover-only content is inaccessible to keyboard and touch users.
+
+### Audio and video
+
+Media content should provide:
+
+- **Captions** for video content
+- **Transcripts** for audio content
+- Controls that are keyboard-accessible
+
+## Testing
+
+Accessibility testing should include:
+
+- **Automated scanning** — tools like [axe](https://www.deque.com/axe/) or [Lighthouse](https://developer.chrome.com/docs/lighthouse/) catch common issues (contrast, missing alt text, ARIA errors)
+- **Keyboard testing** — navigate your entire page using only the keyboard (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`)
+- **Screen reader testing** — test with at least one screen reader (NVDA on Windows, VoiceOver on macOS) to verify heading hierarchy, link announcements, and form labels
+
+Automated tools catch roughly 30–40% of accessibility issues. Manual keyboard and screen reader testing is essential for the rest.
+
+## Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- [USWDS Accessibility](https://designsystem.digital.gov/documentation/accessibility/)
+- [Section 508 Standards](https://www.section508.gov/)
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)

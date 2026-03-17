@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview/Roadmap" />
+
+# Roadmap
+
+HDS Core is working toward a **v1.0 release**. This page shows what's available now, what's coming before v1.0, and what's planned for future releases.
+
+---
+
+## Available now
+
+These components and foundations are fully styled and documented:
+
+| Component | USWDS equivalent |
+| --- | --- |
+| [Breadcrumb](?path=/docs/components-breadcrumb-guidance--docs) | `.usa-breadcrumb` |
+| [Button](?path=/docs/components-button-guidance--docs) (CTA, Secondary, Outline) | `.usa-button` |
+| [Icon Button](?path=/docs/components-icon-button-guidance--docs) | — |
+| [Intro Text](?path=/docs/components-intro-text-guidance--docs) | `.usa-intro` |
+| [Link](?path=/docs/components-link-guidance--docs) | `.usa-link` |
+| [Pagination](?path=/docs/components-pagination-guidance--docs) | `.usa-pagination` |
+| [Primary Arrow Button](?path=/docs/components-primary-arrow-button-guidance--docs) | — |
+
+Foundations: [Color](?path=/docs/foundations-color--docs) · [Color Palettes](?path=/docs/foundations-color-palettes--docs) · [Grid](?path=/docs/foundations-grid--docs) · [Icons](?path=/docs/foundations-icons--docs) · [Spacing](?path=/docs/foundations-spacing--docs) · [Typography](?path=/docs/foundations-typography--docs)
+
+---
+
+## Coming in v1.0
+
+These components are styled in HDS Core CSS and are being documented and tested for the v1.0 release:
+
+| Component | USWDS equivalent | Notes |
+| --- | --- | --- |
+| Accordion | `.usa-accordion` |  |
+| Banner | `.usa-banner` |  |
+| Blockquote | — | Styled within `.usa-prose` |
+| Checkbox | `.usa-checkbox` |  |
+| Forms | `.usa-form`, `.usa-input`, `.usa-select` | Light palettes first |
+| Grid utilities | `.usa-grid` | Responsive reverse, horizontal lists |
+| In-page navigation | `.usa-in-page-nav` |  |
+| Navigation | `.usa-header`, `.usa-footer` | Header, footer, and menus |
+| Radio button | `.usa-radio` |  |
+| Table | `.usa-table` | Styled within `.usa-prose` |
+| Tag | `.usa-tag` |  |
+
+---
+
+## Planned for future releases
+
+After v1.0, HDS Core will expand to cover more of the Horizon Design System. Planned additions include:
+
+**Cards & layout** — Cards, image with caption, gallery thumbnails
+
+**Interactive components** — Dropdown menus, modals, tooltips, tabs, date picker, search
+
+**Status & feedback** — Site alerts, status indicators, loaders, steppers
+
+**Media** — Audio player, video player, carousels
+
+**Extended form elements** — File upload, sliders, toggles, chips
+
+**Data visualization** — Chart color palettes and accessibility guidance
+
+These components require JavaScript and/or additional design work beyond the current CSS-only scope. Priorities will be based on community input — check the [GitHub Discussions](https://github.com/nasa/hds-core/discussions) to see what's being considered and to share your needs.
+
+---
+
+## Additional components
+
+All USWDS components work with HDS Core theming out of the box — colors, typography, and spacing apply automatically. Components listed above will receive dedicated HDS styling and documentation. USWDS components not listed here (alerts, button groups, collections, etc.) continue to work with the default USWDS appearance, themed to HDS.

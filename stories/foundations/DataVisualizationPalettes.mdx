@@ -1,0 +1,1240 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+
+<Meta title="Foundations/Data Visualization Palettes" />
+
+# Data Visualization Palettes
+
+Color palettes for use in charts and data visualizations. These palettes are **separate from the six HDS component palettes** — they are intended only for encoding data in charts, not for UI elements.
+
+For general color guidance, see [Color](?path=/docs/foundations-color--docs). For chart design guidance, see [Data Visualization](?path=/docs/foundations-data-visualization--docs).
+
+## How to use these palettes
+
+Use the USWDS `color()` function in Sass to reference any value:
+
+```scss
+.my-chart-series-1 {
+  fill: color('blue-70v');
+}
+```
+
+### Categorical data
+
+When comparing distinct categories (e.g., agencies, missions, planets), use the categorical palettes below. Colors are ordered to maximize contrast between adjacent items.
+
+### Sequential data
+
+When color represents a value or range (e.g., temperature, density, altitude), use a single hue family from light (10) to dark (90).
+
+### Semantic associations
+
+When data categories have strong color associations (Mars = red, Earth = blue), use the matching hue family to make the visualization more intuitive.
+
+<Note type="figma">
+  The original HDS Figma spec defines data visualization colors using custom hex values. For HDS
+  Core, these have been translated to the nearest USWDS color tokens for consistency with the USWDS
+  utility system. Hex values shown below are the USWDS token values.
+</Note>
+
+## Categorical palettes
+
+Use these when data categories need distinct colors. Colors are ordered to maximize visual separation — use them in order starting from 01.
+
+### Light backgrounds
+
+<div style={{ border: '1px solid #E3E3E3', marginBlock: '1.5rem' }}>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#0f2166',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>01</span>
+    <span style={{ flex: 1 }}>Blue 80</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-70v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#0f2166</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#d83933',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>02</span>
+    <span style={{ flex: 1 }}>Red 50</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>red-40v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#d83933</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#bd6b2d',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>03</span>
+    <span style={{ flex: 1 }}>Orange 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>orange-30v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#bd6b2d</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#2e6276',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>04</span>
+    <span style={{ flex: 1 }}>Slate 70</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-cool-60</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#2e6276</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#aa9523',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>05</span>
+    <span style={{ flex: 1 }}>Gold 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>gold-40</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#aa9523</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#0076d6',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>06</span>
+    <span style={{ flex: 1 }}>Blue 50</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-40v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#0076d6</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#6f0500',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>07</span>
+    <span style={{ flex: 1 }}>Red 80</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>red-70v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#6f0500</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#82b4c9',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>08</span>
+    <span style={{ flex: 1 }}>Slate 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-cool-30</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#82b4c9</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#261b56',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>09</span>
+    <span style={{ flex: 1 }}>Purple 80</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>indigo-warm-70v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#261b56</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#e5a000',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>10</span>
+    <span style={{ flex: 1 }}>Yellow 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>gold-30v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#e5a000</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#216e1f',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>11</span>
+    <span style={{ flex: 1 }}>Lime 70</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>green-60v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#216e1f</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#1dc2ae',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>12</span>
+    <span style={{ flex: 1 }}>Aqua 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>mint-cool-30v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#1dc2ae</span>
+  </div>
+</div>
+
+### Dark backgrounds
+
+<div style={{ border: '1px solid #444447', marginBlock: '1.5rem' }}>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#0050d8',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>01</span>
+    <span style={{ flex: 1 }}>Blue 60</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-50v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#0050d8</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#d83933',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>02</span>
+    <span style={{ flex: 1 }}>Red 50</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>red-40v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#d83933</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#e09860',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>03</span>
+    <span style={{ flex: 1 }}>Orange 30</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>orange-20v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#e09860</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#3a7d95',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>04</span>
+    <span style={{ flex: 1 }}>Slate 60</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-cool-50</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#3a7d95</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#e0cd7a',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>05</span>
+    <span style={{ flex: 1 }}>Gold 30</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>gold-20</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#e0cd7a</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#2491ff',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>06</span>
+    <span style={{ flex: 1 }}>Blue 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-30v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#2491ff</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#f2938c',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>07</span>
+    <span style={{ flex: 1 }}>Red 30</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>red-20v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#f2938c</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#82b4c9',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>08</span>
+    <span style={{ flex: 1 }}>Slate 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>blue-cool-30</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#82b4c9</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#3d2c9d',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>09</span>
+    <span style={{ flex: 1 }}>Purple 60</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>indigo-warm-50v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#3d2c9d</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#ffbe2e',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>10</span>
+    <span style={{ flex: 1 }}>Yellow 30</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>gold-20v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#ffbe2e</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#008817',
+      color: '#fff',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>11</span>
+    <span style={{ flex: 1 }}>Lime 60</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>green-50v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#008817</span>
+  </div>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      padding: '0.45rem 0.75rem',
+      backgroundColor: '#1dc2ae',
+      color: '#000',
+      fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+      fontSize: '0.8rem',
+    }}
+  >
+    <span style={{ width: '2.5rem' }}>12</span>
+    <span style={{ flex: 1 }}>Aqua 40</span>
+    <span style={{ marginLeft: 'auto', opacity: 0.7 }}>
+      <code style={{ color: 'inherit' }}>mint-cool-30v</code>
+    </span>
+    <span style={{ width: '7rem', textAlign: 'right' }}>#1dc2ae</span>
+  </div>
+</div>
+
+### Smaller categorical groupings
+
+_TODO: Add recommended subsets for visualizations with fewer data categories are in progress. These will provide pre-selected groupings of 3, 4, 5, 6, and 8 colors optimized for maximum contrast._
+
+## Sequential palettes
+
+Use a single hue family from light (10) to dark (90) when color represents a value or range.
+
+### Reds
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#fef0f0' }} />
+  <div style={{ flex: 1, backgroundColor: '#fdb8ae' }} />
+  <div style={{ flex: 1, backgroundColor: '#f2938c' }} />
+  <div style={{ flex: 1, backgroundColor: '#e9695f' }} />
+  <div style={{ flex: 1, backgroundColor: '#d83933' }} />
+  <div style={{ flex: 1, backgroundColor: '#b50909' }} />
+  <div style={{ flex: 1, backgroundColor: '#8b0a03' }} />
+  <div style={{ flex: 1, backgroundColor: '#6f0500' }} />
+  <div style={{ flex: 1, backgroundColor: '#520301' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>red-80v</span>
+  </div>
+</div>
+
+### Oranges
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#fef2e4' }} />
+  <div style={{ flex: 1, backgroundColor: '#ffc099' }} />
+  <div style={{ flex: 1, backgroundColor: '#e09860' }} />
+  <div style={{ flex: 1, backgroundColor: '#bd6b2d' }} />
+  <div style={{ flex: 1, backgroundColor: '#a05a13' }} />
+  <div style={{ flex: 1, backgroundColor: '#874119' }} />
+  <div style={{ flex: 1, backgroundColor: '#5f3617' }} />
+  <div style={{ flex: 1, backgroundColor: '#352313' }} />
+  <div style={{ flex: 1, backgroundColor: '#1c1505' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>orange-80v</span>
+  </div>
+</div>
+
+### Yellows
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#fef0c8' }} />
+  <div style={{ flex: 1, backgroundColor: '#ffe396' }} />
+  <div style={{ flex: 1, backgroundColor: '#ffbe2e' }} />
+  <div style={{ flex: 1, backgroundColor: '#e5a000' }} />
+  <div style={{ flex: 1, backgroundColor: '#c2850c' }} />
+  <div style={{ flex: 1, backgroundColor: '#936f38' }} />
+  <div style={{ flex: 1, backgroundColor: '#7a591a' }} />
+  <div style={{ flex: 1, backgroundColor: '#5c410a' }} />
+  <div style={{ flex: 1, backgroundColor: '#3b2b15' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-80v</span>
+  </div>
+</div>
+
+### Golds
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#f5e6af' }} />
+  <div style={{ flex: 1, backgroundColor: '#e0cd7a' }} />
+  <div style={{ flex: 1, backgroundColor: '#c7b34b' }} />
+  <div style={{ flex: 1, backgroundColor: '#aa9523' }} />
+  <div style={{ flex: 1, backgroundColor: '#8a7237' }} />
+  <div style={{ flex: 1, backgroundColor: '#6b5a28' }} />
+  <div style={{ flex: 1, backgroundColor: '#4d421f' }} />
+  <div style={{ flex: 1, backgroundColor: '#332d1a' }} />
+  <div style={{ flex: 1, backgroundColor: '#1a1614' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-10</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-20</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-30</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-40</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-50</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-60</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-70</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-80</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>gold-90</span>
+  </div>
+</div>
+
+### Limes
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#ddf9c7' }} />
+  <div style={{ flex: 1, backgroundColor: '#b7f5a7' }} />
+  <div style={{ flex: 1, backgroundColor: '#70e17b' }} />
+  <div style={{ flex: 1, backgroundColor: '#21c834' }} />
+  <div style={{ flex: 1, backgroundColor: '#00a91c' }} />
+  <div style={{ flex: 1, backgroundColor: '#008817' }} />
+  <div style={{ flex: 1, backgroundColor: '#216e1f' }} />
+  <div style={{ flex: 1, backgroundColor: '#154c21' }} />
+  <div style={{ flex: 1, backgroundColor: '#0e3214' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>green-80v</span>
+  </div>
+</div>
+
+### Greens
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#c9fbeb' }} />
+  <div style={{ flex: 1, backgroundColor: '#83fcd4' }} />
+  <div style={{ flex: 1, backgroundColor: '#0ceda6' }} />
+  <div style={{ flex: 1, backgroundColor: '#04c585' }} />
+  <div style={{ flex: 1, backgroundColor: '#00a871' }} />
+  <div style={{ flex: 1, backgroundColor: '#008659' }} />
+  <div style={{ flex: 1, backgroundColor: '#146947' }} />
+  <div style={{ flex: 1, backgroundColor: '#0d4e34' }} />
+  <div style={{ flex: 1, backgroundColor: '#0d3923' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-80v</span>
+  </div>
+</div>
+
+### Aquas
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#e0f7f6' }} />
+  <div style={{ flex: 1, backgroundColor: '#9cf1ef' }} />
+  <div style={{ flex: 1, backgroundColor: '#29e1cb' }} />
+  <div style={{ flex: 1, backgroundColor: '#1dc2ae' }} />
+  <div style={{ flex: 1, backgroundColor: '#00a398' }} />
+  <div style={{ flex: 1, backgroundColor: '#008480' }} />
+  <div style={{ flex: 1, backgroundColor: '#0f6460' }} />
+  <div style={{ flex: 1, backgroundColor: '#0b4b3f' }} />
+  <div style={{ flex: 1, backgroundColor: '#123131' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>mint-cool-80v</span>
+  </div>
+</div>
+
+### Slates
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#e7f2f5' }} />
+  <div style={{ flex: 1, backgroundColor: '#dae9ee' }} />
+  <div style={{ flex: 1, backgroundColor: '#adcfdc' }} />
+  <div style={{ flex: 1, backgroundColor: '#82b4c9' }} />
+  <div style={{ flex: 1, backgroundColor: '#6499af' }} />
+  <div style={{ flex: 1, backgroundColor: '#3a7d95' }} />
+  <div style={{ flex: 1, backgroundColor: '#2e6276' }} />
+  <div style={{ flex: 1, backgroundColor: '#224a58' }} />
+  <div style={{ flex: 1, backgroundColor: '#14333d' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-5</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-10</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-20</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-30</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-40</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-50</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-60</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-70</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-cool-80</span>
+  </div>
+</div>
+
+### Blues
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#e8f5ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#cfe8ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#73b3e7' }} />
+  <div style={{ flex: 1, backgroundColor: '#2491ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#0076d6' }} />
+  <div style={{ flex: 1, backgroundColor: '#0050d8' }} />
+  <div style={{ flex: 1, backgroundColor: '#0b309e' }} />
+  <div style={{ flex: 1, backgroundColor: '#0f2166' }} />
+  <div style={{ flex: 1, backgroundColor: '#0a1540' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>blue-80v</span>
+  </div>
+</div>
+
+### Purples
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#f1efff' }} />
+  <div style={{ flex: 1, backgroundColor: '#cbc4ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#967efb' }} />
+  <div style={{ flex: 1, backgroundColor: '#745fe9' }} />
+  <div style={{ flex: 1, backgroundColor: '#5942d2' }} />
+  <div style={{ flex: 1, backgroundColor: '#3d2c9d' }} />
+  <div style={{ flex: 1, backgroundColor: '#351e6e' }} />
+  <div style={{ flex: 1, backgroundColor: '#261b56' }} />
+  <div style={{ flex: 1, backgroundColor: '#1b1140' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>indigo-warm-80v</span>
+  </div>
+</div>
+
+### Magentas
+
+<div style={{ display: 'flex', height: '3rem', marginBottom: '2px' }}>
+  <div style={{ flex: 1, backgroundColor: '#fef0ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#fbdcff' }} />
+  <div style={{ flex: 1, backgroundColor: '#ee83ff' }} />
+  <div style={{ flex: 1, backgroundColor: '#d85bef' }} />
+  <div style={{ flex: 1, backgroundColor: '#be32d0' }} />
+  <div style={{ flex: 1, backgroundColor: '#93219e' }} />
+  <div style={{ flex: 1, backgroundColor: '#711e8c' }} />
+  <div style={{ flex: 1, backgroundColor: '#481441' }} />
+  <div style={{ flex: 1, backgroundColor: '#2e0e2a' }} />
+</div>
+<div
+  style={{
+    display: 'flex',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+    marginBottom: '2rem',
+  }}
+>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>10</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-5v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>20</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-10v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>30</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-20v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>40</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-30v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>50</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-40v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>60</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-50v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>70</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-60v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>80</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-70v</span>
+  </div>
+  <div style={{ flex: 1, padding: '0.25rem 0.25rem 0 0' }}>
+    <strong>90</strong>
+    <br />
+    <span style={{ fontSize: '0.6rem' }}>violet-warm-80v</span>
+  </div>
+</div>

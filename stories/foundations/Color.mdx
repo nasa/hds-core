@@ -1,0 +1,846 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+
+<Meta title="Foundations/Color" />
+
+# Color
+
+Color is used in restrained and purposeful ways throughout HDS. With content at the forefront, color gives attention and hierarchy without distraction.
+
+HDS colors are designed to meet **WCAG AAA** contrast standards — all text and background combinations maintain a minimum **7.0:1** contrast ratio. For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
+
+## Primary palette
+
+The primary palette consists of black, white, red, and blue. These colors are used in logical ways to highlight actions when they are important.
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: '1.5rem',
+    marginBlock: '2rem',
+  }}
+>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-carbon-black</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#000000',
+        color: '#fff',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>Carbon Black</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.8 }}>#000000</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Text, backgrounds, headings
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-spacesuit-white</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#FFFFFF',
+        color: '#000',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        border: '1px solid rgba(0,0,0,0.1)',
+      }}
+    >
+      <strong>Spacesuit White</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.5 }}>#FFFFFF</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Backgrounds, button text, icons
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-red</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#F64137',
+        color: '#fff',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Red</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.8 }}>#F64137</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Primary buttons, CTA, navigation away
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-blue</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#1C67E3',
+        color: '#fff',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Blue</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.8 }}>#1C67E3</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Secondary buttons, on-page actions
+    </div>
+  </div>
+</div>
+
+## Extended palette
+
+Tints and shades of the brand colors ensure AAA-accessible combinations across all contexts.
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: '1.5rem',
+    marginBlock: '2rem',
+  }}
+>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-red-tint</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#FF5C52',
+        color: '#000',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Red / Tint</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.6 }}>#FF5C52</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Hover states, error highlights
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-red-shade</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#B60109',
+        color: '#fff',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Red / Shade</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.8 }}>#B60109</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Button hover, error dark
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-blue-tint</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#288BFF',
+        color: '#000',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Blue / Tint</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.6 }}>#288BFF</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Active elements, dark palette buttons
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-nasa-blue-shade</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#0B3D91',
+        color: '#fff',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>NASA Blue / Shade</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.8 }}>#0B3D91</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Blue palette background
+    </div>
+  </div>
+</div>
+
+## Neutrals — Carbon scale
+
+Neutrals provide appropriate levels of contrast across the system. They are used for text, borders, and subtle backgrounds.
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+    gap: '1rem',
+    marginBlock: '2rem',
+  }}
+>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#000000',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon Black</strong>
+      <code style={{ opacity: 0.8 }}>#000000</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#17171B',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 90</strong>
+      <code style={{ opacity: 0.8 }}>#17171B</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#2E2E32',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 80</strong>
+      <code style={{ opacity: 0.8 }}>#2E2E32</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#444447',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 70</strong>
+      <code style={{ opacity: 0.8 }}>#444447</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#58585B',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 60</strong>
+      <code style={{ opacity: 0.8 }}>#58585B</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#77777A',
+        color: '#fff',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 50</strong>
+      <code style={{ opacity: 0.8 }}>#77777A</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#959599',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 40</strong>
+      <code style={{ opacity: 0.6 }}>#959599</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#B9B9BB',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 30</strong>
+      <code style={{ opacity: 0.6 }}>#B9B9BB</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#D1D1D1',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 20</strong>
+      <code style={{ opacity: 0.6 }}>#D1D1D1</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#E3E3E3',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 10</strong>
+      <code style={{ opacity: 0.6 }}>#E3E3E3</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#F6F6F6',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+        border: '1px solid rgba(0,0,0,0.1)',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Carbon 05</strong>
+      <code style={{ opacity: 0.6 }}>#F6F6F6</code>
+    </div>
+  </div>
+  <div>
+    <div
+      style={{
+        backgroundColor: '#FFFFFF',
+        color: '#000',
+        padding: '0.75rem',
+        minHeight: '3.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        fontSize: '0.7rem',
+        border: '1px solid rgba(0,0,0,0.1)',
+      }}
+    >
+      <strong style={{ fontSize: '0.75rem' }}>Spacesuit White</strong>
+      <code style={{ opacity: 0.6 }}>#FFFFFF</code>
+    </div>
+  </div>
+</div>
+
+Key text pairings for AAA contrast:
+
+- **Carbon 60** (`#58585B`) — body text on white/light backgrounds
+- **Carbon 40** (`#959599`) — body text on dark/black backgrounds
+
+All neutrals use the token pattern `$hds-color-carbon-{step}` (Sass) or `var(--hds-color-carbon-{step})` (CSS).
+
+## Additional colors
+
+International Orange and Active Green are used sparingly and intentionally.
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: '1.5rem',
+    marginBlock: '2rem',
+  }}
+>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-international-orange</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#EA6F24',
+        color: '#000',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>International Orange</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.6 }}>#EA6F24</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Blockquote icon, status indicators
+    </div>
+  </div>
+  <div>
+    <div style={{ fontSize: '0.75rem', marginBottom: '0.35rem' }}>
+      <code>$hds-color-active-green</code>
+    </div>
+    <div
+      style={{
+        backgroundColor: '#47DA84',
+        color: '#000',
+        padding: '1.5rem',
+        minHeight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+      }}
+    >
+      <strong>Active Green</strong>
+      <br />
+      <code style={{ fontSize: '0.75rem', opacity: 0.6 }}>#47DA84</code>
+    </div>
+    <div style={{ padding: '0.5rem 0', fontSize: '0.75rem', opacity: 0.6 }}>
+      Active missions, confirmation status
+    </div>
+  </div>
+</div>
+
+## Color roles
+
+HDS uses color to create consistent wayfinding patterns across all components.
+
+| Role | Swatch | Color | Meaning | Examples |
+| --- | --- | --- | --- | --- |
+| Primary | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: '#F64137', borderRadius: '50%' }} /> | NASA Red | Navigates to a new page | [Button](?path=/docs/components-button-guidance--docs), [Primary Arrow Button](?path=/docs/components-primary-arrow-button-guidance--docs) |
+| Secondary | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: '#1C67E3', borderRadius: '50%' }} /> | NASA Blue | Stays on the current page | [Button (secondary, outline)](?path=/docs/components-button-guidance--docs) |
+| Neutral | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: '#77777A', borderRadius: '50%' }} /> | Carbon scale | UI controls | [Icon Button (utility)](?path=/docs/components-icon-button-guidance--docs), [Link](?path=/docs/components-link-guidance--docs) |
+| Significance | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: '#EA6F24', borderRadius: '50%' }} /> | International Orange | Status, emphasis | Blockquote icon, status indicators |
+| Active | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: '#47DA84', borderRadius: '50%' }} /> | Active Green | Confirmation | Active missions, completion status |
+
+Beyond wayfinding, color is used sparingly — only to show status, call attention to timely events, and give emphasis to the human element of quotes.
+
+<Note type="uswds">
+  HDS Core swaps the USWDS primary and secondary color families. In standard USWDS, primary is blue
+  and secondary is red. In HDS Core,
+  <code>color("primary")</code> returns NASA Red and
+  <code>color("secondary")</code> returns NASA Blue. This means
+  <code>.usa-button</code> automatically renders NASA Red and
+  <code>.usa-button--secondary</code> renders NASA Blue — matching the HDS wayfinding rule with no
+  extra classes needed.
+</Note>
+
+## Using colors in code
+
+HDS Core provides three ways to reference colors:
+
+| Method | Syntax | Values | When to use |
+| --- | --- | --- | --- |
+| **HDS Sass variables** | `$hds-color-carbon-90` | Exact HDS hex | Custom Sass — ✅ recommended |
+| **CSS custom properties** | `var(--hds-color-carbon-90)` | Exact HDS hex | Plain CSS / JS — ✅ recommended |
+| **USWDS theme tokens** | `color("base-darker")` | Approximate | Inside USWDS mixins only — ⚠️ close but not identical |
+
+<Note type="code">
+  USWDS theme tokens use USWDS's own system color strings, which don't have exact matches for every
+  Carbon value. For example,
+  <code>color("base-darker")</code> returns <code>#1b1b1b</code> while
+  <code>$hds-color-carbon-90</code> is <code>#17171B</code>. Use HDS variables or custom properties
+  for exact values.
+</Note>
+
+### Sass
+
+```scss
+.my-component {
+  background-color: $hds-color-carbon-05;
+  color: $hds-color-carbon-90;
+  border: 1px solid $hds-color-carbon-20;
+}
+```
+
+### CSS
+
+```css
+.my-element {
+  color: var(--hds-color-carbon-90);
+  background: var(--hds-color-carbon-05);
+  border-color: var(--hds-color-nasa-blue);
+}
+```
+
+### Palette-aware custom properties
+
+Inside a palette wrapper, use `--hds-palette-*` tokens to automatically adapt to the active palette. See [Color Palettes](?path=/docs/foundations-color-palettes--docs) for the full list.
+
+```css
+.my-element {
+  color: var(--hds-palette-text);
+  background: var(--hds-palette-bg);
+  border-color: var(--hds-palette-border);
+}
+```
+
+## CSS custom properties reference
+
+All `--hds-color-*` properties are output to `:root` and available globally:
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '0.5rem',
+    marginBlock: '1.5rem',
+    fontSize: '0.8rem',
+    fontFamily: 'var(--hds-font-family-code, "DM Mono", monospace)',
+  }}
+>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#000',
+        verticalAlign: 'middle',
+        border: '1px solid #ccc',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-black</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#17171B',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-90</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#2E2E32',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-80</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#444447',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-70</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#58585B',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-60</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#77777A',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-50</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#959599',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-40</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#B9B9BB',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-30</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#D1D1D1',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-20</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#E3E3E3',
+        verticalAlign: 'middle',
+        border: '1px solid #ccc',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-10</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#F6F6F6',
+        verticalAlign: 'middle',
+        border: '1px solid #ccc',
+      }}
+    />{' '}
+    <code>--hds-color-carbon-05</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#FFF',
+        verticalAlign: 'middle',
+        border: '1px solid #ccc',
+      }}
+    />{' '}
+    <code>--hds-color-spacesuit-white</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#F64137',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-red</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#FF5C52',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-red-tint</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#B60109',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-red-shade</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#1C67E3',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-blue</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#288BFF',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-blue-tint</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#0B3D91',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-nasa-blue-shade</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#EA6F24',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-international-orange</code>
+  </div>
+  <div>
+    <span
+      style={{
+        display: 'inline-block',
+        width: '0.8em',
+        height: '0.8em',
+        backgroundColor: '#47DA84',
+        verticalAlign: 'middle',
+      }}
+    />{' '}
+    <code>--hds-color-active-green</code>
+  </div>
+</div>
+
+For chart and data visualization colors, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).

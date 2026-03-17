@@ -16,9 +16,6 @@ const config = {
     '@storybook/addon-a11y',
     'storybook-addon-pseudo-states',
   ],
-  docs: {
-    defaultName: 'Reference',
-  },
   features: {
     disableSaveFromUI: true,
   },

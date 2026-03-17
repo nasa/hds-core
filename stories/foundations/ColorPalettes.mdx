@@ -1,0 +1,102 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as PaletteStories from './ColorPalettes.stories';
+import { Note } from '../helpers/Note';
+
+<Meta of={PaletteStories} />
+
+# Color Palettes
+
+HDS provides six color palettes that automatically adapt typography, links, buttons, icons, and borders to their background. Wrap any section in a palette class and every HDS component inside it adjusts automatically.
+
+For the full color reference, see [Color](?path=/docs/foundations-color--docs).
+
+## How to apply a palette
+
+Use a class or data attribute on any container element:
+
+```html
+<section class="hds-palette-dark">
+  <!-- Everything inside adapts automatically -->
+</section>
+
+<section data-hds-palette="dark">
+  <!-- Same result -->
+</section>
+```
+
+**White is the default.** If no palette is assigned to a parent element, white palette coloring is used. You don't need to add `hds-palette-white` unless you're overriding a section inside a different palette.
+
+## The six palettes
+
+| Swatch | Palette | Class | Background |
+| --- | --- | --- | --- |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#FFFFFF', border: '1px solid #ccc' }} /> | White | `hds-palette-white` | Spacesuit White (default) |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#F6F6F6', border: '1px solid #ccc' }} /> | Light | `hds-palette-light` | Carbon 05 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#D1D1D1' }} /> | Midtone | `hds-palette-midtone` | Carbon 20 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#17171B' }} /> | Dark | `hds-palette-dark` | Carbon 90 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#0B3D91' }} /> | Blue | `hds-palette-blue` | NASA Blue Shade |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#000000' }} /> | Black | `hds-palette-black` | Carbon Black |
+
+<Note type="figma">
+  The Black palette is reserved for site headers and footers. For dark content areas within the page
+  body, use the Dark palette instead.
+</Note>
+
+### White (default)
+
+<Canvas of={PaletteStories.White} />
+
+### Light
+
+<Canvas of={PaletteStories.Light} />
+
+### Midtone
+
+<Canvas of={PaletteStories.Midtone} />
+
+### Dark
+
+<Canvas of={PaletteStories.Dark} />
+
+### Blue
+
+<Canvas of={PaletteStories.Blue} />
+
+### Black (headers and footers only)
+
+<Canvas of={PaletteStories.Black} />
+
+## Nesting palettes
+
+Palettes can be nested. A child palette overrides its parent for everything inside it. This is useful for creating contrast between adjacent sections:
+
+<Canvas of={PaletteStories.Nested} />
+
+## Using palette tokens in custom styles
+
+Inside a palette wrapper, `--hds-palette-*` CSS custom properties automatically resolve to the correct colors for that palette. Use these instead of hardcoded color values so your custom styles adapt to any palette context:
+
+```css
+.my-component {
+  color: var(--hds-palette-text);
+  background: var(--hds-palette-bg);
+  border-color: var(--hds-palette-border);
+}
+
+.my-heading {
+  color: var(--hds-palette-heading);
+}
+
+.my-muted-text {
+  color: var(--hds-palette-muted);
+}
+
+.my-link {
+  color: var(--hds-palette-link-text);
+  text-decoration-color: var(--hds-palette-link-underline);
+}
+```
+
+These tokens cover text, headings, muted text (labels, metadata, captions), links, borders, backgrounds, button colors, and more. Every HDS component uses them internally — your custom styles can use the same tokens to stay consistent.
+
+For the full list of available color values, see [Color](?path=/docs/foundations-color--docs).
