@@ -1,0 +1,100 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as TypographyStories from './Typography.stories';
+import { Note } from '../helpers/Note';
+
+<Meta of={TypographyStories} />
+
+# Typography
+
+Typography helps create clear hierarchies, organize information, provide visual interest, and guide users through the site. HDS uses three open-source font families, each with a specific role.
+
+For spacing between typographic elements, see [Spacing](?path=/docs/foundations-spacing--docs).
+
+## Font stack
+
+HDS uses three open-source font families, each with a specific role. All are available through [Google Fonts](https://fonts.google.com).
+
+<Canvas of={TypographyStories.FontStack} />
+
+<Note type="uswds">
+  USWDS has four font slots. HDS maps Inter to the "serif" slot — so
+  <code>family("serif")</code> returns Inter (a sans-serif font). Always use role tokens like{' '}
+  <code>family("heading")</code> rather than type tokens like
+  <code>family("serif")</code> to avoid confusion.
+</Note>
+
+## Heading scale
+
+H1–H3 use Inter Bold; H4–H6 use Inter SemiBold for a lighter hierarchy.
+
+<Canvas of={TypographyStories.HeadingScale} />
+
+| Element | Size       | Weight       | Line-height | Letter-spacing |
+| ------- | ---------- | ------------ | ----------- | -------------- |
+| `<h1>`  | 48px (2xl) | 700 Bold     | 1 (100%)    | -1.5px         |
+| `<h2>`  | 36px (xl)  | 700 Bold     | 1.1 (110%)  | -1px           |
+| `<h3>`  | 22px (md)  | 700 Bold     | 1.2 (120%)  | -0.5px         |
+| `<h4>`  | 18px (sm)  | 600 SemiBold | 1.3 (130%)  | -0.5px         |
+| `<h5>`  | 16px (xs)  | 600 SemiBold | 1.2 (120%)  | -0.5px         |
+| `<h6>`  | 14px (2xs) | 600 SemiBold | 1.3 (130%)  | -0.25px        |
+
+## Display sizes
+
+Display typefaces are intended for large sizes, giving emphasis to the most important headline on the page.
+
+<Canvas of={TypographyStories.DisplaySizes} />
+
+## Body text
+
+<Canvas of={TypographyStories.BodyText} />
+
+## Intro / lead text
+
+Use `.usa-intro` for the opening paragraph of a page or section. See the [Intro Text](?path=/docs/components-intro-text-guidance--docs) component for full usage guidance.
+
+<Canvas of={TypographyStories.IntroText} />
+
+## Labels, metadata & captions
+
+Three visually similar but typographically distinct treatments for small supportive text:
+
+<Canvas of={TypographyStories.SmallText} />
+
+## Blockquote
+
+<Canvas of={TypographyStories.Blockquote} />
+
+## Numbers
+
+The numbers typeface brings a technical feel to the system — from countdowns to statistical displays.
+
+<Canvas of={TypographyStories.Numbers} />
+
+## Code
+
+<Canvas of={TypographyStories.Code} />
+
+## Using typography in Sass
+
+```scss
+// Role-based font families
+.my-heading {
+  font-family: family('heading'); // Inter
+}
+
+.my-body {
+  font-family: family('body'); // Public Sans
+}
+
+.my-label {
+  font-family: family('code'); // DM Mono
+}
+
+// Size tokens
+.my-element {
+  font-size: size('heading', 'md'); // 22px
+  font-size: size('body', 'xs'); // 16px
+}
+```
+
+For the full USWDS typography token reference, see the[USWDS typography utilities documentation](https://designsystem.digital.gov/design-tokens/typesetting/overview/).

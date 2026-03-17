@@ -65,8 +65,6 @@ export const hdsUiIcons = [
   'info',
   'list',
   'location',
-  'logo-figma',
-  'logo-uswds',
   'map',
   'menu',
   'minus',
@@ -95,6 +93,9 @@ export const hdsUiIcons = [
   'view-single',
   'x-circled',
 ];
+
+/** Logo/brand icons — third-party platform marks. */
+export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
 
 /** Tag/category icons — used in chips, filters, content type indicators. */
 export const hdsTagIcons = [
@@ -128,8 +129,8 @@ export const hdsTagIcons = [
   'tag-video',
 ];
 
-/** All HDS icons (UI + Tag combined). */
-export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons];
+/** All HDS icons (UI + Tag + Logo combined). */
+export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons];
 
 // ---------------------------------------------------------------------------
 // USWDS Icons (sprite.svg)

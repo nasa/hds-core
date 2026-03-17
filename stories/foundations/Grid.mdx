@@ -1,0 +1,104 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as GridStories from './Grid.stories';
+import { Note } from '../helpers/Note';
+
+<Meta of={GridStories} />
+
+# Grid
+
+The basis of NASA.gov is a strong foundation for positioning elements on screen. Designing to the grid helps create seamless, easy-to-follow experiences and visual consistency across different screen sizes.
+
+HDS Core uses the [USWDS layout grid](https://designsystem.digital.gov/utilities/layout-grid/) with 12 columns at all breakpoints. For spacing tokens, see [Spacing](?path=/docs/foundations-spacing--docs).
+
+## Breakpoints
+
+All breakpoints use 12 columns. Gutters increase at wider breakpoints to create more whitespace between columns.
+
+| Breakpoint   | Range   | Gutter | HDS Figma name  |
+| ------------ | ------- | ------ | --------------- |
+| `mobile`     | ≥320px  | 4px    | Small (Mobile)  |
+| `mobile-lg`  | ≥480px  | 4px    | Small (Mobile)  |
+| `tablet`     | ≥640px  | 16px   | Medium (Tablet) |
+| `tablet-lg`  | ≥880px  | 16px   | Medium (Tablet) |
+| `desktop`    | ≥1024px | 16px   | Large (Desktop) |
+| `desktop-lg` | ≥1200px | 16px   | Large (Desktop) |
+| `widescreen` | ≥1400px | 24px   | XL (Display)    |
+
+<Note type="figma">
+  The HDS Figma spec defines a TV breakpoint at 1920px. This is deferred in HDS Core because USWDS
+  does not have a built-in TV breakpoint. It will be revisited when TV-scale layouts are needed.
+</Note>
+
+## Live 12-column grid
+
+Resize your browser to see the grid respond. Uses USWDS `.grid-container`, `.grid-row`, and `.grid-col` classes.
+
+<Canvas of={GridStories.TwelveColumn} />
+
+## Common layouts
+
+<Canvas of={GridStories.SidebarContent} />
+
+<Canvas of={GridStories.CardGrid} />
+
+<Canvas of={GridStories.ContentAside} />
+
+<Canvas of={GridStories.ResponsiveCards} />
+
+## Using the grid
+
+```html
+<!-- Basic 12-column container -->
+<div class="grid-container">
+  <div class="grid-row grid-gap">
+    <div class="grid-col-8">Main content</div>
+    <div class="grid-col-4">Sidebar</div>
+  </div>
+</div>
+
+<!-- Responsive columns -->
+<div class="grid-container">
+  <div class="grid-row grid-gap">
+    <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3">Card</div>
+    <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3">Card</div>
+  </div>
+</div>
+
+<!-- Reverse column order on mobile (HDS utility) -->
+<div class="grid-container">
+  <div class="grid-row grid-gap grid-reverse-mobile">
+    <div class="grid-col-8">Appears second on mobile</div>
+    <div class="grid-col-4">Appears first on mobile</div>
+  </div>
+</div>
+```
+
+For the full USWDS grid API, see the [USWDS Layout Grid documentation](https://designsystem.digital.gov/utilities/layout-grid/).
+
+## Glossary
+
+**Margin** — The outer whitespace around the grid container. HDS Core uses 16px margins on mobile and 32px on desktop+.
+
+**Gutter** — The space between columns. Gutter widths are fixed values at each breakpoint range. Wider gutters create more whitespace between columns on larger screens.
+
+**Column** — Columns make up the content width of your design. All designs sit within the width of the columns. Columns change width depending on screen size.
+
+**Layout region** — Areas of the layout that contain content. Layout regions can span over any number of columns and resize with the grid.
+
+**Fixed grid** — Has a maximum width (1400px in HDS Core). Designed for content-focused pages where maximum readability matters.
+
+**Fluid grid** — Uses 100% of the screen's width. Designed for complex screens, dashboards, and web applications.
+
+## Grid settings
+
+These USWDS settings control grid behavior in HDS Core:
+
+| Setting | Value | Description |
+| --- | --- | --- |
+| `$theme-grid-container-max-width` | `"widescreen"` | Container max-width (1400px) |
+| `$theme-site-margins-breakpoint` | `"desktop"` | Where margins switch from mobile to desktop |
+| `$theme-site-margins-mobile-width` | `2` (16px) | Site margins below desktop |
+| `$theme-site-margins-width` | `4` (32px) | Site margins at desktop+ |
+| `$theme-column-gap-sm` | `2px` | Small gutter |
+| `$theme-column-gap-md` | `2` (16px) | Medium gutter |
+| `$theme-column-gap-lg` | `3` (24px) | Large gutter |

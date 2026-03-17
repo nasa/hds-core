@@ -1,0 +1,124 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as IconStories from './Icons.stories';
+import { Note } from '../helpers/Note';
+
+<Meta of={IconStories} />
+
+# Icons
+
+Icons are recognizable visual symbols that communicate messages at a glance. They are used throughout HDS to represent common actions and categorize content. All icons use `currentColor` for fill, so they automatically adapt to any [palette](?path=/docs/foundations-color-palettes--docs) context.
+
+## System icons
+
+System icons represent common actions and are used in [Icon Buttons](?path=/docs/components-icon-button-guidance--docs) or alone as inline glyphs. They are designed on a **24×24px grid** with 2px stroke weight.
+
+<Canvas of={IconStories.SystemIcons} />
+
+## Tag icons
+
+Tag icons represent types of content. They appear in card components (often with a label) to help visitors understand what to expect before engaging with content.
+
+Unlike system icons, tag icons include a built-in circle outline in the glyph itself — they are **informational only** and do not function as buttons.
+
+<Canvas of={IconStories.TagIconsGrid} />
+
+## Logos
+
+Logo icons are third-party platform marks. As social media and platform integrations are added, new logos will appear here.
+
+<Canvas of={IconStories.LogoIcons} />
+
+## Sizing
+
+Icons appear at various sizes in multiples of 4px to align with [Spacing](?path=/docs/foundations-spacing--docs) guidelines. The glyph art is designed at 20px within the 24px frame (2px padding on all sides).
+
+<Canvas of={IconStories.SizingDemo} />
+
+## Reserved icons
+
+Certain icons are reserved for specific uses to ensure continuity across the system. Do not use these icons for other purposes.
+
+<Canvas of={IconStories.ReservedIcons} />
+
+## Two-layer architecture
+
+HDS separates icon glyphs from their containers. A single SVG works across all palettes and contexts — CSS controls the color.
+
+<Canvas of={IconStories.TwoLayerDemo} />
+
+**Tag icons are an exception** — their circle outline is baked into the glyph because they always appear with it.
+
+## Using icons in code
+
+### SVG sprite (recommended)
+
+```html
+<svg class="hds-icon" aria-hidden="true" focusable="false">
+  <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+</svg>
+```
+
+### Inline glyph (no container)
+
+```html
+<span>
+  Download file
+  <svg class="hds-glyph" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+  </svg>
+</span>
+```
+
+### Icon button
+
+```html
+<button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+  </svg>
+</button>
+```
+
+See [Icon Button](?path=/docs/components-icon-button-guidance--docs) for all button variants and usage guidance.
+
+## Using USWDS and Material icons
+
+USWDS ships with its own icon sprite (`sprite.svg`) which includes both USWDS and Material Design icons. These work alongside HDS icons using the same markup pattern — just reference the USWDS sprite instead:
+
+<Canvas of={IconStories.UswdsIconDemo} />
+
+```html
+<!-- HDS icon -->
+<svg class="hds-icon" aria-hidden="true" focusable="false">
+  <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+</svg>
+
+<!-- USWDS / Material icon -->
+<svg class="usa-icon" aria-hidden="true" focusable="false">
+  <use xlink:href="/assets/img/sprite.svg#thumb_up_alt"></use>
+</svg>
+```
+
+**Always check the HDS icon set first.** HDS icons are designed specifically for NASA digital products and maintain visual consistency across the system. Use USWDS or Material icons only when HDS doesn't include what you need.
+
+When using Material icons, prefer **filled** glyphs over outlined for consistency with the HDS icon style.
+
+For the full USWDS icon inventory, see the [USWDS Icon component](https://designsystem.digital.gov/components/icon/).
+
+## Accessibility
+
+- **Decorative icons** (next to visible text): add `aria-hidden="true"` and `focusable="false"` to the `<svg>`
+- **Icon-only buttons** (no visible text): add `aria-label` to the button element describing the action
+- **Icons with visible text**: the text provides the accessible label — the icon is decorative
+
+For detailed ARIA requirements, see each component's Accessibility section and the [Accessibility](?path=/docs/foundations-accessibility--docs) foundation.
+
+## Adding new icons
+
+When the HDS icon set above doesn't include what you need:
+
+1. **Check USWDS icons** — the USWDS sprite (`dist/assets/img/sprint.svg`) includes hundreds of icons, which are also included as individual .svg files (`dist/assets/img/usa-icons/`)
+2. **Check Material icons** — included as individual .svg files in the USWDS package (`dist/assets/img/material-icons/`)
+3. **Custom icons** should follow HDS design guidelines: 20x20px icon centered on a 24×24px grid, 2px stroke (1px for fine details), geometric forms, optimized for small sizes. New icons go through the HDS design review process.
+
+Avoid mixing with icon sets outside USWDS/Material to maintain visual consistency.
