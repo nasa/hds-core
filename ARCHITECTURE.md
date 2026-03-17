@@ -387,10 +387,10 @@ Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
 ### Storybook
 
-- [ ] Configure storybook-addon-pseudo-states (high priority — needed for verifying focus/hover/disabled across all components)
 - [ ] Load USWDS JS in Storybook for testing JS-dependent components (accordion, banner, in-page navigation)
 - [ ] Remaining component stories as components are completed
-- [ ] See DOCUMENTATION.md § Pending Docs Work for all documentation TODOs
+- [ ] Foundation MDX audit: verify all cross-links resolve, all hex values match tokens, all Canvas embeds render correctly across palettes
+- [ ] Audit existing Guidance pages (Breadcrumb, Button, IconButton, IntroText, Link, Pagination) against updated DOCUMENTATION.md conventions
 
 ### Pre-1.0 Verification
 
