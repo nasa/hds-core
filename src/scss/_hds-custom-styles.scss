@@ -239,6 +239,37 @@
 }
 
 
+// ------------------------------------------------------------
+// §2.5 Utility circle
+// ------------------------------------------------------------
+// Shared by §7 Pagination prev/next and §12 Icon Buttons
+// --utility. Change once, both components update.
+//
+// Neutral adaptive circle container for UI controls (carousel,
+// accordion, pagination arrows). Palette-aware via custom
+// properties with light-palette fallbacks.
+//
+// Hover, focus, and disabled states are NOT in this mixin —
+// they differ between components (e.g. pagination disables
+// via aria-disabled on <a>, icon buttons via disabled on
+// <button>). Each component section handles its own states.
+// ------------------------------------------------------------
+
+@mixin hds-utility-circle {
+  align-items: center;
+  background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+  border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+  border-radius: 50%;
+  color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
+  cursor: pointer;
+  display: inline-flex;
+  height: 2em;
+  justify-content: center;
+  padding: 0;
+  width: 2em;
+}
+
+
 // ============================================================
 // §3 SHARED UTILITIES
 // Docs: https://website.nasa.gov/hds-core/utilities
@@ -647,16 +678,22 @@
 // Docs: https://website.nasa.gov/hds-core/base#focus
 // ALWAYS ACTIVE — not gated (accessibility requirement)
 // ------------------------------------------------------------
+// Figma: 1px dashed, palette-aware.
+//   Light: Carbon 60 (--hds-palette-muted)
+//   Dark:  Carbon 30 (--hds-palette-muted)
+// Offset: 2px default. Components with generous internal
+// spacing (e.g. pagination page numbers) may override to 0.
+// ------------------------------------------------------------
 
-[contenteditable="true"]:focus,
-[tabindex]:focus,
-iframe:focus,
-button:not([disabled]):focus,
-input:not([disabled]):focus,
-select:not([disabled]):focus,
-textarea:not([disabled]):focus {
-  outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-nasa-blue});
-  outline-offset: 1px;
+[contenteditable="true"]:focus-visible,
+[tabindex]:focus-visible,
+iframe:focus-visible,
+button:not([disabled]):focus-visible,
+input:not([disabled]):focus-visible,
+select:not([disabled]):focus-visible,
+textarea:not([disabled]):focus-visible {
+  outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
+  outline-offset: 2px;
 }
 
 

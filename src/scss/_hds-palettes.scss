@@ -68,6 +68,9 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-fill:           #{$hds-color-spacesuit-white};
   --hds-palette-utility-stroke:         #{$hds-color-carbon-20};
   --hds-palette-utility-icon:           #{$hds-color-carbon-black};
+  --hds-palette-utility-hover-fill:     #{$hds-color-carbon-05};
+  --hds-palette-utility-hover-stroke:   #{$hds-color-carbon-40};
+  --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-05};
   --hds-palette-icon:                   #{$hds-color-carbon-black};
 }
 
@@ -89,6 +92,9 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-fill:           #{$hds-color-carbon-black}; // C7: was Carbon 80
   --hds-palette-utility-stroke:         #{$hds-color-carbon-60};
   --hds-palette-utility-icon:           #{$hds-color-spacesuit-white};
+  --hds-palette-utility-hover-fill:      #{$hds-color-carbon-black};
+  --hds-palette-utility-hover-stroke:   #{$hds-color-carbon-05};
+  --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-80};
   --hds-palette-icon:                   #{$hds-color-spacesuit-white};
 }
 
@@ -160,6 +166,11 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-stroke:         #{$hds-color-nasa-blue-tint};
   --hds-palette-utility-icon:           #{$hds-color-spacesuit-white};
   --hds-palette-icon:                   #{$hds-color-spacesuit-white};
+  // Utility hover/disabled inferred from dark-scheme pattern
+  // adapted to blue background. Pending creative director review.
+  --hds-palette-utility-hover-fill:     #{$hds-color-nasa-blue};
+  --hds-palette-utility-hover-stroke:   #{$hds-color-spacesuit-white};
+  --hds-palette-utility-disabled-stroke: #{$hds-color-nasa-blue};
 }
 
 // Palette 6 — Black (Carbon Black, header/footer only)

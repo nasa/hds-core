@@ -192,7 +192,6 @@
   $theme-body-background-color:     "white",
   $theme-text-color:                "ink",
   $theme-text-reverse-color:        "base-lightest",
-  $theme-focus-color:               "info",
   $theme-link-color:                "ink",
   $theme-link-visited-color:        "ink",
   $theme-link-hover-color:          "ink",
@@ -200,6 +199,20 @@
   $theme-link-reverse-color:        "base-lightest",
   $theme-link-reverse-hover-color:  "base-lightest",
   $theme-link-reverse-active-color: "base-lightest",
+
+  // ----------------------------------------------------------
+  // Focus
+  // ----------------------------------------------------------
+  // HDS focus: 1px dashed, palette-aware via §4.11 in
+  // _hds-custom-styles.scss. These USWDS settings prevent
+  // the default blue ring from appearing on USWDS components.
+  // Exact HDS colors are applied via --hds-palette-muted in
+  // the §4.11 :focus-visible rule; these are fallbacks only.
+  // ----------------------------------------------------------
+  $theme-focus-color:  "gray-60",   // Carbon 60 #58585B ≈ #565c65
+  $theme-focus-offset: 2px,
+  $theme-focus-style:  dashed,
+  $theme-focus-width:  1px,
 
   // ----------------------------------------------------------
   // Font Families
@@ -350,7 +363,7 @@
   $theme-header-max-width:          "widescreen",
   $theme-header-min-width:          "desktop",
 
-  // ----------------------------------------------------------
+// ----------------------------------------------------------
   // Component Settings
   // ----------------------------------------------------------
   // Border radius
@@ -373,5 +386,8 @@
 
   // Button typography
   $theme-button-font-family:              "heading",
+
+  // Pagination
+  $theme-pagination-font-family:          "heading",
 
 );
