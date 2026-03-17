@@ -65,7 +65,7 @@ export const InPaletteContext = {
 
 export const Playground = {
   args: {
-    text: 'NASA\'s Artemis campaign is the next chapter in human space exploration.',
+    text: "NASA's Artemis campaign is the next chapter in human space exploration.",
   },
   argTypes: {
     text: {
