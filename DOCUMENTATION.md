@@ -445,4 +445,3 @@ ls src/assets/img/hds-icons/*.svg | xargs -I{} basename {} .svg | sort
 - [ ] Data Visualization Palettes: increase border thickness/padding on categorical table containers (currently 1px, needs more visual weight)
 - [ ] Data Visualization Palettes: add hex codes to sequential palette gradient strips (match Color.mdx swatch style, scaled down)
 - [ ] Data Visualization Palettes: add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma, converted to USWDS token hex values
-- [ ] Audit existing Guidance pages (Breadcrumb, Button, IconButton, IntroText, Link, Pagination) against updated documentation conventions — simplify language, remove internal architecture terms, verify note usage follows USWDS/Figma note guidelines, add cross-links to Foundation pages, remove redundant color/palette explanations

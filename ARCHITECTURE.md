@@ -368,38 +368,26 @@ Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
 ### Bugs
 
-- [ ] Disabled buttons still show visual changes on hover despite `:not(:disabled)` guards — likely USWDS specificity issue. Inspect compiled CSS to identify competing selector.
-- [ ] Unstyled button (looks like a link) is getting a NASA Red/Shade fill on hover
-- [ ] Storybook Code tab disappears on Playground stories despite `docs.source.type: 'dynamic'` — may need per-story override or Storybook 10 bug
+All moved into Github Issues
 
 ### Components
 
-- [ ] Icon button hover and disabled states (§12) — confirmed Figma values for all states (see DESIGN.md § Utility Circle States). States implemented in §7.4 for pagination context; §12 needs matching implementation for global use.
-- [ ] Icon button size audit — Figma defines 6 sizes (XS–XXL, 16–36px), HDS Core has 3. `--lg` is 40px but Figma XXL is 36px. SVG padding (24×24 vs Figma's 20×20) affects glyph-to-container ratio. See DESIGN.md § Icon Button Sizing.
-- [ ] Primary arrow button size variants — Figma shows 6 sizes (14–36), pending creative director review
 - [ ] Dark palette form elements (§5)
 - [ ] Checkbox HDS styling
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
-- [ ] Data visualization color palette (USWDS-mapped, per proposal appendix)
-- [ ] Verify `$hds-extended-palette` is wired via `$global-color-palettes` for USWDS utility class generation
-- [ ] Pagination: responsive simplified switching (auto-switch to simplified on small viewports via CSS media queries)
-- [ ] Pagination: filter variant (rows-per-page dropdown, requires dropdown menu component)
+- [ ] Wire `$hds-extended-palette` for USWDS utility class generation — `$global-color-palettes` expects palette name strings, not a Sass map. Needs research into USWDS 3.x custom color registration API.
 
 ### Storybook
 
-- [ ] Load USWDS JS in Storybook for testing JS-dependent components (accordion, banner, in-page navigation)
 - [ ] Remaining component stories as components are completed
 - [ ] Foundation MDX audit: verify all cross-links resolve, all hex values match tokens, all Canvas embeds render correctly across palettes
-- [ ] Audit existing Guidance pages (Breadcrumb, Button, IconButton, IntroText, Link, Pagination) against updated DOCUMENTATION.md conventions
+- [ ] Add `"type": "module"` to package.json (optional — silences Node ESM warning)
 
 ### Pre-1.0 Verification
 
 - [ ] Spec verification pass across all components against Figma (visual details: arrow sizing, caption styles, blockquote line-height, icon button outline thickness, responsive typography, etc.)
-- [ ] Creative director visual review (see DESIGN.md § Creative Director Review for full list)
 - [ ] Accessibility testing — screen reader (NVDA, VoiceOver), SR approach for external links, focus ring contrast review
-- [ ] Integration testing — `.usa-prose a` styling, `$theme-global-link-styles`, `$theme-global-content-styles`, `$theme-style-body-element`
-- [ ] Clean up unknown sprite IDs (bfa, bga, bha, bia, bja, bka, bla, bma, caa, dra)
-- [ ] Audit existing Storybook Guidance pages against updated DOCUMENTATION.md conventions
+- [ ] test.html: Replace with realistic integration page using validated component markup (banner, header, footer, accordion, all palette sections, bare element flag testing)
 
 ### Infrastructure
 
