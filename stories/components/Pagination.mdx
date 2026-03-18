@@ -6,14 +6,9 @@ import * as PaginationStories from './Pagination.stories';
 
 # Pagination
 
-Pagination is a navigational element that allows users to move between pages of content without leaving the current view. HDS pagination uses standard USWDS `.usa-pagination` markup for numbered variants, with no need for additional classes. The simplified variant (Previous/Next only) uses HDS-specific markup.
+Pagination allows users to move between pages of content. HDS pagination uses standard USWDS [`.usa-pagination`](https://designsystem.digital.gov/components/pagination/) markup for numbered variants, with no need for additional classes. The simplified variant (Previous/Next only) uses HDS-specific markup.
 
-<Note type="code">
-  Pagination state logic (active page, ellipsis placement, disabled arrows) is your application's
-  responsibility. See the [USWDS pagination
-  guidance](https://designsystem.digital.gov/components/pagination/) for slot behaviors and
-  implementation details.
-</Note>
+Pagination state logic (active page, ellipsis placement, disabled arrows) is your application's responsibility. See the USWDS pagination guidance for slot behaviors and implementation details.
 
 ## Variants
 
@@ -24,9 +19,8 @@ HDS pagination comes in three variants.
 Use bounded pagination when the total number of pages is known. The last page is always visible as the final slot. When there are more than 7 pages, ellipsis slots collapse intermediate pages. Previous and next arrows disable at the boundaries.
 
 <Canvas of={PaginationStories.BoundedFirstPage} />
-<div className="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</div>
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
 The ellipsis position shifts as the user moves through pages:
 
@@ -101,7 +95,7 @@ When on the last page, "Next" appears disabled:
 
 ## Legacy USWDS support
 
-The recommended markup shown above uses HDS icon buttons for the previous/next arrows. If your site already uses standard USWDS pagination markup, HDS Core CSS restyling is applied automatically — no markup changes are required to get the HDS look.
+The recommended markup shown above uses HDS [icon buttons](?path=/docs/components-icon-button-guidance--docs) for the previous/next arrows. If your site already uses standard USWDS pagination markup, HDS Core CSS restyling is applied automatically — no markup changes are required to get the HDS look.
 
 The tradeoff: legacy USWDS markup retains the USWDS chevron icons inside the HDS circle container rather than the HDS chevrons, and some state behaviors may be less precise. For new implementations, use the recommended markup above.
 
@@ -126,7 +120,7 @@ The tradeoff: legacy USWDS markup retains the USWDS chevron icons inside the HDS
 
 ## Accessibility
 
-- **Keyboard navigation:** Users navigate between pagination controls with **TAB** and **SHIFT-TAB**, and activate them with **ENTER** or **SPACE**.
+- **Keyboard navigation:** Users navigate between pagination controls with **Tab** and **Shift+Tab**, and activate them with **Enter** or **Space**.
 - **Navigation landmark:** Wrap pagination in a `<nav>` element with `aria-label="Pagination"`. If you have multiple pagination components on one page, give each a unique `aria-label`.
 - **Current page:** The active page link must include `aria-current="page"`.
 - **Page link labels:** Add `aria-label="Page [number]"` to each page link. For the last page in a bounded set, use `aria-label="Last page, page [number]"`.
@@ -135,4 +129,6 @@ The tradeoff: legacy USWDS markup retains the USWDS chevron icons inside the HDS
 - **Arrow labels:** Previous and next buttons have no visible text in numbered variants — each must have `aria-label="Previous page"` or `aria-label="Next page"`.
 - **Icon attributes:** Chevron SVGs inside buttons are decorative — use `aria-hidden="true"`.
 
-The recommended markup shown in the variant examples above includes all necessary ARIA attributes. Previous/next arrows follow the same accessibility patterns as [Icon Button](?path=/docs/components-icon-button--guidance) — see that page's Accessibility section for additional guidance on icon-only interactive elements.
+The recommended markup shown in the variant examples above includes all necessary ARIA attributes. Previous/next arrows follow the same accessibility patterns as [Icon Button](?path=/docs/components-icon-button-guidance--docs) — see that page's Accessibility section for additional guidance on icon-only interactive elements.
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

@@ -6,7 +6,7 @@ import * as BreadcrumbStories from './Breadcrumb.stories';
 
 # Breadcrumb
 
-Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy, and allows them to navigate back to higher-level pages. HDS breadcrumbs use USWDS `.usa-breadcrumb` markup with HDS theming (**Tier 1 override**).
+Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy. HDS breadcrumbs use USWDS [`.usa-breadcrumb`](https://designsystem.digital.gov/components/breadcrumb/) markup.
 
 ## Depth variants
 
@@ -19,9 +19,8 @@ Breadcrumbs consist of a list of links, separated by forward slashes, beginning 
 The simplest breadcrumb — root page and current page.
 
 <Canvas of={BreadcrumbStories.TwoLevels} />
-<div class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</div>
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
 ### 3 levels
 
@@ -34,10 +33,6 @@ Root page, one parent, and the current page. This is the maximum depth shown wit
 For pages deeper than 3 levels, Home and all intermediate levels are replaced with an ellipsis (`…`). Only the ellipsis, the immediate parent, and the current page are shown.
 
 <Canvas of={BreadcrumbStories.FourPlusLevels} />
-
-### All depths compared
-
-<Canvas of={BreadcrumbStories.AllDepths} />
 
 <Note type="uswds">
   HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of
@@ -55,38 +50,15 @@ For pages deeper than 3 levels, Home and all intermediate levels are replaced wi
 
 - **Single-level sites** — if there's no meaningful hierarchy, breadcrumbs add noise.
 - **Step-by-step processes** — use a step indicator instead. Breadcrumbs show hierarchy, not progress.
-- **Mobile navigation** — breadcrumbs are typically hidden on small screens. Ensure other navigation patterns (back button, menu) cover the same paths.
 
 ## Usability guidance
 
-- **Always include the current page.** The last item in the breadcrumb shows the user where they are. It's displayed in a distinct color but is never a clickable link.
+- **Always include the current page.** The last item shows the user where they are. It's never a clickable link.
 - **Start with Home** for 2- and 3-level breadcrumbs. The first item links to the site root.
 - **Use ellipsis for 4+ levels.** Home disappears, and the ellipsis becomes the first element. Only 3 elements are ever visible.
 - **Use real page names.** "Artemis I" is better than "Mission Detail."
 - **Max 2 slashes.** If you see 3+ slashes, the breadcrumb is too deep — truncate with ellipsis.
-
-## Light and dark palettes
-
-Breadcrumbs adapt automatically inside palette containers:
-
-| Element                   | Light palettes         | Dark palettes             |
-| ------------------------- | ---------------------- | ------------------------- |
-| Non-active text + slashes | Carbon 60 (muted)      | Carbon 40 (muted)         |
-| Current page              | Carbon Black (heading) | Spacesuit White (heading) |
-| Hover text                | Carbon Black (heading) | Spacesuit White (heading) |
-| Hover weight              | Semibold               | Semibold                  |
-| Hover underline           | Dotted                 | Dotted                    |
-
-<Note type="figma">
-  The Figma spec tested breadcrumbs on white, light, dark, and black backgrounds only. Midtone and
-  blue palettes use the same palette variables and may need creative director review.
-</Note>
-
-## Hover behavior
-
-Hovered breadcrumb links shift from muted to heading color, gain semibold weight, and show a dotted underline — consistent with the HDS link hover pattern.
-
-<Canvas of={BreadcrumbStories.HoverState} />
+- **Small screens** — breadcrumbs are displayed at Large and XL screen sizes only. Ensure other navigation patterns (back button, menu) cover the same paths on mobile and tablet.
 
 <Note type="figma">
   The HDS Figma spec shows breadcrumbs inside a "secondary nav bar" that transitions on scroll to
@@ -96,16 +68,16 @@ Hovered breadcrumb links shift from muted to heading color, gain semibold weight
 
 ## Accessibility
 
-From the HDS Figma accessibility guidance:
-
-- **Keyboard navigation:** Users trigger a breadcrumb link by pressing **ENTER/RETURN** while the link has focus. Users navigate between breadcrumb links by pressing **TAB** and **SHIFT-TAB**.
-- **ARIA navigation landmark:** The breadcrumb component is contained within an ARIA `navigation` landmark region (`<nav>` with `aria-label="Breadcrumbs"`).
-- **`aria-current="page"`:** The current page element must contain the `aria-current="page"` attribute.
+- **Keyboard navigation:** Users trigger a breadcrumb link by pressing **Enter** while the link has focus. Users navigate between links with **Tab** and **Shift+Tab**.
+- **ARIA navigation landmark:** Use `<nav>` with `aria-label="Breadcrumbs"`.
+- **`aria-current="page"`:** The current page element must include this attribute.
 - **Ordered list (`<ol>`):** Screen readers announce position and count (e.g., "item 2 of 3"), reinforcing the hierarchical structure.
-- **Current page is not a link.** It's where the user already is — linking to it creates confusion, especially for screen reader users.
+- **Current page is not a link.** Linking to the current page creates confusion, especially for screen reader users.
+
+The recommended markup shown above includes all necessary ARIA attributes. The ellipsis variant markup is non-obvious, so both patterns are shown below:
 
 ```html
-<!-- ✅ 3 levels -->
+<!-- 3 levels -->
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     <li class="usa-breadcrumb__list-item">
@@ -120,7 +92,7 @@ From the HDS Figma accessibility guidance:
   </ol>
 </nav>
 
-<!-- ✅ 4+ levels (ellipsis, Home hidden) -->
+<!-- 4+ levels (ellipsis, Home hidden) -->
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     <li class="usa-breadcrumb__list-item">
@@ -135,3 +107,5 @@ From the HDS Figma accessibility guidance:
   </ol>
 </nav>
 ```
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

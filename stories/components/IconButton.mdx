@@ -6,9 +6,9 @@ import * as IconButtonStories from './IconButton.stories';
 
 # Icon Button
 
-Circle-shaped buttons containing a single icon and no visible text. Icon buttons are an **HDS-only component (Tier 3)** — USWDS has no equivalent. Use them for compact actions where space is limited and the icon's meaning is universally understood.
+Circle-shaped buttons containing a single icon and no visible text. Use them for compact actions where space is limited and the icon's meaning is universally understood. USWDS has no equivalent component — icon buttons use HDS-specific `.hds-btn-icon` classes.
 
-Icon buttons follow the **HDS wayfinding color rule**: red navigates away, blue stays on the page, neutral colors are for UI controls.
+Icon buttons follow the same wayfinding color conventions as all HDS components: red navigates away, blue stays on the page, neutral colors are for UI controls. See [Color](?path=/docs/foundations-color--docs) for more on color roles.
 
 ## Roles
 
@@ -34,7 +34,7 @@ Every icon button requires a role class that determines its color. The role comm
             display: 'inline-block',
             width: '0.85em',
             height: '0.85em',
-            backgroundColor: '#FC3D21',
+            backgroundColor: '#F64137',
             borderRadius: '50%',
             verticalAlign: 'middle',
             marginRight: '0.35em',
@@ -59,7 +59,7 @@ Every icon button requires a role class that determines its color. The role comm
             display: 'inline-block',
             width: '0.85em',
             height: '0.85em',
-            backgroundColor: '#1B4596',
+            backgroundColor: '#1C67E3',
             borderRadius: '50%',
             verticalAlign: 'middle',
             marginRight: '0.35em',
@@ -84,7 +84,7 @@ Every icon button requires a role class that determines its color. The role comm
             display: 'inline-block',
             width: '0.85em',
             height: '0.85em',
-            border: '2px solid #1B4596',
+            border: '2px solid #1C67E3',
             borderRadius: '50%',
             verticalAlign: 'middle',
             marginRight: '0.35em',
@@ -107,7 +107,7 @@ Every icon button requires a role class that determines its color. The role comm
       <td>
         <code>.hds-btn-icon--utility</code>
       </td>
-      <td>UI control (settings, expand, close)</td>
+      <td>UI controls — carousel arrows, accordion toggles, settings, close</td>
     </tr>
     <tr>
       <td>
@@ -117,7 +117,7 @@ Every icon button requires a role class that determines its color. The role comm
       <td>
         <code>.hds-btn-icon--social</code>
       </td>
-      <td>Social media or sharing actions</td>
+      <td>Social media links and sharing actions</td>
     </tr>
     <tr>
       <td>
@@ -129,7 +129,7 @@ Every icon button requires a role class that determines its color. The role comm
             display: 'inline-block',
             width: '0.85em',
             height: '0.85em',
-            backgroundColor: '#1B4596',
+            backgroundColor: '#1C67E3',
             borderRadius: '50%',
             verticalAlign: 'middle',
             marginRight: '0.35em',
@@ -140,21 +140,16 @@ Every icon button requires a role class that determines its color. The role comm
       <td>
         <code>.hds-btn-icon--interactive</code>
       </td>
-      <td>Informational or contextual triggers (info, help)</td>
+      <td>Informational triggers — tooltips, help, contextual info</td>
     </tr>
   </tbody>
 </table>
 
 <Canvas of={IconButtonStories.AllRoles} />
-<p class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</p>
 
-<Note type="code">
-  The interactive role uses fixed-color SVG graphics (<code>hds-buttons/interactive-*.svg</code>)
-  with baked-in NASA Blue fill and white icon. Unlike the other five roles — which use the sprite
-  with <code>currentColor</code> — interactive icons don't respond to palette color changes.
-</Note>
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+Interactive icons use fixed-color graphics with baked-in colors — unlike the other roles, they don't change with the palette. Black and white versions are available for lower-emphasis contexts.
 
 ## Sizes
 
@@ -168,24 +163,30 @@ Three sizes are available. All share the same role classes.
 
 <Canvas of={IconButtonStories.Sizes} />
 
+<Note type="figma">
+  The HDS Figma spec defines 6 sizes (XS–XXL, 16–36px). HDS Core currently ships 3 sizes. Additional
+  sizes may be added based on implementation needs.
+</Note>
+
 ## When to use the icon button component
 
 - **Compact actions** where the icon's meaning is universally clear — play, download, share, close, expand.
 - **Social media rows** — a group of social/sharing icons.
+- **Carousel and accordion controls** — utility role arrows for previous/next and expand/collapse.
 - **Action bars** — a horizontal row of secondary actions below content.
-- **CTA accent** — a small CTA icon paired with adjacent text (e.g., "Explore the mission" + arrow button).
+- **CTA accent** — a small CTA icon paired with adjacent text.
 
 ## When to consider something else
 
-- If the action needs a **text label** for clarity, use a [Button](?path=/docs/components-button--guidance) instead.
-- For **inline text navigation**, use a [Link](?path=/docs/components-link--guidance).
+- If the action needs a **text label** for clarity, use a [Button](?path=/docs/components-button-guidance--docs) instead.
+- For **inline text navigation**, use a [Link](?path=/docs/components-link-guidance--docs).
 - If the icon's meaning is **not universally obvious** (e.g., a domain-specific glyph), use a text button — don't rely on `aria-label` alone to convey meaning to sighted users.
-- For **decorative icons** that aren't interactive, use `.hds-glyph` instead of an icon button.
+- For **decorative icons** that aren't interactive, use `.hds-glyph` instead. See [Icons](?path=/docs/foundations-icons--docs) for all available glyphs.
 
 ## Usability guidance
 
 - **Always provide `aria-label`.** Icon buttons have no visible text — the label is the only way screen readers and voice control users can identify the action.
-- **Write action-oriented labels.** "Download file" is better than "Download." "Go to mission page" is better than "Arrow."
+- **Write action-oriented labels.** "Download report" is better than "Download." "Go to mission page" is better than "Arrow."
 - **Use `<button>` for actions, `<a>` for navigation.** If the icon button navigates to a new page, use an `<a>` tag. If it triggers an on-page action (toggle, submit), use `<button>`.
 - **One icon per button.** Don't combine multiple icons in a single icon button.
 
@@ -205,25 +206,17 @@ Combine multiple on-page actions in a toolbar-style row. Mix roles to communicat
 
 ### CTA with adjacent text
 
-Pair a small CTA icon button with adjacent text for a compact navigational call-to-action. This is distinct from the [primary arrow button](?path=/docs/components-button--guidance), which is a self-contained pill-shaped element.
+Pair a small CTA icon button with adjacent text for a compact navigational call-to-action. This is distinct from the [primary arrow button](?path=/docs/components-button-guidance--docs), which is a self-contained pill-shaped element.
 
 <Canvas of={IconButtonStories.CTAWithText} />
 
-## Hover and disabled states
-
-Hover and disabled states for icon buttons are **not yet implemented**. This is tracked as pending work. Currently, icon buttons don't change appearance on hover and don't have a dedicated disabled visual treatment.
-
-<Note type="figma">
-  The HDS Figma spec defines hover and disabled states for icon buttons. These will be implemented
-  in a future update — see ARCHITECTURE.md pending work.
-</Note>
-
 ## Accessibility
 
-- **`aria-label` is required** on every icon button. Without it, the button is announced as an empty button by screen readers.
-- **`aria-hidden="true"` on the SVG.** The icon is decorative — the `aria-label` on the button provides the accessible name. Adding `focusable="false"` on the SVG prevents a double-focus issue in older versions of IE/Edge.
+- **`aria-label` is required** on every icon button. Without it, the button is announced as empty by screen readers.
+- **`aria-hidden="true"` on the SVG.** The icon is decorative — the `aria-label` on the button provides the accessible name.
+- **`focusable="false"` on the SVG** prevents a double-focus issue in older browsers.
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
-- **Touch target size.** Even the small size meets the 24×24px minimum recommended by WCAG 2.5.8 (Target Size). The default and large sizes exceed it comfortably.
+- **Touch target size.** Even the small size meets the 24×24px minimum recommended by WCAG 2.5.8 (Target Size).
 
 ```html
 <!-- ✅ Correct -->
@@ -240,3 +233,5 @@ Hover and disabled states for icon buttons are **not yet implemented**. This is 
   </svg>
 </button>
 ```
+
+The recommended markup shown above includes all necessary ARIA attributes. For the full icon inventory, see [Icons](?path=/docs/foundations-icons--docs). For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

@@ -6,12 +6,11 @@ import * as IntroTextStories from './IntroText.stories';
 
 # Intro Text
 
-Intro text is a larger, lighter lead paragraph that introduces a page or section. It uses the USWDS `.usa-intro` class with HDS typographic overrides (**Tier 1**).
+Intro text is a larger, lighter lead paragraph that introduces a page or section. It uses the USWDS [`.usa-intro`](https://designsystem.digital.gov/components/prose/) class.
 
 <Canvas of={IntroTextStories.Default} />
-<div class="hds-caption">
-  Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-</div>
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
 ## With body text
 
@@ -21,7 +20,7 @@ Intro text is typically the first paragraph on a page, followed by regular body 
 
 ## In page context
 
-Intro text works alongside headings and body text to create a clear content hierarchy across all palettes.
+Intro text works alongside headings and body text to create a clear content hierarchy.
 
 <Canvas of={IntroTextStories.InPaletteContext} />
 
@@ -36,6 +35,7 @@ Intro text works alongside headings and body text to create a clear content hier
 - For **regular body text**, use a standard `<p>` tag.
 - For **pull quotes or callouts**, use a blockquote or alert instead.
 - For **subheadings**, use heading elements (`<h2>`–`<h6>`), not oversized paragraph text.
+- For details on the full type scale, see [Typography](?path=/docs/foundations-typography--docs).
 
 ## Usability guidance
 
@@ -47,4 +47,6 @@ Intro text works alongside headings and body text to create a clear content hier
 
 - Intro text is a `<p>` element — no special ARIA roles needed.
 - Screen readers announce it as a normal paragraph. The visual size difference is purely presentational.
-- Ensure sufficient color contrast on all palettes. The palette system handles this automatically via `--hds-palette-text`.
+- Color contrast is handled automatically across all palettes.
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
