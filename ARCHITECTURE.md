@@ -381,7 +381,6 @@ All moved into Github Issues
 
 - [ ] Remaining component stories as components are completed
 - [ ] Foundation MDX audit: verify all cross-links resolve, all hex values match tokens, all Canvas embeds render correctly across palettes
-- [ ] Add `"type": "module"` to package.json (optional — silences Node ESM warning)
 
 ### Pre-1.0 Verification
 
