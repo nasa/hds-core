@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md.
 
-Last updated: 2026-03-16
+Last updated: 2026-03-17
 
 ## Class Naming Convention
 
@@ -14,7 +14,7 @@ HDS Core follows a three-tier naming rule:
 
 When an HDS component maps 1:1 to a USWDS component in both markup and purpose, HDS Core overrides the `usa-*` styles directly. Existing USWDS sites get HDS theming without changing class names.
 
-**Examples:** `.usa-button`, `.usa-button--outline`, `.usa-link`, `.usa-link--external`, `.usa-intro`, `.usa-input`, `.usa-accordion`, `.usa-alert`, `.usa-breadcrumb`, `.usa-banner`, `.usa-pagination`
+**Examples:** `.usa-button`, `.usa-button--outline`, `.usa-link`, `.usa-link--external`, `.usa-intro`, `.usa-input`, `.usa-accordion`, `.usa-alert`, `.usa-site-alert`, `.usa-breadcrumb`, `.usa-banner`, `.usa-pagination`
 
 ### Tier 2: HDS Divergent (`hds-*`, replaces USWDS twin)
 
@@ -315,6 +315,31 @@ HDS uses utility icon circle buttons for prev/next. For legacy USWDS sites, CSS 
 ### Filter Variant (Deferred)
 
 The HDS Figma spec includes a rows-per-page filter alongside pagination. This requires a dropdown menu component and is deferred to Phase 2+.
+
+## Site Alert
+
+### Naming
+
+**HDS Figma:** "Banner"
+
+**HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar, which is a separate component.
+
+### Color Variants
+
+| Variant | Background | Text | Use |
+| --- | --- | --- | --- |
+| `--emergency` | NASA Red Shade (#B60109) | White | Lapse in appropriations, outages, critical safety |
+| `--info` | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements |
+
+Link treatment on both variants follows the dark-background pattern from the blue palette: white text, Carbon 30 underline, Carbon 40 arrow.
+
+### Scoped Palette Vars
+
+Site alerts define `--hds-palette-*` vars directly on the component selector rather than through `_hds-palettes.scss`. This means existing link, heading, and text wiring works automatically without one-off overrides. The vars are not available as a palette wrapper for arbitrary content.
+
+### USWDS `set-text-from-bg` Override
+
+USWDS applies hardcoded colors via its `set-text-from-bg` mixin at high specificity (4-segment selectors on `.usa-alert__body`, `::before`, links). §15.1 overrides all of these comprehensively at matching specificity.
 
 ## System Behavior
 

@@ -838,6 +838,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   // Hide non-essential interactive elements
   .hds-btn-icon,
   .usa-banner,
+  .usa-site-alert:not(.hds-print-visible),
   .usa-nav,
   .usa-footer,
   .usa-skipnav {

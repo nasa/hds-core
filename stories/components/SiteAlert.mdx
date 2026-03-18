@@ -1,0 +1,73 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as SiteAlertStories from './SiteAlert.stories';
+
+<Meta title="Components/Site Alert/Guidance" />
+
+# Site Alert
+
+HDS site alerts use standard USWDS `.usa-site-alert` markup with HDS theming applied automatically.
+
+<Note type="figma">
+  The HDS Figma spec calls this component "Banner." HDS Core uses "Site Alert" to match the USWDS
+  component it maps to and to avoid confusion with the USWDS Banner (the government compliance bar).
+</Note>
+
+## Emergency
+
+Use the emergency variant for critical, time-sensitive alerts: government shutdowns, service outages, safety notices.
+
+<Canvas of={SiteAlertStories.EmergencyWithHeading} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+### Slim emergency
+
+For brief, single-statement emergencies where a heading and icon aren't needed.
+
+<Canvas of={SiteAlertStories.EmergencySlim} />
+
+### Emergency without icon
+
+<Canvas of={SiteAlertStories.EmergencyNoIcon} />
+
+## Informational
+
+Use the informational variant for non-urgent announcements: live events, language redirects, content advisories.
+
+<Canvas of={SiteAlertStories.InfoWithHeading} />
+
+### Slim informational
+
+<Canvas of={SiteAlertStories.InfoSlim} />
+
+### Informational without icon
+
+<Canvas of={SiteAlertStories.InfoNoIcon} />
+
+## When to use the site alert component
+
+- **Critical announcements** that apply to the entire site, not just one page.
+- **Time-sensitive information** that users need before interacting with any page content.
+- **Lapse in appropriations** or other government-wide notices.
+
+## When to consider something else
+
+- **Page-specific notices** — use an [Alert](https://designsystem.digital.gov/components/alert/) within the page body instead.
+- **Announcements with a call-to-action, dismiss button, or "Live!" badge** — these HDS Figma patterns are not yet supported in HDS Core.
+- **The government compliance bar** ("An official website of the United States government") — that's the [USWDS Banner](https://designsystem.digital.gov/components/banner/), a separate component.
+
+## Usability guidance
+
+- Place site alerts above the global nav, before all other page content.
+- Keep text short. If your message needs more than a sentence or two, link to a full page with details.
+- Use emergency sparingly — reserve it for situations that genuinely require immediate attention.
+- Use one site alert at a time. Multiple stacked alerts dilute urgency.
+- Once a situation resolves, remove the alert. Stale alerts erode trust.
+
+## Accessibility
+
+- Wrap the site alert in a `<section>` element with `aria-label="Site alert"`.
+- Use a heading element (`<h4>`) for the `.usa-alert__heading` when present. The heading level should be appropriate for your page's outline.
+- Tab order proceeds left-to-right through any interactive elements (links, buttons) inside the alert.
+- The recommended markup shown above includes all necessary ARIA attributes.

@@ -1,9 +1,11 @@
+Here's the clean replacement:
+
 ```markdown
 # HDS Core Architecture
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-16
+Last updated: 2026-03-17
 
 ## Package Overview
 
@@ -18,7 +20,7 @@ Last updated: 2026-03-16
 ## File Structure
 ```
 
-hds-core/ ├── gulpfile.js ├── test.html # Visual test page (not shipped) │ ├── .storybook/ # Storybook config (not shipped) ├── stories/ # Component stories (not shipped) │ ├── helpers/ │ │ ├── Note.jsx │ │ └── icons.js │ ├── components/ │ │ ├── Breadcrumb.mdx │ │ ├── Breadcrumb.stories.js │ │ ├── Button.mdx │ │ ├── Button.stories.js │ │ ├── IconButton.mdx │ │ ├── IconButton.stories.js │ │ ├── IntroText.mdx │ │ ├── IntroText.stories.js │ │ ├── Link.mdx │ │ ├── Link.stories.js │ │ ├── Pagination.mdx │ │ └── Pagination.stories.js │ └── foundations/ │ ├── Icons.stories.js │ └── PaletteSpec.stories.js │ ├── src/ │ ├── scss/ │ │ ├── styles.scss ← Entry point │ │ ├── \_hds-tokens.scss ← Pure Sass (NO uswds-core) │ │ ├── \_hds-uswds-theme.scss ← USWDS configuration │ │ ├── \_hds-custom-styles.scss │ │ ├── \_hds-components.scss │ │ └── \_hds-palettes.scss │ │ │ └── assets/ │ ├── img/ │ │ ├── hds-icons/ # Themeable SVGs → sprite │ │ ├── hds-buttons/ # Fixed-color graphics │ │ └── nasa-branding/ # Logo and brand assets │ └── fonts/ │ └── dist/ # Build output ├── css/ │ ├── styles.css │ ├── styles.css.map │ ├── styles.min.css │ └── styles.min.css.map └── assets/{fonts,img}/
+hds-core/ ├── gulpfile.js ├── test.html # Visual test page (not shipped) │ ├── .storybook/ # Storybook config (not shipped) ├── stories/ # Component stories (not shipped) │ ├── helpers/ │ │ ├── Note.jsx │ │ └── icons.js │ ├── components/ │ │ ├── Breadcrumb.mdx │ │ ├── Breadcrumb.stories.js │ │ ├── Button.mdx │ │ ├── Button.stories.js │ │ ├── IconButton.mdx │ │ ├── IconButton.stories.js │ │ ├── IntroText.mdx │ │ ├── IntroText.stories.js │ │ ├── Link.mdx │ │ ├── Link.stories.js │ │ ├── Pagination.mdx │ │ ├── Pagination.stories.js │ │ ├── SiteAlert.mdx │ │ └── SiteAlert.stories.js │ └── foundations/ │ ├── Icons.stories.js │ └── PaletteSpec.stories.js │ ├── src/ │ ├── scss/ │ │ ├── styles.scss ← Entry point │ │ ├── \_hds-tokens.scss ← Pure Sass (NO uswds-core) │ │ ├── \_hds-uswds-theme.scss ← USWDS configuration │ │ ├── \_hds-custom-styles.scss │ │ ├── \_hds-components.scss │ │ └── \_hds-palettes.scss │ │ │ └── assets/ │ ├── img/ │ │ ├── hds-icons/ # Themeable SVGs → sprite │ │ ├── hds-buttons/ # Fixed-color graphics │ │ └── nasa-branding/ # Logo and brand assets │ └── fonts/ │ └── dist/ # Build output ├── css/ │ ├── styles.css │ ├── styles.css.map │ ├── styles.min.css │ └── styles.min.css.map └── assets/{fonts,img}/
 
 ```
 
@@ -242,6 +244,7 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | §12 | Icon Buttons | 3 | `.hds-btn-icon--*` — 6 roles, 3 sizes (sm, default, lg). `--utility` uses shared `@mixin hds-utility-circle` from `_hds-custom-styles.scss` §2.5. Interactive role uses hardcoded colors (not palette vars). Hover/disabled states TODO except `--utility` which is handled in §7.4 for pagination context. |
 | §13 | Links | 1+3 | `.usa-link` override + `.hds-link--internal` escape |
 | §14 | Intro Text | 1 | `.usa-intro` — Public Sans 400, size("body", "sm") ~18px, line-height token 4 (1.52 ≈ 150%), letter-spacing neg-1 (-0.25px). Source: Figma (Proposal silent on intro text). |
+| §15 | Site Alert | 1 | Scoped `--hds-palette-*` vars on `.usa-site-alert--emergency` (NASA Red Shade) and `--info` (NASA Blue Shade). §15.1 overrides USWDS `set-text-from-bg` at matching specificity. HDS Figma calls this "Banner." |
 
 ### Shared Mixins (`_hds-custom-styles.scss` §2)
 
@@ -340,18 +343,6 @@ See **DOCUMENTATION.md** for all docs conventions: sidebar structure, MDX patter
 
 Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 
-### Completed Component Stories (Guidance + Playground)
-
-| Component                        | CSS Section | Tier | Status         |
-| -------------------------------- | ----------- | ---- | -------------- |
-| Breadcrumb                       | §3          | 1    | ✅             |
-| Button (CTA, Secondary, Outline) | §4          | 1    | ✅             |
-| Icon Button                      | §12         | 3    | ✅             |
-| Intro Text                       | §14         | 1    | ✅             |
-| Link                             | §13         | 1+3  | ✅             |
-| Pagination                       | §7          | 1+3  | ✅             |
-| Primary Arrow Button             | §11         | 3    | ✅ (in Button) |
-
 ### Sections with CSS but no stories yet
 
 | Section | Component                  | Tier | Notes                                |
@@ -386,7 +377,7 @@ All moved into Github Issues
 
 - [ ] Spec verification pass across all components against Figma (visual details: arrow sizing, caption styles, blockquote line-height, icon button outline thickness, responsive typography, etc.)
 - [ ] Accessibility testing — screen reader (NVDA, VoiceOver), SR approach for external links, focus ring contrast review
-- [ ] test.html: Replace with realistic integration page using validated component markup (banner, header, footer, accordion, all palette sections, bare element flag testing)
+- [ ] test.html: Replace with realistic integration page using validated component markup (site alert, banner, header, footer, accordion, all palette sections, bare element flag testing)
 
 ### Infrastructure
 
