@@ -40,6 +40,20 @@ function buildSprite() {
               return name.replace(/\.svg$/, '');
             },
           },
+          transform: [
+            {
+              svgo: {
+                plugins: [
+                  { name: 'cleanupIDs', params: { minify: true } },
+                  { name: 'removeUselessDefs' },
+                ],
+              },
+            },
+          ],
+        },
+        svg: {
+          namespaceIDs: false,
+          namespaceClassnames: false,
         },
       }),
     )
