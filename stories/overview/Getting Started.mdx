@@ -1,0 +1,184 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Getting Started" />
+
+# Getting Started
+
+This guide covers how to integrate HDS Core into your project. For an introduction to what HDS Core is and what's included, see the [Overview](?path=/docs/overview--docs).
+
+## Choose your approach
+
+HDS Core supports two integration paths:
+
+|  | Sass (recommended) | Pre-compiled CSS |
+| --- | --- | --- |
+| **Setup** | Requires a Sass compiler and load path configuration | Drop in a `<link>` tag |
+| **Customization** | Full access to USWDS settings, HDS Sass variables, and USWDS functions | Limited to CSS custom properties |
+| **Global element styles** | Configurable — enable or disable bare element styling via USWDS flags | Defaults only (bare elements unstyled) |
+| **Custom code** | Use `$hds-color-*` variables, `family()`, `size()`, `units()`, `color()` in your own Sass | Use `var(--hds-color-*)` and `var(--hds-font-weight-*)` in your own CSS |
+| **File size** | Can be optimized by including only what you need | Full bundle |
+| **Upgrade path** | Easiest to evolve as HDS Core adds features and settings | May need to switch to Sass later for full control |
+
+If your project already uses USWDS with Sass, choose Sass — you're most of the way there. If you're evaluating HDS Core or working on a project without a build pipeline, pre-compiled CSS gets you started immediately.
+
+## Sass setup
+
+### Load paths
+
+Configure your Sass compiler with these load paths:
+
+- `node_modules/@uswds/uswds/packages`
+- `node_modules/@nasa/hds-core/src/scss`
+
+How you set these depends on your build tool. Most accept a `loadPaths` or `includePaths` array in their Sass configuration.
+
+### Entry point
+
+Create a Sass entry point that forwards HDS Core:
+
+```scss
+// styles.scss
+@forward '@nasa/hds-core/src/scss/styles';
+```
+
+To add your own styles, forward them after HDS Core:
+
+```scss
+// styles.scss
+@forward '@nasa/hds-core/src/scss/styles';
+@forward 'my-project-styles';
+```
+
+### Using HDS tokens in Sass
+
+Once HDS Core is loaded, you can use HDS Sass variables and USWDS functions in your own stylesheets:
+
+```scss
+.my-component {
+  background-color: $hds-color-carbon-05;
+  color: $hds-color-carbon-90;
+  font-family: family('heading');
+  font-size: size('heading', 'md');
+  padding: units(3);
+}
+```
+
+**Available HDS variables:** All HDS brand and Carbon colors are available as `$hds-color-*` Sass variables. These return exact HDS hex values.
+
+**USWDS functions:** `family()`, `size()`, `units()`, and `color()` all work as documented in the [USWDS documentation](https://designsystem.digital.gov/design-tokens/).
+
+**Color precision note:** USWDS `color()` returns USWDS system token values, which are close approximations of HDS Carbon colors — not exact matches. For example, USWDS `gray-90` is `#1b1b1b`, while HDS Carbon 90 is `#17171B`. When you need exact HDS hex values, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties.
+
+## Pre-compiled CSS setup
+
+Link to the compiled stylesheet in your HTML:
+
+```html
+<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.css" />
+```
+
+A minified version is also available:
+
+```html
+<link rel="stylesheet" href="path/to/hds-core/dist/css/styles.min.css" />
+```
+
+### Using HDS tokens in CSS
+
+Use CSS custom properties in your own stylesheets:
+
+```css
+.my-element {
+  color: var(--hds-color-nasa-blue);
+  font-weight: var(--hds-font-weight-bold);
+}
+```
+
+All `$hds-color-*` values are also available as `var(--hds-color-*)` CSS custom properties.
+
+### What you can't customize
+
+With pre-compiled CSS, you get HDS Core's default configuration. You cannot:
+
+- Enable bare element styling (headings, paragraphs, links, tables)
+- Change USWDS theme settings
+- Use USWDS Sass functions (`family()`, `size()`, `units()`, `color()`)
+
+If you need any of these, switch to the Sass approach.
+
+## Customizing USWDS settings
+
+_This section applies to the Sass approach only._
+
+HDS Core configures USWDS with HDS values — colors, fonts, spacing, and component behavior. Many of these settings can be further customized in your project. Others are reserved by HDS Core and should not be overridden.
+
+### Global element styles
+
+By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.). This prevents conflicts with existing styles in your project.
+
+To enable bare element styling, set these USWDS flags in your theme configuration:
+
+```scss
+@use 'uswds-core' with (
+  // Style the <body> element
+  $theme-style-body-element: true,
+
+  // Style headings, lists, tables, blockquotes, code, forms, buttons
+  $theme-global-content-styles: true,
+
+  // Style bare <a> tags (also enabled by content styles)
+  $theme-global-link-styles: true,
+
+  // Style bare <p> tags (also enabled by content styles)
+  $theme-global-paragraph-styles: true
+);
+```
+
+When disabled (the default), use USWDS classes to activate styling:
+
+- `.usa-prose` wraps body content sections with full typography
+- `.usa-link` applies link styling to individual anchors
+- `.usa-button` applies button styling
+- `.usa-intro` applies lead/intro paragraph styling
+
+These class-based styles are always active regardless of the flags above.
+
+### Recommended settings to review
+
+{/* TODO: Populate once _hds-uswds-theme.scss is reviewed against the full USWDS settings list. This section will list settings that HDS Core sets to sensible defaults but that adopters may want to adjust for their project (e.g., grid breakpoints, notification banner visibility). */}
+
+_Coming soon — this section will document USWDS settings that HDS Core provides defaults for but that you may want to adjust._
+
+### Reserved settings
+
+HDS Core relies on certain USWDS settings to implement the HDS visual language correctly. Overriding these will break the design system's intended behavior.
+
+**Do not override:**
+
+- `$theme-color-primary` / `$theme-color-secondary` — HDS swaps these intentionally (NASA Red = primary, NASA Blue = secondary) to support the wayfinding rule
+- Font role assignments (`$theme-font-role-heading`, `$theme-font-role-body`, etc.) — HDS maps Inter, Public Sans, and DM Mono to specific roles
+- Focus ring settings (`$theme-focus-color`, `$theme-focus-width`, `$theme-focus-style`, `$theme-focus-offset`) — HDS uses a palette-aware focus ring
+
+{/* TODO: Complete this list from the full _hds-uswds-theme.scss review. */}
+
+### Everything else
+
+USWDS has [hundreds of theme settings](https://designsystem.digital.gov/documentation/settings/). Settings not listed above as recommended or reserved are not tested with HDS Core. They may work fine, or they may produce unexpected results. Use at your own risk, and test thoroughly.
+
+## Utility classes
+
+HDS Core provides a small number of utility classes beyond what USWDS offers.
+
+| Class | Purpose |
+|---|---|
+| `.hds-print-visible` | Makes an element visible in print that is hidden on screen. Use for content that should only appear in printed output (e.g., expanded URLs, critical alerts). |
+
+All [USWDS utility classes](https://designsystem.digital.gov/utilities/) for layout, spacing, and typography work as expected with HDS Core. USWDS color utilities (`.bg-*`, `.text-*`, `.border-*`) also work, but use USWDS system token values which are close approximations of HDS colors — not exact matches. For exact HDS colors in custom styles, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties. See [Color precision note](#using-hds-tokens-in-sass) above.
+
+## Common mistakes
+
+**Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself can load it without HDS configuration, breaking the theme. Use HDS Sass variables and USWDS functions — they're available automatically after forwarding HDS Core.
+
+**Don't override reserved `$theme-*` settings.** See [Reserved settings](#reserved-settings) above. Overriding HDS Core's color swap or font assignments will produce a design that doesn't match HDS.
+
+**Bare HTML elements aren't styled by default.** If your headings, paragraphs, or links aren't picking up HDS styles, you need to either enable the global element style flags (see [Global element styles](#global-element-styles)) or use USWDS classes like `.usa-prose`, `.usa-link`, and `.usa-button`.
