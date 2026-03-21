@@ -850,20 +850,123 @@
 
 // ============================================================
 // §8 ACCORDION
-// Docs: https://website.nasa.gov/hds-core/components#accordion
-// See also: https://designsystem.digital.gov/components/accordion/
+// Storybook: Components / Accordion
+// USWDS: https://designsystem.digital.gov/components/accordion/
+//
+// Tier 1 override of .usa-accordion. Palette-aware, borderless,
+// transparent backgrounds, circled chevron replaces USWDS chevron.
+// No markup changes — standard USWDS accordion markup works as-is.
+//
+// USWDS renders +/- icons via background-image (set-icon-from-bg
+// mixin) and sets button colors via set-text-and-bg mixin. Both
+// require !important to override because they compile to the same
+// specificity and load earlier in the cascade.
+//
+// Chevron circle uses 1.5em (24px at 16px base) to match Figma M
+// size. This is a component-specific value until the icon button
+// size system adds --md. See GitHub Discussions #13.
+//
+// Bordered variant (.usa-accordion--bordered) is not restyled by
+// HDS — it renders with default USWDS bordered treatment.
+// Pending creative director review. See DESIGN.md.
+//
+// Hover state on button row is not yet implemented — pending
+// Figma research on similar full-row hover patterns.
 // ============================================================
 
-.usa-accordion { border-left: 0; }
-
-.usa-accordion__button {
-  background-color: $hds-color-carbon-05;
-  color: $hds-color-carbon-black;
-  &:hover { background-color: $hds-color-carbon-10; }
+// §8.1 Container — remove USWDS left border
+.usa-accordion {
+  border-left: 0;
 }
 
+// §8.2 Separator lines — between items only, not first or last
+.usa-accordion__heading {
+  border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
+}
+
+.usa-accordion > .usa-accordion__heading:first-child {
+  border-top: 0;
+}
+
+// §8.3 Heading button — transparent, palette-aware, circled chevron
+.usa-accordion__button {
+  // Override USWDS set-text-and-bg mixin
+  background-color: transparent !important;
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black}) !important;
+
+  // Override USWDS set-icon-from-bg mixin (+/- background icons)
+  background-image: none !important;
+
+  // Layout: heading text left, chevron circle right
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black}) !important;
+  }
+
+  // Override USWDS [aria-expanded="false"] which applies the "add" icon
+  &[aria-expanded="false"] {
+    background-image: none !important;
+
+    &:hover {
+      background-image: none !important;
+    }
+  }
+
+  // Override USWDS [aria-expanded="true"] which applies the "remove" icon
+  &[aria-expanded="true"] {
+    background-image: none !important;
+
+    &:hover {
+      background-image: none !important;
+    }
+  }
+
+  // High Contrast Mode: USWDS uses ::before for +/- icons in
+  // forced-colors mode. Our mask-image chevron won't render there.
+  // Keep the USWDS ::before visible for accessibility.
+  // Outside forced-colors, no ::before exists so no override needed.
+
+  // Chevron circle — mirrors external link arrow technique
+  // (mask-image + currentColor for palette awareness)
+  &::after {
+    content: '';
+    flex-shrink: 0;
+    width: 1.5em;  // 24px at 16px base — Figma M size
+    height: 1.5em;
+    border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+    border-radius: 50%;
+    margin-left: units(2);
+
+    // Chevron icon via mask
+    background-color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
+    mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
+    -webkit-mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-size: 0.75em;
+    -webkit-mask-size: 0.75em;
+
+    // Collapsed = chevron down (default)
+    transition: transform 0.2s ease;
+  }
+
+  // Expanded = chevron up (rotate)
+  &[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+  }
+}
+
+// §8.4 Content area — transparent, palette-aware text, no top border
 .usa-accordion__content {
-  background-color: $hds-color-spacesuit-white;
+  background-color: transparent !important;
+  color: var(--hds-palette-text, #{$hds-color-carbon-90}) !important;
   border-top: 0;
 }
 
