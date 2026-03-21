@@ -237,7 +237,7 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | §5 | Forms | 1 | Light backgrounds only (dark TODO) |
 | §6 | In-Page Navigation | 1 | Active state = NASA Blue |
 | §7 | Pagination | 1+3 | §7.0–7.4: Tier 1 USWDS overrides (bottom-bar current indicator, utility circle prev/next, palette-aware text/ellipsis). §7.5: Tier 3 simplified pagination (composed Previous/Next buttons with icon + text). |
-| §8 | Accordion | 1 | No left border, light bg, hover darker |
+| §8 | Accordion | 1 | Borderless only and no hover state yet. |
 | §9 | Alerts | 1 | border-radius: 0, border-left-width: 4px. Pure USWDS — not in HDS Figma. No Storybook stories. |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
 | §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
