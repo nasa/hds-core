@@ -87,4 +87,13 @@ exports.init = gulp.series(
   buildSprite,
 );
 
-exports.build = gulp.series(uswds.compile, copyHdsAssets, buildSprite, minifyCss);
+// Build: Full production build — safe to run from a fresh clone
+exports.build = gulp.series(
+  uswds.copyFonts,
+  uswds.copyImages,
+  uswds.copyJS,
+  copyHdsAssets,
+  uswds.compile,
+  buildSprite,
+  minifyCss,
+);
