@@ -1,12 +1,15 @@
 {
   "name": "HDS Core",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
+  },
   "postCreateCommand": "npm install && npm run build",
   "forwardPorts": [6006],
   "portsAttributes": {
     "6006": {
       "label": "Storybook",
-      "onAutoForward": "notify"
+      "onAutoForward": "openBrowser"
     }
   },
   "customizations": {
@@ -15,10 +18,7 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
       },
-      "extensions": [
-        "esbenp.prettier-vscode",
-        "syler.sass-indented"
-      ]
+      "extensions": ["esbenp.prettier-vscode", "syler.sass-indented"]
     }
   }
 }
