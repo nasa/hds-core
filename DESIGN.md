@@ -341,6 +341,22 @@ Site alerts define `--hds-palette-*` vars directly on the component selector rat
 
 USWDS applies hardcoded colors via its `set-text-from-bg` mixin at high specificity (4-segment selectors on `.usa-alert__body`, `::before`, links). §15.1 overrides all of these comprehensively at matching specificity.
 
+## Accordion
+
+### Chevron Icon
+
+USWDS renders +/− icons via `background-image` (`set-icon-from-bg` mixin) with a filled background on the heading row. HDS replaces these with a circled chevron (down when collapsed, up when expanded) using the same `mask-image` technique as the external link arrow (§13.2). The circle uses `--hds-palette-utility-stroke` and `--hds-palette-utility-icon` — the same tokens as other utility circles.
+
+The circle is 24px (1.5em at 16px base), matching the Figma "M" icon button size. This is hardcoded in §8 until the icon button size system adds a `--md` size. See GitHub Discussions #13.
+
+### Bordered Variant
+
+USWDS offers `.usa-accordion--bordered`. HDS Figma shows only borderless accordions with thin separator lines between items. The bordered variant is not restyled by HDS — it renders with default USWDS bordered treatment. Pending creative director review: should HDS define its own bordered variant, or should bordered be discouraged?
+
+### Hover State
+
+HDS Figma does not specify a hover state for the accordion heading row. The Figma accessibility guidance states the entire header area should be selectable, which implies a visible hover affordance. Pending Figma research on similar full-row hover patterns for components with embedded utility circles (e.g., does the circle get hover treatment, the row, or both?). Currently unimplemented — the heading row has no hover effect.
+
 ## System Behavior
 
 ### OS Dark Mode Is Opt-In
@@ -393,3 +409,22 @@ Intentional deviations from the HDS Core Proposal, with rationale:
 | TV breakpoint | 1920px | Deferred | USWDS doesn't have built-in TV breakpoint |
 | Button font family | Not specified | Inter (via `"heading"` slot) | Figma shows Inter for all button text |
 | Button active state | Not specified | Matches hover (no distinct active) | Consistent with Apple HIG; HDS Figma shows no active state |
+
+## USWDS Override Complexity
+
+Components where HDS overrides require `!important` due to USWDS mixin-generated styles (`set-text-and-bg`, `set-icon-from-bg`) or high-specificity selectors that compile at the same specificity and load earlier in the cascade.
+
+| Section | Properties | Reason |
+|---|---|---|
+| §1.1 Footer | `border` on footer nav/content | USWDS footer sets borders at high specificity |
+| §1.1 Footer | `padding-bottom`, `padding-top` on mobile footer nav | USWDS mobile footer padding override |
+| §1.2 Agency Navbar | `padding` on `.usa-button--arrow` | USWDS button padding conflicts |
+| §1.3 Nav Triggers | `mask-size`, `mask-position`, `mask-image` on menu chevrons | USWDS `background-image` icons replaced with `mask-image` |
+| §7.5 Simplified Pagination | `outline: none` on `:focus-visible` | Composed button needs `border` focus instead of global `outline` |
+| §8 Accordion | `background-color`, `background-image`, `color` on button + content | USWDS `set-text-and-bg` and `set-icon-from-bg` mixins bake in colors and +/- icons |
+| §13.2 External Link Arrow | `display: inline` on `::after` | USWDS sets `inline-block` — needs `inline` for text-flow alignment |
+| §13.3 Internal Link Escape | `display: none` on `::after` | Force-hide arrow regardless of USWDS external link styling |
+
+Additionally, `_hds-custom-styles.scss` uses `!important` in print styles and palette variable definitions to override USWDS defaults at the system level. `_hds-components.scss` §5 (Forms) has overrides not yet cataloged — will be documented when Forms stories are built.
+
+This table is tracked for potential selective USWDS package imports post-v1.0. See ARCHITECTURE.md § Pending Work → Infrastructure for the `@uswds/compile` replacement plan.

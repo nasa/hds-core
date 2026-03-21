@@ -1,11 +1,8 @@
-Let me check what we've accumulated since the earlier DOCUMENTATION.md commit: Here's the complete updated DOCUMENTATION.md. I've incorporated everything from our earlier draft plus the additional items we picked up during the Grid, Spacing, Typography, and Icons work:
-
-```markdown
 # HDS Core Documentation Conventions
 
 Standards for Storybook documentation pages. Use this as a guide when adding or updating HDS Core documentation in Storybook.
 
-Last updated: 2026-03-17
+Last updated: 2026-03-19
 
 ## Audience
 
@@ -31,7 +28,7 @@ The Overview page expands and explains these concepts so they don't need to be r
 - **HDS Core is a Sass/CSS theme layer on USWDS** — don't re-explain on component pages.
 - **"All components adapt to color palettes automatically"** — established in Overview, assumed everywhere else.
 - **How to use Storybook** (palette switcher, viewport switcher, Measure tool, "Show code," Guidance vs Playground) — explained once in Overview.
-- **Installation** — covered in Overview with link to README. Don't include setup instructions on component or foundation pages.
+- **Installation** — covered in Overview with link to Getting Started. Don't include setup instructions on component or foundation pages.
 - **Current version / scope** (pre-1.0, CSS-only, no JS beyond USWDS) — stated in Overview, not repeated elsewhere.
 
 ### Cross-linking
@@ -46,13 +43,66 @@ Link to external USWDS docs when extending or overriding a USWDS concept:
 
 Good: "HDS breadcrumbs use USWDS [Breadcrumb](https://designsystem.digital.gov/components/breadcrumb/) markup."
 
+### CSS source file comments
+
+Section headers in `_hds-components.scss` and `_hds-custom-styles.scss` use a standard comment block:
+
+```scss
+// ============================================================
+// §[number] COMPONENT NAME
+// Storybook: Components / [Component Name]
+// USWDS: https://designsystem.digital.gov/components/[component]/
+// ============================================================
+```
+
+- **Storybook:** path as it appears in the sidebar
+- **USWDS:** link to the matching USWDS component page (omit if no USWDS equivalent)
+- Do not use `website.nasa.gov` URLs — reference Storybook and USWDS directly
+
 ## File structure
-```
-
-stories/ assets/ # Storybook-only images (screenshots, not shipped) helpers/ Note.jsx # Callout note component icons.js # Shared icon ID arrays (HDS + USWDS) overview/ Overview.mdx # Landing page — <Meta title="Overview" /> Roadmap.mdx # What's in v1.0 — <Meta title="Overview/Roadmap" /> foundations/ Accessibility.mdx # Docs-only (no stories file) Color.mdx # Docs-only — swatches use inline styled spans ColorPalettes.mdx # Attached to ColorPalettes.stories.js ColorPalettes.stories.js # Hidden stories for palette Canvas embeds DataVisualization.mdx # Docs-only (no stories file) DataVisualizationPalettes.mdx # Docs-only — swatch tables Grid.mdx # Attached to Grid.stories.js Grid.stories.js # Hidden stories for grid Canvas embeds Icons.mdx # Attached to Icons.stories.js Icons.stories.js # Hidden stories — imports from helpers/icons.js Spacing.mdx # Standalone MDX — uses Grid.stories.js for stacking demo Typography.mdx # Attached to Typography.stories.js Typography.stories.js # Hidden stories for type Canvas embeds components/ Breadcrumb.mdx # Guidance page Breadcrumb.stories.js # Canvas-embed stories + Playground Button.mdx Button.stories.js IconButton.mdx IconButton.stories.js IntroText.mdx IntroText.stories.js Link.mdx Link.stories.js Pagination.mdx Pagination.stories.js
 
 ```
-
+stories/
+  assets/                           # Storybook-only images (screenshots, not shipped)
+  helpers/
+    Note.jsx                        # Callout note component
+    icons.js                        # Shared icon ID arrays (HDS + USWDS)
+  overview/
+    GettingStarted.mdx              # Root-level — integration guide
+    Overview.mdx                    # Landing page
+    Roadmap.mdx                     # What's in v1.0
+  foundations/
+    Accessibility.mdx               # Docs-only (no stories file)
+    Color.mdx                       # Docs-only — swatches use inline styled spans
+    ColorPalettes.mdx               # Attached to ColorPalettes.stories.js
+    ColorPalettes.stories.js        # Hidden stories for palette Canvas embeds
+    DataVisualization.mdx           # Docs-only (no stories file)
+    DataVisualizationPalettes.mdx   # Docs-only — swatch tables
+    Grid.mdx                        # Attached to Grid.stories.js
+    Grid.stories.js                 # Hidden stories for grid Canvas embeds
+    Icons.mdx                       # Attached to Icons.stories.js
+    Icons.stories.js                # Hidden stories — imports from helpers/icons.js
+    Spacing.mdx                     # Standalone MDX — uses Grid.stories.js for stacking demo
+    Typography.mdx                  # Attached to Typography.stories.js
+    Typography.stories.js           # Hidden stories for type Canvas embeds
+  components/
+    Accordion.mdx                   # Guidance page
+    Accordion.stories.js            # Canvas-embed stories + Playground
+    Breadcrumb.mdx                  # Guidance page
+    Breadcrumb.stories.js           # Canvas-embed stories + Playground
+    Button.mdx
+    Button.stories.js
+    IconButton.mdx
+    IconButton.stories.js
+    IntroText.mdx
+    IntroText.stories.js
+    Link.mdx
+    Link.stories.js
+    Pagination.mdx
+    Pagination.stories.js
+    SiteAlert.mdx
+    SiteAlert.stories.js
+```
 
 ## Storybook configuration
 
@@ -62,28 +112,62 @@ stories/ assets/ # Storybook-only images (screenshots, not shipped) helpers/ Not
 | `.storybook/preview.js` | Palette toolbar, decorators, storySort, dynamic source |
 | `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
 
-Auto-generated Reference pages are not used. Do not add `docs.defaultName` to
-main.js or `tags: ['autodocs']` to component meta.
+Auto-generated Reference pages are not used. Do not add `tags: ['autodocs']` to component meta.
 
+Component Guidance pages use an explicit `<Meta title="..." />` with a `/Guidance` suffix — not `<Meta of={Stories} />`. The `of=` pattern inherits the story title and Storybook labels the page "Docs" instead of "Guidance."
+
+```mdx
+// ✅ Correct — appears as "Guidance" in sidebar
+<Meta title="Components/Accordion/Guidance" />
+
+// ❌ Wrong — appears as "Docs" in sidebar
+<Meta of={AccordionStories} />
+```
+
+Foundation docs-only MDX pages (no companion stories file) set their title directly:
+
+```mdx
+<Meta title="Foundations/Color" />
+```
+
+Root-level pages set a plain title with no slash:
+
+```mdx
+<Meta title="Getting Started" />
+<Meta title="Overview" />
+<Meta title="Roadmap" />
+```
 
 ## Sidebar structure
 
 ```
+Getting Started
+Overview
+Roadmap
+Foundations / Accessibility
+Foundations / Color
+Foundations / Color Palettes
+Foundations / Data Visualization
+Foundations / Data Visualization Palettes
+Foundations / Grid
+Foundations / Icons
+Foundations / Spacing
+Foundations / Typography
+Components / [ComponentName] / Guidance
+Components / [ComponentName] / Playground
+```
 
-Overview Overview / Roadmap Foundations / Accessibility Foundations / Color Foundations / Color Palettes Foundations / Data Visualization Foundations / Data Visualization Palettes Foundations / Grid Foundations / Icons Foundations / Spacing Foundations / Typography Components / [ComponentName] / Guidance Components / [ComponentName] / Playground
+Getting Started, Overview, and Roadmap are root-level sidebar entries — not nested under a parent category.
 
-````
-
-**Foundations sort alphabetically** — no explicit ordering needed beyond the
-category level in `storySort`.
+**Foundations sort alphabetically** — no explicit ordering needed beyond the category level in `storySort`.
 
 The `storySort` config in `preview.js` controls category order:
 
 ```js
 storySort: {
-  order: ['Overview', 'Foundations', 'Components', ['*', ['Guidance', 'Playground']]],
+  order: ['Getting Started', 'Overview', 'Roadmap', 'Foundations', 'Components', ['*', ['Guidance', 'Playground']]],
 },
-````
+```
 
 Sidebar positions are controlled by `<Meta title="..." />` in MDX files or `title` in CSF story exports. The file location is organizational only.
 
