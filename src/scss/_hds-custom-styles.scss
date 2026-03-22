@@ -373,11 +373,14 @@
 
 @if $theme-style-body-element {
   body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     background-color: var(--hds-palette-bg, #{$hds-color-spacesuit-white});
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
     font-family: family('body');
     font-size: size('body', 'xs');
     line-height: var(--hds-line-height-body);
+    text-rendering: optimizeLegibility;
   }
 }
 
