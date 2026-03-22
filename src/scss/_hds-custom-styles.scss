@@ -1,7 +1,6 @@
 // ============================================================
 // HDS Custom Styles — Foundations
 // @nasa/hds-core
-// Docs: https://website.nasa.gov/hds-core/
 // ============================================================
 // All foundational HDS styles loaded AFTER USWDS. This file
 // covers everything except individual component overrides
@@ -25,13 +24,11 @@
 // Deep-link from dev docs: _hds-custom-styles.scss §4 Links
 // ============================================================
 
-@use "uswds-core" as *;
-@use "hds-tokens" as *;
-
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
 
 // ============================================================
 // §1 CSS CUSTOM PROPERTIES
-// Docs: https://website.nasa.gov/hds-core/tokens#css-custom-properties
 // ============================================================
 // All HDS token values output to :root.
 // Use $hds-color-* variables in Sass.
@@ -42,28 +39,27 @@
 // ============================================================
 
 :root {
-
   // Brand colors — var(--hds-color-nasa-blue)
-  --hds-color-carbon-black:          #{$hds-color-carbon-black};
-  --hds-color-spacesuit-white:       #{$hds-color-spacesuit-white};
-  --hds-color-nasa-red:              #{$hds-color-nasa-red};
-  --hds-color-nasa-blue:             #{$hds-color-nasa-blue};
-  --hds-color-carbon-90:             #{$hds-color-carbon-90};
-  --hds-color-carbon-80:             #{$hds-color-carbon-80};
-  --hds-color-carbon-70:             #{$hds-color-carbon-70};
-  --hds-color-carbon-60:             #{$hds-color-carbon-60};
-  --hds-color-carbon-50:             #{$hds-color-carbon-50};
-  --hds-color-carbon-40:             #{$hds-color-carbon-40};
-  --hds-color-carbon-30:             #{$hds-color-carbon-30};
-  --hds-color-carbon-20:             #{$hds-color-carbon-20};
-  --hds-color-carbon-10:             #{$hds-color-carbon-10};
-  --hds-color-carbon-05:             #{$hds-color-carbon-05};
-  --hds-color-nasa-red-tint:         #{$hds-color-nasa-red-tint};
-  --hds-color-nasa-red-shade:        #{$hds-color-nasa-red-shade};
-  --hds-color-nasa-blue-tint:        #{$hds-color-nasa-blue-tint};
-  --hds-color-nasa-blue-shade:       #{$hds-color-nasa-blue-shade};
-  --hds-color-international-orange:  #{$hds-color-international-orange};
-  --hds-color-active-green:          #{$hds-color-active-green};
+  --hds-color-carbon-black: #{$hds-color-carbon-black};
+  --hds-color-spacesuit-white: #{$hds-color-spacesuit-white};
+  --hds-color-nasa-red: #{$hds-color-nasa-red};
+  --hds-color-nasa-blue: #{$hds-color-nasa-blue};
+  --hds-color-carbon-90: #{$hds-color-carbon-90};
+  --hds-color-carbon-80: #{$hds-color-carbon-80};
+  --hds-color-carbon-70: #{$hds-color-carbon-70};
+  --hds-color-carbon-60: #{$hds-color-carbon-60};
+  --hds-color-carbon-50: #{$hds-color-carbon-50};
+  --hds-color-carbon-40: #{$hds-color-carbon-40};
+  --hds-color-carbon-30: #{$hds-color-carbon-30};
+  --hds-color-carbon-20: #{$hds-color-carbon-20};
+  --hds-color-carbon-10: #{$hds-color-carbon-10};
+  --hds-color-carbon-05: #{$hds-color-carbon-05};
+  --hds-color-nasa-red-tint: #{$hds-color-nasa-red-tint};
+  --hds-color-nasa-red-shade: #{$hds-color-nasa-red-shade};
+  --hds-color-nasa-blue-tint: #{$hds-color-nasa-blue-tint};
+  --hds-color-nasa-blue-shade: #{$hds-color-nasa-blue-shade};
+  --hds-color-international-orange: #{$hds-color-international-orange};
+  --hds-color-active-green: #{$hds-color-active-green};
 
   // Font weights — var(--hds-font-weight-bold)
   @each $name, $weight in $hds-weights {
@@ -96,16 +92,12 @@
   }
 }
 
-
 // ============================================================
 // §2 SHARED MIXINS
-// Docs: https://website.nasa.gov/hds-core/mixins
 // ============================================================
-
 
 // ------------------------------------------------------------
 // §2.1 Accessibility
-// Docs: https://website.nasa.gov/hds-core/mixins#accessibility
 // ------------------------------------------------------------
 
 @mixin visually-hidden {
@@ -121,37 +113,46 @@
   word-wrap: normal !important;
 }
 
-
 // ------------------------------------------------------------
 // §2.2 Typography
-// Docs: https://website.nasa.gov/hds-core/mixins#typography
+// ------------------------------------------------------------
+// Three distinct small-text styles per HDS Core Proposal:
+//   hds-overline-label — DM Mono, wide tracking, uppercase
+//   hds-metadata-type  — Inter, tight tracking, uppercase
+//   (caption has no mixin — defined directly on .hds-caption)
 // ------------------------------------------------------------
 
-@mixin label-uppercase {
-  font-family: family("heading");
-  font-size: size("heading", "3xs");
-  font-weight: font-weight("bold");
-  letter-spacing: 0.25px;  // proposal token "1" = 0.25px
+// Overline — DM Mono uppercase label
+// Used by: .hds-overline
+@mixin hds-overline-label {
+  font-family: family('mono');
+  font-size: size('body', '3xs');
+  font-weight: font-weight('medium'); // 500 — creative director review
+  letter-spacing: map.get($hds-letterspacing, '2'); // 3.5px
   line-height: var(--hds-line-height-label);
   text-transform: uppercase;
 }
 
-@mixin metadata {
-  color: var(--hds-palette-metadata, #{$hds-color-carbon-60});
-  @include label-uppercase;
+// Metadata — Inter uppercase label
+// Used by: .hds-metadata, future card/filter metadata
+@mixin hds-metadata-type {
+  font-family: family('heading');
+  font-size: size('heading', '3xs');
+  font-weight: font-weight('bold');
+  letter-spacing: 0.25px;
+  line-height: var(--hds-line-height-label);
+  text-transform: uppercase;
 }
 
 @mixin intro-text {
-  font-size: size("body", "sm");
-  font-weight: font-weight("normal");
-  letter-spacing: map.get($hds-letterspacing, "neg-1");
+  font-size: size('body', 'sm');
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
   line-height: var(--hds-line-height-intro);
 }
 
-
 // ------------------------------------------------------------
 // §2.3 Button Structure
-// Docs: https://website.nasa.gov/hds-core/mixins#buttons
 // ------------------------------------------------------------
 
 @mixin button-padding-border {
@@ -163,17 +164,15 @@
 }
 
 @mixin button-typography {
-  font-family: family("heading");
-  font-size: size("heading", "xs");
-  font-weight: font-weight("semibold");
-  line-height: var(--hds-line-height-button);
+  font-family: family('heading');
+  font-size: size('heading', 'xs');
+  font-weight: font-weight('semibold');
+  line-height: 1.2; // Proposal 120%; USWDS token 3 (1.35) too coarse
   text-decoration-line: none;
 }
 
-
 // ------------------------------------------------------------
 // §2.4 Button Colors (palette-aware)
-// Docs: https://website.nasa.gov/hds-core/mixins#buttons
 // ------------------------------------------------------------
 
 @mixin button-color {
@@ -238,7 +237,6 @@
   width: 2em;
 }
 
-
 // ------------------------------------------------------------
 // §2.5 Utility circle
 // ------------------------------------------------------------
@@ -269,17 +267,15 @@
   width: 2em;
 }
 
-
 // ============================================================
 // §3 SHARED UTILITIES
-// Docs: https://website.nasa.gov/hds-core/utilities
 // ============================================================
 
 .hds-label,
 .hds-eyebrow {
   @include label-uppercase;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-  font-family: family("mono");
+  font-family: family('mono');
 }
 
 .hds-metadata {
@@ -289,17 +285,16 @@
 .hds-caption {
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   display: block;
-  font-family: family("body");
-  font-size: size("heading", "3xs");
-  font-weight: font-weight("normal");
-  line-height: var(--hds-line-height-label);
+  font-family: family('body');
+  font-size: size('body', '3xs');
+  font-weight: font-weight('normal');
+  letter-spacing: 0.25px; // Proposal token "1"
+  line-height: 1.2; // Proposal 120%; USWDS token 3 (1.35) too coarse
   margin-block-start: units(1);
 }
 
-
 // ============================================================
 // §4 BASE HTML ELEMENTS
-// Docs: https://website.nasa.gov/hds-core/base
 // ============================================================
 // Supplements USWDS's normalize layer with HDS-specific defaults.
 // All color values use palette vars with fallbacks so they work
@@ -316,10 +311,8 @@
 // §5 Palette wiring is ALWAYS active (palette containers).
 // ============================================================
 
-
 // ------------------------------------------------------------
 // §4.1 Headings
-// Docs: https://website.nasa.gov/hds-core/base#headings
 // Gate: $theme-global-content-styles
 // ------------------------------------------------------------
 // Line-heights and letterspacing per HDS Core Proposal element
@@ -328,57 +321,53 @@
 // ------------------------------------------------------------
 
 @if $theme-global-content-styles {
-
   h1 {
-    font-family: family("heading");
-    font-weight: font-weight("bold");
+    font-family: family('heading');
+    font-weight: font-weight('bold');
     letter-spacing: -1.5px;
-    line-height: 1;       // 100%
+    line-height: 1; // 100%
     margin-block-start: units(4);
     margin-block-end: units(2);
   }
 
   h2 {
-    font-family: family("heading");
-    font-weight: font-weight("bold");
+    font-family: family('heading');
+    font-weight: font-weight('bold');
     letter-spacing: -1px;
-    line-height: 1.1;     // 110%
+    line-height: 1.1; // 110%
   }
 
   h3 {
-    font-family: family("heading");
-    font-weight: font-weight("bold");
+    font-family: family('heading');
+    font-weight: font-weight('bold');
     letter-spacing: -0.5px;
-    line-height: 1.2;     // 120%
+    line-height: 1.2; // 120%
   }
 
   h4 {
-    font-family: family("heading");
-    font-weight: font-weight("semibold");
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
     letter-spacing: -0.5px;
-    line-height: 1.3;     // 130%
+    line-height: 1.3; // 130%
   }
 
   h5 {
-    font-family: family("heading");
-    font-weight: font-weight("semibold");
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
     letter-spacing: -0.5px;
-    line-height: 1.2;     // 120%
+    line-height: 1.2; // 120%
   }
 
   h6 {
-    font-family: family("heading");
-    font-weight: font-weight("semibold");
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
     letter-spacing: -0.25px;
-    line-height: 1.3;     // 130%
+    line-height: 1.3; // 130%
   }
-
 } // end §4.1
-
 
 // ------------------------------------------------------------
 // §4.2 Body Text
-// Docs: https://website.nasa.gov/hds-core/base#body-text
 // Gate: $theme-style-body-element
 // ------------------------------------------------------------
 
@@ -386,8 +375,8 @@
   body {
     background-color: var(--hds-palette-bg, #{$hds-color-spacesuit-white});
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
-    font-family: family("body");
-    font-size: size("body", "xs");
+    font-family: family('body');
+    font-size: size('body', 'xs');
     line-height: var(--hds-line-height-body);
   }
 }
@@ -401,10 +390,8 @@
   }
 }
 
-
 // ------------------------------------------------------------
 // §4.3 Links
-// Docs: https://website.nasa.gov/hds-core/base#links
 // Gate: $theme-global-link-styles OR $theme-global-content-styles
 // ------------------------------------------------------------
 // When enabled, bare <a> tags receive HDS link treatment
@@ -413,7 +400,6 @@
 // ------------------------------------------------------------
 
 @if $theme-global-link-styles or $theme-global-content-styles {
-
   a {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
     text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
@@ -430,9 +416,7 @@
       color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
     }
   }
-
 }
-
 
 // ------------------------------------------------------------
 // §4.4–§4.10 Content Elements
@@ -440,10 +424,8 @@
 // ------------------------------------------------------------
 
 @if $theme-global-content-styles {
-
   // ------------------------------------------------------------
   // §4.4 Blockquote
-  // Docs: https://website.nasa.gov/hds-core/base#blockquote
   // ------------------------------------------------------------
 
   blockquote {
@@ -456,18 +438,18 @@
       background-color: $hds-color-international-orange;
       content: '';
       display: block;
-      height: .8em;
+      height: 0.8em;
       margin-block-end: units(1);
       mask-image: url('../assets/img/hds-icons/quote.svg');
       mask-position: 50% 50%;
       mask-repeat: no-repeat;
       mask-size: 100%;
-      width: .8em;
+      width: 0.8em;
     }
 
     p {
-      font-size: size("heading", "xl");
-      font-weight: font-weight("light");
+      font-size: size('heading', 'xl');
+      font-weight: font-weight('light');
       line-height: var(--hds-line-height-intro);
     }
 
@@ -479,15 +461,14 @@
     }
   }
 
-
   // ------------------------------------------------------------
   // §4.5 Code
-  // Docs: https://website.nasa.gov/hds-core/base#code
   // ------------------------------------------------------------
 
-  code, pre {
-    font-family: family("mono");
-    font-size: size("body", "2xs");
+  code,
+  pre {
+    font-family: family('mono');
+    font-size: size('body', '2xs');
   }
 
   pre {
@@ -499,7 +480,7 @@
 
   code {
     background: $hds-color-carbon-05;
-    padding: .1em .3em;
+    padding: 0.1em 0.3em;
   }
 
   pre code {
@@ -507,10 +488,8 @@
     padding: 0;
   }
 
-
   // ------------------------------------------------------------
   // §4.6 Horizontal Rule
-  // Docs: https://website.nasa.gov/hds-core/base#horizontal-rule
   // ------------------------------------------------------------
 
   hr {
@@ -519,13 +498,12 @@
     margin-block: units(4);
   }
 
-
   // ------------------------------------------------------------
   // §4.7 Lists
-  // Docs: https://website.nasa.gov/hds-core/base#lists
   // ------------------------------------------------------------
 
-  ul, ol {
+  ul,
+  ol {
     padding-inline-start: units(3);
   }
 
@@ -534,10 +512,8 @@
     margin-block-end: units(0.5);
   }
 
-
   // ------------------------------------------------------------
   // §4.8 Media
-  // Docs: https://website.nasa.gov/hds-core/base#media
   // ------------------------------------------------------------
 
   img {
@@ -554,18 +530,16 @@
   figcaption {
     color: var(--hds-palette-muted, #{$hds-color-carbon-60});
     display: block;
-    font-family: family("body");  // D7: Public Sans per proposal
-    font-size: size("body", "3xs");
-    font-weight: font-weight("normal");
+    font-family: family('body'); // D7: Public Sans per proposal
+    font-size: size('body', '3xs');
+    font-weight: font-weight('normal');
     line-height: var(--hds-line-height-label);
     margin-block-start: units(1);
   }
 
-
   // ------------------------------------------------------------
   // §4.9 Tables
-  // Docs: https://website.nasa.gov/hds-core/base#tables
-  // See also: https://designsystem.digital.gov/components/table/
+  // Restyles: https://designsystem.digital.gov/components/table/
   // ------------------------------------------------------------
 
   table {
@@ -575,8 +549,9 @@
     width: 100%;
   }
 
-  th, td {
-    font-size: size("body", "xs");
+  th,
+  td {
+    font-size: size('body', 'xs');
     line-height: var(--hds-line-height-table);
     padding: units(1.5) units(2);
     text-align: left;
@@ -584,42 +559,42 @@
   }
 
   th {
-    font-weight: font-weight("semibold");
+    font-weight: font-weight('semibold');
   }
 
   td {
-    border-top: var(--hds-border-width-table) solid var(--hds-palette-border, #{$hds-color-carbon-10});
+    border-top: var(--hds-border-width-table)
+      solid
+      var(--hds-palette-border, #{$hds-color-carbon-10});
   }
-
 
   // ------------------------------------------------------------
   // §4.10 Forms
-  // Docs: https://website.nasa.gov/hds-core/base#forms
-  // See also: https://designsystem.digital.gov/components/form/
+  // Restyles: https://designsystem.digital.gov/components/form/
   // Light backgrounds only for now. Dark palette form elements
-  // are TODO — see https://website.nasa.gov/hds-core/palettes#forms
+  // are TODO.
   // ------------------------------------------------------------
 
-  input[type="text"],
-  input[type="email"],
-  input[type="url"],
-  input[type="password"],
-  input[type="search"],
-  input[type="number"],
-  input[type="tel"],
-  input[type="date"],
-  input[type="month"],
-  input[type="week"],
-  input[type="time"],
-  input[type="datetime-local"],
-  input[type="color"],
+  input[type='text'],
+  input[type='email'],
+  input[type='url'],
+  input[type='password'],
+  input[type='search'],
+  input[type='number'],
+  input[type='tel'],
+  input[type='date'],
+  input[type='month'],
+  input[type='week'],
+  input[type='time'],
+  input[type='datetime-local'],
+  input[type='color'],
   textarea {
     background: $hds-color-spacesuit-white;
     border: var(--hds-border-width-input-state) solid $hds-color-carbon-60;
     border-radius: 0;
     color: $hds-color-carbon-black;
     font-family: inherit;
-    font-size: size("body", "xs");
+    font-size: size('body', 'xs');
     padding: units(1) units(1.5);
 
     &:focus {
@@ -644,17 +619,17 @@
   }
 
   label {
-    font-size: size("body", "xs");
-    font-weight: font-weight("semibold");
+    font-size: size('body', 'xs');
+    font-weight: font-weight('semibold');
   }
 
-  input[type="checkbox"] + label {
+  input[type='checkbox'] + label {
     display: inline;
     line-height: 1em;
     margin-left: units(1);
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     border: var(--hds-border-width-input-state) solid $hds-color-carbon-60;
     border-radius: var(--hds-border-radius-checkbox);
   }
@@ -664,18 +639,15 @@
     color: $hds-color-spacesuit-white !important;
   }
 
-  input[type="search"]:focus::-webkit-search-cancel-button {
+  input[type='search']:focus::-webkit-search-cancel-button {
     background-color: $hds-color-carbon-60;
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: all;
   }
-
 } // end §4.4–§4.10 ($theme-global-content-styles)
-
 
 // ------------------------------------------------------------
 // §4.11 Focus
-// Docs: https://website.nasa.gov/hds-core/base#focus
 // ALWAYS ACTIVE — not gated (accessibility requirement)
 // ------------------------------------------------------------
 // Figma: 1px dashed, palette-aware.
@@ -685,7 +657,7 @@
 // spacing (e.g. pagination page numbers) may override to 0.
 // ------------------------------------------------------------
 
-[contenteditable="true"]:focus-visible,
+[contenteditable='true']:focus-visible,
 [tabindex]:focus-visible,
 iframe:focus-visible,
 button:not([disabled]):focus-visible,
@@ -696,22 +668,16 @@ textarea:not([disabled]):focus-visible {
   outline-offset: 2px;
 }
 
-
 // ------------------------------------------------------------
 // §4.12 Base Button Reset
-// Docs: https://website.nasa.gov/hds-core/base#buttons
 // Gate: $theme-global-content-styles
 // ------------------------------------------------------------
 
 @if $theme-global-content-styles {
-
   button:where(
-    :not([role="presentation"])
-    :not([class*="usa-"])
-    :not([class*="hds-btn"])
-    :not([disabled])
+    :not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])
   ),
-  input[type="submit"] {
+  input[type='submit'] {
     @include button-styles;
     @include button-hover;
   }
@@ -721,13 +687,10 @@ textarea:not([disabled]):focus-visible {
     @include button-styles;
     @include button-hover;
   }
-
 } // end §4.12
-
 
 // ============================================================
 // §5 PALETTE ELEMENT WIRING
-// Docs: https://website.nasa.gov/hds-core/palettes#element-styles
 // ============================================================
 // Applies palette custom properties to elements inside palette
 // containers. Only active inside [data-hds-palette] or
@@ -739,7 +702,6 @@ textarea:not([disabled]):focus-visible {
 // Selector shorthand for all palette containers
 $_p: '[data-hds-palette], [class*="hds-palette-"]';
 
-
 // ------------------------------------------------------------
 // §5.1 Palette Background
 // ------------------------------------------------------------
@@ -748,7 +710,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   background-color: var(--hds-palette-bg);
 }
 
-
 // ------------------------------------------------------------
 // §5.2 Palette Typography
 // ------------------------------------------------------------
@@ -756,7 +717,12 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 #{$_p} {
   color: var(--hds-palette-text);
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--hds-palette-heading);
   }
 
@@ -771,7 +737,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 }
 
-
 // ------------------------------------------------------------
 // §5.4 Palette Borders
 // ------------------------------------------------------------
@@ -781,7 +746,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     border-color: var(--hds-palette-border);
   }
 }
-
 
 // ------------------------------------------------------------
 // §5.5 Palette Icons
@@ -793,36 +757,33 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 }
 
-
 // ============================================================
 // §6 PRINT
-// Docs: https://website.nasa.gov/hds-core/print
 // ============================================================
 // Forces readable output when printed regardless of palette.
 // ============================================================
 
 @media print {
-
   // Reset all palettes to high-contrast light
   :root,
   [data-hds-palette],
-  [class*="hds-palette-"] {
-    --hds-palette-bg:             #ffffff !important;
-    --hds-palette-heading:        #000000 !important;
-    --hds-palette-text:           #000000 !important;
-    --hds-palette-muted:          #333333 !important;
-    --hds-palette-link-text:      #000000 !important;
+  [class*='hds-palette-'] {
+    --hds-palette-bg: #ffffff !important;
+    --hds-palette-heading: #000000 !important;
+    --hds-palette-text: #000000 !important;
+    --hds-palette-muted: #333333 !important;
+    --hds-palette-link-text: #000000 !important;
     --hds-palette-link-underline: #000000 !important;
-    --hds-palette-border:         #cccccc !important;
-    --hds-palette-icon:           #000000 !important;
+    --hds-palette-border: #cccccc !important;
+    --hds-palette-icon: #000000 !important;
 
     background-color: #ffffff !important;
     color: #000000 !important;
   }
 
   // Show link URLs after link text
-  a[href]:not([href^="#"]):not([href^="javascript"])::after {
-    content: " (" attr(href) ")";
+  a[href]:not([href^='#']):not([href^='javascript'])::after {
+    content: ' (' attr(href) ')';
     font-size: 0.8em;
     font-weight: normal;
     word-break: break-all;
@@ -831,7 +792,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   // Don't print URL for buttons
   .hds-btn--primary::after,
   .hds-btn-icon::after,
-  [class*="usa-button"]::after {
+  [class*='usa-button']::after {
     content: none !important;
   }
 
@@ -846,13 +807,20 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 
   // Prevent images from breaking across pages
-  img, svg, figure {
+  img,
+  svg,
+  figure {
     break-inside: avoid;
     max-width: 100% !important;
   }
 
   // Prevent headings orphaned at bottom of page
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     break-after: avoid;
   }
 

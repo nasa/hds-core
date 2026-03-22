@@ -1,7 +1,6 @@
 // ============================================================
 // HDS Token Values
 // @nasa/hds-core
-// Docs: https://website.nasa.gov/hds-core/tokens
 // ============================================================
 // Pure Sass variables and maps. NO USWDS dependency.
 //
@@ -16,12 +15,10 @@
 // would load unconfigured and the theme settings would fail.
 // ============================================================
 
-@use "sass:map";
-
+@use 'sass:map';
 
 // ============================================================
 // § BRAND COLORS
-// Docs: https://website.nasa.gov/hds-core/tokens#brand-colors
 // ============================================================
 // In component Sass, prefer USWDS token functions instead:
 //   color("primary") → NASA Red
@@ -31,31 +28,29 @@
 // output CSS custom properties (var(--hds-color-nasa-blue)).
 // ============================================================
 
-$hds-color-carbon-black:          #000000;
-$hds-color-spacesuit-white:       #FFFFFF;
-$hds-color-nasa-red:              #F64137;
-$hds-color-nasa-blue:             #1C67E3;
-$hds-color-carbon-90:             #17171B;
-$hds-color-carbon-80:             #2E2E32;
-$hds-color-carbon-70:             #444447;
-$hds-color-carbon-60:             #58585B;
-$hds-color-carbon-50:             #77777A;
-$hds-color-carbon-40:             #959599;
-$hds-color-carbon-30:             #B9B9BB;
-$hds-color-carbon-20:             #D1D1D1;
-$hds-color-carbon-10:             #E3E3E3;
-$hds-color-carbon-05:             #F6F6F6;
-$hds-color-nasa-red-tint:         #FF5C52;
-$hds-color-nasa-red-shade:        #B60109;
-$hds-color-nasa-blue-tint:        #288BFF;
-$hds-color-nasa-blue-shade:       #0B3D91;
-$hds-color-international-orange:  #EA6F24;
-$hds-color-active-green:          #47DA84;
-
+$hds-color-carbon-black: #000000;
+$hds-color-spacesuit-white: #ffffff;
+$hds-color-nasa-red: #f64137;
+$hds-color-nasa-blue: #1c67e3;
+$hds-color-carbon-90: #17171b;
+$hds-color-carbon-80: #2e2e32;
+$hds-color-carbon-70: #444447;
+$hds-color-carbon-60: #58585b;
+$hds-color-carbon-50: #77777a;
+$hds-color-carbon-40: #959599;
+$hds-color-carbon-30: #b9b9bb;
+$hds-color-carbon-20: #d1d1d1;
+$hds-color-carbon-10: #e3e3e3;
+$hds-color-carbon-05: #f6f6f6;
+$hds-color-nasa-red-tint: #ff5c52;
+$hds-color-nasa-red-shade: #b60109;
+$hds-color-nasa-blue-tint: #288bff;
+$hds-color-nasa-blue-shade: #0b3d91;
+$hds-color-international-orange: #ea6f24;
+$hds-color-active-green: #47da84;
 
 // ============================================================
 // § EXTENDED COLOR PALETTE
-// Docs: https://website.nasa.gov/hds-core/tokens#extended-palette
 // ============================================================
 // Registered with USWDS via $global-color-palettes in
 // _hds-uswds-theme.scss. Makes all tokens below available
@@ -67,61 +62,72 @@ $hds-color-active-green:          #47DA84;
 // ============================================================
 
 $hds-extended-palette: (
-  "base-mid-lightest":    #D1D1D1,  // Carbon 20
-  "base-mid-lighter":     #B9B9BB,  // Carbon 30
-  "base-mid-light":       #959599,  // Carbon 40
-  "base-mid-dark":        #77777A,  // Carbon 50
-  "base-mid-darker":      #58585B,  // Carbon 60
-  "base-mid-darkest":     #444447,  // Carbon 70
+  'base-mid-lightest': #d1d1d1,
+  // Carbon 20
+  'base-mid-lighter': #b9b9bb,
+  // Carbon 30
+  'base-mid-light': #959599,
+  // Carbon 40
+  'base-mid-dark': #77777a,
+  // Carbon 50
+  'base-mid-darker': #58585b,
+  // Carbon 60
+  'base-mid-darkest': #444447,
 
-  "base-dark":            #2E2E32,  // Carbon 80 — overrides USWDS approx
-  "base-darker":          #17171B,  // Carbon 90 — overrides USWDS approx
+  // Carbon 70
+  'base-dark': #2e2e32,
+  // Carbon 80 — overrides USWDS approx
+  'base-darker': #17171b,
 
-  "international-orange": #EA6F24,
-  "active-green":         #47DA84,
+  // Carbon 90 — overrides USWDS approx
+  'international-orange': #ea6f24,
+  'active-green': #47da84,
 );
-
 
 // ============================================================
 // § TYPE SCALE
-// Docs: https://website.nasa.gov/hds-core/tokens#type-scale
 // ============================================================
 // Maps HDS named sizes to USWDS system scale integers.
 // ============================================================
 
 $hds-type-scale: (
-  "3xs": 1,   // ~12px
-  "2xs": 3,   // ~14px
-  "xs":  5,   // ~16px
-  "sm":  7,   // ~18px
-  "md":  9,   // ~22px
-  "lg":  11,  // ~28px
-  "xl":  13,  // ~36px
-  "2xl": 15,  // ~48px
-  "3xl": 18,  // ~80px
-  "4xl": 19,  // ~120px
+  '3xs': 1,
+  // ~12px
+  '2xs': 3,
+  // ~14px
+  'xs': 5,
+  // ~16px
+  'sm': 7,
+  // ~18px
+  'md': 9,
+  // ~22px
+  'lg': 11,
+  // ~28px
+  'xl': 13,
+  // ~36px
+  '2xl': 15,
+  // ~48px
+  '3xl': 18,
+  // ~80px
+  '4xl': 19, // ~120px
 );
-
 
 // ============================================================
 // § FONT WEIGHTS
-// Docs: https://website.nasa.gov/hds-core/tokens#font-weights
 // ============================================================
 
 $hds-weights: (
-  "thin":     false,
-  "light":    300,
-  "normal":   400,
-  "medium":   500,
-  "semibold": 600,
-  "bold":     700,
-  "heavy":    false,
+  'thin': false,
+  'light': 300,
+  'normal': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+  'heavy': false,
 );
-
 
 // ============================================================
 // § LINE HEIGHTS
-// Docs: https://website.nasa.gov/hds-core/tokens#line-heights
 // ============================================================
 // Values are USWDS line-height scale integers, resolved to
 // actual values via USWDS's line-height() function in
@@ -129,99 +135,106 @@ $hds-weights: (
 // ============================================================
 
 $hds-line-heights: (
-  "body":    5,  // 1.62 ≈ proposal 160%
-  "heading": 1,  // 1.0  = proposal 100% (H1 default)
-  "intro":   4,  // 1.52 ≈ Figma 150%
-  "input":   2,  // 1.15
-  "button":  3,  // 1.35 ≈ proposal 120%
-  "code":    3,  // 1.35
-  "table":   2,  // 1.15
-  "label":   6,  // 1.75 ≈ proposal 180%
+  'body': 5,
+  // 1.62 ≈ proposal 160%
+  'heading': 1,
+  // 1.0  = proposal 100% (H1 default)
+  'intro': 4,
+  // 1.52 ≈ Figma 150%
+  'input': 2,
+  // 1.15
+  'button': 3,
+  // closest USWDS token; refined to 1.2 in _hds-custom-styles §2.3
+  'code': 3,
+  // 1.35
+  'table': 2,
+  // 1.15
+  'label': 6,
+  // 1.75 ≈ proposal 180%
+  'caption': 3, // closest USWDS token; refined to 1.2 in _hds-custom-styles §3
 );
-
 
 // ============================================================
 // § LETTERSPACING
-// Docs: https://website.nasa.gov/hds-core/tokens#letterspacing
 // ============================================================
 // Custom HDS letterspacing values. Tokens neg-4 through neg-7
 // extend beyond USWDS's built-in range for tight display type.
 // ============================================================
 
 $hds-letterspacing: (
-  "neg-7": -5.5px,  // H1-2xl (120px)
-  "neg-6": -4px,    // H1-xl (80px)
-  "neg-5": -3px,    // H1 (48px)
-  "neg-4": -1.5px,  // H1 alternate
-  "neg-3": -1px,    // H2 (36px)
-  "neg-2": -0.5px,  // H3, H4, H5 (22px, 18px, 16px)
-  "neg-1": -0.25px, // H6 (14px)
-  "auto":  0,
-  "1":     0.25px,  // Label, metadata, caption
-  "2":     3.5px,   // Label (div) uppercase wide
+  'neg-7': -5.5px,
+  // H1-2xl (120px)
+  'neg-6': -4px,
+  // H1-xl (80px)
+  'neg-5': -3px,
+  // H1 (48px)
+  'neg-4': -1.5px,
+  // H1 alternate
+  'neg-3': -1px,
+  // H2 (36px)
+  'neg-2': -0.5px,
+  // H3, H4, H5 (22px, 18px, 16px)
+  'neg-1': -0.25px,
+  // H6 (14px)
+  'auto': 0,
+  '1': 0.25px,
+  // Label, metadata, caption
+  '2': 3.5px, // Label (div) uppercase wide
 );
-
 
 // ============================================================
 // § BORDER WIDTHS
-// Docs: https://website.nasa.gov/hds-core/tokens#borders
 // ============================================================
 
 $hds-border-sizes: (
-  "0":    0,
-  "1px":  "1px",
-  "2px":  "2px",
-  "05":   "4px",
-  "1":    "8px",
-  "105":  "12px",
-  "2":    "16px",
+  '0': 0,
+  '1px': '1px',
+  '2px': '2px',
+  '05': '4px',
+  '1': '8px',
+  '105': '12px',
+  '2': '16px',
 );
-
 
 // ============================================================
 // § BORDER RADII
-// Docs: https://website.nasa.gov/hds-core/tokens#borders
 // ============================================================
 
 $hds-border-radii: (
-  "0":    0,
-  "sm":   "2px",
-  "md":   "4px",
-  "lg":   "8px",
-  "xl":   "16px",
-  "pill": "99rem",
+  '0': 0,
+  'sm': '2px',
+  'md': '4px',
+  'lg': '8px',
+  'xl': '16px',
+  'pill': '99rem',
 );
-
 
 // ============================================================
 // § COMPONENT BORDER RADIUS ASSIGNMENTS
-// Docs: https://website.nasa.gov/hds-core/tokens#component-borders
 // ============================================================
 
 $hds-radius-settings: (
-  "button":     0,
-  "card":       0,
-  "checkbox":   "sm",
-  "input-tile": "sm",
-  "modal":      "sm",
-  "pagination": 0,
-  "summary":    "md",
+  'button': 0,
+  'card': 0,
+  'checkbox': 'sm',
+  'input-tile': 'sm',
+  'modal': 'sm',
+  'pagination': 0,
+  'summary': 'md',
 );
-
 
 // ============================================================
 // § COMPONENT BORDER WIDTH ASSIGNMENTS
-// Docs: https://website.nasa.gov/hds-core/tokens#component-borders
 // ============================================================
 
 $hds-width-settings: (
-  "accordion":    "0",
-  "button":       "2px",
-  "card":         "1px",
-  "input-tile":   "1px",
-  "input-select": "1px",
-  "input-state":  "1px",
-  "pagination":   "1px",
-  "summary":      "1px",
-  "table":        "1px",
+  'accordion': '0',
+  'button': '2px',
+  'card': '1px',
+  'input-tile': '1px',
+  'input-select': '1px',
+  'input-state': '1px',
+  'pagination': '1px',
+  'summary': '1px',
+  'table': '1px',
 );

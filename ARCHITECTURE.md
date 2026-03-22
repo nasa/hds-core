@@ -1,11 +1,8 @@
-Here's the clean replacement:
-
-```markdown
 # HDS Core Architecture
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-17
+Last updated: 2026-03-20
 
 ## Package Overview
 
@@ -18,10 +15,61 @@ Last updated: 2026-03-17
 | Storybook    | v10, Vite, HTML template literals           |
 
 ## File Structure
+
 ```
-
-hds-core/ ├── gulpfile.js ├── test.html # Visual test page (not shipped) │ ├── .storybook/ # Storybook config (not shipped) ├── stories/ # Component stories (not shipped) │ ├── helpers/ │ │ ├── Note.jsx │ │ └── icons.js │ ├── components/ │ │ ├── Breadcrumb.mdx │ │ ├── Breadcrumb.stories.js │ │ ├── Button.mdx │ │ ├── Button.stories.js │ │ ├── IconButton.mdx │ │ ├── IconButton.stories.js │ │ ├── IntroText.mdx │ │ ├── IntroText.stories.js │ │ ├── Link.mdx │ │ ├── Link.stories.js │ │ ├── Pagination.mdx │ │ ├── Pagination.stories.js │ │ ├── SiteAlert.mdx │ │ └── SiteAlert.stories.js │ └── foundations/ │ ├── Icons.stories.js │ └── PaletteSpec.stories.js │ ├── src/ │ ├── scss/ │ │ ├── styles.scss ← Entry point │ │ ├── \_hds-tokens.scss ← Pure Sass (NO uswds-core) │ │ ├── \_hds-uswds-theme.scss ← USWDS configuration │ │ ├── \_hds-custom-styles.scss │ │ ├── \_hds-components.scss │ │ └── \_hds-palettes.scss │ │ │ └── assets/ │ ├── img/ │ │ ├── hds-icons/ # Themeable SVGs → sprite │ │ ├── hds-buttons/ # Fixed-color graphics │ │ └── nasa-branding/ # Logo and brand assets │ └── fonts/ │ └── dist/ # Build output ├── css/ │ ├── styles.css │ ├── styles.css.map │ ├── styles.min.css │ └── styles.min.css.map └── assets/{fonts,img}/
-
+hds-core/
+├── gulpfile.js
+├── test.html                    # Visual test page (not shipped)
+│
+├── .storybook/                  # Storybook config (not shipped)
+├── stories/                     # Component stories (not shipped)
+│   ├── helpers/
+│   │   ├── Note.jsx
+│   │   └── icons.js
+│   ├── components/
+│   │   ├── Accordion.mdx
+│   │   ├── Accordion.stories.js
+│   │   ├── Breadcrumb.mdx
+│   │   ├── Breadcrumb.stories.js
+│   │   ├── Button.mdx
+│   │   ├── Button.stories.js
+│   │   ├── IconButton.mdx
+│   │   ├── IconButton.stories.js
+│   │   ├── IntroText.mdx
+│   │   ├── IntroText.stories.js
+│   │   ├── Link.mdx
+│   │   ├── Link.stories.js
+│   │   ├── Pagination.mdx
+│   │   ├── Pagination.stories.js
+│   │   ├── SiteAlert.mdx
+│   │   └── SiteAlert.stories.js
+│   └── foundations/
+│       ├── Icons.stories.js
+│       └── PaletteSpec.stories.js
+│
+├── src/
+│   ├── scss/
+│   │   ├── styles.scss              ← Entry point
+│   │   ├── _hds-tokens.scss         ← Pure Sass (NO uswds-core)
+│   │   ├── _hds-uswds-theme.scss    ← USWDS configuration
+│   │   ├── _hds-custom-styles.scss
+│   │   ├── _hds-components.scss
+│   │   └── _hds-palettes.scss
+│   │
+│   └── assets/
+│       ├── img/
+│       │   ├── hds-icons/           # Themeable SVGs → sprite
+│       │   ├── hds-buttons/         # Fixed-color graphics
+│       │   └── nasa-branding/       # Logo and brand assets
+│       └── fonts/
+│
+└── dist/                            # Build output
+    ├── css/
+    │   ├── styles.css
+    │   ├── styles.css.map
+    │   ├── styles.min.css
+    │   └── styles.min.css.map
+    └── assets/{fonts,img}/
 ```
 
 ## Sass Load Order
@@ -29,10 +77,15 @@ hds-core/ ├── gulpfile.js ├── test.html # Visual test page (not ship
 Critical: USWDS requires `uswds-core` to be configured before anything else loads it.
 
 ```
-
-styles.scss → \_hds-uswds-theme.scss @use "hds-tokens" ← Pure Sass, no uswds-core @use "uswds-core" with (...) ← First load, configured → uswds ← Uses configured uswds-core → \_hds-custom-styles.scss ← Mixins, base styles, utilities → \_hds-components.scss ← @use "hds-custom-styles" as \* for shared mixins → \_hds-palettes.scss
-
-````
+styles.scss
+  → _hds-uswds-theme.scss
+      @use "hds-tokens"      ← Pure Sass, no uswds-core
+      @use "uswds-core" with (...)  ← First load, configured
+  → uswds                    ← Uses configured uswds-core
+  → _hds-custom-styles.scss  ← Mixins, base styles, utilities
+  → _hds-components.scss     ← @use "hds-custom-styles" as * for shared mixins
+  → _hds-palettes.scss
+```
 
 ⚠️ `_hds-tokens.scss` cannot `@use "uswds-core"` — this would load it unconfigured.
 
@@ -42,11 +95,11 @@ styles.scss → \_hds-uswds-theme.scss @use "hds-tokens" ← Pure Sass, no uswds
 
 ```scss
 // Top of _hds-components.scss
-@use "sass:map";
-@use "uswds-core" as *;
-@use "hds-tokens" as *;
-@use "hds-custom-styles" as *;  // §2 shared mixins (hds-utility-circle, etc.)
-````
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use 'hds-custom-styles' as *; // §2 shared mixins (hds-utility-circle, etc.)
+```
 
 ## File Responsibilities
 
@@ -148,24 +201,13 @@ HDS icons use `currentColor` for fill, allowing CSS to control their color. When
 
 ## Typography Classes
 
-Three visually similar but typographically distinct classes:
+| Class           | Use                            |
+| --------------- | ------------------------------ |
+| `.hds-overline` | Section labels, eyebrows       |
+| `.hds-metadata` | Dates, categories              |
+| `.hds-caption`  | Figcaptions, supplemental text |
 
-| Class                        | Font        | Weight | Use                            |
-| ---------------------------- | ----------- | ------ | ------------------------------ |
-| `.hds-label`, `.hds-eyebrow` | DM Mono     | Bold   | Section labels                 |
-| `.hds-metadata`              | Inter       | Bold   | Dates, categories              |
-| `.hds-caption`               | Public Sans | Normal | Figcaptions, supplemental text |
-
-All share uppercase, small size, and 0.25px letterspacing. The `label-uppercase` mixin provides the shared treatment; `.hds-label` overrides `font-family` to DM Mono.
-
-### Removed Classes
-
-| Removed Class  | Replacement    | Reason                                            |
-| -------------- | -------------- | ------------------------------------------------- |
-| `.hds-sr-only` | `.usa-sr-only` | USWDS provides identical implementation (Tier 1)  |
-| `.hds-intro`   | `.usa-intro`   | Overridden in `_hds-components.scss` §14 (Tier 1) |
-
-The `visually-hidden` and `intro-text` mixins are kept for internal use.
+These are visually similar (small, muted) but typographically distinct — different fonts, weights, and tracking. See the class definitions in `_hds-custom-styles.scss` §3.
 
 ## Base Element Style Gating
 
@@ -189,11 +231,7 @@ See DESIGN.md § Global Element Styles for rationale.
 
 ## Focus Ring Architecture
 
-Two layers work together:
-
-**Layer 1 — USWDS theme settings** (`_hds-uswds-theme.scss`): Sets `$theme-focus-color`, `$theme-focus-width`, `$theme-focus-style`, `$theme-focus-offset` to match HDS values. This prevents the default blue ring on all USWDS components.
-
-**Layer 2 — HDS global focus** (`_hds-custom-styles.scss` §4.11): Applies palette-aware 1px dashed `:focus-visible` rule using `--hds-palette-muted`. Only fires on keyboard navigation, not mouse clicks.
+Two layers: USWDS theme settings (`_hds-uswds-theme.scss`) + global palette-aware `:focus-visible` (`_hds-custom-styles.scss` §4.11). See DESIGN.md § Focus Ring for design rationale.
 
 Components with special focus needs override locally:
 
@@ -205,7 +243,7 @@ Components with special focus needs override locally:
 
 HDS Core's link styling has two layers:
 
-**Layer 1 — Bare `<a>` tags** (gated): When `$theme-global-link-styles` or `$theme-global-content-styles` is `true`, bare `<a>` tags receive HDS treatment (body-text color, dotted underline) via `_hds-custom-styles.scss` §4.3.
+**Layer 1 — Bare `<a>` tags** (gated): When `$theme-global-link-styles` or `$theme-global-content-styles` is `true`, bare `<a>` tags receive HDS treatment via `_hds-custom-styles.scss` §4.3.
 
 **Layer 2 — `.usa-link` class** (always active): Full HDS link treatment via Tier 1 overrides in `_hds-components.scss` §13:
 
@@ -215,16 +253,9 @@ HDS Core's link styling has two layers:
 | `.usa-link--external::after` | HDS diagonal arrow icon    |
 | `.hds-link--internal`        | Escape hatch to hide arrow |
 
-### External Link Arrow
+See DESIGN.md § Links for underline style, hover behavior, and external arrow design decisions.
 
-The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementation details:
-
-- `display: inline !important` overrides USWDS `inline-block` so the arrow flows as part of the text line and aligns correctly regardless of line-height
-- `height: 1em` with `mask-size: 0.75em` + `mask-position: center` creates a container that matches text height with a proportionally smaller arrow centered inside
-- `content: '\a0'` (non-breaking space) prevents the arrow from orphaning onto its own line
-- The underline gap before the arrow is a known CSS limitation (CSS `text-decoration` does not flow through `::after` pseudo-elements). This is shared by USWDS, GOV.UK, and other government design systems.
-
-**Screen reader note:** The `::after` replacement overrides USWDS's built-in external link SR labels. Developers should add SR text manually: `<span class="usa-sr-only">(external)</span>`.
+**Screen reader note:** The `::after` arrow overrides USWDS's built-in external link SR labels. Developers should add SR text manually: `<span class="usa-sr-only">(external)</span>`.
 
 ## Component Sections (`_hds-components.scss`)
 
@@ -237,7 +268,7 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | §5 | Forms | 1 | Light backgrounds only (dark TODO) |
 | §6 | In-Page Navigation | 1 | Active state = NASA Blue |
 | §7 | Pagination | 1+3 | §7.0–7.4: Tier 1 USWDS overrides (bottom-bar current indicator, utility circle prev/next, palette-aware text/ellipsis). §7.5: Tier 3 simplified pagination (composed Previous/Next buttons with icon + text). |
-| §8 | Accordion | 1 | Borderless only and no hover state yet. |
+| §8 | Accordion | 1 | Borderless. Hover/focus deferred — see DESIGN.md § Accordion. |
 | §9 | Alerts | 1 | border-radius: 0, border-left-width: 4px. Pure USWDS — not in HDS Figma. No Storybook stories. |
 | §10 | Grid Utilities | 1 | Responsive reverse, horizontal lists |
 | §11 | Primary Arrow Button | 3 | `.hds-btn--primary` — CSS `::after` with data-URI line arrow |
@@ -251,7 +282,7 @@ The external link arrow uses pure CSS (`::after` + `mask-image`). Key implementa
 | Mixin                | Section  | Used by                                               |
 | -------------------- | -------- | ----------------------------------------------------- |
 | `visually-hidden`    | §2.1     | §7.2 (hide USWDS prev/next text labels)               |
-| `label-uppercase`    | §2.2     | §3 shared utilities                                   |
+| `hds-overline-type`  | §2.2     | §3 `.hds-overline`                                    |
 | `button-styles`      | §2.3–2.4 | §4 buttons, §4.12 base button reset                   |
 | `button-round`       | §2.3     | Not currently used (see note below)                   |
 | `hds-utility-circle` | §2.5     | §7.2 legacy prev/next, §12.2 `--utility` icon buttons |
@@ -351,7 +382,6 @@ Extension matches content — `.jsx` for JSX, `.js` for plain data/utilities.
 | §2      | Banner                     | 1    | Needs USWDS JS for expand/collapse   |
 | §5      | Forms                      | 1    | Light palettes only — dark deferred  |
 | §6      | In-Page Navigation         | 1    | Needs USWDS JS for scroll spy        |
-| §8      | Accordion                  | 1    | Needs USWDS JS for toggle            |
 | §9      | Alerts                     | 1    | Pure USWDS, not in HDS Figma         |
 | §10     | Grid Utilities             | 1    | Responsive reverse, horizontal lists |
 
