@@ -622,8 +622,10 @@
   }
 
   label {
-    font-size: size('body', 'xs');
+    font-family: family('heading');
+    font-size: size('body', '2xs');
     font-weight: font-weight('semibold');
+    letter-spacing: map.get($hds-letterspacing, 'neg-1');
   }
 
   input[type='checkbox'] + label {
@@ -729,8 +731,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     color: var(--hds-palette-heading);
   }
 
-  .hds-label,
-  .hds-eyebrow,
+  .hds-overline,
   .hds-metadata,
   time,
   figcaption,
