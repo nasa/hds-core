@@ -55,8 +55,12 @@ const faqItems = [
   },
 ];
 
-const accordion = ({ multiselectable = false, itemCount = 5, firstExpanded = true } = {}) => {
-  const prefix = multiselectable ? 'm' : 'a';
+const accordion = ({
+  prefix = 'acc',
+  multiselectable = false,
+  itemCount = 5,
+  firstExpanded = true,
+} = {}) => {
   const items = faqItems.slice(0, itemCount);
   const attrs = multiselectable
     ? 'class="usa-accordion usa-accordion--multiselectable" data-allow-multiple'
@@ -83,7 +87,7 @@ export const Default = {
   tags: ['!dev'],
   render: () => `
     ${label('Default')}
-    ${accordion()}
+    ${accordion({ prefix: 'default' })}
   `,
 };
 
@@ -91,7 +95,7 @@ export const AllCollapsed = {
   tags: ['!dev'],
   render: () => `
     ${label('All collapsed')}
-    ${accordion({ firstExpanded: false })}
+    ${accordion({ prefix: 'collapsed', firstExpanded: false })}
   `,
 };
 
@@ -99,7 +103,7 @@ export const Multiselectable = {
   tags: ['!dev'],
   render: () => `
     ${label('Multiselectable')}
-    ${accordion({ multiselectable: true })}
+    ${accordion({ prefix: 'multi', multiselectable: true })}
   `,
 };
 
@@ -125,5 +129,5 @@ export const Playground = {
     itemCount: 5,
     firstExpanded: true,
   },
-  render: (args) => accordion(args),
+  render: (args) => accordion({ ...args, prefix: 'playground' }),
 };

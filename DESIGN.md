@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md.
 
-Last updated: 2026-03-17
+Last updated: 2026-03-20
 
 ## Class Naming Convention
 
@@ -26,7 +26,7 @@ When HDS requires fundamentally different markup or serves a different purpose t
 
 Components unique to HDS with no USWDS counterpart use `hds-*` classes.
 
-**Examples:** `.hds-btn--primary` (arrow button), `.hds-btn-icon` (circle icon buttons), `.hds-label`, `.hds-eyebrow`, `.hds-metadata`, `.hds-caption`, `.hds-glyph`, `.hds-link--internal` (escape hatch modifier), `.hds-palette-*` / `data-hds-palette`
+**Examples:** `.hds-btn--primary` (arrow button), `.hds-btn-icon` (circle icon buttons), `.hds-overline`, `.hds-metadata`, `.hds-caption`, `.hds-glyph`, `.hds-link--internal` (escape hatch modifier), `.hds-palette-*` / `data-hds-palette`
 
 ### Rule of Thumb
 
@@ -78,7 +78,7 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 **HDS Core:** 23+ semantic variables. Elements sharing the same color are combined:
 
-- Label, metadata, caption → `muted`
+- Overline, metadata, caption → `muted`
 - Heading, primary button text → `heading`
 - Text on filled buttons → `btn-filled-text`
 
@@ -139,19 +139,30 @@ USWDS has four type slots. HDS needs three fonts in three slots:
 
 160% per the HDS Core Proposal. USWDS token `5` (1.62) is the closest approximation.
 
-### Label, Metadata, and Caption
+### Typography Classes
 
-Three distinct small-uppercase treatments:
+Three distinct small-text utility classes with unique typography per the HDS Core Proposal. Previously conflated into a shared `label-uppercase` mixin — split in v0.4.0 (see issue #19).
 
-| Element  | Font        | Weight |
-| -------- | ----------- | ------ |
-| Label    | DM Mono     | Bold   |
-| Metadata | Inter       | Bold   |
-| Caption  | Public Sans | Normal |
+**`.hds-overline`** (was `.hds-label` / `.hds-eyebrow`): DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators.
 
-### DM Mono Bold
+**`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. No Proposal element card — values from Figma, size standardized to 12px.
 
-DM Mono only ships up to Medium (500). The browser synthesizes faux bold — acceptable since DM Mono Medium is already visually heavy for a monospace.
+**`.hds-caption`**: Public Sans sentence-case caption for images and media. Figma shows a credit line variant with bold higher-contrast text — future enhancement.
+
+### Form Labels
+
+Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from the typography classes above. Styled in both `_hds-custom-styles.scss` §4.10 (bare `<label>`) and `_hds-components.scss` §5 (`.usa-label`).
+
+### Line-Height Refinement
+
+Role-based line-heights (`body`, `heading`, `label`, etc.) use USWDS scale tokens in `$hds-line-heights` for system integration. When the USWDS approximation is too far from the Proposal target (>10% delta), the class or mixin refines with a raw CSS value — the same approach used for per-heading line-heights.
+
+| Role | USWDS Token | USWDS Actual | Proposal Target | Approach |
+| --- | --- | --- | --- | --- |
+| body | 5 | 1.62 | 1.60 (160%) | Token — 2% delta, close enough |
+| label | 6 | 1.75 | 1.80 (180%) | Token — 5% delta, acceptable |
+| button | 3 | 1.35 | 1.20 (120%) | **Refined to `1.2`** — 15% delta too large |
+| caption | 3 | 1.35 | 1.20 (120%) | **Refined to `1.2`** — 15% delta too large |
 
 ### Type Normalization (Known Tech Debt)
 
@@ -296,6 +307,8 @@ These are intentional brand elements per HDS spec.
 
 Components with generous internal spacing (e.g., pagination page numbers in their 32×32 containers) use 0 offset. Utility circles show the focus ring as an additional dashed outline outside the solid circle border — the solid border stays visible during focus.
 
+**Known issue:** Focus styles are currently inconsistent across components — some use `dotted` instead of `dashed`, `2px` instead of `1px`, or `:focus` instead of `:focus-visible`. Tracked in issue #20 for standardization via shared mixins.
+
 ## Pagination
 
 ### Current Page Indicator
@@ -377,6 +390,8 @@ Pending visual sign-offs, to be reviewed once visible in Storybook:
 
 | Item | Question | Context |
 | --- | --- | --- |
+| `.hds-overline` naming | Is "overline" acceptable for the DM Mono label class? | Industry standard (Material, Salesforce, Atlassian). Replaces `.hds-label` (USWDS collision) and `.hds-eyebrow` (undocumented). HDS Figma calls it "Label." |
+| Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal standardized to "normal" (400). Figma consistently uses Medium (500) across Cards, Filters, Credits. DM Mono's heaviest real weight is 500. Currently shipping 500. |
 | CTA hover on dark palettes | Does NASA Red Shade work on dark/blue/black backgrounds? | Figma only shows light-background hover |
 | Secondary filled hover on dark | Does NASA Blue Shade (one step darker from Blue Tint) look right? | Inferred from "darken by one shade step" pattern |
 | Midtone disabled buttons | Carbon 20 stroke on Carbon 20 background is invisible — what values should midtone use? | Proposed: Carbon 40 stroke, Carbon 50 text |
@@ -402,9 +417,10 @@ Intentional deviations from the HDS Core Proposal, with rationale:
 
 | Area | Proposal | HDS Core | Rationale |
 | --- | --- | --- | --- |
-| Line-height values | Exact percentages (100%, 110%, etc.) | Closest USWDS token or raw CSS value | USWDS line-height scale is too coarse for exact mapping |
+| Line-height values | Exact percentages (100%, 110%, etc.) | Closest USWDS token or raw CSS for large deltas | USWDS scale too coarse for exact mapping. Tokens used when delta ≤10%, raw CSS values when >10% (button, caption, per-heading). See § Line-Height Refinement. |
 | `text-decoration-style` | Dashed | Dotted | CSS `dashed` looks wrong; `dotted` is closer to Figma |
-| DM Mono bold | Bold (700) | Faux bold from Medium (500) | DM Mono doesn't ship a 700 weight |
+| Overline weight | 400 (normal) | 500 (medium) | Figma consistently uses 500. DM Mono doesn't ship weights above 500 so 400 vs 500 is the only real choice. Pending creative director review. |
+| Overline class name | "Label" | `.hds-overline` | Avoids collision with USWDS `.usa-label` (form labels). "Overline" is the industry standard term (Material, Salesforce, Atlassian). |
 | Type normalization | Normalize all three fonts | Deferred (all use same cap-height) | Requires measurement work; noted as tech debt |
 | TV breakpoint | 1920px | Deferred | USWDS doesn't have built-in TV breakpoint |
 | Button font family | Not specified | Inter (via `"heading"` slot) | Figma shows Inter for all button text |
@@ -415,7 +431,7 @@ Intentional deviations from the HDS Core Proposal, with rationale:
 Components where HDS overrides require `!important` due to USWDS mixin-generated styles (`set-text-and-bg`, `set-icon-from-bg`) or high-specificity selectors that compile at the same specificity and load earlier in the cascade.
 
 | Section | Properties | Reason |
-|---|---|---|
+| --- | --- | --- |
 | §1.1 Footer | `border` on footer nav/content | USWDS footer sets borders at high specificity |
 | §1.1 Footer | `padding-bottom`, `padding-top` on mobile footer nav | USWDS mobile footer padding override |
 | §1.2 Agency Navbar | `padding` on `.usa-button--arrow` | USWDS button padding conflicts |

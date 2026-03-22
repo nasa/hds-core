@@ -107,7 +107,7 @@ stories/
 ## Storybook configuration
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
 | `.storybook/preview.js` | Palette toolbar, decorators, storySort, dynamic source |
 | `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
@@ -118,9 +118,11 @@ Component Guidance pages use an explicit `<Meta title="..." />` with a `/Guidanc
 
 ```mdx
 // ✅ Correct — appears as "Guidance" in sidebar
+
 <Meta title="Components/Accordion/Guidance" />
 
 // ❌ Wrong — appears as "Docs" in sidebar
+
 <Meta of={AccordionStories} />
 ```
 
@@ -497,6 +499,23 @@ const gridItem = (labelText, content) => `
 ### Component-specific helpers
 
 When a component needs a helper function to generate its markup (e.g., `breadcrumb()` for Breadcrumb, `pagination()` for Pagination), define it in the story file. These helpers generate static HTML for Storybook demos — they don't ship with HDS Core and aren't available to consumers.
+
+### Unique `id` values across stories
+
+USWDS components that link elements via `id` and `aria-controls` (or `aria-labelledby`, `aria-describedby`, etc.) — such as Accordion, Tabs, and Dialogs — require globally unique `id` values across all stories in a file. On a Guidance page, all Canvas-embedded stories render in the same DOM. Duplicate `id` values cause USWDS JavaScript to target the wrong element (typically the first match), breaking toggle behavior in all but the first story.
+
+Use a `prefix` parameter in component helper functions so each story generates its own id namespace:
+
+```js
+// Helper accepts a prefix
+const accordion = ({ prefix = 'acc', ... }) => { ... };
+
+// Each story passes a unique prefix
+export const Default = { render: () => accordion({ prefix: 'default' }) };
+export const AllCollapsed = { render: () => accordion({ prefix: 'collapsed' }) };
+```
+
+This applies to any component where markup includes `id`-based ARIA wiring. Components without id linkage (e.g., Breadcrumb, Button, Link) don't need prefixes.
 
 ### Shared icon arrays
 

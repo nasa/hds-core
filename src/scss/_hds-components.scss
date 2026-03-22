@@ -1,7 +1,6 @@
 // ============================================================
 // HDS Components
 // @nasa/hds-core
-// Docs: https://website.nasa.gov/hds-core/components
 // ============================================================
 // USWDS component overrides and HDS-specific components.
 // Loaded AFTER _hds-custom-styles.scss (foundations).
@@ -38,18 +37,15 @@
 // Deep-link from dev docs: _hds-components.scss §5 Forms
 // ============================================================
 
-@use "sass:map";
-@use "uswds-core" as *;
-@use "hds-tokens" as *;
-@use "hds-custom-styles" as *;  // §2 shared mixins (hds-utility-circle, etc.)
-
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use 'hds-custom-styles' as *; // §2 shared mixins (hds-utility-circle, etc.)
 
 // ============================================================
 // §1 NAVIGATION
-// Docs: https://website.nasa.gov/hds-core/components#navigation
-// See also: https://designsystem.digital.gov/components/header/
+// Restyles: https://designsystem.digital.gov/components/header/
 // ============================================================
-
 
 // ------------------------------------------------------------
 // §1.1 Header & Footer Link Resets
@@ -59,12 +55,16 @@
 .usa-footer,
 .usa-nav__submenu,
 .usa-megamenu {
-  a { text-decoration-line: none; }
+  a {
+    text-decoration-line: none;
+  }
 }
 
 .usa-header--basic .usa-nav-container {
   align-items: center;
-  .usa-navbar { width: auto; }
+  .usa-navbar {
+    width: auto;
+  }
 }
 
 .usa-footer__primary-content,
@@ -73,7 +73,7 @@
 }
 
 .usa-footer__nav {
-  @include at-media-max("tablet-lg") {
+  @include at-media-max('tablet-lg') {
     nav > ul {
       border-bottom-color: $hds-color-carbon-60;
       padding-bottom: units(2) !important;
@@ -82,10 +82,8 @@
   }
 }
 
-
 // ------------------------------------------------------------
 // §1.2 Agency Navbar
-// Docs: https://website.nasa.gov/hds-core/components#agency-navbar
 // ------------------------------------------------------------
 
 .usa-navbar.agency-navbar {
@@ -101,15 +99,15 @@
     padding: units(2) 0 !important;
   }
 
-  @include at-media-max("desktop") {
-    .usa-nav { padding: units(3); }
+  @include at-media-max('desktop') {
+    .usa-nav {
+      padding: units(3);
+    }
   }
 }
 
-
 // ------------------------------------------------------------
 // §1.3 Navigation Menu Triggers
-// Docs: https://website.nasa.gov/hds-core/components#navigation
 // ------------------------------------------------------------
 
 .usa-nav__global-nav-trigger {
@@ -120,13 +118,12 @@
     mask-repeat: no-repeat;
   }
 
-  &[aria-expanded="true"] span:after {
+  &[aria-expanded='true'] span:after {
     mask-image:
-      url('../assets/img/hds-icons/arrow-chevron-up.svg'),
-      linear-gradient(transparent, transparent) !important;
+      url('../assets/img/hds-icons/arrow-chevron-up.svg'), linear-gradient(transparent, transparent) !important;
   }
 
-  &[aria-expanded="false"] span:after {
+  &[aria-expanded='false'] span:after {
     mask-image:
       url('../assets/img/hds-icons/arrow-chevron-down.svg'),
       linear-gradient(transparent, transparent) !important;
@@ -139,7 +136,7 @@
 
   // Switched from background-image to mask-image so the
   // chevron inherits currentColor and works across palettes.
-  &[aria-expanded="false"] {
+  &[aria-expanded='false'] {
     background-color: currentColor;
     background-image: none;
     mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
@@ -148,7 +145,7 @@
     mask-size: 1.2rem;
   }
 
-  &[aria-expanded="true"] {
+  &[aria-expanded='true'] {
     background-color: currentColor;
     background-image: none;
     mask-image: url('../assets/img/hds-icons/arrow-chevron-up.svg');
@@ -158,39 +155,32 @@
   }
 }
 
-.usa-nav__mobile-menu { padding: 1em 0; }
-
-
-// ------------------------------------------------------------
-// §1.4 Primary Nav Links
-// Docs: https://website.nasa.gov/hds-core/components#primary-nav
-// See also: https://designsystem.digital.gov/components/header/
-// ------------------------------------------------------------
-
-// (Add primary nav link overrides here as needed)
-
+.usa-nav__mobile-menu {
+  padding: 1em 0;
+}
 
 // ============================================================
 // §2 BANNER
-// Docs: https://website.nasa.gov/hds-core/components#banner
-// See also: https://designsystem.digital.gov/components/banner/
+// Restyles: https://designsystem.digital.gov/components/banner/
 // ============================================================
 // Always light background, outside palette context.
 // ============================================================
 
 .usa-banner {
   background-color: $hds-color-carbon-05;
-  font-size: size("body", "2xs");
+  font-size: size('body', '2xs');
 }
 
-.usa-banner__header { padding-block: units(1); }
-.usa-banner__button { text-decoration-line: underline; }
-
+.usa-banner__header {
+  padding-block: units(1);
+}
+.usa-banner__button {
+  text-decoration-line: underline;
+}
 
 // ============================================================
 // §3 BREADCRUMB
-// Docs: https://website.nasa.gov/hds-core/components#breadcrumb
-// See also: https://designsystem.digital.gov/components/breadcrumb/
+// Restyles: https://designsystem.digital.gov/components/breadcrumb/
 // ============================================================
 // HDS uses forward-slash separators, not the USWDS chevron.
 // Technique from nasa.gov production: kill the mask-image
@@ -206,7 +196,6 @@
 // creative director review once visible in Storybook.
 // ============================================================
 
-
 // ------------------------------------------------------------
 // §3.1 Base
 // ------------------------------------------------------------
@@ -214,9 +203,8 @@
 .usa-breadcrumb {
   background-color: transparent;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-  font-size: size("body", "2xs");
+  font-size: size('body', '2xs');
 }
-
 
 // ------------------------------------------------------------
 // §3.2 Link States
@@ -231,7 +219,7 @@
 
 .usa-breadcrumb__link:hover {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-  font-weight: font-weight("semibold");
+  font-weight: font-weight('semibold');
   text-decoration-color: currentColor;
   text-decoration-line: underline;
   text-decoration-style: dotted;
@@ -244,7 +232,6 @@
   outline-offset: 2px;
 }
 
-
 // ------------------------------------------------------------
 // §3.3 Current Page
 // ------------------------------------------------------------
@@ -253,7 +240,6 @@
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 }
 
-
 // ------------------------------------------------------------
 // §3.4 Slash Separator
 // ------------------------------------------------------------
@@ -261,7 +247,7 @@
 .usa-breadcrumb__list-item:not(:last-child)::after {
   background-color: transparent;
   bottom: 0;
-  content: "/";
+  content: '/';
   font-size: 1rem;
   height: fit-content;
   margin: 0 units(1);
@@ -270,11 +256,9 @@
   width: fit-content;
 }
 
-
 // ============================================================
 // §4 BUTTONS
-// Docs: https://website.nasa.gov/hds-core/components#buttons
-// See also: https://designsystem.digital.gov/components/button/
+// Restyles: https://designsystem.digital.gov/components/button/
 // ============================================================
 // Tier 1 overrides. Theme tokens (in _hds-uswds-theme.scss)
 // handle border-radius (0), stroke-width (2px), and font-
@@ -311,7 +295,6 @@
 //   Disabled        — palette-aware (stroke + text adapt)
 // ============================================================
 
-
 // ------------------------------------------------------------
 // §4.1 Focus — All Buttons
 // ------------------------------------------------------------
@@ -326,7 +309,6 @@
   outline-offset: 2px;
 }
 
-
 // ------------------------------------------------------------
 // §4.2 CTA — Filled Red (.usa-button)
 // ------------------------------------------------------------
@@ -337,11 +319,10 @@
 // during creative director review.
 // ------------------------------------------------------------
 
-.usa-button:hover:not(:disabled):not([aria-disabled="true"]),
-.usa-button:active:not(:disabled):not([aria-disabled="true"]) {
+.usa-button:hover:not(:disabled):not([aria-disabled='true']),
+.usa-button:active:not(:disabled):not([aria-disabled='true']) {
   background-color: $hds-color-nasa-red-shade;
 }
-
 
 // ------------------------------------------------------------
 // §4.3 Secondary Filled — Blue (.usa-button--secondary)
@@ -356,11 +337,10 @@
   background-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
 }
 
-.usa-button--secondary:hover:not(:disabled):not([aria-disabled="true"]),
-.usa-button--secondary:active:not(:disabled):not([aria-disabled="true"]) {
+.usa-button--secondary:hover:not(:disabled):not([aria-disabled='true']),
+.usa-button--secondary:active:not(:disabled):not([aria-disabled='true']) {
   background-color: var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
 }
-
 
 // ------------------------------------------------------------
 // §4.4 Filled Disabled — CTA + Secondary
@@ -371,12 +351,11 @@
 // ------------------------------------------------------------
 
 .usa-button:disabled,
-.usa-button[aria-disabled="true"] {
+.usa-button[aria-disabled='true'] {
   background-color: $hds-color-carbon-20;
   color: $hds-color-spacesuit-white;
   opacity: 1;
 }
-
 
 // ------------------------------------------------------------
 // §4.5 Outline — Palette-Aware Blue (.usa-button--outline)
@@ -399,21 +378,21 @@
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 }
 
-.usa-button--outline:hover:not(:disabled):not([aria-disabled="true"]),
-.usa-button--outline:active:not(:disabled):not([aria-disabled="true"]) {
+.usa-button--outline:hover:not(:disabled):not([aria-disabled='true']),
+.usa-button--outline:active:not(:disabled):not([aria-disabled='true']) {
   background-color: transparent;
-  box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
+  box-shadow: inset 0 0 0 2px
+    var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 }
 
 .usa-button--outline:disabled,
-.usa-button--outline[aria-disabled="true"] {
+.usa-button--outline[aria-disabled='true'] {
   background-color: transparent;
   box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke, #{$hds-color-carbon-20});
   color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
   opacity: 1;
 }
-
 
 // ------------------------------------------------------------
 // §4.6 Outline Inverse — Non-Palette Fallback
@@ -435,15 +414,15 @@
   box-shadow: inset 0 0 0 2px #{$hds-color-nasa-blue-tint};
   color: #{$hds-color-spacesuit-white};
 
-  &:hover:not(:disabled):not([aria-disabled="true"]),
-  &:active:not(:disabled):not([aria-disabled="true"]) {
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &:active:not(:disabled):not([aria-disabled='true']) {
     background-color: transparent;
     box-shadow: inset 0 0 0 2px #{$hds-color-nasa-blue};
     color: #{$hds-color-spacesuit-white};
   }
 
   &:disabled,
-  &[aria-disabled="true"] {
+  &[aria-disabled='true'] {
     background-color: transparent;
     box-shadow: inset 0 0 0 2px #{$hds-color-carbon-50};
     color: #{$hds-color-carbon-60};
@@ -451,11 +430,9 @@
   }
 }
 
-
 // ============================================================
 // §5 FORMS
-// Docs: https://website.nasa.gov/hds-core/components#forms
-// See also: https://designsystem.digital.gov/components/form/
+// Restyles: https://designsystem.digital.gov/components/form/
 // ============================================================
 // Light backgrounds only — dark palette forms are TODO.
 // ============================================================
@@ -474,18 +451,21 @@
   outline-offset: 0;
 }
 
-.usa-label { font-weight: font-weight("semibold"); }
+.usa-label {
+  font-family: family('heading');
+  font-size: size('body', '2xs');
+  font-weight: font-weight('semibold');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
 
 .usa-input--error {
-  border-color: color("error");
+  border-color: color('error');
   border-width: 4px;
 }
 
-
 // ============================================================
 // §6 IN-PAGE NAVIGATION
-// Docs: https://website.nasa.gov/hds-core/components#in-page-nav
-// See also: https://designsystem.digital.gov/components/in-page-navigation/
+// Restyles: https://designsystem.digital.gov/components/in-page-navigation/
 // ============================================================
 
 .usa-in-page-nav {
@@ -496,20 +476,20 @@
 
 .usa-in-page-nav__link {
   color: $hds-color-carbon-90;
-  &:hover { color: $hds-color-carbon-black; }
+  &:hover {
+    color: $hds-color-carbon-black;
+  }
 }
 
 .usa-in-page-nav__link--active {
   border-left-color: $hds-color-nasa-blue;
   color: $hds-color-nasa-blue;
-  font-weight: font-weight("semibold");
+  font-weight: font-weight('semibold');
 }
-
 
 // ============================================================
 // §7 PAGINATION
-// Docs: https://website.nasa.gov/hds-core/components#pagination
-// See also: https://designsystem.digital.gov/components/pagination/
+// Restyles: https://designsystem.digital.gov/components/pagination/
 // ============================================================
 // USWDS .usa-pagination override (numbered variants) plus
 // HDS simplified pagination (Previous/Next composed buttons).
@@ -526,7 +506,6 @@
 //
 // Filter variant (rows-per-page dropdown) deferred to Phase 2+.
 // ============================================================
-
 
 // ------------------------------------------------------------
 // §7.0 Base overrides
@@ -552,20 +531,20 @@
 
 .usa-pagination__button {
   align-items: center;
-  border: 1px solid transparent;        // reserve for focus ring
+  border: 1px solid transparent; // reserve for focus ring
   border-radius: 0;
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   display: inline-flex;
-  font-size: 1rem;                      // 16px
-  font-weight: 600;                     // Semibold
-  height: 2rem;                         // 32px
+  font-size: 1rem; // 16px
+  font-weight: 600; // Semibold
+  height: 2rem; // 32px
   justify-content: center;
   letter-spacing: -0.5px;
-  line-height: 1.25;                    // 20px / 16px
+  line-height: 1.25; // 20px / 16px
   padding: 0;
   position: relative;
   text-decoration: none;
-  width: 2rem;                          // 32px
+  width: 2rem; // 32px
 
   // Bottom-bar indicator — shared by current + hover.
   // Figma: 2px solid bar at bottom of 32px container.
@@ -574,7 +553,7 @@
   &::after {
     background-color: transparent;
     bottom: 0;
-    content: "";
+    content: '';
     height: 2px;
     left: 0;
     position: absolute;
@@ -636,9 +615,7 @@
     border-style: dashed;
     outline: none;
   }
-
 }
-
 
 // ------------------------------------------------------------
 // §7.2 Prev/Next — Legacy USWDS markup
@@ -677,7 +654,7 @@
   }
 
   // Disabled — color-based, not opacity-based
-  &[aria-disabled="true"] {
+  &[aria-disabled='true'] {
     border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
     color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
     cursor: not-allowed;
@@ -694,7 +671,6 @@
   }
 }
 
-
 // ------------------------------------------------------------
 // §7.3 Ellipsis
 // ------------------------------------------------------------
@@ -702,7 +678,6 @@
 .usa-pagination__overflow {
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
 }
-
 
 // ------------------------------------------------------------
 // §7.4 Utility buttons in pagination (recommended markup)
@@ -712,7 +687,6 @@
 // redundant when §12 gets full state support (TODO).
 
 .usa-pagination .hds-btn-icon--utility {
-
   // Hover
   &:hover:not([disabled]) {
     background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
@@ -746,7 +720,6 @@
   }
 }
 
-
 // ------------------------------------------------------------
 // §7.5 Simplified pagination
 // ------------------------------------------------------------
@@ -757,7 +730,7 @@
 .hds-pagination__simplified-btn {
   align-items: center;
   background: none;
-  border: 1px solid transparent;       // reserve for focus
+  border: 1px solid transparent; // reserve for focus
   border-radius: 0;
   cursor: pointer;
   display: inline-flex;
@@ -774,15 +747,15 @@
     border-radius: 50%;
     display: inline-flex;
     flex-shrink: 0;
-    height: 2rem;                      // 32px
+    height: 2rem; // 32px
     justify-content: center;
-    padding: 4px;                      // constrain icon within circle
-    width: 2rem;                       // 32px
+    padding: 4px; // constrain icon within circle
+    width: 2rem; // 32px
     // Set color & fill directly from palette variable — bypasses
     // currentColor inheritance issues where USWDS sets
     // color: black on .usa-pagination ancestors.
     color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
-    fill: var(--hds-palette-utility-icon, #{$hds-color-carbon-black}); 
+    fill: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
   }
 
   // Hover — circle gets hover treatment
@@ -810,7 +783,7 @@
   button#{&}:focus-visible {
     border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
     border-style: dashed;
-    outline: none !important;  // override §4.11 global
+    outline: none !important; // override §4.11 global
   }
 
   // Disabled — text and icon both mute, element stays visible
@@ -840,13 +813,12 @@
 // Text label inside simplified button
 .hds-pagination__simplified-text {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-  font-family: family("heading");      // Inter
-  font-size: 1.375rem;                 // 22px
-  font-weight: 700;                    // Bold
+  font-family: family('heading'); // Inter
+  font-size: 1.375rem; // 22px
+  font-weight: 700; // Bold
   letter-spacing: -0.5px;
-  line-height: 1.18;                   // 26/22
+  line-height: 1.18; // 26/22
 }
-
 
 // ============================================================
 // §8 ACCORDION
@@ -909,7 +881,7 @@
   }
 
   // Override USWDS [aria-expanded="false"] which applies the "add" icon
-  &[aria-expanded="false"] {
+  &[aria-expanded='false'] {
     background-image: none !important;
 
     &:hover {
@@ -918,7 +890,7 @@
   }
 
   // Override USWDS [aria-expanded="true"] which applies the "remove" icon
-  &[aria-expanded="true"] {
+  &[aria-expanded='true'] {
     background-image: none !important;
 
     &:hover {
@@ -936,7 +908,7 @@
   &::after {
     content: '';
     flex-shrink: 0;
-    width: 1.5em;  // 24px at 16px base — Figma M size
+    width: 1.5em; // 24px at 16px base — Figma M size
     height: 1.5em;
     border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
     border-radius: 50%;
@@ -958,7 +930,7 @@
   }
 
   // Expanded = chevron up (rotate)
-  &[aria-expanded="true"]::after {
+  &[aria-expanded='true']::after {
     transform: rotate(180deg);
   }
 }
@@ -970,11 +942,9 @@
   border-top: 0;
 }
 
-
 // ============================================================
 // §9 ALERTS
-// Docs: https://website.nasa.gov/hds-core/components#alerts
-// See also: https://designsystem.digital.gov/components/alert/
+// Restyles: https://designsystem.digital.gov/components/alert/
 // ============================================================
 
 .usa-alert {
@@ -982,41 +952,43 @@
   border-left-width: 4px;
 }
 
-
 // ============================================================
 // §10 GRID UTILITIES
-// Docs: https://website.nasa.gov/hds-core/components#grid
-// See also: https://designsystem.digital.gov/utilities/layout-grid/
+// Restyles: https://designsystem.digital.gov/utilities/layout-grid/
 // ============================================================
 
 @each $token, $value in $theme-utility-breakpoints {
   @if $value {
     .grid-reverse-#{$token} {
-      @include at-media-max("#{$token}") {
+      @include at-media-max('#{$token}') {
         flex-direction: column-reverse;
       }
     }
   }
 }
 
-.usa-section { padding-block: units(8); }
+.usa-section {
+  padding-block: units(8);
+}
 
 .usa-list--horizontal {
   display: inline-flex;
   flex-wrap: wrap;
   column-gap: units(3);
   row-gap: units(1.5);
-  li { margin-bottom: 0; }
+  li {
+    margin-bottom: 0;
+  }
 }
 
 .usa-list--top-level {
-  ul { display: none; }
+  ul {
+    display: none;
+  }
 }
-
 
 // ============================================================
 // §11 HDS PRIMARY ARROW BUTTON
-// Docs: https://website.nasa.gov/hds-core/components#primary-arrow
 // ============================================================
 // Tier 3 — no USWDS equivalent.
 // Text + CSS ::after red circle with white arrow.
@@ -1032,9 +1004,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   border: 0;
   border-radius: 0;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-  font-family: family("heading");
-  font-size: size("heading", "xs");
-  font-weight: font-weight("bold");
+  font-family: family('heading');
+  font-size: size('heading', 'xs');
+  font-weight: font-weight('bold');
   line-height: var(--hds-line-height-button);
   padding: 0;
   text-decoration-line: none;
@@ -1049,7 +1021,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     content: '';
     display: inline-block;
     height: 1.2em;
-    margin-inline-start: .3em;
+    margin-inline-start: 0.3em;
     vertical-align: text-bottom;
     width: 1.2em;
   }
@@ -1076,10 +1048,8 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 }
 
-
 // ============================================================
 // §12 HDS ICON BUTTONS
-// Docs: https://website.nasa.gov/hds-core/components#icon-buttons
 // ============================================================
 // Tier 3 — no USWDS equivalent.
 // Interactive circle containers. Require aria-label when used
@@ -1097,7 +1067,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 //   --sm          Inline with text
 //   --lg          Hero CTAs
 // ============================================================
-
 
 // ------------------------------------------------------------
 // §12.1 Icon Button Base
@@ -1127,7 +1096,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     width: 1em;
   }
 }
-
 
 // ------------------------------------------------------------
 // §12.2 Icon Button Roles
@@ -1185,7 +1153,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   width: 1.5em;
 }
 
-
 // ------------------------------------------------------------
 // §12.3 Icon Button Sizes
 // ------------------------------------------------------------
@@ -1208,10 +1175,8 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   width: 2.5em;
 }
 
-
 // ------------------------------------------------------------
 // §12.4 Inline Glyph (no circle container)
-// Docs: https://website.nasa.gov/hds-core/components#glyph
 // ------------------------------------------------------------
 // Tier 3 — no USWDS equivalent.
 // For bare icons inline with text. Inherits color from parent.
@@ -1225,11 +1190,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   vertical-align: baseline;
 }
 
-
 // ============================================================
 // §13 LINKS
-// Docs: https://website.nasa.gov/hds-core/components#links
-// See also: https://designsystem.digital.gov/components/link/
+// Restyles: https://designsystem.digital.gov/components/link/
 // ============================================================
 // Tier 1 override — .usa-link and .usa-link--external.
 // HDS links use a dotted underline as the defining element.
@@ -1242,7 +1205,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 //
 // External links get HDS diagonal arrow (not USWDS launch icon).
 // ============================================================
-
 
 // ------------------------------------------------------------
 // §13.1 Base Link Styling
@@ -1272,7 +1234,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 }
 
-
 // ------------------------------------------------------------
 // §13.2 External Link Arrow
 // ------------------------------------------------------------
@@ -1292,21 +1253,20 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ($theme-external-link-sr-label-tab-new/same) is overridden
 // by this ::after replacement. Add SR text manually:
 //   <span class="usa-sr-only">(external)</span>
-// See: https://website.nasa.gov/hds-core/components#links
 // ------------------------------------------------------------
 
 .usa-link--external::after {
   background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
   content: '\a0';
   display: inline !important;
-  mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'),
+  mask-image:
+    url('../assets/img/hds-icons/arrow-line-diagonal.svg'),
     linear-gradient(transparent, transparent);
   mask-size: 0.75em;
   mask-position: center;
   mask-repeat: no-repeat;
   vertical-align: baseline;
 }
-
 
 // ------------------------------------------------------------
 // §13.3 Internal Link Escape Hatch
@@ -1320,20 +1280,15 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   display: none !important;
 }
 
-
 // ============================================================
 // §14 INTRO TEXT
-// Docs: https://website.nasa.gov/hds-core/components#intro
-// See also: https://designsystem.digital.gov/components/intro/
-// ============================================================
-// Tier 1 override — replaces USWDS .usa-intro with HDS values.
-// Use .usa-intro instead of the removed .hds-intro class.
+// Restyles: https://designsystem.digital.gov/components/intro/
 // ============================================================
 
 .usa-intro {
-  font-size: size("body", "sm");
-  font-weight: font-weight("normal");
-  letter-spacing: map.get($hds-letterspacing, "neg-1");
+  font-size: size('body', 'sm');
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
   line-height: var(--hds-line-height-intro);
 }
 
@@ -1354,7 +1309,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // specificity. §15.1 overrides all of these comprehensively.
 // ============================================================
 
-
 // ------------------------------------------------------------
 // §15.1 Shared Site Alert Overrides
 // ------------------------------------------------------------
@@ -1365,7 +1319,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 .usa-site-alert--emergency,
 .usa-site-alert--info {
-
   // Alert container — remove left border, go transparent
   .usa-alert {
     background-color: transparent;
@@ -1403,7 +1356,6 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 }
 
-
 // ------------------------------------------------------------
 // §15.2 Emergency — NASA Red Shade
 // ------------------------------------------------------------
@@ -1417,19 +1369,18 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ------------------------------------------------------------
 
 .usa-site-alert--emergency {
-  --hds-palette-bg:             #{$hds-color-nasa-red-shade};
-  --hds-palette-heading:        #{$hds-color-spacesuit-white};
-  --hds-palette-text:           #{$hds-color-spacesuit-white};
-  --hds-palette-link-text:      #{$hds-color-spacesuit-white};
+  --hds-palette-bg: #{$hds-color-nasa-red-shade};
+  --hds-palette-heading: #{$hds-color-spacesuit-white};
+  --hds-palette-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-text: #{$hds-color-spacesuit-white};
   --hds-palette-link-underline: #{$hds-color-carbon-30};
-  --hds-palette-link-arrow:     #{$hds-color-carbon-40};
-  --hds-palette-muted:          #{$hds-color-carbon-10};
-  --hds-palette-icon:           #{$hds-color-spacesuit-white};
+  --hds-palette-link-arrow: #{$hds-color-carbon-40};
+  --hds-palette-muted: #{$hds-color-carbon-10};
+  --hds-palette-icon: #{$hds-color-spacesuit-white};
 
   background-color: var(--hds-palette-bg);
   color: var(--hds-palette-text);
 }
-
 
 // ------------------------------------------------------------
 // §15.3 Info — NASA Blue Shade
@@ -1443,14 +1394,14 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ------------------------------------------------------------
 
 .usa-site-alert--info {
-  --hds-palette-bg:             #{$hds-color-nasa-blue-shade};
-  --hds-palette-heading:        #{$hds-color-spacesuit-white};
-  --hds-palette-text:           #{$hds-color-spacesuit-white};
-  --hds-palette-link-text:      #{$hds-color-spacesuit-white};
+  --hds-palette-bg: #{$hds-color-nasa-blue-shade};
+  --hds-palette-heading: #{$hds-color-spacesuit-white};
+  --hds-palette-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-text: #{$hds-color-spacesuit-white};
   --hds-palette-link-underline: #{$hds-color-carbon-30};
-  --hds-palette-link-arrow:     #{$hds-color-carbon-40};
-  --hds-palette-muted:          #{$hds-color-carbon-10};
-  --hds-palette-icon:           #{$hds-color-spacesuit-white};
+  --hds-palette-link-arrow: #{$hds-color-carbon-40};
+  --hds-palette-muted: #{$hds-color-carbon-10};
+  --hds-palette-icon: #{$hds-color-spacesuit-white};
 
   background-color: var(--hds-palette-bg);
   color: var(--hds-palette-text);
