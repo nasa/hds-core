@@ -10,9 +10,9 @@ body:
         The HDS team and community will do their best to help.
 
         **Before posting**, please check:
-        - The [README](https://github.com/nasa/hds-core#readme) (especially the Usage section)
+        - The HDS Core documentation in Storybook (especially the Getting Started page)
+        - The [README](https://github.com/nasa/hds-core#readme) (especially the Installation and Usage section)
         - [Existing Q&A threads](https://github.com/nasa/hds-core/discussions/categories/q-a) for similar questions
-        - The [HDS Core documentation](https://website.nasa.gov/hds-core) (internal NASA access only) for HDS specs and Figma links
         - The [USWDS documentation](https://designsystem.digital.gov/) for general USWDS component usage
 
   - type: dropdown
@@ -41,11 +41,9 @@ body:
     attributes:
       label: "Your question"
       description: >-
-        Be as specific as you can. Include code snippets, error messages,
-        or config files if relevant.
+        Be as specific as you can. Include code snippets, error messages, or config files if relevant.
       placeholder: |
-        I'm trying to use HDS Core with Vite in a Next.js project.
-        I've added the Sass load paths to my vite.config.js like this:
+        I'm trying to use HDS Core with Vite in a Next.js project. I've added the Sass load paths to my vite.config.js like this:
 
         ```js
         css: {
@@ -60,8 +58,7 @@ body:
         }
         ```
 
-        But I'm getting `Can't find stylesheet to import` when I
-        `@forward "@nasa/hds-core/src/scss/styles"`. What am I missing?
+        But I'm getting `Can't find stylesheet to import` when I `@forward "@nasa/hds-core/src/scss/styles"`. What am I missing?
     validations:
       required: true
 
@@ -82,7 +79,7 @@ body:
     attributes:
       label: "Environment (if relevant)"
       description: "HDS Core version, USWDS version, build tool, Node version"
-      placeholder: "hds-core 0.1.0, uswds 3.3.0, Vite 5.x, Node 20"
+      placeholder: "hds-core 0.4.0, uswds 3.3.0, Vite 5.x, Node 20"
     validations:
       required: false
 
@@ -91,7 +88,6 @@ body:
     attributes:
       label: "What have you already tried?"
       description: >-
-        Knowing what you've attempted helps us avoid suggesting things
-        you've already ruled out.
+        Knowing what you've attempted helps us avoid suggesting things you've already ruled out.
     validations:
       required: false
