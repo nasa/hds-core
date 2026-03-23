@@ -23,7 +23,9 @@
     "format": "prettier --write \"**/*.{md,mdx,js,json}\"",
     "format:check": "prettier --check \"**/*.{md,mdx,js,json}\"",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "peerDependencies": {
     "@uswds/uswds": "^3.13.0"
