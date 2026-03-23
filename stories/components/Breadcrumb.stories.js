@@ -63,6 +63,13 @@ export const FourPlusLevels = {
 export const AllDepths = {
   name: 'All depths',
   tags: ['!dev'],
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>

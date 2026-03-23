@@ -6,6 +6,7 @@
 //   Guidance   — IntroText.mdx
 //   Playground — interactive story with controls
 // ============================================================
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Intro Text',
@@ -57,6 +58,13 @@ export const InPaletteContext = {
       the station since the first expedition crew arrived in November 2000.
     </p>
   `,
+};
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(Default.render),
 };
 
 // ---------------------------------------------------------------------------
