@@ -45,12 +45,7 @@ const chevronRight = `
  * @param {boolean} opts.simplified   - Previous/Next only (no numbers)
  * @param {boolean} opts.unbounded    - unknown total (no last page shown)
  */
-const pagination = ({
-  totalPages = 20,
-  currentPage = 1,
-  simplified = false,
-  unbounded = false,
-} = {}) => {
+const pagination = ({ totalPages = 20, currentPage = 1, simplified = false, unbounded = false } = {}) => {
   const isFirst = currentPage === 1;
   const isLast = !unbounded && currentPage === totalPages;
 

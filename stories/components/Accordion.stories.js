@@ -55,12 +55,7 @@ const faqItems = [
   },
 ];
 
-const accordion = ({
-  prefix = 'acc',
-  multiselectable = false,
-  itemCount = 5,
-  firstExpanded = true,
-} = {}) => {
+const accordion = ({ prefix = 'acc', multiselectable = false, itemCount = 5, firstExpanded = true } = {}) => {
   const items = faqItems.slice(0, itemCount);
   const attrs = multiselectable
     ? 'class="usa-accordion usa-accordion--multiselectable" data-allow-multiple'
@@ -69,9 +64,7 @@ const accordion = ({
   return `
     <div ${attrs}>
       ${items
-        .map((item, i) =>
-          accordionItem(`${prefix}-${i + 1}`, item.title, item.content, i === 0 && firstExpanded),
-        )
+        .map((item, i) => accordionItem(`${prefix}-${i + 1}`, item.title, item.content, i === 0 && firstExpanded))
         .join('')}
     </div>
   `;

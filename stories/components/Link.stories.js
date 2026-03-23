@@ -157,8 +157,7 @@ export const Playground = {
     if (args.external) classes.push('usa-link--external');
     if (args.external && args.internalEscape) classes.push('hds-link--internal');
     const rel = args.external ? ' rel="noreferrer"' : '';
-    const sr =
-      args.external && !args.internalEscape ? '<span class="usa-sr-only"> (external)</span>' : '';
+    const sr = args.external && !args.internalEscape ? '<span class="usa-sr-only"> (external)</span>' : '';
     return `<p><a class="${classes.join(' ')}" href="${args.href}"${rel}>${args.text}${sr}</a></p>`;
   },
 };

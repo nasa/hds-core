@@ -113,18 +113,12 @@ export const FilledVariants = {
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem(
-      'Call to Action',
-      '<button class="usa-button" type="button">Download Report</button>',
-    )}
+    ${gridItem('Call to Action', '<button class="usa-button" type="button">Download Report</button>')}
     ${gridItem(
       'Secondary Filled',
       '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>',
     )}
-    ${gridItem(
-      'Unstyled',
-      '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>',
-    )}
+    ${gridItem('Unstyled', '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>')}
   `),
 };
 
@@ -135,10 +129,7 @@ export const OutlineVariant = {
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem(
-      'Outline',
-      '<button class="usa-button usa-button--outline" type="button">View Details</button>',
-    )}
+    ${gridItem('Outline', '<button class="usa-button usa-button--outline" type="button">View Details</button>')}
   `),
 };
 

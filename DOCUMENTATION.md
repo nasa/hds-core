@@ -106,11 +106,11 @@ stories/
 
 ## Storybook configuration
 
-| File | Purpose |
-| --- | --- |
-| `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
-| `.storybook/preview.js` | Palette toolbar, decorators, storySort, dynamic source |
-| `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
+| File                           | Purpose                                                                     |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| `.storybook/main.js`           | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
+| `.storybook/preview.js`        | Palette toolbar, decorators, storySort, dynamic source                      |
+| `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`)                   |
 
 Auto-generated Reference pages are not used. Do not add `tags: ['autodocs']` to component meta.
 
@@ -285,14 +285,9 @@ When Figma reference images are useful (composed patterns, real page layouts):
 
 ```mdx
 <figure>
-  <img
-    src="/assets/my-image.png"
-    alt="Descriptive alt text"
-    style={{ maxWidth: '600px', width: '100%' }}
-  />
+  <img src="/assets/my-image.png" alt="Descriptive alt text" style={{ maxWidth: '600px', width: '100%' }} />
   <figcaption style={{ fontSize: '0.75rem', opacity: 0.6, marginTop: '0.5rem' }}>
-    Source: HDS Figma spec — implementation details may differ. Follow the Guidance tab for current
-    behavior.
+    Source: HDS Figma spec — implementation details may differ. Follow the Guidance tab for current behavior.
   </figcaption>
 </figure>
 ```
@@ -351,8 +346,7 @@ Usage:
 import { Note } from '../helpers/Note';
 
 <Note type="uswds">
-  USWDS pagination uses anchor tags with visible Previous/Next text. HDS uses icon-only circle
-  buttons.
+  USWDS pagination uses anchor tags with visible Previous/Next text. HDS uses icon-only circle buttons.
 </Note>
 ```
 

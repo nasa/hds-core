@@ -157,12 +157,12 @@ Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from 
 
 Role-based line-heights (`body`, `heading`, `label`, etc.) use USWDS scale tokens in `$hds-line-heights` for system integration. When the USWDS approximation is too far from the Proposal target (>10% delta), the class or mixin refines with a raw CSS value — the same approach used for per-heading line-heights.
 
-| Role | USWDS Token | USWDS Actual | Proposal Target | Approach |
-| --- | --- | --- | --- | --- |
-| body | 5 | 1.62 | 1.60 (160%) | Token — 2% delta, close enough |
-| label | 6 | 1.75 | 1.80 (180%) | Token — 5% delta, acceptable |
-| button | 3 | 1.35 | 1.20 (120%) | **Refined to `1.2`** — 15% delta too large |
-| caption | 3 | 1.35 | 1.20 (120%) | **Refined to `1.2`** — 15% delta too large |
+| Role    | USWDS Token | USWDS Actual | Proposal Target | Approach                                   |
+| ------- | ----------- | ------------ | --------------- | ------------------------------------------ |
+| body    | 5           | 1.62         | 1.60 (160%)     | Token — 2% delta, close enough             |
+| label   | 6           | 1.75         | 1.80 (180%)     | Token — 5% delta, acceptable               |
+| button  | 3           | 1.35         | 1.20 (120%)     | **Refined to `1.2`** — 15% delta too large |
+| caption | 3           | 1.35         | 1.20 (120%)     | **Refined to `1.2`** — 15% delta too large |
 
 ### Type Normalization (Known Tech Debt)
 
@@ -339,10 +339,10 @@ The HDS Figma spec includes a rows-per-page filter alongside pagination. This re
 
 ### Color Variants
 
-| Variant | Background | Text | Use |
-| --- | --- | --- | --- |
-| `--emergency` | NASA Red Shade (#B60109) | White | Lapse in appropriations, outages, critical safety |
-| `--info` | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements |
+| Variant       | Background                | Text  | Use                                               |
+| ------------- | ------------------------- | ----- | ------------------------------------------------- |
+| `--emergency` | NASA Red Shade (#B60109)  | White | Lapse in appropriations, outages, critical safety |
+| `--info`      | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements    |
 
 Link treatment on both variants follows the dark-background pattern from the blue palette: white text, Carbon 30 underline, Carbon 40 arrow.
 
