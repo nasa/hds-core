@@ -43,16 +43,8 @@ To contribute to HDS Core itself:
 git clone https://github.com/nasa/hds-core.git
 cd hds-core
 npm install
+npm run build
 ```
-
-### Build
-
-```bash
-npx gulp init     # Copy USWDS assets, HDS assets, generate icon sprite
-npx gulp build    # Compile Sass, copy assets, minify CSS
-```
-
-`init` must run before `build` on a fresh clone because `build` expects USWDS assets (fonts, images, JS) to already exist.
 
 ### Verify
 
@@ -61,6 +53,22 @@ npm run storybook
 ```
 
 Storybook opens at `localhost:6006`. If you see the HDS Core overview page with styled components, everything is working.
+
+## GitHub Codespaces
+
+HDS Core includes a devcontainer that fully automates the development environment. When you open the repo in a [GitHub Codespace](https://github.com/features/codespaces):
+
+1. Node.js, extensions, and editor settings are configured automatically
+2. `npm install` and `npm run build` run as part of container setup
+3. Port 6006 is pre-configured for Storybook
+
+Once the Codespace is ready, the only step is:
+
+```bash
+npm run storybook
+```
+
+Storybook opens automatically in your browser. If you encounter issues with a fresh Codespace, please [open an issue](https://github.com/nasa/hds-core/issues).
 
 ## Usage
 
@@ -97,8 +105,8 @@ Storybook is the primary documentation for HDS Core. It includes:
 ### Running Storybook locally
 
 ```bash
-npx gulp build         # Must build CSS before Storybook can load styles
-npm run storybook      # Opens at localhost:6006
+npm run build         # Build CSS before Storybook can load styles
+npm run storybook     # Opens at localhost:6006
 ```
 
 Use the **palette switcher** (paintbrush icon in the toolbar) to test components across all six HDS palettes.
@@ -108,35 +116,33 @@ Use the **palette switcher** (paintbrush icon in the toolbar) to test components
 To generate a static Storybook for sharing without a running dev server:
 
 ```bash
-npx storybook build                    # Outputs to storybook-static/
-npx http-server storybook-static       # Serves at localhost:8080
+npm run build-storybook               # Outputs to storybook-static/
+npx http-server storybook-static      # Serves at localhost:8080
 ```
 
 Install `http-server` globally if you don't have it: `npm install -g http-server`.
-
-### GitHub Codespaces
-
-HDS Core development works in [GitHub Codespaces](https://github.com/features/codespaces). Vite file watching is pre-configured for the Codespaces environment. Open the repo in a Codespace, then follow the standard build and Storybook steps above.
-
-If you encounter issues with a fresh Codespace, please [open an issue](https://github.com/nasa/hds-core/issues).
 
 ## Build Reference
 
 ### Commands
 
-| Command             | Purpose                                        |
-| ------------------- | ---------------------------------------------- |
-| `npx gulp init`     | Copy USWDS assets, HDS assets, generate sprite |
-| `npx gulp build`    | Compile Sass, copy assets, sprite, minify CSS  |
-| `npx gulp watch`    | Recompile on Sass file changes                 |
-| `npm run storybook` | Start Storybook at localhost:6006              |
+| Command                  | Purpose                                                    |
+| ------------------------ | ---------------------------------------------------------- |
+| `npm run build`          | Full production build — assets, Sass, sprite, minify       |
+| `npm run storybook`      | Start Storybook at localhost:6006                          |
+| `npm run build-storybook`| Static Storybook build to `storybook-static/`              |
+| `npm run watch`          | Recompile on Sass file changes                             |
+| `npm run init`           | Copy assets and generate sprite without compiling Sass     |
+| `npm run format`         | Format source files with Prettier                          |
+| `npm run format:check`   | Check formatting without writing changes                   |
+
+`init` is available if you need to refresh USWDS or HDS assets (fonts, images, icons) without a full recompile. For most workflows, `build` is all you need — it handles asset copying, Sass compilation, sprite generation, and CSS minification in one step.
 
 ### Clean Build
 
 ```bash
 rm -rf dist/
-npx gulp init
-npx gulp build
+npm run build
 ```
 
 ### Build Output
