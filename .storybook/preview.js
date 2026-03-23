@@ -7,9 +7,7 @@ const preview = {
       },
     },
     docs: {
-      source: {
-        type: 'dynamic',
-      },
+      codePanel: true,
     },
     options: {
       storySort: {
