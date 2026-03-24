@@ -60,8 +60,7 @@ Some NASA properties (e.g., `science.nasa.gov`) use external URLs but are still 
 - **Never remove the underline.** Because HDS links use body-text color, the dotted underline is the **sole** visual differentiator.
 
 <Note type="figma">
-  The HDS Figma spec shows a dashed underline. CSS <code>dashed</code> produces long dashes that
-  look different from the Figma spec, so HDS Core uses
+  The HDS Figma spec shows a dashed underline. CSS <code>dashed</code> produces long dashes that look different from the Figma spec, so HDS Core uses
   <code>dotted</code> as the closest approximation.
 </Note>
 
@@ -84,19 +83,14 @@ By default, bare `<a>` tags are unstyled. HDS link treatment only applies via `.
 - `$theme-global-link-styles`
 - `$theme-global-content-styles`
 
-<Note type="uswds">
-  This mirrors USWDS's default behavior exactly. Existing USWDS sites migrating to HDS Core keep
-  their existing scoping behavior.
-</Note>
+<Note type="uswds">This mirrors USWDS's default behavior exactly. Existing USWDS sites migrating to HDS Core keep their existing scoping behavior.</Note>
 
 ## Accessibility
 
 - **External links require screen reader text.** The HDS external arrow is CSS-only and invisible to screen readers. Developers **must** add SR text:
 
   ```html
-  <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer">
-    Example<span class="usa-sr-only"> (external)</span>
-  </a>
+  <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer"> Example<span class="usa-sr-only"> (external)</span> </a>
   ```
 
 - **Visited links** look the same as unvisited links. This is intentional — it prevents unexpected contrast issues across palettes.
@@ -106,8 +100,6 @@ By default, bare `<a>` tags are unstyled. HDS link treatment only applies via `.
 The recommended markup shown above includes all necessary attributes. For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
 
 <Note type="uswds">
-  The HDS external arrow CSS replaces USWDS's built-in external link screen reader labels. The
-  manual <code>&lt;span class="usa-sr-only"&gt;</code>
-  shown above is required — USWDS sites migrating to HDS Core must add this if they relied on
-  USWDS's automatic SR text.
+  The HDS external arrow CSS replaces USWDS's built-in external link screen reader labels. The manual <code>&lt;span class="usa-sr-only"&gt;</code>
+  shown above is required — USWDS sites migrating to HDS Core must add this if they relied on USWDS's automatic SR text.
 </Note>

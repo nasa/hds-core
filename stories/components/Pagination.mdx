@@ -62,11 +62,7 @@ When on the last page, "Next" appears disabled:
 
 <Canvas of={PaginationStories.SimplifiedLastPage} />
 
-<Note type="figma">
-  The HDS Figma spec suggests simplified pagination for 5 or fewer pages on mobile. HDS Core treats
-  this as a screen-size and context decision rather than a strict page-count rule — simplified can
-  be used at any page count on small screens.
-</Note>
+<Note type="figma">The HDS Figma spec suggests simplified pagination for 5 or fewer pages on mobile. HDS Core treats this as a screen-size and context decision rather than a strict page-count rule — simplified can be used at any page count on small screens.</Note>
 
 ## When to use the pagination component
 
@@ -88,10 +84,7 @@ When on the last page, "Next" appears disabled:
 - **Keep the current page visible.** The bottom-bar indicator and heading-weight text make the active page immediately scannable.
 - **Don't combine with infinite scroll.** Pick one pattern. Mixing creates conflicting mental models.
 
-<Note type="figma">
-  The HDS Figma spec includes a rows-per-page filter alongside pagination. This composed pattern
-  requires a dropdown menu component and is deferred to a future phase.
-</Note>
+<Note type="figma">The HDS Figma spec includes a rows-per-page filter alongside pagination. This composed pattern requires a dropdown menu component and is deferred to a future phase.</Note>
 
 ## Legacy USWDS support
 
@@ -111,12 +104,7 @@ The tradeoff: legacy USWDS markup retains the USWDS chevron icons inside the HDS
 </li>
 ```
 
-<Note type="uswds">
-  USWDS pagination uses anchor tags with visible "Previous"/"Next" text labels and inline SVG
-  arrows. HDS Core CSS hides the text labels visually and applies the circle container. The
-  simplified variant (Previous/Next with text) has no USWDS equivalent — it uses HDS-specific
-  markup. Update to the recommended markup when practical for full fidelity.
-</Note>
+<Note type="uswds">USWDS pagination uses anchor tags with visible "Previous"/"Next" text labels and inline SVG arrows. HDS Core CSS hides the text labels visually and applies the circle container. The simplified variant (Previous/Next with text) has no USWDS equivalent — it uses HDS-specific markup. Update to the recommended markup when practical for full fidelity.</Note>
 
 ## Accessibility
 

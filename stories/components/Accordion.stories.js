@@ -1,3 +1,20 @@
+// ============================================================
+// Accordion Stories — @nasa/hds-core
+// Covers §8 (USWDS .usa-accordion override, Tier 1)
+//
+// Sidebar structure:
+//   Guidance   — Accordion.mdx
+//   Playground — interactive story with controls
+// ============================================================
+
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
+export default {
+  title: 'Components/Accordion',
+};
+
+// --- Helpers (used in multiple stories) ---
+
 const label = (text) => `<p class="hds-label" style="margin-bottom: 0.5rem">${text}</p>`;
 
 const accordionItem = (id, title, content, expanded = false) => `
@@ -55,12 +72,7 @@ const faqItems = [
   },
 ];
 
-const accordion = ({
-  prefix = 'acc',
-  multiselectable = false,
-  itemCount = 5,
-  firstExpanded = true,
-} = {}) => {
+const accordion = ({ prefix = 'acc', multiselectable = false, itemCount = 5, firstExpanded = true } = {}) => {
   const items = faqItems.slice(0, itemCount);
   const attrs = multiselectable
     ? 'class="usa-accordion usa-accordion--multiselectable" data-allow-multiple'
@@ -69,16 +81,10 @@ const accordion = ({
   return `
     <div ${attrs}>
       ${items
-        .map((item, i) =>
-          accordionItem(`${prefix}-${i + 1}`, item.title, item.content, i === 0 && firstExpanded),
-        )
+        .map((item, i) => accordionItem(`${prefix}-${i + 1}`, item.title, item.content, i === 0 && firstExpanded))
         .join('')}
     </div>
   `;
-};
-
-export default {
-  title: 'Components/Accordion',
 };
 
 // --- Guidance embeds (hidden from sidebar) ---
@@ -105,6 +111,29 @@ export const Multiselectable = {
     ${label('Multiselectable')}
     ${accordion({ prefix: 'multi', multiselectable: true })}
   `,
+};
+
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(Default.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(Default.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(Default.render, 'focus-visible'),
 };
 
 // --- Playground (visible in sidebar) ---

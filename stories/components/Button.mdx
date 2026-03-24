@@ -19,10 +19,7 @@ A button draws attention to important actions with a large selectable surface. H
 - Always an `<a>` tag — it's a navigation link, never a form action
 - Pairs with `.usa-link--external` for external destinations — the arrow changes from a line to a diagonal
 
-<Note type="figma">
-  The HDS Figma spec shows 6 size variants (14px–36px). HDS Core currently ships the default size
-  only.
-</Note>
+<Note type="figma">The HDS Figma spec shows 6 size variants (14px–36px). HDS Core currently ships the default size only.</Note>
 
 ## Filled buttons
 
@@ -96,8 +93,7 @@ Use one Call to Action (red) button per visible section. Pair with Secondary or 
 <Canvas of={ButtonStories.FilledVariants} />
 
 <Note type="uswds">
-  USWDS defaults to primary = blue, secondary = red. HDS Core flips this at the theme level.{' '}
-  <code>.usa-button</code> renders red and
+  USWDS defaults to primary = blue, secondary = red. HDS Core flips this at the theme level. <code>.usa-button</code> renders red and
   <code>.usa-button--secondary</code> renders blue — no class changes needed.
 </Note>
 
@@ -110,8 +106,7 @@ Inside an HDS palette wrapper, `.usa-button--outline` adapts to dark backgrounds
 <Canvas of={ButtonStories.OutlineVariant} />
 
 <Note type="uswds">
-  USWDS <code>--inverse</code> turns the entire outline button white (border + text). In HDS Core,
-  only the text flips to white — the border stays NASA Blue.
+  USWDS <code>--inverse</code> turns the entire outline button white (border + text). In HDS Core, only the text flips to white — the border stays NASA Blue.
 </Note>
 
 ## Other button types
@@ -133,8 +128,7 @@ Disabled buttons use distinct colors rather than opacity, so they remain readabl
 Disabled buttons do not respond to hover or focus.
 
 <Note type="uswds">
-  USWDS uses <code>opacity</code> for disabled buttons. HDS Core uses explicit color changes so
-  disabled states are consistent across all six palettes.
+  USWDS uses <code>opacity</code> for disabled buttons. HDS Core uses explicit color changes so disabled states are consistent across all six palettes.
 </Note>
 
 ## When to use the button component
@@ -161,10 +155,7 @@ For more on how HDS uses color for wayfinding, see [Color](?path=/docs/foundatio
 - **Labels should make sense out of context.** Screen reader users may encounter buttons without surrounding text.
 - **Use sentence case** for button labels.
 
-<Note type="figma">
-  The HDS Figma spec does not define a button active state. HDS Core uses the same visual treatment
-  for hover and active, consistent with Apple HIG.
-</Note>
+<Note type="figma">The HDS Figma spec does not define a button active state. HDS Core uses the same visual treatment for hover and active, consistent with Apple HIG.</Note>
 
 ## Accessibility
 

@@ -24,10 +24,7 @@ All breakpoints use 12 columns. Gutters increase at wider breakpoints to create 
 | `desktop-lg` | ≥1200px | 16px   | Large (Desktop) |
 | `widescreen` | ≥1400px | 24px   | XL (Display)    |
 
-<Note type="figma">
-  The HDS Figma spec defines a TV breakpoint at 1920px. This is deferred in HDS Core because USWDS
-  does not have a built-in TV breakpoint. It will be revisited when TV-scale layouts are needed.
-</Note>
+<Note type="figma">The HDS Figma spec defines a TV breakpoint at 1920px. This is deferred in HDS Core because USWDS does not have a built-in TV breakpoint. It will be revisited when TV-scale layouts are needed.</Note>
 
 ## Live 12-column grid
 
@@ -93,12 +90,12 @@ For the full USWDS grid API, see the [USWDS Layout Grid documentation](https://d
 
 These USWDS settings control grid behavior in HDS Core:
 
-| Setting | Value | Description |
-| --- | --- | --- |
-| `$theme-grid-container-max-width` | `"widescreen"` | Container max-width (1400px) |
-| `$theme-site-margins-breakpoint` | `"desktop"` | Where margins switch from mobile to desktop |
-| `$theme-site-margins-mobile-width` | `2` (16px) | Site margins below desktop |
-| `$theme-site-margins-width` | `4` (32px) | Site margins at desktop+ |
-| `$theme-column-gap-sm` | `2px` | Small gutter |
-| `$theme-column-gap-md` | `2` (16px) | Medium gutter |
-| `$theme-column-gap-lg` | `3` (24px) | Large gutter |
+| Setting                            | Value          | Description                                 |
+| ---------------------------------- | -------------- | ------------------------------------------- |
+| `$theme-grid-container-max-width`  | `"widescreen"` | Container max-width (1400px)                |
+| `$theme-site-margins-breakpoint`   | `"desktop"`    | Where margins switch from mobile to desktop |
+| `$theme-site-margins-mobile-width` | `2` (16px)     | Site margins below desktop                  |
+| `$theme-site-margins-width`        | `4` (32px)     | Site margins at desktop+                    |
+| `$theme-column-gap-sm`             | `2px`          | Small gutter                                |
+| `$theme-column-gap-md`             | `2` (16px)     | Medium gutter                               |
+| `$theme-column-gap-lg`             | `3` (24px)     | Large gutter                                |

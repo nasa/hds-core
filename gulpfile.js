@@ -43,10 +43,7 @@ function buildSprite() {
           transform: [
             {
               svgo: {
-                plugins: [
-                  { name: 'cleanupIDs', params: { minify: true } },
-                  { name: 'removeUselessDefs' },
-                ],
+                plugins: [{ name: 'cleanupIDs', params: { minify: true } }, { name: 'removeUselessDefs' }],
               },
             },
           ],
@@ -79,13 +76,7 @@ exports.minifyCss = minifyCss;
 // Init: Copy USWDS assets (fonts, images, JS) + HDS assets + sprite
 // Uses individual copy tasks instead of init/copyAll to prevent
 // USWDS from overwriting HDS theme files in src/scss/
-exports.init = gulp.series(
-  uswds.copyFonts,
-  uswds.copyImages,
-  uswds.copyJS,
-  copyHdsAssets,
-  buildSprite,
-);
+exports.init = gulp.series(uswds.copyFonts, uswds.copyImages, uswds.copyJS, copyHdsAssets, buildSprite);
 
 // Build: Full production build — safe to run from a fresh clone
 exports.build = gulp.series(

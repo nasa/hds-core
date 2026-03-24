@@ -1,5 +1,8 @@
 const preview = {
   parameters: {
+    a11y: {
+      test: 'error',
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -7,9 +10,7 @@ const preview = {
       },
     },
     docs: {
-      source: {
-        type: 'dynamic',
-      },
+      codePanel: true,
     },
     options: {
       storySort: {

@@ -24,6 +24,7 @@
 // Deep-link from dev docs: _hds-custom-styles.scss §4 Links
 // ============================================================
 
+@use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 
@@ -267,19 +268,41 @@
   width: 2em;
 }
 
+// ------------------------------------------------------------
+// §2.6 Link appearance
+// ------------------------------------------------------------
+// Shared visual treatment for elements that look like text
+// links: .usa-link (§13) and .usa-button--unstyled (§4.7).
+// Palette-aware with light-palette fallbacks.
+// ------------------------------------------------------------
+
+@mixin hds-link-appearance {
+  color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+  text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+@mixin hds-link-hover {
+  color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+  text-decoration-style: solid;
+}
+
 // ============================================================
 // §3 SHARED UTILITIES
 // ============================================================
 
 .hds-label,
 .hds-eyebrow {
-  @include label-uppercase;
+  @include hds-overline-label;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   font-family: family('mono');
 }
 
 .hds-metadata {
-  @include metadata;
+  @include hds-metadata-type;
 }
 
 .hds-caption {
@@ -566,9 +589,7 @@
   }
 
   td {
-    border-top: var(--hds-border-width-table)
-      solid
-      var(--hds-palette-border, #{$hds-color-carbon-10});
+    border-top: var(--hds-border-width-table) solid var(--hds-palette-border, #{$hds-color-carbon-10});
   }
 
   // ------------------------------------------------------------
@@ -679,9 +700,7 @@ textarea:not([disabled]):focus-visible {
 // ------------------------------------------------------------
 
 @if $theme-global-content-styles {
-  button:where(
-    :not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])
-  ),
+  button:where(:not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])),
   input[type='submit'] {
     @include button-styles;
     @include button-hover;

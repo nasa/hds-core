@@ -8,8 +8,14 @@
 // ============================================================
 
 import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
 
-// Shared helpers for consistent story presentation
+export default {
+  title: 'Components/Icon Button',
+};
+
+// --- Helpers (used in multiple stories) ---
+
 const label = (text) => `<span class="hds-label">${text}</span>`;
 
 const grid = (items) => `
@@ -28,13 +34,7 @@ const icon = (name) => `
     <use xlink:href="/assets/img/hds-sprite.svg#${name}"></use>
   </svg>`;
 
-export default {
-  title: 'Components/Icon Button',
-};
-
-// ---------------------------------------------------------------------------
-// Reference stories (hidden from sidebar, embedded in Guidance via Canvas)
-// ---------------------------------------------------------------------------
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const AllRoles = {
   name: 'All roles',
@@ -159,9 +159,30 @@ export const CTAWithText = {
   `,
 };
 
-// ---------------------------------------------------------------------------
-// Playground
-// ---------------------------------------------------------------------------
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllRoles.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllRoles.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllRoles.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   args: {

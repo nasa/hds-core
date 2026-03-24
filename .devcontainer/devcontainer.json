@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
-  "postCreateCommand": "npm install && npm run build",
+  "postCreateCommand": "npm install && npm run build && npx playwright install chromium && npx playwright install-deps chromium",
   "forwardPorts": [6006],
   "portsAttributes": {
     "6006": {

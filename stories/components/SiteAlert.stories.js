@@ -16,9 +16,7 @@ export default {
   title: 'Components/Site Alert',
 };
 
-// ------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------
+// --- Helpers (used in multiple stories) ---
 
 const label = (text) =>
   `<p style="font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.25px; color: #58585B; margin: 0 0 0.75rem;">${text}</p>`;
@@ -53,9 +51,7 @@ const siteAlert = ({
 </section>`;
 };
 
-// ------------------------------------------------------------
-// Hidden stories — embedded in Guidance MDX via Canvas
-// ------------------------------------------------------------
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const EmergencyWithHeading = {
   tags: ['!dev'],
@@ -120,9 +116,7 @@ export const InfoNoIcon = {
     }),
 };
 
-// ------------------------------------------------------------
-// Playground — visible in sidebar with controls
-// ------------------------------------------------------------
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   render: (args) => siteAlert(args),

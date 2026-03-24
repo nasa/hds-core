@@ -1,3 +1,5 @@
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
 export default {
   title: 'Foundations/Typography',
   parameters: {
@@ -48,7 +50,7 @@ export const HeadingScale = {
 export const DisplaySizes = {
   tags: ['!dev'],
   render: () => `
-    <div style="max-width: 64em; overflow-x: auto;">
+    <div style="max-width: 64em; overflow-x: auto;" tabindex="0">
       <div style="margin-block-end: 2rem;">
         <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">H1-2xl · Inter Bold · 120px · line-height: 1</p>
         <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 120px; font-weight: 700; line-height: 1; letter-spacing: -5.5px; margin: 0;">
@@ -296,4 +298,13 @@ export const FontStack = {
       </div>
     </div>
   `,
+};
+
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(HeadingScale.render),
 };

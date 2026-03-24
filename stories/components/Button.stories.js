@@ -7,7 +7,10 @@
 //   Playground — interactive story with controls
 // ============================================================
 
-// Shared helpers for consistent story presentation
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
+// --- Helpers (used in multiple stories) ---
+
 const label = (text) => `<span class="hds-label">${text}</span>`;
 
 const grid = (items) => `
@@ -63,35 +66,7 @@ export default {
   },
 };
 
-// ── Playground (visible in sidebar) ──────────────────────────
-
-export const Playground = {
-  render: ({ label, variant, disabled, ariaDisabled }) => {
-    const needsDarkBg = variant === 'usa-button--outline usa-button--inverse';
-    const attrs = [];
-    if (disabled) attrs.push('disabled="disabled"');
-    if (ariaDisabled && !disabled) attrs.push('aria-disabled="true"');
-
-    const button = `
-      <button
-        class="usa-button ${variant}"
-        type="button"
-        ${attrs.join(' ')}
-      >${label}</button>
-    `;
-
-    if (needsDarkBg) {
-      return `
-        <div style="background-color: var(--hds-palette-bg, #17171B); padding: 2rem;">
-          ${button}
-        </div>
-      `;
-    }
-    return button;
-  },
-};
-
-// ── Primary Arrow (embedded in Guidance via Canvas) ──────────
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const PrimaryArrow = {
   name: 'Primary Arrow',
@@ -106,43 +81,28 @@ export const PrimaryArrow = {
   `),
 };
 
-// ── Filled Variants (embedded in Guidance via Canvas) ────────
-
 export const FilledVariants = {
   name: 'Filled Variants',
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem(
-      'Call to Action',
-      '<button class="usa-button" type="button">Download Report</button>',
-    )}
+    ${gridItem('Call to Action', '<button class="usa-button" type="button">Download Report</button>')}
     ${gridItem(
       'Secondary Filled',
       '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>',
     )}
-    ${gridItem(
-      'Unstyled',
-      '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>',
-    )}
+    ${gridItem('Unstyled', '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>')}
   `),
 };
-
-// ── Outline Variant (embedded in Guidance via Canvas) ────────
 
 export const OutlineVariant = {
   name: 'Outline',
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem(
-      'Outline',
-      '<button class="usa-button usa-button--outline" type="button">View Details</button>',
-    )}
+    ${gridItem('Outline', '<button class="usa-button usa-button--outline" type="button">View Details</button>')}
   `),
 };
-
-// ── Disabled States (embedded in Guidance via Canvas) ────────
 
 export const DisabledStates = {
   tags: ['!dev'],
@@ -195,4 +155,102 @@ export const DisabledStates = {
       </div>
     </div>
   `,
+};
+
+export const AllVariants = {
+  name: 'All variants',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Filled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', '<button class="usa-button" type="button">Download Report</button>')}
+            ${gridItem('Secondary', '<button class="usa-button usa-button--secondary" type="button">Apply Filters</button>')}
+            ${gridItem('Unstyled', '<button class="usa-button usa-button--unstyled" type="button">Cancel</button>')}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Outline')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Outline', '<button class="usa-button usa-button--outline" type="button">View Details</button>')}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Primary Arrow')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Internal', '<a class="hds-btn--primary" href="#">Explore the Mission</a>')}
+            ${gridItem('External', '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>')}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', '<button class="usa-button" type="button" disabled="disabled">Download Report</button>')}
+            ${gridItem('Secondary', '<button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button>')}
+            ${gridItem('Outline', '<button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button>')}
+          `)}
+        </div>
+      </div>
+    </div>
+  `,
+};
+
+// --- Palette Accessibility tests (hidden from sidebar) ---
+// TODO: Secondary button contrast fails AA on dark palettes — see GitHub Issue #24
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  render: paletteRender(AllVariants.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  render: paletteRender(AllVariants.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  render: paletteRender(AllVariants.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
+
+export const Playground = {
+  render: ({ label, variant, disabled, ariaDisabled }) => {
+    const needsDarkBg = variant === 'usa-button--outline usa-button--inverse';
+    const attrs = [];
+    if (disabled) attrs.push('disabled="disabled"');
+    if (ariaDisabled && !disabled) attrs.push('aria-disabled="true"');
+
+    const button = `
+      <button
+        class="usa-button ${variant}"
+        type="button"
+        ${attrs.join(' ')}
+      >${label}</button>
+    `;
+
+    if (needsDarkBg) {
+      return `
+        <div style="background-color: var(--hds-palette-bg, #17171B); padding: 2rem;">
+          ${button}
+        </div>
+      `;
+    }
+    return button;
+  },
 };

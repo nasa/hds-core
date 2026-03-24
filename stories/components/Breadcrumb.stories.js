@@ -7,13 +7,13 @@
 //   Playground — interactive story with controls
 // ============================================================
 
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
 export default {
   title: 'Components/Breadcrumb',
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+// --- Helpers (used in multiple stories) ---
 
 const breadcrumb = (items) => {
   const listItems = items
@@ -38,9 +38,7 @@ const breadcrumb = (items) => {
   `;
 };
 
-// ---------------------------------------------------------------------------
-// Reference stories (hidden from sidebar, embedded in Guidance via Canvas)
-// ---------------------------------------------------------------------------
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const TwoLevels = {
   name: '2 levels',
@@ -63,6 +61,13 @@ export const FourPlusLevels = {
 export const AllDepths = {
   name: 'All depths',
   tags: ['!dev'],
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>
@@ -98,9 +103,30 @@ export const HoverState = {
   `,
 };
 
-// ---------------------------------------------------------------------------
-// Playground
-// ---------------------------------------------------------------------------
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllDepths.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllDepths.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllDepths.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   args: {

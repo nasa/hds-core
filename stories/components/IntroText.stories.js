@@ -7,13 +7,13 @@
 //   Playground — interactive story with controls
 // ============================================================
 
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
 export default {
   title: 'Components/Intro Text',
 };
 
-// ---------------------------------------------------------------------------
-// Reference stories (hidden from sidebar, embedded in Guidance via Canvas)
-// ---------------------------------------------------------------------------
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const Default = {
   name: 'Default',
@@ -59,9 +59,16 @@ export const InPaletteContext = {
   `,
 };
 
-// ---------------------------------------------------------------------------
-// Playground
-// ---------------------------------------------------------------------------
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(Default.render),
+};
+
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   args: {

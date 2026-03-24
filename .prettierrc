@@ -2,5 +2,13 @@
   "proseWrap": "never",
   "singleQuote": true,
   "trailingComma": "all",
-  "printWidth": 100
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": "*.mdx",
+      "options": {
+        "printWidth": 9999
+      }
+    }
+  ]
 }
