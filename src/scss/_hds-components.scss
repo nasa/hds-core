@@ -125,8 +125,7 @@
 
   &[aria-expanded='false'] span:after {
     mask-image:
-      url('../assets/img/hds-icons/arrow-chevron-down.svg'),
-      linear-gradient(transparent, transparent) !important;
+      url('../assets/img/hds-icons/arrow-chevron-down.svg'), linear-gradient(transparent, transparent) !important;
   }
 }
 
@@ -381,8 +380,7 @@
 .usa-button--outline:hover:not(:disabled):not([aria-disabled='true']),
 .usa-button--outline:active:not(:disabled):not([aria-disabled='true']) {
   background-color: transparent;
-  box-shadow: inset 0 0 0 2px
-    var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
+  box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 }
 
@@ -426,6 +424,38 @@
     background-color: transparent;
     box-shadow: inset 0 0 0 2px #{$hds-color-carbon-50};
     color: #{$hds-color-carbon-60};
+    opacity: 1;
+  }
+}
+
+// ------------------------------------------------------------
+// §4.7 Unstyled (.usa-button--unstyled)
+// ------------------------------------------------------------
+// Per USWDS: "A button that looks like a link."
+// Reuses shared link appearance mixin from
+// _hds-custom-styles.scss §2.6 so unstyled buttons are
+// visually identical to .usa-link across all palettes.
+//
+// USWDS --unstyled already resets background, border, and
+// padding. We add the HDS link visual treatment on top.
+// ------------------------------------------------------------
+
+.usa-button--unstyled {
+  @include hds-link-appearance;
+
+  &:visited {
+    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    @include hds-link-hover;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+    text-decoration-line: none;
     opacity: 1;
   }
 }
@@ -1211,12 +1241,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ------------------------------------------------------------
 
 .usa-link {
-  color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-  text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
-  text-decoration-line: underline;
-  text-decoration-style: dotted;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  @include hds-link-appearance;
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
@@ -1224,8 +1249,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
   &:hover,
   &:active {
-    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-    text-decoration-style: solid;
+    @include hds-link-hover;
   }
 
   &:focus {
@@ -1259,9 +1283,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
   content: '\a0';
   display: inline !important;
-  mask-image:
-    url('../assets/img/hds-icons/arrow-line-diagonal.svg'),
-    linear-gradient(transparent, transparent);
+  mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'), linear-gradient(transparent, transparent);
   mask-size: 0.75em;
   mask-position: center;
   mask-repeat: no-repeat;
