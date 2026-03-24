@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-23
+Last updated: 2026-03-24
 
 ## Package Overview
 
@@ -12,7 +12,7 @@ Last updated: 2026-03-23
 | Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0`                  |
 | Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`                   |
 | Minification | `gulp-clean-css`, `gulp-rename`                              |
-| Testing      | Vitest 4.x, `@storybook/addon-vitest`, Playwright (Chromium) |
+| Testing      | Vitest 4.x, Playwright (Chromium)                            |
 | Storybook    | v10, Vite, HTML template literals                            |
 
 ## File Structure
@@ -21,6 +21,8 @@ Last updated: 2026-03-23
 hds-core/
 ├── .devcontainer/               # Codespace config
 ├── .github/                     # Issue/discussion templates
+├── .vscode/
+│   └── tasks.json               # Auto-starts npm run dev on folder open
 ├── .storybook/
 │   ├── main.js
 │   ├── preview.js
@@ -207,13 +209,16 @@ Each section has detailed code comments covering palette behavior, hover/disable
 
 ## Build Pipeline
 
-| Task            | Purpose                                     |
-| --------------- | ------------------------------------------- |
-| `npm run build` | Full build: assets → Sass → sprite → minify |
-| `npm run watch` | Recompile on Sass changes                   |
-| `npm run init`  | Refresh assets without recompiling Sass     |
+| Task            | Purpose                                              |
+| --------------- | ---------------------------------------------------- |
+| `npm run dev`   | Gulp watch + Storybook (day-to-day development)      |
+| `npm run build` | Full build: assets → Sass → sprite → minify          |
+| `npm run watch` | Recompile Sass on changes (also runs inside `dev`)   |
+| `npm run init`  | Refresh assets without recompiling Sass              |
 
 `build` handles everything — asset copying, Sass compilation, sprite generation, and CSS minification. No need to run `init` first.
+
+`dev` runs two processes via `concurrently`: Gulp watch (Sass → CSS on save) and Storybook. The full development loop: edit `src/scss/*.scss` → Gulp recompiles to `dist/css/styles.css` → Storybook hot-reloads the CSS in the browser.
 
 ## Testing
 
@@ -222,14 +227,11 @@ Each section has detailed code comments covering palette behavior, hover/disable
 | `npm test`           | Run all tests once (CI mode) |
 | `npm run test:watch` | Watch mode (development)     |
 
-Vitest runs every exported story in headless Chromium. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes, including hover and focus-visible states for interactive components. See `stories/helpers/paletteTests.js` for the helper pattern and DOCUMENTATION.md for story conventions.
+Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes, including hover and focus-visible states for interactive components. See `stories/helpers/paletteTests.js` for the helper pattern and DOCUMENTATION.md for story conventions.
 
-**Codespaces:** Playwright binaries don't persist across rebuilds. Run once per new Codespace:
+**Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Gulp output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
 
-```bash
-npx playwright install chromium
-npx playwright install-deps chromium
-```
+**Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
 
 ## Storybook
 
@@ -242,22 +244,32 @@ npx playwright install-deps chromium
 **Addons:**
 
 - `@storybook/addon-docs` — documentation pages + remark-gfm
-- `@storybook/addon-a11y` — accessibility checks in UI panel and Vitest
-- `@storybook/addon-vitest` — test integration
+- `@storybook/addon-a11y` — per-story accessibility checks in UI panel, axe-core checks in Vitest
 - `storybook-addon-pseudo-states` — hover/focus/active simulation
+
+**Server flags:** `--no-open` (devcontainer port forwarding handles the browser tab) and `--ci` (skips interactive prompts — auto-selects next port if 6006 is occupied, prevents the process from hanging in unattended environments).
 
 **Codespaces:** Vite file watching requires polling mode. Configured in `main.js`.
 
 See DOCUMENTATION.md for all docs conventions.
 
+### Codespaces
+
+The devcontainer (`.devcontainer/devcontainer.json`) automates the full setup:
+
+- **`postCreateCommand`**: Runs once when the Codespace is created or rebuilt. Installs npm dependencies, runs a full build, and installs Playwright's Chromium binary and OS dependencies.
+- **Auto-start task** (`.vscode/tasks.json`): Runs `npm run dev` every time the Codespace opens, in a dedicated terminal tab labeled "HDS Core Dev." The first time a user opens the Codespace, VS Code will prompt "This workspace has tasks that run automatically. Allow?" — they need to click Allow once.
+
+The intended Codespace experience: open → wait for build → Storybook auto-opens in browser → dedicated terminal shows Gulp + Storybook output → default terminal is free for commands.
+
 ### Sections with CSS but no stories yet
 
 | Section | Component                  | Notes                                |
 | ------- | -------------------------- | ------------------------------------ |
-| §1      | Navigation (header/footer) | Complex — Phase 2 candidate          |
-| §2      | Banner                     | Needs USWDS JS for expand/collapse   |
+| §1      | Navigation (header/footer) | Complex — Phase 2                    |
+| §2      | Banner                     | Uses USWDS JS for expand/collapse    |
 | §5      | Forms                      | Light palettes only — dark deferred  |
-| §6      | In-Page Navigation         | Needs USWDS JS for scroll spy        |
+| §6      | In-Page Navigation         | Uses USWDS JS for scroll spy         |
 | §9      | Alerts                     | Pure USWDS, not in HDS Figma         |
 | §10     | Grid Utilities             | Responsive reverse, horizontal lists |
 

@@ -44,31 +44,24 @@ git clone https://github.com/nasa/hds-core.git
 cd hds-core
 npm install
 npm run build
+npm run dev
 ```
 
-### Verify
-
-```bash
-npm run storybook
-```
-
-Storybook opens at `localhost:6006`. If you see the HDS Core overview page with styled components, everything is working.
+Storybook opens at `localhost:6006`. Sass changes recompile automatically.
 
 ## GitHub Codespaces
 
 HDS Core includes a devcontainer that fully automates the development environment. When you open the repo in a [GitHub Codespace](https://github.com/features/codespaces):
 
 1. Node.js, extensions, and editor settings are configured automatically
-2. `npm install` and `npm run build` run as part of container setup
-3. Port 6006 is pre-configured for Storybook
+2. `npm install`, `npm run build`, and Playwright are set up as part of container creation
+3. Storybook starts automatically and opens in your browser
 
-Once the Codespace is ready, the only step is:
+No terminal commands are needed — just wait for the Codespace to finish building. The first time you open it, VS Code will prompt "This workspace has tasks that run automatically. Allow?" — click **Allow**.
 
-```bash
-npm run storybook
-```
+A dedicated terminal tab labeled "HDS Core Dev" shows Storybook and Sass build output. The default terminal is free for other commands.
 
-Storybook opens automatically in your browser. If you encounter issues with a fresh Codespace, please [open an issue](https://github.com/nasa/hds-core/issues).
+If you encounter issues with a fresh Codespace, please [open an issue](https://github.com/nasa/hds-core/issues).
 
 ## Usage
 
@@ -105,8 +98,8 @@ Storybook is the primary documentation for HDS Core. It includes:
 ### Running Storybook locally
 
 ```bash
-npm run build         # Build CSS before Storybook can load styles
-npm run storybook     # Opens at localhost:6006
+npm run build         # Build CSS (first time only, or after pulling changes)
+npm run dev           # Starts Storybook + Sass watch
 ```
 
 Use the **palette switcher** (paintbrush icon in the toolbar) to test components across all six HDS palettes.
@@ -126,15 +119,18 @@ Install `http-server` globally if you don't have it: `npm install -g http-server
 
 ### Commands
 
-| Command                   | Purpose                                                |
-| ------------------------- | ------------------------------------------------------ |
-| `npm run build`           | Full production build — assets, Sass, sprite, minify   |
-| `npm run storybook`       | Start Storybook at localhost:6006                      |
-| `npm run build-storybook` | Static Storybook build to `storybook-static/`          |
-| `npm run watch`           | Recompile on Sass file changes                         |
-| `npm run init`            | Copy assets and generate sprite without compiling Sass |
-| `npm run format`          | Format source files with Prettier                      |
-| `npm run format:check`    | Check formatting without writing changes               |
+| Command                   | Purpose                                                      |
+| ------------------------- | ------------------------------------------------------------ |
+| `npm run dev`             | Sass watch + Storybook — day-to-day development              |
+| `npm run build`           | Full production build — assets, Sass, sprite, minify         |
+| `npm run storybook`       | Start Storybook only (no Sass watch)                         |
+| `npm run build-storybook` | Static Storybook build to `storybook-static/`                |
+| `npm run watch`           | Sass watch only (also runs inside `dev`)                     |
+| `npm run init`            | Copy assets and generate sprite without compiling Sass       |
+| `npm test`                | Run all tests once (CI)                                      |
+| `npm run test:watch`      | Run tests in watch mode                                      |
+| `npm run format`          | Format source files with Prettier                            |
+| `npm run format:check`    | Check formatting without writing changes                     |
 
 `init` is available if you need to refresh USWDS or HDS assets (fonts, images, icons) without a full recompile. For most workflows, `build` is all you need — it handles asset copying, Sass compilation, sprite generation, and CSS minification in one step.
 
