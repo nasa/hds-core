@@ -12,6 +12,7 @@ These components and foundations are fully styled and documented:
 
 | Component                                                                     | USWDS equivalent  |
 | ----------------------------------------------------------------------------- | ----------------- |
+| [Accordion](?path=/docs/components-accordion--guidance)                       | `.usa-accordion`  |
 | [Breadcrumb](?path=/docs/components-breadcrumb--guidance)                     | `.usa-breadcrumb` |
 | [Button](?path=/docs/components-button--guidance) (CTA, Secondary, Outline)   | `.usa-button`     |
 | [Icon Button](?path=/docs/components-icon-button--guidance)                   | —                 |
@@ -21,44 +22,42 @@ These components and foundations are fully styled and documented:
 | [Primary Arrow Button](?path=/docs/components-primary-arrow-button--guidance) | —                 |
 | [Site Alert](?path=/docs/components-site-alert--guidance)                     | `.usa-site-alert` |
 
-Foundations: [Color](?path=/docs/foundations-color--docs) · [Color Palettes](?path=/docs/foundations-color-palettes--docs) · [Grid](?path=/docs/foundations-grid--docs) · [Icons](?path=/docs/foundations-icons--docs) · [Spacing](?path=/docs/foundations-spacing--docs) · [Typography](?path=/docs/foundations-typography--docs)
+Foundations: [Color](?path=/docs/foundations-color--docs) · [Color Palettes](?path=/docs/foundations-color-palettes--docs) · [Data Visualization](?path=/docs/foundations-data-visualization--docs) · [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) · [Grid](?path=/docs/foundations-grid--docs) · [Icons](?path=/docs/foundations-icons--docs) · [Spacing](?path=/docs/foundations-spacing--docs) · [Typography](?path=/docs/foundations-typography--docs)
 
 ## Coming in v1.0
 
-These components are styled in HDS Core CSS and are being documented and tested for the v1.0 release:
+These components are styled or being built for the v1.0 release:
 
-| Component           | USWDS equivalent                         | Notes                                    |
-| ------------------- | ---------------------------------------- | ---------------------------------------- |
-| Accordion           | `.usa-accordion`                         |                                          |
-| Banner (government) | `.usa-banner`                            | "An official website" compliance bar     |
-| Blockquote          | —                                        | Bare element styling within `.usa-prose` |
-| Checkbox            | `.usa-checkbox`                          |                                          |
-| Forms               | `.usa-form`, `.usa-input`, `.usa-select` | Light palettes first                     |
-| Grid utilities      | `.usa-grid`                              | Responsive reverse, horizontal lists     |
-| In-page navigation  | `.usa-in-page-nav`                       |                                          |
-| Navigation          | `.usa-header`, `.usa-footer`             | Header, footer, and menus                |
-| Radio button        | `.usa-radio`                             |                                          |
-| Table               | `.usa-table`                             | Styled within `.usa-prose`               |
-| Tag                 | `.usa-tag`                               |                                          |
+| Component          | USWDS equivalent                         | Notes                                         |
+| ------------------ | ---------------------------------------- | --------------------------------------------- |
+| Checkbox           | `.usa-checkbox`                          |                                               |
+| Chip               | —                                        | CSS-only shell; dismiss behavior post-v1.0    |
+| Forms              | `.usa-form`, `.usa-input`, `.usa-select` | Light palettes first, dark palettes to follow |
+| In-page navigation | `.usa-in-page-nav`                       | Sidebar scroll spy for long-form content      |
+| Radio button       | `.usa-radio`                             |                                               |
+| Table              | `.usa-table`                             | Styled within `.usa-prose`                    |
+| Tag                | `.usa-tag`                               | Content tags and topic tags                   |
 
 ## Planned for future releases
 
-After v1.0, HDS Core will expand to cover more of the Horizon Design System. Planned additions include:
+After v1.0, HDS Core will expand to cover more of the Horizon Design System.
 
-**Cards & layout** — Cards, image with caption, gallery thumbnails
+**Navigation** — Header, footer, secondary navigation bar, and menu variants. Top priority for the first post-v1.0 release.
 
-**Interactive components** — Dropdown menus, modals, tooltips, tabs, date picker, search
+**Cards & layout** — Cards, blockquotes, image with caption, gallery thumbnails, grid utilities
 
-**Status & feedback** — Alerts, status indicators, loaders, steppers
+**Interactive components** — Dropdown menus, modals, tooltips, date picker, search, table of contents
+
+**Status & feedback** — Banner (government compliance bar), alerts, status indicators, loaders, steppers
 
 **Media** — Audio player, video player, carousels
 
-**Extended form elements** — File upload, sliders, toggles, chips
+**Extended form elements** — File upload, sliders, toggles
 
-**Data visualization** — Chart color palettes and accessibility guidance
+**Data visualization** — Chart color palettes and accessibility guidance are already available in Foundations. Future releases may add chart component wrappers.
 
-These components require JavaScript and/or additional design work beyond the current CSS-only scope. Priorities will be based on community input — check the [GitHub Discussions](https://github.com/nasa/hds-core/discussions) to see what's being considered and to share your needs.
+These components require JavaScript, additional design work, or creative director review beyond the current scope. Priorities will be based on community input — check the [GitHub Discussions](https://github.com/nasa/hds-core/discussions) to see what's being considered and to share your needs.
 
 ## Additional components
 
-All USWDS components work with HDS Core theming out of the box — colors, typography, and spacing apply automatically. Components listed above will receive dedicated HDS styling and documentation. USWDS components not listed here (button groups, collections, etc.) continue to work with the default USWDS appearance, themed to HDS.
+All USWDS components work with HDS Core theming out of the box — colors, typography, and spacing apply automatically. Components listed above will receive dedicated HDS styling and documentation. USWDS components not listed here (button groups, collections, side navigation, etc.) continue to work with the default USWDS appearance, themed to HDS.
