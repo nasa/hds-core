@@ -303,7 +303,7 @@
 // Storybook — may need per-palette tuning for contrast.
 // ------------------------------------------------------------
 
-.usa-button:focus {
+.usa-button:focus:not(:disabled):not([aria-disabled='true']) {
   outline: 2px dashed $hds-color-carbon-30;
   outline-offset: 2px;
 }
@@ -353,6 +353,7 @@
 .usa-button[aria-disabled='true'] {
   background-color: $hds-color-carbon-20;
   color: $hds-color-spacesuit-white;
+  cursor: not-allowed;
   opacity: 1;
 }
 
@@ -442,6 +443,7 @@
 
 .usa-button--unstyled {
   @include hds-link-appearance;
+  background-color: transparent;
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
@@ -450,10 +452,12 @@
   &:hover:not(:disabled):not([aria-disabled='true']),
   &:active:not(:disabled):not([aria-disabled='true']) {
     @include hds-link-hover;
+    background-color: transparent;
   }
 
   &:disabled,
   &[aria-disabled='true'] {
+    background-color: transparent;
     color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
     text-decoration-line: none;
     opacity: 1;
