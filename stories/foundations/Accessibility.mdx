@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Accessibility
 
-HDS is designed to meet **WCAG 2.1 AAA** standards. All text and background combinations maintain a contrast ratio of at least **7.0:1**. See [Color](?path=/docs/foundations-color--docs) for details on how HDS colors are selected with accessibility in mind.
+HDS is designed to meet **WCAG 2.1 AA** standards, with **AAA (7.0:1 contrast)** as a goal. All text and background combinations in HDS palettes meet AA requirements. AAA compliance is actively tracked and improved — see [Color](?path=/docs/foundations-color--docs) for details on how HDS colors are selected with accessibility in mind.
 
 The best approach to accessibility is to consider it throughout the entire process — from stakeholder discussions through design, development, testing, and distribution — rather than attempting to address it after the build is complete.
 
@@ -12,9 +12,10 @@ The best approach to accessibility is to consider it throughout the entire proce
 
 HDS Core's color palettes, typography, and component styles are built with accessibility in mind. When you use HDS components as documented, you get:
 
-- **AAA color contrast** across all six palettes
+- **AA color contrast** across all six palettes (AAA in most combinations)
 - **Focus indicators** on all interactive elements (visible on keyboard navigation)
 - **Semantic HTML** in all recommended component markup
+- **Automated accessibility testing** on every component story via [axe-core](https://www.deque.com/axe/) — results are visible in the Accessibility panel when browsing Storybook
 
 These are automatic — you don't need to configure them.
 
@@ -75,13 +76,25 @@ Media content should provide:
 
 ## Testing
 
-Accessibility testing should include:
+### Built-in tools in Storybook
 
-- **Automated scanning** — tools like [axe](https://www.deque.com/axe/) or [Lighthouse](https://developer.chrome.com/docs/lighthouse/) catch common issues (contrast, missing alt text, ARIA errors)
+Storybook includes tools to help verify accessibility as you work:
+
+- **Accessibility panel** — click the 'Accessibility' tab in the addons panel below any story to see axe-core results (violations, passes, and items needing manual review)
+- **Vision simulator** — use the 👁 button in the toolbar to simulate color blindness and other vision impairments
+- **Palette switcher** — use the 🖌 button in the toolbar to preview any component on all six HDS backgrounds and confirm it remains readable
+
+### Automated testing in HDS Core
+
+Every component story is automatically checked against WCAG 2.1 A and AA rules via axe-core. These checks run in CI and catch regressions in color contrast, ARIA attributes, keyboard access, and semantic structure. Palette-aware components are additionally tested across all six HDS color palettes — including hover and focus states for interactive elements.
+
+### Testing your own implementation
+
+Automated tools catch up to **57% of WCAG issues** ([source](https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/)). Manual testing is essential for the rest:
+
 - **Keyboard testing** — navigate your entire page using only the keyboard (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`)
 - **Screen reader testing** — test with at least one screen reader (NVDA on Windows, VoiceOver on macOS) to verify heading hierarchy, link announcements, and form labels
-
-Automated tools catch roughly 30–40% of accessibility issues. Manual keyboard and screen reader testing is essential for the rest.
+- **Automated scanning** — tools like [axe](https://www.deque.com/axe/) or [Lighthouse](https://developer.chrome.com/docs/lighthouse/) catch common issues (contrast, missing alt text, ARIA errors)
 
 ## Resources
 
