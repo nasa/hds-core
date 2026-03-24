@@ -17,13 +17,13 @@
 // generates the correct markup for each page state.
 // ============================================================
 
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
 export default {
   title: 'Components/Pagination',
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+// --- Helpers (used in multiple stories) ---
 
 const label = (text) => `<span class="hds-label">${text}</span>`;
 
@@ -203,9 +203,7 @@ function buildSlots(total, current, bounded = true) {
   return slots;
 }
 
-// ---------------------------------------------------------------------------
-// Reference stories — Bounded
-// ---------------------------------------------------------------------------
+// --- Guidance embeds - Bounded (hidden from sidebar) ---
 
 export const BoundedFirstPage = {
   name: 'Bounded — first page',
@@ -243,9 +241,7 @@ export const BoundedMinimal = {
   render: () => pagination({ totalPages: 2, currentPage: 1 }),
 };
 
-// ---------------------------------------------------------------------------
-// Reference stories — Unbounded
-// ---------------------------------------------------------------------------
+// --- Guidance embeds - Unbounded (hidden from sidebar) ---
 
 export const UnboundedNearStart = {
   name: 'Unbounded — near start',
@@ -259,9 +255,7 @@ export const UnboundedMiddle = {
   render: () => pagination({ totalPages: 100, currentPage: 10, unbounded: true }),
 };
 
-// ---------------------------------------------------------------------------
-// Reference stories — Simplified
-// ---------------------------------------------------------------------------
+// --- Guidance embeds  - Simplified (hidden from sidebar) ---
 
 export const Simplified = {
   name: 'Simplified',
@@ -281,9 +275,30 @@ export const SimplifiedLastPage = {
   render: () => pagination({ totalPages: 5, currentPage: 5, simplified: true }),
 };
 
-// ---------------------------------------------------------------------------
-// Playground
-// ---------------------------------------------------------------------------
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(BoundedFirstPage.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(BoundedFirstPage.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(BoundedFirstPage.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   args: {

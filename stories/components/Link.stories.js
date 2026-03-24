@@ -1,10 +1,19 @@
+// ============================================================
+// Link Stories — @nasa/hds-core
+// Covers §13 (USWDS .usa-link override, Tier 1 + .hds-link--internal, Tier 3)
+//
+// Sidebar structure:
+//   Guidance   — Link.mdx
+//   Playground — interactive story with controls
+// ============================================================
+
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+
 export default {
   title: 'Components/Link',
 };
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+// --- Helpers (used in multiple stories) ---
 
 const label = (text) => `<span class="hds-label">${text}</span>`;
 
@@ -21,9 +30,7 @@ const gridItem = (labelText, content) => `
   </div>
 `;
 
-// ---------------------------------------------------------------------------
-// Reference stories (hidden from sidebar, embedded in Guidance via Canvas)
-// ---------------------------------------------------------------------------
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const InternalLink = {
   name: 'Internal link',
@@ -128,9 +135,30 @@ export const AllVariants = {
     ]),
 };
 
-// ---------------------------------------------------------------------------
-// Playground
-// ---------------------------------------------------------------------------
+// --- Palette Accessibility tests (hidden from sidebar) ---
+
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllVariants.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllVariants.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(AllVariants.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
 
 export const Playground = {
   args: {
