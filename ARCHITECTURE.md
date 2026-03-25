@@ -6,14 +6,14 @@ Last updated: 2026-03-24
 
 ## Package Overview
 
-| Key          | Value                                                        |
-| ------------ | ------------------------------------------------------------ |
-| Name         | `@nasa/hds-core`                                             |
-| Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0`                  |
-| Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`                   |
-| Minification | `gulp-clean-css`, `gulp-rename`                              |
-| Testing      | Vitest 4.x, Playwright (Chromium)                            |
-| Storybook    | v10, Vite, HTML template literals                            |
+| Key          | Value                                       |
+| ------------ | ------------------------------------------- |
+| Name         | `@nasa/hds-core`                            |
+| Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0` |
+| Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`  |
+| Minification | `gulp-clean-css`, `gulp-rename`             |
+| Testing      | Vitest 4.x, Playwright (Chromium)           |
+| Storybook    | v10, Vite, HTML template literals           |
 
 ## File Structure
 
@@ -194,6 +194,7 @@ Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.
 | §13     | Links                                       | 1+3  |
 | §14     | Intro Text                                  | 1    |
 | §15     | Site Alert                                  | 1    |
+| §16     | Table                                       | 1    |
 
 Each section has detailed code comments covering palette behavior, hover/disabled states, and USWDS override notes. See DESIGN.md for design rationale.
 
@@ -209,12 +210,12 @@ Each section has detailed code comments covering palette behavior, hover/disable
 
 ## Build Pipeline
 
-| Task            | Purpose                                              |
-| --------------- | ---------------------------------------------------- |
-| `npm run dev`   | Gulp watch + Storybook (day-to-day development)      |
-| `npm run build` | Full build: assets → Sass → sprite → minify          |
-| `npm run watch` | Recompile Sass on changes (also runs inside `dev`)   |
-| `npm run init`  | Refresh assets without recompiling Sass              |
+| Task            | Purpose                                            |
+| --------------- | -------------------------------------------------- |
+| `npm run dev`   | Gulp watch + Storybook (day-to-day development)    |
+| `npm run build` | Full build: assets → Sass → sprite → minify        |
+| `npm run watch` | Recompile Sass on changes (also runs inside `dev`) |
+| `npm run init`  | Refresh assets without recompiling Sass            |
 
 `build` handles everything — asset copying, Sass compilation, sprite generation, and CSS minification. No need to run `init` first.
 
@@ -284,6 +285,10 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Extract `_hds-mixins.scss` from `_hds-custom-styles.scss` §2
+- [ ] Table: test and fix USWDS stacked mobile variants with HDS overrides
+- [ ] Table: test links and inline icon buttons in table cells
+- [ ] Table: palette-aware sorted column colors on midtone/blue palettes (creative review)
+- [ ] Audit HDS classes and Guidance pages for USWDS utility duplication
 
 ### Pre-1.0 Verification
 

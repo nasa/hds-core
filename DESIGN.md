@@ -20,8 +20,7 @@ Last updated: 2026-03-23
 
 ### Primary / Secondary Swap
 
-**USWDS default:** `primary` = blue, `secondary` = red.
-**HDS Core:** `primary` = NASA Red, `secondary` = NASA Blue.
+**USWDS default:** `primary` = blue, `secondary` = red. **HDS Core:** `primary` = NASA Red, `secondary` = NASA Blue.
 
 This swap is defined in the HDS Core Proposal. It means `.usa-button` renders NASA Red (CTA) and `.usa-button--secondary` renders NASA Blue (on-page action).
 
@@ -37,25 +36,25 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 ### Palette Names
 
-| Original | HDS Core | Background |
-| --- | --- | --- |
-| Palette one | `white` | Spacesuit White (#FFFFFF) — default |
-| Palette two | `light` | Carbon 05 (#F6F6F6) |
-| Palette three | `midtone` | Carbon 20 (#D1D1D1) |
-| Palette four | `dark` | Carbon 90 (#17171B) |
-| Palette five | `blue` | NASA Blue Shade (#0B3D91) |
-| Palette six | `black` | Carbon Black (#000000) |
+| Original      | HDS Core  | Background                          |
+| ------------- | --------- | ----------------------------------- |
+| Palette one   | `white`   | Spacesuit White (#FFFFFF) — default |
+| Palette two   | `light`   | Carbon 05 (#F6F6F6)                 |
+| Palette three | `midtone` | Carbon 20 (#D1D1D1)                 |
+| Palette four  | `dark`    | Carbon 90 (#17171B)                 |
+| Palette five  | `blue`    | NASA Blue Shade (#0B3D91)           |
+| Palette six   | `black`   | Carbon Black (#000000)              |
 
 ### Consolidated Palette Variables
 
-**Original HDS:** ~30 individual color assignments per palette.
-**HDS Core:** 23+ semantic variables. Elements sharing the same color are combined (e.g., overline + metadata + caption → `muted`, heading + primary button text → `heading`).
+**Original HDS:** ~30 individual color assignments per palette. **HDS Core:** 23+ semantic variables. Elements sharing the same color are combined (e.g., overline + metadata + caption → `muted`, heading + primary button text → `heading`).
 
 ### Palette-Specific Overrides
 
 White and light share a light scheme. Dark and black share a dark scheme. Midtone and blue override specific values:
 
 **Midtone** overrides from light scheme:
+
 - `text` → Carbon Black (was Carbon 90) for higher contrast on gray
 - `muted` → Carbon 80 (was Carbon 60)
 - `border` → Carbon 40 (was Carbon 20)
@@ -64,23 +63,23 @@ White and light share a light scheme. Dark and black share a dark scheme. Midton
 **Blue** is fully custom (doesn't use either shared scheme).
 
 **Dark scheme** separates link underline and arrow colors per the HDS Core Proposal:
+
 - `link-underline` → Carbon 30
 - `link-arrow` → Carbon 40
 
 ### Component Organization
 
-**Original HDS:** Separate "Elements" (atomic) and "Components" (composed) categories.
-**HDS Core:** Flattened into a single "Components" category, mirroring USWDS structure.
+**Original HDS:** Separate "Elements" (atomic) and "Components" (composed) categories. **HDS Core:** Flattened into a single "Components" category, mirroring USWDS structure.
 
 ## Typography
 
 ### Font Family Slot Mapping
 
-| HDS Font | USWDS Slot | Role Tokens |
-| --- | --- | --- |
-| Public Sans | `sans` | `body` |
-| Inter | `serif` | `heading`, `ui` |
-| DM Mono | `mono` | `code`, `alt` |
+| HDS Font    | USWDS Slot | Role Tokens     |
+| ----------- | ---------- | --------------- |
+| Public Sans | `sans`     | `body`          |
+| Inter       | `serif`    | `heading`, `ui` |
+| DM Mono     | `mono`     | `code`, `alt`   |
 
 Note: `family("serif")` returns Inter (a sans-serif font) — a USWDS constraint. Always use role tokens (`family("heading")`) not type tokens.
 
@@ -88,14 +87,14 @@ Note: `family("serif")` returns Inter (a sans-serif font) — a USWDS constraint
 
 Per-element values per the HDS Core Proposal (USWDS only supports one line-height for all headings):
 
-| Element | Line-Height | Letterspacing | Weight |
-| --- | --- | --- | --- |
-| H1 | 1 (100%) | -1.5px | 700 bold |
-| H2 | 1.1 (110%) | -1px | 700 bold |
-| H3 | 1.2 (120%) | -0.5px | 700 bold |
-| H4 | 1.3 (130%) | -0.5px | 600 semi |
-| H5 | 1.2 (120%) | -0.5px | 600 semi |
-| H6 | 1.3 (130%) | -0.25px | 600 semi |
+| Element | Line-Height | Letterspacing | Weight   |
+| ------- | ----------- | ------------- | -------- |
+| H1      | 1 (100%)    | -1.5px        | 700 bold |
+| H2      | 1.1 (110%)  | -1px          | 700 bold |
+| H3      | 1.2 (120%)  | -0.5px        | 700 bold |
+| H4      | 1.3 (130%)  | -0.5px        | 600 semi |
+| H5      | 1.2 (120%)  | -0.5px        | 600 semi |
+| H6      | 1.3 (130%)  | -0.25px       | 600 semi |
 
 ### Body Line-Height
 
@@ -123,8 +122,7 @@ All three fonts use the same USWDS cap-height, which disables optical normalizat
 
 ### Underline Style
 
-**Figma:** Dashed, 1px, "2, 3" dash pattern.
-**HDS Core:** `text-decoration-style: dotted`.
+**Figma:** Dashed, 1px, "2, 3" dash pattern. **HDS Core:** `text-decoration-style: dotted`.
 
 CSS `dashed` creates long dashes that look dramatically different from Figma. `dotted` is visually closer to the Figma short-dash pattern.
 
@@ -148,13 +146,13 @@ HDS diagonal arrow (`arrow-line-diagonal.svg`) replaces USWDS launch icon. Arrow
 
 Red = navigates away. Blue = stays on page.
 
-| Role | Color | Meaning |
-| --- | --- | --- |
-| `--cta` | NASA Red | Navigates to new page |
-| `--secondary` | NASA Blue filled | On-page action |
-| `--outline` | NASA Blue border | Lower emphasis on-page |
-| `--utility` | Neutral | UI controls |
-| `--social` | Gray | Social media |
+| Role          | Color            | Meaning                |
+| ------------- | ---------------- | ---------------------- |
+| `--cta`       | NASA Red         | Navigates to new page  |
+| `--secondary` | NASA Blue filled | On-page action         |
+| `--outline`   | NASA Blue border | Lower emphasis on-page |
+| `--utility`   | Neutral          | UI controls            |
+| `--social`    | Gray             | Social media           |
 
 ### USWDS ↔ HDS Button Mapping
 
@@ -191,21 +189,20 @@ HDS outline buttons on dark backgrounds keep the **NASA Blue** border (not monot
 
 ### Glyph + CSS Container Architecture
 
-**Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in).
-**HDS Core:** Two layers: single-color SVG glyph (`currentColor`) + CSS-styled circle container. Icons automatically adapt to palettes.
+**Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in). **HDS Core:** Two layers: single-color SVG glyph (`currentColor`) + CSS-styled circle container. Icons automatically adapt to palettes.
 
 ### Utility Circle States
 
-| State | Property | Light | Dark |
-| --- | --- | --- | --- |
-| Default | Fill | Spacesuit White | Carbon Black |
-| Default | Stroke | Carbon 20 | Carbon 60 |
-| Default | Icon | Carbon Black | Spacesuit White |
-| Hover | Fill | Carbon 05 | Carbon Black (unchanged) |
-| Hover | Stroke | Carbon 40 | Carbon 05 |
-| Hover | Icon | Carbon Black (unchanged) | Spacesuit White (unchanged) |
-| Disabled | Stroke | Carbon 05 (fades toward bg) | Carbon 80 (fades toward bg) |
-| Disabled | Icon | Carbon 30 (muted) | Carbon 60 (muted) |
+| State    | Property | Light                       | Dark                        |
+| -------- | -------- | --------------------------- | --------------------------- |
+| Default  | Fill     | Spacesuit White             | Carbon Black                |
+| Default  | Stroke   | Carbon 20                   | Carbon 60                   |
+| Default  | Icon     | Carbon Black                | Spacesuit White             |
+| Hover    | Fill     | Carbon 05                   | Carbon Black (unchanged)    |
+| Hover    | Stroke   | Carbon 40                   | Carbon 05                   |
+| Hover    | Icon     | Carbon Black (unchanged)    | Spacesuit White (unchanged) |
+| Disabled | Stroke   | Carbon 05 (fades toward bg) | Carbon 80 (fades toward bg) |
+| Disabled | Icon     | Carbon 30 (muted)           | Carbon 60 (muted)           |
 
 Disabled treatment is color-based (not opacity-based), consistent with all HDS button disabled states.
 
@@ -215,21 +212,20 @@ Note: Figma shows Carbon 30 for the default light stroke, but the HDS Core Propo
 
 Figma defines 6 icon button sizes. HDS Core currently implements 3:
 
-| Figma | Container | HDS Core | CSS size | Status |
-| --- | --- | --- | --- | --- |
-| XS | 16px | — | — | Missing |
-| S | 20px | `--sm` | 1.2em (~19px) | Close |
-| M | 24px | — | — | Missing |
-| L | 28px | — | — | Missing |
-| XL | 32px | default | 2em (32px) | ✅ |
-| XXL | 36px | `--lg` | 2.5em (40px) | Wrong — 40 ≠ 36 |
+| Figma | Container | HDS Core | CSS size      | Status          |
+| ----- | --------- | -------- | ------------- | --------------- |
+| XS    | 16px      | —        | —             | Missing         |
+| S     | 20px      | `--sm`   | 1.2em (~19px) | Close           |
+| M     | 24px      | —        | —             | Missing         |
+| L     | 28px      | —        | —             | Missing         |
+| XL    | 32px      | default  | 2em (32px)    | ✅              |
+| XXL   | 36px      | `--lg`   | 2.5em (40px)  | Wrong — 40 ≠ 36 |
 
 SVG icons updated from 20×20px to 24×24px. Figma's glyph-to-container ratio assumes 20×20px originals — CSS sizing needs adjustment. See GitHub Issue #13.
 
 ### Primary Arrow Button
 
-**Original HDS:** Uses `Primary-Arrow.svg`.
-**HDS Core:** CSS `::after` pseudo-element generates circle and line arrow. Arrow direction auto-swaps for external links — no SVG markup needed in HTML.
+**Original HDS:** Uses `Primary-Arrow.svg`. **HDS Core:** CSS `::after` pseudo-element generates circle and line arrow. Arrow direction auto-swaps for external links — no SVG markup needed in HTML.
 
 ### Fixed-Color Button Graphics
 
@@ -239,11 +235,11 @@ Seven graphics have colors baked in and don't respond to palettes (`interactive-
 
 1px dashed, palette-aware, `:focus-visible` only (keyboard navigation, not mouse clicks).
 
-| Property | Light palettes | Dark palettes |
-| --- | --- | --- |
-| Style | 1px dashed | 1px dashed |
-| Color | `--hds-palette-muted` | `--hds-palette-muted` |
-| Offset | 2px default (components may override) | Same |
+| Property | Light palettes                        | Dark palettes         |
+| -------- | ------------------------------------- | --------------------- |
+| Style    | 1px dashed                            | 1px dashed            |
+| Color    | `--hds-palette-muted`                 | `--hds-palette-muted` |
+| Offset   | 2px default (components may override) | Same                  |
 
 **Validated:** Focus ring contrast passes WCAG 2.4.11 (3:1 minimum for non-text UI) on all six palettes — all exceed 5:1.
 
@@ -253,8 +249,7 @@ Seven graphics have colors baked in and don't respond to palettes (`interactive-
 
 ### Current Page Indicator
 
-**USWDS:** Filled pill with `background-color: primary`.
-**HDS:** No background fill. 2px solid bottom bar, palette-aware heading color.
+**USWDS:** Filled pill with `background-color: primary`. **HDS:** No background fill. 2px solid bottom bar, palette-aware heading color.
 
 ### Page Number Typography
 
@@ -276,10 +271,10 @@ The HDS Figma spec includes a rows-per-page filter alongside pagination. Require
 
 ### Color Variants
 
-| Variant | Background | Text | Use |
-| --- | --- | --- | --- |
-| `--emergency` | NASA Red Shade (#B60109) | White | Lapse in appropriations, outages, critical safety |
-| `--info` | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements |
+| Variant       | Background                | Text  | Use                                               |
+| ------------- | ------------------------- | ----- | ------------------------------------------------- |
+| `--emergency` | NASA Red Shade (#B60109)  | White | Lapse in appropriations, outages, critical safety |
+| `--info`      | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements    |
 
 Link treatment on both follows the dark-background pattern: white text, Carbon 30 underline, Carbon 40 arrow.
 
@@ -298,6 +293,72 @@ USWDS offers `.usa-accordion--bordered`. HDS Figma shows only borderless accordi
 ### Hover State
 
 HDS Figma does not specify a hover state for the accordion heading row. Currently unimplemented — pending Figma research on full-row hover patterns.
+
+## Table
+
+### Surface Model
+
+Tables use a fixed background — white for light palettes, Carbon 90 for dark palettes — rather than inheriting the surrounding palette background. All Figma-confirmed colors (borders, sorted column tints, caption text) are designed against these two specific surfaces.
+
+Palette-aware table backgrounds (where the table adapts to the exact palette background color like Carbon 05 or Carbon 20) are deferred to Phase 2 pending creative director review.
+
+### Caption vs Title Naming
+
+HTML `<caption>` = HDS Figma "Title" + optional "Subtitle." It is the semantic accessible name of the table, positioned at top. HDS Figma "Caption" (small attribution text below the table) uses `.hds-caption` on a `<p>` outside `<table>`, linked via `aria-describedby` per HDS Figma accessibility guidance.
+
+### Sort Icon
+
+USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons (`arrow-filled-down.svg`, `arrow-filled-up.svg`) via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback.
+
+Sort icon colors: NASA Blue on light palettes, NASA Blue Tint on dark palettes. Unsorted columns show no icon by default; a gray (Carbon 40) icon appears on hover or keyboard focus.
+
+### Sorted Column Colors
+
+Light mode sorted column uses NASA Blue tints over white:
+
+| Row  | Figma CSS                          | Rendered hex | Token                               |
+| ---- | ---------------------------------- | ------------ | ----------------------------------- |
+| Even | `rgba(28, 103, 227, 0.03)` / white | `#F8FAFE`    | `$hds-color-table-sorted-bg`        |
+| Odd  | `rgba(28, 103, 227, 0.06)` / white | `#F2F6FE`    | `$hds-color-table-sorted-stripe-bg` |
+
+Dark mode sorted column uses white tints over Carbon 90:
+
+| Row  | Figma CSS                               | Rendered hex | Token                                    |
+| ---- | --------------------------------------- | ------------ | ---------------------------------------- |
+| Even | `rgba(255, 255, 255, 0.06)` / Carbon 90 | `#252528`    | `$hds-color-table-sorted-bg-dark`        |
+| Odd  | `rgba(255, 255, 255, 0.04)` / Carbon 90 | `#202024`    | `$hds-color-table-sorted-stripe-bg-dark` |
+
+⚠️ **Creative review needed:** Sorted column blue tints are designed for a white surface. On the light palette (Carbon 05 background), the even-row tint (`#F8FAFE`) is lighter than the page background (`#F6F6F6`), creating an inverted contrast effect. Midtone and blue palette sorted column colors are unspecified in Figma. See GitHub Discussion for details.
+
+### Striped Variant
+
+HDS Figma does not define a striped table variant. HDS Core overrides USWDS stripe defaults with Carbon scale colors (Carbon 05 light, Carbon 80 dark) so `.usa-table--striped` looks acceptable if used, but it is not an HDS-specified pattern.
+
+### Header States
+
+| State   | Light background     | Dark background  |
+| ------- | -------------------- | ---------------- |
+| Default | Carbon 10            | Carbon 80        |
+| Hover   | Carbon 05            | Carbon 70        |
+| Focus   | 1px dashed Carbon 60 | 1px dashed White |
+
+### Body Typography
+
+| Element          | Font        | Size  | Weight   | Notes                                   |
+| ---------------- | ----------- | ----- | -------- | --------------------------------------- |
+| Header cell      | Inter       | 14px  | Semibold | -0.25px letterspacing                   |
+| Body cell        | Public Sans | 14px  | Regular  | `font-feature-settings: 'tnum', 'lnum'` |
+| Caption title    | Inter       | ~28px | Bold     | Closest USWDS token to Figma 29px       |
+| Caption subtitle | Inter       | 14px  | Regular  | Carbon 60 (light), Carbon 40 (dark)     |
+
+### Deferred to Phase 2
+
+- Mobile text sizing (small vs M-XL Figma variants)
+- Mobile stacked variants (`.usa-table--stacked`, `.usa-table--stacked-header`) — untested with HDS overrides
+- Palette-aware table backgrounds
+- Midtone/blue palette sorted column colors
+- Links and inline icon buttons in table cells (untested)
+- Advanced features: tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column
 
 ## System Behavior
 
