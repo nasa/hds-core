@@ -1,0 +1,92 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as TableStories from './Table.stories';
+
+<Meta title="Components/Table/Guidance" />
+
+# Table
+
+A table shows information in columns and rows. Uses standard USWDS [table markup](https://designsystem.digital.gov/components/table/) with `.usa-table`.
+
+<Canvas of={TableStories.Default} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+## Variants
+
+### Caption with subtitle
+
+The `<caption>` element serves as the table's title and accessible name. Wrap the title in `<strong>` and add a `<span>` for an optional subtitle. Both are visible to all users.
+
+Attribution or source text goes below the table using the `.hds-caption` class, linked via `aria-describedby`.
+
+<Canvas of={TableStories.CaptionSubtitle} />
+
+<Note type="uswds">
+  USWDS styles `<caption>` as a small bold label. HDS styles it as a heading with an optional subtitle line. The markup is the same — only the visual treatment differs.
+</Note>
+
+### Sortable
+
+Add `data-sortable` to any sortable `<th>`. USWDS JavaScript handles sorting automatically. Set a default sort column with `aria-sort="ascending"` or `aria-sort="descending"`. Columns without `data-sortable` are not interactive.
+
+Include an `aria-live` region immediately after the table so screen readers announce sort changes.
+
+<Canvas of={TableStories.Sortable} />
+
+### Borderless
+
+Removes row borders and header background. Best for tables with more text than numbers.
+
+<Canvas of={TableStories.Borderless} />
+
+### Compact
+
+Reduced padding for dense numerical data. Not recommended for text-heavy content.
+
+<Canvas of={TableStories.Compact} />
+
+### Scrollable
+
+Horizontal scroll for tables with many columns.
+
+<Canvas of={TableStories.Scrollable} />
+
+<Note type="uswds">USWDS stacked table variants (`.usa-table--stacked` and `.usa-table--stacked-header`) for mobile layouts are not yet tested with HDS styling. Use the scrollable variant for mobile-friendly tables.</Note>
+
+## When to use a table
+
+- **Displaying tabular data** such as statistics, directories, or structured lists.
+- **Comparing values** across multiple items with the same attributes.
+- **Sortable datasets** where users need to reorder by different columns.
+
+## When to consider something else
+
+- For **non-tabular content**, consider [lists](https://designsystem.digital.gov/components/list) or cards.
+- For **complex data relationships**, consider charts or infographics. See [Data Visualization](?path=/docs/foundations-data-visualization--docs).
+- For **long-form content**, use headings and paragraphs or an [Accordion](?path=/docs/components-accordion--guidance).
+- Don't use tables for **page layout** — use the [grid](?path=/docs/foundations-grid--docs).
+- For very large datasets, consider providing a **file download** instead of rendering the full table on the page.
+
+## Usability guidance
+
+- **Name every table** with a `<caption>` — it serves as both the visual title and the accessible name. Include source and date attribution below the table using `.hds-caption`.
+- **Always include a header row** with short, clear labels.
+- **Minimize columns.** Signs of too many: simple content breaking to multiple lines, or header text being truncated. Use the scrollable variant as a fallback.
+- **Keep cell content brief.** If cells need multiple sentences, consider a different format.
+- **Right-align summable numbers** with the USWDS `text-right` utility class on both header and body cells. Don't center-align text or numbers.
+- **Keep decimal places consistent** within each numerical column.
+- **Tabular numerals are built in.** All table body cells use equal-width digits for clean column alignment — no extra classes needed.
+- **Add `data-sort-value`** to cells with formatted numbers (commas, currency, percentages) so sorting works correctly.
+
+<Note type="figma">The HDS Figma spec includes advanced table features (filter panel, search, download, print actions, mobile accordion layout) and does not define a striped variant. The USWDS `.usa-table--striped` class works but is not HDS-specified. Advanced features and striped styling are planned for future review.</Note>
+
+## Accessibility
+
+- Use `<caption>` to name every table — screen readers announce it when entering the table.
+- Use `scope="col"` on column headers and `scope="row"` on row headers.
+- Link attribution text to the table via `aria-describedby`.
+- Sortable tables must include an `aria-live="polite"` region immediately after the `<table>` element.
+- Scrollable containers must have `tabindex="0"` for keyboard access.
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
