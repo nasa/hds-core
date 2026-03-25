@@ -22,19 +22,21 @@
 //   §1  Navigation (header, footer, primary nav, megamenu)
 //   §2  Banner
 //   §3  Breadcrumb
-//   §4  Buttons
-//   §5  Forms
+//   §4  Button
+//   §5  Form
 //   §6  In-Page Navigation
 //   §7  Pagination
 //   §8  Accordion
-//   §9  Alerts
-//   §10 Grid Utilities
-//   §11 HDS Primary Arrow Button
-//   §12 HDS Icon Buttons
-//   §13 Links
+//   §9  Alert
+//   §10 Grid Utility
+//   §11 Primary Arrow Button
+//   §12 Icon Button
+//   §13 Link
 //   §14 Intro Text
+//   §15 Site Alert
+//   §16 Table
 //
-// Deep-link from dev docs: _hds-components.scss §5 Forms
+// Deep-link from dev docs: _hds-components.scss §5 Form
 // ============================================================
 
 @use 'sass:map';
@@ -107,7 +109,7 @@
 }
 
 // ------------------------------------------------------------
-// §1.3 Navigation Menu Triggers
+// §1.3 Navigation Menu Trigger
 // ------------------------------------------------------------
 
 .usa-nav__global-nav-trigger {
@@ -206,7 +208,7 @@
 }
 
 // ------------------------------------------------------------
-// §3.2 Link States
+// §3.2 Link State
 // ------------------------------------------------------------
 
 .usa-breadcrumb__link,
@@ -256,10 +258,10 @@
 }
 
 // ============================================================
-// §4 BUTTONS
+// §4 BUTTON
 // Restyles: https://designsystem.digital.gov/components/button/
 // ============================================================
-// Tier 1 overrides. Theme tokens (in _hds-uswds-theme.scss)
+// Tier 1 override. Theme tokens (in _hds-uswds-theme.scss)
 // handle border-radius (0), stroke-width (2px), and font-
 // family (Inter via "heading" slot).
 //
@@ -465,7 +467,7 @@
 }
 
 // ============================================================
-// §5 FORMS
+// §5 FORM
 // Restyles: https://designsystem.digital.gov/components/form/
 // ============================================================
 // Light backgrounds only — dark palette forms are TODO.
@@ -525,16 +527,15 @@
 // §7 PAGINATION
 // Restyles: https://designsystem.digital.gov/components/pagination/
 // ============================================================
-// USWDS .usa-pagination override (numbered variants) plus
-// HDS simplified pagination (Previous/Next composed buttons).
+// USWDS .usa-pagination override (numbered variant) plus
+// HDS simplified pagination (Previous/Next composed button).
 //
 // Numbered pagination uses standard USWDS markup with HDS
 // theming applied automatically. Simplified pagination uses
 // HDS-specific markup (.hds-pagination__simplified-btn).
 //
 // Two markup paths for numbered prev/next arrows:
-//   Recommended: .hds-btn-icon--utility buttons with HDS
-//     sprite chevrons
+//   Recommended: .hds-btn-icon--utility with HDS sprite chevron
 //   Legacy USWDS: .usa-pagination__previous-page / __next-page
 //     restyled via @include hds-utility-circle automatically
 //
@@ -542,7 +543,7 @@
 // ============================================================
 
 // ------------------------------------------------------------
-// §7.0 Base overrides
+// §7.0 Base override
 // ------------------------------------------------------------
 // USWDS sets color on .usa-pagination that doesn't respond
 // to palette containers. Override so all children (page
@@ -560,7 +561,7 @@
 }
 
 // ------------------------------------------------------------
-// §7.1 Page numbers
+// §7.1 Page number
 // ------------------------------------------------------------
 
 .usa-pagination__button {
@@ -714,7 +715,7 @@
 }
 
 // ------------------------------------------------------------
-// §7.4 Utility buttons in pagination (recommended markup)
+// §7.4 Utility button in pagination (recommended markup)
 // ------------------------------------------------------------
 // When .hds-btn-icon--utility is used inside pagination,
 // add hover/active/disabled states. These will become
@@ -885,7 +886,7 @@
   border-left: 0;
 }
 
-// §8.2 Separator lines — between items only, not first or last
+// §8.2 Separator line — between items only, not first or last
 .usa-accordion__heading {
   border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
 }
@@ -977,7 +978,7 @@
 }
 
 // ============================================================
-// §9 ALERTS
+// §9 ALERT
 // Restyles: https://designsystem.digital.gov/components/alert/
 // ============================================================
 
@@ -987,7 +988,7 @@
 }
 
 // ============================================================
-// §10 GRID UTILITIES
+// §10 GRID UTILITY
 // Restyles: https://designsystem.digital.gov/utilities/layout-grid/
 // ============================================================
 
@@ -1022,7 +1023,7 @@
 }
 
 // ============================================================
-// §11 HDS PRIMARY ARROW BUTTON
+// §11 PRIMARY ARROW BUTTON
 // ============================================================
 // Tier 3 — no USWDS equivalent.
 // Text + CSS ::after red circle with white arrow.
@@ -1083,7 +1084,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ============================================================
-// §12 HDS ICON BUTTONS
+// §12 ICON BUTTON
 // ============================================================
 // Tier 3 — no USWDS equivalent.
 // Interactive circle containers. Require aria-label when used
@@ -1103,7 +1104,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ============================================================
 
 // ------------------------------------------------------------
-// §12.1 Icon Button Base
+// §12.1 Icon button base
 // ------------------------------------------------------------
 
 .hds-btn-icon {
@@ -1132,7 +1133,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §12.2 Icon Button Roles
+// §12.2 Icon button role
 // ------------------------------------------------------------
 
 // CTA — NASA Red, navigates to a new page
@@ -1168,14 +1169,14 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   // but use <button disabled> instead of aria-disabled.
 }
 
-// Social — social media share/follow links
+// Social — social media share/follow link
 .hds-btn-icon--social {
   background-color: var(--hds-palette-social-fill);
   border-color: var(--hds-palette-social-fill);
   color: var(--hds-palette-social-icon);
 }
 
-// Interactive — small tooltip/popover triggers over images
+// Interactive — small tooltip/popover trigger over images
 // Uses fixed-color SVGs (hds-buttons/interactive-*.svg) with
 // baked-in NASA Blue fill + white icon. Does NOT use palette
 // vars — color stays constant across all palettes.
@@ -1188,10 +1189,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §12.3 Icon Button Sizes
+// §12.3 Icon button size
 // ------------------------------------------------------------
 
-// Small — inline with button text (e.g. primary arrow buttons)
+// Small — inline with button text (e.g. primary arrow button)
 .hds-btn-icon--sm {
   border-width: 0;
   height: 1.2em;
@@ -1203,14 +1204,14 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 }
 
-// Large — hero CTAs
+// Large — hero CTA
 .hds-btn-icon--lg {
   height: 2.5em;
   width: 2.5em;
 }
 
 // ------------------------------------------------------------
-// §12.4 Inline Glyph (no circle container)
+// §12.4 Inline glyph (no circle container)
 // ------------------------------------------------------------
 // Tier 3 — no USWDS equivalent.
 // For bare icons inline with text. Inherits color from parent.
@@ -1225,7 +1226,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ============================================================
-// §13 LINKS
+// §13 LINK
 // Restyles: https://designsystem.digital.gov/components/link/
 // ============================================================
 // Tier 1 override — .usa-link and .usa-link--external.
@@ -1241,7 +1242,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ============================================================
 
 // ------------------------------------------------------------
-// §13.1 Base Link Styling
+// §13.1 Base link styling
 // ------------------------------------------------------------
 
 .usa-link {
@@ -1263,7 +1264,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §13.2 External Link Arrow
+// §13.2 External link arrow
 // ------------------------------------------------------------
 // Replaces USWDS "launch" icon with HDS diagonal arrow per
 // HDS wayfinding rule: diagonal arrows = leaving NASA.
@@ -1295,7 +1296,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §13.3 Internal Link Escape Hatch
+// §13.3 Internal link escape hatch
 // ------------------------------------------------------------
 // Tier 3 — HDS-specific modifier on Tier 1 .usa-link.
 // For links that look external but shouldn't show the arrow
@@ -1320,7 +1321,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
 // ============================================================
 // §15 SITE ALERT
-// See also: https://designsystem.digital.gov/components/site-alert/
+// Restyles: https://designsystem.digital.gov/components/site-alert/
 // ============================================================
 // Tier 1 override — .usa-site-alert--emergency and
 // .usa-site-alert--info.
@@ -1336,7 +1337,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ============================================================
 
 // ------------------------------------------------------------
-// §15.1 Shared Site Alert Overrides
+// §15.1 Shared site alert override
 // ------------------------------------------------------------
 // Matches USWDS specificity for set-text-from-bg output and
 // resets all child elements to inherit from palette vars on
@@ -1431,4 +1432,495 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
   background-color: var(--hds-palette-bg);
   color: var(--hds-palette-text);
+}
+
+// ============================================================
+// §16 TABLE
+// Restyles: https://designsystem.digital.gov/components/table/
+// ============================================================
+// Overrides USWDS .usa-table with exact HDS Carbon colors.
+// USWDS theme settings (in _hds-uswds-theme.scss) provide
+// "close enough" token values for structural styles; this
+// section applies pixel-perfect HDS color values.
+//
+// SURFACE MODEL
+// Tables use a fixed background — white for light palettes,
+// Carbon 90 for dark palettes — rather than inheriting the
+// surrounding palette background. All Figma-confirmed colors
+// are designed against these two surfaces. Palette-aware
+// table backgrounds are deferred to Phase 2.
+//
+// SORTING
+// USWDS JS handles sort behavior via data-sortable / aria-sort /
+// data-sort-active attributes. This CSS themes the visual
+// presentation only. USWDS JS injects sort buttons with inline
+// SVG arrows — HDS replaces them visually with filled triangle
+// icons via CSS mask-image (same technique as accordion §8.3).
+// Sort button initialization in Storybook is handled by the
+// USWDS init decorator in preview.js.
+//
+// CAPTION NAMING
+// HTML <caption> = HDS Figma "Title" + optional "Subtitle" —
+// the accessible name of the table, positioned at top.
+// HDS Figma "Caption" (small attribution text below the table)
+// uses .hds-caption on a <p> outside <table>, linked via
+// aria-describedby per HDS Figma accessibility guidance.
+//
+// STRIPED VARIANT
+// HDS Figma does not define a striped variant. We override
+// USWDS defaults with Carbon scale colors so it looks correct
+// if someone uses .usa-table--striped.
+//
+// DEFERRED TO PHASE 2
+//   - Links and inline icon buttons in table cells (untested)
+//   - Mobile text sizing (small vs M-XL)
+//   - Mobile stacked variants (.usa-table--stacked,
+//     .usa-table--stacked-header) — untested with HDS overrides
+//   - Palette-aware table backgrounds
+//   - Midtone/blue palette sorted column colors
+//   - Advanced features (tabs, actions bar, filters,
+//     downloads, accordion mobile, fixed first column)
+//
+// See DESIGN.md § Table for design rationale.
+// ============================================================
+
+// ----------------------------------------------------------------
+// §16.1 Base table
+// ----------------------------------------------------------------
+
+.usa-table {
+  background-color: $hds-color-spacesuit-white;
+  color: $hds-color-carbon-90;
+
+  // --- Header cells (thead / tfoot) ---
+  thead td,
+  tfoot td,
+  th {
+    background-color: $hds-color-carbon-10;
+    color: $hds-color-carbon-black;
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
+    font-size: size('body', '2xs');
+    letter-spacing: -0.25px;
+    line-height: line-height('heading', 3);
+  }
+
+  // --- Body cells ---
+  td {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+    font-size: size('body', '2xs');
+    font-feature-settings:
+      'tnum' on,
+      'lnum' on;
+  }
+
+  // --- Row header cells (th[scope="row"] in tbody) ---
+  tbody th {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
+  }
+
+  // --- Borders ---
+  // HDS uses top-only row separators (no column borders).
+  th,
+  td {
+    border: 0;
+    border-top: 1px solid $hds-color-table-border-light;
+  }
+
+  // --- Padding ---
+  // Header cells are denser than body cells per Figma spec.
+  // Figma: headers 8px 12px, body 16px 12px.
+  thead th,
+  thead td,
+  tfoot th,
+  tfoot td {
+    padding: units(1) units(1.5);
+  }
+
+  td,
+  tbody th {
+    padding: units(2) units(1.5);
+  }
+
+  // --- Caption ---
+  // HTML <caption> = HDS "Title" + optional "Subtitle".
+  // Works with just a title (no subtitle span needed).
+  // Figma: Inter 29px bold — closest USWDS token is 'lg' (~28px).
+  caption {
+    caption-side: top;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    font-family: family('heading');
+    font-weight: font-weight('bold');
+    font-size: size('body', 'lg');
+    letter-spacing: map.get($hds-letterspacing, 'neg-3');
+    line-height: line-height('heading', 2);
+    padding-bottom: units(2);
+    text-align: left;
+
+    // Subtitle: Inter 14px regular, muted color
+    span {
+      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+      display: block;
+      font-family: family('heading');
+      font-size: size('body', '2xs');
+      font-weight: font-weight('normal');
+      letter-spacing: 0;
+      margin-top: units(0.5);
+    }
+  }
+
+  // --- Compact variant ---
+  // USWDS compact reduces padding, but our explicit padding
+  // on thead/tbody selectors overrides it. Re-apply compact
+  // padding at matching specificity.
+  &.usa-table--compact {
+    thead th,
+    thead td,
+    tfoot th,
+    tfoot td {
+      padding: units(0.5) units(1.5);
+    }
+
+    td,
+    tbody th {
+      padding: units(0.5) units(1.5);
+    }
+  }
+
+  // --- Striped variant ---
+  // HDS Figma does not define striped, but we override USWDS
+  // defaults with Carbon scale colors so it looks correct if
+  // someone uses .usa-table--striped.
+  &.usa-table--striped {
+    tbody tr:nth-child(odd) {
+      td,
+      th {
+        background-color: $hds-color-carbon-05;
+      }
+    }
+  }
+}
+
+// --- Prose context override ---
+// USWDS .usa-prose > table sets 4-side borders at higher
+// specificity. This ensures row-only borders and correct
+// padding for all tables inside prose containers.
+.usa-prose > table th,
+.usa-prose > table td {
+  border: 0;
+  border-top: 1px solid $hds-color-table-border-light;
+}
+
+.usa-prose > table thead th,
+.usa-prose > table thead td,
+.usa-prose > table tfoot th,
+.usa-prose > table tfoot td {
+  padding: units(1) units(1.5);
+}
+
+.usa-prose > table td,
+.usa-prose > table tbody th {
+  padding: units(2) units(1.5);
+}
+
+// --- Scrollable header wrapping fix ---
+// USWDS sets white-space: nowrap on td but not th.
+.usa-table-container--scrollable th {
+  white-space: nowrap;
+}
+
+// ----------------------------------------------------------------
+// §16.2 Sorted column
+// ----------------------------------------------------------------
+// USWDS JS sets data-sort-active on cells in the sorted column.
+// Alternating blue tints (light) / white tints (dark).
+// ----------------------------------------------------------------
+
+.usa-table {
+  // Even rows — lighter tint
+  td[data-sort-active],
+  th[data-sort-active] {
+    background-color: $hds-color-table-sorted-bg;
+  }
+
+  // Odd rows — slightly darker tint
+  tbody tr:nth-child(odd) {
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: $hds-color-table-sorted-stripe-bg;
+    }
+  }
+
+  // Sorted column header — same bg as regular header.
+  // Explicit selectors match USWDS specificity on
+  // th[data-sortable][aria-sort] to override theme token.
+  th[data-sortable][aria-sort='ascending'],
+  th[data-sortable][aria-sort='descending'] {
+    background-color: $hds-color-carbon-10;
+    color: $hds-color-carbon-black;
+  }
+}
+
+// ----------------------------------------------------------------
+// §16.3 Sort interaction
+// ----------------------------------------------------------------
+// Sort icon, header hover/focus, and button positioning.
+//
+// USWDS JS injects a <button> with an inline SVG containing
+// arrow icons. HDS replaces the arrows with filled triangles
+// via mask-image on the button — same technique as the accordion
+// chevron (§8.3). The USWDS SVG stays in the DOM for High
+// Contrast Mode fallback but is visually hidden.
+// ----------------------------------------------------------------
+
+.usa-table {
+  // --- Hide USWDS SVG icons ---
+  th[data-sortable] .usa-table__header__button .usa-icon {
+    display: none;
+  }
+
+  // --- Base sort button as icon container ---
+  // Default mask is arrow-filled-down (used for unsorted + descending).
+  // Ascending overrides with arrow-filled-up.
+  th[data-sortable] .usa-table__header__button {
+    mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
+    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-size: 1.25rem;
+    -webkit-mask-size: 1.25rem;
+    background-color: transparent;
+  }
+
+  // --- Unsorted: hidden by default, gray on hover/focus ---
+  th[data-sortable]:not([aria-sort]),
+  th[data-sortable][aria-sort='none'] {
+    .usa-table__header__button {
+      background-color: transparent;
+    }
+    &:hover .usa-table__header__button,
+    &:focus-within .usa-table__header__button {
+      background-color: $hds-color-carbon-40;
+    }
+  }
+
+  // --- Sorted descending: filled arrow down, NASA Blue ---
+  th[data-sortable][aria-sort='descending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  // --- Sorted ascending: filled arrow up, NASA Blue ---
+  th[data-sortable][aria-sort='ascending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+    mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
+    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
+  }
+
+  // --- Sorted icon persists on hover ---
+  // Without this, the header hover background-color rule or
+  // USWDS button-unstyled resets can override the blue fill.
+  th[data-sortable][aria-sort='descending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  th[data-sortable][aria-sort='ascending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  // --- Header hover ---
+  th[data-sortable]:hover {
+    background-color: $hds-color-carbon-05;
+  }
+
+  // --- Remove USWDS ::after bottom border on sortable headers ---
+  th[data-sortable]::after {
+    border-bottom: 0;
+  }
+
+  // --- Right-aligned headers ---
+  // Swap sort button to left side, swap padding to match.
+  // Used on numerical columns with .text-right on the <th>.
+  th[data-sortable].text-right {
+    padding-left: units(5);
+    padding-right: units(1.5);
+    text-align: right;
+
+    .usa-table__header__button {
+      left: 0.25rem;
+      right: auto;
+    }
+  }
+}
+
+// ----------------------------------------------------------------
+// §16.4 Borderless variant
+// ----------------------------------------------------------------
+
+.usa-table--borderless {
+  th,
+  thead td,
+  tfoot td {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+  }
+}
+
+// ----------------------------------------------------------------
+// §16.5 Dark palette override
+// ----------------------------------------------------------------
+// Tables on dark, blue, and black palettes switch to a fixed
+// Carbon 90 surface. All values are the dark-mode equivalents
+// of §16.1–§16.4, matching the HDS Figma dark table spec.
+//
+// NOTE: This block intentionally mirrors the structure of the
+// light-mode sections above. The repetition is inherent to
+// the fixed-surface model — these aren't palette custom
+// properties, they're hard color swaps.
+// ----------------------------------------------------------------
+
+[class*='hds-palette-dark'],
+[class*='hds-palette-black'],
+[class*='hds-palette-blue'] {
+  // --- §16.1 Base (dark) ---
+
+  .usa-table {
+    background-color: $hds-color-carbon-90;
+    color: $hds-color-spacesuit-white;
+
+    thead td,
+    tfoot td,
+    th {
+      background-color: $hds-color-carbon-80;
+      color: $hds-color-spacesuit-white;
+    }
+
+    td {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+
+    tbody th {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+
+    th,
+    td {
+      border: 0;
+      border-top: 1px solid $hds-color-table-border-dark;
+    }
+
+    caption {
+      color: var(--hds-palette-heading, #{$hds-color-spacesuit-white});
+
+      span {
+        color: var(--hds-palette-muted, #{$hds-color-carbon-40});
+      }
+    }
+  }
+
+  // --- Prose context (dark) ---
+  .usa-prose > table th,
+  .usa-prose > table td {
+    border: 0;
+    border-top: 1px solid $hds-color-table-border-dark;
+  }
+
+  // --- §16.2 Sorted column (dark) ---
+
+  .usa-table td[data-sort-active],
+  .usa-table th[data-sort-active] {
+    background-color: $hds-color-table-sorted-bg-dark;
+  }
+
+  .usa-table tbody tr:nth-child(odd) {
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: $hds-color-table-sorted-stripe-bg-dark;
+    }
+  }
+
+  .usa-table th[data-sortable][aria-sort='ascending'],
+  .usa-table th[data-sortable][aria-sort='descending'] {
+    background-color: $hds-color-carbon-80;
+    color: $hds-color-spacesuit-white;
+  }
+
+  // --- §16.3 Sort interaction (dark) ---
+
+  .usa-table th[data-sortable][aria-sort='ascending'] .usa-table__header__button,
+  .usa-table th[data-sortable][aria-sort='descending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue-tint;
+  }
+
+  .usa-table th[data-sortable][aria-sort='ascending']:hover .usa-table__header__button,
+  .usa-table th[data-sortable][aria-sort='descending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue-tint;
+  }
+
+  .usa-table th[data-sortable]:hover {
+    background-color: $hds-color-carbon-70;
+  }
+
+  // --- §16.4 Borderless (dark) ---
+
+  .usa-table--borderless {
+    th,
+    thead td,
+    tfoot td {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+  }
+
+  // --- Striped (dark) ---
+
+  .usa-table--striped tbody tr:nth-child(odd) {
+    td,
+    th {
+      background-color: $hds-color-carbon-80;
+      color: $hds-color-spacesuit-white;
+    }
+  }
+}
+
+// ----------------------------------------------------------------
+// §16.6 Print style
+// ----------------------------------------------------------------
+
+@media print {
+  .usa-table {
+    thead td,
+    tfoot td,
+    th {
+      background-color: #e3e3e3 !important;
+      color: #000 !important;
+    }
+
+    td {
+      background-color: #fff !important;
+      color: #000 !important;
+    }
+
+    th,
+    td {
+      border: 0 !important;
+      border-top: 1px solid #000 !important;
+    }
+
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: #fff !important;
+    }
+
+    caption {
+      color: #000 !important;
+    }
+  }
 }

@@ -50,6 +50,24 @@ $hds-color-international-orange: #ea6f24;
 $hds-color-active-green: #47da84;
 
 // ============================================================
+// § TABLE COLORS
+// ============================================================
+// Sorted column backgrounds use NASA Blue tints that don't
+// exist in the Carbon scale. These are the resolved hex values
+// of the Figma spec's semi-transparent overlays.
+//
+// Light mode: NASA Blue at 3%/6% opacity over White
+// Dark mode:  White at 4%/6% opacity over Carbon 90
+// ============================================================
+
+$hds-color-table-sorted-bg: #f8fafe;
+$hds-color-table-sorted-stripe-bg: #f2f6fe;
+$hds-color-table-sorted-bg-dark: #252528;
+$hds-color-table-sorted-stripe-bg-dark: #202024;
+$hds-color-table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
+$hds-color-table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
+
+// ============================================================
 // § EXTENDED COLOR PALETTE
 // ============================================================
 // Registered with USWDS via $global-color-palettes in

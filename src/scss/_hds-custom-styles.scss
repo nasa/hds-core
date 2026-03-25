@@ -565,11 +565,16 @@
 
   // ------------------------------------------------------------
   // §4.9 Tables
-  // Restyles: https://designsystem.digital.gov/components/table/
+  // ------------------------------------------------------------
+  // Bare element styles for tables inside .usa-prose or when
+  // $theme-global-content-styles is true. Provides HDS baseline
+  // typography for tables that don't use .usa-table markup.
+  //
+  // For .usa-table component overrides (colors, sort icons,
+  // dark palette, caption), see _hds-components.scss §16.
   // ------------------------------------------------------------
 
   table {
-    background-color: $hds-color-spacesuit-white;
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
@@ -585,11 +590,18 @@
   }
 
   th {
+    font-family: family('heading');
     font-weight: font-weight('semibold');
+    letter-spacing: -0.25px;
   }
 
   td {
-    border-top: var(--hds-border-width-table) solid var(--hds-palette-border, #{$hds-color-carbon-10});
+    border-top: map.get(hds.$hds-width-settings, 'table')
+      solid
+      var(--hds-palette-border, #{$hds-color-table-border-light});
+    font-feature-settings:
+      'tnum' on,
+      'lnum' on;
   }
 
   // ------------------------------------------------------------

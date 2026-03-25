@@ -46,23 +46,22 @@
 // See DESIGN.md § Class Naming Convention for rationale.
 // ============================================================
 
-@use "hds-tokens" as hds;
-@use "sass:map";
+@use 'hds-tokens' as hds;
+@use 'sass:map';
 
-@use "uswds-core" with (
-
+@use 'uswds-core' with (
   // ----------------------------------------------------------
   // Build Config
   // ----------------------------------------------------------
-  $utilities-use-important:     true,
+  $utilities-use-important: true,
   $theme-show-compile-warnings: false,
-  $theme-show-notifications:    false,
+  $theme-show-notifications: false,
 
   // ----------------------------------------------------------
   // Asset Paths
   // ----------------------------------------------------------
-  $theme-image-path: "../assets/img",
-  $theme-font-path:  "../assets/fonts",
+  $theme-image-path: '../assets/img',
+  $theme-font-path: '../assets/fonts',
 
   // ----------------------------------------------------------
   // Base Color Family — Carbon Scale
@@ -70,15 +69,23 @@
   // Closest USWDS system token approximations.
   // See header comment for delta analysis.
   // ----------------------------------------------------------
-  $theme-color-base-family:   "gray",     // Carbon is neutral gray, not gray-cool
-  $theme-color-base-lightest: "white",    // Spacesuit White — exact
-  $theme-color-base-lighter:  "gray-5",   // Carbon 05 #F6F6F6 ≈ #f0f0f0  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
-  $theme-color-base:          "gray-50",  // Carbon 50 #77777A ≈ #757575
-  $theme-color-base-dark:     "gray-80",  // Carbon 80 #2E2E32 ≈ #2d2d2d
-  $theme-color-base-darker:   "gray-90",  // Carbon 90 #17171B ≈ #1b1b1b
-  $theme-color-base-darkest:  "black",    // Carbon Black — exact
-  $theme-color-base-ink:      "black",    // Carbon Black — exact
+  $theme-color-base-family: 'gray',
+  // Carbon is neutral gray, not gray-cool
+  $theme-color-base-lightest: 'white',
+  // Spacesuit White — exact
+  $theme-color-base-lighter: 'gray-5',
+  // Carbon 05 #F6F6F6 ≈ #f0f0f0  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
+  $theme-color-base: 'gray-50',
+  // Carbon 50 #77777A ≈ #757575
+  $theme-color-base-dark: 'gray-80',
+  // Carbon 80 #2E2E32 ≈ #2d2d2d
+  $theme-color-base-darker: 'gray-90',
+  // Carbon 90 #17171B ≈ #1b1b1b
+  $theme-color-base-darkest: 'black',
+  // Carbon Black — exact
+  $theme-color-base-ink: 'black',
 
+  // Carbon Black — exact
   // ----------------------------------------------------------
   // Primary Color Family — NASA Red
   // ----------------------------------------------------------
@@ -86,13 +93,13 @@
   // USWDS default was blue; swapped per HDS Core Proposal so
   // .usa-button automatically renders NASA Red.
   // ----------------------------------------------------------
-  $theme-color-primary-family:  "red",
-  $theme-color-primary-lighter: "red-10",
-  $theme-color-primary-light:   "red-30",
-  $theme-color-primary:         "red-50",
-  $theme-color-primary-vivid:   "red-cool-50v",
-  $theme-color-primary-dark:    "red-60v",
-  $theme-color-primary-darker:  "red-70v",
+  $theme-color-primary-family: 'red',
+  $theme-color-primary-lighter: 'red-10',
+  $theme-color-primary-light: 'red-30',
+  $theme-color-primary: 'red-50',
+  $theme-color-primary-vivid: 'red-cool-50v',
+  $theme-color-primary-dark: 'red-60v',
+  $theme-color-primary-darker: 'red-70v',
 
   // ----------------------------------------------------------
   // Secondary Color Family — NASA Blue
@@ -101,82 +108,82 @@
   // USWDS default was red; swapped per HDS Core Proposal so
   // .usa-button--secondary automatically renders NASA Blue.
   // ----------------------------------------------------------
-  $theme-color-secondary-family:  "blue",
-  $theme-color-secondary-lighter: "blue-10v",
-  $theme-color-secondary-light:   "blue-40v",
-  $theme-color-secondary:         "blue-60v",
-  $theme-color-secondary-vivid:   "blue-warm-60v",
-  $theme-color-secondary-dark:    "blue-70v",
-  $theme-color-secondary-darker:  "blue-80v",
+  $theme-color-secondary-family: 'blue',
+  $theme-color-secondary-lighter: 'blue-10v',
+  $theme-color-secondary-light: 'blue-40v',
+  $theme-color-secondary: 'blue-60v',
+  $theme-color-secondary-vivid: 'blue-warm-60v',
+  $theme-color-secondary-dark: 'blue-70v',
+  $theme-color-secondary-darker: 'blue-80v',
 
   // ----------------------------------------------------------
   // Accent Cool
   // ----------------------------------------------------------
-  $theme-color-accent-cool-lighter: "blue-cool-5v",
-  $theme-color-accent-cool-light:   "blue-cool-20v",
-  $theme-color-accent-cool:         "cyan-30v",
-  $theme-color-accent-cool-dark:    "blue-cool-40v",
-  $theme-color-accent-cool-darker:  "blue-cool-60v",
+  $theme-color-accent-cool-lighter: 'blue-cool-5v',
+  $theme-color-accent-cool-light: 'blue-cool-20v',
+  $theme-color-accent-cool: 'cyan-30v',
+  $theme-color-accent-cool-dark: 'blue-cool-40v',
+  $theme-color-accent-cool-darker: 'blue-cool-60v',
 
   // ----------------------------------------------------------
   // Accent Warm
   // ----------------------------------------------------------
-  $theme-color-accent-warm-lighter: "orange-10v",
-  $theme-color-accent-warm-light:   "orange-20v",
-  $theme-color-accent-warm:         "orange-40v",
-  $theme-color-accent-warm-dark:    "orange-50v",
-  $theme-color-accent-warm-darker:  "orange-60v",
+  $theme-color-accent-warm-lighter: 'orange-10v',
+  $theme-color-accent-warm-light: 'orange-20v',
+  $theme-color-accent-warm: 'orange-40v',
+  $theme-color-accent-warm-dark: 'orange-50v',
+  $theme-color-accent-warm-darker: 'orange-60v',
 
   // ----------------------------------------------------------
   // State: Info
   // ----------------------------------------------------------
-  $theme-color-info-lighter: "cyan-5",
-  $theme-color-info-light:   "cyan-20",
-  $theme-color-info:         "cyan-30v",
-  $theme-color-info-dark:    "cyan-40v",
-  $theme-color-info-darker:  "blue-cool-60",
+  $theme-color-info-lighter: 'cyan-5',
+  $theme-color-info-light: 'cyan-20',
+  $theme-color-info: 'cyan-30v',
+  $theme-color-info-dark: 'cyan-40v',
+  $theme-color-info-darker: 'blue-cool-60',
 
   // ----------------------------------------------------------
   // State: Error
   // ----------------------------------------------------------
-  $theme-color-error-lighter: "red-warm-10",
-  $theme-color-error-light:   "red-warm-30v",
-  $theme-color-error:         "red-warm-50v",
-  $theme-color-error-dark:    "red-60v",
-  $theme-color-error-darker:  "red-70",
+  $theme-color-error-lighter: 'red-warm-10',
+  $theme-color-error-light: 'red-warm-30v',
+  $theme-color-error: 'red-warm-50v',
+  $theme-color-error-dark: 'red-60v',
+  $theme-color-error-darker: 'red-70',
 
   // ----------------------------------------------------------
   // State: Warning
   // ----------------------------------------------------------
-  $theme-color-warning-lighter: "yellow-5",
-  $theme-color-warning-light:   "yellow-10v",
-  $theme-color-warning:         "gold-20v",
-  $theme-color-warning-dark:    "gold-30v",
-  $theme-color-warning-darker:  "gold-50v",
+  $theme-color-warning-lighter: 'yellow-5',
+  $theme-color-warning-light: 'yellow-10v',
+  $theme-color-warning: 'gold-20v',
+  $theme-color-warning-dark: 'gold-30v',
+  $theme-color-warning-darker: 'gold-50v',
 
   // ----------------------------------------------------------
   // State: Success
   // ----------------------------------------------------------
-  $theme-color-success-lighter: "green-cool-5v",
-  $theme-color-success-light:   "green-cool-10v",
-  $theme-color-success:         "green-cool-30v",
-  $theme-color-success-dark:    "green-cool-40v",
-  $theme-color-success-darker:  "green-cool-60v",
+  $theme-color-success-lighter: 'green-cool-5v',
+  $theme-color-success-light: 'green-cool-10v',
+  $theme-color-success: 'green-cool-30v',
+  $theme-color-success-dark: 'green-cool-40v',
+  $theme-color-success-darker: 'green-cool-60v',
 
   // ----------------------------------------------------------
   // State: Disabled
   // ----------------------------------------------------------
-  $theme-color-disabled-lighter: "gray-20",
-  $theme-color-disabled-light:   "gray-40",
-  $theme-color-disabled:         "gray-50",
-  $theme-color-disabled-dark:    "gray-70",
-  $theme-color-disabled-darker:  "gray-90",
+  $theme-color-disabled-lighter: 'gray-20',
+  $theme-color-disabled-light: 'gray-40',
+  $theme-color-disabled: 'gray-50',
+  $theme-color-disabled-dark: 'gray-70',
+  $theme-color-disabled-darker: 'gray-90',
 
   // ----------------------------------------------------------
   // State: Emergency
   // ----------------------------------------------------------
-  $theme-color-emergency:      "red-warm-60v",
-  $theme-color-emergency-dark: "red-warm-80",
+  $theme-color-emergency: 'red-warm-60v',
+  $theme-color-emergency-dark: 'red-warm-80',
 
   // ----------------------------------------------------------
   // Color Schemes
@@ -188,16 +195,16 @@
   // Full HDS link styling (underline, arrow) is applied via
   // .usa-link overrides in _hds-components.scss.
   // ----------------------------------------------------------
-  $theme-body-background-color:     "white",
-  $theme-text-color:                "ink",
-  $theme-text-reverse-color:        "base-lightest",
-  $theme-link-color:                "ink",
-  $theme-link-visited-color:        "ink",
-  $theme-link-hover-color:          "ink",
-  $theme-link-active-color:         "ink",
-  $theme-link-reverse-color:        "base-lightest",
-  $theme-link-reverse-hover-color:  "base-lightest",
-  $theme-link-reverse-active-color: "base-lightest",
+  $theme-body-background-color: 'white',
+  $theme-text-color: 'ink',
+  $theme-text-reverse-color: 'base-lightest',
+  $theme-link-color: 'ink',
+  $theme-link-visited-color: 'ink',
+  $theme-link-hover-color: 'ink',
+  $theme-link-active-color: 'ink',
+  $theme-link-reverse-color: 'base-lightest',
+  $theme-link-reverse-hover-color: 'base-lightest',
+  $theme-link-reverse-active-color: 'base-lightest',
 
   // ----------------------------------------------------------
   // Focus
@@ -208,54 +215,55 @@
   // Exact HDS colors are applied via --hds-palette-muted in
   // the §4.11 :focus-visible rule; these are fallbacks only.
   // ----------------------------------------------------------
-  $theme-focus-color:  "gray-60",   // Carbon 60 #58585B ≈ #565c65
+  $theme-focus-color: 'gray-60',
+  // Carbon 60 #58585B ≈ #565c65
   $theme-focus-offset: 2px,
-  $theme-focus-style:  dashed,
-  $theme-focus-width:  1px,
+  $theme-focus-style: dashed,
+  $theme-focus-width: 1px,
 
   // ----------------------------------------------------------
   // Font Families
   // ----------------------------------------------------------
-  $theme-font-type-sans:    "public-sans",
-  $theme-font-type-mono:    "dm-mono",
-  $theme-font-type-serif:   "inter",
-  $theme-font-role-heading: "serif",
-  $theme-font-role-body:    "sans",
-  $theme-font-role-ui:      "serif",
-  $theme-font-role-code:    "mono",
-  $theme-font-role-alt:     "mono",
+  $theme-font-type-sans: 'public-sans',
+  $theme-font-type-mono: 'dm-mono',
+  $theme-font-type-serif: 'inter',
+  $theme-font-role-heading: 'serif',
+  $theme-font-role-body: 'sans',
+  $theme-font-role-ui: 'serif',
+  $theme-font-role-code: 'mono',
+  $theme-font-role-alt: 'mono',
 
   $theme-typeface-tokens: (
-    "inter": (
-      "display-name": "Inter",
-      "cap-height":   364px,
-      "stack":        "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    'inter': (
+      'display-name': 'Inter',
+      'cap-height': 364px,
+      'stack': "'Helvetica Neue', Helvetica, Arial, sans-serif",
     ),
-    "dm-mono": (
-      "display-name": "DM Mono",
-      "cap-height":   364px,
-      "stack":        "'Consolas', 'Courier', monospace",
+    'dm-mono': (
+      'display-name': 'DM Mono',
+      'cap-height': 364px,
+      'stack': "'Consolas', 'Courier', monospace",
     ),
-    "public-sans": (
-      "display-name": "Public Sans",
-      "cap-height":   364px,
-      "stack":        "Helvetica, Arial, sans-serif",
-    ),
+    'public-sans': (
+      'display-name': 'Public Sans',
+      'cap-height': 364px,
+      'stack': 'Helvetica, Arial, sans-serif',
+    )
   ),
 
   $theme-font-serif-custom-src: (
-    dir: "inter",
+    dir: 'inter',
     roman: (
       100: false,
-      200: "Inter-ExtraLight",
-      300: "Inter-Light",
-      400: "Inter-Regular",
-      500: "Inter-Medium",
-      600: "Inter-SemiBold",
-      700: "Inter-Bold",
-      800: "Inter-ExtraBold",
-      900: "Inter-Black",
-    ),
+      200: 'Inter-ExtraLight',
+      300: 'Inter-Light',
+      400: 'Inter-Regular',
+      500: 'Inter-Medium',
+      600: 'Inter-SemiBold',
+      700: 'Inter-Bold',
+      800: 'Inter-ExtraBold',
+      900: 'Inter-Black',
+    )
   ),
 
   // DM Mono only ships Light (300), Regular (400), and
@@ -266,127 +274,150 @@
   // If faux bold proves problematic, change .hds-label to
   // font-weight: 500 in _hds-custom-styles.scss.
   $theme-font-mono-custom-src: (
-    dir: "dm-mono",
-    roman: (
-      100: false,
-      200: false,
-      300: "DMMono-Light",
-      400: "DMMono-Regular",
-      500: "DMMono-Medium",
-      600: false,
-      700: false,
-      800: false,
-      900: false,
+      dir: 'dm-mono',
+      roman: (
+        100: false,
+        200: false,
+        300: 'DMMono-Light',
+        400: 'DMMono-Regular',
+        500: 'DMMono-Medium',
+        600: false,
+        700: false,
+        800: false,
+        900: false,
+      ),
+      italic: (
+        100: false,
+        200: false,
+        300: 'DMMono-LightItalic',
+        400: 'DMMono-Italic',
+        500: 'DMMono-MediumItalic',
+        600: false,
+        700: false,
+        800: false,
+        900: false,
+      )
     ),
-    italic: (
-      100: false,
-      200: false,
-      300: "DMMono-LightItalic",
-      400: "DMMono-Italic",
-      500: "DMMono-MediumItalic",
-      600: false,
-      700: false,
-      800: false,
-      900: false,
-    ),
-  ),
 
   // ----------------------------------------------------------
   // Type Scale
   // ----------------------------------------------------------
   $theme-type-scale-3xs: 1,
   $theme-type-scale-2xs: 3,
-  $theme-type-scale-xs:  5,
-  $theme-type-scale-sm:  7,
-  $theme-type-scale-md:  9,
-  $theme-type-scale-lg:  11,
-  $theme-type-scale-xl:  13,
+  $theme-type-scale-xs: 5,
+  $theme-type-scale-sm: 7,
+  $theme-type-scale-md: 9,
+  $theme-type-scale-lg: 11,
+  $theme-type-scale-xl: 13,
   $theme-type-scale-2xl: 15,
   $theme-type-scale-3xl: 18,
 
   // ----------------------------------------------------------
   // Element Type Defaults
   // ----------------------------------------------------------
-  $theme-body-font-family:  "body",
-  $theme-body-font-size:    "xs",
-  $theme-h1-font-size:      "2xl",
-  $theme-h2-font-size:      "xl",
-  $theme-h3-font-size:      "md",
-  $theme-h4-font-size:      "sm",
-  $theme-h5-font-size:      "xs",
-  $theme-h6-font-size:      "2xs",
-  $theme-small-font-size:   "3xs",
-  $theme-display-font-size: "3xl",
+  $theme-body-font-family: 'body',
+  $theme-body-font-size: 'xs',
+  $theme-h1-font-size: '2xl',
+  $theme-h2-font-size: 'xl',
+  $theme-h3-font-size: 'md',
+  $theme-h4-font-size: 'sm',
+  $theme-h5-font-size: 'xs',
+  $theme-h6-font-size: '2xs',
+  $theme-small-font-size: '3xs',
+  $theme-display-font-size: '3xl',
 
   // ----------------------------------------------------------
   // Line Heights & Weights
   // ----------------------------------------------------------
-  $theme-body-line-height:    map.get(hds.$hds-line-heights, "body"),
-  $theme-heading-line-height: map.get(hds.$hds-line-heights, "heading"),
-  $theme-lead-line-height:    map.get(hds.$hds-line-heights, "intro"),
-  $theme-input-line-height:   map.get(hds.$hds-line-heights, "input"),
-
-  $theme-font-weight-thin:     map.get(hds.$hds-weights, "thin"),
-  $theme-font-weight-light:    map.get(hds.$hds-weights, "light"),
-  $theme-font-weight-normal:   map.get(hds.$hds-weights, "normal"),
-  $theme-font-weight-medium:   map.get(hds.$hds-weights, "medium"),
-  $theme-font-weight-semibold: map.get(hds.$hds-weights, "semibold"),
-  $theme-font-weight-bold:     map.get(hds.$hds-weights, "bold"),
-  $theme-font-weight-heavy:    map.get(hds.$hds-weights, "heavy"),
-
+  $theme-body-line-height: map.get(hds.$hds-line-heights, 'body'),
+  $theme-heading-line-height: map.get(hds.$hds-line-heights, 'heading'),
+  $theme-lead-line-height: map.get(hds.$hds-line-heights, 'intro'),
+  $theme-input-line-height: map.get(hds.$hds-line-heights, 'input'),
+  $theme-font-weight-thin: map.get(hds.$hds-weights, 'thin'),
+  $theme-font-weight-light: map.get(hds.$hds-weights, 'light'),
+  $theme-font-weight-normal: map.get(hds.$hds-weights, 'normal'),
+  $theme-font-weight-medium: map.get(hds.$hds-weights, 'medium'),
+  $theme-font-weight-semibold: map.get(hds.$hds-weights, 'semibold'),
+  $theme-font-weight-bold: map.get(hds.$hds-weights, 'bold'),
+  $theme-font-weight-heavy: map.get(hds.$hds-weights, 'heavy'),
   // ----------------------------------------------------------
   // Grid & Layout
   // ----------------------------------------------------------
   $theme-utility-breakpoints: (
-    "card":       false,
-    "card-lg":    false,
-    "mobile":     true,
-    "mobile-lg":  true,
-    "tablet":     true,
-    "tablet-lg":  true,
-    "desktop":    true,
-    "desktop-lg": true,
-    "widescreen": true,
-  ),
+      'card': false,
+      'card-lg': false,
+      'mobile': true,
+      'mobile-lg': true,
+      'tablet': true,
+      'tablet-lg': true,
+      'desktop': true,
+      'desktop-lg': true,
+      'widescreen': true
+    ),
 
-  $theme-column-gap-sm:             2px,
-  $theme-column-gap-md:             2,
-  $theme-column-gap-lg:             3,
-  $theme-column-gap-mobile:         2,
-  $theme-column-gap-desktop:        4,
-  $theme-site-margins-breakpoint:   "desktop",
-  $theme-site-margins-width:        4,
+  $theme-column-gap-sm: 2px,
+  $theme-column-gap-md: 2,
+  $theme-column-gap-lg: 3,
+  $theme-column-gap-mobile: 2,
+  $theme-column-gap-desktop: 4,
+  $theme-site-margins-breakpoint: 'desktop',
+  $theme-site-margins-width: 4,
   $theme-site-margins-mobile-width: 2,
-  $theme-grid-container-max-width:  "widescreen",
-  $theme-footer-max-width:          "widescreen",
-  $theme-header-max-width:          "widescreen",
-  $theme-header-min-width:          "desktop",
+  $theme-grid-container-max-width: 'widescreen',
+  $theme-footer-max-width: 'widescreen',
+  $theme-header-max-width: 'widescreen',
+  $theme-header-min-width: 'desktop',
 
-// ----------------------------------------------------------
+  // ----------------------------------------------------------
+  // Table Settings
+  // ----------------------------------------------------------
+  // Closest USWDS token approximations for table colors.
+  // Exact HDS values are applied via component overrides in
+  // _hds-components.scss §16. These settings provide valid
+  // USWDS tokens for structural styles (layout, spacing,
+  // variant logic) and prevent color() function errors.
+  //
+  // Sorted column backgrounds have no close USWDS match —
+  // they're NASA Blue tints in light mode and white tints in
+  // dark mode. Using "gray-5" as a structural placeholder;
+  // overridden with exact hex in components.
+  // ----------------------------------------------------------
+  $theme-table-background-color: 'white',
+  $theme-table-text-color: 'ink',
+  $theme-table-header-background-color: 'gray-10',
+  $theme-table-header-text-color: 'ink',
+  $theme-table-border-color: 'gray-10',
+  $theme-table-stripe-background-color: 'gray-5',
+  $theme-table-stripe-text-color: 'default',
+  $theme-table-sorted-background-color: 'gray-5',
+  $theme-table-sorted-stripe-background-color: 'gray-5',
+  $theme-table-sorted-header-background-color: 'gray-10',
+  $theme-table-sorted-icon-color: 'blue-60v',
+  $theme-table-unsorted-icon-color: 'gray-50',
+  $theme-table-sticky-top-offset: 0px,
+
+  // ----------------------------------------------------------
   // Component Settings
   // ----------------------------------------------------------
   // Border radius
-  $theme-button-border-radius:            map.get(hds.$hds-radius-settings, "button"),
-  $theme-card-border-radius:              map.get(hds.$hds-radius-settings, "card"),
-  $theme-checkbox-border-radius:          map.get(hds.$hds-radius-settings, "checkbox"),
-  $theme-input-tile-border-radius:        map.get(hds.$hds-radius-settings, "input-tile"),
-  $theme-modal-border-radius:             map.get(hds.$hds-radius-settings, "modal"),
-  $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, "pagination"),
-  $theme-summary-box-border-radius:       map.get(hds.$hds-radius-settings, "summary"),
-
+  $theme-button-border-radius: map.get(hds.$hds-radius-settings, 'button'),
+  $theme-card-border-radius: map.get(hds.$hds-radius-settings, 'card'),
+  $theme-checkbox-border-radius: map.get(hds.$hds-radius-settings, 'checkbox'),
+  $theme-input-tile-border-radius: map.get(hds.$hds-radius-settings, 'input-tile'),
+  $theme-modal-border-radius: map.get(hds.$hds-radius-settings, 'modal'),
+  $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, 'pagination'),
+  $theme-summary-box-border-radius: map.get(hds.$hds-radius-settings, 'summary'),
   // Border / stroke width
-  $theme-button-stroke-width:             map.get(hds.$hds-width-settings, "button"),
-  $theme-card-border-width:               map.get(hds.$hds-width-settings, "card"),
-  $theme-input-select-border-width:       map.get(hds.$hds-width-settings, "input-select"),
-  $theme-input-tile-border-width:         map.get(hds.$hds-width-settings, "input-tile"),
-  $theme-input-state-border-width:        map.get(hds.$hds-width-settings, "input-state"),
-  $theme-pagination-button-border-width:  map.get(hds.$hds-width-settings, "pagination"),
-  $theme-summary-box-border-width:        map.get(hds.$hds-width-settings, "summary"),
-
+  $theme-button-stroke-width: map.get(hds.$hds-width-settings, 'button'),
+  $theme-card-border-width: map.get(hds.$hds-width-settings, 'card'),
+  $theme-input-select-border-width: map.get(hds.$hds-width-settings, 'input-select'),
+  $theme-input-tile-border-width: map.get(hds.$hds-width-settings, 'input-tile'),
+  $theme-input-state-border-width: map.get(hds.$hds-width-settings, 'input-state'),
+  $theme-pagination-button-border-width: map.get(hds.$hds-width-settings, 'pagination'),
+  $theme-summary-box-border-width: map.get(hds.$hds-width-settings, 'summary'),
   // Button typography
-  $theme-button-font-family:              "heading",
+  $theme-button-font-family: 'heading',
 
   // Pagination
-  $theme-pagination-font-family:          "heading",
-
+  $theme-pagination-font-family: 'heading'
 );
