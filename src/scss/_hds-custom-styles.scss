@@ -607,8 +607,13 @@
   // ------------------------------------------------------------
   // §4.10 Forms
   // Restyles: https://designsystem.digital.gov/components/form/
-  // Light backgrounds only for now. Dark palette form elements
-  // are TODO.
+  // ------------------------------------------------------------
+  // Bare element styles for forms inside .usa-prose or when
+  // $theme-global-content-styles is true. Provides HDS baseline
+  // for forms that don't use USWDS .usa-input / .usa-form markup.
+  //
+  // For .usa-input, .usa-checkbox, .usa-radio, and other USWDS
+  // form component overrides, see _hds-components.scss §5.
   // ------------------------------------------------------------
 
   input[type='text'],
@@ -659,17 +664,6 @@
     font-size: size('body', '2xs');
     font-weight: font-weight('semibold');
     letter-spacing: map.get($hds-letterspacing, 'neg-1');
-  }
-
-  input[type='checkbox'] + label {
-    display: inline;
-    line-height: 1em;
-    margin-left: units(1);
-  }
-
-  input[type='checkbox'] {
-    border: var(--hds-border-width-input-state) solid $hds-color-carbon-60;
-    border-radius: var(--hds-border-radius-checkbox);
   }
 
   input::file-selector-button {

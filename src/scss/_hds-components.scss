@@ -467,36 +467,414 @@
 }
 
 // ============================================================
-// §5 FORM
+// §5 FORM ELEMENTS
 // Restyles: https://designsystem.digital.gov/components/form/
 // ============================================================
-// Light backgrounds only — dark palette forms are TODO.
+// All colors use palette custom properties from _hds-palettes.scss
+// so form elements adapt automatically across all six palettes.
+//
+// Checkbox/radio selected state: NASA Blue (not primary red).
+// Per HDS wayfinding rule — blue = on-page interaction.
+//
+// USWDS $theme-form-font-family is set to 'body' (Public Sans)
+// in _hds-uswds-theme.scss. Labels and legends override to
+// Inter (heading) below.
+//
+// USWDS renders checkbox/radio indicators using box-shadow,
+// NOT CSS border. All indicator styling must use box-shadow
+// to avoid double outlines.
+//
+// Figma CSS reference:
+//   Box size: 18px × 18px (USWDS default 20px — flagged)
+//   Box-to-label gap: 8px
+//   Item padding: 8px top/right/bottom, 0px left
+//   Legend-to-items gap: 4px
+//   Checkbox border-radius: 2px (via $theme-checkbox-border-radius)
+//   Radio border-radius: full circle (USWDS default)
+//
+// Tokens from HDS Core Proposal (confirmed all 6 palettes):
+//   --hds-palette-muted           → help text, hover borders
+//   --hds-palette-border          → text input/select/textarea border
+//   --hds-palette-heading         → hover label darkening
+//   --hds-palette-btn-secondary-bg → focus color
+//   --hds-palette-btn-filled-text → (available for future use)
+//   --hds-palette-control-text    → labels, input text, option text
+//   --hds-palette-control-fill    → checkbox/radio selected fill
+//   --hds-palette-control-stroke  → checkbox/radio selected border
+//   --hds-palette-control-border  → checkbox/radio default border
+//
+// Tokens inferred from Figma (NOT in Proposal — flagged for
+// creative director review):
+//   --hds-palette-input-bg        → input/control backgrounds
+//   --hds-palette-disabled        → disabled text and labels
+//   --hds-palette-disabled-bg     → disabled backgrounds
+//   --hds-palette-error-border    → error state borders
+//   --hds-palette-error-text      → error message text
 // ============================================================
 
-.usa-input,
-.usa-select,
-.usa-textarea {
-  border-radius: 0;
-  border-color: $hds-color-carbon-60;
+// HDS check icon — replaces USWDS default checkmark glyph
+$hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.7071 5.70712L7.99995 15.4142L2.29285 9.70712L3.70706 8.29291L7.99995 12.5858L16.2928 4.29291L17.7071 5.70712Z' fill='%23fff'/%3E%3C/svg%3E");
+
+// ------------------------------------------------------------
+// §5.0 Form container resets
+// ------------------------------------------------------------
+// USWDS applies $theme-input-background-color to checkbox/radio
+// containers and tiles. That setting resolves to the body bg
+// (white), which bleeds onto dark palettes. Reset containers to
+// transparent — the actual indicator backgrounds are set on
+// ::before in §5.6 and §5.7.
+// ------------------------------------------------------------
+
+.usa-checkbox,
+.usa-radio {
+  background-color: transparent;
 }
+
+.usa-checkbox__input--tile + .usa-checkbox__label,
+.usa-radio__input--tile + .usa-radio__label {
+  background-color: transparent;
+}
+
+.usa-fieldset {
+  background-color: transparent;
+}
+
+// ------------------------------------------------------------
+// §5.1 Text inputs, textareas, selects
+// ------------------------------------------------------------
+
+.usa-input,
+.usa-textarea,
+.usa-select {
+  background-color: var(--hds-palette-input-bg);
+  border: 1px solid var(--hds-palette-border);
+  border-radius: 2px;
+  color: var(--hds-palette-control-text);
+  font-size: size('body', '2xs');
+  letter-spacing: 0;
+  padding: 14px 16px;
+}
+
+.usa-input::placeholder,
+.usa-textarea::placeholder {
+  color: var(--hds-palette-disabled);
+  opacity: 0.66;
+}
+
+// ------------------------------------------------------------
+// §5.2 Input focus — solid blue border
+// ------------------------------------------------------------
+// Figma shows a solid blue 2px border on focused form inputs,
+// not the dashed palette-aware ring used for buttons and links.
+// Light palettes: NASA Blue. Dark palettes: NASA Blue/Tint.
+// Provided by --hds-palette-btn-secondary-bg.
+// ------------------------------------------------------------
 
 .usa-input:focus,
+.usa-textarea:focus,
 .usa-select:focus,
-.usa-textarea:focus {
-  outline: 2px solid $hds-color-nasa-blue;
-  outline-offset: 0;
+.usa-input:focus-visible,
+.usa-textarea:focus-visible,
+.usa-select:focus-visible {
+  border-color: var(--hds-palette-btn-secondary-bg);
+  border-width: 2px;
+  outline: 2px solid var(--hds-palette-btn-secondary-bg) !important;
+  outline-offset: 0 !important;
 }
 
+// ------------------------------------------------------------
+// §5.3 Input hover
+// ------------------------------------------------------------
+// Text input hover: border shifts one Carbon step darker.
+// Light: C20 → C40 (= --hds-palette-control-border).
+// Dark: C80 → inferred C60 (= --hds-palette-border on dark).
+// Using control-border which is C40 light / C60 dark.
+// ------------------------------------------------------------
+
+.usa-input:hover:not(:disabled):not(:focus),
+.usa-textarea:hover:not(:disabled):not(:focus),
+.usa-select:hover:not(:disabled):not(:focus) {
+  border-color: var(--hds-palette-control-border);
+}
+
+// ------------------------------------------------------------
+// §5.4 Labels and legends
+// ------------------------------------------------------------
+// Figma: Inter 600 (semibold) 14px, -0.25px letterspacing.
+// Color = Carbon 80 on light = --hds-palette-control-text.
+// ------------------------------------------------------------
+
 .usa-label {
+  color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-size: size('body', '2xs');
   font-weight: font-weight('semibold');
   letter-spacing: map.get($hds-letterspacing, 'neg-1');
 }
 
-.usa-input--error {
-  border-color: color('error');
-  border-width: 4px;
+.usa-legend {
+  color: var(--hds-palette-control-text);
+  font-family: family('heading');
+  font-size: size('body', '2xs');
+  font-weight: font-weight('semibold');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
+
+// ------------------------------------------------------------
+// §5.5 Help text
+// ------------------------------------------------------------
+// Figma: Public Sans 400 (regular) 12px, line-height 16px,
+// +0.25px letterspacing. Color = Carbon 60 on light =
+// --hds-palette-muted (matches Proposal "Label" role).
+// ------------------------------------------------------------
+
+.usa-hint {
+  color: var(--hds-palette-muted);
+  font-size: size('body', '3xs');
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, '1');
+}
+
+// ------------------------------------------------------------
+// §5.6 Checkbox
+// ------------------------------------------------------------
+// USWDS renders checkbox indicators using box-shadow, NOT CSS
+// border. All indicator styling must use box-shadow to avoid
+// double outlines.
+//
+// Selected state colors confirmed across 6 palettes in the
+// HDS Core Proposal:
+//   Fill:   --hds-palette-control-fill   (NASA Blue, universal)
+//   Stroke: --hds-palette-control-stroke (Shade light / Tint dark)
+// ------------------------------------------------------------
+
+// Default state
+.usa-checkbox__label::before {
+  background-color: var(--hds-palette-input-bg);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-control-border);
+  height: 18px;
+  width: 18px;
+}
+
+// Label text — Figma: Inter 400 14px, -0.25px ls
+.usa-checkbox__label {
+  color: var(--hds-palette-control-text);
+  font-family: family('heading');
+  font-weight: font-weight('normal');
+  font-size: size('body', '2xs');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
+
+// Hover — border darkens, label darkens
+.usa-checkbox__input:hover:not(:disabled) + .usa-checkbox__label::before {
+  box-shadow: 0 0 0 1px var(--hds-palette-muted);
+}
+
+.usa-checkbox__input:hover:not(:disabled) + .usa-checkbox__label {
+  color: var(--hds-palette-heading);
+}
+
+// Focus — dashed ring around entire label + blue border on box
+// Figma: 1px dashed Carbon 30 on label, 2px solid NASA Blue on box.
+// Carbon 30 light / Carbon 80 dark = --hds-palette-link-underline
+// is closest match (C60/C30) but not exact. Using
+// --hds-palette-border (C20/C60) for a lighter, less
+// distracting ring. Flagged for creative director review.
+.usa-checkbox__input:focus + .usa-checkbox__label {
+  outline: 1px dashed var(--hds-palette-border);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+
+.usa-checkbox__input:focus + .usa-checkbox__label::before {
+  border: 0;
+  box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
+  outline: none;
+}
+
+// Selected — blue fill, HDS check icon, Shade/Tint stroke
+.usa-checkbox__input:checked + .usa-checkbox__label::before {
+  background-color: var(--hds-palette-control-fill);
+  background-image: #{$hds-checkbox-icon};
+  background-position: center center;
+  background-size: 16px auto;
+  background-repeat: no-repeat;
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-control-stroke);
+}
+
+// Disabled
+.usa-checkbox__input:disabled + .usa-checkbox__label {
+  color: var(--hds-palette-disabled);
+}
+
+.usa-checkbox__input:disabled + .usa-checkbox__label::before {
+  background-color: var(--hds-palette-disabled-bg);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-border);
+}
+
+// Tile — checked border
+.usa-checkbox__input--tile:checked + .usa-checkbox__label {
+  border-color: var(--hds-palette-control-fill);
+}
+
+// ------------------------------------------------------------
+// §5.7 Radio button
+// ------------------------------------------------------------
+// Same color logic as checkbox. USWDS renders radio indicators
+// using box-shadow — all styling must use box-shadow.
+//
+// Figma selected state: two layered circles:
+//   Inner: NASA Blue filled circle
+//   Gap: white ring
+//   Outer: NASA Blue border
+// Rendered via stacked box-shadow values.
+// ------------------------------------------------------------
+
+// Default state
+.usa-radio__label::before {
+  background-color: var(--hds-palette-input-bg);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-control-border);
+  height: 18px;
+  width: 18px;
+}
+
+// Label text — same as checkbox
+.usa-radio__label {
+  color: var(--hds-palette-control-text);
+  font-family: family('heading');
+  font-weight: font-weight('normal');
+  font-size: size('body', '2xs');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
+
+// Hover — unchecked: border darkens
+.usa-radio__input:hover:not(:disabled):not(:checked) + .usa-radio__label::before {
+  box-shadow: 0 0 0 1px var(--hds-palette-muted);
+}
+
+// Hover — checked: preserve selected structure, darken outer
+.usa-radio__input:hover:not(:disabled):checked + .usa-radio__label::before {
+  box-shadow:
+    inset 0 0 0 3px var(--hds-palette-input-bg),
+    0 0 0 1px var(--hds-palette-muted);
+}
+
+// Focus — dashed ring around entire label + blue border on circle
+.usa-radio__input:focus + .usa-radio__label {
+  outline: 1px dashed var(--hds-palette-border);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+
+.usa-radio__input:focus + .usa-radio__label::before {
+  border: 0;
+  box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
+  outline: none;
+}
+
+// Selected — blue center dot, white gap ring, blue outer border
+// All rendered inset to maintain 18px size.
+.usa-radio__input:checked + .usa-radio__label::before {
+  background-color: var(--hds-palette-control-fill);
+  border: 0;
+  box-shadow:
+    inset 0 0 0 3px var(--hds-palette-input-bg),
+    0 0 0 1px var(--hds-palette-btn-secondary-bg);
+}
+
+// Disabled
+.usa-radio__input:disabled + .usa-radio__label {
+  color: var(--hds-palette-disabled);
+}
+
+.usa-radio__input:disabled + .usa-radio__label::before {
+  background-color: var(--hds-palette-disabled-bg);
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-border);
+}
+
+// Tile — checked border
+.usa-radio__input--tile:checked + .usa-radio__label {
+  border-color: var(--hds-palette-control-fill);
+}
+
+// ------------------------------------------------------------
+// §5.8 Disabled text inputs
+// ------------------------------------------------------------
+// Figma: Carbon 05 bg, Carbon 20 border, Carbon 40 text (light)
+// Disabled border matches default text input border (C20/C80),
+// which is --hds-palette-border.
+//
+// Wrapper approach dims label in disabled groups. Help text
+// (.usa-hint) intentionally NOT dimmed — it remains at
+// --hds-palette-muted to stay above WCAG AA contrast thresholds
+// and to explain why the field is disabled per USWDS guidance.
+// Flagged for creative director review: Figma shows help text
+// dimmed to Carbon 40 which fails 4.5:1 on white.
+// ------------------------------------------------------------
+
+.usa-input:disabled,
+.usa-textarea:disabled,
+.usa-select:disabled {
+  background-color: var(--hds-palette-disabled-bg);
+  border-color: var(--hds-palette-border);
+  color: var(--hds-palette-disabled);
+}
+
+// Wrapper approach — dims label in disabled groups.
+.usa-form-group--disabled .usa-label {
+  color: var(--hds-palette-disabled);
+}
+
+// ------------------------------------------------------------
+// §5.9 Error states
+// ------------------------------------------------------------
+// Figma: red border on input (1px, not USWDS thick 4px).
+// Error message text: Public Sans 400 12px, +0.25px ls.
+// Light: border = NASA Red, text = NASA Red/Shade.
+// Dark: border = Red/Tint, text = Red/Tint.
+//
+// Form group left bar thinned from USWDS default to 2px.
+// ------------------------------------------------------------
+
+.usa-input--error,
+.usa-input--error:focus {
+  border-color: var(--hds-palette-error-border);
+  border-width: 2px;
+}
+
+.usa-form-group--error {
+  border-left-color: var(--hds-palette-error-border);
+  border-left-width: 2px;
+  padding-left: units(2);
+}
+
+.usa-error-message {
+  color: var(--hds-palette-error-text);
+  font-family: family('body');
+  font-size: size('body', '3xs');
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, '1');
+}
+
+// Success state (input border only — no form group variant)
+.usa-input--success {
+  border-color: color('success');
+  border-width: 2px;
+}
+
+// ------------------------------------------------------------
+// §5.10 File input
+// ------------------------------------------------------------
+
+input::file-selector-button,
+.usa-file-input__target {
+  background-color: var(--hds-palette-btn-primary-bg);
+  color: var(--hds-palette-btn-filled-text);
 }
 
 // ============================================================

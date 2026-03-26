@@ -41,7 +41,7 @@ $hds-enable-auto-dark-mode: false !default;
 @mixin _scheme-universal {
   --hds-palette-btn-primary-bg: #{$hds-color-nasa-red};
   --hds-palette-btn-filled-text: #{$hds-color-spacesuit-white};
-  --hds-palette-checkbox-fill: #{$hds-color-nasa-blue};
+  --hds-palette-control-fill: #{$hds-color-nasa-blue};
   --hds-palette-social-fill: #{$hds-color-carbon-60};
   --hds-palette-social-icon: #{$hds-color-carbon-05};
 }
@@ -59,8 +59,9 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-20};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-30};
-  --hds-palette-checkbox-text: #{$hds-color-carbon-80};
-  --hds-palette-checkbox-stroke: #{$hds-color-nasa-blue-shade};
+  --hds-palette-control-text: #{$hds-color-carbon-80};
+  --hds-palette-control-stroke: #{$hds-color-nasa-blue-shade};
+  --hds-palette-control-border: #{$hds-color-carbon-40};
   --hds-palette-utility-fill: #{$hds-color-spacesuit-white};
   --hds-palette-utility-stroke: #{$hds-color-carbon-20};
   --hds-palette-utility-icon: #{$hds-color-carbon-black};
@@ -68,6 +69,13 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-hover-stroke: #{$hds-color-carbon-40};
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-05};
   --hds-palette-icon: #{$hds-color-carbon-black};
+  // Form tokens — inferred from Figma, not in HDS Core Proposal.
+  // Flagged for creative director review.
+  --hds-palette-input-bg: #{$hds-color-spacesuit-white};
+  --hds-palette-disabled: #{$hds-color-carbon-40};
+  --hds-palette-disabled-bg: #{$hds-color-carbon-05};
+  --hds-palette-error-border: #{$hds-color-nasa-red};
+  --hds-palette-error-text: #{$hds-color-nasa-red-shade};
 }
 
 // --- Dark scheme (dark, black) ---
@@ -75,23 +83,31 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-heading: #{$hds-color-spacesuit-white};
   --hds-palette-text: #{$hds-color-spacesuit-white};
   --hds-palette-link-text: #{$hds-color-spacesuit-white};
-  --hds-palette-link-underline: #{$hds-color-carbon-30}; // C5: was Carbon 40
+  --hds-palette-link-underline: #{$hds-color-carbon-30};
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
-  --hds-palette-muted: #{$hds-color-carbon-30}; // C5: was Carbon 40
+  --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-60};
-  --hds-palette-checkbox-text: #{$hds-color-carbon-20};
-  --hds-palette-checkbox-stroke: #{$hds-color-nasa-blue-tint};
-  --hds-palette-utility-fill: #{$hds-color-carbon-black}; // C7: was Carbon 80
+  --hds-palette-control-text: #{$hds-color-carbon-20};
+  --hds-palette-control-stroke: #{$hds-color-nasa-blue-tint};
+  --hds-palette-control-border: #{$hds-color-carbon-60};
+  --hds-palette-utility-fill: #{$hds-color-carbon-black};
   --hds-palette-utility-stroke: #{$hds-color-carbon-60};
   --hds-palette-utility-icon: #{$hds-color-spacesuit-white};
   --hds-palette-utility-hover-fill: #{$hds-color-carbon-black};
   --hds-palette-utility-hover-stroke: #{$hds-color-carbon-05};
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-80};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
+  // Form tokens — inferred from Figma, not in HDS Core Proposal.
+  // Flagged for creative director review.
+  --hds-palette-input-bg: #{$hds-color-carbon-black};
+  --hds-palette-disabled: #{$hds-color-carbon-60};
+  --hds-palette-disabled-bg: #{$hds-color-carbon-90};
+  --hds-palette-error-border: #{$hds-color-nasa-red-tint};
+  --hds-palette-error-text: #{$hds-color-nasa-red-tint};
 }
 
 // ============================================================
@@ -121,10 +137,10 @@ $hds-enable-auto-dark-mode: false !default;
   @include _scheme-universal;
   @include _scheme-light;
   --hds-palette-bg: #{$hds-color-carbon-20};
-  --hds-palette-text: #{$hds-color-carbon-black}; // C1: was Carbon 90
-  --hds-palette-muted: #{$hds-color-carbon-80}; // C2: was Carbon 60
-  --hds-palette-border: #{$hds-color-carbon-40}; // C3: was Carbon 20
-  --hds-palette-utility-stroke: #{$hds-color-carbon-40}; // C4: was Carbon 20
+  --hds-palette-text: #{$hds-color-carbon-black};
+  --hds-palette-muted: #{$hds-color-carbon-80};
+  --hds-palette-border: #{$hds-color-carbon-40};
+  --hds-palette-utility-stroke: #{$hds-color-carbon-40};
   // TODO: Disabled button stroke is Carbon 20 on a Carbon 20
   // background — invisible. Needs creative director review.
   // Proposed override:
@@ -155,17 +171,23 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-60};
-  --hds-palette-checkbox-text: #{$hds-color-carbon-20};
-  --hds-palette-checkbox-stroke: #{$hds-color-nasa-blue-tint};
+  --hds-palette-control-text: #{$hds-color-carbon-20};
+  --hds-palette-control-stroke: #{$hds-color-nasa-blue-tint};
+  --hds-palette-control-border: #{$hds-color-carbon-60};
   --hds-palette-utility-fill: #{$hds-color-nasa-blue};
   --hds-palette-utility-stroke: #{$hds-color-nasa-blue-tint};
   --hds-palette-utility-icon: #{$hds-color-spacesuit-white};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
-  // Utility hover/disabled inferred from dark-scheme pattern
-  // adapted to blue background. Pending creative director review.
   --hds-palette-utility-hover-fill: #{$hds-color-nasa-blue};
   --hds-palette-utility-hover-stroke: #{$hds-color-spacesuit-white};
   --hds-palette-utility-disabled-stroke: #{$hds-color-nasa-blue};
+  // Form tokens — inferred from dark scheme, not in Proposal.
+  // Flagged for creative director review.
+  --hds-palette-input-bg: #{$hds-color-carbon-black};
+  --hds-palette-disabled: #{$hds-color-carbon-60};
+  --hds-palette-disabled-bg: #{$hds-color-carbon-90};
+  --hds-palette-error-border: #{$hds-color-nasa-red-tint};
+  --hds-palette-error-text: #{$hds-color-nasa-red-tint};
 }
 
 // Palette 6 — Black (Carbon Black, header/footer only)
