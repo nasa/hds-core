@@ -11,6 +11,10 @@ const preview = {
     },
     docs: {
       codePanel: true,
+      toc: {
+        headingSelector: 'h2, h3',
+        title: 'On this page',
+      },
     },
     options: {
       storySort: {
