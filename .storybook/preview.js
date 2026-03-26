@@ -17,10 +17,11 @@ const preview = {
         order: [
           'Overview',
           'Getting Started',
+          'React Setup',
           'Roadmap',
           'Foundations',
           'Components',
-          ['*', ['Guidance', 'Playground']],
+          ['*', ['Guidance', 'Playground', '*']],
         ],
       },
     },
