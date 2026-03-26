@@ -16,6 +16,18 @@ Last updated: 2026-03-23
 
 **Rule of thumb:** If a USWDS site could adopt HDS Core and the component works without changing HTML, it's Tier 1. If USWDS doesn't have it, it's Tier 3.
 
+## Navigation Component Mapping
+
+HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. This table defines the canonical mapping for Phase 2 implementation.
+
+| HDS Figma | What it is | USWDS Equiv | HDS Core CSS | Status |
+| --- | --- | --- | --- | --- |
+| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | §1 | Phase 2 (top priority) |
+| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | §1 | Phase 2 (ships with Header/Footer) |
+| Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | §6 | Phase 1 |
+| Table of Contents | Non-sticky multi-column link grid at the top of the page (2-col or 3-col). Links can be anchor (↓), internal (→), or external (↗). Collapses to dropdown on small/medium screens. Minimum 5 rows. Should not duplicate Secondary Navigation. | No equivalent | — | Phase 2 |
+| _(none)_ | Vertical sidebar for navigating between pages in a section (docs left rail pattern). Not defined in HDS Figma. | `usa-sidenav` | — | Phase 2 (low — use USWDS default) |
+
 ## Color
 
 ### Primary / Secondary Swap
