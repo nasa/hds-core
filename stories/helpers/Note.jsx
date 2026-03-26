@@ -3,13 +3,13 @@ import React from 'react';
 const iconConfig = {
   uswds: { sprite: 'hds-sprite', id: 'logo-uswds' },
   figma: { sprite: 'hds-sprite', id: 'logo-figma' },
-  code:  { sprite: 'sprite',     id: 'code' },
+  code: { sprite: 'sprite', id: 'code' },
 };
 
 const labels = {
   uswds: 'Differs from USWDS',
   figma: 'Differs from Figma',
-  code:  'How this works',
+  code: 'How this works',
 };
 
 export function Note({ type, children }) {
@@ -21,7 +21,8 @@ export function Note({ type, children }) {
           <svg className="hds-icon hds-note__icon" aria-hidden="true" focusable="false">
             <use xlinkHref={`/assets/img/${icon.sprite}.svg#${icon.id}`} />
           </svg>
-          <strong>{labels[type]}:</strong> {children}
+          <strong>{labels[type]}:</strong>
+          <p>{children}</p>
         </div>
       </div>
     </div>
