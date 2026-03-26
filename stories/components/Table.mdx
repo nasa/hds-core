@@ -12,6 +12,12 @@ A table shows information in columns and rows. Uses standard USWDS [table markup
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
+## Links and buttons in cells
+
+Tables support inline text links and icon buttons. Use `.usa-link` for text links and `.hds-btn-icon` for action buttons like downloads. External links automatically show the diagonal arrow.
+
+<Canvas of={TableStories.Interactive} />
+
 ## Variants
 
 ### Caption with subtitle
@@ -52,7 +58,9 @@ Horizontal scroll for tables with many columns.
 
 <Canvas of={TableStories.Scrollable} />
 
-<Note type="uswds">USWDS stacked table variants (`.usa-table--stacked` and `.usa-table--stacked-header`) for mobile layouts are not yet tested with HDS styling. Use the scrollable variant for mobile-friendly tables.</Note>
+<Note type="uswds">
+  <p>USWDS stacked table variants (`.usa-table--stacked` and `.usa-table--stacked-header`) for mobile layouts are not yet tested with HDS styling. Use the scrollable variant for mobile-friendly tables.</p>
+</Note>
 
 ## When to use a table
 
@@ -79,7 +87,9 @@ Horizontal scroll for tables with many columns.
 - **Tabular numerals are built in.** All table body cells use equal-width digits for clean column alignment — no extra classes needed.
 - **Add `data-sort-value`** to cells with formatted numbers (commas, currency, percentages) so sorting works correctly.
 
-<Note type="figma">The HDS Figma spec includes advanced table features (filter panel, search, download, print actions, mobile accordion layout) and does not define a striped variant. The USWDS `.usa-table--striped` class works but is not HDS-specified. Advanced features and striped styling are planned for future review.</Note>
+<Note type="figma">
+  <p>The HDS Figma spec includes advanced table features (filter panel, search, download, print actions, mobile accordion layout) and does not define a striped variant. The USWDS `.usa-table--striped` class works but is not HDS-specified. Advanced features and striped styling are planned for future review.</p>
+</Note>
 
 ## Accessibility
 

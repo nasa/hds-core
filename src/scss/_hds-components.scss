@@ -1472,11 +1472,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // if someone uses .usa-table--striped.
 //
 // DEFERRED TO PHASE 2
-//   - Links and inline icon buttons in table cells (untested)
 //   - Mobile text sizing (small vs M-XL)
 //   - Mobile stacked variants (.usa-table--stacked,
 //     .usa-table--stacked-header) — untested with HDS overrides
-//   - Palette-aware table backgrounds
+//   - Palette-aware table backgrounds (see Github discussion #26)
 //   - Midtone/blue palette sorted column colors
 //   - Advanced features (tabs, actions bar, filters,
 //     downloads, accordion mobile, fixed first column)

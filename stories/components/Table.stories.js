@@ -272,72 +272,178 @@ const compactTable = ({ prefix = 'compact' }) => `
   </table>
 `;
 
+const wideTable = ({ prefix = 'wide' }) => `
+  <table class="usa-table">
+    <caption>Mission timeline</caption>
+    <thead>
+      <tr>
+        <th scope="col">Mission</th>
+        <th scope="col">Launch date</th>
+        <th scope="col">Vehicle</th>
+        <th scope="col">Launch site</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Orbit type</th>
+        <th scope="col">Crew size</th>
+        <th scope="col">Primary objective</th>
+        <th scope="col">Secondary objective</th>
+        <th scope="col">Landing site</th>
+        <th scope="col">Recovery</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Artemis I</th>
+        <td>Nov 16, 2022</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>25d 10h</td>
+        <td>Lunar DRO</td>
+        <td>0 (uncrewed)</td>
+        <td>Orion flight test</td>
+        <td>Heat shield reentry test</td>
+        <td>Pacific Ocean</td>
+        <td>USS Portland</td>
+        <td>Complete</td>
+      </tr>
+      <tr>
+        <th scope="row">Artemis II</th>
+        <td>Apr 2026</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>~10 days</td>
+        <td>Lunar flyby</td>
+        <td>4</td>
+        <td>Crewed lunar flyby</td>
+        <td>Life support validation</td>
+        <td>Pacific Ocean</td>
+        <td>TBD</td>
+        <td>Planned</td>
+      </tr>
+      <tr>
+        <th scope="row">Artemis III</th>
+        <td>2027</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>~30 days</td>
+        <td>Lunar orbit + landing</td>
+        <td>4</td>
+        <td>Crewed lunar landing</td>
+        <td>South pole exploration</td>
+        <td>Lunar south pole</td>
+        <td>TBD</td>
+        <td>Planned</td>
+      </tr>
+    </tbody>
+  </table>
+`;
+
 const scrollableTable = ({ prefix = 'scroll' }) => `
   <div class="usa-table-container--scrollable" tabindex="0">
-    <table class="usa-table">
-      <caption>Mission timeline</caption>
-      <thead>
-        <tr>
-          <th scope="col">Mission</th>
-          <th scope="col">Launch date</th>
-          <th scope="col">Vehicle</th>
-          <th scope="col">Launch site</th>
-          <th scope="col">Duration</th>
-          <th scope="col">Orbit type</th>
-          <th scope="col">Crew size</th>
-          <th scope="col">Primary objective</th>
-          <th scope="col">Secondary objective</th>
-          <th scope="col">Landing site</th>
-          <th scope="col">Recovery</th>
-          <th scope="col">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Artemis I</th>
-          <td>Nov 16, 2022</td>
-          <td>SLS Block 1</td>
-          <td>KSC LC-39B</td>
-          <td>25d 10h</td>
-          <td>Lunar DRO</td>
-          <td>0 (uncrewed)</td>
-          <td>Orion flight test</td>
-          <td>Heat shield reentry test</td>
-          <td>Pacific Ocean</td>
-          <td>USS Portland</td>
-          <td>Complete</td>
-        </tr>
-        <tr>
-          <th scope="row">Artemis II</th>
-          <td>Apr 2026</td>
-          <td>SLS Block 1</td>
-          <td>KSC LC-39B</td>
-          <td>~10 days</td>
-          <td>Lunar flyby</td>
-          <td>4</td>
-          <td>Crewed lunar flyby</td>
-          <td>Life support validation</td>
-          <td>Pacific Ocean</td>
-          <td>TBD</td>
-          <td>Planned</td>
-        </tr>
-        <tr>
-          <th scope="row">Artemis III</th>
-          <td>2027</td>
-          <td>SLS Block 1</td>
-          <td>KSC LC-39B</td>
-          <td>~30 days</td>
-          <td>Lunar orbit + landing</td>
-          <td>4</td>
-          <td>Crewed lunar landing</td>
-          <td>South pole exploration</td>
-          <td>Lunar south pole</td>
-          <td>TBD</td>
-          <td>Planned</td>
-        </tr>
-      </tbody>
-    </table>
+    ${wideTable({ prefix })}
   </div>
+`;
+
+const interactiveTable = ({ prefix = 'interactive' }) => `
+  <table class="usa-table">
+    <caption>Mission documents</caption>
+    <thead>
+      <tr>
+        <th scope="col">Document</th>
+        <th scope="col">Mission</th>
+        <th scope="col">Type</th>
+        <th scope="col">Size</th>
+        <th scope="col">Source</th>
+        <th scope="col">Download</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">
+          <a class="usa-link" href="#">Artemis I Press Kit</a>
+        </th>
+        <td>Artemis I</td>
+        <td>PDF</td>
+        <td>4.2 MB</td>
+        <td>
+          <a class="usa-link" href="#">NASA Technical Reports</a>
+        </td>
+        <td>
+          <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Artemis I Press Kit" type="button">
+            <svg class="hds-icon" aria-hidden="true" focusable="false">
+              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <a class="usa-link" href="#">Orion Heat Shield Analysis</a>
+        </th>
+        <td>Artemis I</td>
+        <td>PDF</td>
+        <td>12.8 MB</td>
+        <td>
+          <a class="usa-link usa-link--external" href="https://arc.aiaa.org">AIAA Digital Library</a>
+        </td>
+        <td>
+          <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Orion Heat Shield Analysis" type="button">
+            <svg class="hds-icon" aria-hidden="true" focusable="false">
+              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <a class="usa-link" href="#">SLS Block 1 Fact Sheet</a>
+        </th>
+        <td>Artemis II</td>
+        <td>PDF</td>
+        <td>1.1 MB</td>
+        <td>
+          <a class="usa-link" href="#">NASA Facts Online</a>
+        </td>
+        <td>
+          <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download SLS Block 1 Fact Sheet" type="button">
+            <svg class="hds-icon" aria-hidden="true" focusable="false">
+              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <a class="usa-link" href="#">Crew Biographical Data</a>
+        </th>
+        <td>Artemis II</td>
+        <td>HTML</td>
+        <td>—</td>
+        <td>
+          <a class="usa-link usa-link--external" href="https://en.wikipedia.org">Wikipedia</a>
+        </td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <a class="usa-link" href="#">Lunar Surface Science Plan</a>
+        </th>
+        <td>Artemis III</td>
+        <td>PDF</td>
+        <td>8.5 MB</td>
+        <td>
+          <a class="usa-link usa-link--external" href="https://scholar.google.com">Google Scholar</a>
+        </td>
+        <td>
+          <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Lunar Surface Science Plan" type="button">
+            <svg class="hds-icon" aria-hidden="true" focusable="false">
+              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 `;
 
 // --- Guidance embeds (hidden from sidebar) ---
@@ -373,6 +479,12 @@ export const Scrollable = {
   render: () => scrollableTable({ prefix: 'scroll' }),
 };
 
+export const Interactive = {
+  name: 'Links and buttons in cells',
+  tags: ['!dev'],
+  render: () => interactiveTable({ prefix: 'interact' }),
+};
+
 // --- Palette accessibility tests (hidden from sidebar) ---
 
 export const PaletteA11y = {
@@ -400,24 +512,65 @@ export const PaletteA11yFocus = {
 
 export const Playground = {
   args: {
-    variant: 'default',
+    content: 'sortable',
+    striped: false,
+    borderless: false,
+    compact: false,
+    scrollable: false,
   },
   argTypes: {
-    variant: {
+    content: {
       control: 'select',
-      options: ['default', 'caption-subtitle', 'sortable', 'borderless', 'compact', 'scrollable'],
-      description: 'Table variant',
+      options: ['default', 'caption-subtitle', 'sortable', 'interactive', 'wide'],
+      description: 'Table content',
+    },
+    striped: {
+      control: 'boolean',
+      description: 'Alternating row backgrounds (.usa-table--striped)',
+    },
+    borderless: {
+      control: 'boolean',
+      description: 'Remove borders and header background (.usa-table--borderless)',
+    },
+    compact: {
+      control: 'boolean',
+      description: 'Reduced padding (.usa-table--compact)',
+    },
+    scrollable: {
+      control: 'boolean',
+      description: 'Horizontal scroll container (.usa-table-container--scrollable)',
     },
   },
   render: (args) => {
-    const variants = {
+    const modifiers = [
+      args.striped ? 'usa-table--striped' : '',
+      args.borderless ? 'usa-table--borderless' : '',
+      args.compact ? 'usa-table--compact' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const contents = {
       default: basicTable({ prefix: 'pg-basic' }),
       'caption-subtitle': captionSubtitleTable({ prefix: 'pg-capsub' }),
       sortable: sortableTable({ prefix: 'pg-sort' }),
-      borderless: borderlessTable({ prefix: 'pg-bless' }),
-      compact: compactTable({ prefix: 'pg-compact' }),
-      scrollable: scrollableTable({ prefix: 'pg-scroll' }),
+      interactive: interactiveTable({ prefix: 'pg-interact' }),
+      wide: wideTable({ prefix: 'pg-wide' }),
     };
-    return variants[args.variant] || variants['default'];
+
+    let html = contents[args.content] || contents['default'];
+
+    // Inject modifier classes into the usa-table class attribute
+    if (modifiers) {
+      html = html.replace('class="usa-table"', `class="usa-table ${modifiers}"`);
+      html = html.replace('class="usa-table ', `class="usa-table ${modifiers} `);
+    }
+
+    // Wrap in scrollable container if toggled
+    if (args.scrollable) {
+      html = `<div class="usa-table-container--scrollable" tabindex="0">${html}</div>`;
+    }
+
+    return html;
   },
 };

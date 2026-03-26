@@ -286,8 +286,6 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Extract `_hds-mixins.scss` from `_hds-custom-styles.scss` §2
 - [ ] Table: test and fix USWDS stacked mobile variants with HDS overrides
-- [ ] Table: test links and inline icon buttons in table cells
-- [ ] Table: palette-aware sorted column colors on midtone/blue palettes (creative review)
 - [ ] Audit HDS classes and Guidance pages for USWDS utility duplication
 
 ### Pre-1.0 Verification
