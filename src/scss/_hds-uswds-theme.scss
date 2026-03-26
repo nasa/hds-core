@@ -397,6 +397,24 @@
   $theme-table-sticky-top-offset: 0px,
 
   // ----------------------------------------------------------
+  // Form Settings
+  // ----------------------------------------------------------
+  // Figma shows input values, help text, and error messages in
+  // Public Sans (body). Labels and legends are overridden to
+  // Inter (heading) in _hds-components.scss §5.
+  //
+  // Input background: left at USWDS default. Checkbox/radio
+  // indicator backgrounds are set via ::before in §5 using
+  // --hds-palette-input-bg to avoid leaking white bg to
+  // fieldsets and group containers.
+  //
+  // Checkbox/radio size: USWDS default is 2.5 units (20px).
+  // Figma shows 18px (2.25 units — not a clean USWDS token).
+  // Keeping default, flagged for creative director review.
+  // ----------------------------------------------------------
+  $theme-form-font-family: 'body',
+
+  // ----------------------------------------------------------
   // Component Settings
   // ----------------------------------------------------------
   // Border radius
