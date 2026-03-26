@@ -139,6 +139,7 @@ export const PaletteA11yFocus = {
 // --- Playground (visible in sidebar) ---
 
 export const Playground = {
+  name: 'Playground',
   argTypes: {
     multiselectable: {
       control: 'boolean',
