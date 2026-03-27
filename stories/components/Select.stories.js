@@ -6,11 +6,11 @@
 // USWDS: https://designsystem.digital.gov/components/select/
 //
 // Sidebar structure:
-//   Components / Select / Guidance  — Select.mdx
-//   Components / Select / Playground — interactive story with controls
+//   Guidance   — Select.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Select',
@@ -18,11 +18,9 @@ export default {
 
 // --- Helpers ---
 
-const label = (text) => `<p class="hds-label" style="margin-bottom: 0.5rem">${text}</p>`;
-
 const selectField = ({
   prefix = 'select',
-  label: labelText = 'Topic',
+  labelText = 'Topic',
   options = [],
   selected = '',
   hint = 'Help text (optional)',
@@ -46,7 +44,7 @@ const selectField = ({
   const describedBy = [hint && ariaHint ? hintId : '', error ? errorId : ''].filter(Boolean).join(' ');
 
   const optionsHtml = options
-    .map((opt) => `<option value="${opt.value}"${opt.value === selected ? ' selected' : ''}>${opt.label}</option>`)
+    .map((opt) => `<option value="${opt.value}"${opt.value === selected ? ' selected' : ''}>${opt.text}</option>`)
     .join('');
 
   return `
@@ -71,37 +69,90 @@ const selectField = ({
   `;
 };
 
+// Hoisted to module scope — .label renamed to .text (parser safety)
 const topicOptions = [
-  { value: 'humans', label: 'Humans in Space' },
-  { value: 'moon', label: 'Moon to Mars' },
-  { value: 'earth', label: 'Earth' },
-  { value: 'solar', label: 'Solar System' },
-  { value: 'universe', label: 'Universe' },
+  { value: 'humans', text: 'Humans in Space' },
+  { value: 'moon', text: 'Moon to Mars' },
+  { value: 'earth', text: 'Earth' },
+  { value: 'solar', text: 'Solar System' },
+  { value: 'universe', text: 'Universe' },
 ];
 
 const centerOptions = [
-  { value: 'ames', label: 'Ames Research Center' },
-  { value: 'armstrong', label: 'Armstrong Flight Research Center' },
-  { value: 'glenn', label: 'Glenn Research Center' },
-  { value: 'goddard', label: 'Goddard Space Flight Center' },
-  { value: 'jpl', label: 'Jet Propulsion Laboratory' },
-  { value: 'johnson', label: 'Johnson Space Center' },
-  { value: 'kennedy', label: 'Kennedy Space Center' },
-  { value: 'langley', label: 'Langley Research Center' },
-  { value: 'marshall', label: 'Marshall Space Flight Center' },
-  { value: 'stennis', label: 'Stennis Space Center' },
+  { value: 'ames', text: 'Ames Research Center' },
+  { value: 'armstrong', text: 'Armstrong Flight Research Center' },
+  { value: 'glenn', text: 'Glenn Research Center' },
+  { value: 'goddard', text: 'Goddard Space Flight Center' },
+  { value: 'jpl', text: 'Jet Propulsion Laboratory' },
+  { value: 'johnson', text: 'Johnson Space Center' },
+  { value: 'kennedy', text: 'Kennedy Space Center' },
+  { value: 'langley', text: 'Langley Research Center' },
+  { value: 'marshall', text: 'Marshall Space Flight Center' },
+  { value: 'stennis', text: 'Stennis Space Center' },
 ];
 
-// --- Guidance embeds (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  tags: ['!dev'],
-  render: () =>
-    selectField({
+  args: {
+    labelText: 'Topic',
+    hint: 'Help text (optional)',
+    error: '',
+    disabled: false,
+    required: false,
+    optionSet: 'topics',
+  },
+  argTypes: {
+    labelText: {
+      control: 'text',
+      name: 'Label',
+      description: 'Label text above the select',
+    },
+    hint: {
+      control: 'text',
+      description: 'Help text below the select',
+    },
+    error: {
+      control: 'text',
+      description: 'Error message (empty = no error)',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable the select',
+    },
+    required: {
+      control: 'boolean',
+      description: 'Mark as required',
+    },
+    optionSet: {
+      control: 'select',
+      options: ['topics', 'centers'],
+      name: 'Option set',
+      description: 'Which option set to display — use "centers" to test long lists',
+    },
+  },
+  render: (args = {}) => {
+    const {
+      labelText = 'Topic',
+      hint = 'Help text (optional)',
+      error = '',
+      disabled = false,
+      required = false,
+      optionSet = 'topics',
+    } = args;
+    return selectField({
       prefix: 'default',
-      options: topicOptions,
-    }),
+      labelText,
+      hint,
+      error,
+      disabled,
+      required,
+      options: optionSet === 'centers' ? centerOptions : topicOptions,
+    });
+  },
 };
+
+// --- Guidance embeds (MDX only) ---
 
 export const WithValue = {
   tags: ['!dev'],
@@ -118,12 +169,12 @@ export const WithHelpText = {
   render: () =>
     selectField({
       prefix: 'help',
-      label: 'Mission type',
+      labelText: 'Mission type',
       hint: 'Choose the primary mission category',
       options: [
-        { value: 'crewed', label: 'Crewed' },
-        { value: 'robotic', label: 'Robotic' },
-        { value: 'flyby', label: 'Flyby' },
+        { value: 'crewed', text: 'Crewed' },
+        { value: 'robotic', text: 'Robotic' },
+        { value: 'flyby', text: 'Flyby' },
       ],
     }),
 };
@@ -153,13 +204,12 @@ export const ManyOptions = {
   render: () =>
     selectField({
       prefix: 'many',
-      label: 'NASA center',
+      labelText: 'NASA center',
       options: centerOptions,
       hint: 'Use a select field when there are 7 or more options',
     }),
 };
 
-// Most visually complex variant for palette testing
 export const PaletteReference = {
   tags: ['!dev'],
   render: () => `
@@ -169,7 +219,7 @@ export const PaletteReference = {
   `,
 };
 
-// --- Palette accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -181,64 +231,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(PaletteReference.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(PaletteReference.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(PaletteReference.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  name: 'Playground',
-  argTypes: {
-    label: {
-      control: 'text',
-      description: 'Label text above the select',
-    },
-    hint: {
-      control: 'text',
-      description: 'Help text below the select',
-    },
-    error: {
-      control: 'text',
-      description: 'Error message (empty = no error)',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Disable the select',
-    },
-    required: {
-      control: 'boolean',
-      description: 'Mark as required',
-    },
-    optionSet: {
-      control: 'select',
-      options: ['topics', 'centers'],
-      description: 'Which option set to display',
-    },
-  },
-  args: {
-    label: 'Topic',
-    hint: 'Help text (optional)',
-    error: '',
-    disabled: false,
-    required: false,
-    optionSet: 'topics',
-  },
-  render: (args) =>
-    selectField({
-      prefix: 'playground',
-      label: args.label,
-      hint: args.hint,
-      error: args.error,
-      disabled: args.disabled,
-      required: args.required,
-      options: args.optionSet === 'centers' ? centerOptions : topicOptions,
-    }),
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(PaletteReference.render),
 };

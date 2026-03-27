@@ -2,14 +2,16 @@
 // Site Alert — Stories
 // @nasa/hds-core
 // ============================================================
-// Hidden stories for Guidance MDX embeds + Playground.
-//
 // NAMING: HDS Figma calls this "Banner." HDS Core uses
 // "Site Alert" to match the USWDS component and avoid
 // confusion with the USWDS Banner (government compliance bar).
 //
 // CSS: _hds-components.scss §15
 // USWDS: https://designsystem.digital.gov/components/site-alert/
+//
+// Sidebar structure:
+//   Guidance   — SiteAlert.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Emergency (default), Info (visible in sidebar)
 // ============================================================
 
 export default {
@@ -17,9 +19,6 @@ export default {
 };
 
 // --- Helpers (used in multiple stories) ---
-
-const label = (text) =>
-  `<p style="font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.25px; color: #58585B; margin: 0 0 0.75rem;">${text}</p>`;
 
 const siteAlert = ({
   variant = 'emergency',
@@ -51,7 +50,76 @@ const siteAlert = ({
 </section>`;
 };
 
-// --- Guidance embeds (hidden from sidebar) ---
+// Shared argTypes for both sidebar stories
+const sharedArgTypes = {
+  heading: {
+    control: 'text',
+    description: 'Alert heading (hidden in slim mode)',
+  },
+  text: {
+    control: 'text',
+    description: 'Alert body text — supports inline HTML links',
+  },
+  slim: {
+    control: 'boolean',
+    description: 'Slim variant — smaller padding, no heading',
+  },
+  noIcon: {
+    control: 'boolean',
+    description: 'Remove the alert icon',
+  },
+  noHeading: {
+    control: 'boolean',
+    description: 'Remove the heading (non-slim only)',
+  },
+};
+
+// --- Stories (visible in sidebar) ---
+
+export const Emergency = {
+  name: 'Emergency (default)',
+  args: {
+    heading: 'Scheduled site maintenance',
+    text: 'NASA.gov will be undergoing maintenance on Saturday, March 22 from 10 p.m. to 2 a.m. ET. Some services may be temporarily unavailable.',
+    slim: false,
+    noIcon: false,
+    noHeading: false,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const {
+      heading = 'Scheduled site maintenance',
+      text = 'NASA.gov will be undergoing maintenance on Saturday, March 22 from 10 p.m. to 2 a.m. ET. Some services may be temporarily unavailable.',
+      slim = false,
+      noIcon = false,
+      noHeading = false,
+    } = args;
+    return siteAlert({ variant: 'emergency', heading, text, slim, noIcon, noHeading });
+  },
+};
+
+export const Info = {
+  args: {
+    heading: 'NASA TV live event',
+    text: 'The NASA Administrator will hold a media briefing on the Artemis II mission today at 2 p.m. ET. <a class="usa-link" href="#">Watch live on NASA TV</a>.',
+    slim: false,
+    noIcon: false,
+    noHeading: false,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const {
+      heading = 'NASA TV live event',
+      text = 'The NASA Administrator will hold a media briefing on the Artemis II mission today at 2 p.m. ET. <a class="usa-link" href="#">Watch live on NASA TV</a>.',
+      slim = false,
+      noIcon = false,
+      noHeading = false,
+    } = args;
+    return siteAlert({ variant: 'info', heading, text, slim, noIcon, noHeading });
+  },
+};
+
+// --- Guidance embeds (MDX only) ---
 
 export const EmergencyWithHeading = {
   tags: ['!dev'],
@@ -114,39 +182,4 @@ export const InfoNoIcon = {
       text: 'Additional context and followup information including <a class="usa-link" href="#">a link</a>.',
       noIcon: true,
     }),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  render: (args) => siteAlert(args),
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['emergency', 'info'],
-    },
-    heading: {
-      control: 'text',
-    },
-    text: {
-      control: 'text',
-    },
-    slim: {
-      control: 'boolean',
-    },
-    noIcon: {
-      control: 'boolean',
-    },
-    noHeading: {
-      control: 'boolean',
-    },
-  },
-  args: {
-    variant: 'emergency',
-    heading: 'Alert heading',
-    text: 'Additional context and followup information including <a class="usa-link" href="#">a link</a>.',
-    slim: false,
-    noIcon: false,
-    noHeading: false,
-  },
 };

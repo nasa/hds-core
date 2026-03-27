@@ -3,8 +3,8 @@
 // Covers §14 (USWDS .usa-intro override, Tier 1)
 //
 // Sidebar structure:
-//   Guidance   — IntroText.mdx
-//   Playground — interactive story with controls
+//   Guidance   — IntroText.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default (visible in sidebar)
 // ============================================================
 
 import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
@@ -13,19 +13,27 @@ export default {
   title: 'Components/Intro Text',
 };
 
-// --- Guidance embeds (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  name: 'Default',
-  tags: ['!dev'],
-  render: () => `
-    <p class="usa-intro">
-      NASA's Artemis campaign is the next chapter in human space exploration.
-      Working with commercial and international partners, NASA will establish
-      a long-term presence at and around the Moon.
-    </p>
-  `,
+  args: {
+    text: "NASA's Artemis campaign is the next chapter in human space exploration. Working with commercial and international partners, NASA will establish a long-term presence at and around the Moon.",
+  },
+  argTypes: {
+    text: {
+      control: 'text',
+      description: 'Intro paragraph text',
+    },
+  },
+  render: (args = {}) => {
+    const {
+      text = "NASA's Artemis campaign is the next chapter in human space exploration. Working with commercial and international partners, NASA will establish a long-term presence at and around the Moon.",
+    } = args;
+    return `<p class="usa-intro">${text}</p>`;
+  },
 };
+
+// --- Guidance embeds (MDX only) ---
 
 export const WithBodyText = {
   name: 'With body text',
@@ -59,26 +67,11 @@ export const InPaletteContext = {
   `,
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
   render: paletteRender(Default.render),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  args: {
-    text: "NASA's Artemis campaign is the next chapter in human space exploration.",
-  },
-  argTypes: {
-    text: {
-      control: 'text',
-      description: 'Intro paragraph text',
-    },
-  },
-  render: (args) => `<p class="usa-intro">${args.text}</p>`,
 };
