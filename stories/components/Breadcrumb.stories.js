@@ -3,11 +3,11 @@
 // Covers §3 (USWDS .usa-breadcrumb override, Tier 1)
 //
 // Sidebar structure:
-//   Guidance   — Breadcrumb.mdx
-//   Playground — interactive story with controls
+//   Guidance   — Breadcrumb.mdx (design rationale, Canvas embeds)
+//   Stories    — Default, ThreeLevels, Truncated (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Breadcrumb',
@@ -38,25 +38,80 @@ const breadcrumb = (items) => {
   `;
 };
 
-// --- Guidance embeds (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
-export const TwoLevels = {
-  name: '2 levels',
-  tags: ['!dev'],
-  render: () => breadcrumb(['Home', 'Missions']),
+export const Default = {
+  name: '2 levels (default)',
+  args: {
+    level1: 'Home',
+    level2: 'Missions',
+  },
+  argTypes: {
+    level1: {
+      control: 'text',
+      name: 'Root page',
+    },
+    level2: {
+      control: 'text',
+      name: 'Current page',
+    },
+  },
+  render: (args = {}) => {
+    const { level1 = 'Home', level2 = 'Missions' } = args;
+    return breadcrumb([level1, level2]);
+  },
 };
 
 export const ThreeLevels = {
   name: '3 levels',
-  tags: ['!dev'],
-  render: () => breadcrumb(['Home', 'Missions', 'Artemis I']),
+  args: {
+    level1: 'Home',
+    level2: 'Missions',
+    level3: 'Artemis I',
+  },
+  argTypes: {
+    level1: {
+      control: 'text',
+      name: 'Root page',
+    },
+    level2: {
+      control: 'text',
+      name: 'Parent page',
+    },
+    level3: {
+      control: 'text',
+      name: 'Current page',
+    },
+  },
+  render: (args = {}) => {
+    const { level1 = 'Home', level2 = 'Missions', level3 = 'Artemis I' } = args;
+    return breadcrumb([level1, level2, level3]);
+  },
 };
 
-export const FourPlusLevels = {
-  name: '4+ levels (ellipsis)',
-  tags: ['!dev'],
-  render: () => breadcrumb(['…', 'Artemis I', 'Multimedia']),
+export const Truncated = {
+  name: '4+ levels (truncated)',
+  args: {
+    level2: 'Artemis I',
+    level3: 'Multimedia',
+  },
+  argTypes: {
+    level2: {
+      control: 'text',
+      name: 'Parent page',
+    },
+    level3: {
+      control: 'text',
+      name: 'Current page',
+    },
+  },
+  render: (args = {}) => {
+    const { level2 = 'Artemis I', level3 = 'Multimedia' } = args;
+    return breadcrumb(['…', level2, level3]);
+  },
 };
+
+// --- Guidance embeds (MDX only) ---
 
 export const AllDepths = {
   name: 'All depths',
@@ -71,19 +126,19 @@ export const AllDepths = {
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>
-        <span class="hds-label">2 layers</span>
+        <span class="hds-label">2 levels</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions'])}
         </div>
       </div>
       <div>
-        <span class="hds-label">3 layers</span>
+        <span class="hds-label">3 levels</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions', 'Artemis I'])}
         </div>
       </div>
       <div>
-        <span class="hds-label">4+ layers</span>
+        <span class="hds-label">4+ levels (truncated)</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['…', 'Artemis I', 'Multimedia'])}
         </div>
@@ -103,7 +158,7 @@ export const HoverState = {
   `,
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -115,56 +170,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllDepths.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(AllDepths.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllDepths.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  args: {
-    depth: '3',
-    level1: 'Home',
-    level2: 'Missions',
-    level3: 'Artemis I',
-  },
-  argTypes: {
-    depth: {
-      control: 'radio',
-      options: ['2', '3', '4+'],
-      description: 'Breadcrumb depth pattern',
-    },
-    level1: {
-      control: 'text',
-      name: 'First item',
-      description: 'Root page (Home) or ellipsis for 4+ levels',
-    },
-    level2: {
-      control: 'text',
-      name: 'Second item',
-      description: 'Parent page',
-    },
-    level3: {
-      control: 'text',
-      name: 'Current page',
-      description: 'Current page (rendered as plain text, not a link)',
-      if: { arg: 'depth', neq: '2' },
-    },
-  },
-  render: (args) => {
-    if (args.depth === '2') {
-      return breadcrumb([args.level1, args.level2]);
-    }
-    if (args.depth === '4+') {
-      return breadcrumb(['…', args.level2, args.level3]);
-    }
-    return breadcrumb([args.level1, args.level2, args.level3]);
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(AllDepths.render),
 };

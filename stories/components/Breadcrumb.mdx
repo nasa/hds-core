@@ -18,7 +18,7 @@ Breadcrumbs consist of a list of links, separated by forward slashes, beginning 
 
 The simplest breadcrumb — root page and current page.
 
-<Canvas of={BreadcrumbStories.TwoLevels} />
+<Canvas of={BreadcrumbStories.Default} />
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
@@ -32,7 +32,7 @@ Root page, one parent, and the current page. This is the maximum depth shown wit
 
 For pages deeper than 3 levels, Home and all intermediate levels are replaced with an ellipsis (`…`). Only the ellipsis, the immediate parent, and the current page are shown.
 
-<Canvas of={BreadcrumbStories.FourPlusLevels} />
+<Canvas of={BreadcrumbStories.Truncated} />
 
 <Note type="uswds">HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of chevrons, a strict 3-element maximum with ellipsis truncation, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.</Note>
 
