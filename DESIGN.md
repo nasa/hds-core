@@ -349,7 +349,7 @@ Figma shows a compact pattern where the label sits inside the field as placehold
 
 ### Surface Model
 
-Tables use a fixed background — white for light palettes, Carbon 90 for dark palettes — rather than inheriting the surrounding palette background. All Figma-confirmed colors (borders, sorted column tints, caption text) are designed against these two specific surfaces.
+Tables use a fixed background — white for light palettes (white, light, midtone, blue), Carbon 90 for dark palettes (dark, black) — rather than inheriting the surrounding palette background. All Figma-confirmed colors (borders, sorted column tints, caption text) are designed against these two specific surfaces. Blue palette uses the light table variant per creative director review (2026-03-27).
 
 Palette-aware table backgrounds (where the table adapts to the exact palette background color like Carbon 05 or Carbon 20) are deferred to Phase 2 pending creative director review.
 
@@ -379,7 +379,7 @@ Dark mode sorted column uses white tints over Carbon 90:
 | Even | `rgba(255, 255, 255, 0.06)` / Carbon 90 | `#252528`    | `$hds-color-table-sorted-bg-dark`        |
 | Odd  | `rgba(255, 255, 255, 0.04)` / Carbon 90 | `#202024`    | `$hds-color-table-sorted-stripe-bg-dark` |
 
-⚠️ **Creative review needed:** Sorted column blue tints are designed for a white surface. On the light palette (Carbon 05 background), the even-row tint (`#F8FAFE`) is lighter than the page background (`#F6F6F6`), creating an inverted contrast effect. Midtone and blue palette sorted column colors are unspecified in Figma. See GitHub Discussion for details.
+| ⚠️ **Creative review needed:** Sorted column blue tints are designed for a white surface. On the light palette (Carbon 05 background), the even-row tint (`#F8FAFE`) is lighter than the page background (`#F6F6F6`), creating an inverted contrast effect. Midtone sorted column colors are unspecified in Figma. Blue palette now uses the light table variant (white surface) per creative director review, so light-mode sorted tints apply. See GitHub Discussion #26 for details.
 
 ### Striped Variant
 
