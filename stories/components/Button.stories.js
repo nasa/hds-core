@@ -120,24 +120,32 @@ export const Unstyled = {
 export const PrimaryArrow = {
   name: 'Primary Arrow',
   args: {
-    label: 'Explore the Mission',
+    text: 'Explore the Mission',
     external: false,
+    size: 'default',
   },
   argTypes: {
-    label: {
+    text: {
       control: 'text',
+      name: 'Label',
       description: 'Link text content',
     },
     external: {
       control: 'boolean',
       description: 'External link — arrow changes from line to diagonal',
     },
+    size: {
+      control: 'select',
+      options: ['xs', 'sm', 'default', 'lg', 'xl', '2xl'],
+      description: 'Button size — default is 18px text / 24px circle',
+    },
   },
   render: (args = {}) => {
-    const { label: text = 'Explore the Mission', external = false } = args;
+    const { text = 'Explore the Mission', external = false, size = 'default' } = args;
     const externalClass = external ? ' usa-link--external' : '';
+    const sizeClass = size && size !== 'default' ? ` hds-btn--primary--${size}` : '';
     const href = external ? 'https://flickr.com' : '#';
-    return `<a class="hds-btn--primary${externalClass}" href="${href}">${text}</a>`;
+    return `<a class="hds-btn--primary${sizeClass}${externalClass}" href="${href}">${text}</a>`;
   },
 };
 
@@ -154,6 +162,51 @@ export const PrimaryArrowPair = {
       '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>',
     )}
   `),
+};
+
+export const PrimaryArrowSizes = {
+  name: 'Primary arrow sizes',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+      <div>
+        <span class="hds-label">XS (14px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary hds-btn--primary--xs" href="#">Explore</a>
+        </div>
+      </div>
+      <div>
+        <span class="hds-label">SM (16px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary hds-btn--primary--sm" href="#">Explore</a>
+        </div>
+      </div>
+      <div>
+        <span class="hds-label">Default (18px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary" href="#">Explore</a>
+        </div>
+      </div>
+      <div>
+        <span class="hds-label">LG (22px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary hds-btn--primary--lg" href="#">Explore</a>
+        </div>
+      </div>
+      <div>
+        <span class="hds-label">XL (29px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary hds-btn--primary--xl" href="#">Explore</a>
+        </div>
+      </div>
+      <div>
+        <span class="hds-label">2XL (36px)</span>
+        <div style="margin-top: 0.5rem;">
+          <a class="hds-btn--primary hds-btn--primary--2xl" href="#">Explore</a>
+        </div>
+      </div>
+    </div>
+  `,
 };
 
 export const FilledVariants = {

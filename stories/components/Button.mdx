@@ -8,18 +8,22 @@ import * as ButtonStories from './Button.stories';
 
 A button draws attention to important actions with a large selectable surface. HDS buttons use USWDS [`.usa-button`](https://designsystem.digital.gov/components/button/) classes with NASA brand colors — no markup changes needed for existing USWDS sites.
 
-## Primary arrow button
+### Primary arrow sizes
 
-`.hds-btn--primary` is a red pill-shaped link with an animated arrow. Use it for editorial CTA links in hero banners and content cards.
+Six sizes are available, aligned with the icon button size scale for the circle container.
 
-<Canvas of={ButtonStories.PrimaryArrowPair} />
+<Canvas of={ButtonStories.PrimaryArrowSizes} />
 
-> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+| Size    | Class                    | Text | Circle | Use                      |
+| ------- | ------------------------ | ---- | ------ | ------------------------ |
+| XS      | `.hds-btn--primary--xs`  | 14px | 16px   | Compact UI, card footers |
+| Small   | `.hds-btn--primary--sm`  | 16px | 20px   | Inline, secondary CTAs   |
+| Default | _(no modifier)_          | 18px | 24px   | General purpose          |
+| Large   | `.hds-btn--primary--lg`  | 22px | 28px   | Section headers          |
+| XL      | `.hds-btn--primary--xl`  | 29px | 32px   | Hero sections            |
+| 2XL     | `.hds-btn--primary--2xl` | 36px | 36px   | Landing page hero        |
 
-- Always an `<a>` tag — it's a navigation link, never a form action
-- Pairs with `.usa-link--external` for external destinations — the arrow changes from a line to a diagonal
-
-<Note type="figma">The HDS Figma spec shows 6 size variants (14px–36px). HDS Core currently ships the default size only.</Note>
+<Note type="figma">The HDS Figma spec labels these sizes 14–36 by font size. HDS Core uses USWDS-style t-shirt naming (xs through 2xl) for consistency with the icon button size scale. Circle containers match the icon button sizes at each step.</Note>
 
 ## Filled buttons
 

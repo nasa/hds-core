@@ -1441,10 +1441,25 @@ input::file-selector-button,
 // Text + CSS ::after red circle with white arrow.
 // Arrow direction auto-swaps for external links via
 // .usa-link--external. No SVG markup needed in HTML.
+//
+// SIZE SCALE
+// 6 sizes matching HDS Figma spec, aligned with the icon
+// button size scale (§12.3) for the circle container.
+// Default (no modifier) = 18px text / 24px circle.
+// Uses px for both text and circle — the text-to-circle
+// ratio varies across sizes so em scaling doesn't work.
+//
+// BREAKING (v0.6.0):
+//   Default circle changed from 1.2em (~19px) to 24px.
+//   Font size changed from size('heading', 'xs') to 18px.
 // ============================================================
 
 $_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3Cpolyline points='13 6 19 12 13 18'/%3E%3C/svg%3E");
 $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'/%3E%3Cpolyline points='10 7 17 7 17 14'/%3E%3C/svg%3E");
+
+// ------------------------------------------------------------
+// §11.1 Base
+// ------------------------------------------------------------
 
 .hds-btn--primary {
   background-color: transparent;
@@ -1452,7 +1467,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   border-radius: 0;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   font-family: family('heading');
-  font-size: size('heading', 'xs');
+  font-size: 18px;
   font-weight: font-weight('bold');
   line-height: var(--hds-line-height-button);
   padding: 0;
@@ -1467,10 +1482,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     border-radius: 50%;
     content: '';
     display: inline-block;
-    height: 1.2em;
+    height: 24px;
     margin-inline-start: 0.3em;
     vertical-align: text-bottom;
-    width: 1.2em;
+    width: 24px;
   }
 
   // External links: swap horizontal arrow to diagonal
@@ -1492,6 +1507,74 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   &:focus {
     outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-carbon-90});
     outline-offset: 2px;
+  }
+}
+
+// ------------------------------------------------------------
+// §11.2 Sizes
+// ------------------------------------------------------------
+// 6-size scale matching HDS Figma spec. Circle containers
+// align with icon button sizes (§12.3) at each step.
+//
+// | Class        | Text | Circle | Icon btn equivalent |
+// |--------------|------|--------|---------------------|
+// | --xs         | 14px | 16px   | --xs                |
+// | --sm         | 16px | 20px   | --sm                |
+// | (default)    | 18px | 24px   | default             |
+// | --lg         | 22px | 28px   | --lg                |
+// | --xl         | 29px | 32px   | --xl                |
+// | --2xl        | 36px | 36px   | --2xl               |
+// ------------------------------------------------------------
+
+// 14px text / 16px circle
+.hds-btn--primary--xs {
+  font-size: 14px;
+
+  &::after {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+// 16px text / 20px circle
+.hds-btn--primary--sm {
+  font-size: 16px;
+
+  &::after {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+// 18px text / 24px circle — default (no class needed)
+
+// 22px text / 28px circle
+.hds-btn--primary--lg {
+  font-size: 22px;
+
+  &::after {
+    height: 28px;
+    width: 28px;
+  }
+}
+
+// 29px text / 32px circle
+.hds-btn--primary--xl {
+  font-size: 29px;
+
+  &::after {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+// 36px text / 36px circle
+.hds-btn--primary--2xl {
+  font-size: 36px;
+
+  &::after {
+    height: 36px;
+    width: 36px;
   }
 }
 
