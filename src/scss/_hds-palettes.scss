@@ -90,8 +90,11 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
-  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
-  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  // Secondary filled uses NASA Blue on all palettes per creative
+  // director review (2026-03-27). Passes AA everywhere. See
+  // Discussion #24 for rationale.
+  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   // Inferred — same value as light scheme. Flagged for creative
   // director review: does Red → Red Shade provide enough visible
   // hover feedback against dark backgrounds?
@@ -177,8 +180,8 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
-  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
-  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   // Inferred — same as dark scheme. Flagged for review.
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-50};

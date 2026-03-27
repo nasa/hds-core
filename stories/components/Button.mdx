@@ -109,6 +109,14 @@ Inside an HDS palette wrapper, `.usa-button--outline` adapts to dark backgrounds
   USWDS <code>--inverse</code> turns the entire outline button white (border + text). In HDS Core, only the text flips to white — the border stays NASA Blue.
 </Note>
 
+## Blue palette limitation
+
+On the blue palette, the secondary filled button automatically renders as an outline button. The filled variant's NASA Blue fill is too close to the palette's NASA Blue Shade background to provide sufficient contrast. This conversion is automatic — no class changes needed.
+
+If your design requires a filled secondary action on a blue background, use an [Icon Button](?path=/docs/components-icon-button-guidance--docs) (secondary role) instead, or reconsider the background color.
+
+<Note type="uswds">This is an HDS-specific override. USWDS secondary buttons do not adapt to background color.</Note>
+
 ## Other button types
 
 The HDS Figma spec also defines several specialized button types. In HDS Core, these are implemented as [Icon Button](?path=/docs/components-icon-button-guidance--docs) variants:

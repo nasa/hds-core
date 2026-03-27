@@ -466,6 +466,44 @@
   }
 }
 
+// ------------------------------------------------------------
+// §4.8 Blue Palette — Secondary Filled → Outline
+// ------------------------------------------------------------
+// On the blue palette, the secondary filled button's NASA Blue
+// Tint fill blends into the NASA Blue Shade background. The
+// creative director approved converting it to outline behavior
+// on this palette only (2026-03-27).
+//
+// This override mirrors §4.5 outline styling using the blue
+// palette's existing token values. Icon buttons (.hds-btn-icon)
+// are not affected — their smaller size avoids the contrast
+// issue, and they retain filled behavior on all palettes.
+//
+// Scoped to text buttons only via :not(.hds-btn-icon).
+// ------------------------------------------------------------
+
+[class*='hds-palette-blue'] .usa-button--secondary:not(.hds-btn-icon),
+[data-hds-palette='blue'] .usa-button--secondary:not(.hds-btn-icon) {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg);
+  color: var(--hds-palette-heading);
+
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover);
+    color: var(--hds-palette-heading);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke);
+    color: var(--hds-palette-btn-disabled-text);
+    opacity: 1;
+  }
+}
+
 // ============================================================
 // §5 FORM ELEMENTS
 // Restyles: https://designsystem.digital.gov/components/form/
