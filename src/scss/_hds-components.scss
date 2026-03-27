@@ -1118,45 +1118,13 @@ input::file-selector-button,
 }
 
 // ------------------------------------------------------------
-// §7.4 Utility button in pagination (recommended markup)
+// §7.4 Utility button in pagination
 // ------------------------------------------------------------
-// When .hds-btn-icon--utility is used inside pagination,
-// add hover/active/disabled states. These will become
-// redundant when §12 gets full state support (TODO).
-
-.usa-pagination .hds-btn-icon--utility {
-  // Hover
-  &:hover:not([disabled]) {
-    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
-    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
-  }
-
-  // Active — match hover, override USWDS blue ring
-  &:active:not([disabled]) {
-    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
-    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
-    outline: none;
-  }
-
-  // Focus
-  &:focus-visible {
-    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
-    outline-offset: 2px;
-  }
-
-  // Disabled
-  &[disabled],
-  &:disabled {
-    border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
-    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
-    cursor: not-allowed;
-
-    &:hover {
-      background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
-      border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
-    }
-  }
-}
+// Hover, focus, and disabled states previously lived here
+// scoped to .usa-pagination. Now handled globally in §12.2.
+// Retained as a placeholder for future pagination-only tweaks
+// (e.g. spacing, sizing within the pagination container).
+// ------------------------------------------------------------
 
 // ------------------------------------------------------------
 // §7.5 Simplified pagination
@@ -1499,11 +1467,17 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 //   --outline     NASA Blue border, lower emphasis
 //   --utility     Neutral/adaptive, carousel/accordion controls
 //   --social      Social media share/follow links
-//   --interactive Small tooltip/popover triggers
+//   --interactive Small tooltip/popover triggers (fixed color)
 //
 // Sizes:
 //   --sm          Inline with text
 //   --lg          Hero CTAs
+//
+// States:
+//   All roles except --interactive support hover, active,
+//   focus-visible, and disabled. Active matches hover (no
+//   distinct active state, consistent with Apple HIG).
+//   Disabled is color-based, not opacity-based.
 // ============================================================
 
 // ------------------------------------------------------------
@@ -1522,9 +1496,17 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   padding: 0;
   width: 2em;
 
+  // Global focus ring — 1px dashed, palette-aware, keyboard only
   &:focus-visible {
-    outline: 2px solid var(--hds-palette-link-text, currentColor);
+    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
     outline-offset: 2px;
+  }
+
+  // Global disabled — shared cursor, suppress hover via :not()
+  // in role selectors below
+  &[disabled],
+  &:disabled {
+    cursor: not-allowed;
   }
 
   .hds-icon {
@@ -1536,7 +1518,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §12.2 Icon button role
+// §12.2 Icon button roles
 // ------------------------------------------------------------
 
 // CTA — NASA Red, navigates to a new page
@@ -1544,6 +1526,18 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: var(--hds-palette-btn-primary-bg);
   border-color: var(--hds-palette-btn-primary-bg);
   color: var(--hds-palette-btn-filled-text);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-primary-bg-hover);
+    border-color: var(--hds-palette-btn-primary-bg-hover);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+  }
 }
 
 // Secondary filled — NASA Blue, on-page actions (download, share)
@@ -1551,6 +1545,18 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: var(--hds-palette-btn-secondary-bg);
   border-color: var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-btn-filled-text);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-secondary-bg-hover);
+    border-color: var(--hds-palette-btn-secondary-bg-hover);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+  }
 }
 
 // Secondary outline — NASA Blue border, lower emphasis
@@ -1558,31 +1564,69 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: transparent;
   border-color: var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-heading);
+
+  // Hover fills the circle — mirrors text button outline hover
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-secondary-bg);
+    border-color: var(--hds-palette-btn-secondary-bg);
+    color: var(--hds-palette-btn-filled-text);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: transparent;
+    border-color: var(--hds-palette-btn-disabled-stroke);
+    color: var(--hds-palette-btn-disabled-text);
+  }
 }
 
 // Utility — neutral/adaptive, carousel and accordion controls
 .hds-btn-icon--utility {
   @include hds-utility-circle;
-  // TODO: Add hover, focus, and disabled states.
-  // Confirmed values from Figma (2026-03-16):
-  //   Hover:    fill → utility-hover-fill, stroke → utility-hover-stroke
-  //   Focus:    1px dashed outline, 2px offset, color → muted
-  //   Disabled: stroke → utility-disabled-stroke, icon → btn-disabled-text
-  // See §7.2 for reference implementation — same states apply
-  // but use <button disabled> instead of aria-disabled.
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+    border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+  }
 }
 
-// Social — social media share/follow link
+// Social — social media share/follow links
+// Social states are inferred (not in Figma or Proposal).
+// Flagged for creative director review.
 .hds-btn-icon--social {
   background-color: var(--hds-palette-social-fill);
   border-color: var(--hds-palette-social-fill);
   color: var(--hds-palette-social-icon);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-social-hover-fill);
+    border-color: var(--hds-palette-social-hover-fill);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+    color: var(--hds-palette-btn-filled-text);
+  }
 }
 
 // Interactive — small tooltip/popover trigger over images
 // Uses fixed-color SVGs (hds-buttons/interactive-*.svg) with
 // baked-in NASA Blue fill + white icon. Does NOT use palette
 // vars — color stays constant across all palettes.
+// No hover (colors baked into SVG). No disabled (tooltip
+// triggers should not be disabled).
 .hds-btn-icon--interactive {
   background-color: #{$hds-color-nasa-blue};
   border-color: #{$hds-color-nasa-blue};
@@ -1592,7 +1636,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 }
 
 // ------------------------------------------------------------
-// §12.3 Icon button size
+// §12.3 Icon button sizes
 // ------------------------------------------------------------
 
 // Small — inline with button text (e.g. primary arrow button)
@@ -2176,9 +2220,13 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ----------------------------------------------------------------
 // §16.5 Dark palette override
 // ----------------------------------------------------------------
-// Tables on dark, blue, and black palettes switch to a fixed
-// Carbon 90 surface. All values are the dark-mode equivalents
-// of §16.1–§16.4, matching the HDS Figma dark table spec.
+// Tables on dark and black palettes switch to a fixed Carbon 90
+// surface. All values are the dark-mode equivalents of
+// §16.1–§16.4, matching the HDS Figma dark table spec.
+//
+// Blue palette uses the LIGHT table variant per creative
+// director review (2026-03-27). The table renders as a white
+// surface inside the blue section — same as white/light/midtone.
 //
 // NOTE: This block intentionally mirrors the structure of the
 // light-mode sections above. The repetition is inherent to
@@ -2187,8 +2235,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ----------------------------------------------------------------
 
 [class*='hds-palette-dark'],
-[class*='hds-palette-black'],
-[class*='hds-palette-blue'] {
+[class*='hds-palette-black'] {
   // --- §16.1 Base (dark) ---
 
   .usa-table {
