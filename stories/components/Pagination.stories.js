@@ -3,8 +3,9 @@
 // Covers §7 (USWDS .usa-pagination override + HDS simplified)
 //
 // Sidebar structure:
-//   Guidance   — Pagination.mdx
-//   Playground — interactive story with controls
+//   Guidance   — Pagination.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Bounded (default), Unbounded, Simplified
+//              (visible in sidebar)
 //
 // Numbered variants use HDS icon buttons for prev/next with
 // HDS sprite chevrons. Simplified variant uses HDS composed
@@ -17,7 +18,7 @@
 // generates the correct markup for each page state.
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Pagination',
@@ -89,7 +90,6 @@ const pagination = ({ totalPages = 20, currentPage = 1, simplified = false, unbo
     </li>`;
 
   // ---- Next button ----
-  // Unbounded sets never disable next (no known last page)
   const next = `
     <li class="usa-pagination__item usa-pagination__arrow">
       <button
@@ -150,7 +150,6 @@ const pagination = ({ totalPages = 20, currentPage = 1, simplified = false, unbo
  *   - Shows extra forward neighbor since no last-page slot
  */
 function buildSlots(total, current, bounded = true) {
-  // Bounded with few pages — show all
   if (bounded && total <= 7) {
     const slots = [];
     for (let i = 1; i <= total; i++) {
@@ -185,7 +184,6 @@ function buildSlots(total, current, bounded = true) {
       slots.push({ page: total, last: true });
     }
   } else {
-    // Unbounded — no last page, ends with ellipsis
     if (nearStart) {
       for (let i = 1; i <= 5; i++) slots.push(i);
       slots.push('…');
@@ -203,13 +201,73 @@ function buildSlots(total, current, bounded = true) {
   return slots;
 }
 
-// --- Guidance embeds - Bounded (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
-export const BoundedFirstPage = {
-  name: 'Bounded — first page',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 20, currentPage: 1 }),
+export const Bounded = {
+  name: 'Bounded (default)',
+  args: {
+    totalPages: 20,
+    currentPage: 1,
+  },
+  argTypes: {
+    totalPages: {
+      control: { type: 'number', min: 1, max: 100 },
+      description: 'Total number of pages — set to 7 or fewer to see all pages without ellipsis',
+    },
+    currentPage: {
+      control: { type: 'number', min: 1, max: 100 },
+      description: 'Currently active page (1-based)',
+    },
+  },
+  render: (args = {}) => {
+    const { totalPages = 20, currentPage = 1 } = args;
+    const total = Math.max(1, totalPages);
+    const current = Math.min(Math.max(1, currentPage), total);
+    return pagination({ totalPages: total, currentPage: current });
+  },
 };
+
+export const Unbounded = {
+  args: {
+    currentPage: 3,
+  },
+  argTypes: {
+    currentPage: {
+      control: { type: 'number', min: 1, max: 100 },
+      description: 'Currently active page (1-based) — no known last page',
+    },
+  },
+  render: (args = {}) => {
+    const { currentPage = 3 } = args;
+    const current = Math.max(1, currentPage);
+    return pagination({ totalPages: 100, currentPage: current, unbounded: true });
+  },
+};
+
+export const Simplified = {
+  args: {
+    totalPages: 5,
+    currentPage: 2,
+  },
+  argTypes: {
+    totalPages: {
+      control: { type: 'number', min: 1, max: 100 },
+      description: 'Total number of pages',
+    },
+    currentPage: {
+      control: { type: 'number', min: 1, max: 100 },
+      description: 'Currently active page (1-based)',
+    },
+  },
+  render: (args = {}) => {
+    const { totalPages = 5, currentPage = 2 } = args;
+    const total = Math.max(1, totalPages);
+    const current = Math.min(Math.max(1, currentPage), total);
+    return pagination({ totalPages: total, currentPage: current, simplified: true });
+  },
+};
+
+// --- Guidance embeds — Bounded (MDX only) ---
 
 export const BoundedMiddlePage = {
   name: 'Bounded — middle page',
@@ -241,13 +299,7 @@ export const BoundedMinimal = {
   render: () => pagination({ totalPages: 2, currentPage: 1 }),
 };
 
-// --- Guidance embeds - Unbounded (hidden from sidebar) ---
-
-export const UnboundedNearStart = {
-  name: 'Unbounded — near start',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 100, currentPage: 3, unbounded: true }),
-};
+// --- Guidance embeds — Unbounded (MDX only) ---
 
 export const UnboundedMiddle = {
   name: 'Unbounded — middle',
@@ -255,13 +307,7 @@ export const UnboundedMiddle = {
   render: () => pagination({ totalPages: 100, currentPage: 10, unbounded: true }),
 };
 
-// --- Guidance embeds  - Simplified (hidden from sidebar) ---
-
-export const Simplified = {
-  name: 'Simplified',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 5, currentPage: 2, simplified: true }),
-};
+// --- Guidance embeds — Simplified (MDX only) ---
 
 export const SimplifiedFirstPage = {
   name: 'Simplified — first page',
@@ -275,60 +321,25 @@ export const SimplifiedLastPage = {
   render: () => pagination({ totalPages: 5, currentPage: 5, simplified: true }),
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(BoundedFirstPage.render),
+  render: paletteRender(BoundedMiddlePage.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(BoundedFirstPage.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(BoundedMiddlePage.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(BoundedFirstPage.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  args: {
-    simplified: false,
-    totalPages: 20,
-    currentPage: 1,
-  },
-  argTypes: {
-    simplified: {
-      control: 'boolean',
-      description: 'Show Previous/Next only (no page numbers)',
-    },
-    totalPages: {
-      control: { type: 'number', min: 1, max: 100 },
-      description:
-        'Total number of pages. Set to 7 or fewer to see all pages without ellipsis. Only applies when simplified is off.',
-      if: { arg: 'simplified', truthy: false },
-    },
-    currentPage: {
-      control: { type: 'number', min: 1, max: 100 },
-      description: 'Currently active page (1-based)',
-    },
-  },
-  render: (args) => {
-    const total = Math.max(1, args.totalPages);
-    const current = Math.min(Math.max(1, args.currentPage), total);
-    return pagination({
-      totalPages: total,
-      currentPage: current,
-      simplified: args.simplified,
-    });
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(BoundedMiddlePage.render),
 };
