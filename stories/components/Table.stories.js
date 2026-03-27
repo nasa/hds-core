@@ -3,11 +3,11 @@
 // Covers §16 (USWDS .usa-table override, Tier 1)
 //
 // Sidebar structure:
-//   Guidance   — Table.mdx
-//   Playground — interactive variant switcher
+//   Guidance   — Table.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default, Sortable (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Table',
@@ -15,13 +15,84 @@ export default {
 
 // --- Helpers ---
 
-const label = (text) => `<p class="hds-label">${text}</p>`;
+const applyModifiers = (html, { striped = false, borderless = false, compact = false, scrollable = false } = {}) => {
+  const modifiers = [
+    striped && 'usa-table--striped',
+    borderless && 'usa-table--borderless',
+    compact && 'usa-table--compact',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  if (modifiers) {
+    html = html.replace('class="usa-table"', `class="usa-table ${modifiers}"`);
+  }
+
+  if (scrollable) {
+    html = `<div class="usa-table-container--scrollable" tabindex="0">${html}</div>`;
+  }
+
+  return html;
+};
+
+const modifierArgTypes = {
+  striped: {
+    control: 'boolean',
+    description: 'Alternating row backgrounds (.usa-table--striped)',
+  },
+  borderless: {
+    control: 'boolean',
+    description: 'Remove borders and header background (.usa-table--borderless)',
+  },
+  compact: {
+    control: 'boolean',
+    description: 'Reduced padding (.usa-table--compact)',
+  },
+  scrollable: {
+    control: 'boolean',
+    description: 'Horizontal scroll container (.usa-table-container--scrollable)',
+  },
+};
+
+const captionArgTypes = {
+  title: {
+    control: 'text',
+    description: 'Table caption title',
+  },
+  subtitle: {
+    control: 'text',
+    description: 'Optional subtitle below the title (leave empty for none)',
+  },
+  description: {
+    control: 'text',
+    name: 'Below-table caption',
+    description: 'Attribution text below the table (.hds-caption)',
+  },
+};
+
+const buildCaption = (title, subtitle) => {
+  if (!title) return '';
+  if (subtitle) {
+    return `<caption><strong>${title}</strong><span>${subtitle}</span></caption>`;
+  }
+  return `<caption>${title}</caption>`;
+};
+
+const buildDescription = (prefix, text) => {
+  if (!text) return '';
+  return `<p class="hds-caption" id="${prefix}-desc">${text}</p>`;
+};
 
 // --- Story markup functions ---
 
-const basicTable = ({ prefix = 'basic' }) => `
-  <table class="usa-table" aria-describedby="${prefix}-desc">
-    <caption>Moon missions by decade</caption>
+const basicTable = ({
+  prefix = 'basic',
+  title = 'Moon missions by decade',
+  subtitle = '',
+  description = 'Source: NASA History Division. Last updated March 2026.',
+} = {}) => `
+  <table class="usa-table"${description ? ` aria-describedby="${prefix}-desc"` : ''}>
+    ${buildCaption(title, subtitle)}
     <thead>
       <tr>
         <th scope="col">Mission</th>
@@ -63,17 +134,17 @@ const basicTable = ({ prefix = 'basic' }) => `
       </tr>
     </tbody>
   </table>
-  <p class="hds-caption" id="${prefix}-desc">
-    Source: NASA History Division. Last updated March 2026.
-  </p>
+  ${buildDescription(prefix, description)}
 `;
 
-const captionSubtitleTable = ({ prefix = 'subtitle' }) => `
-  <table class="usa-table" aria-describedby="${prefix}-desc">
-    <caption>
-      <strong>Close approach data</strong>
-      <span>Close approaches to the Earth by near-Earth objects (NEOs)</span>
-    </caption>
+const captionSubtitleTable = ({
+  prefix = 'subtitle',
+  title = 'Close approach data',
+  subtitle = 'Close approaches to the Earth by near-Earth objects (NEOs)',
+  description = 'This table shows close approaches to the Earth by near-Earth objects (NEOs). Data are not available prior to 1900 A.D. nor after 2200 A.D.',
+} = {}) => `
+  <table class="usa-table"${description ? ` aria-describedby="${prefix}-desc"` : ''}>
+    ${buildCaption(title, subtitle)}
     <thead>
       <tr>
         <th scope="col">Object</th>
@@ -121,15 +192,17 @@ const captionSubtitleTable = ({ prefix = 'subtitle' }) => `
       </tr>
     </tbody>
   </table>
-  <p class="hds-caption" id="${prefix}-desc">
-    This table shows close approaches to the Earth by near-Earth objects (NEOs).
-    Data are not available prior to 1900 A.D. nor after 2200 A.D.
-  </p>
+  ${buildDescription(prefix, description)}
 `;
 
-const sortableTable = ({ prefix = 'sortable' }) => `
-  <table class="usa-table" aria-describedby="${prefix}-desc">
-    <caption>Planetary fact sheet</caption>
+const sortableTable = ({
+  prefix = 'sortable',
+  title = 'Planetary fact sheet',
+  subtitle = '',
+  description = 'Source: NASA Planetary Fact Sheet. Values are approximate.',
+} = {}) => `
+  <table class="usa-table"${description ? ` aria-describedby="${prefix}-desc"` : ''}>
+    ${buildCaption(title, subtitle)}
     <thead>
       <tr>
         <th scope="col" data-sortable>Planet</th>
@@ -185,9 +258,7 @@ const sortableTable = ({ prefix = 'sortable' }) => `
     </tbody>
   </table>
   <div class="usa-sr-only usa-table__announcement-region" aria-live="polite"></div>
-  <p class="hds-caption" id="${prefix}-desc">
-    Source: NASA Planetary Fact Sheet. Values are approximate.
-  </p>
+  ${buildDescription(prefix, description)}
 `;
 
 const borderlessTable = ({ prefix = 'borderless' }) => `
@@ -272,9 +343,9 @@ const compactTable = ({ prefix = 'compact' }) => `
   </table>
 `;
 
-const wideTable = ({ prefix = 'wide' }) => `
-  <table class="usa-table">
-    <caption>Mission timeline</caption>
+const wideTable = ({ prefix = 'wide', title = 'Mission timeline', subtitle = '', description = '' } = {}) => `
+  <table class="usa-table"${description ? ` aria-describedby="${prefix}-desc"` : ''}>
+    ${buildCaption(title, subtitle)}
     <thead>
       <tr>
         <th scope="col">Mission</th>
@@ -336,6 +407,7 @@ const wideTable = ({ prefix = 'wide' }) => `
       </tr>
     </tbody>
   </table>
+  ${buildDescription(prefix, description)}
 `;
 
 const scrollableTable = ({ prefix = 'scroll' }) => `
@@ -344,9 +416,14 @@ const scrollableTable = ({ prefix = 'scroll' }) => `
   </div>
 `;
 
-const interactiveTable = ({ prefix = 'interactive' }) => `
-  <table class="usa-table">
-    <caption>Mission documents</caption>
+const interactiveTable = ({
+  prefix = 'interactive',
+  title = 'Mission documents',
+  subtitle = '',
+  description = '',
+} = {}) => `
+  <table class="usa-table"${description ? ` aria-describedby="${prefix}-desc"` : ''}>
+    ${buildCaption(title, subtitle)}
     <thead>
       <tr>
         <th scope="col">Document</th>
@@ -444,24 +521,123 @@ const interactiveTable = ({ prefix = 'interactive' }) => `
       </tr>
     </tbody>
   </table>
+  ${buildDescription(prefix, description)}
 `;
 
-// --- Guidance embeds (hidden from sidebar) ---
+// Content builders keyed by content arg value
+const contentBuilders = {
+  'close-approach': captionSubtitleTable,
+  'mission-timeline': wideTable,
+  'mission-documents': interactiveTable,
+};
+
+// Default caption values per content type
+const contentDefaults = {
+  'close-approach': {
+    title: 'Close approach data',
+    subtitle: 'Close approaches to the Earth by near-Earth objects (NEOs)',
+    description:
+      'This table shows close approaches to the Earth by near-Earth objects (NEOs). Data are not available prior to 1900 A.D. nor after 2200 A.D.',
+  },
+  'mission-timeline': {
+    title: 'Mission timeline',
+    subtitle: '',
+    description: '',
+  },
+  'mission-documents': {
+    title: 'Mission documents',
+    subtitle: '',
+    description: '',
+  },
+};
+
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
+  args: {
+    content: 'close-approach',
+    title: 'Close approach data',
+    subtitle: 'Close approaches to the Earth by near-Earth objects (NEOs)',
+    description:
+      'This table shows close approaches to the Earth by near-Earth objects (NEOs). Data are not available prior to 1900 A.D. nor after 2200 A.D.',
+    striped: false,
+    borderless: false,
+    compact: false,
+    scrollable: false,
+  },
+  argTypes: {
+    content: {
+      control: 'select',
+      options: ['close-approach', 'mission-timeline', 'mission-documents'],
+      description: 'Table content — switch to test different data patterns',
+    },
+    ...captionArgTypes,
+    ...modifierArgTypes,
+  },
+  render: (args = {}) => {
+    const {
+      content = 'close-approach',
+      title: argTitle,
+      subtitle: argSubtitle,
+      description: argDescription,
+      striped = false,
+      borderless = false,
+      compact = false,
+      scrollable = false,
+    } = args;
+
+    const defaults = contentDefaults[content] || contentDefaults['close-approach'];
+    const builder = contentBuilders[content] || contentBuilders['close-approach'];
+
+    const title = argTitle !== undefined ? argTitle : defaults.title;
+    const subtitle = argSubtitle !== undefined ? argSubtitle : defaults.subtitle;
+    const description = argDescription !== undefined ? argDescription : defaults.description;
+
+    const html = builder({ prefix: 'default', title, subtitle, description });
+    return applyModifiers(html, { striped, borderless, compact, scrollable });
+  },
+};
+
+export const Sortable = {
+  args: {
+    title: 'Planetary fact sheet',
+    subtitle: '',
+    description: 'Source: NASA Planetary Fact Sheet. Values are approximate.',
+    striped: false,
+    borderless: false,
+    compact: false,
+    scrollable: false,
+  },
+  argTypes: {
+    ...captionArgTypes,
+    ...modifierArgTypes,
+  },
+  render: (args = {}) => {
+    const {
+      title = 'Planetary fact sheet',
+      subtitle = '',
+      description = 'Source: NASA Planetary Fact Sheet. Values are approximate.',
+      striped = false,
+      borderless = false,
+      compact = false,
+      scrollable = false,
+    } = args;
+    const html = sortableTable({ prefix: 'sortable', title, subtitle, description });
+    return applyModifiers(html, { striped, borderless, compact, scrollable });
+  },
+};
+
+// --- Guidance embeds (MDX only) ---
+
+export const Basic = {
   tags: ['!dev'],
-  render: () => basicTable({ prefix: 'default' }),
+  render: () => basicTable({ prefix: 'basic' }),
 };
 
 export const CaptionSubtitle = {
   name: 'Caption with subtitle',
   tags: ['!dev'],
   render: () => captionSubtitleTable({ prefix: 'capsub' }),
-};
-
-export const Sortable = {
-  tags: ['!dev'],
-  render: () => sortableTable({ prefix: 'sort' }),
 };
 
 export const Borderless = {
@@ -485,7 +661,7 @@ export const Interactive = {
   render: () => interactiveTable({ prefix: 'interact' }),
 };
 
-// --- Palette accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -497,80 +673,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Sortable.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(Sortable.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Sortable.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  args: {
-    content: 'sortable',
-    striped: false,
-    borderless: false,
-    compact: false,
-    scrollable: false,
-  },
-  argTypes: {
-    content: {
-      control: 'select',
-      options: ['default', 'caption-subtitle', 'sortable', 'interactive', 'wide'],
-      description: 'Table content',
-    },
-    striped: {
-      control: 'boolean',
-      description: 'Alternating row backgrounds (.usa-table--striped)',
-    },
-    borderless: {
-      control: 'boolean',
-      description: 'Remove borders and header background (.usa-table--borderless)',
-    },
-    compact: {
-      control: 'boolean',
-      description: 'Reduced padding (.usa-table--compact)',
-    },
-    scrollable: {
-      control: 'boolean',
-      description: 'Horizontal scroll container (.usa-table-container--scrollable)',
-    },
-  },
-  render: (args) => {
-    const modifiers = [
-      args.striped ? 'usa-table--striped' : '',
-      args.borderless ? 'usa-table--borderless' : '',
-      args.compact ? 'usa-table--compact' : '',
-    ]
-      .filter(Boolean)
-      .join(' ');
-
-    const contents = {
-      default: basicTable({ prefix: 'pg-basic' }),
-      'caption-subtitle': captionSubtitleTable({ prefix: 'pg-capsub' }),
-      sortable: sortableTable({ prefix: 'pg-sort' }),
-      interactive: interactiveTable({ prefix: 'pg-interact' }),
-      wide: wideTable({ prefix: 'pg-wide' }),
-    };
-
-    let html = contents[args.content] || contents['default'];
-
-    // Inject modifier classes into the usa-table class attribute
-    if (modifiers) {
-      html = html.replace('class="usa-table"', `class="usa-table ${modifiers}"`);
-      html = html.replace('class="usa-table ', `class="usa-table ${modifiers} `);
-    }
-
-    // Wrap in scrollable container if toggled
-    if (args.scrollable) {
-      html = `<div class="usa-table-container--scrollable" tabindex="0">${html}</div>`;
-    }
-
-    return html;
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(Sortable.render),
 };
