@@ -153,17 +153,24 @@ Interactive icons use fixed-color graphics with baked-in colors — unlike the o
 
 ## Sizes
 
-Three sizes are available. All share the same role classes.
+Eight sizes are available. All share the same role classes. Size and role classes are independent — combine any size with any role.
 
-| Size    | Class               | Use                               |
-| ------- | ------------------- | --------------------------------- |
-| Small   | `.hds-btn-icon--sm` | Inline with text, tight layouts   |
-| Default | _(no modifier)_     | Standard standalone actions       |
-| Large   | `.hds-btn-icon--lg` | Hero sections, prominent controls |
+| Size    | Class                | Container | Use                                   |
+| ------- | -------------------- | --------- | ------------------------------------- |
+| 2XS     | `.hds-btn-icon--2xs` | 12px      | Filter dropdowns (desktop only)       |
+| XS      | `.hds-btn-icon--xs`  | 16px      | Header, footer, compact UI            |
+| Small   | `.hds-btn-icon--sm`  | 20px      | Inline with text, cards               |
+| Default | _(no modifier)_      | 24px      | General purpose, primary arrow button |
+| Large   | `.hds-btn-icon--lg`  | 28px      | Cards, navigation controls            |
+| XL      | `.hds-btn-icon--xl`  | 32px      | Social buttons, standalone actions    |
+| 2XL     | `.hds-btn-icon--2xl` | 36px      | Hero sections, prominent controls     |
+| 3XL     | `.hds-btn-icon--3xl` | 40px      | Pagination arrows, carousel controls  |
 
 <Canvas of={IconButtonStories.Sizes} />
 
-<Note type="figma">The HDS Figma spec defines 6 sizes (XS–XXL, 16–36px). HDS Core currently ships 3 sizes. Additional sizes may be added based on implementation needs.</Note>
+<Note type="figma">The HDS Figma icon button spec defines 6 sizes labeled XS through XXL (16–36px). HDS Core uses USWDS-style t-shirt naming (2xs through 3xl) so that modifier names always indicate size relative to the default. The pixel values for those 6 sizes are identical to Figma. Two additional sizes (2xs at 12px and 3xl at 40px) are not in the Figma icon button spec but are commonly observed in Figma modules and templates — flagged for creative director confirmation.</Note>
+
+<Note type="uswds">The 2xs size (12px) is below the WCAG 2.5.8 minimum touch target size (24×24px). Use only on desktop viewports with a mouse-driven interface. On touch devices, use the default (24px) or larger.</Note>
 
 ## When to use the icon button component
 
@@ -213,7 +220,7 @@ Pair a small CTA icon button with adjacent text for a compact navigational call-
 - **`aria-hidden="true"` on the SVG.** The icon is decorative — the `aria-label` on the button provides the accessible name.
 - **`focusable="false"` on the SVG** prevents a double-focus issue in older browsers.
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
-- **Touch target size.** Even the small size meets the 24×24px minimum recommended by WCAG 2.5.8 (Target Size).
+- **Touch target size.** The default size and above all meet the 24×24px minimum recommended by WCAG 2.5.8 (Target Size). The 2xs and xs sizes are below this threshold — use them only in desktop/mouse contexts and ensure adequate spacing between adjacent targets.
 
 ```html
 <!-- ✅ Correct -->

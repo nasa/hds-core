@@ -1103,11 +1103,14 @@ input::file-selector-button,
 .usa-pagination__previous-page,
 .usa-pagination__next-page {
   @include hds-utility-circle;
+  height: 32px;
+  width: 32px;
 
   .usa-icon {
     fill: currentColor;
-    height: 1em;
-    width: 1em;
+    height: 60%;
+    pointer-events: none;
+    width: 60%;
   }
 
   // Hover
@@ -1525,23 +1528,20 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 .hds-btn-icon {
   align-items: center;
   background: none;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
-  height: 2em;
+  height: 24px;
   justify-content: center;
   padding: 0;
-  width: 2em;
+  width: 24px;
 
-  // Global focus ring — 1px dashed, palette-aware, keyboard only
   &:focus-visible {
     outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
     outline-offset: 2px;
   }
 
-  // Global disabled — shared cursor, suppress hover via :not()
-  // in role selectors below
   &[disabled],
   &:disabled {
     cursor: not-allowed;
@@ -1549,9 +1549,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 
   .hds-icon {
     fill: currentColor;
-    height: 1em;
+    height: 60%;
     pointer-events: none;
-    width: 1em;
+    width: 60%;
   }
 }
 
@@ -1669,30 +1669,74 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: #{$hds-color-nasa-blue};
   border-color: #{$hds-color-nasa-blue};
   color: #{$hds-color-spacesuit-white};
-  height: 1.5em;
-  width: 1.5em;
 }
 
 // ------------------------------------------------------------
 // §12.3 Icon button sizes
 // ------------------------------------------------------------
+// 8-size scale matching HDS Figma spec + observed module usage.
+// Default (no modifier) = Figma M (24px).
+// Uses rem for exact pixel values regardless of parent context.
+//
+// SVG icons use 20×20 glyphs in 24×24 viewboxes. The 60%
+// icon ratio in §12.1 compensates for viewport padding so
+// glyphs render at the Figma-intended size.
+//
+// --2xs and --3xl are not in the Figma icon button spec
+// but are commonly observed in Figma modules and templates.
+// Flagged for creative director confirmation.
+//
+// BREAKING (v0.6.0):
+//   Default changed from 32px (Figma XL) to 24px (Figma M).
+//   --sm changed from 19px to 20px.
+//   --lg changed from 40px to 28px.
+//   Use --xl for old default (32px), --3xl for old --lg (40px).
+// ------------------------------------------------------------
 
-// Small — inline with button text (e.g. primary arrow button)
-.hds-btn-icon--sm {
-  border-width: 0;
-  height: 1.2em;
-  width: 1.2em;
-
-  .hds-icon {
-    height: 0.65em;
-    width: 0.65em;
-  }
+// 12px — filter dropdowns (desktop only).
+// Below WCAG 2.5.8 minimum touch target (24px).
+// Use --lg or larger on touch devices.
+.hds-btn-icon--2xs {
+  height: 12px;
+  width: 12px;
 }
 
-// Large — hero CTA
+// 16px — header, footer, compact UI
+.hds-btn-icon--xs {
+  height: 16px;
+  width: 16px;
+}
+
+// 20px — inline with text, cards
+.hds-btn-icon--sm {
+  height: 20px;
+  width: 20px;
+}
+
+// 24px — default (no class needed)
+
+// 28px — cards, navigation controls
 .hds-btn-icon--lg {
-  height: 2.5em;
-  width: 2.5em;
+  height: 28px;
+  width: 28px;
+}
+
+// 32px — social buttons, standalone actions
+.hds-btn-icon--xl {
+  height: 32px;
+  width: 32px;
+}
+
+// 36px — hero, prominent controls
+.hds-btn-icon--2xl {
+  height: 36px;
+  width: 36px;
+}
+
+// 40px — pagination arrows, carousel controls
+.hds-btn-icon--3xl {
+  height: 40px;
+  width: 40px;
 }
 
 // ------------------------------------------------------------

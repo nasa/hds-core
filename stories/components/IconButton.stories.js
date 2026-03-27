@@ -77,8 +77,8 @@ const sharedArgTypes = {
   },
   size: {
     control: 'select',
-    options: ['sm', 'default', 'lg'],
-    description: 'Button size',
+    options: ['2xs', 'xs', 'sm', 'default', 'lg', 'xl', '2xl', '3xl'],
+    description: 'Button size — default is 24px (no class)',
   },
   disabled: {
     control: 'boolean',
@@ -274,22 +274,26 @@ export const Sizes = {
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem('Small', iconBtn('secondary', 'play', 'Play', { size: 'sm' }))}
-    ${gridItem('Default', iconBtn('secondary', 'play', 'Play'))}
-    ${gridItem('Large', iconBtn('secondary', 'play', 'Play', { size: 'lg' }))}
-  `),
+      ${gridItem('2XS (12px)', iconBtn('secondary', 'play', 'Play', { size: '2xs' }))}
+      ${gridItem('XS (16px)', iconBtn('secondary', 'play', 'Play', { size: 'xs' }))}
+      ${gridItem('SM (20px)', iconBtn('secondary', 'play', 'Play', { size: 'sm' }))}
+      ${gridItem('Default (24px)', iconBtn('secondary', 'play', 'Play'))}
+      ${gridItem('LG (28px)', iconBtn('secondary', 'play', 'Play', { size: 'lg' }))}
+      ${gridItem('XL (32px)', iconBtn('secondary', 'play', 'Play', { size: 'xl' }))}
+      ${gridItem('2XL (36px)', iconBtn('secondary', 'play', 'Play', { size: '2xl' }))}
+      ${gridItem('3XL (40px)', iconBtn('secondary', 'play', 'Play', { size: '3xl' }))}
+    `),
 };
 
 export const SocialRow = {
   name: 'Social row',
   tags: ['!dev'],
-  render: () => `
-    <div style="display: flex; gap: 0.75rem;">
-      ${iconBtn('social', 'rss', 'RSS feed', { element: 'a' })}
-      ${iconBtn('social', 'notification', 'Notifications', { element: 'a' })}
-      ${iconBtn('social', 'share', 'Share', { element: 'a' })}
-    </div>
-  `,
+  render: () =>
+    grid(`
+      ${iconBtn('social', 'notification', 'Notifications', { element: 'a', size: 'xl' })}
+      ${iconBtn('social', 'rss', 'RSS feed', { element: 'a', size: 'xl' })}
+      ${iconBtn('social', 'share', 'Share', { element: 'a', size: 'xl' })}
+    `),
 };
 
 export const ActionBar = {

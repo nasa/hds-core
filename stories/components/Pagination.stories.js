@@ -83,7 +83,7 @@ const pagination = ({ totalPages = 20, currentPage = 1, simplified = false, unbo
   const prev = `
     <li class="usa-pagination__item usa-pagination__arrow">
       <button
-        class="hds-btn-icon hds-btn-icon--utility"
+        class="hds-btn-icon hds-btn-icon--utility hds-btn-icon--xl"
         aria-label="Previous page"
         ${isFirst ? 'disabled' : ''}
       >${chevronLeft}</button>
@@ -93,7 +93,7 @@ const pagination = ({ totalPages = 20, currentPage = 1, simplified = false, unbo
   const next = `
     <li class="usa-pagination__item usa-pagination__arrow">
       <button
-        class="hds-btn-icon hds-btn-icon--utility"
+        class="hds-btn-icon hds-btn-icon--utility hds-btn-icon--xl"
         aria-label="Next page"
         ${isLast ? 'disabled' : ''}
       >${chevronRight}</button>
