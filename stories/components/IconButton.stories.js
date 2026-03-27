@@ -4,11 +4,12 @@
 //
 // Sidebar structure:
 //   Guidance   — IconButton.mdx (design rationale, Canvas embeds, usage rules)
-//   Playground — interactive story with controls
+//   Stories    — CTA, Secondary, Outline, Utility, Social,
+//              Interactive, States (visible in sidebar)
 // ============================================================
 
 import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Icon Button',
@@ -29,54 +30,238 @@ const gridItem = (labelText, content) => `
     <div style="margin-top: 0.5rem;">${content}</div>
   </div>`;
 
-const icon = (name) => `
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#${name}"></use>
-  </svg>`;
+const iconSvg = (name, sprite = 'hds') => {
+  const path = sprite === 'uswds' ? '/assets/img/sprite.svg' : '/assets/img/hds-sprite.svg';
+  return `
+    <svg class="hds-icon" aria-hidden="true" focusable="false">
+      <use xlink:href="${path}#${name}"></use>
+    </svg>`;
+};
 
-// --- Guidance embeds (hidden from sidebar) ---
+const iconBtn = (role, iconName, ariaLabel, opts = {}) => {
+  const sizeClass = opts.size && opts.size !== 'default' ? ` hds-btn-icon--${opts.size}` : '';
+  const disabled = opts.disabled ? ' disabled' : '';
+  const cls = `hds-btn-icon hds-btn-icon--${role}${sizeClass}`;
+  const sprite = opts.sprite || 'hds';
+
+  if (opts.element === 'a') {
+    return `<a class="${cls}" href="#" aria-label="${ariaLabel}">${iconSvg(iconName, sprite)}</a>`;
+  }
+  return `<button class="${cls}" type="button" aria-label="${ariaLabel}"${disabled}>${iconSvg(iconName, sprite)}</button>`;
+};
+
+// Shared argTypes for icon button role stories
+const sharedArgTypes = {
+  ariaLabel: {
+    control: 'text',
+    name: 'aria-label',
+    description: 'Required — icon buttons have no visible text',
+  },
+  spriteSource: {
+    control: 'radio',
+    options: ['HDS', 'USWDS'],
+    name: 'Sprite source',
+    description: 'Which icon sprite to pull from',
+  },
+  hdsIcon: {
+    control: 'select',
+    options: hdsUiIcons,
+    name: 'Icon (HDS)',
+    if: { arg: 'spriteSource', eq: 'HDS' },
+  },
+  uswdsIcon: {
+    control: 'select',
+    options: uswdsUniqueIcons,
+    name: 'Icon (USWDS)',
+    if: { arg: 'spriteSource', eq: 'USWDS' },
+  },
+  size: {
+    control: 'select',
+    options: ['sm', 'default', 'lg'],
+    description: 'Button size',
+  },
+  disabled: {
+    control: 'boolean',
+    description: 'Disabled state',
+  },
+  element: {
+    control: 'radio',
+    options: ['button', 'a'],
+    description: '<button> for actions, <a> for navigation',
+  },
+};
+
+// Shared render factory — builds a render function for a given role
+const roleRender =
+  (role) =>
+  (args = {}) => {
+    const isUswds = args.spriteSource === 'USWDS';
+    const iconName = isUswds ? args.uswdsIcon : args.hdsIcon;
+    const sprite = isUswds ? 'uswds' : 'hds';
+    return iconBtn(role, iconName, args.ariaLabel, {
+      size: args.size,
+      disabled: args.disabled,
+      element: args.element,
+      sprite,
+    });
+  };
+
+// Hoisted for States story — avoids label: parse ambiguity
+const stateRoles = [
+  { role: 'cta', iconName: 'arrow-line-right', text: 'CTA' },
+  { role: 'secondary', iconName: 'download', text: 'Secondary' },
+  { role: 'outline', iconName: 'share', text: 'Outline' },
+  { role: 'utility', iconName: 'settings', text: 'Utility' },
+  { role: 'social', iconName: 'rss', text: 'Social' },
+];
+
+// --- Stories (visible in sidebar) ---
+
+export const CTA = {
+  name: 'CTA',
+  args: {
+    ariaLabel: 'Navigate to page',
+    spriteSource: 'HDS',
+    hdsIcon: 'arrow-line-right',
+    uswdsIcon: 'search',
+    size: 'default',
+    disabled: false,
+    element: 'button',
+  },
+  argTypes: sharedArgTypes,
+  render: roleRender('cta'),
+};
+
+export const Secondary = {
+  name: 'Secondary',
+  args: {
+    ariaLabel: 'Download file',
+    spriteSource: 'HDS',
+    hdsIcon: 'download',
+    uswdsIcon: 'search',
+    size: 'default',
+    disabled: false,
+    element: 'button',
+  },
+  argTypes: sharedArgTypes,
+  render: roleRender('secondary'),
+};
+
+export const Outline = {
+  name: 'Outline',
+  args: {
+    ariaLabel: 'Share page',
+    spriteSource: 'HDS',
+    hdsIcon: 'share',
+    uswdsIcon: 'search',
+    size: 'default',
+    disabled: false,
+    element: 'button',
+  },
+  argTypes: sharedArgTypes,
+  render: roleRender('outline'),
+};
+
+export const Utility = {
+  name: 'Utility',
+  args: {
+    ariaLabel: 'Settings',
+    spriteSource: 'HDS',
+    hdsIcon: 'settings',
+    uswdsIcon: 'search',
+    size: 'default',
+    disabled: false,
+    element: 'button',
+  },
+  argTypes: sharedArgTypes,
+  render: roleRender('utility'),
+};
+
+export const Social = {
+  name: 'Social',
+  args: {
+    ariaLabel: 'RSS feed',
+    spriteSource: 'HDS',
+    hdsIcon: 'rss',
+    uswdsIcon: 'search',
+    size: 'default',
+    disabled: false,
+    element: 'button',
+  },
+  argTypes: sharedArgTypes,
+  render: roleRender('social'),
+};
+
+export const Interactive = {
+  name: 'Interactive',
+  args: {
+    ariaLabel: 'More info',
+    spriteSource: 'HDS',
+    hdsIcon: 'info',
+    uswdsIcon: 'search',
+  },
+  argTypes: {
+    ariaLabel: sharedArgTypes.ariaLabel,
+    spriteSource: sharedArgTypes.spriteSource,
+    hdsIcon: sharedArgTypes.hdsIcon,
+    uswdsIcon: sharedArgTypes.uswdsIcon,
+  },
+  render: (args = {}) => {
+    const isUswds = args.spriteSource === 'USWDS';
+    const iconName = isUswds ? args.uswdsIcon : args.hdsIcon;
+    const sprite = isUswds ? 'uswds' : 'hds';
+    return iconBtn('interactive', iconName, args.ariaLabel, { sprite });
+  },
+};
+
+export const States = {
+  name: 'States (all roles)',
+  render: () => {
+    const header = `
+      <div style="display: grid; grid-template-columns: 7rem repeat(2, 5rem); gap: 1rem; align-items: center; margin-bottom: 0.75rem;">
+        <div></div>
+        ${label('Default')}
+        ${label('Disabled')}
+      </div>`;
+
+    const rows = stateRoles
+      .map(
+        (r) => `
+      <div style="display: grid; grid-template-columns: 7rem repeat(2, 5rem); gap: 1rem; align-items: center;">
+        ${label(r.text)}
+        <div>${iconBtn(r.role, r.iconName, `${r.text} default`)}</div>
+        <div>${iconBtn(r.role, r.iconName, `${r.text} disabled`, { disabled: true })}</div>
+      </div>`,
+      )
+      .join('');
+
+    return `
+      ${header}
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        ${rows}
+      </div>
+      <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
+        Hover states require mouse interaction — hover each button above to preview.
+        <strong>Interactive</strong> role omitted (fixed-color SVG, no state changes).
+        Active matches hover on all roles.
+      </p>
+    `;
+  },
+};
+
+// --- Guidance embeds (MDX only) ---
 
 export const AllRoles = {
   name: 'All roles',
   tags: ['!dev'],
   render: () => `
     ${grid(`
-      ${gridItem(
-        'CTA',
-        '<button class="hds-btn-icon hds-btn-icon--cta" type="button" aria-label="Navigate to page">' +
-          icon('arrow-line-right') +
-          '</button>',
-      )}
-      ${gridItem(
-        'Secondary',
-        '<button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Download file">' +
-          icon('download') +
-          '</button>',
-      )}
-      ${gridItem(
-        'Outline',
-        '<button class="hds-btn-icon hds-btn-icon--outline" type="button" aria-label="Share page">' +
-          icon('share') +
-          '</button>',
-      )}
-      ${gridItem(
-        'Utility',
-        '<button class="hds-btn-icon hds-btn-icon--utility" type="button" aria-label="Settings">' +
-          icon('settings') +
-          '</button>',
-      )}
-      ${gridItem(
-        'Social',
-        '<button class="hds-btn-icon hds-btn-icon--social" type="button" aria-label="RSS feed">' +
-          icon('rss') +
-          '</button>',
-      )}
-      ${gridItem(
-        'Interactive',
-        '<button class="hds-btn-icon hds-btn-icon--interactive" type="button" aria-label="More info">' +
-          icon('info') +
-          '</button>',
-      )}
+      ${gridItem('CTA', iconBtn('cta', 'arrow-line-right', 'Navigate to page'))}
+      ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download file'))}
+      ${gridItem('Outline', iconBtn('outline', 'share', 'Share page'))}
+      ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings'))}
+      ${gridItem('Social', iconBtn('social', 'rss', 'RSS feed'))}
+      ${gridItem('Interactive', iconBtn('interactive', 'info', 'More info'))}
     `)}
     <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
       <strong>Red</strong> = navigates away · <strong>Blue</strong> = stays on page · <strong>Neutral</strong> = UI controls
@@ -89,24 +274,9 @@ export const Sizes = {
   tags: ['!dev'],
   render: () =>
     grid(`
-    ${gridItem(
-      'Small',
-      '<button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--sm" type="button" aria-label="Play">' +
-        icon('play') +
-        '</button>',
-    )}
-    ${gridItem(
-      'Default',
-      '<button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Play">' +
-        icon('play') +
-        '</button>',
-    )}
-    ${gridItem(
-      'Large',
-      '<button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--lg" type="button" aria-label="Play">' +
-        icon('play') +
-        '</button>',
-    )}
+    ${gridItem('Small', iconBtn('secondary', 'play', 'Play', { size: 'sm' }))}
+    ${gridItem('Default', iconBtn('secondary', 'play', 'Play'))}
+    ${gridItem('Large', iconBtn('secondary', 'play', 'Play', { size: 'lg' }))}
   `),
 };
 
@@ -115,15 +285,9 @@ export const SocialRow = {
   tags: ['!dev'],
   render: () => `
     <div style="display: flex; gap: 0.75rem;">
-      <a class="hds-btn-icon hds-btn-icon--social" href="#" aria-label="RSS feed">
-        ${icon('rss')}
-      </a>
-      <a class="hds-btn-icon hds-btn-icon--social" href="#" aria-label="Subscribe">
-        ${icon('subscribe')}
-      </a>
-      <a class="hds-btn-icon hds-btn-icon--social" href="#" aria-label="Share">
-        ${icon('share')}
-      </a>
+      ${iconBtn('social', 'rss', 'RSS feed', { element: 'a' })}
+      ${iconBtn('social', 'subscribe', 'Subscribe', { element: 'a' })}
+      ${iconBtn('social', 'share', 'Share', { element: 'a' })}
     </div>
   `,
 };
@@ -133,15 +297,9 @@ export const ActionBar = {
   tags: ['!dev'],
   render: () => `
     <div style="display: flex; gap: 0.75rem;">
-      <button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Download">
-        ${icon('download')}
-      </button>
-      <button class="hds-btn-icon hds-btn-icon--outline" type="button" aria-label="Print">
-        ${icon('print')}
-      </button>
-      <button class="hds-btn-icon hds-btn-icon--utility" type="button" aria-label="Expand">
-        ${icon('expand')}
-      </button>
+      ${iconBtn('secondary', 'download', 'Download')}
+      ${iconBtn('outline', 'print', 'Print')}
+      ${iconBtn('utility', 'expand', 'Expand')}
     </div>
   `,
 };
@@ -152,14 +310,12 @@ export const CTAWithText = {
   render: () => `
     <div style="display: flex; align-items: center; gap: 0.5rem;">
       <span style="font-weight: 600;">Explore the mission</span>
-      <a class="hds-btn-icon hds-btn-icon--cta hds-btn-icon--sm" href="#" aria-label="Go to mission page">
-        ${icon('arrow-line-right')}
-      </a>
+      ${iconBtn('cta', 'arrow-line-right', 'Go to mission page', { size: 'sm', element: 'a' })}
     </div>
   `,
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -171,85 +327,27 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllRoles.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(AllRoles.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllRoles.render, 'focus-visible'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(AllRoles.render),
 };
 
-// --- Playground (visible in sidebar) ---
+export const PaletteA11yDisabled = {
+  name: 'Palette a11y [disabled]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(States.render),
+};
 
-export const Playground = {
-  args: {
-    role: 'secondary',
-    size: 'default',
-    spriteSource: 'HDS',
-    hdsIcon: 'download',
-    uswdsIcon: 'search',
-    ariaLabel: 'Download file',
-    element: 'button',
-  },
-  argTypes: {
-    role: {
-      control: 'select',
-      options: ['cta', 'secondary', 'outline', 'utility', 'social', 'interactive'],
-      description: 'Wayfinding role — determines color',
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'default', 'lg'],
-      description: 'Button size',
-    },
-    spriteSource: {
-      control: 'radio',
-      options: ['HDS', 'USWDS'],
-      name: 'Sprite source',
-      description: 'Which icon sprite to pull from',
-    },
-    hdsIcon: {
-      control: 'select',
-      options: hdsUiIcons,
-      name: 'Icon (HDS)',
-      description: 'Icon name from hds-sprite.svg',
-      if: { arg: 'spriteSource', eq: 'HDS' },
-    },
-    uswdsIcon: {
-      control: 'select',
-      options: uswdsUniqueIcons,
-      name: 'Icon (USWDS)',
-      description: 'USWDS-only icons — those with HDS equivalents are excluded',
-      if: { arg: 'spriteSource', eq: 'USWDS' },
-    },
-    ariaLabel: {
-      control: 'text',
-      name: 'aria-label',
-      description: 'Required — icon buttons have no visible text',
-    },
-    element: {
-      control: 'radio',
-      options: ['button', 'a'],
-      description: '<button> for actions, <a> for navigation',
-    },
-  },
-  render: (args) => {
-    const isUswds = args.spriteSource === 'USWDS';
-    const spritePath = isUswds ? '/assets/img/sprite.svg' : '/assets/img/hds-sprite.svg';
-    const iconName = isUswds ? args.uswdsIcon : args.hdsIcon;
-    const sizeClass = args.size === 'default' ? '' : ` hds-btn-icon--${args.size}`;
-    const classes = `hds-btn-icon hds-btn-icon--${args.role}${sizeClass}`;
-    const iconMarkup = `
-      <svg class="hds-icon" aria-hidden="true" focusable="false">
-        <use xlink:href="${spritePath}#${iconName}"></use>
-      </svg>`;
-
-    if (args.element === 'a') {
-      return `<a class="${classes}" href="#" aria-label="${args.ariaLabel}">${iconMarkup}</a>`;
-    }
-    return `<button class="${classes}" type="button" aria-label="${args.ariaLabel}">${iconMarkup}</button>`;
-  },
+export const PaletteA11yStates = {
+  name: 'Palette a11y [states]',
+  tags: ['!dev'],
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(States.render),
 };
