@@ -352,11 +352,20 @@
 // ------------------------------------------------------------
 
 .usa-button:disabled,
-.usa-button[aria-disabled='true'] {
-  background-color: $hds-color-carbon-20;
+.usa-button[aria-disabled='true'],
+.usa-button--secondary:disabled,
+.usa-button--secondary[aria-disabled='true'] {
+  background-color: var(--hds-palette-btn-disabled-bg, #{$hds-color-carbon-20});
   color: $hds-color-spacesuit-white;
   cursor: not-allowed;
   opacity: 1;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background-color: var(--hds-palette-btn-disabled-bg, #{$hds-color-carbon-20});
+    color: $hds-color-spacesuit-white;
+  }
 }
 
 // ------------------------------------------------------------
@@ -393,6 +402,14 @@
   box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke, #{$hds-color-carbon-20});
   color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
   opacity: 1;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke, #{$hds-color-carbon-20});
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+  }
 }
 
 // ------------------------------------------------------------
@@ -463,6 +480,14 @@
     color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
     text-decoration-line: none;
     opacity: 1;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      background-color: transparent;
+      color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+      text-decoration-line: none;
+    }
   }
 }
 

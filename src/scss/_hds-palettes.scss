@@ -180,8 +180,11 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
-  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
-  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
+  // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
+  // secondary filled converts to outline here (§4.8) — borders
+  // need contrast against the NASA Blue Shade background.
+  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
   // Inferred — same as dark scheme. Flagged for review.
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-50};
