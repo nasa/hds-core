@@ -16,7 +16,7 @@ HDS links use **body-text color** for the link text itself — not a brand color
 
 The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the current text color with a dotted underline.
 
-<Canvas of={LinkStories.InternalLink} />
+<Canvas of={LinkStories.Internal} />
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
@@ -24,13 +24,13 @@ The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the cu
 
 Add `.usa-link--external` to display a diagonal arrow icon after the link text. Use this for any URL that takes the visitor **outside of NASA.gov**.
 
-<Canvas of={LinkStories.ExternalLink} />
+<Canvas of={LinkStories.External} />
 
 ### Internal escape hatch
 
 Some NASA properties (e.g., `science.nasa.gov`) use external URLs but are still NASA destinations. Add `.hds-link--internal` alongside `.usa-link--external` to suppress the arrow while keeping any CMS-driven external class intact.
 
-<Canvas of={LinkStories.InternalEscapeHatch} />
+<Canvas of={LinkStories.InternalEscape} />
 
 <Note type="uswds">
   USWDS applies the external arrow automatically when

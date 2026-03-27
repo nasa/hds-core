@@ -3,11 +3,11 @@
 // Covers §8 (USWDS .usa-accordion override, Tier 1)
 //
 // Sidebar structure:
-//   Guidance   — Accordion.mdx
-//   Playground — interactive story with controls
+//   Guidance   — Accordion.mdx (design rationale, Canvas embeds)
+//   Stories    — Default, Multiselectable (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Accordion',
@@ -87,33 +87,54 @@ const accordion = ({ prefix = 'acc', multiselectable = false, itemCount = 5, fir
   `;
 };
 
-// --- Guidance embeds (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  tags: ['!dev'],
-  render: () => `
-    ${label('Default')}
-    ${accordion({ prefix: 'default' })}
-  `,
-};
-
-export const AllCollapsed = {
-  tags: ['!dev'],
-  render: () => `
-    ${label('All collapsed')}
-    ${accordion({ prefix: 'collapsed', firstExpanded: false })}
-  `,
+  args: {
+    itemCount: 5,
+    firstExpanded: true,
+  },
+  argTypes: {
+    itemCount: {
+      control: { type: 'range', min: 2, max: 5, step: 1 },
+      description: 'Number of accordion items',
+    },
+    firstExpanded: {
+      control: 'boolean',
+      description: 'First item expanded on load',
+    },
+  },
+  render: (args) => accordion({ ...args, prefix: 'default' }),
 };
 
 export const Multiselectable = {
-  tags: ['!dev'],
-  render: () => `
-    ${label('Multiselectable')}
-    ${accordion({ prefix: 'multi', multiselectable: true })}
-  `,
+  args: {
+    itemCount: 5,
+    firstExpanded: true,
+  },
+  argTypes: {
+    itemCount: {
+      control: { type: 'range', min: 2, max: 5, step: 1 },
+      description: 'Number of accordion items',
+    },
+    firstExpanded: {
+      control: 'boolean',
+      description: 'First item expanded on load',
+    },
+  },
+  render: (args) => accordion({ ...args, prefix: 'multi', multiselectable: true }),
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Guidance embeds (MDX only) ---
+
+// AllCollapsed is Default with firstExpanded: false.
+// Kept as a named embed target for Accordion.mdx.
+export const AllCollapsed = {
+  tags: ['!dev'],
+  render: () => accordion({ prefix: 'collapsed', firstExpanded: false }),
+};
+
+// --- Palette Accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -125,39 +146,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Default.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(Default.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Default.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  name: 'Playground',
-  argTypes: {
-    multiselectable: {
-      control: 'boolean',
-      description: 'Allow multiple sections to be open at once',
-    },
-    itemCount: {
-      control: { type: 'range', min: 2, max: 5, step: 1 },
-      description: 'Number of accordion items',
-    },
-    firstExpanded: {
-      control: 'boolean',
-      description: 'First item expanded on load',
-    },
-  },
-  args: {
-    multiselectable: false,
-    itemCount: 5,
-    firstExpanded: true,
-  },
-  render: (args) => accordion({ ...args, prefix: 'playground' }),
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(Default.render),
 };

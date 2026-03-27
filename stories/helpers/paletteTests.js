@@ -1,4 +1,4 @@
-const palettes = ['light', 'midtone', 'dark', 'blue', 'black'];
+const palettes = ['white', 'light', 'midtone', 'dark', 'blue', 'black'];
 
 export const paletteA11yParams = {
   a11y: {
@@ -13,7 +13,11 @@ export const paletteA11yParams = {
   },
 };
 
-export function paletteRender(renderFn, state) {
-  const stateClass = state ? ` pseudo-${state}` : '';
-  return () => palettes.map((p) => `<div class="hds-palette-${p}${stateClass}">${renderFn()}</div>`).join('\n');
+export const pseudoParams = {
+  hover: { pseudo: { hover: true } },
+  focusVisible: { pseudo: { focusVisible: true } },
+};
+
+export function paletteRender(renderFn) {
+  return () => palettes.map((p) => `<div class="hds-palette-${p}">${renderFn()}</div>`).join('\n');
 }

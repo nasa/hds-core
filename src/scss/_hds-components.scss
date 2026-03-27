@@ -352,11 +352,20 @@
 // ------------------------------------------------------------
 
 .usa-button:disabled,
-.usa-button[aria-disabled='true'] {
-  background-color: $hds-color-carbon-20;
+.usa-button[aria-disabled='true'],
+.usa-button--secondary:disabled,
+.usa-button--secondary[aria-disabled='true'] {
+  background-color: var(--hds-palette-btn-disabled-bg, #{$hds-color-carbon-20});
   color: $hds-color-spacesuit-white;
   cursor: not-allowed;
   opacity: 1;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background-color: var(--hds-palette-btn-disabled-bg, #{$hds-color-carbon-20});
+    color: $hds-color-spacesuit-white;
+  }
 }
 
 // ------------------------------------------------------------
@@ -393,6 +402,14 @@
   box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke, #{$hds-color-carbon-20});
   color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
   opacity: 1;
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke, #{$hds-color-carbon-20});
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+  }
 }
 
 // ------------------------------------------------------------
@@ -462,6 +479,52 @@
     background-color: transparent;
     color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
     text-decoration-line: none;
+    opacity: 1;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      background-color: transparent;
+      color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+      text-decoration-line: none;
+    }
+  }
+}
+
+// ------------------------------------------------------------
+// §4.8 Blue Palette — Secondary Filled → Outline
+// ------------------------------------------------------------
+// On the blue palette, the secondary filled button's NASA Blue
+// Tint fill blends into the NASA Blue Shade background. The
+// creative director approved converting it to outline behavior
+// on this palette only (2026-03-27).
+//
+// This override mirrors §4.5 outline styling using the blue
+// palette's existing token values. Icon buttons (.hds-btn-icon)
+// are not affected — their smaller size avoids the contrast
+// issue, and they retain filled behavior on all palettes.
+//
+// Scoped to text buttons only via :not(.hds-btn-icon).
+// ------------------------------------------------------------
+
+[class*='hds-palette-blue'] .usa-button--secondary:not(.hds-btn-icon),
+[data-hds-palette='blue'] .usa-button--secondary:not(.hds-btn-icon) {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg);
+  color: var(--hds-palette-heading);
+
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover);
+    color: var(--hds-palette-heading);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px var(--hds-palette-btn-disabled-stroke);
+    color: var(--hds-palette-btn-disabled-text);
     opacity: 1;
   }
 }
@@ -1065,11 +1128,14 @@ input::file-selector-button,
 .usa-pagination__previous-page,
 .usa-pagination__next-page {
   @include hds-utility-circle;
+  height: 32px;
+  width: 32px;
 
   .usa-icon {
     fill: currentColor;
-    height: 1em;
-    width: 1em;
+    height: 60%;
+    pointer-events: none;
+    width: 60%;
   }
 
   // Hover
@@ -1118,45 +1184,13 @@ input::file-selector-button,
 }
 
 // ------------------------------------------------------------
-// §7.4 Utility button in pagination (recommended markup)
+// §7.4 Utility button in pagination
 // ------------------------------------------------------------
-// When .hds-btn-icon--utility is used inside pagination,
-// add hover/active/disabled states. These will become
-// redundant when §12 gets full state support (TODO).
-
-.usa-pagination .hds-btn-icon--utility {
-  // Hover
-  &:hover:not([disabled]) {
-    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
-    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
-  }
-
-  // Active — match hover, override USWDS blue ring
-  &:active:not([disabled]) {
-    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
-    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
-    outline: none;
-  }
-
-  // Focus
-  &:focus-visible {
-    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
-    outline-offset: 2px;
-  }
-
-  // Disabled
-  &[disabled],
-  &:disabled {
-    border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
-    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
-    cursor: not-allowed;
-
-    &:hover {
-      background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
-      border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
-    }
-  }
-}
+// Hover, focus, and disabled states previously lived here
+// scoped to .usa-pagination. Now handled globally in §12.2.
+// Retained as a placeholder for future pagination-only tweaks
+// (e.g. spacing, sizing within the pagination container).
+// ------------------------------------------------------------
 
 // ------------------------------------------------------------
 // §7.5 Simplified pagination
@@ -1432,10 +1466,25 @@ input::file-selector-button,
 // Text + CSS ::after red circle with white arrow.
 // Arrow direction auto-swaps for external links via
 // .usa-link--external. No SVG markup needed in HTML.
+//
+// SIZE SCALE
+// 6 sizes matching HDS Figma spec, aligned with the icon
+// button size scale (§12.3) for the circle container.
+// Default (no modifier) = 18px text / 24px circle.
+// Uses px for both text and circle — the text-to-circle
+// ratio varies across sizes so em scaling doesn't work.
+//
+// BREAKING (v0.6.0):
+//   Default circle changed from 1.2em (~19px) to 24px.
+//   Font size changed from size('heading', 'xs') to 18px.
 // ============================================================
 
 $_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3Cpolyline points='13 6 19 12 13 18'/%3E%3C/svg%3E");
 $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'/%3E%3Cpolyline points='10 7 17 7 17 14'/%3E%3C/svg%3E");
+
+// ------------------------------------------------------------
+// §11.1 Base
+// ------------------------------------------------------------
 
 .hds-btn--primary {
   background-color: transparent;
@@ -1443,7 +1492,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   border-radius: 0;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   font-family: family('heading');
-  font-size: size('heading', 'xs');
+  font-size: 18px;
   font-weight: font-weight('bold');
   line-height: var(--hds-line-height-button);
   padding: 0;
@@ -1458,10 +1507,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     border-radius: 50%;
     content: '';
     display: inline-block;
-    height: 1.2em;
+    height: 24px;
     margin-inline-start: 0.3em;
     vertical-align: text-bottom;
-    width: 1.2em;
+    width: 24px;
   }
 
   // External links: swap horizontal arrow to diagonal
@@ -1486,6 +1535,74 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 }
 
+// ------------------------------------------------------------
+// §11.2 Sizes
+// ------------------------------------------------------------
+// 6-size scale matching HDS Figma spec. Circle containers
+// align with icon button sizes (§12.3) at each step.
+//
+// | Class        | Text | Circle | Icon btn equivalent |
+// |--------------|------|--------|---------------------|
+// | --xs         | 14px | 16px   | --xs                |
+// | --sm         | 16px | 20px   | --sm                |
+// | (default)    | 18px | 24px   | default             |
+// | --lg         | 22px | 28px   | --lg                |
+// | --xl         | 29px | 32px   | --xl                |
+// | --2xl        | 36px | 36px   | --2xl               |
+// ------------------------------------------------------------
+
+// 14px text / 16px circle
+.hds-btn--primary--xs {
+  font-size: 14px;
+
+  &::after {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+// 16px text / 20px circle
+.hds-btn--primary--sm {
+  font-size: 16px;
+
+  &::after {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+// 18px text / 24px circle — default (no class needed)
+
+// 22px text / 28px circle
+.hds-btn--primary--lg {
+  font-size: 22px;
+
+  &::after {
+    height: 28px;
+    width: 28px;
+  }
+}
+
+// 29px text / 32px circle
+.hds-btn--primary--xl {
+  font-size: 29px;
+
+  &::after {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+// 36px text / 36px circle
+.hds-btn--primary--2xl {
+  font-size: 36px;
+
+  &::after {
+    height: 36px;
+    width: 36px;
+  }
+}
+
 // ============================================================
 // §12 ICON BUTTON
 // ============================================================
@@ -1499,11 +1616,17 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 //   --outline     NASA Blue border, lower emphasis
 //   --utility     Neutral/adaptive, carousel/accordion controls
 //   --social      Social media share/follow links
-//   --interactive Small tooltip/popover triggers
+//   --interactive Small tooltip/popover triggers (fixed color)
 //
 // Sizes:
 //   --sm          Inline with text
 //   --lg          Hero CTAs
+//
+// States:
+//   All roles except --interactive support hover, active,
+//   focus-visible, and disabled. Active matches hover (no
+//   distinct active state, consistent with Apple HIG).
+//   Disabled is color-based, not opacity-based.
 // ============================================================
 
 // ------------------------------------------------------------
@@ -1513,30 +1636,35 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 .hds-btn-icon {
   align-items: center;
   background: none;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
-  height: 2em;
+  height: 24px;
   justify-content: center;
   padding: 0;
-  width: 2em;
+  width: 24px;
 
   &:focus-visible {
-    outline: 2px solid var(--hds-palette-link-text, currentColor);
+    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
     outline-offset: 2px;
+  }
+
+  &[disabled],
+  &:disabled {
+    cursor: not-allowed;
   }
 
   .hds-icon {
     fill: currentColor;
-    height: 1em;
+    height: 60%;
     pointer-events: none;
-    width: 1em;
+    width: 60%;
   }
 }
 
 // ------------------------------------------------------------
-// §12.2 Icon button role
+// §12.2 Icon button roles
 // ------------------------------------------------------------
 
 // CTA — NASA Red, navigates to a new page
@@ -1544,6 +1672,18 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: var(--hds-palette-btn-primary-bg);
   border-color: var(--hds-palette-btn-primary-bg);
   color: var(--hds-palette-btn-filled-text);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-primary-bg-hover);
+    border-color: var(--hds-palette-btn-primary-bg-hover);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+  }
 }
 
 // Secondary filled — NASA Blue, on-page actions (download, share)
@@ -1551,6 +1691,18 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: var(--hds-palette-btn-secondary-bg);
   border-color: var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-btn-filled-text);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-secondary-bg-hover);
+    border-color: var(--hds-palette-btn-secondary-bg-hover);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+  }
 }
 
 // Secondary outline — NASA Blue border, lower emphasis
@@ -1558,59 +1710,141 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   background-color: transparent;
   border-color: var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-heading);
+
+  // Hover fills the circle — mirrors text button outline hover
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-btn-secondary-bg);
+    border-color: var(--hds-palette-btn-secondary-bg);
+    color: var(--hds-palette-btn-filled-text);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: transparent;
+    border-color: var(--hds-palette-btn-disabled-stroke);
+    color: var(--hds-palette-btn-disabled-text);
+  }
 }
 
 // Utility — neutral/adaptive, carousel and accordion controls
 .hds-btn-icon--utility {
   @include hds-utility-circle;
-  // TODO: Add hover, focus, and disabled states.
-  // Confirmed values from Figma (2026-03-16):
-  //   Hover:    fill → utility-hover-fill, stroke → utility-hover-stroke
-  //   Focus:    1px dashed outline, 2px offset, color → muted
-  //   Disabled: stroke → utility-disabled-stroke, icon → btn-disabled-text
-  // See §7.2 for reference implementation — same states apply
-  // but use <button disabled> instead of aria-disabled.
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+    border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+  }
 }
 
-// Social — social media share/follow link
+// Social — social media share/follow links
+// Social states are inferred (not in Figma or Proposal).
+// Flagged for creative director review.
 .hds-btn-icon--social {
   background-color: var(--hds-palette-social-fill);
   border-color: var(--hds-palette-social-fill);
   color: var(--hds-palette-social-icon);
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: var(--hds-palette-social-hover-fill);
+    border-color: var(--hds-palette-social-hover-fill);
+  }
+
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    border-color: var(--hds-palette-btn-disabled-bg);
+    color: var(--hds-palette-btn-filled-text);
+  }
 }
 
 // Interactive — small tooltip/popover trigger over images
 // Uses fixed-color SVGs (hds-buttons/interactive-*.svg) with
 // baked-in NASA Blue fill + white icon. Does NOT use palette
 // vars — color stays constant across all palettes.
+// No hover (colors baked into SVG). No disabled (tooltip
+// triggers should not be disabled).
 .hds-btn-icon--interactive {
   background-color: #{$hds-color-nasa-blue};
   border-color: #{$hds-color-nasa-blue};
   color: #{$hds-color-spacesuit-white};
-  height: 1.5em;
-  width: 1.5em;
 }
 
 // ------------------------------------------------------------
-// §12.3 Icon button size
+// §12.3 Icon button sizes
+// ------------------------------------------------------------
+// 8-size scale matching HDS Figma spec + observed module usage.
+// Default (no modifier) = Figma M (24px).
+// Uses rem for exact pixel values regardless of parent context.
+//
+// SVG icons use 20×20 glyphs in 24×24 viewboxes. The 60%
+// icon ratio in §12.1 compensates for viewport padding so
+// glyphs render at the Figma-intended size.
+//
+// --2xs and --3xl are not in the Figma icon button spec
+// but are commonly observed in Figma modules and templates.
+// Flagged for creative director confirmation.
+//
+// BREAKING (v0.6.0):
+//   Default changed from 32px (Figma XL) to 24px (Figma M).
+//   --sm changed from 19px to 20px.
+//   --lg changed from 40px to 28px.
+//   Use --xl for old default (32px), --3xl for old --lg (40px).
 // ------------------------------------------------------------
 
-// Small — inline with button text (e.g. primary arrow button)
+// 12px — filter dropdowns (desktop only).
+// Below WCAG 2.5.8 minimum touch target (24px).
+// Use --lg or larger on touch devices.
+.hds-btn-icon--2xs {
+  height: 12px;
+  width: 12px;
+}
+
+// 16px — header, footer, compact UI
+.hds-btn-icon--xs {
+  height: 16px;
+  width: 16px;
+}
+
+// 20px — inline with text, cards
 .hds-btn-icon--sm {
-  border-width: 0;
-  height: 1.2em;
-  width: 1.2em;
-
-  .hds-icon {
-    height: 0.65em;
-    width: 0.65em;
-  }
+  height: 20px;
+  width: 20px;
 }
 
-// Large — hero CTA
+// 24px — default (no class needed)
+
+// 28px — cards, navigation controls
 .hds-btn-icon--lg {
-  height: 2.5em;
-  width: 2.5em;
+  height: 28px;
+  width: 28px;
+}
+
+// 32px — social buttons, standalone actions
+.hds-btn-icon--xl {
+  height: 32px;
+  width: 32px;
+}
+
+// 36px — hero, prominent controls
+.hds-btn-icon--2xl {
+  height: 36px;
+  width: 36px;
+}
+
+// 40px — pagination arrows, carousel controls
+.hds-btn-icon--3xl {
+  height: 40px;
+  width: 40px;
 }
 
 // ------------------------------------------------------------
@@ -2176,9 +2410,13 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ----------------------------------------------------------------
 // §16.5 Dark palette override
 // ----------------------------------------------------------------
-// Tables on dark, blue, and black palettes switch to a fixed
-// Carbon 90 surface. All values are the dark-mode equivalents
-// of §16.1–§16.4, matching the HDS Figma dark table spec.
+// Tables on dark and black palettes switch to a fixed Carbon 90
+// surface. All values are the dark-mode equivalents of
+// §16.1–§16.4, matching the HDS Figma dark table spec.
+//
+// Blue palette uses the LIGHT table variant per creative
+// director review (2026-03-27). The table renders as a white
+// surface inside the blue section — same as white/light/midtone.
 //
 // NOTE: This block intentionally mirrors the structure of the
 // light-mode sections above. The repetition is inherent to
@@ -2187,8 +2425,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // ----------------------------------------------------------------
 
 [class*='hds-palette-dark'],
-[class*='hds-palette-black'],
-[class*='hds-palette-blue'] {
+[class*='hds-palette-black'] {
   // --- §16.1 Base (dark) ---
 
   .usa-table {

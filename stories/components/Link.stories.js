@@ -3,11 +3,12 @@
 // Covers §13 (USWDS .usa-link override, Tier 1 + .hds-link--internal, Tier 3)
 //
 // Sidebar structure:
-//   Guidance   — Link.mdx
-//   Playground — interactive story with controls
+//   Guidance   — Link.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Internal (default), External, Internal Escape
+//              (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Link',
@@ -30,44 +31,56 @@ const gridItem = (labelText, content) => `
   </div>
 `;
 
-// --- Guidance embeds (hidden from sidebar) ---
+// --- Stories (visible in sidebar) ---
 
-export const InternalLink = {
-  name: 'Internal link',
-  tags: ['!dev'],
-  render: () => `
-    <p>
-      Learn more about the
-      <a class="usa-link" href="#">Artemis program</a>
-      and upcoming lunar missions.
-    </p>
-  `,
+export const Internal = {
+  name: 'Internal (default)',
+  args: {
+    text: 'Artemis Program',
+    href: '#',
+  },
+  argTypes: {
+    text: { control: 'text', description: 'Link text' },
+    href: { control: 'text', description: 'URL' },
+  },
+  render: (args = {}) => {
+    const { text = 'Artemis Program', href = '#' } = args;
+    return `<p>Learn more about the <a class="usa-link" href="${href}">${text}</a> and upcoming lunar missions.</p>`;
+  },
 };
 
-export const ExternalLink = {
-  name: 'External link',
-  tags: ['!dev'],
-  render: () => `
-    <p>
-      View the gallery on
-      <a class="usa-link usa-link--external" href="https://flickr.com/nasa"
-         rel="noreferrer">NASA's Flickr<span class="usa-sr-only"> (external)</span></a>.
-    </p>
-  `,
+export const External = {
+  args: {
+    text: "NASA's Flickr",
+    href: 'https://flickr.com/nasa',
+  },
+  argTypes: {
+    text: { control: 'text', description: 'Link text' },
+    href: { control: 'text', description: 'URL' },
+  },
+  render: (args = {}) => {
+    const { text = "NASA's Flickr", href = 'https://flickr.com/nasa' } = args;
+    return `<p>View the gallery on <a class="usa-link usa-link--external" href="${href}" rel="noreferrer">${text}<span class="usa-sr-only"> (external)</span></a>.</p>`;
+  },
 };
 
-export const InternalEscapeHatch = {
-  name: 'Internal escape hatch',
-  tags: ['!dev'],
-  render: () => `
-    <p>
-      Explore the latest findings at
-      <a class="usa-link usa-link--external hds-link--internal"
-         href="https://science.nasa.gov/"
-         rel="noreferrer">science.nasa.gov</a>.
-    </p>
-  `,
+export const InternalEscape = {
+  name: 'Internal Escape',
+  args: {
+    text: 'science.nasa.gov',
+    href: 'https://science.nasa.gov/',
+  },
+  argTypes: {
+    text: { control: 'text', description: 'Link text' },
+    href: { control: 'text', description: 'URL (NASA subdomain)' },
+  },
+  render: (args = {}) => {
+    const { text = 'science.nasa.gov', href = 'https://science.nasa.gov/' } = args;
+    return `<p>Explore the latest findings at <a class="usa-link usa-link--external hds-link--internal" href="${href}" rel="noreferrer">${text}</a>.</p>`;
+  },
 };
+
+// --- Guidance embeds (MDX only) ---
 
 export const LinksInHeadings = {
   name: 'Links in headings',
@@ -135,7 +148,7 @@ export const AllVariants = {
     ]),
 };
 
-// --- Palette Accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -147,45 +160,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllVariants.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllVariants.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  args: {
-    text: 'Artemis Program',
-    href: '#',
-    external: false,
-    internalEscape: false,
-  },
-  argTypes: {
-    text: { control: 'text', description: 'Link text' },
-    href: { control: 'text', description: 'URL' },
-    external: {
-      control: 'boolean',
-      description: 'Add usa-link--external (diagonal arrow)',
-    },
-    internalEscape: {
-      control: 'boolean',
-      description: 'Add hds-link--internal (suppress arrow for NASA subdomains)',
-      if: { arg: 'external' },
-    },
-  },
-  render: (args) => {
-    const classes = ['usa-link'];
-    if (args.external) classes.push('usa-link--external');
-    if (args.external && args.internalEscape) classes.push('hds-link--internal');
-    const rel = args.external ? ' rel="noreferrer"' : '';
-    const sr = args.external && !args.internalEscape ? '<span class="usa-sr-only"> (external)</span>' : '';
-    return `<p><a class="${classes.join(' ')}" href="${args.href}"${rel}>${args.text}${sr}</a></p>`;
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(AllVariants.render),
 };

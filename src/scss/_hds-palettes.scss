@@ -57,6 +57,8 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-border: #{$hds-color-carbon-20};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
+  --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
+  --hds-palette-btn-disabled-bg: #{$hds-color-carbon-20};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-20};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-30};
   --hds-palette-control-text: #{$hds-color-carbon-80};
@@ -69,6 +71,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-hover-stroke: #{$hds-color-carbon-40};
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-05};
   --hds-palette-icon: #{$hds-color-carbon-black};
+  --hds-palette-social-hover-fill: #{$hds-color-carbon-70};
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-spacesuit-white};
@@ -87,8 +90,16 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
-  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
-  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  // Secondary filled uses NASA Blue on all palettes per creative
+  // director review (2026-03-27). Passes AA everywhere. See
+  // Discussion #24 for rationale.
+  --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
+  --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
+  // Inferred — same value as light scheme. Flagged for creative
+  // director review: does Red → Red Shade provide enough visible
+  // hover feedback against dark backgrounds?
+  --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
+  --hds-palette-btn-disabled-bg: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-60};
   --hds-palette-control-text: #{$hds-color-carbon-20};
@@ -101,6 +112,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-hover-stroke: #{$hds-color-carbon-05};
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-80};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
+  --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};
@@ -141,11 +153,12 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-80};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-utility-stroke: #{$hds-color-carbon-40};
-  // TODO: Disabled button stroke is Carbon 20 on a Carbon 20
-  // background — invisible. Needs creative director review.
-  // Proposed override:
-  // --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
-  // --hds-palette-btn-disabled-text:   #{$hds-color-carbon-50};
+  // Disabled overrides — light-scheme Carbon 20 values are
+  // invisible on this Carbon 20 background. Inferred values
+  // flagged for creative director review.
+  --hds-palette-btn-disabled-bg: #{$hds-color-carbon-40};
+  --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
+  --hds-palette-btn-disabled-text: #{$hds-color-carbon-50};
 }
 
 // Palette 4 — Dark (Carbon 90)
@@ -167,20 +180,27 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
+  // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
+  // secondary filled converts to outline here (§4.8) — borders
+  // need contrast against the NASA Blue Shade background.
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+  // Inferred — same as dark scheme. Flagged for review.
+  --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
+  --hds-palette-btn-disabled-bg: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-60};
   --hds-palette-control-text: #{$hds-color-carbon-20};
   --hds-palette-control-stroke: #{$hds-color-nasa-blue-tint};
   --hds-palette-control-border: #{$hds-color-carbon-60};
-  --hds-palette-utility-fill: #{$hds-color-nasa-blue};
+  --hds-palette-utility-fill: transparent;
   --hds-palette-utility-stroke: #{$hds-color-nasa-blue-tint};
   --hds-palette-utility-icon: #{$hds-color-spacesuit-white};
-  --hds-palette-icon: #{$hds-color-spacesuit-white};
-  --hds-palette-utility-hover-fill: #{$hds-color-nasa-blue};
+  --hds-palette-utility-hover-fill: transparent;
   --hds-palette-utility-hover-stroke: #{$hds-color-spacesuit-white};
-  --hds-palette-utility-disabled-stroke: #{$hds-color-nasa-blue};
+  --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-50};
+  --hds-palette-icon: #{$hds-color-spacesuit-white};
+  --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
   // Form tokens — inferred from dark scheme, not in Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};

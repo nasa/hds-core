@@ -6,11 +6,11 @@
 // USWDS: https://designsystem.digital.gov/components/radio-buttons/
 //
 // Sidebar structure:
-//   Components / Radio Button / Guidance  — RadioButton.mdx
-//   Components / Radio Button / Playground — interactive story with controls
+//   Guidance   — RadioButton.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default, Tiles, Horizontal (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Radio Button',
@@ -57,7 +57,7 @@ const radioGroup = ({
   const wrapperClose = tile ? '</form>' : '';
   const itemsHtml = items
     .map((item) =>
-      radioItem(prefix, item.value, item.label, {
+      radioItem(prefix, item.value, item.text, {
         checked: item.checked,
         disabled: item.disabled,
         tile,
@@ -76,36 +76,101 @@ const radioGroup = ({
   `;
 };
 
+// Hoisted to module scope — avoids label: parser bug in sidebar stories
 const missionTypes = [
-  { value: 'crewed', label: 'Crewed', checked: true },
-  { value: 'robotic', label: 'Robotic' },
-  { value: 'flyby', label: 'Flyby' },
+  { value: 'crewed', text: 'Crewed', checked: true },
+  { value: 'robotic', text: 'Robotic' },
+  { value: 'flyby', text: 'Flyby' },
+  { value: 'orbiter', text: 'Orbiter' },
+  { value: 'lander', text: 'Lander' },
+  { value: 'rover', text: 'Rover' },
 ];
 
-// --- Guidance embeds (hidden from sidebar) ---
+const tileItems = [
+  { value: 'moon', text: 'Moon', checked: true },
+  { value: 'mars', text: 'Mars', description: 'Red planet exploration' },
+  { value: 'disabled', text: 'Disabled tile', disabled: true },
+];
+
+const stateItems = [
+  { value: 'default', text: 'Default' },
+  { value: 'selected', text: 'Selected', checked: true },
+  { value: 'disabled', text: 'Disabled', disabled: true },
+  { value: 'disabled-checked', text: 'Disabled + selected', disabled: true, checked: true },
+];
+
+// Shared argTypes
+const sharedArgTypes = {
+  legend: {
+    control: 'text',
+    description: 'Group label above the radio buttons',
+  },
+  itemCount: {
+    control: { type: 'range', min: 2, max: 6, step: 1 },
+    description: 'Number of radio button options',
+  },
+};
+
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  tags: ['!dev'],
-  render: () =>
-    radioGroup({
+  args: {
+    legend: 'Select one mission type',
+    itemCount: 3,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const { legend = 'Select one mission type', itemCount = 3 } = args;
+    return radioGroup({
       prefix: 'default',
-      items: missionTypes,
-    }),
+      legend,
+      items: missionTypes.slice(0, itemCount),
+    });
+  },
+};
+
+export const Tiles = {
+  args: {
+    legend: 'Select destination',
+    itemCount: 3,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const { legend = 'Select destination', itemCount = 3 } = args;
+    return radioGroup({
+      prefix: 'tiles',
+      legend,
+      tile: true,
+      items: tileItems.slice(0, itemCount),
+    });
+  },
 };
 
 export const Horizontal = {
-  tags: ['!dev'],
-  render: () =>
-    radioGroup({
+  args: {
+    legend: 'Label',
+  },
+  argTypes: {
+    legend: {
+      control: 'text',
+      description: 'Group label above the radio buttons',
+    },
+  },
+  render: (args = {}) => {
+    const { legend = 'Label' } = args;
+    return radioGroup({
       prefix: 'horiz',
-      legend: 'Label',
+      legend,
       horizontal: true,
       items: [
-        { value: 'yes', label: 'Yes', checked: true },
-        { value: 'no', label: 'No' },
+        { value: 'yes', text: 'Yes', checked: true },
+        { value: 'no', text: 'No' },
       ],
-    }),
+    });
+  },
 };
+
+// --- Guidance embeds (MDX only) ---
 
 export const States = {
   tags: ['!dev'],
@@ -113,27 +178,7 @@ export const States = {
     radioGroup({
       prefix: 'states',
       legend: 'Radio button states',
-      items: [
-        { value: 'default', label: 'Default' },
-        { value: 'selected', label: 'Selected', checked: true },
-        { value: 'disabled', label: 'Disabled', disabled: true },
-        { value: 'disabled-checked', label: 'Disabled + selected', disabled: true, checked: true },
-      ],
-    }),
-};
-
-export const Tiles = {
-  tags: ['!dev'],
-  render: () =>
-    radioGroup({
-      prefix: 'tiles',
-      legend: 'Select destination',
-      tile: true,
-      items: [
-        { value: 'moon', label: 'Moon', checked: true },
-        { value: 'mars', label: 'Mars', description: 'Red planet exploration' },
-        { value: 'disabled', label: 'Disabled tile', disabled: true },
-      ],
+      items: stateItems,
     }),
 };
 
@@ -149,7 +194,7 @@ export const WithError = {
   `,
 };
 
-// --- Palette accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -161,61 +206,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(States.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  name: 'Playground',
-  argTypes: {
-    legend: {
-      control: 'text',
-      description: 'Group label above the radio buttons',
-    },
-    itemCount: {
-      control: { type: 'range', min: 2, max: 6, step: 1 },
-      description: 'Number of radio button options',
-    },
-    tile: {
-      control: 'boolean',
-      description: 'Use tile variant with larger touch targets',
-    },
-    horizontal: {
-      control: 'boolean',
-      description: 'Lay out options horizontally (only for 2–3 short options)',
-    },
-  },
-  args: {
-    legend: 'Select one mission type',
-    itemCount: 3,
-    tile: false,
-    horizontal: false,
-  },
-  render: (args) => {
-    const allItems = [
-      { value: 'crewed', label: 'Crewed', checked: true },
-      { value: 'robotic', label: 'Robotic' },
-      { value: 'flyby', label: 'Flyby' },
-      { value: 'orbiter', label: 'Orbiter' },
-      { value: 'lander', label: 'Lander' },
-      { value: 'rover', label: 'Rover' },
-    ];
-
-    return radioGroup({
-      prefix: 'playground',
-      legend: args.legend,
-      tile: args.tile,
-      horizontal: args.horizontal,
-      items: allItems.slice(0, args.itemCount),
-    });
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(States.render),
 };

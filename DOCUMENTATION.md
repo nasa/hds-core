@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-03-23
+Last updated: 2026-03-27
 
 ## Audience
 
@@ -27,7 +27,7 @@ The Overview page explains these concepts once — don't re-explain on component
 - "Horizon Design System (HDS)" and "U.S. Web Design System (USWDS)" — acronyms only after Overview
 - HDS Core is a Sass/CSS theme layer on USWDS
 - All components adapt to color palettes automatically
-- How to use Storybook (palette switcher, viewport switcher, "Show code," Guidance vs Playground)
+- How to use Storybook (palette switcher, viewport switcher, "Show code," Guidance vs stories)
 - Installation (link to Getting Started)
 - Current version / scope (pre-1.0, CSS-only, no JS beyond USWDS)
 
@@ -43,33 +43,9 @@ Link to external USWDS docs when extending or overriding a USWDS concept. Use St
 ## File structure
 
 ```
-stories/
-  assets/                           # Storybook-only images (not shipped)
-  helpers/
-    Note.jsx                        # Callout note component
-    icons.js                        # Shared icon ID arrays (HDS + USWDS)
-    paletteTests.js                 # Palette a11y test helpers
-  overview/
-    Getting Started.mdx
-    Overview.mdx
-    Roadmap.mdx
-  foundations/
-    Accessibility.mdx               # Docs-only (no stories file)
-    Color.mdx                       # Docs-only
-    ColorPalettes.mdx               # Attached to ColorPalettes.stories.js
-    ColorPalettes.stories.js
-    DataVisualization.mdx            # Docs-only
-    DataVisualizationPalettes.mdx    # Docs-only
-    Grid.mdx                        # Attached to Grid.stories.js
-    Grid.stories.js
-    Icons.mdx                       # Attached to Icons.stories.js
-    Icons.stories.js
-    Spacing.mdx                     # Standalone MDX
-    Typography.mdx                  # Attached to Typography.stories.js
-    Typography.stories.js
-  components/
-    {Component}.mdx                 # Guidance page
-    {Component}.stories.js          # Canvas-embed stories + Playground
+
+stories/ assets/ # Storybook-only images (not shipped) helpers/ Note.jsx # Callout note component icons.js # Shared icon ID arrays (HDS + USWDS) paletteTests.js # Palette a11y test helpers overview/ Getting Started.mdx Overview.mdx Roadmap.mdx foundations/ Accessibility.mdx # Docs-only (no stories file) Color.mdx # Docs-only ColorPalettes.mdx # Attached to ColorPalettes.stories.js ColorPalettes.stories.js DataVisualization.mdx # Docs-only DataVisualizationPalettes.mdx # Docs-only Grid.mdx # Attached to Grid.stories.js Grid.stories.js Icons.mdx # Attached to Icons.stories.js Icons.stories.js Spacing.mdx # Standalone MDX Typography.mdx # Attached to Typography.stories.js Typography.stories.js components/ {Component}.mdx # Guidance page {Component}.stories.js # Sidebar variant stories + guidance embeds + palette tests
+
 ```
 
 ## Storybook configuration
@@ -104,15 +80,32 @@ Foundation docs-only pages and root-level pages set their title directly:
 ## Sidebar structure
 
 ```
-Getting Started
-Overview
-Roadmap
-Foundations / {Foundation}
-Components / {Component} / Guidance
-Components / {Component} / Playground
+Components / {Component}
+  ├─ Docs                  ← {Component}.mdx Guidance page
+  ├─ {Variant 1}           ← Sidebar story with own args
+  ├─ {Variant 2}
+  ├─ ...
+  └─ {States / summary}    ← Optional combined-view story
 ```
 
-Foundations sort alphabetically. The `storySort` config in `preview.js` controls category order. Sidebar positions are controlled by `<Meta title="..." />` in MDX or `title` in CSF exports.
+Each component exposes its **major variants as separate sidebar stories** with their own args, rather than a single Playground that switches between variants. This lets developers:
+
+- See all variants at a glance in the sidebar
+- Deep-link to a specific variant
+- Compare args that are relevant to that variant only
+
+**Guidance embeds** (stories referenced by `<Canvas of={} />` in MDX) are tagged `!dev` — they appear in the Guidance page but not the sidebar. **Palette accessibility tests** are also tagged `!dev`.
+
+Foundations sort alphabetically. The `storySort` config in `preview.js` controls category order. Sidebar positions are controlled by `<Meta title="..." />` in MDX or `title` in CSF exports. Stories appear in **export order** within their component group.
+
+### Sidebar variant examples
+
+| Component   | Sidebar stories                                                                          |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| Accordion   | Default, Multiselectable                                                                 |
+| Breadcrumb  | Default, 3 Levels, Truncated                                                             |
+| Button      | CTA (default), Secondary Filled, Outline, Unstyled, Primary Arrow, States (all variants) |
+| Icon Button | CTA, Secondary, Outline, Utility, Social, Interactive, States (all roles)                |
 
 ## MDX authoring
 
@@ -129,11 +122,19 @@ Foundations sort alphabetically. The `storySort` config in `preview.js` controls
 
 **Rule of thumb:** If it uses `var(--hds-*)`, HDS classes, USWDS classes, or SVG sprites → Canvas-embedded story. Static content (swatches, tables, text) is fine inline.
 
+Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
+
 ```mdx
 import { Canvas } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
 
-<Canvas of={ButtonStories.Default} />
+{/* References a !dev guidance embed */}
+
+<Canvas of={ButtonStories.FilledVariants} />
+
+{/* References a visible sidebar story — shows with controls */}
+
+<Canvas of={ButtonStories.Outline} />
 ```
 
 Below the first Canvas on each Guidance page, add:
@@ -143,6 +144,8 @@ Below the first Canvas on each Guidance page, add:
 ```
 
 Include this caption once per page only.
+
+When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
 
 ### Color swatches and grids
 
@@ -199,18 +202,91 @@ import { Note } from '../helpers/Note';
 
 ## Story conventions
 
-### Tags and structure
+### Sidebar variants model
+
+Each component stories file follows this structure:
+
+```
+1. Helpers         — shared builder functions
+2. Sidebar stories — visible variants with own args (no tags)
+3. Guidance embeds — MDX Canvas targets (tags: ['!dev'])
+4. Palette tests   — a11y contrast tests (tags: ['!dev'])
+```
+
+Stories appear in the sidebar in **export order**. Place sidebar stories first, then guidance embeds, then palette tests.
+
+**Gold standard:** `Accordion.stories.js` — refer to this when refactoring other components.
+
+### Sidebar stories
+
+Sidebar stories replace the former Playground pattern. Each major variant gets its own export with args relevant to that variant:
 
 ```js
-// Hidden from sidebar, embedded in Guidance via Canvas
+// Visible in sidebar — each variant has own args
 export const Default = {
-  tags: ['!dev'],
-  render: () => `...`,
+  args: {
+    itemCount: 5,
+    firstExpanded: true,
+  },
+  argTypes: { ... },
+  render: (args = {}) => { ... },
 };
 
-// Visible in sidebar
-export const Playground = {
-  render: (args) => `...`,
+export const Multiselectable = {
+  args: { ... },
+  argTypes: { ... },
+  render: (args = {}) => { ... },
+};
+```
+
+**Default parameter values in render functions:** Sidebar story render functions must use `(args = {})` with destructured defaults so they can be safely called with no arguments by `paletteRender`:
+
+```js
+render: (args = {}) => {
+  const { level1 = 'Home', level2 = 'Missions' } = args;
+  return breadcrumb([level1, level2]);
+},
+```
+
+### Guidance embeds
+
+Stories referenced only by `<Canvas of={} />` in MDX. Tagged `!dev` to hide from sidebar:
+
+```js
+export const AllCollapsed = {
+  tags: ['!dev'],
+  render: () => accordion({ prefix: 'collapsed', firstExpanded: false }),
+};
+```
+
+### Parser safety for object arrays
+
+Storybook's indexer can misparse `label:` inside render functions as a JavaScript label statement, causing `SyntaxError: Missing semicolon` build errors. This only affects stories **visible in the sidebar** (not `!dev` stories, which are skipped by the indexer).
+
+**Fix:** Hoist object arrays with `label`-like keys to module scope and rename the property:
+
+```js
+// ✅ Hoisted to module scope, property renamed to `text`
+const stateVariants = [
+  { text: 'CTA', classes: 'usa-button' },
+  { text: 'Secondary', classes: 'usa-button usa-button--secondary' },
+];
+
+export const States = {
+  render: () => {
+    const rows = stateVariants.map((v) => `${label(v.text)} ...`).join('');
+    return `...${rows}...`;
+  },
+};
+
+// ❌ Breaks — `label:` inside render parsed as JS label statement
+export const States = {
+  render: () => {
+    const variants = [
+      { label: 'CTA', classes: 'usa-button' },
+    ];
+    ...
+  },
 };
 ```
 
@@ -231,6 +307,27 @@ const gridItem = (labelText, content) => `
     ${label(labelText)}
     <div style="margin-top: 0.75rem;">${content}</div>
   </div>`;
+```
+
+For components with multiple roles or variants, consider shared arg types and render factories to reduce duplication:
+
+```js
+// Shared argTypes
+const disabledArgTypes = {
+  label: { control: 'text' },
+  disabled: { control: 'boolean' },
+};
+
+// Render factory
+const roleRender = (role) => (args = {}) => {
+  return iconBtn(role, args.iconName, args.ariaLabel, { disabled: args.disabled });
+};
+
+export const CTA = {
+  args: { ... },
+  argTypes: disabledArgTypes,
+  render: roleRender('cta'),
+};
 ```
 
 ### Unique `id` values
@@ -262,9 +359,13 @@ Icon ID arrays live in `stories/helpers/icons.js` — the single source of truth
 Every palette-aware component should include hidden stories that test contrast across all non-default palettes. Use the shared helpers from `stories/helpers/paletteTests.js`:
 
 ```js
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
+```
 
-// Default state — all components
+**`paletteRender(renderFn)`** takes only the render function — no pseudo-state parameter. Pseudo-states are applied via `pseudoParams` spread into `parameters`:
+
+```js
+// Default state
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
@@ -272,19 +373,20 @@ export const PaletteA11y = {
   render: paletteRender(Default.render),
 };
 
-// Add hover/focus for interactive components
+// Hover state — spread pseudoParams.hover into parameters
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Default.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(Default.render),
 };
 
+// Focus state — spread pseudoParams.focusVisible into parameters
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(Default.render, 'focus-visible'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(Default.render),
 };
 ```
 
@@ -303,3 +405,4 @@ parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'to
 - [ ] Data Visualization Palettes: increase border thickness/padding on categorical table containers
 - [ ] Data Visualization Palettes: add hex codes to sequential palette gradient strips
 - [ ] Data Visualization Palettes: add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma
+- [ ] Refactor remaining stories to sidebar variants model: Intro Text, Link, Pagination, Site Alert, Table, Form Elements

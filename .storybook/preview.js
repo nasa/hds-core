@@ -1,3 +1,13 @@
+// .storybook/preview.js
+// ============================================================
+// HDS Core Storybook Preview Configuration
+// @nasa/hds-core
+// ============================================================
+// Configures the story rendering environment: palette toolbar,
+// viewport presets, accessibility testing, story sort order,
+// docs settings, and decorators.
+// ============================================================
+
 const preview = {
   parameters: {
     a11y: {
@@ -18,6 +28,7 @@ const preview = {
     },
     options: {
       storySort: {
+        includeNames: true,
         order: [
           'Overview',
           'Getting Started',
@@ -25,8 +36,44 @@ const preview = {
           'Roadmap',
           'Foundations',
           'Components',
-          ['*', ['Guidance', 'Playground', '*']],
+          ['*', ['Guidance', '*']],
         ],
+      },
+    },
+    viewport: {
+      options: {
+        mobile: {
+          name: 'Mobile (320px)',
+          styles: { width: '320px', height: '568px' },
+        },
+        mobileLg: {
+          name: 'Mobile LG (480px)',
+          styles: { width: '480px', height: '896px' },
+        },
+        tablet: {
+          name: 'Tablet (640px)',
+          styles: { width: '640px', height: '1024px' },
+        },
+        tabletLg: {
+          name: 'Tablet LG (880px)',
+          styles: { width: '880px', height: '1024px' },
+        },
+        desktop: {
+          name: 'Desktop (1024px)',
+          styles: { width: '1024px', height: '768px' },
+        },
+        desktopLg: {
+          name: 'Desktop LG (1200px)',
+          styles: { width: '1200px', height: '900px' },
+        },
+        widescreen: {
+          name: 'Widescreen (1400px)',
+          styles: { width: '1400px', height: '900px' },
+        },
+        tv: {
+          name: 'TV (1920px) — no CSS breakpoint yet',
+          styles: { width: '1920px', height: '1080px' },
+        },
       },
     },
   },
@@ -51,6 +98,8 @@ const preview = {
     },
   },
   decorators: [
+    // Palette wrapper — wraps story content in palette class
+    // when a palette is selected via the toolbar
     (Story, context) => {
       const palette = context.globals.palette;
       if (palette === 'none') {
@@ -58,13 +107,16 @@ const preview = {
       }
       return `<div class="hds-palette-${palette}" style="padding: 2rem;">${Story()}</div>`;
     },
+
+    // USWDS table sort initialization — USWDS JS runs init() on
+    // DOMContentLoaded, before Storybook renders story content.
+    // Table sort requires button injection into th[data-sortable]
+    // elements, which must happen after story DOM is ready.
+    // setTimeout(0) defers to the next microtask, after Storybook
+    // has inserted the story HTML into the DOM.
     (Story) => {
       const html = Story();
-      // USWDS JS runs init() on DOMContentLoaded — before Storybook
-      // renders story content. Table sort requires button injection
-      // into th[data-sortable] elements, which must happen after
-      // story DOM is ready. Uses standard USWDS SVG markup — HDS
-      // icon styling is applied via CSS mask-image in §16.3.
+
       setTimeout(() => {
         const headers = document.querySelectorAll('th[data-sortable]:not(:has(.usa-table__header__button))');
         if (!headers.length) return;
@@ -120,6 +172,7 @@ const preview = {
           });
         });
       }, 0);
+
       return html;
     },
   ],

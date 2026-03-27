@@ -18,7 +18,7 @@ HDS pagination comes in three variants.
 
 Use bounded pagination when the total number of pages is known. The last page is always visible as the final slot. When there are more than 7 pages, ellipsis slots collapse intermediate pages. Previous and next arrows disable at the boundaries.
 
-<Canvas of={PaginationStories.BoundedFirstPage} />
+<Canvas of={PaginationStories.Bounded} />
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
@@ -44,7 +44,7 @@ Bounded pagination works with as few as 2 pages:
 
 Use unbounded pagination when the total number of pages is unknown — for example, search results sorted by relevance where deeper pages have diminishing relevance. No last page is shown. The sequence ends with a trailing ellipsis.
 
-<Canvas of={PaginationStories.UnboundedNearStart} />
+<Canvas of={PaginationStories.Unbounded} />
 
 <Canvas of={PaginationStories.UnboundedMiddle} />
 

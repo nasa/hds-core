@@ -6,11 +6,11 @@
 // USWDS: https://designsystem.digital.gov/components/checkbox/
 //
 // Sidebar structure:
-//   Components / Checkbox / Guidance  — Checkbox.mdx
-//   Components / Checkbox / Playground — interactive story with controls
+//   Guidance   — Checkbox.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default, Tiles (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Checkbox',
@@ -53,7 +53,7 @@ const checkboxGroup = ({ prefix = 'check', legend = 'Missions', items = [], tile
       <legend class="usa-legend">${legend}</legend>
       ${items
         .map((item) =>
-          checkboxItem(prefix, item.value, item.label, {
+          checkboxItem(prefix, item.value, item.text, {
             checked: item.checked,
             disabled: item.disabled,
             tile,
@@ -66,25 +66,92 @@ const checkboxGroup = ({ prefix = 'check', legend = 'Missions', items = [], tile
   `;
 };
 
+// Hoisted to module scope — avoids label: parser bug in sidebar stories
 const missionItems = [
-  { value: 'artemis', label: 'Artemis' },
-  { value: 'commercial-crew', label: 'Commercial Crew', checked: true },
-  { value: 'curiosity', label: 'Curiosity Mars Rover' },
-  { value: 'hubble', label: 'Hubble Space Telescope' },
-  { value: 'jwst', label: 'James Webb Space Telescope' },
+  { value: 'artemis', text: 'Artemis' },
+  { value: 'commercial-crew', text: 'Commercial Crew', checked: true },
+  { value: 'curiosity', text: 'Curiosity Mars Rover' },
+  { value: 'hubble', text: 'Hubble Space Telescope' },
+  { value: 'jwst', text: 'James Webb Space Telescope' },
 ];
 
-// --- Guidance embeds (hidden from sidebar) ---
+const stateItems = [
+  { value: 'default', text: 'Default' },
+  { value: 'selected', text: 'Selected', checked: true },
+  { value: 'disabled', text: 'Disabled', disabled: true },
+  { value: 'disabled-checked', text: 'Disabled + selected', disabled: true, checked: true },
+];
+
+const tileItems = [
+  { value: 'pdf', text: 'PDF', checked: true, description: 'Download as a PDF document' },
+  { value: 'csv', text: 'CSV', description: 'Download as a spreadsheet' },
+  { value: 'disabled', text: 'Disabled tile', disabled: true },
+];
+
+// Shared argTypes for both sidebar stories
+const sharedArgTypes = {
+  legend: {
+    control: 'text',
+    description: 'Group label above the checkbox list',
+  },
+  itemCount: {
+    control: { type: 'range', min: 2, max: 5, step: 1 },
+    description: 'Number of checkbox options',
+  },
+  firstChecked: {
+    control: 'boolean',
+    description: 'First item selected on load',
+  },
+};
+
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  tags: ['!dev'],
-  render: () =>
-    checkboxGroup({
+  args: {
+    legend: 'Missions',
+    itemCount: 5,
+    firstChecked: false,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const { legend = 'Missions', itemCount = 5, firstChecked = false } = args;
+    const items = missionItems.slice(0, itemCount).map((item, i) => ({
+      ...item,
+      checked: i === 0 ? firstChecked : item.checked,
+    }));
+
+    return checkboxGroup({
       prefix: 'default',
-      legend: 'Missions',
-      items: missionItems,
-    }),
+      legend,
+      items,
+    });
+  },
 };
+
+export const Tiles = {
+  args: {
+    legend: 'Select format',
+    itemCount: 3,
+    firstChecked: false,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const { legend = 'Select format', itemCount = 3, firstChecked = false } = args;
+    const items = tileItems.slice(0, itemCount).map((item, i) => ({
+      ...item,
+      checked: i === 0 ? firstChecked : item.checked,
+    }));
+
+    return checkboxGroup({
+      prefix: 'tiles',
+      legend,
+      tile: true,
+      items,
+    });
+  },
+};
+
+// --- Guidance embeds (MDX only) ---
 
 export const States = {
   tags: ['!dev'],
@@ -92,12 +159,7 @@ export const States = {
     checkboxGroup({
       prefix: 'states',
       legend: 'Checkbox states',
-      items: [
-        { value: 'default', label: 'Default' },
-        { value: 'selected', label: 'Selected', checked: true },
-        { value: 'disabled', label: 'Disabled', disabled: true },
-        { value: 'disabled-checked', label: 'Disabled + selected', disabled: true, checked: true },
-      ],
+      items: stateItems,
     }),
 };
 
@@ -113,22 +175,7 @@ export const WithError = {
   `,
 };
 
-export const Tiles = {
-  tags: ['!dev'],
-  render: () =>
-    checkboxGroup({
-      prefix: 'tiles',
-      legend: 'Select format',
-      tile: true,
-      items: [
-        { value: 'pdf', label: 'PDF', checked: true, description: 'Download as a PDF document' },
-        { value: 'csv', label: 'CSV', description: 'Download as a spreadsheet' },
-        { value: 'disabled', label: 'Disabled tile', disabled: true },
-      ],
-    }),
-};
-
-// --- Palette accessibility tests (hidden from sidebar) ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
@@ -140,56 +187,13 @@ export const PaletteA11y = {
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render, 'hover'),
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(States.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render, 'focus-visible'),
-};
-
-// --- Playground (visible in sidebar) ---
-
-export const Playground = {
-  name: 'Playground',
-  argTypes: {
-    legend: {
-      control: 'text',
-      description: 'Group label above the checkbox list',
-    },
-    itemCount: {
-      control: { type: 'range', min: 2, max: 5, step: 1 },
-      description: 'Number of checkbox options',
-    },
-    tile: {
-      control: 'boolean',
-      description: 'Use tile variant with larger touch targets',
-    },
-    firstChecked: {
-      control: 'boolean',
-      description: 'First item selected on load',
-    },
-  },
-  args: {
-    legend: 'Missions',
-    itemCount: 5,
-    tile: false,
-    firstChecked: false,
-  },
-  render: (args) => {
-    const items = missionItems.slice(0, args.itemCount).map((item, i) => ({
-      ...item,
-      checked: i === 0 ? args.firstChecked : false,
-    }));
-
-    return checkboxGroup({
-      prefix: 'playground',
-      legend: args.legend,
-      tile: args.tile,
-      items,
-    });
-  },
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
+  render: paletteRender(States.render),
 };
