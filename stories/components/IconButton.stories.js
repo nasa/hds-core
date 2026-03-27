@@ -286,7 +286,7 @@ export const SocialRow = {
   render: () => `
     <div style="display: flex; gap: 0.75rem;">
       ${iconBtn('social', 'rss', 'RSS feed', { element: 'a' })}
-      ${iconBtn('social', 'subscribe', 'Subscribe', { element: 'a' })}
+      ${iconBtn('social', 'notification', 'Notifications', { element: 'a' })}
       ${iconBtn('social', 'share', 'Share', { element: 'a' })}
     </div>
   `,
