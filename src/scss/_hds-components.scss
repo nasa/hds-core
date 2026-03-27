@@ -533,6 +533,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-checkbox__input--tile + .usa-checkbox__label,
 .usa-radio__input--tile + .usa-radio__label {
   background-color: transparent;
+  border-color: var(--hds-palette-border);
+  color: var(--hds-palette-control-text);
+}
+
+.usa-checkbox__label-description,
+.usa-checkbox__label-description {
+  color: var(--hds-palette-muted);
 }
 
 .usa-fieldset {
@@ -561,6 +568,14 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   opacity: 0.66;
 }
 
+// Select-specific — fix height clipping, preserve arrow space
+// Chevron icon: deferred to custom dropdown component phase.
+// Currently uses USWDS default arrow.
+.usa-select {
+  height: auto;
+  padding-right: 48px;
+}
+
 // ------------------------------------------------------------
 // §5.2 Input focus — solid blue border
 // ------------------------------------------------------------
@@ -578,8 +593,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-select:focus-visible {
   border-color: var(--hds-palette-btn-secondary-bg);
   border-width: 2px;
-  outline: 2px solid var(--hds-palette-btn-secondary-bg) !important;
-  outline-offset: 0 !important;
+  outline: none !important;
 }
 
 // ------------------------------------------------------------
@@ -715,6 +729,17 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   box-shadow: 0 0 0 1px var(--hds-palette-border);
 }
 
+// Disabled + checked — preserve HDS icon with dimmed colors
+.usa-checkbox__input:disabled:checked + .usa-checkbox__label::before {
+  background-color: var(--hds-palette-disabled);
+  background-image: #{$hds-checkbox-icon};
+  background-position: center center;
+  background-size: 16px auto;
+  background-repeat: no-repeat;
+  border: 0;
+  box-shadow: 0 0 0 1px var(--hds-palette-border);
+}
+
 // Tile — checked border
 .usa-checkbox__input--tile:checked + .usa-checkbox__label {
   border-color: var(--hds-palette-control-fill);
@@ -844,7 +869,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-input--error,
 .usa-input--error:focus {
   border-color: var(--hds-palette-error-border);
-  border-width: 2px;
+  border-width: 1px;
 }
 
 .usa-form-group--error {

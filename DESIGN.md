@@ -306,6 +306,45 @@ USWDS offers `.usa-accordion--bordered`. HDS Figma shows only borderless accordi
 
 HDS Figma does not specify a hover state for the accordion heading row. Currently unimplemented — pending Figma research on full-row hover patterns.
 
+## Form Elements
+
+### Palette Token Renames
+
+Three checkbox-specific tokens renamed to generic control names (shared by checkbox + radio):
+
+- `--hds-palette-checkbox-text` → `--hds-palette-control-text`
+- `--hds-palette-checkbox-fill` → `--hds-palette-control-fill`
+- `--hds-palette-checkbox-stroke` → `--hds-palette-control-stroke`
+
+### New Form Tokens (Flagged for Review)
+
+Six new tokens inferred from Figma component CSS. The HDS Core Proposal defines checkbox colors and UI borders but does not specify input backgrounds, disabled states, or error states. These need review — especially on midtone and blue palettes, which Figma never designed form elements for.
+
+| Token | Light | Dark | Purpose |
+| --- | --- | --- | --- |
+| `--hds-palette-control-border` | Carbon 40 | Carbon 60 | Checkbox/radio default border (intentionally darker than text input borders for visibility on smaller targets) |
+| `--hds-palette-input-bg` | White | Black | Form control backgrounds (always the extreme, unlike `--hds-palette-bg` which varies) |
+| `--hds-palette-disabled` | Carbon 40 | Carbon 60 | Disabled text and labels |
+| `--hds-palette-disabled-bg` | Carbon 05 | Carbon 90 | Disabled backgrounds |
+| `--hds-palette-error-border` | NASA Red | Red/Tint | Error state borders |
+| `--hds-palette-error-text` | Red/Shade | Red/Tint | Error message text |
+
+### Disabled Help Text
+
+Figma dims help text to Carbon 40 in disabled groups. That's 2.85:1 contrast on white — fails WCAG 4.5:1. WCAG exempts disabled _controls_ but help text isn't a control. HDS Core keeps help text readable in disabled groups. Flagged for creative director review.
+
+### Select Chevron (Deferred Post-1.0)
+
+Figma shows a single thin down chevron. Currently using USWDS default double-arrow. Replacing it requires a palette-aware approach or a custom dropdown component. Deferred.
+
+### Custom Dropdown Panel (Deferred Post-1.0)
+
+Figma shows a styled dropdown with rounded corners and blue active highlight. HDS Core uses the native browser `<select>` dropdown, which can't be styled. Requires JavaScript.
+
+### Floating Label (Deferred Post-1.0)
+
+Figma shows a compact pattern where the label sits inside the field as placeholder text and moves above on focus. Requires JavaScript.
+
 ## Table
 
 ### Surface Model
@@ -400,6 +439,10 @@ Pending visual sign-offs:
 | Icon button glyph sizing | HDS Core SVGs are 24×24px (not Figma's 20×20px) — ratio needs adjustment | Glyphs render slightly smaller than Figma intends |
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
 | Accordion hover state | Figma doesn't specify heading row hover — should one be added? | Full-row hover patterns need research |
+| Form token colors | Are the 6 Figma-inferred form tokens correct for midtone and blue palettes? | Tokens inferred from Figma light/dark only — midtone and blue not designed in Figma |
+| Disabled help text | Keep readable (current) or dim to match Figma? | Dimming fails WCAG 4.5:1. WCAG exempts disabled controls but help text isn't a control. |
+| Error side border | Keep USWDS left border on `.usa-form-group--error` or remove per Figma? | USWDS adds it, Figma doesn't show it. |
+| Error inline icon | Add HDS red circle exclamation icon before error text? | Present in Figma, absent in USWDS. |
 
 ## What Hasn't Changed
 
@@ -425,3 +468,6 @@ All of these match the approved HDS Core Proposal exactly:
 | Button font family | Not specified | Inter | Figma shows Inter for all button text |
 | Button active state | Not specified | Matches hover | Consistent with Apple HIG; Figma shows no active state |
 | Unstyled button | Not specified | Styled as a text link | Matches USWDS intent; ensures palette visibility |
+| Checkbox/radio size | 20px (USWDS default) | 18px forced via CSS | Figma specifies 18×18px. USWDS setting can't express 2.25 units. |
+| Checkbox icon | USWDS default glyph | HDS check icon via data URI | Visually distinct from USWDS checkmark |
+| Form font family | Not specified | Public Sans (body) | Figma shows Public Sans for input values and help text |

@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-24
+Last updated: 2026-03-26
 
 ## Package Overview
 
@@ -269,7 +269,6 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 | ------- | -------------------------- | ------------------------------------ |
 | §1      | Navigation (header/footer) | Complex — Phase 2                    |
 | §2      | Banner                     | Uses USWDS JS for expand/collapse    |
-| §5      | Forms                      | Light palettes only — dark deferred  |
 | §6      | In-Page Navigation         | Uses USWDS JS for scroll spy         |
 | §9      | Alerts                     | Pure USWDS, not in HDS Figma         |
 | §10     | Grid Utilities             | Responsive reverse, horizontal lists |
@@ -278,10 +277,9 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 
 Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
-### Components
+### Components### Components
 
-- [ ] Dark palette form elements (§5)
-- [ ] Checkbox HDS styling
+- [ ] Composed Forms review: USWDS `.usa-form-group--error` inserts a left border not present in HDS Figma. Error inline icon (red circle exclamation) present in HDS Figma but absent in USWDS — needs to be added.
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Extract `_hds-mixins.scss` from `_hds-custom-styles.scss` §2

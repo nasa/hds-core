@@ -1,144 +1,244 @@
 // ============================================================
 // Select Stories — @nasa/hds-core
-// Covers §5.1, §5.2, §5.3, §5.8
+// Covers §5.1, §5.2, §5.3, §5.8, §5.9
 //
 // HDS Figma: Text and Select Fields.pdf, Dropdown Menus.pdf
 // USWDS: https://designsystem.digital.gov/components/select/
 //
 // Sidebar structure:
-//   Components / Select / Guidance  — Select.mdx (future)
-//   Components / Select / Playground — TBD
+//   Components / Select / Guidance  — Select.mdx
+//   Components / Select / Playground — interactive story with controls
 // ============================================================
+
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Select',
 };
 
-// --- Default ---
+// --- Helpers ---
+
+const label = (text) => `<p class="hds-label" style="margin-bottom: 0.5rem">${text}</p>`;
+
+const selectField = ({
+  prefix = 'select',
+  label: labelText = 'Topic',
+  options = [],
+  selected = '',
+  hint = 'Help text (optional)',
+  error = '',
+  disabled = false,
+  required = false,
+  ariaHint = true,
+} = {}) => {
+  const id = `${prefix}-field`;
+  const hintId = `${prefix}-hint`;
+  const errorId = `${prefix}-error`;
+  const selectClass = ['usa-select', error ? 'usa-input--error' : ''].filter(Boolean).join(' ');
+  const groupClass = [
+    'usa-form-group',
+    error ? 'usa-form-group--error' : '',
+    disabled ? 'usa-form-group--disabled' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const describedBy = [hint && ariaHint ? hintId : '', error ? errorId : ''].filter(Boolean).join(' ');
+
+  const optionsHtml = options
+    .map((opt) => `<option value="${opt.value}"${opt.value === selected ? ' selected' : ''}>${opt.label}</option>`)
+    .join('');
+
+  return `
+    <form class="usa-form">
+      <div class="${groupClass}">
+        <label class="usa-label" for="${id}">${labelText}${required ? ' <abbr title="required" class="usa-hint usa-hint--required">*</abbr>' : ''}</label>
+        <select
+          class="${selectClass}"
+          name="${id}"
+          id="${id}"
+          ${disabled ? 'disabled' : ''}
+          ${required ? 'required' : ''}
+          ${describedBy ? `aria-describedby="${describedBy}"` : ''}
+        >
+          <option value>- Select -</option>
+          ${optionsHtml}
+        </select>
+        ${hint ? `<span class="usa-hint"${ariaHint ? ` id="${hintId}"` : ''}>${hint}</span>` : ''}
+        ${error ? `<span class="usa-error-message" id="${errorId}" role="alert">${error}</span>` : ''}
+      </div>
+    </form>
+  `;
+};
+
+const topicOptions = [
+  { value: 'humans', label: 'Humans in Space' },
+  { value: 'moon', label: 'Moon to Mars' },
+  { value: 'earth', label: 'Earth' },
+  { value: 'solar', label: 'Solar System' },
+  { value: 'universe', label: 'Universe' },
+];
+
+const centerOptions = [
+  { value: 'ames', label: 'Ames Research Center' },
+  { value: 'armstrong', label: 'Armstrong Flight Research Center' },
+  { value: 'glenn', label: 'Glenn Research Center' },
+  { value: 'goddard', label: 'Goddard Space Flight Center' },
+  { value: 'jpl', label: 'Jet Propulsion Laboratory' },
+  { value: 'johnson', label: 'Johnson Space Center' },
+  { value: 'kennedy', label: 'Kennedy Space Center' },
+  { value: 'langley', label: 'Langley Research Center' },
+  { value: 'marshall', label: 'Marshall Space Flight Center' },
+  { value: 'stennis', label: 'Stennis Space Center' },
+];
+
+// --- Guidance embeds (hidden from sidebar) ---
 
 export const Default = {
-  name: 'Default',
-  render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group">
-        <label class="usa-label" for="select-default">Topic</label>
-        <select class="usa-select" name="select-default" id="select-default">
-          <option value>- Select -</option>
-          <option value="humans">Humans in Space</option>
-          <option value="moon">Moon to Mars</option>
-          <option value="earth">Earth</option>
-          <option value="solar">Solar System</option>
-          <option value="universe">Universe</option>
-        </select>
-        <span class="usa-hint">Help text (optional)</span>
-      </div>
-    </form>
-  `,
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'default',
+      options: topicOptions,
+    }),
 };
-
-// --- With selected value ---
 
 export const WithValue = {
-  name: 'With value',
-  render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group">
-        <label class="usa-label" for="select-value">Topic</label>
-        <select class="usa-select" name="select-value" id="select-value">
-          <option value>- Select -</option>
-          <option value="humans" selected>Humans in Space</option>
-          <option value="moon">Moon to Mars</option>
-          <option value="earth">Earth</option>
-          <option value="solar">Solar System</option>
-          <option value="universe">Universe</option>
-        </select>
-        <span class="usa-hint">Help text (optional)</span>
-      </div>
-    </form>
-  `,
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'value',
+      options: topicOptions,
+      selected: 'humans',
+    }),
 };
-
-// --- With help text linked via aria-describedby ---
 
 export const WithHelpText = {
-  name: 'With help text',
-  render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group">
-        <label class="usa-label" for="select-help">Mission type</label>
-        <select class="usa-select" name="select-help" id="select-help" aria-describedby="select-help-hint">
-          <option value>- Select -</option>
-          <option value="crewed">Crewed</option>
-          <option value="robotic">Robotic</option>
-          <option value="flyby">Flyby</option>
-        </select>
-        <span class="usa-hint" id="select-help-hint">Choose the primary mission category</span>
-      </div>
-    </form>
-  `,
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'help',
+      label: 'Mission type',
+      hint: 'Choose the primary mission category',
+      options: [
+        { value: 'crewed', label: 'Crewed' },
+        { value: 'robotic', label: 'Robotic' },
+        { value: 'flyby', label: 'Flyby' },
+      ],
+    }),
 };
-
-// --- Disabled ---
 
 export const Disabled = {
-  name: 'Disabled',
-  render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group usa-form-group--disabled">
-        <label class="usa-label" for="select-disabled">Topic</label>
-        <select class="usa-select" name="select-disabled" id="select-disabled" disabled>
-          <option value>- Select -</option>
-        </select>
-        <span class="usa-hint">Help text (optional)</span>
-      </div>
-    </form>
-  `,
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'disabled',
+      options: [],
+      disabled: true,
+    }),
 };
-
-// --- Error ---
 
 export const Error = {
-  name: 'Error',
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'error',
+      options: topicOptions,
+      error: 'Error explanation text',
+    }),
+};
+
+export const ManyOptions = {
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'many',
+      label: 'NASA center',
+      options: centerOptions,
+      hint: 'Use a select field when there are 7 or more options',
+    }),
+};
+
+// Most visually complex variant for palette testing
+export const PaletteReference = {
+  tags: ['!dev'],
   render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group usa-form-group--error">
-        <label class="usa-label" for="select-error">Topic</label>
-        <select class="usa-select usa-input--error" name="select-error" id="select-error" aria-describedby="select-error-hint select-error-message">
-          <option value>- Select -</option>
-          <option value="humans">Humans in Space</option>
-          <option value="moon">Moon to Mars</option>
-          <option value="earth">Earth</option>
-        </select>
-        <span class="usa-hint" id="select-error-hint">Help text (optional)</span>
-        <span class="usa-error-message" id="select-error-message" role="alert">Error explanation text</span>
-      </div>
-    </form>
+    ${selectField({ prefix: 'pal-default', options: topicOptions, selected: 'humans' })}
+    ${selectField({ prefix: 'pal-error', options: topicOptions, error: 'Error explanation text' })}
+    ${selectField({ prefix: 'pal-disabled', options: [], disabled: true })}
   `,
 };
 
-// --- Many options (7+ triggers select over radio per HDS guidance) ---
+// --- Palette accessibility tests (hidden from sidebar) ---
 
-export const ManyOptions = {
-  name: 'Many options (7+)',
-  render: () => `
-    <form class="usa-form">
-      <div class="usa-form-group">
-        <label class="usa-label" for="select-many">NASA center</label>
-        <select class="usa-select" name="select-many" id="select-many">
-          <option value>- Select -</option>
-          <option value="ames">Ames Research Center</option>
-          <option value="armstrong">Armstrong Flight Research Center</option>
-          <option value="glenn">Glenn Research Center</option>
-          <option value="goddard">Goddard Space Flight Center</option>
-          <option value="jpl">Jet Propulsion Laboratory</option>
-          <option value="johnson">Johnson Space Center</option>
-          <option value="kennedy">Kennedy Space Center</option>
-          <option value="langley">Langley Research Center</option>
-          <option value="marshall">Marshall Space Flight Center</option>
-          <option value="stennis">Stennis Space Center</option>
-        </select>
-        <span class="usa-hint">Use a select field when there are 7 or more options</span>
-      </div>
-    </form>
-  `,
+export const PaletteA11y = {
+  name: 'Palette a11y',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(PaletteReference.render),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(PaletteReference.render, 'hover'),
+};
+
+export const PaletteA11yFocus = {
+  name: 'Palette a11y [focus-visible]',
+  tags: ['!dev'],
+  parameters: paletteA11yParams,
+  render: paletteRender(PaletteReference.render, 'focus-visible'),
+};
+
+// --- Playground (visible in sidebar) ---
+
+export const Playground = {
+  name: 'Playground',
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Label text above the select',
+    },
+    hint: {
+      control: 'text',
+      description: 'Help text below the select',
+    },
+    error: {
+      control: 'text',
+      description: 'Error message (empty = no error)',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disable the select',
+    },
+    required: {
+      control: 'boolean',
+      description: 'Mark as required',
+    },
+    optionSet: {
+      control: 'select',
+      options: ['topics', 'centers'],
+      description: 'Which option set to display',
+    },
+  },
+  args: {
+    label: 'Topic',
+    hint: 'Help text (optional)',
+    error: '',
+    disabled: false,
+    required: false,
+    optionSet: 'topics',
+  },
+  render: (args) =>
+    selectField({
+      prefix: 'playground',
+      label: args.label,
+      hint: args.hint,
+      error: args.error,
+      disabled: args.disabled,
+      required: args.required,
+      options: args.optionSet === 'centers' ? centerOptions : topicOptions,
+    }),
 };

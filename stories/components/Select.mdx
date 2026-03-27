@@ -1,0 +1,89 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as SelectStories from './Select.stories';
+
+<Meta title="Components/Select/Guidance" />
+
+# Select
+
+Select fields are a form element that allows users to choose one option from a dropdown list. HDS selects use standard USWDS [`.usa-select`](https://designsystem.digital.gov/components/select/) markup with no additional classes.
+
+## Variants
+
+### Default
+
+Every select includes a label above the field. The first option is a placeholder prompt that is not a valid selection.
+
+<Canvas of={SelectStories.Default} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+### With selected value
+
+A select with an existing selection.
+
+<Canvas of={SelectStories.WithValue} />
+
+### With help text
+
+Help text below the field provides guidance on what the selection controls. Link it to the select with `aria-describedby`.
+
+<Canvas of={SelectStories.WithHelpText} />
+
+### Disabled
+
+Disabled selects prevent interaction. The label dims to match.
+
+<Canvas of={SelectStories.Disabled} />
+
+<Note type="uswds">USWDS recommends avoiding disabled states. Disabled selects have low contrast, don't receive focus, and provide no feedback to screen readers. If you must disable a field, explain why using visible help text and use `aria-disabled="true"` with JavaScript instead of the HTML `disabled` attribute. See the [USWDS disabled state guidance](https://github.com/uswds/uswds/wiki/Disabled-States-Research-Findings-2023) for details.</Note>
+
+### Error
+
+Error messages appear below the field when validation fails. The field border turns red.
+
+<Canvas of={SelectStories.Error} />
+
+### Many options
+
+When a list has 7 or more options, a select field is the appropriate choice over radio buttons.
+
+<Canvas of={SelectStories.ManyOptions} />
+
+## When to use select fields
+
+- **7 or more options** — select fields conserve space when the list is too long for radio buttons.
+- **Familiar option sets** — when users already know the options (e.g., state, country, NASA center) and don't need to compare them visually.
+- **Single selection from a long list** — selecting one item from a large predefined set.
+
+## When to consider something else
+
+- **Fewer than 7 options** — use [radio buttons](?path=/docs/components-radio-button-guidance--docs). Users can see and compare all options without opening a dropdown.
+- **Multiple selections** — use [checkboxes](?path=/docs/components-checkbox-guidance--docs). Native `<select multiple>` has poor usability and screen reader support.
+- **Searchable lists** — for very long lists (50+ items), a combo box with typeahead filtering is more efficient. Combo box is deferred to a future phase.
+- **Free-form input** — use a [text input](?path=/docs/components-text-input-guidance--docs) when the answer can't be predicted from a fixed set.
+- **Navigation** — don't use selects for navigation. Use links or a menu.
+
+## Usability guidance
+
+- **Always include a visible label.** Labels go above the field, never inside it.
+- **Start with a placeholder option.** Use a prompt like "- Select -" as the first option with an empty value. This makes it clear no selection has been made and prevents accidental submission of the first real option.
+- **Order options logically.** Alphabetical works for most lists. Use frequency or priority order when one option is much more common.
+- **Keep option text concise.** Long option text gets truncated in narrow selects. If options need description, consider radio button tiles instead.
+- **Don't use for fewer than 7 options.** Radio buttons are almost always a better experience for short lists — users can see all options without clicking.
+- **Mark required fields with an asterisk.** Combine the asterisk with a text description at the top of the form.
+- **Mark optional fields when most are required.** Add "(optional)" to the label text.
+
+<Note type="figma">HDS Figma shows a custom dropdown panel with rounded corners and a blue highlight for the selected item. HDS Core uses the native browser `<select>` dropdown, which varies by operating system. Custom dropdown panels require JavaScript and are deferred to a future phase.</Note>
+
+## Accessibility
+
+- **Every select needs a `<label>`.** The label's `for` attribute must match the select's `id`. This is required — clicking the label should focus the select.
+- **Link help text with `aria-describedby`.** When help text is present, add `aria-describedby` on the select referencing the help text element's `id`.
+- **Link error messages with `aria-describedby`.** When both help text and an error message are present, reference both IDs.
+- **Use `role="alert"` on error messages.** This ensures screen readers announce the error immediately when it appears.
+- **Add the `required` attribute** to required fields for native browser validation and screen reader announcement.
+- **Keyboard navigation:** Users open the select with **Space**, **Enter**, or **arrow keys** (varies by browser). They navigate options with **arrow keys** and confirm with **Enter**.
+- **Don't auto-submit on change.** Changing a select option should not automatically submit a form or navigate to a new page. Users expect to review their selection before submitting.
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

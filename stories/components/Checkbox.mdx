@@ -1,0 +1,73 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta title="Components/Checkbox/Guidance" />
+
+# Checkbox
+
+Checkboxes are a form element that allows users to select zero, one, or multiple options from a list. HDS checkboxes use standard USWDS [`.usa-checkbox`](https://designsystem.digital.gov/components/checkbox/) markup with no additional classes.
+
+## Variants
+
+### Default
+
+Checkboxes always include a label and are stacked vertically to form a list of options. A group label is included above the options using a `<legend>` inside a `<fieldset>`.
+
+<Canvas of={CheckboxStories.Default} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+### States
+
+Checkboxes have default, selected, disabled, and disabled + selected states.
+
+<Canvas of={CheckboxStories.States} />
+
+### Tiles
+
+Tile checkboxes provide a larger touch target with an optional description. Use tiles when options benefit from additional context.
+
+<Canvas of={CheckboxStories.Tiles} />
+
+### With error
+
+When a required checkbox group has no selection, display an error message below the options.
+
+<Canvas of={CheckboxStories.WithError} />
+
+## When to use checkboxes
+
+- **Multiple selections** — users can choose zero, one, or any number of options from a list.
+- **Filtering** — narrowing search results, galleries, or data tables by category.
+- **Toggleable settings** — independent on/off options like notification preferences.
+- **Terms and agreements** — a single checkbox to confirm acceptance.
+
+## When to consider something else
+
+- **Mutually exclusive choices** — use [radio buttons](?path=/docs/components-radio-button-guidance--docs) when only one option can be selected (e.g., Yes or No).
+- **Single on/off toggle** — for a binary setting with immediate effect, consider a toggle switch.
+- **Long option lists** — for more than about 10 options, consider a filterable list or combo box to reduce scrolling.
+
+## Usability guidance
+
+- **Always wrap in a `<fieldset>` with a `<legend>`.** The legend provides context for the group. Screen readers announce it before each option.
+- **Stack vertically.** Horizontal layouts make it harder to scan options and associate labels with checkboxes.
+- **Use clear, concise labels.** Each option should be understandable on its own without reading the legend again.
+- **Don't pre-select options** unless there is a strong reason (e.g., a recommended default). Unlike radio buttons, checkbox groups can start with nothing selected.
+- **Mark required groups clearly.** If the form requires at least one selection, add an asterisk to the legend and display an error message when the form is submitted without a selection.
+- **Mark optional groups when most fields are required.** Add "(optional)" to the legend text when most other fields in the form are required.
+
+<Note type="figma">HDS Core uses a custom check icon that differs from the default USWDS checkmark. The selected state uses NASA Blue per the HDS wayfinding rule — blue indicates on-page interaction.</Note>
+
+## Accessibility
+
+- **Group with `<fieldset>` and `<legend>`.** Every checkbox group must be wrapped in a `<fieldset>` with a descriptive `<legend>`. This is required — screen readers use the legend to announce context for each option.
+- **Unique `id` and matching `for`.** Each `<input>` needs a unique `id`, and its `<label>` must reference it with a matching `for` attribute.
+- **Keyboard navigation:** Users move between checkboxes with **Tab** and **Shift+Tab**, and toggle them with **Space**.
+- **Error messages:** Associate error text with the group using `role="alert"` so screen readers announce it immediately.
+- **VoiceOver on iOS** does not fully support `<fieldset>` and `<legend>`. For maximum compatibility, add `aria-labelledby` referencing the legend `id` on each input.
+
+<Note type="uswds">USWDS recommends avoiding disabled states. Disabled checkboxes have low contrast, don't receive focus, and provide no feedback to screen readers. If you must disable an option, explain why using visible help text and use `aria-disabled="true"` with JavaScript instead of the HTML `disabled` attribute. See the [USWDS disabled state guidance](https://github.com/uswds/uswds/wiki/Disabled-States-Research-Findings-2023) for details.</Note>
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
