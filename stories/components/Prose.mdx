@@ -1,0 +1,47 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as ProseStories from './Prose.stories';
+
+<Meta of={ProseStories} title="Components/Prose/Guidance" />
+
+# Prose
+
+<Note type="code">
+  **Known limitation:** Prose is a work in progress. Some bare-element styles (links, tables, blockquotes, code, horizontal rules, and ordered list typography) do not yet receive full HDS styling inside `.usa-prose`. Lists display correct marker colors and text sizing. A build pipeline update planned before v1.0 will resolve these gaps — see [GitHub Discussion #XX](link) for details.
+</Note>
+
+Prose applies HDS styling to a block of bare HTML elements using the `.usa-prose` wrapper class. Use it for content where individual component classes can't be applied — blog posts, CMS output, markdown-rendered pages, or any long-form content.
+
+Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, code blocks, and horizontal rules all receive HDS typography, spacing, and color.
+
+<Canvas of={ProseStories.DefaultEmbed} />
+
+> Use the **palette switcher** (🖌 toolbar) to preview on all six HDS backgrounds.
+
+## When to use
+
+- **CMS or markdown content.** When a content management system or static site generator produces HTML and you can't add classes to individual elements.
+- **Long-form articles.** Blog posts, news stories, documentation pages, and other narrative content where hand-classing every element is impractical.
+- **Quick prototyping.** When you want HDS-styled content without wiring up individual component classes.
+
+## When to consider something else
+
+- **Individual components.** If you control the markup, use component classes directly — [List](?path=/docs/components-list--guidance) (`.usa-list`), [Table](?path=/docs/components-table--guidance) (`.usa-table`), [Link](?path=/docs/components-link--guidance) (`.usa-link`). Component classes give more precise control and don't require a wrapper.
+- **Application UI.** Forms, navigation, cards, and other interactive patterns should use their dedicated component markup, not prose.
+
+## Usability guidance
+
+- **Apply `.usa-prose` to the content container**, not to `<body>` or a site-wide wrapper. Keep the scope tight to avoid unintended styling on UI elements.
+- **Prose styles only affect direct children.** Nested components inside a prose block that use their own USWDS classes (`.usa-table`, `.usa-list`) will use component styles, not bare-element styles.
+- **Lists inside prose use bare-element styling.** For ordered lists with precise DM Mono numeral alignment, use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list--guidance) for details.
+
+<Note type="uswds">**Differs from USWDS:** HDS prose styles include smaller list item text (14px vs body 16px), blue list markers, DM Mono ordered list numerals, and HDS-specific heading typography. Vanilla USWDS prose uses default browser markers and body-sized list text.</Note>
+
+## Accessibility
+
+- Prose content uses semantic HTML elements (`<h1>`–`<h6>`, `<p>`, `<ul>`, `<ol>`, `<table>`, `<blockquote>`). Screen readers interpret these natively — no ARIA attributes needed for basic prose.
+- Maintain a logical heading hierarchy. Don't skip heading levels (e.g., `<h2>` to `<h4>`).
+- Ordered lists inside prose retain native list markers for screen reader compatibility. If you need `role="list"` for accessibility (recommended by the HDS accessibility spec), use `.usa-list` markup instead.
+- Links inside prose receive HDS dotted underline styling, which preserves link discoverability for users who don't perceive color.
+
+See [Accessibility](?path=/docs/foundations-accessibility--docs) for HDS-wide guidance and the [USWDS prose accessibility tests](https://designsystem.digital.gov/components/prose/accessibility-tests) for component-specific testing.
