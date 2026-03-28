@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-26
+Last updated: 2026-03-28
 
 ## Package Overview
 
@@ -18,73 +18,9 @@ Last updated: 2026-03-26
 ## File Structure
 
 ```
-hds-core/
-├── .devcontainer/               # Codespace config
-├── .github/                     # Issue/discussion templates
-├── .vscode/
-│   └── tasks.json               # Auto-starts npm run dev on folder open
-├── .storybook/
-│   ├── main.js
-│   ├── preview.js
-│   └── preview-head.html
-│
-├── src/
-│   ├── scss/
-│   │   ├── styles.scss              ← Entry point
-│   │   ├── _hds-tokens.scss         ← Pure Sass (NO uswds-core)
-│   │   ├── _hds-uswds-theme.scss    ← USWDS configuration
-│   │   ├── _hds-custom-styles.scss  ← Mixins, base styles, palettes wiring
-│   │   ├── _hds-components.scss     ← Component overrides
-│   │   └── _hds-palettes.scss       ← 6 palette definitions
-│   └── assets/
-│       ├── fonts/{inter,dm-mono}/
-│       └── img/
-│           ├── hds-icons/           # Themeable SVGs → sprite
-│           ├── hds-buttons/         # Fixed-color graphics
-│           └── nasa-branding/
-│
-├── stories/                     # Storybook (not shipped)
-│   ├── helpers/
-│   │   ├── Note.jsx             # Callout component
-│   │   ├── icons.js             # Icon ID arrays
-│   │   └── paletteTests.js     # Palette a11y test helpers
-│   ├── assets/                  # Screenshots (not shipped)
-│   ├── overview/
-│   │   ├── Overview.mdx
-│   │   ├── Getting Started.mdx
-│   │   └── Roadmap.mdx
-│   ├── foundations/
-│   │   ├── Accessibility.mdx
-│   │   ├── Color.mdx
-│   │   ├── ColorPalettes.mdx
-│   │   ├── ColorPalettes.stories.js
-│   │   ├── DataVisualization.mdx
-│   │   ├── DataVisualizationPalettes.mdx
-│   │   ├── Grid.mdx
-│   │   ├── Grid.stories.js
-│   │   ├── Icons.mdx
-│   │   ├── Icons.stories.js
-│   │   ├── Spacing.mdx
-│   │   ├── Typography.mdx
-│   │   └── Typography.stories.js
-│   └── components/
-│       ├── {Component}.mdx          # Guidance page
-│       └── {Component}.stories.js   # Stories + Playground
-│
-├── dist/                        # Build output
-│   ├── css/
-│   │   ├── styles.css
-│   │   ├── styles.css.map
-│   │   ├── styles.min.css
-│   │   └── styles.min.css.map
-│   └── assets/{fonts,img}/
-│
-├── gulpfile.js
-├── vitest.config.js
-├── test.html                    # Visual test page (not shipped)
-├── .prettierrc
-├── .prettierignore
-└── .browserslistrc
+
+hds-core/ ├── .devcontainer/ # Codespace config ├── .github/ # Issue/discussion templates ├── .vscode/ │ └── tasks.json # Auto-starts npm run dev on folder open ├── .storybook/ │ ├── main.js │ ├── manager.js # Sidebar branding (NASA meatball + HDS Core) │ ├── manager-head.html # Custom font for sidebar branding │ ├── preview.js │ └── preview-head.html │ ├── src/ │ ├── scss/ │ │ ├── styles.scss ← Entry point │ │ ├── \_hds-tokens.scss ← Pure Sass (NO uswds-core) │ │ ├── \_hds-uswds-theme.scss ← USWDS configuration │ │ ├── \_hds-custom-styles.scss ← Mixins, base styles, palettes wiring │ │ ├── \_hds-components.scss ← Component overrides │ │ └── \_hds-palettes.scss ← 6 palette definitions │ └── assets/ │ ├── fonts/{inter,dm-mono}/ │ └── img/ │ ├── hds-icons/ # Themeable SVGs → sprite │ ├── hds-buttons/ # Fixed-color graphics │ └── nasa-branding/ │ ├── stories/ # Storybook (not shipped) │ ├── helpers/ │ │ ├── Note.jsx # Callout component │ │ ├── icons.js # Icon ID arrays │ │ └── paletteTests.js # Palette a11y test helpers │ ├── assets/ # Screenshots (not shipped) │ ├── overview/ │ │ ├── Overview.mdx │ │ ├── Getting Started.mdx │ │ └── Roadmap.mdx │ ├── foundations/ │ │ ├── Accessibility.mdx │ │ ├── Color.mdx │ │ ├── ColorPalettes.mdx │ │ ├── ColorPalettes.stories.js │ │ ├── DataVisualization.mdx │ │ ├── DataVisualizationPalettes.mdx │ │ ├── Grid.mdx │ │ ├── Grid.stories.js │ │ ├── Icons.mdx │ │ ├── Icons.stories.js │ │ ├── Spacing.mdx │ │ ├── Typography.mdx │ │ └── Typography.stories.js │ └── components/ │ ├── {Component}.mdx # Guidance page │ └── {Component}.stories.js # Sidebar variant stories │ ├── dist/ # Build output │ ├── css/ │ │ ├── styles.css │ │ ├── styles.css.map │ │ ├── styles.min.css │ │ └── styles.min.css.map │ └── assets/{fonts,img}/ │ ├── gulpfile.js ├── vitest.config.js ├── test.html # Visual test page (not shipped) ├── .prettierrc ├── .prettierignore └── .browserslistrc
+
 ```
 
 ## Sass Load Order
@@ -92,14 +28,9 @@ hds-core/
 USWDS requires `uswds-core` to be configured before anything else loads it. This load order is critical — changing it will break the build.
 
 ```
-styles.scss
-  → _hds-uswds-theme.scss
-      @use "hds-tokens"             ← Pure Sass, no uswds-core
-      @use "uswds-core" with (...)  ← First load, configured
-  → uswds                           ← Uses configured uswds-core
-  → _hds-custom-styles.scss
-  → _hds-components.scss
-  → _hds-palettes.scss
+
+styles.scss → \_hds-uswds-theme.scss @use "hds-tokens" ← Pure Sass, no uswds-core @use "uswds-core" with (...) ← First load, configured → uswds ← Uses configured uswds-core → \_hds-custom-styles.scss → \_hds-components.scss → \_hds-palettes.scss
+
 ```
 
 ⚠️ `_hds-tokens.scss` cannot `@use "uswds-core"` — this would load it unconfigured.
@@ -112,9 +43,9 @@ styles.scss
 | --- | --- |
 | `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
 | `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
-| `_hds-custom-styles.scss` | CSS custom properties (§1), shared mixins (§2), utilities (§3), base element styles (§4, gated behind USWDS flags), palette wiring (§5), print styles (§6). |
+| `_hds-custom-styles.scss` | CSS custom properties (§1), shared mixins (§2), utilities (§3), base element styles (§4, gated behind USWDS flags), palette wiring (§5), print styles (§6). §2 includes the `hds-utility-circle` mixin (colors only — layout and sizing come from icon button base §12.1) and `hds-link-appearance` mixin. |
 | `_hds-components.scss` | USWDS component overrides (`usa-*`) + HDS-only components (`hds-*`). See Component Sections below. |
-| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 23+ semantic CSS custom properties per palette. |
+| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 23+ semantic CSS custom properties per palette. Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
 
 ## Color Convention
 
@@ -177,30 +108,30 @@ Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.
 
 ## Component Sections (`_hds-components.scss`)
 
-| Section | Component                                   | Tier |
-| ------- | ------------------------------------------- | ---- |
-| §1      | Navigation (header, footer, nav)            | 1    |
-| §2      | Banner                                      | 1    |
-| §3      | Breadcrumb                                  | 1    |
-| §4      | Buttons (CTA, secondary, outline, unstyled) | 1    |
-| §5      | Forms                                       | 1    |
-| §6      | In-Page Navigation                          | 1    |
-| §7      | Pagination                                  | 1+3  |
-| §8      | Accordion                                   | 1    |
-| §9      | Alerts                                      | 1    |
-| §10     | Grid Utilities                              | 1    |
-| §11     | Primary Arrow Button                        | 3    |
-| §12     | Icon Buttons                                | 3    |
-| §13     | Links                                       | 1+3  |
-| §14     | Intro Text                                  | 1    |
-| §15     | Site Alert                                  | 1    |
-| §16     | Table                                       | 1    |
+| Section | Component | Tier | Subsections |
+| --- | --- | --- | --- |
+| §1 | Navigation (header, footer, nav) | 1 |  |
+| §2 | Banner | 1 |  |
+| §3 | Breadcrumb | 1 |  |
+| §4 | Buttons (CTA, secondary, outline, unstyled) | 1 | §4.1 Focus, §4.2 CTA, §4.3 Secondary, §4.4 Disabled, §4.5 Outline, §4.6 Inverse, §4.7 Unstyled, §4.8 Blue palette secondary→outline |
+| §5 | Forms | 1 |  |
+| §6 | In-Page Navigation | 1 |  |
+| §7 | Pagination | 1+3 |  |
+| §8 | Accordion | 1 |  |
+| §9 | Alerts | 1 |  |
+| §10 | Grid Utilities | 1 |  |
+| §11 | Primary Arrow Button | 3 | §11.1 Base, §11.2 Sizes (6-size scale) |
+| §12 | Icon Buttons | 3 | §12.1 Base (24px default), §12.2 Roles (colors only), §12.3 Sizes (8-size scale) |
+| §13 | Links | 1+3 |  |
+| §14 | Intro Text | 1 |  |
+| §15 | Site Alert | 1 |  |
+| §16 | Table | 1 | §16.1 Base, §16.2 Sorted column, §16.3 Sort interaction, §16.4 Borderless, §16.5 Dark palette (dark + black only), §16.6 Print |
 
 Each section has detailed code comments covering palette behavior, hover/disabled states, and USWDS override notes. See DESIGN.md for design rationale.
 
 ## Icon Architecture
 
-**Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg`. Color controlled by CSS.
+**Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg`. Color controlled by CSS. 15 icons renamed in v0.6.0 for USWDS naming consistency — see release notes for the full mapping.
 
 **Fixed-color graphics** (`hds-buttons/`): Colors baked in. Not in sprite, referenced as standalone files.
 
@@ -252,7 +183,7 @@ Vitest runs every exported story in headless Chromium via `@storybook/addon-vite
 
 **Codespaces:** Vite file watching requires polling mode. Configured in `main.js`.
 
-See DOCUMENTATION.md for all docs conventions.
+For story model, branding, viewport presets, sidebar sort, and all documentation conventions, see DOCUMENTATION.md.
 
 ### Codespaces
 
@@ -277,14 +208,12 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 
 Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
-### Components### Components
+### Components
 
 - [ ] Composed Forms review: USWDS `.usa-form-group--error` inserts a left border not present in HDS Figma. Error inline icon (red circle exclamation) present in HDS Figma but absent in USWDS — needs to be added.
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Extract `_hds-mixins.scss` from `_hds-custom-styles.scss` §2
-- [ ] Table: test and fix USWDS stacked mobile variants with HDS overrides
-- [ ] Audit HDS classes and Guidance pages for USWDS utility duplication
 
 ### Pre-1.0 Verification
 
@@ -292,8 +221,9 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Screen reader testing (NVDA, VoiceOver)
 - [ ] test.html: Replace with realistic integration page
 
-### Infrastructure
+### Post-1.0 Infrastructure
 
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths (Phase 2)
-- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2?)
+- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
+- [ ] Gulp 5 migration (clears 11 dev-dependency vulnerabilities from Gulp 4's dependency chain)
 - [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions
