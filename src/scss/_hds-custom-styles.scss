@@ -525,15 +525,68 @@
   // ------------------------------------------------------------
   // §4.7 Lists
   // ------------------------------------------------------------
+  // HDS list typography: list item text is one step below body
+  // (14px), ordered numerals two steps below (12px).
+  //
+  // Marker color uses --hds-palette-marker token (NASA Blue on
+  // light palettes, Blue Tint on dark and blue).
+  //
+  // APPROACH:
+  //   ul — native ::marker for disc color
+  //   ol — native ::marker with content: counter() to unlock
+  //     DM Mono font-family. Less precise spacing than §17's
+  //     ::before + flex approach, but fully accessible without
+  //     role="list" — essential for .usa-prose / CMS content
+  //     where developers can't modify element attributes.
+  //
+  // For pixel-perfect ordered numerals with right-aligned
+  // double digits, use ol.usa-list with role="list"
+  // (see _hds-components.scss §17).
+  //
+  // :where() guard on ol keeps specificity at 0 so §17
+  // can override cleanly.
+  //
+  // For palette wiring (always active), see §5.3 below.
+  // ------------------------------------------------------------
+
+  // --- Shared ---
 
   ul,
   ol {
-    padding-inline-start: units(3);
+    margin-block: 0;
   }
 
   li {
-    line-height: var(--hds-line-height-body);
-    margin-block-end: units(0.5);
+    font-size: size('body', '2xs'); // 14px — one step below body
+    line-height: line-height('body', 3); // ≈1.35; Figma 1.43 (within 10%)
+    margin-block-end: units(2.5); // 20px — matches Figma item spacing
+  }
+
+  // --- Unordered: native ::marker ---
+
+  ul {
+    padding-inline-start: units(2); // 16px — disc + 11px gap
+  }
+
+  ul > li::marker {
+    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+  }
+
+  // --- Ordered: native ::marker with DM Mono ---
+  // :where() excludes .usa-list (§17), breadcrumbs, other components.
+  // Browser controls marker box spacing — less precise than §17
+  // but preserves native list semantics for CMS/prose content.
+
+  ol {
+    padding-inline-start: units(4); // 32px — room for double-digit numerals
+  }
+
+  ol:where(:not([class*='usa-']):not([class*='hds-'])) > li::marker {
+    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+    content: counter(list-item);
+    font-family: family('mono');
+    font-size: size('body', '3xs'); // 12px — two steps below body
+    font-weight: font-weight('medium'); // 500
   }
 
   // ------------------------------------------------------------
@@ -761,6 +814,24 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   caption,
   .hds-caption {
     color: var(--hds-palette-muted);
+  }
+}
+
+// ------------------------------------------------------------
+// §5.3 Palette List Markers
+// ------------------------------------------------------------
+// Always active so bare <ul>/<ol> inside palette containers
+// get palette-aware marker colors even when
+// $theme-global-content-styles is false.
+//
+// Covers both ul (::marker disc) and ol (::marker counter).
+// .usa-list ul also uses ::marker so this covers it too.
+// .usa-list ol uses ::before (§17) — handles its own color.
+// ------------------------------------------------------------
+
+#{$_p} {
+  li::marker {
+    color: var(--hds-palette-marker);
   }
 }
 

@@ -55,6 +55,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-60};
   --hds-palette-muted: #{$hds-color-carbon-60};
   --hds-palette-border: #{$hds-color-carbon-20};
+  --hds-palette-marker: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
@@ -90,6 +91,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
+  --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   // Secondary filled uses NASA Blue on all palettes per creative
   // director review (2026-03-27). Passes AA everywhere. See
   // Discussion #24 for rationale.
@@ -159,6 +161,8 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-50};
+  // --hds-palette-marker inherits NASA Blue from _scheme-light.
+  // Passes 3:1 non-text contrast on Carbon 20 (~3.35:1).
 }
 
 // Palette 4 — Dark (Carbon 90)
@@ -180,6 +184,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-link-arrow: #{$hds-color-carbon-40};
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
+  --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
   // secondary filled converts to outline here (§4.8) — borders
   // need contrast against the NASA Blue Shade background.
