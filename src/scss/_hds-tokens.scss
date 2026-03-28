@@ -80,26 +80,25 @@ $hds-color-table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 // ============================================================
 
 $hds-extended-palette: (
-  'base-mid-lightest': #d1d1d1,
   // Carbon 20
-  'base-mid-lighter': #b9b9bb,
+  'base-mid-lightest': #d1d1d1,
   // Carbon 30
-  'base-mid-light': #959599,
+  'base-mid-lighter': #b9b9bb,
   // Carbon 40
-  'base-mid-dark': #77777a,
+  'base-mid-light': #959599,
   // Carbon 50
-  'base-mid-darker': #58585b,
+  'base-mid-dark': #77777a,
   // Carbon 60
-  'base-mid-darkest': #444447,
-
+  'base-mid-darker': #58585b,
   // Carbon 70
-  'base-dark': #2e2e32,
+  'base-mid-darkest': #444447,
   // Carbon 80 — overrides USWDS approx
+  'base-dark': #2e2e32,
+  // Carbon 90 — overrides USWDS approx
   'base-darker': #17171b,
 
-  // Carbon 90 — overrides USWDS approx
   'international-orange': #ea6f24,
-  'active-green': #47da84,
+  'active-green': #47da84
 );
 
 // ============================================================
@@ -109,25 +108,26 @@ $hds-extended-palette: (
 // ============================================================
 
 $hds-type-scale: (
-  '3xs': 1,
   // ~12px
-  '2xs': 3,
+  '3xs': 1,
   // ~14px
-  'xs': 5,
+  '2xs': 3,
   // ~16px
-  'sm': 7,
+  'xs': 5,
   // ~18px
-  'md': 9,
+  'sm': 7,
   // ~22px
-  'lg': 11,
+  'md': 9,
   // ~28px
-  'xl': 13,
+  'lg': 11,
   // ~36px
-  '2xl': 15,
+  'xl': 13,
   // ~48px
-  '3xl': 18,
+  '2xl': 15,
   // ~80px
-  '4xl': 19, // ~120px
+  '3xl': 18,
+  // ~120px
+  '4xl': 19
 );
 
 // ============================================================
@@ -153,23 +153,24 @@ $hds-weights: (
 // ============================================================
 
 $hds-line-heights: (
-  'body': 5,
   // 1.62 ≈ proposal 160%
-  'heading': 1,
+  'body': 5,
   // 1.0  = proposal 100% (H1 default)
-  'intro': 4,
+  'heading': 1,
   // 1.52 ≈ Figma 150%
+  'intro': 4,
+  // 1.15
   'input': 2,
-  // 1.15
-  'button': 3,
   // closest USWDS token; refined to 1.2 in _hds-custom-styles §2.3
-  'code': 3,
+  'button': 3,
   // 1.35
-  'table': 2,
+  'code': 3,
   // 1.15
-  'label': 6,
+  'table': 2,
   // 1.75 ≈ proposal 180%
-  'caption': 3, // closest USWDS token; refined to 1.2 in _hds-custom-styles §3
+  'label': 6,
+  // closest USWDS token; refined to 1.2 in _hds-custom-styles §3
+  'caption': 3
 );
 
 // ============================================================
@@ -180,24 +181,25 @@ $hds-line-heights: (
 // ============================================================
 
 $hds-letterspacing: (
-  'neg-7': -5.5px,
   // H1-2xl (120px)
-  'neg-6': -4px,
+  'neg-7': -5.5px,
   // H1-xl (80px)
-  'neg-5': -3px,
+  'neg-6': -4px,
   // H1 (48px)
-  'neg-4': -1.5px,
+  'neg-5': -3px,
   // H1 alternate
-  'neg-3': -1px,
+  'neg-4': -1.5px,
   // H2 (36px)
-  'neg-2': -0.5px,
+  'neg-3': -1px,
   // H3, H4, H5 (22px, 18px, 16px)
-  'neg-1': -0.25px,
+  'neg-2': -0.5px,
   // H6 (14px)
+  'neg-1': -0.25px,
   'auto': 0,
-  '1': 0.25px,
   // Label, metadata, caption
-  '2': 3.5px, // Label (div) uppercase wide
+  '1': 0.25px,
+  // Label (div) uppercase wide
+  '2': 3.5px
 );
 
 // ============================================================
