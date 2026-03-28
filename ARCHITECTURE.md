@@ -100,6 +100,8 @@ Bare HTML element styles in `_hds-custom-styles.scss` §4 are gated behind USWDS
 | `$theme-global-paragraph-styles` | `<p>` (also enabled by content flag) | `false` |
 | `$theme-global-link-styles` | `<a>` (also enabled by content flag) | `false` |
 
+Because these flags default to `false`, §4 styles do not emit in the default configuration. Bare elements inside `.usa-prose` receive USWDS styling (via USWDS's internal mixins) but not HDS-specific overrides for line-height, letterspacing, list spacing, link treatment, or table colors. The `.usa-list` and `.usa-table` component overrides (§17, §16) are always active and unaffected by these flags — only bare elements without component classes are impacted.
+
 Focus styles (§4.11), palette wiring (§5), all `usa-*` overrides, and all `hds-*` components are always active regardless of these flags.
 
 ## Focus Ring Architecture
@@ -126,6 +128,7 @@ Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.
 | §14 | Intro Text | 1 |  |
 | §15 | Site Alert | 1 |  |
 | §16 | Table | 1 | §16.1 Base, §16.2 Sorted column, §16.3 Sort interaction, §16.4 Borderless, §16.5 Dark palette (dark + black only), §16.6 Print |
+| §17 | List | 1 | §17.1 Base, §17.2 Unordered, §17.3 Ordered, §17.4 Unstyled |
 
 Each section has detailed code comments covering palette behavior, hover/disabled states, and USWDS override notes. See DESIGN.md for design rationale.
 

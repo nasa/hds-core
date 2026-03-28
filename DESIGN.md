@@ -432,6 +432,94 @@ HDS Figma does not define a striped table variant. HDS Core overrides USWDS stri
 - Midtone palette sorted column colors
 - Advanced features: tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column
 
+## List
+
+### Architecture
+
+Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` and `aria-label` per HDS Figma accessibility spec. Two scopes:
+
+| Scope | File | Approach | Always active? |
+| --- | --- | --- | --- |
+| Bare elements (`<ul>`, `<ol>` inside `.usa-prose` or with `$theme-global-content-styles`) | `_hds-custom-styles.scss` §4.7 | Native `::marker` for both `ul` and `ol` | No — gated |
+| `.usa-list` component | `_hds-components.scss` §17 | `ul`: native `::marker`. `ol`: `::before` + flex | Yes |
+| Palette wiring | `_hds-custom-styles.scss` §5.3 | `li::marker` color in palette containers | Yes |
+
+The hybrid approach exists because bare `<ol>` inside `.usa-prose` cannot add `role="list"` (CMS/markdown content), and `list-style: none` breaks Safari VoiceOver without it. The `::marker` fallback preserves native list semantics. The `.usa-list` component uses `::before` + flex for precise DM Mono numeral control, with `role="list"` required in markup.
+
+### Typography Scale Pattern
+
+HDS lists use a step-down pattern through the USWDS type scale, confirmed across multiple Figma example pages:
+
+| Element          | USWDS size call       | px   | Steps from body |
+| ---------------- | --------------------- | ---- | --------------- |
+| Body `<p>`       | `size('body', 'xs')`  | 16px | —               |
+| List item `<li>` | `size('body', '2xs')` | 14px | −1 step         |
+| OL numeral       | `size('body', '3xs')` | 12px | −2 steps        |
+
+This is an intentional HDS design choice — USWDS list items inherit body font size. Documented as a difference from USWDS on the Guidance page.
+
+### Item Spacing
+
+`margin-block-end: units(2.5)` (20px) per Figma. Line-height: `line-height('body', 3)` ≈ 1.35 — within 10% of Figma's 1.43 (20px / 14px), following the simplified Proposal approach of using USWDS tokens when within 10%.
+
+### Ordered List Numerals
+
+DM Mono medium (500), 12px, no trailing period, no added letterspacing.
+
+Figma shows 3.5px letterspacing on numerals, but this matches the overline/label style — not the Proposal's DM Mono Number pattern, which uses 0px (`'auto'`) at small sizes. Visual review confirmed 3.5px is too wide at double-digit item counts.
+
+**On `ol.usa-list`:** `::before` counter + flex gives precise control over font, gap (`units(1.5)` = 12px, closest token to Figma's 11px), and right-alignment. `min-width: 1.5em` accommodates double-digit numbers. `align-items: baseline` aligns numerals to text baseline.
+
+**On bare `<ol>` (prose/CMS):** `::marker` with `content: counter(list-item)` unlocks `font-family` in some browsers but support is inconsistent. DM Mono is not guaranteed on bare `<ol>` — Public Sans may render instead. This is a known limitation of the `::marker` approach.
+
+### Indentation
+
+| List type | `padding-inline-start` | Rationale                                         |
+| --------- | ---------------------- | ------------------------------------------------- |
+| `ul`      | `units(2)` (16px)      | Bullet flush left per Figma — 5px disc + 11px gap |
+| `ol`      | `units(4)` (32px)      | Room for double-digit DM Mono numerals + gap      |
+
+### Marker Colors
+
+Single palette token `--hds-palette-marker` for both `ul` and `ol` markers.
+
+| Palettes              | Color                    | Token                       |
+| --------------------- | ------------------------ | --------------------------- |
+| White, Light, Midtone | NASA Blue `#1C67E3`      | `$hds-color-nasa-blue`      |
+| Dark, Black           | NASA Blue Tint `#288BFF` | `$hds-color-nasa-blue-tint` |
+| Blue                  | NASA Blue Tint `#288BFF` | `$hds-color-nasa-blue-tint` |
+
+Midtone inherits NASA Blue from the light scheme. Black inherits Blue Tint from the dark scheme.
+
+### Marker Contrast (WCAG 1.4.11 Non-text, 3:1 minimum)
+
+| Palette | Background | Marker    | Ratio   | Pass                      |
+| ------- | ---------- | --------- | ------- | ------------------------- |
+| White   | `#FFFFFF`  | NASA Blue | ~4.8:1  | ✅                        |
+| Light   | `#F6F6F6`  | NASA Blue | ~4.6:1  | ✅                        |
+| Midtone | `#D1D1D1`  | NASA Blue | ~3.35:1 | ✅                        |
+| Dark    | `#17171B`  | Blue Tint | ~6.1:1  | ✅                        |
+| Blue    | `#0B3D91`  | Blue Tint | ~3.0:1  | ✅ (borderline, approved) |
+| Black   | `#000000`  | Blue Tint | ~7.5:1  | ✅                        |
+
+`::marker` contrast cannot be tested by axe-core. `::before` contrast (on `ol.usa-list`) can be tested. Ratios documented here and verified manually.
+
+### Figma Deviations
+
+| What | Figma | HDS Core | Why |
+| --- | --- | --- | --- |
+| Dark `ul` marker | NASA Blue (same as light) | NASA Blue Tint | Likely Figma oversight — NASA Blue on dark backgrounds fails 3:1. Dark `ol` numerals already use Tint in Figma. |
+| OL letterspacing | 3.5px | 0px (default) | Figma value matches overline/label style. Proposal DM Mono at small sizes uses `'auto'` (0px). Visual review confirmed 3.5px too wide at double digits. |
+| Blue palette marker | Not specified | NASA Blue Tint | NASA Blue is invisible on Blue Shade background. Blue Tint at ~3.0:1 is borderline but approved. |
+
+### Unstyled Variant
+
+§17.4 resets HDS typography additions (`font-size`, `line-height`, `margin-block-end`) to `inherit` / `0`. USWDS `.usa-list--unstyled` handles its own resets (`list-style-type: none`, `padding-left: 0`). Unstyled lists fully inherit from context.
+
+### Nested Lists
+
+HDS Figma does not define nested list behavior. Browser defaults apply for nested marker glyphs (circle, square, etc.). Marker color cascades to nested levels via `::marker` inheritance. Nested lists are tested in the Prose story.
+
 ## System Behavior
 
 ### OS Dark Mode Is Opt-In
@@ -488,3 +576,4 @@ All of these match the approved HDS Core Proposal exactly:
 | Secondary filled on dark | NASA Blue Tint | NASA Blue | Creative director approved; passes AA on all palettes |
 | Secondary filled on blue | NASA Blue Tint filled | Outline (NASA Blue Tint border) | Filled variant blends into Blue Shade background |
 | Table on blue palette | Dark table (Carbon 90) | Light table (white) | Creative director approved; white surface inside blue section |
+| OL numeral letterspacing | 3.5px (Figma) | 0px | Figma value matches overline/label pattern. Proposal DM Mono Number elements at small sizes use 'auto' (0px). Visual review confirmed too wide at double digits. |
