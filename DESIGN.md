@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md.
 
-Last updated: 2026-03-23
+Last updated: 2026-03-28
 
 ## Class Naming Convention
 
@@ -184,13 +184,17 @@ Red = navigates away. Blue = stays on page.
 
 **Active:** Visually identical to hover. HDS does not define a distinct active state, consistent with Apple HIG.
 
-**Disabled:** Color-based, not opacity-based. Filled buttons get Carbon 20 fill with white text. Outline buttons get palette-aware muted border and text. Unstyled buttons get muted text with no underline. Disabled buttons do not respond to hover or focus.
+**Disabled:** Use `--hds-palette-btn-disabled-bg` token (not hardcoded Carbon 20) so they remain visible on midtone palette (Carbon 20 background).
 
-### Secondary Button Contrast ⚠️
+Explicit hover, focus, and focus-visible guards prevent USWDS rules from overriding disabled button colors. Variant-specific selectors (`.usa-button--secondary:disabled`) are required to match USWDS specificity on CTA and secondary variants.
 
-The Proposal specifies NASA Blue Tint (`#288BFF`) for secondary buttons on dark palettes. White text on this background has a contrast ratio of **3.37:1** — below the 4.5:1 AA minimum. NASA Blue itself (`#1C67E3`) on light palettes is **~4.68:1** — passes AA but fails AAA.
+### Secondary Button on Blue Palette
 
-Under active review: [GitHub Discussion — Reassess secondary button fill color](https://github.com/nasa/hds-core/discussions).
+NASA Blue (`#1C67E3`) is used for secondary filled buttons on all palettes per creative director review (2026-03-27). Passes WCAG AA (4.54:1 with white text).
+
+On the blue palette only, secondary filled text buttons automatically render as outline (§4.8) because any blue fill blends into the NASA Blue Shade background. Icon buttons are excluded — their smaller surface area avoids the contrast issue.
+
+Blue palette tokens use Blue Tint / Blue (not Blue / Blue Shade) because these tokens serve outline borders on this palette — they need contrast against the Blue Shade background.
 
 ### Outline Inverse — Two-Layer Approach
 
@@ -220,24 +224,45 @@ Disabled treatment is color-based (not opacity-based), consistent with all HDS b
 
 Note: Figma shows Carbon 30 for the default light stroke, but the HDS Core Proposal specifies Carbon 20. Proposal takes precedence.
 
-### Icon Button Sizing (TODO)
+### Icon Button Size Scale
 
-Figma defines 6 icon button sizes. HDS Core currently implements 3:
+8-size scale aligned with HDS Figma spec plus two sizes observed in Figma modules (flagged for creative director confirmation):
 
-| Figma | Container | HDS Core | CSS size      | Status          |
-| ----- | --------- | -------- | ------------- | --------------- |
-| XS    | 16px      | —        | —             | Missing         |
-| S     | 20px      | `--sm`   | 1.2em (~19px) | Close           |
-| M     | 24px      | —        | —             | Missing         |
-| L     | 28px      | —        | —             | Missing         |
-| XL    | 32px      | default  | 2em (32px)    | ✅              |
-| XXL   | 36px      | `--lg`   | 2.5em (40px)  | Wrong — 40 ≠ 36 |
+| Class       | Container | Figma equivalent | Source                                          |
+| ----------- | --------- | ---------------- | ----------------------------------------------- |
+| `--2xs`     | 12px      | —                | Observed in filter dropdowns (11px, rounded up) |
+| `--xs`      | 16px      | XS               | Figma spec                                      |
+| `--sm`      | 20px      | S                | Figma spec                                      |
+| _(default)_ | 24px      | M                | Figma spec — promoted to default                |
+| `--lg`      | 28px      | L                | Figma spec                                      |
+| `--xl`      | 32px      | XL               | Figma spec — was HDS Core default               |
+| `--2xl`     | 36px      | XXL              | Figma spec                                      |
+| `--3xl`     | 40px      | —                | Observed in pagination/carousel modules         |
 
-SVG icons updated from 20×20px to 24×24px. Figma's glyph-to-container ratio assumes 20×20px originals — CSS sizing needs adjustment. See GitHub Issue #13.
+Default was moved from 32px (Figma XL) to 24px (Figma M) because 24px is the most frequently used size across Figma modules and matches the primary arrow button container. USWDS-style t-shirt naming (2xs–3xl) is used instead of Figma labels (XS–XXL) so modifier names always indicate size relative to default.
+
+Uses px instead of em/rem — USWDS sets the root font-size to a non-16px value via its type scale config, causing em/rem to produce fractional pixel values.
+
+The 2xs size (12px) is below the WCAG 2.5.8 minimum touch target (24px). Desktop-only usage with mouse context required.
+
+72px media play button is deferred to a future media player component (Github discussion #7).
 
 ### Primary Arrow Button
 
-**Original HDS:** Uses `Primary-Arrow.svg`. **HDS Core:** CSS `::after` pseudo-element generates circle and line arrow. Arrow direction auto-swaps for external links — no SVG markup needed in HTML.
+Text + CSS `::after` red circle with white arrow. No SVG markup needed — the arrow is rendered via CSS background-image. Arrow direction auto-swaps for external links via `.usa-link--external`.
+
+#### Size Scale
+
+6-size scale matching HDS Figma spec. Circle containers align with icon button sizes at each step. Text-to-circle ratios vary across sizes, so px values are used for both.
+
+| Class       | Text | Circle | Icon btn equivalent |
+| ----------- | ---- | ------ | ------------------- |
+| `--xs`      | 14px | 16px   | `--xs`              |
+| `--sm`      | 16px | 20px   | `--sm`              |
+| _(default)_ | 18px | 24px   | default             |
+| `--lg`      | 22px | 28px   | `--lg`              |
+| `--xl`      | 29px | 32px   | `--xl`              |
+| `--2xl`     | 36px | 36px   | `--2xl`             |
 
 ### Fixed-Color Button Graphics
 
@@ -296,7 +321,7 @@ Link treatment on both follows the dark-background pattern: white text, Carbon 3
 
 USWDS renders +/− icons with a filled background. HDS replaces these with a circled chevron (down when collapsed, up when expanded) using the same utility circle tokens as other icon circles.
 
-The circle is 24px (1.5em at 16px base), matching the Figma "M" icon button size. Hardcoded until the icon button size system adds a `--md` size. See GitHub Discussion #13.
+The circle is 24px, matching the icon button default size (Figma M). See §12.3 in `_hds-components.scss`.
 
 ### Bordered Variant
 
@@ -331,7 +356,7 @@ Six new tokens inferred from Figma component CSS. The HDS Core Proposal defines 
 
 ### Disabled Help Text
 
-Figma dims help text to Carbon 40 in disabled groups. That's 2.85:1 contrast on white — fails WCAG 4.5:1. WCAG exempts disabled _controls_ but help text isn't a control. HDS Core keeps help text readable in disabled groups. Flagged for creative director review.
+Figma dims help text to Carbon 40 in disabled groups. That's 2.85:1 contrast on white — fails WCAG 4.5:1. WCAG exempts disabled _controls_ but help text isn't a control. HDS Core keeps help text readable in disabled groups.
 
 ### Select Chevron (Deferred Post-1.0)
 
@@ -379,8 +404,6 @@ Dark mode sorted column uses white tints over Carbon 90:
 | Even | `rgba(255, 255, 255, 0.06)` / Carbon 90 | `#252528`    | `$hds-color-table-sorted-bg-dark`        |
 | Odd  | `rgba(255, 255, 255, 0.04)` / Carbon 90 | `#202024`    | `$hds-color-table-sorted-stripe-bg-dark` |
 
-| ⚠️ **Creative review needed:** Sorted column blue tints are designed for a white surface. On the light palette (Carbon 05 background), the even-row tint (`#F8FAFE`) is lighter than the page background (`#F6F6F6`), creating an inverted contrast effect. Midtone sorted column colors are unspecified in Figma. Blue palette now uses the light table variant (white surface) per creative director review, so light-mode sorted tints apply. See GitHub Discussion #26 for details.
-
 ### Striped Variant
 
 HDS Figma does not define a striped table variant. HDS Core overrides USWDS stripe defaults with Carbon scale colors (Carbon 05 light, Carbon 80 dark) so `.usa-table--striped` looks acceptable if used, but it is not an HDS-specified pattern.
@@ -406,9 +429,7 @@ HDS Figma does not define a striped table variant. HDS Core overrides USWDS stri
 
 - Mobile text sizing (small vs M-XL Figma variants)
 - Mobile stacked variants (`.usa-table--stacked`, `.usa-table--stacked-header`) — untested with HDS overrides
-- Palette-aware table backgrounds
-- Midtone/blue palette sorted column colors
-- Links and inline icon buttons in table cells (untested)
+- Midtone palette sorted column colors
 - Advanced features: tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column
 
 ## System Behavior
@@ -427,22 +448,13 @@ Pending visual sign-offs:
 
 | Item | Question | Context |
 | --- | --- | --- |
-| `.hds-overline` naming | Is "overline" acceptable for the DM Mono label class? | Industry standard (Material, Salesforce, Atlassian). Replaces `.hds-label` / `.hds-eyebrow`. HDS Figma calls it "Label." |
 | Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal says "normal" (400). Figma uses Medium (500). Currently shipping 500. |
-| CTA hover on dark palettes | Does NASA Red Shade work on dark/blue/black backgrounds? | Figma only shows light-background hover |
-| Secondary filled hover on dark | Does NASA Blue Shade work as the hover for Blue Tint? | Inferred from "darken by one shade step" pattern |
-| Secondary button contrast | NASA Blue Tint fails AA on dark palettes (3.37:1). NASA Blue itself barely passes AA (4.68:1). | [GitHub Discussion](https://github.com/nasa/hds-core/discussions) |
-| Midtone disabled buttons | Carbon 20 stroke on Carbon 20 background is invisible — what values? | Proposed: Carbon 40 stroke, Carbon 50 text |
 | Blue palette utility hover/disabled | Utility circle colors on blue palette are inferred, not confirmed in Figma | Hover stroke → White, disabled stroke → NASA Blue |
 | Midtone utility hover/disabled | Carbon 05 hover fill on Carbon 20 background — visible but subtle | May need override |
-| Icon button sizes | Figma shows 6 sizes (XS–XXL). HDS Core has 3. `--lg` is 40px but Figma XXL is 36px. | See Issue #13 |
-| Icon button glyph sizing | HDS Core SVGs are 24×24px (not Figma's 20×20px) — ratio needs adjustment | Glyphs render slightly smaller than Figma intends |
+| Icon button 2xs and 3xl sizes | Are 12px (filter dropdowns) and 40px (pagination/carousel) confirmed sizes? | Observed in Figma modules but not in the formal icon button spec |
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
 | Accordion hover state | Figma doesn't specify heading row hover — should one be added? | Full-row hover patterns need research |
 | Form token colors | Are the 6 Figma-inferred form tokens correct for midtone and blue palettes? | Tokens inferred from Figma light/dark only — midtone and blue not designed in Figma |
-| Disabled help text | Keep readable (current) or dim to match Figma? | Dimming fails WCAG 4.5:1. WCAG exempts disabled controls but help text isn't a control. |
-| Error side border | Keep USWDS left border on `.usa-form-group--error` or remove per Figma? | USWDS adds it, Figma doesn't show it. |
-| Error inline icon | Add HDS red circle exclamation icon before error text? | Present in Figma, absent in USWDS. |
 
 ## What Hasn't Changed
 
@@ -471,3 +483,8 @@ All of these match the approved HDS Core Proposal exactly:
 | Checkbox/radio size | 20px (USWDS default) | 18px forced via CSS | Figma specifies 18×18px. USWDS setting can't express 2.25 units. |
 | Checkbox icon | USWDS default glyph | HDS check icon via data URI | Visually distinct from USWDS checkmark |
 | Form font family | Not specified | Public Sans (body) | Figma shows Public Sans for input values and help text |
+| Icon button default size | Not specified | 24px (Figma M) | Most frequently used size across Figma modules; matches primary arrow container |
+| Icon button sizing units | Not specified | px (not em/rem) | USWDS root font-size is non-16px, causing fractional em/rem values |
+| Secondary filled on dark | NASA Blue Tint | NASA Blue | Creative director approved; passes AA on all palettes |
+| Secondary filled on blue | NASA Blue Tint filled | Outline (NASA Blue Tint border) | Filled variant blends into Blue Shade background |
+| Table on blue palette | Dark table (Carbon 90) | Light table (white) | Creative director approved; white surface inside blue section |
