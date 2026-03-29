@@ -1,6 +1,7 @@
 const palettes = ['white', 'light', 'midtone', 'dark', 'blue', 'black'];
 
 export const paletteA11yParams = {
+  chromatic: { disableSnapshot: false },
   a11y: {
     config: {
       rules: [
@@ -14,7 +15,6 @@ export const paletteA11yParams = {
 };
 
 export const pseudoParams = {
-  chromatic: { disableSnapshot: false },
   hover: { pseudo: { hover: true } },
   focusVisible: { pseudo: { focusVisible: true } },
 };
