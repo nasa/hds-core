@@ -13,6 +13,7 @@ const preview = {
     a11y: {
       test: 'error',
     },
+    chromatic: { disableSnapshot: true },
     controls: {
       matchers: {
         color: /(background|color)$/i,

@@ -14,6 +14,7 @@ export const paletteA11yParams = {
 };
 
 export const pseudoParams = {
+  chromatic: { disableSnapshot: false },
   hover: { pseudo: { hover: true } },
   focusVisible: { pseudo: { focusVisible: true } },
 };
