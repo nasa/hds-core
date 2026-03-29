@@ -12,15 +12,84 @@ Last updated: 2026-03-28
 | Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0` |
 | Build tools  | Gulp + `@uswds/compile`, `gulp-svg-sprite`  |
 | Minification | `gulp-clean-css`, `gulp-rename`             |
-| Testing      | Vitest 4.x, Playwright (Chromium)           |
 | Storybook    | v10, Vite, HTML template literals           |
+| Testing      | Vitest 4.x, Playwright (Chromium)           |
+| Visual tests | Chromatic (PaletteA11y stories)             |
 
 ## File Structure
 
+<!-- prettier-ignore -->
 ```
-
-hds-core/ ├── .devcontainer/ # Codespace config ├── .github/ # Issue/discussion templates ├── .vscode/ │ └── tasks.json # Auto-starts npm run dev on folder open ├── .storybook/ │ ├── main.js │ ├── manager.js # Sidebar branding (NASA meatball + HDS Core) │ ├── manager-head.html # Custom font for sidebar branding │ ├── preview.js │ └── preview-head.html │ ├── src/ │ ├── scss/ │ │ ├── styles.scss ← Entry point │ │ ├── \_hds-tokens.scss ← Pure Sass (NO uswds-core) │ │ ├── \_hds-uswds-theme.scss ← USWDS configuration │ │ ├── \_hds-custom-styles.scss ← Mixins, base styles, palettes wiring │ │ ├── \_hds-components.scss ← Component overrides │ │ └── \_hds-palettes.scss ← 6 palette definitions │ └── assets/ │ ├── fonts/{inter,dm-mono}/ │ └── img/ │ ├── hds-icons/ # Themeable SVGs → sprite │ ├── hds-buttons/ # Fixed-color graphics │ └── nasa-branding/ │ ├── stories/ # Storybook (not shipped) │ ├── helpers/ │ │ ├── Note.jsx # Callout component │ │ ├── icons.js # Icon ID arrays │ │ └── paletteTests.js # Palette a11y test helpers │ ├── assets/ # Screenshots (not shipped) │ ├── overview/ │ │ ├── Overview.mdx │ │ ├── Getting Started.mdx │ │ └── Roadmap.mdx │ ├── foundations/ │ │ ├── Accessibility.mdx │ │ ├── Color.mdx │ │ ├── ColorPalettes.mdx │ │ ├── ColorPalettes.stories.js │ │ ├── DataVisualization.mdx │ │ ├── DataVisualizationPalettes.mdx │ │ ├── Grid.mdx │ │ ├── Grid.stories.js │ │ ├── Icons.mdx │ │ ├── Icons.stories.js │ │ ├── Spacing.mdx │ │ ├── Typography.mdx │ │ └── Typography.stories.js │ └── components/ │ ├── {Component}.mdx # Guidance page │ └── {Component}.stories.js # Sidebar variant stories │ ├── dist/ # Build output │ ├── css/ │ │ ├── styles.css │ │ ├── styles.css.map │ │ ├── styles.min.css │ │ └── styles.min.css.map │ └── assets/{fonts,img}/ │ ├── gulpfile.js ├── vitest.config.js ├── test.html # Visual test page (not shipped) ├── .prettierrc ├── .prettierignore └── .browserslistrc
-
+hds-core/
+├── .devcontainer/                  # Codespace config
+├── .github/                        # Issue/discussion templates
+├── .vscode/
+│   └── tasks.json                  # Auto-starts npm run dev on folder open
+├── .storybook/
+│   ├── main.js
+│   ├── manager.js                  # Sidebar branding (NASA meatball + HDS Core)
+│   ├── manager-head.html           # Custom font for sidebar branding
+│   ├── preview.js
+│   └── preview-head.html
+│
+├── src/
+│   ├── scss/
+│   │   ├── styles.scss             ← Entry point
+│   │   ├── _hds-tokens.scss        ← Pure Sass (NO uswds-core)
+│   │   ├── _hds-uswds-theme.scss   ← USWDS configuration
+│   │   ├── _hds-custom-styles.scss ← Mixins, base styles, palettes wiring
+│   │   ├── _hds-components.scss    ← Component overrides
+│   │   └── _hds-palettes.scss      ← 6 palette definitions
+│   └── assets/
+│       ├── fonts/{inter,dm-mono}/
+│       └── img/
+│           ├── hds-icons/          # Themeable SVGs → sprite
+│           ├── hds-buttons/        # Fixed-color graphics
+│           └── nasa-branding/
+│
+├── stories/                        # Storybook (not shipped)
+│   ├── helpers/
+│   │   ├── Note.jsx                # Callout component
+│   │   ├── icons.js                # Icon ID arrays
+│   │   └── paletteTests.js         # Palette a11y test helpers
+│   ├── assets/                     # Screenshots (not shipped)
+│   ├── overview/
+│   │   ├── Overview.mdx
+│   │   ├── Getting Started.mdx
+│   │   └── Roadmap.mdx
+│   ├── foundations/
+│   │   ├── Accessibility.mdx
+│   │   ├── Color.mdx
+│   │   ├── ColorPalettes.mdx
+│   │   ├── ColorPalettes.stories.js
+│   │   ├── DataVisualization.mdx
+│   │   ├── DataVisualizationPalettes.mdx
+│   │   ├── Grid.mdx
+│   │   ├── Grid.stories.js
+│   │   ├── Icons.mdx
+│   │   ├── Icons.stories.js
+│   │   ├── Spacing.mdx
+│   │   ├── Typography.mdx
+│   │   └── Typography.stories.js
+│   └── components/
+│       ├── {Component}.mdx         # Guidance page
+│       └── {Component}.stories.js  # Sidebar variant stories
+│
+├── dist/                           # Build output
+│   ├── css/
+│   │   ├── styles.css
+│   │   ├── styles.css.map
+│   │   ├── styles.min.css
+│   │   └── styles.min.css.map
+│   └── assets/{fonts,img}/
+│
+├── gulpfile.js
+├── vitest.config.js
+├── chromatic.config.json
+├── test.html                       # Visual test page (not shipped)
+├── .prettierrc
+├── .prettierignore
+└── .browserslistrc
 ```
 
 ## Sass Load Order
@@ -157,16 +226,19 @@ Each section has detailed code comments covering palette behavior, hover/disable
 
 ## Testing
 
-| Script               | Purpose                      |
-| -------------------- | ---------------------------- |
-| `npm test`           | Run all tests once (CI mode) |
-| `npm run test:watch` | Watch mode (development)     |
+| Script                | Purpose                                     |
+| --------------------- | ------------------------------------------- |
+| `npm test`            | Run all tests once (CI mode)                |
+| `npm run test:watch`  | Watch mode (development)                    |
+| `npm run test:visual` | Visual regression via Chromatic (on demand) |
 
 Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes, including hover and focus-visible states for interactive components. See `stories/helpers/paletteTests.js` for the helper pattern and DOCUMENTATION.md for story conventions.
 
 **Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Gulp output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
 
 **Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
+
+**Visual regression testing**: Uses [Chromatic](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab) via `@chromatic-com/storybook`. Snapshots are disabled globally (`disableSnapshot: true` in `preview.js`) and enabled only on PaletteA11y stories via `paletteA11yParams`. This scopes visual regression to ~49 screenshots per run — each PaletteA11y story renders all six palettes in one image, covering ~264 component-palette combinations. Run on demand via `npm run test:visual`; not part of `npm test`. Screenshots are stored in Chromatic's cloud, not in the repo.
 
 ## Storybook
 
@@ -181,6 +253,7 @@ Vitest runs every exported story in headless Chromium via `@storybook/addon-vite
 - `@storybook/addon-docs` — documentation pages + remark-gfm
 - `@storybook/addon-a11y` — per-story accessibility checks in UI panel, axe-core checks in Vitest
 - `storybook-addon-pseudo-states` — hover/focus/active simulation
+- `@chromatic-com/storybook` — visual regression testing (snapshots PaletteA11y stories only)
 
 **Server flags:** `--no-open` (devcontainer port forwarding handles the browser tab) and `--ci` (skips interactive prompts — auto-selects next port if 6006 is occupied, prevents the process from hanging in unattended environments).
 
@@ -229,4 +302,5 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths (Phase 2)
 - [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
 - [ ] Gulp 5 migration (clears 11 dev-dependency vulnerabilities from Gulp 4's dependency chain)
+- [ ] Expand Chromatic visual regression to Tier 2: ColorPalettes (palette visual spec), Site Alert (scoped vars, no PaletteA11y), Table variants (Sortable/Borderless/Compact), Form Validation flow, Icon Button sizes/roles, Pagination edge cases
 - [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions

@@ -129,6 +129,7 @@ Install `http-server` globally if you don't have it: `npm install -g http-server
 | `npm run init`            | Copy assets and generate sprite without compiling Sass       |
 | `npm test`                | Run all tests once (CI)                                      |
 | `npm run test:watch`      | Run tests in watch mode                                      |
+| `npm run test:visual`     | Visual regression tests via Chromatic (on demand)            |
 | `npm run format`          | Format source files with Prettier                            |
 | `npm run format:check`    | Check formatting without writing changes                     |
 
@@ -178,6 +179,7 @@ All USWDS components, utility classes, and patterns continue to work.
 | Design decisions  | DESIGN.md                   |
 | Architecture      | ARCHITECTURE.md             |
 | Docs conventions  | DOCUMENTATION.md            |
+| 508 conformance   | 508.md                      |
 
 ## Contributing
 

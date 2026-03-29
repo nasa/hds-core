@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-03-27
+Last updated: 2026-03-28
 
 ## Audience
 
@@ -20,41 +20,55 @@ Write as if the reader knows HTML/CSS and USWDS basics, but has never looked at 
 
 **Use plain language.** Instead of "Tier 1 override," say "uses standard USWDS markup." Instead of "palette-aware," just show it working on different backgrounds via the palette switcher.
 
-### Define once in Overview, never repeat
+## Define once in Overview, never repeat
 
 The Overview page explains these concepts once — don't re-explain on component or foundation pages:
 
 - "Horizon Design System (HDS)" and "U.S. Web Design System (USWDS)" — acronyms only after Overview
 - HDS Core is a Sass/CSS theme layer on USWDS
 - All components adapt to color palettes automatically
-- How to use Storybook (palette switcher, viewport switcher, "Show code," Guidance vs stories)
-- Installation (link to Getting Started)
-- Current version / scope (pre-1.0, CSS-only, no JS beyond USWDS)
-
-### Cross-linking
-
-Link to related pages rather than re-explaining concepts. Keep the local mention to one sentence and link out.
-
-- Good: "HDS uses NASA Red for navigation actions and NASA Blue for on-page actions. See [Color](?path=/docs/foundations-color--docs) for the full palette."
-- Bad: Re-explaining the entire wayfinding color system on every component page.
-
-Link to external USWDS docs when extending or overriding a USWDS concept. Use Storybook query paths for internal links: `?path=/docs/{story-id}` for docs pages, `?path=/story/{story-id}` for Canvas stories. Find a story's ID by clicking it in the sidebar and reading the URL.
 
 ## File structure
 
+<!-- prettier-ignore -->
 ```
-
-stories/ assets/ # Storybook-only images (not shipped) helpers/ Note.jsx # Callout note component icons.js # Shared icon ID arrays (HDS + USWDS) paletteTests.js # Palette a11y test helpers overview/ Getting Started.mdx Overview.mdx Roadmap.mdx foundations/ Accessibility.mdx # Docs-only (no stories file) Color.mdx # Docs-only ColorPalettes.mdx # Attached to ColorPalettes.stories.js ColorPalettes.stories.js DataVisualization.mdx # Docs-only DataVisualizationPalettes.mdx # Docs-only Grid.mdx # Attached to Grid.stories.js Grid.stories.js Icons.mdx # Attached to Icons.stories.js Icons.stories.js Spacing.mdx # Standalone MDX Typography.mdx # Attached to Typography.stories.js Typography.stories.js components/ {Component}.mdx # Guidance page {Component}.stories.js # Sidebar variant stories + guidance embeds + palette tests
-
+stories/
+├── assets/                           # Storybook-only images (not shipped)
+├── helpers/
+│   ├── Note.jsx                      # Callout note component
+│   ├── icons.js                      # Shared icon ID arrays (HDS + USWDS)
+│   └── paletteTests.js               # Palette a11y test helpers
+├── overview/
+│   ├── Getting Started.mdx
+│   ├── Overview.mdx
+│   └── Roadmap.mdx
+├── foundations/
+│   ├── Accessibility.mdx             # Docs-only (no stories file)
+│   ├── Color.mdx                     # Docs-only
+│   ├── ColorPalettes.mdx             # Attached to ColorPalettes.stories.js
+│   ├── ColorPalettes.stories.js
+│   ├── DataVisualization.mdx         # Docs-only
+│   ├── DataVisualizationPalettes.mdx # Docs-only
+│   ├── Grid.mdx                      # Attached to Grid.stories.js
+│   ├── Grid.stories.js
+│   ├── Icons.mdx                     # Attached to Icons.stories.js
+│   ├── Icons.stories.js
+│   ├── Spacing.mdx                   # Standalone MDX
+│   ├── Typography.mdx                # Attached to Typography.stories.js
+│   └── Typography.stories.js
+└── components/
+    ├── {Component}.mdx               # Guidance page
+    └── {Component}.stories.js        # Sidebar variant stories + guidance embeds + palette tests
 ```
 
 ## Storybook configuration
 
-| File                           | Purpose                                                                     |
-| ------------------------------ | --------------------------------------------------------------------------- |
-| `.storybook/main.js`           | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
-| `.storybook/preview.js`        | Palette toolbar, decorators, storySort, a11y test config, code panel        |
-| `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`)                   |
+| File | Purpose |
+|---|---|
+| `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
+| `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
+| `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
+| `chromatic.config.json` | Chromatic project link (visual regression) |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
@@ -62,136 +76,21 @@ Component Guidance pages use an explicit `<Meta title="..." />` with a `/Guidanc
 
 ```mdx
 // ✅ Correct — appears as "Guidance" in sidebar
-
-<Meta title="Components/Accordion/Guidance" />
+<Meta title="Components/Button/Guidance" />
 
 // ❌ Wrong — appears as "Docs" in sidebar
-
-<Meta of={AccordionStories} />
+<Meta of={ButtonStories} />
 ```
-
-Foundation docs-only pages and root-level pages set their title directly:
-
-```mdx
-<Meta title="Foundations/Color" />
-<Meta title="Getting Started" />
-```
-
-## Sidebar structure
-
-```
-Components / {Component}
-  ├─ Docs                  ← {Component}.mdx Guidance page
-  ├─ {Variant 1}           ← Sidebar story with own args
-  ├─ {Variant 2}
-  ├─ ...
-  └─ {States / summary}    ← Optional combined-view story
-```
-
-Each component exposes its **major variants as separate sidebar stories** with their own args, rather than a single Playground that switches between variants. This lets developers:
-
-- See all variants at a glance in the sidebar
-- Deep-link to a specific variant
-- Compare args that are relevant to that variant only
-
-**Guidance embeds** (stories referenced by `<Canvas of={} />` in MDX) are tagged `!dev` — they appear in the Guidance page but not the sidebar. **Palette accessibility tests** are also tagged `!dev`.
-
-Foundations sort alphabetically. The `storySort` config in `preview.js` controls category order. Sidebar positions are controlled by `<Meta title="..." />` in MDX or `title` in CSF exports. Stories appear in **export order** within their component group.
-
-### Sidebar variant examples
-
-| Component   | Sidebar stories                                                                          |
-| ----------- | ---------------------------------------------------------------------------------------- |
-| Accordion   | Default, Multiselectable                                                                 |
-| Breadcrumb  | Default, 3 Levels, Truncated                                                             |
-| Button      | CTA (default), Secondary Filled, Outline, Unstyled, Primary Arrow, States (all variants) |
-| Icon Button | CTA, Secondary, Outline, Utility, Social, Interactive, States (all roles)                |
-
-## MDX authoring
-
-### Key rules
-
-- MDX compiles as JSX — use `className`, `style={{ }}`, `htmlFor`
-- Markdown tables require `remark-gfm` (configured in `main.js`) and blank lines above and below
-- Do not use `---` horizontal rules — headings provide sufficient separation
-- Always import from `@storybook/addon-docs/blocks`
-
-### Live component demos
-
-**Never inline live HDS component HTML directly in MDX.** MDX renders in React context, not the HTML story renderer. HDS classes, SVG sprites, and palette wiring won't work.
-
-**Rule of thumb:** If it uses `var(--hds-*)`, HDS classes, USWDS classes, or SVG sprites → Canvas-embedded story. Static content (swatches, tables, text) is fine inline.
-
-Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
-
-```mdx
-import { Canvas } from '@storybook/addon-docs/blocks';
-import * as ButtonStories from './Button.stories';
-
-{/* References a !dev guidance embed */}
-
-<Canvas of={ButtonStories.FilledVariants} />
-
-{/* References a visible sidebar story — shows with controls */}
-
-<Canvas of={ButtonStories.Outline} />
-```
-
-Below the first Canvas on each Guidance page, add:
-
-```mdx
-> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-```
-
-Include this caption once per page only.
-
-When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
-
-### Color swatches and grids
-
-For color swatch patterns (inline styled spans, CSS grid layouts), see `Color.mdx` and `ColorPalettes.mdx` as reference implementations.
-
-### Figma screenshots
-
-Store in `stories/assets/`. Use a `<figure>` with a standard caption noting that implementation may differ from Figma. See `DataVisualization.mdx` for an example.
-
-## Callout notes
-
-Three types for contextual information that supplements guidance:
-
-| Type    | Label              | Use for                                                            |
-| ------- | ------------------ | ------------------------------------------------------------------ |
-| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS    |
-| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec      |
-| `code`  | How this works     | Technical detail useful for understanding, not essential for usage |
-
-```mdx
-import { Note } from '../helpers/Note';
-
-<Note type="uswds">
-  USWDS pagination uses anchor tags with visible Previous/Next text. HDS uses icon-only circle buttons.
-</Note>
-```
-
-### Note guidelines
-
-- 1–3 sentences max — longer content belongs in the main text
-- Main text must stand alone without Notes
-- Only when a developer would be genuinely confused
-
-**USWDS notes:** Focus on markup and usage differences, not visual differences. HDS is a visual theme — everything looks different from vanilla USWDS. Only note differences that affect how a developer writes markup.
-
-**Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in DESIGN.md.
 
 ## Component Guidance page structure
 
-1. **Component name + intro** — one or two sentences: what it is and what markup it uses
-2. **Variants** — Canvas embed per variant, grouped under clear subheadings
-3. **When to use**
-4. **When to consider something else**
-5. **Usability guidance**
-6. **Legacy USWDS support** (optional — only when HDS markup differs from vanilla USWDS. Show the legacy markup, note tradeoffs, keep it short and skippable.)
-7. **Accessibility** — bulleted list of what the developer must do (ARIA attributes, keyboard behavior). Don't duplicate attributes already visible in the Canvas "Show code" view.
+- **Component name + intro** — one or two sentences: what it is and what markup it uses
+- **Variants** — Canvas embed per variant, grouped under clear subheadings
+- **When to use**
+- **When to consider something else**
+- **Usability guidance**
+- **Legacy USWDS support** (optional — only when HDS markup differs from vanilla USWDS. Show the legacy markup, note tradeoffs, keep it short and skippable.)
+- **Accessibility** — bulleted list of what the developer must do (ARIA attributes, keyboard behavior). Don't duplicate attributes already visible in the Canvas "Show code" view.
 
 ### What to leave out of Guidance pages
 
@@ -206,14 +105,12 @@ import { Note } from '../helpers/Note';
 
 Each component stories file follows this structure:
 
-```
-1. Helpers         — shared builder functions
-2. Sidebar stories — visible variants with own args (no tags)
-3. Guidance embeds — MDX Canvas targets (tags: ['!dev'])
-4. Palette tests   — a11y contrast tests (tags: ['!dev'])
-```
+1. **Helpers** — shared builder functions
+2. **Sidebar stories** — visible variants with own args (no tags)
+3. **Guidance embeds** — MDX Canvas targets (`tags: ['!dev']`)
+4. **Palette tests** — a11y contrast tests (`tags: ['!dev']`)
 
-Stories appear in the sidebar in **export order**. Place sidebar stories first, then guidance embeds, then palette tests.
+Stories appear in the sidebar in export order. Place sidebar stories first, then guidance embeds, then palette tests.
 
 **Gold standard:** `Accordion.stories.js` — refer to this when refactoring other components.
 
@@ -224,10 +121,7 @@ Sidebar stories replace the former Playground pattern. Each major variant gets i
 ```js
 // Visible in sidebar — each variant has own args
 export const Default = {
-  args: {
-    itemCount: 5,
-    firstExpanded: true,
-  },
+  args: { itemCount: 5, firstExpanded: true },
   argTypes: { ... },
   render: (args = {}) => { ... },
 };
@@ -261,9 +155,9 @@ export const AllCollapsed = {
 
 ### Parser safety for object arrays
 
-Storybook's indexer can misparse `label:` inside render functions as a JavaScript label statement, causing `SyntaxError: Missing semicolon` build errors. This only affects stories **visible in the sidebar** (not `!dev` stories, which are skipped by the indexer).
+Storybook's indexer can misparse `label:` inside render functions as a JavaScript label statement, causing `SyntaxError: Missing semicolon` build errors. This only affects stories visible in the sidebar (not `!dev` stories, which are skipped by the indexer).
 
-**Fix:** Hoist object arrays with `label`-like keys to module scope and rename the property:
+Fix: Hoist object arrays with label-like keys to module scope and rename the property:
 
 ```js
 // ✅ Hoisted to module scope, property renamed to `text`
@@ -279,7 +173,7 @@ export const States = {
   },
 };
 
-// ❌ Breaks — `label:` inside render parsed as JS label statement
+// ❌ Breaks — label: inside render parsed as JS label statement
 export const States = {
   render: () => {
     const variants = [
@@ -295,18 +189,16 @@ export const States = {
 Define at the top of each story file for consistent presentation:
 
 ```js
-const label = (text) => `<p class="hds-label">${text}</p>`;
+const label = (text) => `<p>${text}</p>`;
 
-const grid = (items) => `
-  <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
-    ${items}
-  </div>`;
+const grid = (items) => `<div class="grid">${items}</div>`;
 
 const gridItem = (labelText, content) => `
-  <div style="min-width: 10rem;">
+  <div>
     ${label(labelText)}
-    <div style="margin-top: 0.75rem;">${content}</div>
-  </div>`;
+    ${content}
+  </div>
+`;
 ```
 
 For components with multiple roles or variants, consider shared arg types and render factories to reduce duplication:
@@ -330,9 +222,9 @@ export const CTA = {
 };
 ```
 
-### Unique `id` values
+### Unique id values
 
-USWDS components with `id`/`aria-controls` wiring (Accordion, Tabs, Dialogs) need unique IDs per story — all Canvas embeds on a Guidance page render in the same DOM. Use a `prefix` parameter in helper functions:
+USWDS components with `id`/`aria-controls` wiring (Accordion, Tabs, Dialogs) need unique IDs per story — all Canvas embeds on a Guidance page render in the same DOM. Use a prefix parameter in helper functions:
 
 ```js
 const accordion = ({ prefix = 'acc', ... }) => { ... };
@@ -344,15 +236,15 @@ export const AllCollapsed = { render: () => accordion({ prefix: 'collapsed' }) }
 
 Icon ID arrays live in `stories/helpers/icons.js` — the single source of truth for which icons exist in each sprite.
 
-| Export             | Contents                           |
-| ------------------ | ---------------------------------- |
-| `hdsUiIcons`       | UI icons (no `tag-*` or `logo-*`)  |
-| `hdsTagIcons`      | Tag/category icons only            |
-| `hdsLogoIcons`     | Logo/brand icons                   |
-| `hdsIcons`         | All HDS (UI + Tag + Logo)          |
+| Export | Contents |
+|---|---|
+| `hdsUiIcons` | UI icons (no `tag-*` or `logo-*`) |
+| `hdsTagIcons` | Tag/category icons only |
+| `hdsLogoIcons` | Logo/brand icons |
+| `hdsIcons` | All HDS (UI + Tag + Logo) |
 | `uswdsUniqueIcons` | USWDS icons with no HDS equivalent |
-| `uswdsPortedIcons` | USWDS icons replaced by HDS        |
-| `uswdsIcons`       | All USWDS (unique + ported)        |
+| `uswdsPortedIcons` | USWDS icons replaced by HDS |
+| `uswdsIcons` | All USWDS (unique + ported) |
 
 ### Palette accessibility tests
 
@@ -362,7 +254,7 @@ Every palette-aware component should include hidden stories that test contrast a
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 ```
 
-**`paletteRender(renderFn)`** takes only the render function — no pseudo-state parameter. Pseudo-states are applied via `pseudoParams` spread into `parameters`:
+`paletteRender(renderFn)` takes only the render function — no pseudo-state parameter. Pseudo-states are applied via `pseudoParams` spread into parameters:
 
 ```js
 // Default state
@@ -400,9 +292,98 @@ export const PaletteA11yFocus = {
 parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
 ```
 
+**Chromatic visual regression:** PaletteA11y stories are the only stories snapshotted by Chromatic (`disableSnapshot: false` inherited from `paletteA11yParams`). All other stories are excluded via the global `disableSnapshot: true` in `preview.js`. Review results at the [Chromatic dashboard](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab).
+
+**Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via `paletteRender` (stacking all 6 palettes vertically), use individual per-palette stories instead:
+
+```js
+const paletteProse = (palette) => `
+<div class="hds-palette-${palette}">
+  ${prose()}
+</div>
+`;
+
+export const PaletteA11yWhite = {
+  name: 'Palette a11y [white]',
+  tags: ['!dev'],
+  parameters: prosePaletteParams,
+  render: () => paletteProse('white'),
+};
+// ... one per palette
+```
+
+## MDX authoring
+
+### Key rules
+
+- MDX compiles as JSX — use `className`, `style={{ }}`, `htmlFor`
+- Markdown tables require `remark-gfm` (configured in `main.js`) and blank lines above and below
+- Do not use `---` horizontal rules — headings provide sufficient separation
+- Always import from `@storybook/addon-docs/blocks`
+
+### Live component demos
+
+Never inline live HDS component HTML directly in MDX. MDX renders in React context, not the HTML story renderer. HDS classes, SVG sprites, and palette wiring won't work.
+
+**Rule of thumb:** If it uses `var(--hds-*)`, HDS classes, USWDS classes, or SVG sprites → Canvas-embedded story. Static content (swatches, tables, text) is fine inline.
+
+Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
+
+```mdx
+import { Canvas } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+{/* References a !dev guidance embed */}
+<Canvas of={ButtonStories.AllVariants} />
+
+{/* References a visible sidebar story — shows with controls */}
+<Canvas of={ButtonStories.Default} />
+```
+
+Below the first Canvas on each Guidance page, add:
+
+```mdx
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+```
+
+Include this caption once per page only.
+
+When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
+
+### Color swatches and grids
+
+For color swatch patterns (inline styled spans, CSS grid layouts), see `Color.mdx` and `ColorPalettes.mdx` as reference implementations.
+
+### Figma screenshots
+
+Store in `stories/assets/`. Use a `<figure>` with a standard caption noting that implementation may differ from Figma. See `DataVisualization.mdx` for an example.
+
+### Callout notes
+
+Three types for contextual information that supplements guidance:
+
+| Type | Label | Use for |
+|---|---|---|
+| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS |
+| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec |
+| `code` | How this works | Technical detail useful for understanding, not essential for usage |
+
+```mdx
+import { Note } from '../helpers/Note';
+
+<Note type="uswds">HDS ordered lists require `role="list"` for VoiceOver.</Note>
+```
+
+**Note guidelines:**
+
+- 1–3 sentences max — longer content belongs in the main text
+- Main text must stand alone without Notes
+- Only when a developer would be genuinely confused
+- **USWDS notes:** Focus on markup and usage differences, not visual differences. HDS is a visual theme — everything looks different from vanilla USWDS. Only note differences that affect how a developer writes markup.
+- **Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in DESIGN.md.
+
 ## Pending documentation tasks
 
 - [ ] Data Visualization Palettes: increase border thickness/padding on categorical table containers
 - [ ] Data Visualization Palettes: add hex codes to sequential palette gradient strips
 - [ ] Data Visualization Palettes: add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma
-- [ ] Refactor remaining stories to sidebar variants model: Intro Text, Link, Pagination, Site Alert, Table, Form Elements
