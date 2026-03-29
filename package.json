@@ -26,13 +26,14 @@
     "storybook": "storybook dev -p 6006 --no-open --ci",
     "build-storybook": "storybook build",
     "test": "vitest run",
+    "test:visual": "chromatic",
     "test:watch": "vitest watch"
   },
   "peerDependencies": {
     "@uswds/uswds": "^3.13.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.0.2",
+    "@chromatic-com/storybook": "^5.1.1",
     "@storybook/addon-a11y": "^10.3.3",
     "@storybook/addon-docs": "^10.3.3",
     "@storybook/addon-vitest": "^10.3.3",
@@ -64,5 +65,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/nasa/hds-core.git"
+  },
+  "dependencies": {
+    "chromatic": "^16.0.0"
   }
 }

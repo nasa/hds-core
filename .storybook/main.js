@@ -2,20 +2,16 @@ import remarkGfm from 'remark-gfm';
 
 const config = {
   stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        mdxPluginOptions: {
-          mdxCompileOptions: {
-            remarkPlugins: [remarkGfm],
-          },
+  addons: [{
+    name: '@storybook/addon-docs',
+    options: {
+      mdxPluginOptions: {
+        mdxCompileOptions: {
+          remarkPlugins: [remarkGfm],
         },
       },
     },
-    '@storybook/addon-a11y',
-    'storybook-addon-pseudo-states',
-  ],
+  }, '@storybook/addon-a11y', 'storybook-addon-pseudo-states', '@chromatic-com/storybook'],
   features: {
     disableSaveFromUI: true,
   },
