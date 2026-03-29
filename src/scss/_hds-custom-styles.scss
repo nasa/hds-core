@@ -114,6 +114,24 @@
   word-wrap: normal !important;
 }
 
+// Standard focus — outline-based (most components).
+// Spec: 1px dashed, palette-aware, :focus-visible only.
+// See DESIGN.md § Focus Ring.
+@mixin hds-focus-outline($offset: 2px) {
+  outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
+  outline-offset: $offset;
+}
+
+// Composed shape focus — border-based.
+// For elements where outline can't wrap the visual shape
+// (e.g. pagination simplified button: circle + text as one target).
+// Mutually exclusive with hds-focus-outline — never use both.
+@mixin hds-focus-border {
+  border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  border-style: dashed;
+  outline: none;
+}
+
 // ------------------------------------------------------------
 // §2.2 Typography
 // ------------------------------------------------------------
@@ -202,9 +220,8 @@
     filter: brightness(0.75);
   }
 
-  &:focus {
-    outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-    outline-offset: 2px;
+  &:focus-visible {
+    @include hds-focus-outline;
     text-decoration-line: none;
   }
 }
@@ -222,9 +239,8 @@
     text-decoration-line: none;
   }
 
-  &:focus {
-    outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-    outline-offset: 2px;
+  &:focus-visible {
+    @include hds-focus-outline;
   }
 }
 
@@ -689,10 +705,10 @@
     font-size: size('body', 'xs');
     padding: units(1) units(1.5);
 
-    &:focus {
+    &:focus-visible {
       border-color: $hds-color-nasa-blue;
-      outline: 2px solid $hds-color-nasa-blue;
-      outline-offset: 0;
+      border-width: 2px;
+      outline: none;
     }
 
     &::placeholder {
@@ -747,8 +763,7 @@ button:not([disabled]):focus-visible,
 input:not([disabled]):focus-visible,
 select:not([disabled]):focus-visible,
 textarea:not([disabled]):focus-visible {
-  outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
-  outline-offset: 2px;
+  @include hds-focus-outline;
 }
 
 // ------------------------------------------------------------
