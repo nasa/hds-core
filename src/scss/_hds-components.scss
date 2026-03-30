@@ -229,8 +229,9 @@
   text-underline-offset: 0.15em;
 }
 
-.usa-breadcrumb__link:focus-visible {
-  @include hds-focus-outline;
+.usa-breadcrumb__link:focus {
+  outline: 2px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+  outline-offset: 2px;
 }
 
 // ------------------------------------------------------------
@@ -305,8 +306,9 @@
 // Storybook — may need per-palette tuning for contrast.
 // ------------------------------------------------------------
 
-.usa-button:focus-visible:not(:disabled):not([aria-disabled='true']) {
-  @include hds-focus-outline;
+.usa-button:focus:not(:disabled):not([aria-disabled='true']) {
+  outline: 2px dashed $hds-color-carbon-30;
+  outline-offset: 2px;
 }
 
 // ------------------------------------------------------------
@@ -757,12 +759,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // is closest match (C60/C30) but not exact. Using
 // --hds-palette-border (C20/C60) for a lighter, less
 // distracting ring. Flagged for creative director review.
-.usa-checkbox__input:focus-visible + .usa-checkbox__label {
-  @include hds-focus-outline;
+.usa-checkbox__input:focus + .usa-checkbox__label {
+  outline: 1px dashed var(--hds-palette-border);
+  outline-offset: 2px;
   border-radius: 0;
 }
 
-.usa-checkbox__input:focus-visible + .usa-checkbox__label::before {
+.usa-checkbox__input:focus + .usa-checkbox__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
@@ -850,12 +853,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // Focus — dashed ring around entire label + blue border on circle
-.usa-radio__input:focus-visible + .usa-radio__label {
-  @include hds-focus-outline;
+.usa-radio__input:focus + .usa-radio__label {
+  outline: 1px dashed var(--hds-palette-border);
+  outline-offset: 2px;
   border-radius: 0;
 }
 
-.usa-radio__input:focus-visible + .usa-radio__label::before {
+.usa-radio__input:focus + .usa-radio__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
@@ -1526,8 +1530,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     }
   }
 
-  &:focus-visible {
-    @include hds-focus-outline;
+  &:focus {
+    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-carbon-90});
+    outline-offset: 2px;
   }
 }
 
@@ -1642,7 +1647,8 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   width: 24px;
 
   &:focus-visible {
-    @include hds-focus-outline;
+    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
+    outline-offset: 2px;
   }
 
   &[disabled],
@@ -1889,8 +1895,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     @include hds-link-hover;
   }
 
-  &:focus-visible {
-    @include hds-focus-outline;
+  &:focus {
+    outline: 1px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+    outline-offset: 2px;
   }
 }
 
