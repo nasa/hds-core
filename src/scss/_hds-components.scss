@@ -234,6 +234,11 @@
   outline-offset: 2px;
 }
 
+// Fix: USWDS overflow:hidden clips focus outline on first/last links
+.usa-breadcrumb:not(.usa-breadcrumb--wrap) .usa-breadcrumb__list {
+  padding-inline: 4px;
+}
+
 // ------------------------------------------------------------
 // §3.3 Current Page
 // ------------------------------------------------------------
