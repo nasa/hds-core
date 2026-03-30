@@ -2,13 +2,19 @@ import { Meta, Canvas } from '@storybook/addon-docs/blocks';
 import * as GridStories from './Grid.stories';
 import { Note } from '../helpers/Note';
 
-<Meta of={GridStories} />
+<Meta title="Foundations/Grid" />
 
 # Grid
 
 The basis of NASA.gov is a strong foundation for positioning elements on screen. Designing to the grid helps create seamless, easy-to-follow experiences and visual consistency across different screen sizes.
 
 HDS Core uses the [USWDS layout grid](https://designsystem.digital.gov/utilities/layout-grid/) with 12 columns at all breakpoints. For spacing tokens, see [Spacing](?path=/docs/foundations-spacing--docs).
+
+## 12-column grid
+
+Resize your browser to see the grid respond. Uses USWDS `.grid-container`, `.grid-row`, and `.grid-col` classes.
+
+<Canvas of={GridStories.TwelveColumn} />
 
 ## Breakpoints
 
@@ -25,12 +31,6 @@ All breakpoints use 12 columns. Gutters increase at wider breakpoints to create 
 | `widescreen` | ≥1400px | 24px   | XL (Display)    |
 
 <Note type="figma">The HDS Figma spec defines a TV breakpoint at 1920px. This is deferred in HDS Core because USWDS does not have a built-in TV breakpoint. It will be revisited when TV-scale layouts are needed.</Note>
-
-## Live 12-column grid
-
-Resize your browser to see the grid respond. Uses USWDS `.grid-container`, `.grid-row`, and `.grid-col` classes.
-
-<Canvas of={GridStories.TwelveColumn} />
 
 ## Common layouts
 
@@ -99,3 +99,7 @@ These USWDS settings control grid behavior in HDS Core:
 | `$theme-column-gap-sm`             | `2px`          | Small gutter                                |
 | `$theme-column-gap-md`             | `2` (16px)     | Medium gutter                               |
 | `$theme-column-gap-lg`             | `3` (24px)     | Large gutter                                |
+
+```
+
+```
