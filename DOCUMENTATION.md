@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-03-28
+Last updated: 2026-03-30
 
 ## Audience
 
@@ -72,15 +72,116 @@ stories/
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
-Component Guidance pages use an explicit `<Meta title="..." />` with a `/Guidance` suffix:
+## MDX conventions
+
+### Meta tag
+
+Always use `<Meta title="..." />` with an explicit title string. Do not use `<Meta of={...} />` — it breaks when story module references change.
 
 ```mdx
-// ✅ Correct — appears as "Guidance" in sidebar
+// ✅ Correct
 <Meta title="Components/Button/Guidance" />
 
-// ❌ Wrong — appears as "Docs" in sidebar
+// ❌ Breaks when stories file is renamed or exports change
 <Meta of={ButtonStories} />
 ```
+
+Component Guidance pages use a `/Guidance` suffix in the title. Foundation pages use `Foundations/PageName`.
+
+### Above the fold
+
+Every Guidance and Foundation page should include a Canvas or visual element immediately after the intro text — before any reference tables or detailed content. This lets users quickly identify which page they're on.
+
+### Code blocks
+
+Always add a language identifier to fenced code blocks (` ```html `, ` ```scss `, ` ```js `, ` ```mdx `) for syntax highlighting. A full pass across existing files is pending.
+
+### Key rules
+
+- MDX compiles as JSX — use `className`, `style={{ }}`, `htmlFor`
+- Markdown tables require `remark-gfm` (configured in `main.js`) and blank lines above and below
+- Do not use `---` horizontal rules — headings provide sufficient separation
+- Always import from `@storybook/addon-docs/blocks`
+
+### Live component demos
+
+Never inline live HDS component HTML directly in MDX. MDX renders in React context, not the HTML story renderer. HDS classes, SVG sprites, and palette wiring won't work.
+
+**Rule of thumb:** If it uses `var(--hds-*)`, HDS classes, USWDS classes, or SVG sprites → Canvas-embedded story. Static content (swatches, tables, text) is fine inline.
+
+Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
+
+```mdx
+import { Canvas } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+{/* References a !dev guidance embed */}
+<Canvas of={ButtonStories.AllVariants} />
+
+{/* References a visible sidebar story — shows with controls */}
+<Canvas of={ButtonStories.Default} />
+```
+
+Below the first Canvas on each Guidance page, add:
+
+```mdx
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+```
+
+Include this caption once per page only.
+
+When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
+
+### Demo-only styles in stories
+
+Stories that need visual styling for demonstration purposes (e.g., Grid column backgrounds) should use a scoped `<style>` block with a wrapper class, not inline styles on every element. This keeps "Show code" output clean and avoids shipping demo artifacts.
+
+```js
+const demoStyles = `<style>
+  .grid-demo [class*="grid-col"] {
+    background-clip: content-box;
+    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    opacity: 0.15;
+    min-height: 3rem;
+  }
+</style>`;
+
+const demo = (content) => `${demoStyles}<div class="grid-demo">${content}</div>`;
+```
+
+See `Grid.stories.js` for reference implementation.
+
+### Color swatches and grids
+
+For color swatch patterns (inline styled spans, CSS grid layouts), see `Color.mdx` and `ColorPalettes.mdx` as reference implementations.
+
+### Figma screenshots
+
+Store in `stories/assets/`. Use a `<figure>` with a standard caption noting that implementation may differ from Figma. See `DataVisualization.mdx` for an example.
+
+### Callout notes
+
+Three types for contextual information that supplements guidance:
+
+| Type | Label | Use for |
+|---|---|---|
+| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS |
+| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec |
+| `code` | How this works | Technical detail useful for understanding, not essential for usage |
+
+```mdx
+import { Note } from '../helpers/Note';
+
+<Note type="uswds">HDS ordered lists require `role="list"` for VoiceOver.</Note>
+```
+
+**Note guidelines:**
+
+- 1–3 sentences max — longer content belongs in the main text
+- Main text must stand alone without Notes
+- Only when a developer would be genuinely confused
+- **USWDS notes:** Focus on markup and usage differences, not visual differences. HDS is a visual theme — everything looks different from vanilla USWDS. Only note differences that affect how a developer writes markup.
+- **Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in DESIGN.md.
 
 ## Component Guidance page structure
 
@@ -189,7 +290,7 @@ export const States = {
 Define at the top of each story file for consistent presentation:
 
 ```js
-const label = (text) => `<p>${text}</p>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const grid = (items) => `<div class="grid">${items}</div>`;
 
@@ -284,7 +385,16 @@ export const PaletteA11yFocus = {
 
 **Which story to reference:** The most visually complex variant — the one with the most distinct text colors, button types, or interactive states.
 
-**Skip:** Site Alert (scoped palette vars), Color Palettes (tests palettes by definition), Grid (layout only), Icons (catalog display).
+**Non-interactive foundations** (Typography): Only need a default PaletteA11y story — no hover or focus-visible variants since there are no interactive elements.
+
+**Skip:** Site Alert (scoped palette vars), Color Palettes (tests palettes by definition), Grid (layout only — uses Chromatic breakpoint modes instead), Icons (catalog display).
+
+**Known limitation:** `storybook-addon-pseudo-states` rewrites CSS selectors at runtime to simulate hover and focus-visible states. This works in live Storybook but has known issues:
+- **Chromatic snapshots** may capture default state instead of the pseudo-state due to addon timing
+- **Complex USWDS selectors** may not rewrite correctly, producing inaccurate hover renders
+- **Vitest/axe-core** runs against the rendered DOM without pseudo-state activation — axe checks default-state contrast on hover/focus stories
+
+Play-function-based focus stories (Chromatic's recommended approach) are planned as a replacement for focus-visible testing. See ARCHITECTURE.md § Pending Work.
 
 **Known issues pending design review:** Use `a11y.test: 'todo'` inline so the test warns in Storybook UI but doesn't block CI:
 
@@ -292,7 +402,7 @@ export const PaletteA11yFocus = {
 parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
 ```
 
-**Chromatic visual regression:** PaletteA11y stories are the only stories snapshotted by Chromatic (`disableSnapshot: false` inherited from `paletteA11yParams`). All other stories are excluded via the global `disableSnapshot: true` in `preview.js`. Review results at the [Chromatic dashboard](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab).
+**Chromatic visual regression:** PaletteA11y stories are the only component stories snapshotted by Chromatic (`disableSnapshot: false` inherited from `paletteA11yParams`). All other stories are excluded via the global `disableSnapshot: true` in `preview.js`. Grid uses separate Chromatic breakpoint mode snapshots (see `Grid.stories.js`). Review results at the [Chromatic dashboard](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab).
 
 **Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via `paletteRender` (stacking all 6 palettes vertically), use individual per-palette stories instead:
 
@@ -312,82 +422,11 @@ export const PaletteA11yWhite = {
 // ... one per palette
 ```
 
-## MDX authoring
-
-### Key rules
-
-- MDX compiles as JSX — use `className`, `style={{ }}`, `htmlFor`
-- Markdown tables require `remark-gfm` (configured in `main.js`) and blank lines above and below
-- Do not use `---` horizontal rules — headings provide sufficient separation
-- Always import from `@storybook/addon-docs/blocks`
-
-### Live component demos
-
-Never inline live HDS component HTML directly in MDX. MDX renders in React context, not the HTML story renderer. HDS classes, SVG sprites, and palette wiring won't work.
-
-**Rule of thumb:** If it uses `var(--hds-*)`, HDS classes, USWDS classes, or SVG sprites → Canvas-embedded story. Static content (swatches, tables, text) is fine inline.
-
-Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
-
-```mdx
-import { Canvas } from '@storybook/addon-docs/blocks';
-import * as ButtonStories from './Button.stories';
-
-{/* References a !dev guidance embed */}
-<Canvas of={ButtonStories.AllVariants} />
-
-{/* References a visible sidebar story — shows with controls */}
-<Canvas of={ButtonStories.Default} />
-```
-
-Below the first Canvas on each Guidance page, add:
-
-```mdx
-> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-```
-
-Include this caption once per page only.
-
-When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
-
-### Color swatches and grids
-
-For color swatch patterns (inline styled spans, CSS grid layouts), see `Color.mdx` and `ColorPalettes.mdx` as reference implementations.
-
-### Figma screenshots
-
-Store in `stories/assets/`. Use a `<figure>` with a standard caption noting that implementation may differ from Figma. See `DataVisualization.mdx` for an example.
-
-### Callout notes
-
-Three types for contextual information that supplements guidance:
-
-| Type | Label | Use for |
-|---|---|---|
-| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS |
-| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec |
-| `code` | How this works | Technical detail useful for understanding, not essential for usage |
-
-```mdx
-import { Note } from '../helpers/Note';
-
-<Note type="uswds">HDS ordered lists require `role="list"` for VoiceOver.</Note>
-```
-
-**Note guidelines:**
-
-- 1–3 sentences max — longer content belongs in the main text
-- Main text must stand alone without Notes
-- Only when a developer would be genuinely confused
-- **USWDS notes:** Focus on markup and usage differences, not visual differences. HDS is a visual theme — everything looks different from vanilla USWDS. Only note differences that affect how a developer writes markup.
-- **Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in DESIGN.md.
-
 ## Pending documentation tasks
 
-- [ ] All: Add syntax to all code blocks for proper highlighting
 - [ ] Overview: Add screenshots for "Using Storybook" section, update any references to "Playground"
-- [ ] Color: Check against color tokens, consider adding more detailed role token documentation if folks want to reuse role tokens?
+- [ ] Color: Check against color tokens, consider adding more detailed role token documentation
 - [ ] Data Visualization: Add screenshots to better match original HDS guidance
-- [ ] Data Visualization Palettes: increase border thickness/padding on categorical table containers
-- [ ] Data Visualization Palettes: add hex codes to sequential palette gradient strips
-- [ ] Data Visualization Palettes: add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma
+- [ ] Data Visualization Palettes: Increase border thickness/padding on categorical table containers
+- [ ] Data Visualization Palettes: Add hex codes to sequential palette gradient strips
+- [ ] Data Visualization Palettes: Add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma
