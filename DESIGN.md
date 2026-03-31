@@ -2,9 +2,9 @@
 
 Visual and UX decisions for the HDS creative director, designers, and design-minded developers. This document tracks where HDS Core intentionally differs from the HDS Core Proposal and HDS Figma spec, and flags items needing creative director review.
 
-For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md.
+For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-03-28
+Last updated: 2026-03-31
 
 ## Class Naming Convention
 
@@ -44,24 +44,6 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 
 HDS links use body text color — not brand color — for the text itself. The dotted underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
 
-#### Non-Text Contrast Ratios (WCAG 2.1 reference) - Links
-
-Verified manually — axe-core cannot inspect pseudo-elements or CSS-generated content.
-
-**External link arrow** (`::after`):
-
-| Palette group | Color | Background | Ratio |
-|---|---|---|---|
-| White, Light, Midtone | Carbon 60 (#58585B) | #FFFFFF / #F6F6F6 / #D1D1D1 | 7.09 / 6.56 / 4.64 ✅ |
-| Dark, Blue, Black | Carbon 40 (#959599) | #17171B / #0B3D91 / #000000 | 5.99 / 3.37 / 7.04 ✅ |
-
-**Link underline** (`text-decoration`):
-
-| Palette group | Color | Background | Ratio |
-|---|---|---|---|
-| White, Light, Midtone | Carbon 60 (#58585B) | #FFFFFF / #F6F6F6 / #D1D1D1 | 7.09 / 6.56 / 4.64 ✅ |
-| Dark, Blue, Black | Carbon 20 (#B9B9BB) | #17171B / #0B3D91 / #000000 | 9.12 / 5.13 / 10.72 ✅ |
-
 ## Naming & Organization
 
 ### Palette Names
@@ -81,21 +63,7 @@ Verified manually — axe-core cannot inspect pseudo-elements or CSS-generated c
 
 ### Palette-Specific Overrides
 
-White and light share a light scheme. Dark and black share a dark scheme. Midtone and blue override specific values:
-
-**Midtone** overrides from light scheme:
-
-- `text` → Carbon Black (was Carbon 90) for higher contrast on gray
-- `muted` → Carbon 80 (was Carbon 60)
-- `border` → Carbon 40 (was Carbon 20)
-- `utility-stroke` → Carbon 40 (was Carbon 20)
-
-**Blue** is fully custom (doesn't use either shared scheme).
-
-**Dark scheme** separates link underline and arrow colors per the HDS Core Proposal:
-
-- `link-underline` → Carbon 30
-- `link-arrow` → Carbon 40
+White and light share a light scheme. Dark and black share a dark scheme. Midtone and blue override specific values. See `_hds-palettes.scss` for the complete token list per palette.
 
 ### Component Organization
 
@@ -115,16 +83,7 @@ Note: `family("serif")` returns Inter (a sans-serif font) — a USWDS constraint
 
 ### Heading Line-Heights and Letterspacing
 
-Per-element values per the HDS Core Proposal (USWDS only supports one line-height for all headings):
-
-| Element | Line-Height | Letterspacing | Weight   |
-| ------- | ----------- | ------------- | -------- |
-| H1      | 1 (100%)    | -1.5px        | 700 bold |
-| H2      | 1.1 (110%)  | -1px          | 700 bold |
-| H3      | 1.2 (120%)  | -0.5px        | 700 bold |
-| H4      | 1.3 (130%)  | -0.5px        | 600 semi |
-| H5      | 1.2 (120%)  | -0.5px        | 600 semi |
-| H6      | 1.3 (130%)  | -0.25px       | 600 semi |
+Per-element values per the HDS Core Proposal (USWDS only supports one line-height for all headings). See `_hds-custom-styles.scss` §4 for the exact values.
 
 ### Body Line-Height
 
@@ -134,11 +93,11 @@ Per-element values per the HDS Core Proposal (USWDS only supports one line-heigh
 
 Three distinct small-text utility classes with unique typography per the HDS Core Proposal:
 
-**`.hds-overline`**: DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators.
+**`.hds-overline`**: DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators. HDS Figma calls this "Label" — renamed to avoid collision with USWDS `.usa-label` form labels.
 
-**`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. Values from Figma, size standardized to 12px.
+**`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. Not a named style in HDS Figma — derived from usage patterns, size standardized to 12px.
 
-**`.hds-caption`**: Public Sans sentence-case caption for images and media.
+**`.hds-caption`**: Public Sans sentence-case caption for images and media. Called "Figcaption" in the HDS Core Proposal.
 
 ### Form Labels
 
@@ -176,13 +135,14 @@ HDS diagonal arrow (`arrow-line-diagonal.svg`) replaces USWDS launch icon. Arrow
 
 Red = navigates away. Blue = stays on page.
 
-| Role          | Color            | Meaning                |
-| ------------- | ---------------- | ---------------------- |
-| `--cta`       | NASA Red         | Navigates to new page  |
-| `--secondary` | NASA Blue filled | On-page action         |
-| `--outline`   | NASA Blue border | Lower emphasis on-page |
-| `--utility`   | Neutral          | UI controls            |
-| `--social`    | Gray             | Social media           |
+| Role            | Color                   | Meaning                                           |
+| --------------- | ----------------------- | ------------------------------------------------- |
+| `--cta`         | NASA Red                | Navigates to new page                             |
+| `--secondary`   | NASA Blue filled        | On-page action                                    |
+| `--outline`     | NASA Blue border        | Lower emphasis on-page                            |
+| `--utility`     | Neutral                 | UI controls                                       |
+| `--social`      | Gray                    | Social media                                      |
+| `--interactive` | NASA Blue Shade (fixed) | Disclosure triggers over images and 3D content    |
 
 ### USWDS ↔ HDS Button Mapping
 
@@ -202,17 +162,13 @@ Red = navigates away. Blue = stays on page.
 
 **Active:** Visually identical to hover. HDS does not define a distinct active state, consistent with Apple HIG.
 
-**Disabled:** Use `--hds-palette-btn-disabled-bg` token (not hardcoded Carbon 20) so they remain visible on midtone palette (Carbon 20 background).
-
-Explicit hover, focus, and focus-visible guards prevent USWDS rules from overriding disabled button colors. Variant-specific selectors (`.usa-button--secondary:disabled`) are required to match USWDS specificity on CTA and secondary variants.
+**Disabled:** Color-based (not opacity-based). Variant-specific selectors required to match USWDS specificity. See `_hds-components.scss` §4.4 and §4.5 for token values.
 
 ### Secondary Button on Blue Palette
 
 NASA Blue (`#1C67E3`) is used for secondary filled buttons on all palettes per creative director review (2026-03-27). Passes WCAG AA (4.54:1 with white text).
 
 On the blue palette only, secondary filled text buttons automatically render as outline (§4.8) because any blue fill blends into the NASA Blue Shade background. Icon buttons are excluded — their smaller surface area avoids the contrast issue.
-
-Blue palette tokens use Blue Tint / Blue (not Blue / Blue Shade) because these tokens serve outline borders on this palette — they need contrast against the Blue Shade background.
 
 ### Outline Inverse — Two-Layer Approach
 
@@ -223,115 +179,103 @@ HDS outline buttons on dark backgrounds keep the **NASA Blue** border (not monot
 
 ### Glyph + CSS Container Architecture
 
-**Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in). **HDS Core:** Two layers: single-color SVG glyph (`currentColor`) + CSS-styled circle container. Icons automatically adapt to palettes.
-
-### Utility Circle States
-
-| State    | Property | Light                       | Dark                        |
-| -------- | -------- | --------------------------- | --------------------------- |
-| Default  | Fill     | Spacesuit White             | Carbon Black                |
-| Default  | Stroke   | Carbon 20                   | Carbon 60                   |
-| Default  | Icon     | Carbon Black                | Spacesuit White             |
-| Hover    | Fill     | Carbon 05                   | Carbon Black (unchanged)    |
-| Hover    | Stroke   | Carbon 40                   | Carbon 05                   |
-| Hover    | Icon     | Carbon Black (unchanged)    | Spacesuit White (unchanged) |
-| Disabled | Stroke   | Carbon 05 (fades toward bg) | Carbon 80 (fades toward bg) |
-| Disabled | Icon     | Carbon 30 (muted)           | Carbon 60 (muted)           |
-
-Disabled treatment is color-based (not opacity-based), consistent with all HDS button disabled states.
-
-Note: Figma shows Carbon 30 for the default light stroke, but the HDS Core Proposal specifies Carbon 20. Proposal takes precedence.
+**Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in). **HDS Core:** Two layers: single-color SVG glyph (`currentColor`) + CSS-styled circle container. All roles — including interactive — use sprite glyphs with `currentColor`. CSS handles color changes for palettes, hover states, and `aria-expanded` toggling. No standalone SVG files are needed.
 
 ### Utility Circle Stroke Contrast
 
-Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component.
+Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component. See `_hds-palettes.scss` for per-palette token values.
 
-Stroke ratios are documented for future reference but are not compliance-blocking:
+### Interactive Icon Button
 
-| Palette | Background | Stroke | Ratio | 
-|---|---|---|---|
-| White | #FFFFFF | Carbon 20 (#D1D1D1) | 1.53:1 |
-| Light | #F6F6F6 | Carbon 20 | 1.41:1 |
-| Midtone | #D1D1D1 | Carbon 60 (#959599) | 1.95:1 |
-| Dark | #17171B | Carbon 60 (#58585B) | 2.52:1 |
-| Black | #000000 | Carbon 60 (#58585B) | 2.96:1 |
-| Blue | #0B3D91 | ⚠️ Bug — currently matches outline button style instead of utility stroke | — |
+Disclosure triggers designed for use over images, video, and 3D content. Not palette-aware — uses fixed colors for high contrast on dynamic backgrounds.
 
-### Icon Button Size Scale
+Default: NASA Blue Shade circle, white border, white glyph. Hover/active/expanded: inverts to white circle, black glyph, subtle box shadow. Focus: dashed ring only (no color inversion).
 
-8-size scale aligned with HDS Figma spec plus two sizes observed in Figma modules (flagged for creative director confirmation):
+Visual inversion is triggered by `:hover`, `:active`, and `[aria-expanded='true']`. Consumers toggle `aria-expanded` to control the active/open state — CSS handles the visual swap. Per HDS Figma accessibility guidance, popovers should automatically display when the button receives focus and hide when the user tabs away.
 
-| Class       | Container | Figma equivalent | Source                                          |
-| ----------- | --------- | ---------------- | ----------------------------------------------- |
-| `--2xs`     | 12px      | —                | Observed in filter dropdowns (11px, rounded up) |
-| `--xs`      | 16px      | XS               | Figma spec                                      |
-| `--sm`      | 20px      | S                | Figma spec                                      |
-| _(default)_ | 24px      | M                | Figma spec — promoted to default                |
-| `--lg`      | 28px      | L                | Figma spec                                      |
-| `--xl`      | 32px      | XL               | Figma spec — was HDS Core default               |
-| `--2xl`     | 36px      | XXL              | Figma spec                                      |
-| `--3xl`     | 40px      | —                | Observed in pagination/carousel modules         |
+Uses sprite glyphs with `currentColor` (same system as all other icon button roles). The `hds-buttons/` directory of standalone interactive SVGs has been removed.
 
-Default was moved from 32px (Figma XL) to 24px (Figma M) because 24px is the most frequently used size across Figma modules and matches the primary arrow button container. USWDS-style t-shirt naming (2xs–3xl) is used instead of Figma labels (XS–XXL) so modifier names always indicate size relative to default.
+**Glyph mapping:** `interactive-more-info` → `plus`, `interactive-less-info` → `minus`, `interactive-close` → `close`, `interactive-location` → `location`, `interactive-play` → `play`, `interactive-menu` → `menu`.
 
-Uses px instead of em/rem — USWDS sets the root font-size to a non-16px value via its type scale config, causing em/rem to produce fractional pixel values.
-
-The 2xs size (12px) is below the WCAG 2.5.8 minimum touch target (24px). Desktop-only usage with mouse context required.
-
-72px media play button is deferred to a future media player component (Github discussion #7).
+**Figma discrepancy:** The Figma default fill is NASA Blue (#1C67E3) but the Figma CSS shows NASA Blue Shade (#0B3D91). HDS Core uses NASA Blue Shade per the CSS.
 
 ### Primary Arrow Button
 
-Text + CSS `::after` red circle with white arrow. No SVG markup needed — the arrow is rendered via CSS background-image. Arrow direction auto-swaps for external links via `.usa-link--external`.
+Text + CSS `::after` red circle with white arrow. The arrow is rendered via CSS background-image — no SVG markup needed. Arrow direction auto-swaps for external links via `.usa-link--external`.
 
-#### Size Scale
+### Icon Button Default Size
 
-6-size scale matching HDS Figma spec. Circle containers align with icon button sizes at each step. Text-to-circle ratios vary across sizes, so px values are used for both.
-
-| Class       | Text | Circle | Icon btn equivalent |
-| ----------- | ---- | ------ | ------------------- |
-| `--xs`      | 14px | 16px   | `--xs`              |
-| `--sm`      | 16px | 20px   | `--sm`              |
-| _(default)_ | 18px | 24px   | default             |
-| `--lg`      | 22px | 28px   | `--lg`              |
-| `--xl`      | 29px | 32px   | `--xl`              |
-| `--2xl`     | 36px | 36px   | `--2xl`             |
-
-### Fixed-Color Button Graphics
-
-Seven graphics have colors baked in and don't respond to palettes (`interactive-*.svg` and `primary-arrow.svg`). These are intentional brand elements per HDS spec.
+Default was moved from 32px (Figma XL) to 24px (Figma M) because 24px is the most frequently used size across Figma modules and matches the primary arrow button container. Uses px instead of em/rem — USWDS sets the root font-size to a non-16px value, causing em/rem to produce fractional pixel values. The 2xs size (12px) is below the WCAG 2.5.8 minimum touch target (24px) — desktop-only.
 
 ## Focus Ring
 
-1px dashed, palette-aware, `:focus-visible` only (keyboard navigation, not mouse clicks).
+Components currently use per-component focus treatments with intentional variation in thickness, style, and color tokens. These were individually tuned during component development and approved by the creative director.
 
-| Property | Light palettes                        | Dark palettes         |
-| -------- | ------------------------------------- | --------------------- |
-| Style    | 1px dashed                            | 1px dashed            |
-| Color    | `--hds-palette-muted`                 | `--hds-palette-muted` |
-| Offset   | 2px default (components may override) | Same                  |
+A standardization attempt (commit f90218b) flattened all focus styles into a single `1px dashed --hds-palette-muted` mixin, causing visible regressions. It was reverted. Issue #20 tracks the careful re-standardization with the following prerequisites:
 
-**Validated:** Focus ring contrast passes WCAG 2.4.11 (3:1 minimum for non-text UI) on all six palettes — all exceed 5:1.
+- A `--hds-palette-focus` token designed per-palette (no single gray passes 3:1 on all 6 backgrounds)
+- Creative director decision on thickness (1px vs 2px — 1px dashed is visually indistinguishable from dotted at browser rendering level)
+- Play-function Chromatic stories for visual regression before touching focus values
+- `:focus` → `:focus-visible` migration (safe, no visual change) can proceed independently
 
-**Known issue:** Focus styles are currently inconsistent across components — some use `dotted` instead of `dashed`, `2px` instead of `1px`, or `:focus` instead of `:focus-visible`. Tracked in Issue #20 for standardization.
+**Interactive icon buttons** use a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes — they are designed for use over images and 3D content, not palette backgrounds.
+
+The global focus rule in `_hds-custom-styles.scss` §4.11 provides the baseline. Individual components may override with different thickness, style, or color. See `_hds-components.scss` for per-component focus treatments.
+
+## Table
+
+### Surface Model
+
+Tables use a fixed background — white for light palettes (white, light, midtone, blue), Carbon 90 for dark palettes (dark, black) — rather than inheriting the surrounding palette background. Blue palette uses the light table variant per creative director review (2026-03-27). Palette-aware table backgrounds are deferred to Phase 2.
+
+### Caption vs Title Naming
+
+HTML `<caption>` = HDS Figma "Title" + optional "Subtitle." It is the semantic accessible name of the table, positioned at top. HDS Figma "Caption" (small attribution text below the table) uses `.hds-caption` on a `<p>` outside `<table>`, linked via `aria-describedby`.
+
+### Sort Icon Approach
+
+USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback.
+
+### Deferred to Phase 2
+
+Mobile text sizing, mobile stacked variants, midtone palette sorted column colors, advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
+
+## List
+
+### Architecture
+
+Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Figma accessibility spec. Two rendering approaches: `.usa-list` component uses `::before` + flex for precise DM Mono numeral control; bare `<ol>` inside `.usa-prose` uses `::marker` fallback (DM Mono not guaranteed — browser support limitation).
+
+### Figma Deviations
+
+| What | Figma | HDS Core | Why |
+| --- | --- | --- | --- |
+| Dark `ul` marker | NASA Blue (same as light) | NASA Blue Tint | Likely Figma oversight — NASA Blue on dark backgrounds fails 3:1. Dark `ol` numerals already use Tint in Figma. |
+| OL letterspacing | 3.5px | 0px (default) | Figma value matches overline/label style. Proposal DM Mono at small sizes uses `'auto'` (0px). Visual review confirmed 3.5px too wide at double digits. |
+| Blue palette marker | Not specified | NASA Blue Tint | NASA Blue is invisible on Blue Shade background. Blue Tint at ~3.0:1 is borderline but approved. |
+
+## Form Elements
+
+### Key Decisions
+
+- Three checkbox-specific tokens renamed to generic control names shared by checkbox + radio (`--hds-palette-control-text`, `--hds-palette-control-fill`, `--hds-palette-control-stroke`)
+- Disabled help text kept readable — Figma dims to Carbon 40 (2.85:1 on white, fails WCAG 4.5:1). WCAG exempts disabled controls but help text isn't a control.
+- Checkbox/radio size forced to 18px via CSS — Figma specifies 18×18px but USWDS setting can't express 2.25 units
+- Checkbox icon replaced with HDS check glyph via data URI
+
+### Deferred to Phase 2+
+
+- **Select Chevron:** Figma shows a single thin down chevron. Currently using USWDS default double-arrow. Requires palette-aware approach or custom dropdown.
+- **Custom Dropdown Panel:** Figma shows styled dropdown with rounded corners and blue active highlight. Native browser `<select>` can't be styled. Requires JavaScript.
+- **Floating Label:** Figma shows label-inside-field pattern. Requires JavaScript.
 
 ## Pagination
 
-### Current Page Indicator
+### Key Decisions
 
-**USWDS:** Filled pill with `background-color: primary`. **HDS:** No background fill. 2px solid bottom bar, palette-aware heading color.
-
-### Page Number Typography
-
-Inter semibold (600), 16px, -0.5px letterspacing.
-
-### Previous/Next Arrows
-
-HDS uses utility icon circle buttons. Legacy USWDS pagination arrow markup is automatically restyled to look like utility circles via CSS.
-
-### Filter Variant (Deferred)
-
-The HDS Figma spec includes a rows-per-page filter alongside pagination. Requires a dropdown menu component — deferred to Phase 2+.
+- **Current Page Indicator:** No background fill (unlike USWDS filled pill). 2px solid bottom bar, palette-aware heading color.
+- **Previous/Next Arrows:** Utility icon circle buttons. Legacy USWDS arrow markup auto-restyled via CSS.
+- **Filter Variant:** Deferred to Phase 2+ (requires dropdown menu component).
 
 ## Site Alert
 
@@ -346,218 +290,13 @@ The HDS Figma spec includes a rows-per-page filter alongside pagination. Require
 | `--emergency` | NASA Red Shade (#B60109)  | White | Lapse in appropriations, outages, critical safety |
 | `--info`      | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements    |
 
-Link treatment on both follows the dark-background pattern: white text, Carbon 30 underline, Carbon 40 arrow.
-
 ## Accordion
 
-### Chevron Icon
-
-USWDS renders +/− icons with a filled background. HDS replaces these with a circled chevron (down when collapsed, up when expanded) using the same utility circle tokens as other icon circles.
-
-The circle is 24px, matching the icon button default size (Figma M). See §12.3 in `_hds-components.scss`.
-
-### Bordered Variant
-
-USWDS offers `.usa-accordion--bordered`. HDS Figma shows only borderless accordions. The bordered variant renders with default USWDS treatment. Pending creative director review: should HDS define its own bordered variant?
-
-### Hover State
-
-HDS Figma does not specify a hover state for the accordion heading row. Currently unimplemented — pending Figma research on full-row hover patterns.
-
-## Form Elements
-
-### Palette Token Renames
-
-Three checkbox-specific tokens renamed to generic control names (shared by checkbox + radio):
-
-- `--hds-palette-checkbox-text` → `--hds-palette-control-text`
-- `--hds-palette-checkbox-fill` → `--hds-palette-control-fill`
-- `--hds-palette-checkbox-stroke` → `--hds-palette-control-stroke`
-
-### Form Color Tokens
-
-| Token | Light | Dark | Purpose |
-| --- | --- | --- | --- |
-| `--hds-palette-control-border` | Carbon 40 | Carbon 60 | Checkbox/radio default border (intentionally darker than text input borders for visibility on smaller targets) |
-| `--hds-palette-input-bg` | White | Black | Form control backgrounds (always the extreme, unlike `--hds-palette-bg` which varies) |
-| `--hds-palette-disabled` | Carbon 40 | Carbon 60 | Disabled text and labels |
-| `--hds-palette-disabled-bg` | Carbon 05 | Carbon 90 | Disabled backgrounds |
-| `--hds-palette-error-border` | NASA Red | Red/Tint | Error state borders |
-| `--hds-palette-error-text` | Red/Shade | Red/Tint | Error message text |
-
-### Non-Text Contrast Ratios (WCAG 2.1 reference) - Checkbox/Radio Button
-
-Verified manually — axe-core cannot inspect pseudo-elements or CSS-generated content.
-
-| Element | Color | Background | Ratio |
-|---|---|---|---|
-| Check glyph / radio dot | White (#FFFFFF) | NASA Blue (#1C67E3) | 5.12:1 ✅ |
-
-### Disabled Help Text
-
-Figma dims help text to Carbon 40 in disabled groups. That's 2.85:1 contrast on white — fails WCAG 4.5:1. WCAG exempts disabled _controls_ but help text isn't a control. HDS Core keeps help text readable in disabled groups.
-
-### Select Chevron (Deferred Post-1.0)
-
-Figma shows a single thin down chevron. Currently using USWDS default double-arrow. Replacing it requires a palette-aware approach or a custom dropdown component. Deferred.
-
-### Custom Dropdown Panel (Deferred Post-1.0)
-
-Figma shows a styled dropdown with rounded corners and blue active highlight. HDS Core uses the native browser `<select>` dropdown, which can't be styled. Requires JavaScript.
-
-### Floating Label (Deferred Post-1.0)
-
-Figma shows a compact pattern where the label sits inside the field as placeholder text and moves above on focus. Requires JavaScript.
-
-## Table
-
-### Surface Model
-
-Tables use a fixed background — white for light palettes (white, light, midtone, blue), Carbon 90 for dark palettes (dark, black) — rather than inheriting the surrounding palette background. All Figma-confirmed colors (borders, sorted column tints, caption text) are designed against these two specific surfaces. Blue palette uses the light table variant per creative director review (2026-03-27).
-
-Palette-aware table backgrounds (where the table adapts to the exact palette background color like Carbon 05 or Carbon 20) are deferred to Phase 2 pending creative director review.
-
-### Caption vs Title Naming
-
-HTML `<caption>` = HDS Figma "Title" + optional "Subtitle." It is the semantic accessible name of the table, positioned at top. HDS Figma "Caption" (small attribution text below the table) uses `.hds-caption` on a `<p>` outside `<table>`, linked via `aria-describedby` per HDS Figma accessibility guidance.
-
-### Sort Icon
-
-USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons (`arrow-filled-down.svg`, `arrow-filled-up.svg`) via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback.
-
-Sort icon colors: NASA Blue on light palettes, NASA Blue Tint on dark palettes. Unsorted columns show no icon by default; a gray (Carbon 40) icon appears on hover or keyboard focus.
-
-### Sorted Column Colors
-
-Light mode sorted column uses NASA Blue tints over white:
-
-| Row  | Figma CSS                          | Rendered hex | Token                               |
-| ---- | ---------------------------------- | ------------ | ----------------------------------- |
-| Even | `rgba(28, 103, 227, 0.03)` / white | `#F8FAFE`    | `$hds-color-table-sorted-bg`        |
-| Odd  | `rgba(28, 103, 227, 0.06)` / white | `#F2F6FE`    | `$hds-color-table-sorted-stripe-bg` |
-
-Dark mode sorted column uses white tints over Carbon 90:
-
-| Row  | Figma CSS                               | Rendered hex | Token                                    |
-| ---- | --------------------------------------- | ------------ | ---------------------------------------- |
-| Even | `rgba(255, 255, 255, 0.06)` / Carbon 90 | `#252528`    | `$hds-color-table-sorted-bg-dark`        |
-| Odd  | `rgba(255, 255, 255, 0.04)` / Carbon 90 | `#202024`    | `$hds-color-table-sorted-stripe-bg-dark` |
-
-### Striped Variant
-
-HDS Figma does not define a striped table variant. HDS Core overrides USWDS stripe defaults with Carbon scale colors (Carbon 05 light, Carbon 80 dark) so `.usa-table--striped` looks acceptable if used, but it is not an HDS-specified pattern.
-
-### Header States
-
-| State   | Light background     | Dark background  |
-| ------- | -------------------- | ---------------- |
-| Default | Carbon 10            | Carbon 80        |
-| Hover   | Carbon 05            | Carbon 70        |
-| Focus   | 1px dashed Carbon 60 | 1px dashed White |
-
-### Body Typography
-
-| Element          | Font        | Size  | Weight   | Notes                                   |
-| ---------------- | ----------- | ----- | -------- | --------------------------------------- |
-| Header cell      | Inter       | 14px  | Semibold | -0.25px letterspacing                   |
-| Body cell        | Public Sans | 14px  | Regular  | `font-feature-settings: 'tnum', 'lnum'` |
-| Caption title    | Inter       | ~28px | Bold     | Closest USWDS token to Figma 29px       |
-| Caption subtitle | Inter       | 14px  | Regular  | Carbon 60 (light), Carbon 40 (dark)     |
-
-### Deferred to Phase 2
-
-- Mobile text sizing (small vs M-XL Figma variants)
-- Mobile stacked variants (`.usa-table--stacked`, `.usa-table--stacked-header`) — untested with HDS overrides
-- Midtone palette sorted column colors
-- Advanced features: tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column
-
-## List
-
-### Architecture
-
-Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` and `aria-label` per HDS Figma accessibility spec. Two scopes:
-
-| Scope | File | Approach | Always active? |
-| --- | --- | --- | --- |
-| Bare elements (`<ul>`, `<ol>` inside `.usa-prose` or with `$theme-global-content-styles`) | `_hds-custom-styles.scss` §4.7 | Native `::marker` for both `ul` and `ol` | No — gated |
-| `.usa-list` component | `_hds-components.scss` §17 | `ul`: native `::marker`. `ol`: `::before` + flex | Yes |
-| Palette wiring | `_hds-custom-styles.scss` §5.3 | `li::marker` color in palette containers | Yes |
-
-The hybrid approach exists because bare `<ol>` inside `.usa-prose` cannot add `role="list"` (CMS/markdown content), and `list-style: none` breaks Safari VoiceOver without it. The `::marker` fallback preserves native list semantics. The `.usa-list` component uses `::before` + flex for precise DM Mono numeral control, with `role="list"` required in markup.
-
-### Typography Scale Pattern
-
-HDS lists use a step-down pattern through the USWDS type scale, confirmed across multiple Figma example pages:
-
-| Element          | USWDS size call       | px   | Steps from body |
-| ---------------- | --------------------- | ---- | --------------- |
-| Body `<p>`       | `size('body', 'xs')`  | 16px | —               |
-| List item `<li>` | `size('body', '2xs')` | 14px | −1 step         |
-| OL numeral       | `size('body', '3xs')` | 12px | −2 steps        |
-
-This is an intentional HDS design choice — USWDS list items inherit body font size. Documented as a difference from USWDS on the Guidance page.
-
-### Item Spacing
-
-`margin-block-end: units(2.5)` (20px) per Figma. Line-height: `line-height('body', 3)` ≈ 1.35 — within 10% of Figma's 1.43 (20px / 14px), following the simplified Proposal approach of using USWDS tokens when within 10%.
-
-### Ordered List Numerals
-
-DM Mono medium (500), 12px, no trailing period, no added letterspacing.
-
-Figma shows 3.5px letterspacing on numerals, but this matches the overline/label style — not the Proposal's DM Mono Number pattern, which uses 0px (`'auto'`) at small sizes. Visual review confirmed 3.5px is too wide at double-digit item counts.
-
-**On `ol.usa-list`:** `::before` counter + flex gives precise control over font, gap (`units(1.5)` = 12px, closest token to Figma's 11px), and right-alignment. `min-width: 1.5em` accommodates double-digit numbers. `align-items: baseline` aligns numerals to text baseline.
-
-**On bare `<ol>` (prose/CMS):** `::marker` with `content: counter(list-item)` unlocks `font-family` in some browsers but support is inconsistent. DM Mono is not guaranteed on bare `<ol>` — Public Sans may render instead. This is a known limitation of the `::marker` approach.
-
-### Indentation
-
-| List type | `padding-inline-start` | Rationale                                         |
-| --------- | ---------------------- | ------------------------------------------------- |
-| `ul`      | `units(2)` (16px)      | Bullet flush left per Figma — 5px disc + 11px gap |
-| `ol`      | `units(4)` (32px)      | Room for double-digit DM Mono numerals + gap      |
-
-### Marker Colors
-
-Single palette token `--hds-palette-marker` for both `ul` and `ol` markers.
-
-| Palettes              | Color                    | Token                       |
-| --------------------- | ------------------------ | --------------------------- |
-| White, Light, Midtone | NASA Blue `#1C67E3`      | `$hds-color-nasa-blue`      |
-| Dark, Black           | NASA Blue Tint `#288BFF` | `$hds-color-nasa-blue-tint` |
-| Blue                  | NASA Blue Tint `#288BFF` | `$hds-color-nasa-blue-tint` |
-
-Midtone inherits NASA Blue from the light scheme. Black inherits Blue Tint from the dark scheme.
-
-### Marker Contrast (WCAG 1.4.11 Non-text, 3:1 minimum)
-
-| Palette | Background | Marker    | Ratio   | Pass                      |
-| ------- | ---------- | --------- | ------- | ------------------------- |
-| White   | `#FFFFFF`  | NASA Blue | ~4.8:1  | ✅                        |
-| Light   | `#F6F6F6`  | NASA Blue | ~4.6:1  | ✅                        |
-| Midtone | `#D1D1D1`  | NASA Blue | ~3.35:1 | ✅                        |
-| Dark    | `#17171B`  | Blue Tint | ~6.1:1  | ✅                        |
-| Blue    | `#0B3D91`  | Blue Tint | ~3.0:1  | ✅ (borderline, approved) |
-| Black   | `#000000`  | Blue Tint | ~7.5:1  | ✅                        |
-
-`::marker` contrast cannot be tested by axe-core. `::before` contrast (on `ol.usa-list`) can be tested. Ratios documented here and verified manually.
-
-### Figma Deviations
-
-| What | Figma | HDS Core | Why |
-| --- | --- | --- | --- |
-| Dark `ul` marker | NASA Blue (same as light) | NASA Blue Tint | Likely Figma oversight — NASA Blue on dark backgrounds fails 3:1. Dark `ol` numerals already use Tint in Figma. |
-| OL letterspacing | 3.5px | 0px (default) | Figma value matches overline/label style. Proposal DM Mono at small sizes uses `'auto'` (0px). Visual review confirmed 3.5px too wide at double digits. |
-| Blue palette marker | Not specified | NASA Blue Tint | NASA Blue is invisible on Blue Shade background. Blue Tint at ~3.0:1 is borderline but approved. |
-
-### Unstyled Variant
-
-§17.4 resets HDS typography additions (`font-size`, `line-height`, `margin-block-end`) to `inherit` / `0`. USWDS `.usa-list--unstyled` handles its own resets (`list-style-type: none`, `padding-left: 0`). Unstyled lists fully inherit from context.
-
-### Nested Lists
-
-HDS Figma does not define nested list behavior. Browser defaults apply for nested marker glyphs (circle, square, etc.). Marker color cascades to nested levels via `::marker` inheritance. Nested lists are tested in the Prose story.
+### Key Decisions
+
+- **Chevron Icon:** Circled chevron (down/up) replaces USWDS +/− icons, using utility circle tokens. 24px, matching icon button default.
+- **Bordered Variant:** Figma shows only borderless. Bordered renders with USWDS default treatment. Pending creative director review.
+- **Hover State:** Not specified in Figma. Currently unimplemented — pending research on full-row hover patterns.
 
 ## System Behavior
 
@@ -576,7 +315,7 @@ Pending visual sign-offs:
 | Item | Question | Context |
 | --- | --- | --- |
 | Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal says "normal" (400). Figma uses Medium (500). Currently shipping 500. |
-| Blue palette utility hover/disabled | Utility circle colors on blue palette are inferred, not confirmed in Figma | Hover stroke → White, disabled stroke → NASA Blue |
+| Blue palette utility | Blue palette utility now uses Proposal palette 5 values (Carbon Black fill, Carbon 60 stroke — matching dark scheme). Figma shows NASA Blue fill + Blue Tint stroke. | Currently shipping Proposal values. Flagged in case CD prefers Figma treatment. |
 | Midtone utility hover/disabled | Carbon 05 hover fill on Carbon 20 background — visible but subtle | May need override |
 | Icon button 2xs and 3xl sizes | Are 12px (filter dropdowns) and 40px (pagination/carousel) confirmed sizes? | Observed in Figma modules but not in the formal icon button spec |
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
@@ -604,15 +343,10 @@ All of these match the approved HDS Core Proposal exactly:
 | Overline class name | "Label" | `.hds-overline` | Avoids collision with USWDS `.usa-label`. Industry standard term. |
 | Type normalization | Normalize all three fonts | Deferred | Requires measurement work; noted as tech debt |
 | TV breakpoint | 1920px | Deferred | USWDS doesn't support it |
-| Button font family | Not specified | Inter | Figma shows Inter for all button text |
-| Button active state | Not specified | Matches hover | Consistent with Apple HIG; Figma shows no active state |
-| Unstyled button | Not specified | Styled as a text link | Matches USWDS intent; ensures palette visibility |
 | Checkbox/radio size | 20px (USWDS default) | 18px forced via CSS | Figma specifies 18×18px. USWDS setting can't express 2.25 units. |
 | Checkbox icon | USWDS default glyph | HDS check icon via data URI | Visually distinct from USWDS checkmark |
-| Form font family | Not specified | Public Sans (body) | Figma shows Public Sans for input values and help text |
-| Icon button default size | Not specified | 24px (Figma M) | Most frequently used size across Figma modules; matches primary arrow container |
-| Icon button sizing units | Not specified | px (not em/rem) | USWDS root font-size is non-16px, causing fractional em/rem values |
 | Secondary filled on dark | NASA Blue Tint | NASA Blue | Creative director approved; passes AA on all palettes |
 | Secondary filled on blue | NASA Blue Tint filled | Outline (NASA Blue Tint border) | Filled variant blends into Blue Shade background |
 | Table on blue palette | Dark table (Carbon 90) | Light table (white) | Creative director approved; white surface inside blue section |
-| OL numeral letterspacing | 3.5px (Figma) | 0px | Figma value matches overline/label pattern. Proposal DM Mono Number elements at small sizes use 'auto' (0px). Visual review confirmed too wide at double digits. |
+| OL numeral letterspacing | 3.5px (Figma) | 0px | Proposal DM Mono Number elements at small sizes use 'auto' (0px). Visual review confirmed too wide at double digits. |
+| Interactive icon buttons | Standalone SVGs with baked-in colors | Sprite glyphs with `currentColor` + CSS states | Same visual result, simpler for consumers, supports hover/expanded states |

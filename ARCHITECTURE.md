@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-28
+Last updated: 2026-03-31
 
 ## Package Overview
 
@@ -44,7 +44,6 @@ hds-core/
 │       ├── fonts/{inter,dm-mono}/
 │       └── img/
 │           ├── hds-icons/          # Themeable SVGs → sprite
-│           ├── hds-buttons/        # Fixed-color graphics
 │           └── nasa-branding/
 │
 ├── stories/                        # Storybook (not shipped)
@@ -175,7 +174,9 @@ Focus styles (§4.11), palette wiring (§5), all `usa-*` overrides, and all `hds
 
 ## Focus Ring Architecture
 
-Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.11. Components with special focus needs override locally. See DESIGN.md § Focus Ring for design rationale.
+## Focus Ring Architecture
+
+Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.11. Components currently use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md § Focus Ring for design rationale.
 
 ## Component Sections (`_hds-components.scss`)
 
@@ -205,7 +206,7 @@ Each section has detailed code comments covering palette behavior, hover/disable
 
 **Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg`. Color controlled by CSS. 15 icons renamed in v0.6.0 for USWDS naming consistency — see release notes for the full mapping.
 
-**Fixed-color graphics** (`hds-buttons/`): Colors baked in. Not in sprite, referenced as standalone files.
+**Interactive icon buttons** use the same sprite glyphs as all other roles. CSS handles the color inversion on hover and `aria-expanded` — no standalone SVGs needed. See §12.2 in `_hds-components.scss`.
 
 **Naming prefixes:** `arrow-*` (directional), `tag-*` (category markers), `logo-*` (third-party marks).
 
@@ -232,13 +233,13 @@ Each section has detailed code comments covering palette behavior, hover/disable
 | `npm run test:watch`  | Watch mode (development)                    |
 | `npm run test:visual` | Visual regression via Chromatic (on demand) |
 
-Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes, including hover and focus-visible states for interactive components. See `stories/helpers/paletteTests.js` for the helper pattern and DOCUMENTATION.md for story conventions.
+Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes. Hover and focus-visible PaletteA11y stories exist but have a known limitation: `storybook-addon-pseudo-states` may not activate correctly in Vitest or Chromatic — see DOCUMENTATION.md § Palette accessibility tests for details. Play-function-based focus stories are planned as a replacement.
 
 **Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Gulp output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
 
 **Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
 
-**Visual regression testing**: Uses [Chromatic](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab) via `@chromatic-com/storybook`. Snapshots are disabled globally (`disableSnapshot: true` in `preview.js`) and enabled only on PaletteA11y stories via `paletteA11yParams`. This scopes visual regression to ~49 screenshots per run — each PaletteA11y story renders all six palettes in one image, covering ~264 component-palette combinations. Run on demand via `npm run test:visual`; not part of `npm test`. Screenshots are stored in Chromatic's cloud, not in the repo.
+**Visual regression testing**: Uses [Chromatic](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab) via `@chromatic-com/storybook`. Snapshots are disabled globally (`disableSnapshot: true` in `preview.js`) and enabled only on PaletteA11y stories via `paletteA11yParams`. This scopes visual regression to PaletteA11y stories (~49 screenshots) plus Grid breakpoint regression (7 viewport captures). Each PaletteA11y story renders all six palettes in one image, covering ~264 component-palette combinations. Run on demand via `npm run test:visual`; not part of `npm test`. Screenshots are stored in Chromatic's cloud, not in the repo.
 
 ## Storybook
 
