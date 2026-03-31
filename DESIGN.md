@@ -216,7 +216,7 @@ A standardization attempt (commit f90218b) flattened all focus styles into a sin
 - A `--hds-palette-focus` token designed per-palette (no single gray passes 3:1 on all 6 backgrounds)
 - Creative director decision on thickness (1px vs 2px — 1px dashed is visually indistinguishable from dotted at browser rendering level)
 - Play-function Chromatic stories for visual regression before touching focus values
-- `:focus` → `:focus-visible` migration (safe, no visual change) can proceed independently
+- `:focus` → `:focus-visible` migration completed. USWDS `:focus` bleed-through suppressed via `:focus:not(:focus-visible)` rule in §4.11.
 
 **Interactive icon buttons** use a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes — they are designed for use over images and 3D content, not palette backgrounds.
 

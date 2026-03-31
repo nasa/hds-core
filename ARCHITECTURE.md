@@ -174,9 +174,7 @@ Focus styles (§4.11), palette wiring (§5), all `usa-*` overrides, and all `hds
 
 ## Focus Ring Architecture
 
-## Focus Ring Architecture
-
-Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.11. Components currently use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md § Focus Ring for design rationale.
+Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.11. All HDS focus selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in §4.11 prevents USWDS `:focus` styles from bleeding through on mouse interaction. Components use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md § Focus Ring for design rationale.
 
 ## Component Sections (`_hds-components.scss`)
 

@@ -202,7 +202,7 @@
     filter: brightness(0.75);
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
     outline-offset: 2px;
     text-decoration-line: none;
@@ -222,7 +222,7 @@
     text-decoration-line: none;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
     outline-offset: 2px;
   }
@@ -687,7 +687,7 @@
     font-size: size('body', 'xs');
     padding: units(1) units(1.5);
 
-    &:focus {
+    &:focus-visible {
       border-color: $hds-color-nasa-blue;
       outline: 2px solid $hds-color-nasa-blue;
       outline-offset: 0;
@@ -747,6 +747,18 @@ select:not([disabled]):focus-visible,
 textarea:not([disabled]):focus-visible {
   outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
   outline-offset: 2px;
+}
+
+// Suppress USWDS :focus outline on mouse click.
+// HDS uses :focus-visible (keyboard only). Without this,
+// USWDS's own :focus rules show through on mouse interaction
+// because HDS :focus-visible rules don't match on click.
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
 }
 
 // ------------------------------------------------------------

@@ -229,7 +229,7 @@
   text-underline-offset: 0.25rem;
 }
 
-.usa-breadcrumb__link:focus {
+.usa-breadcrumb__link:focus-visible {
   outline: 2px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
   outline-offset: 2px;
 }
@@ -311,7 +311,7 @@
 // Storybook — may need per-palette tuning for contrast.
 // ------------------------------------------------------------
 
-.usa-button:focus:not(:disabled):not([aria-disabled='true']) {
+.usa-button:focus-visible:not(:disabled):not([aria-disabled='true']) {
   outline: 2px dashed $hds-color-carbon-30;
   outline-offset: 2px;
 }
@@ -674,9 +674,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Using control-border which is C40 light / C60 dark.
 // ------------------------------------------------------------
 
-.usa-input:hover:not(:disabled):not(:focus),
-.usa-textarea:hover:not(:disabled):not(:focus),
-.usa-select:hover:not(:disabled):not(:focus) {
+.usa-input:hover:not(:disabled):not(:focus-visible),
+.usa-textarea:hover:not(:disabled):not(:focus-visible),
+.usa-select:hover:not(:disabled):not(:focus-visible) {
   border-color: var(--hds-palette-control-border);
 }
 
@@ -764,13 +764,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // is closest match (C60/C30) but not exact. Using
 // --hds-palette-border (C20/C60) for a lighter, less
 // distracting ring. Flagged for creative director review.
-.usa-checkbox__input:focus + .usa-checkbox__label {
+.usa-checkbox__input:focus-visible + .usa-checkbox__label {
   outline: 1px dashed var(--hds-palette-border);
   outline-offset: 2px;
   border-radius: 0;
 }
 
-.usa-checkbox__input:focus + .usa-checkbox__label::before {
+.usa-checkbox__input:focus-visible + .usa-checkbox__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
@@ -858,13 +858,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // Focus — dashed ring around entire label + blue border on circle
-.usa-radio__input:focus + .usa-radio__label {
+.usa-radio__input:focus-visible + .usa-radio__label {
   outline: 1px dashed var(--hds-palette-border);
   outline-offset: 2px;
   border-radius: 0;
 }
 
-.usa-radio__input:focus + .usa-radio__label::before {
+.usa-radio__input:focus-visible + .usa-radio__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
@@ -936,7 +936,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // ------------------------------------------------------------
 
 .usa-input--error,
-.usa-input--error:focus {
+.usa-input--error:focus-visible {
   border-color: var(--hds-palette-error-border);
   border-width: 1px;
 }
@@ -1535,7 +1535,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     }
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-carbon-90});
     outline-offset: 2px;
   }
@@ -1922,7 +1922,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     @include hds-link-hover;
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 1px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
     outline-offset: 2px;
   }
