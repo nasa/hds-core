@@ -111,9 +111,9 @@ All three fonts use the same USWDS cap-height, which disables optical normalizat
 
 ### Underline Style
 
-**Figma:** Dashed, 1px, "2, 3" dash pattern. **HDS Core:** `text-decoration-style: dotted`.
+**Figma:** Dashed, 1px, "2, 3" dash pattern. **HDS Core:** `text-decoration-style: dashed`.
 
-CSS `dashed` creates long dashes that look dramatically different from Figma. `dotted` is visually closer to the Figma short-dash pattern.
+Matches NASA.gov production styling: dashed underline, `.05em` thickness, `.25rem` offset. CSS `text-decoration` doesn't support custom dash patterns ("2, 3") but `dashed` at thin weights is visually close to the Figma intent and consistent with focus ring styles (also dashed) across the system.
 
 ### Hover Behavior
 

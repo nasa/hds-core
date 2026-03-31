@@ -224,9 +224,9 @@
   font-weight: font-weight('semibold');
   text-decoration-color: currentColor;
   text-decoration-line: underline;
-  text-decoration-style: dotted;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.05em;
+  text-underline-offset: 0.25rem;
 }
 
 .usa-breadcrumb__link:focus {
