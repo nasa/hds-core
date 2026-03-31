@@ -1717,12 +1717,13 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   border-color: var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-heading);
 
-  // Hover fills the circle — mirrors text button outline hover
+  // Hover intensifies border — stays outline, does not fill.
+  // Matches utility hover pattern (border darkens, bg stays transparent).
   &:hover:not([disabled]),
   &:active:not([disabled]) {
-    background-color: var(--hds-palette-btn-secondary-bg);
-    border-color: var(--hds-palette-btn-secondary-bg);
-    color: var(--hds-palette-btn-filled-text);
+    background-color: transparent;
+    border-color: var(--hds-palette-btn-secondary-bg-hover);
+    color: var(--hds-palette-heading);
   }
 
   &[disabled],

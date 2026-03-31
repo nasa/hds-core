@@ -198,11 +198,12 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-control-text: #{$hds-color-carbon-20};
   --hds-palette-control-stroke: #{$hds-color-nasa-blue-tint};
   --hds-palette-control-border: #{$hds-color-carbon-60};
-  --hds-palette-utility-fill: transparent;
-  --hds-palette-utility-stroke: #{$hds-color-nasa-blue-tint};
+  // Utility — matches dark scheme per Proposal palette 5 table.
   --hds-palette-utility-icon: #{$hds-color-spacesuit-white};
-  --hds-palette-utility-hover-fill: transparent;
-  --hds-palette-utility-hover-stroke: #{$hds-color-spacesuit-white};
+  --hds-palette-utility-fill: #{$hds-color-carbon-black};
+  --hds-palette-utility-stroke: #{$hds-color-carbon-60};
+  --hds-palette-utility-hover-fill: #{$hds-color-carbon-black};
+  --hds-palette-utility-hover-stroke: #{$hds-color-carbon-05};
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
