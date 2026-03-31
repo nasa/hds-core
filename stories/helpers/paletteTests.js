@@ -20,5 +20,6 @@ export const pseudoParams = {
 };
 
 export function paletteRender(renderFn) {
-  return () => palettes.map((p) => `<div class="hds-palette-${p}">${renderFn()}</div>`).join('\n');
+  return () =>
+    palettes.map((p) => `<div class="hds-palette-${p}" style="padding: 2rem;">${renderFn()}</div>`).join('\n');
 }
