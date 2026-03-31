@@ -231,13 +231,27 @@ Each section has detailed code comments covering palette behavior, hover/disable
 | `npm run test:watch`  | Watch mode (development)                    |
 | `npm run test:visual` | Visual regression via Chromatic (on demand) |
 
-Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes. Hover and focus-visible PaletteA11y stories exist but have a known limitation: `storybook-addon-pseudo-states` may not activate correctly in Vitest or Chromatic — see DOCUMENTATION.md § Palette accessibility tests for details. Play-function-based focus stories are planned as a replacement.
+Vitest runs every exported story in headless Chromium via @storybook/addon-vitest/vitest-plugin (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden PaletteA11y stories that render all six palettes via paletteRender — Vitest axe-core checks contrast across all palettes in one pass. FocusTest stories include play-function assertions that validate tab order and :focus-visible activation; Vitest runs these against the default palette.
 
 **Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Gulp output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
 
 **Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
 
-**Visual regression testing**: Uses [Chromatic](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab) via `@chromatic-com/storybook`. Snapshots are disabled globally (`disableSnapshot: true` in `preview.js`) and enabled only on PaletteA11y stories via `paletteA11yParams`. This scopes visual regression to PaletteA11y stories (~49 screenshots) plus Grid breakpoint regression (7 viewport captures). Each PaletteA11y story renders all six palettes in one image, covering ~264 component-palette combinations. Run on demand via `npm run test:visual`; not part of `npm test`. Screenshots are stored in Chromatic's cloud, not in the repo.
+### Visual Regression Testing
+
+Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (disableSnapshot: true in preview.js) and enabled per-story via parameters. Two snapshot strategies:
+
+1. PaletteA11y stories — stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. Mirrors production where HDS palettes coexist on pages. One snapshot per story. Vitest also runs axe-core against this stacked DOM for per-palette contrast checks locally.
+
+2. FocusTest stories — Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story (one per palette mode). Modes defined in .storybook/modes.js — imported in story files, not preview.js, to avoid TurboSnap full rebuilds.
+
+Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. Chromatic a11y will be re-evaluated when independent a11y/visual snapshot toggles are available (currently bundled: disableSnapshot controls both).
+
+TurboSnap enabled via chromatic.config.json (onlyChanged: true). External Sass and asset files declared via externals: ["src/scss/**", "src/assets/**"] — any change triggers a full rebuild (correct behavior for a CSS design system). TurboSnap savings apply to story-only and docs-only changes. Unlocks after 10 successful builds.
+
+Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+
+Run on demand via npm run test:visual; not part of npm test. Screenshots are stored in Chromatic's cloud, not in the repo.
 
 ## Storybook
 
@@ -298,9 +312,9 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ### Post-1.0 Infrastructure
 
-- [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths (Phase 2)
-- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
+- [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
+- [ ] Replace `@uswds/compile` with direct sass + autoprefixer
 - [ ] Gulp 5 migration (clears 11 dev-dependency vulnerabilities from Gulp 4's dependency chain)
-- [ ] Expand Chromatic visual regression to Tier 2: Site Alert (scoped vars, no PaletteA11y), Table variants (Sortable/Borderless/Compact), Form Validation flow, Icon Button sizes/roles, Pagination edge cases
-- [ ] Grid overlay toolbar toggle for verifying component alignment (Phase 2 — pairs with Navigation work)
-- [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions
+- [ ] Re-evaluate Chromatic a11y tests when independent a11y/visual toggle ships
+- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work)
+- [ ] Migrate pending work for Phase 2+ into GitHub Issues and Discussions
