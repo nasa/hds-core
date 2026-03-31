@@ -2,6 +2,9 @@
 // Icon Button Stories — @nasa/hds-core
 // Covers §12 (HDS icon buttons, Tier 3)
 //
+// HDS Figma: Icon Buttons
+// USWDS: No equivalent (Tier 3)
+//
 // Sidebar structure:
 //   Guidance   — IconButton.mdx (design rationale, Canvas embeds, usage rules)
 //   Stories    — CTA, Secondary, Outline, Utility, Social,
@@ -41,13 +44,14 @@ const iconSvg = (name, sprite = 'hds') => {
 const iconBtn = (role, iconName, ariaLabel, opts = {}) => {
   const sizeClass = opts.size && opts.size !== 'default' ? ` hds-btn-icon--${opts.size}` : '';
   const disabled = opts.disabled ? ' disabled' : '';
+  const expanded = opts.expanded != null ? ` aria-expanded="${opts.expanded}"` : '';
   const cls = `hds-btn-icon hds-btn-icon--${role}${sizeClass}`;
   const sprite = opts.sprite || 'hds';
 
   if (opts.element === 'a') {
-    return `<a class="${cls}" href="#" aria-label="${ariaLabel}">${iconSvg(iconName, sprite)}</a>`;
+    return `<a class="${cls}" href="#" aria-label="${ariaLabel}"${expanded}>${iconSvg(iconName, sprite)}</a>`;
   }
-  return `<button class="${cls}" type="button" aria-label="${ariaLabel}"${disabled}>${iconSvg(iconName, sprite)}</button>`;
+  return `<button class="${cls}" type="button" aria-label="${ariaLabel}"${disabled}${expanded}>${iconSvg(iconName, sprite)}</button>`;
 };
 
 // Shared argTypes for icon button role stories
@@ -102,6 +106,7 @@ const roleRender =
       size: args.size,
       disabled: args.disabled,
       element: args.element,
+      expanded: args.expanded,
       sprite,
     });
   };
@@ -113,6 +118,7 @@ const stateRoles = [
   { role: 'outline', iconName: 'share', text: 'Outline' },
   { role: 'utility', iconName: 'settings', text: 'Utility' },
   { role: 'social', iconName: 'rss', text: 'Social' },
+  { role: 'interactive', iconName: 'plus', text: 'Interactive' },
 ];
 
 // --- Stories (visible in sidebar) ---
@@ -192,25 +198,39 @@ export const Social = {
   render: roleRender('social'),
 };
 
+// Interactive — disclosure triggers over images and 3D content.
+// Uses sprite glyphs (same system as all other roles).
+// Toggle aria-expanded to control active/open visual state.
 export const Interactive = {
   name: 'Interactive',
   args: {
     ariaLabel: 'More info',
     spriteSource: 'HDS',
-    hdsIcon: 'info',
+    hdsIcon: 'plus',
     uswdsIcon: 'search',
+    size: 'default',
+    expanded: false,
   },
   argTypes: {
     ariaLabel: sharedArgTypes.ariaLabel,
     spriteSource: sharedArgTypes.spriteSource,
     hdsIcon: sharedArgTypes.hdsIcon,
     uswdsIcon: sharedArgTypes.uswdsIcon,
+    size: sharedArgTypes.size,
+    expanded: {
+      control: 'boolean',
+      description: 'aria-expanded — controls active/open visual state',
+    },
   },
   render: (args = {}) => {
     const isUswds = args.spriteSource === 'USWDS';
     const iconName = isUswds ? args.uswdsIcon : args.hdsIcon;
     const sprite = isUswds ? 'uswds' : 'hds';
-    return iconBtn('interactive', iconName, args.ariaLabel, { sprite });
+    return iconBtn('interactive', iconName, args.ariaLabel, {
+      size: args.size,
+      expanded: args.expanded,
+      sprite,
+    });
   },
 };
 
@@ -230,7 +250,11 @@ export const States = {
       <div style="display: grid; grid-template-columns: 7rem repeat(2, 5rem); gap: 1rem; align-items: center;">
         ${label(r.text)}
         <div>${iconBtn(r.role, r.iconName, `${r.text} default`)}</div>
-        <div>${iconBtn(r.role, r.iconName, `${r.text} disabled`, { disabled: true })}</div>
+        <div>${
+          r.role === 'interactive'
+            ? iconBtn(r.role, r.iconName, `${r.text} expanded`, { expanded: true })
+            : iconBtn(r.role, r.iconName, `${r.text} disabled`, { disabled: true })
+        }</div>
       </div>`,
       )
       .join('');
@@ -242,8 +266,7 @@ export const States = {
       </div>
       <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
         Hover states require mouse interaction — hover each button above to preview.
-        <strong>Interactive</strong> role omitted (fixed-color SVG, no state changes).
-        Active matches hover on all roles.
+        Interactive shows default and expanded (not disabled — disclosure triggers should not be disabled).
       </p>
     `;
   },
@@ -261,10 +284,25 @@ export const AllRoles = {
       ${gridItem('Outline', iconBtn('outline', 'share', 'Share page'))}
       ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings'))}
       ${gridItem('Social', iconBtn('social', 'rss', 'RSS feed'))}
-      ${gridItem('Interactive', iconBtn('interactive', 'info', 'More info'))}
+      ${gridItem('Interactive', iconBtn('interactive', 'plus', 'More info'))}
     `)}
     <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
       <strong>Red</strong> = navigates away · <strong>Blue</strong> = stays on page · <strong>Neutral</strong> = UI controls
+    </p>
+  `,
+};
+
+export const InteractiveStates = {
+  name: 'Interactive states',
+  tags: ['!dev'],
+  render: () => `
+    ${grid(`
+      ${gridItem('Default', iconBtn('interactive', 'plus', 'More info'))}
+      ${gridItem('Expanded', iconBtn('interactive', 'minus', 'Close info', { expanded: true }))}
+    `)}
+    <p style="margin-top: 1rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
+      Toggle <code>aria-expanded</code> to control the active/open state.
+      Hover any button to preview the inverted treatment.
     </p>
   `,
 };

@@ -129,18 +129,19 @@ Every icon button requires a role class that determines its color. The role comm
             display: 'inline-block',
             width: '0.85em',
             height: '0.85em',
-            backgroundColor: '#1C67E3',
+            backgroundColor: '#0B3D91',
+            border: '1px solid white',
             borderRadius: '50%',
             verticalAlign: 'middle',
             marginRight: '0.35em',
           }}
         />{' '}
-        NASA Blue (fixed)
+        NASA Blue Shade (fixed)
       </td>
       <td>
         <code>.hds-btn-icon--interactive</code>
       </td>
-      <td>Informational triggers — tooltips, help, contextual info</td>
+      <td>Disclosure triggers — tooltips, popovers, contextual info over images and 3D content</td>
     </tr>
   </tbody>
 </table>
@@ -149,7 +150,33 @@ Every icon button requires a role class that determines its color. The role comm
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
-Interactive icons use fixed-color graphics with baked-in colors — unlike the other roles, they don't change with the palette. Black and white versions are available for lower-emphasis contexts.
+## Interactive disclosure pattern
+
+Interactive icon buttons are designed for use **over images, video, and 3D content** — not on plain palette backgrounds. They use fixed colors (not palette-aware) for high contrast on dynamic backgrounds.
+
+The visual state inverts on hover and when expanded — NASA Blue Shade + white flips to white + black. Toggle `aria-expanded` to control the active/open state. The consuming application manages the popover show/hide.
+
+<Canvas of={IconButtonStories.InteractiveStates} />
+
+Per HDS Figma accessibility guidance, popovers should **automatically display when the button receives focus** and hide when the user tabs away. When the popover is open, users should be able to tab to the link inside the popover.
+
+```html
+<button class="hds-btn-icon hds-btn-icon--interactive" type="button" aria-label="Sample Handling" aria-expanded="false" aria-controls="popover-sample">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#plus"></use>
+  </svg>
+</button>
+
+<div id="popover-sample" role="region" hidden>
+  <h3>Sample Handling</h3>
+  <p>The Sample Handling System is used to collect and store samples.</p>
+  <a href="/missions/mars/sample-handling">Learn More</a>
+</div>
+```
+
+<Note type="figma">
+  Interactive icons in HDS Figma use standalone SVGs with baked-in colors. HDS Core uses the standard sprite system with <code>currentColor</code> instead — CSS handles the color inversion on hover and <code>aria-expanded</code>. The visual result is identical.
+</Note>
 
 ## Sizes
 
@@ -177,6 +204,7 @@ Eight sizes are available. All share the same role classes. Size and role classe
 - **Carousel and accordion controls** — utility role arrows for previous/next and expand/collapse.
 - **Action bars** — a horizontal row of secondary actions below content.
 - **CTA accent** — a small CTA icon paired with adjacent text.
+- **Disclosure triggers over images** — interactive role for tooltips, popovers, and contextual info floating over visual content.
 
 ## When to consider something else
 
@@ -191,6 +219,7 @@ Eight sizes are available. All share the same role classes. Size and role classe
 - **Write action-oriented labels.** "Download report" is better than "Download." "Go to mission page" is better than "Arrow."
 - **Use `<button>` for actions, `<a>` for navigation.** If the icon button navigates to a new page, use an `<a>` tag. If it triggers an on-page action (toggle, submit), use `<button>`.
 - **One icon per button.** Don't combine multiple icons in a single icon button.
+- **Use utility icons only with universally recognized icons in predictable locations** — chevrons in accordions, arrows in pagination, play/pause in media controls, close/search/settings in toolbars. The circle outline is a subtle decorative treatment, not a strong interactive affordance. Users identify these as buttons primarily through icon meaning and contextual placement. If your icon doesn't have an immediately obvious meaning, use a standard labeled button instead.
 
 <Note type="uswds">The 2xs size (12px) is below the WCAG 2.5.8 minimum touch target size (24×24px). Use only on desktop viewports with a mouse-driven interface. On touch devices, use the default (24px) or larger.</Note>
 
@@ -221,6 +250,7 @@ Pair a small CTA icon button with adjacent text for a compact navigational call-
 - **`focusable="false"` on the SVG** prevents a double-focus issue in older browsers.
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
 - **Touch target size.** The default size and above all meet the 24×24px minimum recommended by WCAG 2.5.8 (Target Size). The 2xs and xs sizes are below this threshold — use them only in desktop/mouse contexts and ensure adequate spacing between adjacent targets.
+- **Interactive disclosure buttons** require `aria-expanded` and `aria-controls` linking the button to its popover. The icon glyph must have at least 3:1 contrast against its background. The circle stroke is decorative framing — accessibility does not depend on it being visible, as long as the icon and its placement clearly communicate interactivity.
 
 ```html
 <!-- ✅ Correct -->
