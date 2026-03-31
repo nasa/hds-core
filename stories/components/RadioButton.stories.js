@@ -18,7 +18,7 @@ export default {
 
 // --- Helpers ---
 
-const label = (text) => `<p class="hds-label" style="margin-bottom: 0.5rem">${text}</p>`;
+const label = (text) => `<p class="hds-overline" style="margin-bottom: 0.5rem">${text}</p>`;
 
 const radioItem = (prefix, value, labelText, opts = {}) => {
   const { checked = false, disabled = false, tile = false, description = '' } = opts;

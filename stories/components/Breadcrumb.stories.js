@@ -126,19 +126,19 @@ export const AllDepths = {
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>
-        <span class="hds-label">2 levels</span>
+        <span class="hds-overline">2 levels</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions'])}
         </div>
       </div>
       <div>
-        <span class="hds-label">3 levels</span>
+        <span class="hds-overline">3 levels</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions', 'Artemis I'])}
         </div>
       </div>
       <div>
-        <span class="hds-label">4+ levels (truncated)</span>
+        <span class="hds-overline">4+ levels (truncated)</span>
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['…', 'Artemis I', 'Multimedia'])}
         </div>
@@ -152,7 +152,7 @@ export const HoverState = {
   tags: ['!dev'],
   render: () => `
     <p style="margin-bottom: 0.5rem;">
-      <span class="hds-label">Hover the middle link to see bold treatment</span>
+      <span class="hds-overline">Hover the middle link to see bold treatment</span>
     </p>
     ${breadcrumb(['Home', 'Missions', 'Artemis I'])}
   `,

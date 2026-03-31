@@ -16,7 +16,7 @@
 // SECTIONS:
 //   §1 CSS Custom Properties  — :root token output
 //   §2 Shared Mixins          — typography, buttons, a11y
-//   §3 Shared Utilities       — .hds-label, etc.
+//   §3 Shared Utilities       — .hds-caption, etc.
 //   §4 Base HTML Elements     — headings, body, links, forms…
 //   §5 Palette Element Wiring — palette-aware overrides
 //   §6 Print                  — @media print
@@ -292,11 +292,9 @@
 // §3 SHARED UTILITIES
 // ============================================================
 
-.hds-label,
-.hds-eyebrow {
+.hds-overline {
   @include hds-overline-label;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-  font-family: family('mono');
 }
 
 .hds-metadata {

@@ -15,7 +15,7 @@ export default {
 
 // --- Helpers (used in multiple stories) ---
 
-const label = (text) => `<p class="hds-label" style="margin-bottom: 0.5rem">${text}</p>`;
+const label = (text) => `<p class="hds-overline" style="margin-bottom: 0.5rem">${text}</p>`;
 
 const accordionItem = (id, title, content, expanded = false) => `
   <h4 class="usa-accordion__heading">

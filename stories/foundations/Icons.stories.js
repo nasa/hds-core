@@ -209,7 +209,7 @@ export const TwoLayerDemo = {
   render: () => `
     <div style="display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap;">
       <div>
-        <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Layer 1: Glyph</p>
+        <p class="hds-overline" style="margin-block-end: 0.5rem;">Layer 1: Glyph</p>
         <div style="padding: 1rem; border: 1px dashed #D1D1D1; display: inline-block;">
           ${icon('download', '2rem')}
         </div>
@@ -219,7 +219,7 @@ export const TwoLayerDemo = {
         </p>
       </div>
       <div>
-        <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Layer 2: Container</p>
+        <p class="hds-overline" style="margin-block-end: 0.5rem;">Layer 2: Container</p>
         <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download">
           ${icon('download', '1em')}
         </button>
@@ -229,7 +229,7 @@ export const TwoLayerDemo = {
         </p>
       </div>
       <div>
-        <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Inline Glyph</p>
+        <p class="hds-overline" style="margin-block-end: 0.5rem;">Inline Glyph</p>
         <span>
           Download file
           <svg class="hds-glyph" aria-hidden="true" focusable="false">
@@ -251,7 +251,7 @@ export const UswdsIconDemo = {
     <div style="max-width: 72em;">
       <div style="display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap;">
         <div style="text-align: center;">
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">HDS sprite</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">HDS sprite</p>
           <div style="padding: 1rem; border: 1px dashed #D1D1D1; display: inline-block;">
             ${icon('download', '2rem', SPRITE)}
           </div>
@@ -260,7 +260,7 @@ export const UswdsIconDemo = {
           </p>
         </div>
         <div style="text-align: center;">
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">USWDS sprite</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">USWDS sprite</p>
           <div style="padding: 1rem; border: 1px dashed #D1D1D1; display: inline-block;">
             ${icon('thumb_up_alt', '2rem', USWDS_SPRITE)}
           </div>
@@ -269,7 +269,7 @@ export const UswdsIconDemo = {
           </p>
         </div>
         <div style="text-align: center;">
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">USWDS (Material)</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">USWDS (Material)</p>
           <div style="padding: 1rem; border: 1px dashed #D1D1D1; display: inline-block;">
             ${icon('science', '2rem', USWDS_SPRITE)}
           </div>

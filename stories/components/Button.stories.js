@@ -16,7 +16,7 @@ export default {
 
 // --- Helpers (used in multiple stories) ---
 
-const label = (text) => `<span class="hds-label">${text}</span>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const grid = (items) => `
   <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
@@ -170,37 +170,37 @@ export const PrimaryArrowSizes = {
   render: () => `
     <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
       <div>
-        <span class="hds-label">XS (14px)</span>
+        <span class="hds-overline">XS (14px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary hds-btn--primary--xs" href="#">Explore</a>
         </div>
       </div>
       <div>
-        <span class="hds-label">SM (16px)</span>
+        <span class="hds-overline">SM (16px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary hds-btn--primary--sm" href="#">Explore</a>
         </div>
       </div>
       <div>
-        <span class="hds-label">Default (18px)</span>
+        <span class="hds-overline">Default (18px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary" href="#">Explore</a>
         </div>
       </div>
       <div>
-        <span class="hds-label">LG (22px)</span>
+        <span class="hds-overline">LG (22px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary hds-btn--primary--lg" href="#">Explore</a>
         </div>
       </div>
       <div>
-        <span class="hds-label">XL (29px)</span>
+        <span class="hds-overline">XL (29px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary hds-btn--primary--xl" href="#">Explore</a>
         </div>
       </div>
       <div>
-        <span class="hds-label">2XL (36px)</span>
+        <span class="hds-overline">2XL (36px)</span>
         <div style="margin-top: 0.5rem;">
           <a class="hds-btn--primary hds-btn--primary--2xl" href="#">Explore</a>
         </div>
@@ -356,7 +356,8 @@ export const PaletteA11yHover = {
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  globals: { pseudo: { focusVisible: true } },
+  parameters: paletteA11yParams,
   render: paletteRender(AllVariants.render),
 };
 

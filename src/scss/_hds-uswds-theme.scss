@@ -267,12 +267,7 @@
   ),
 
   // DM Mono only ships Light (300), Regular (400), and
-  // Medium (500) weights. HDS spec calls for "bold" labels
-  // (.hds-label, .hds-eyebrow) — the browser will synthesize
-  // faux bold from Medium. Acceptable tradeoff: DM Mono Medium
-  // is already visually heavier than most monospace regulars.
-  // If faux bold proves problematic, change .hds-label to
-  // font-weight: 500 in _hds-custom-styles.scss.
+  // Medium (500) weights.
   $theme-font-mono-custom-src: (
       dir: 'dm-mono',
       roman: (

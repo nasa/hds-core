@@ -17,7 +17,7 @@ export default {
 
 // --- Helpers (used in multiple stories) ---
 
-const label = (text) => `<span class="hds-label">${text}</span>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const grid = (items) => `
   <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">

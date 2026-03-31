@@ -26,7 +26,7 @@ export default {
 
 // --- Helpers (used in multiple stories) ---
 
-const label = (text) => `<span class="hds-label">${text}</span>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const chevronLeft = `
   <svg class="hds-icon" aria-hidden="true" role="img">

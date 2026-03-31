@@ -13,7 +13,7 @@ const icon = (name) => `
 const paletteSample = (content = '') => `
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
     <div>
-      <p class="hds-label">Label text</p>
+      <p class="hds-overline">Label text</p>
       <h2 style="margin-top: 0.25rem;">Heading</h2>
       <p style="margin-top: 0.5rem;">
         Paragraph text with a
@@ -102,10 +102,10 @@ export const Nested = {
   tags: ['!dev'],
   render: () => `
     <div class="hds-palette-white" style="padding: 2rem;">
-      <p class="hds-label" style="margin-bottom: 1rem;">White (outer)</p>
+      <p class="hds-overline" style="margin-bottom: 1rem;">White (outer)</p>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
         <div class="hds-palette-light" style="padding: 1.5rem;">
-          <p class="hds-label">Nested: Light</p>
+          <p class="hds-overline">Nested: Light</p>
           <h3 style="margin-top: 0.25rem;">Heading</h3>
           <p style="margin-top: 0.5rem;">Paragraph with <a class="usa-link" href="#">link</a>.</p>
           <button class="hds-btn-icon hds-btn-icon--utility" aria-label="Next" style="margin-top: 0.75rem;">
@@ -113,7 +113,7 @@ export const Nested = {
           </button>
         </div>
         <div class="hds-palette-dark" style="padding: 1.5rem;">
-          <p class="hds-label">Nested: Dark</p>
+          <p class="hds-overline">Nested: Dark</p>
           <h3 style="margin-top: 0.25rem;">Heading</h3>
           <p style="margin-top: 0.5rem;">Paragraph with <a class="usa-link" href="#">link</a>.</p>
           <button class="hds-btn-icon hds-btn-icon--utility" aria-label="Next" style="margin-top: 0.75rem;">
@@ -121,7 +121,7 @@ export const Nested = {
           </button>
         </div>
         <div class="hds-palette-blue" style="padding: 1.5rem;">
-          <p class="hds-label">Nested: Blue</p>
+          <p class="hds-overline">Nested: Blue</p>
           <h3 style="margin-top: 0.25rem;">Heading</h3>
           <p style="margin-top: 0.5rem;">Paragraph with <a class="usa-link" href="#">link</a>.</p>
           <button class="hds-btn-icon hds-btn-icon--utility" aria-label="Next" style="margin-top: 0.75rem;">

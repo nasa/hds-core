@@ -117,7 +117,7 @@ export const StackingDemo = {
   render: () => `
     <div style="max-width: 36em; padding: 1rem;">
       <div style="padding: 1rem;">
-        <p class="hds-eyebrow" style="margin: 0;">Featured Mission</p>
+        <p class="hds-overline" style="margin: 0;">Featured Mission</p>
         <div style="height: 8px; background: #1C67E3; opacity: 0.2; margin: 0;"></div>
         <h3 style="margin: 0;">Artemis Program</h3>
         <div style="height: 16px; background: #1C67E3; opacity: 0.2; margin: 0;"></div>

@@ -116,7 +116,7 @@ Per-element values per the HDS Core Proposal (USWDS only supports one line-heigh
 
 Three distinct small-text utility classes with unique typography per the HDS Core Proposal:
 
-**`.hds-overline`** (was `.hds-label` / `.hds-eyebrow`): DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators.
+**`.hds-overline`**: DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators.
 
 **`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. Values from Figma, size standardized to 12px.
 
