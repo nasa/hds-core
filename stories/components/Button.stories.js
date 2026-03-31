@@ -337,40 +337,38 @@ export const States = {
 };
 
 // --- Palette accessibility tests ---
-// TODO: Secondary button contrast fails AA on dark palettes — see GitHub Discussion #24
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  parameters: paletteA11yParams,
   render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.hover, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
   render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yFocus = {
   name: 'Palette a11y [focus-visible]',
   tags: ['!dev'],
-  globals: { pseudo: { focusVisible: true } },
-  parameters: paletteA11yParams,
+  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
   render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yDisabled = {
   name: 'Palette a11y [disabled]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  parameters: paletteA11yParams,
   render: paletteRender(States.render),
 };
 
 export const PaletteA11yStates = {
   name: 'Palette a11y [states]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.hover, a11y: { ...paletteA11yParams.a11y, test: 'todo' } },
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
   render: paletteRender(States.render),
 };
