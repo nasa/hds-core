@@ -4,10 +4,12 @@
 //
 // Sidebar structure:
 //   Guidance   — Button.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — CTA (default), Secondary Filled, Outline,
-//              Unstyled, Primary Arrow (visible in sidebar)
+//   Stories    — Primary Arrow, CTA (default), Secondary Filled,
+//              Outline, Unstyled, All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -52,14 +54,47 @@ const disabledArgTypes = {
   },
 };
 
-const stateVariants = [
-  { text: 'CTA', classes: 'usa-button' },
-  { text: 'Secondary', classes: 'usa-button usa-button--secondary' },
-  { text: 'Outline', classes: 'usa-button usa-button--outline' },
-  { text: 'Unstyled', classes: 'usa-button usa-button--unstyled' },
-];
+// Shared Chromatic parameters for focus test stories
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
 
 // --- Stories (visible in sidebar) ---
+
+export const PrimaryArrow = {
+  name: 'Primary Arrow',
+  args: {
+    text: 'Explore the Mission',
+    external: false,
+    size: 'default',
+  },
+  argTypes: {
+    text: {
+      control: 'text',
+      name: 'Label',
+      description: 'Link text content',
+    },
+    external: {
+      control: 'boolean',
+      description: 'External link — arrow changes from line to diagonal',
+    },
+    size: {
+      control: 'select',
+      options: ['xs', 'sm', 'default', 'lg', 'xl', '2xl'],
+      description: 'Button size — default is 18px text / 24px circle',
+    },
+  },
+  render: (args = {}) => {
+    const { text = 'Explore the Mission', external = false, size = 'default' } = args;
+    const externalClass = external ? ' usa-link--external' : '';
+    const sizeClass = size && size !== 'default' ? ` hds-btn--primary--${size}` : '';
+    const href = external ? 'https://flickr.com' : '#';
+    return `<a class="hds-btn--primary${sizeClass}${externalClass}" href="${href}">${text}</a>`;
+  },
+};
 
 export const CTA = {
   name: 'CTA (default)',
@@ -117,52 +152,52 @@ export const Unstyled = {
   },
 };
 
-export const PrimaryArrow = {
-  name: 'Primary Arrow',
-  args: {
-    text: 'Explore the Mission',
-    external: false,
-    size: 'default',
-  },
-  argTypes: {
-    text: {
-      control: 'text',
-      name: 'Label',
-      description: 'Link text content',
-    },
-    external: {
-      control: 'boolean',
-      description: 'External link — arrow changes from line to diagonal',
-    },
-    size: {
-      control: 'select',
-      options: ['xs', 'sm', 'default', 'lg', 'xl', '2xl'],
-      description: 'Button size — default is 18px text / 24px circle',
-    },
-  },
-  render: (args = {}) => {
-    const { text = 'Explore the Mission', external = false, size = 'default' } = args;
-    const externalClass = external ? ' usa-link--external' : '';
-    const sizeClass = size && size !== 'default' ? ` hds-btn--primary--${size}` : '';
-    const href = external ? 'https://flickr.com' : '#';
-    return `<a class="hds-btn--primary${sizeClass}${externalClass}" href="${href}">${text}</a>`;
-  },
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Primary Arrow')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Internal', '<a class="hds-btn--primary" href="#">Explore the Mission</a>')}
+            ${gridItem('External', '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>')}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Filled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', btn('usa-button', 'Download Report'))}
+            ${gridItem('Secondary', btn('usa-button usa-button--secondary', 'Apply Filters'))}
+            ${gridItem('Unstyled', btn('usa-button usa-button--unstyled', 'Cancel'))}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Outline')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('Outline', btn('usa-button usa-button--outline', 'View Details'))}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', btn('usa-button', 'Download Report', { disabled: true }))}
+            ${gridItem('Secondary', btn('usa-button usa-button--secondary', 'Apply Filters', { disabled: true }))}
+            ${gridItem('Outline', btn('usa-button usa-button--outline', 'View Details', { disabled: true }))}
+          `)}
+        </div>
+      </div>
+    </div>
+  `,
 };
 
 // --- Guidance embeds (MDX only) ---
-
-export const PrimaryArrowPair = {
-  name: 'Primary Arrow pair',
-  tags: ['!dev'],
-  render: () =>
-    grid(`
-    ${gridItem('Internal', '<a class="hds-btn--primary" href="#">Explore the Mission</a>')}
-    ${gridItem(
-      'External',
-      '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>',
-    )}
-  `),
-};
 
 export const PrimaryArrowSizes = {
   name: 'Primary arrow sizes',
@@ -209,133 +244,6 @@ export const PrimaryArrowSizes = {
   `,
 };
 
-export const FilledVariants = {
-  name: 'Filled variants',
-  tags: ['!dev'],
-  render: () =>
-    grid(`
-    ${gridItem('Call to Action', btn('usa-button', 'Download Report'))}
-    ${gridItem('Secondary Filled', btn('usa-button usa-button--secondary', 'Apply Filters'))}
-    ${gridItem('Unstyled', btn('usa-button usa-button--unstyled', 'Cancel'))}
-  `),
-};
-
-export const DisabledStates = {
-  name: 'Disabled states',
-  tags: ['!dev'],
-  render: () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      <div>
-        ${label('Filled — disabled')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('Call to Action', btn('usa-button', 'Download Report', { disabled: true }))}
-            ${gridItem('Secondary Filled', btn('usa-button usa-button--secondary', 'Apply Filters', { disabled: true }))}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Filled — aria-disabled')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('Call to Action', btn('usa-button', 'Download Report', { ariaDisabled: true }))}
-            ${gridItem('Secondary Filled', btn('usa-button usa-button--secondary', 'Apply Filters', { ariaDisabled: true }))}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Outline — disabled')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('disabled', btn('usa-button usa-button--outline', 'View Details', { disabled: true }))}
-            ${gridItem('aria-disabled', btn('usa-button usa-button--outline', 'View Details', { ariaDisabled: true }))}
-          `)}
-        </div>
-      </div>
-    </div>
-  `,
-};
-
-export const AllVariants = {
-  name: 'All variants',
-  tags: ['!dev'],
-  render: () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      <div>
-        ${label('Filled')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('CTA', btn('usa-button', 'Download Report'))}
-            ${gridItem('Secondary', btn('usa-button usa-button--secondary', 'Apply Filters'))}
-            ${gridItem('Unstyled', btn('usa-button usa-button--unstyled', 'Cancel'))}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Outline')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('Outline', btn('usa-button usa-button--outline', 'View Details'))}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Primary Arrow')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('Internal', '<a class="hds-btn--primary" href="#">Explore the Mission</a>')}
-            ${gridItem('External', '<a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>')}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Disabled')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${gridItem('CTA', btn('usa-button', 'Download Report', { disabled: true }))}
-            ${gridItem('Secondary', btn('usa-button usa-button--secondary', 'Apply Filters', { disabled: true }))}
-            ${gridItem('Outline', btn('usa-button usa-button--outline', 'View Details', { disabled: true }))}
-          `)}
-        </div>
-      </div>
-    </div>
-  `,
-};
-
-export const States = {
-  name: 'States (all variants)',
-  render: () => {
-    const header = `
-      <div style="display: grid; grid-template-columns: 7rem repeat(2, auto); gap: 1rem; align-items: center; margin-bottom: 0.75rem;">
-        <div></div>
-        ${label('Default')}
-        ${label('Disabled')}
-      </div>`;
-
-    const rows = stateVariants
-      .map(
-        (v) => `
-      <div style="display: grid; grid-template-columns: 7rem repeat(2, auto); gap: 1rem; align-items: center;">
-        ${label(v.text)}
-        <div>${btn(v.classes, 'Label')}</div>
-        <div>${btn(v.classes, 'Label', { disabled: true })}</div>
-      </div>`,
-      )
-      .join('');
-
-    return `
-      ${header}
-      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-        ${rows}
-      </div>
-      <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
-        Hover states require mouse interaction — hover each button above to preview.
-        Active matches hover on all variants. Primary Arrow excluded (link, not button).
-      </p>
-    `;
-  },
-};
-
 // --- Palette accessibility tests ---
 
 export const PaletteA11y = {
@@ -352,23 +260,34 @@ export const PaletteA11yHover = {
   render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusButton = {
+  name: 'Focus [button]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(AllVariants.render),
+  parameters: focusParams,
+  render: () => `
+    <div style="display: flex; gap: 1rem; align-items: flex-start;">
+      ${btn('usa-button', 'CTA Button')}
+      ${btn('usa-button usa-button--secondary', 'Secondary')}
+      ${btn('usa-button usa-button--outline', 'Outline')}
+    </div>
+  `,
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button', { name: 'CTA Button' });
+    await expect(button).toHaveFocus();
+  },
 };
 
-export const PaletteA11yDisabled = {
-  name: 'Palette a11y [disabled]',
+export const FocusPrimaryArrow = {
+  name: 'Focus [primary arrow]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render),
-};
-
-export const PaletteA11yStates = {
-  name: 'Palette a11y [states]',
-  tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(States.render),
+  parameters: focusParams,
+  render: () => '<a class="hds-btn--primary" href="#">Explore the Mission</a>',
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const link = canvas.getByRole('link', { name: 'Explore the Mission' });
+    await expect(link).toHaveFocus();
+  },
 };
