@@ -384,6 +384,10 @@ import { Note } from '../helpers/Note';
 
 ## Pending documentation tasks
 
+- [ ] All: Add syntax to all code blocks for proper highlighting
+- [ ] Overview: Add screenshots for "Using Storybook" section, update any references to "Playground"
+- [ ] Color: Check against color tokens, consider adding more detailed role token documentation if folks want to reuse role tokens?
+- [ ] Data Visualization: Add screenshots to better match original HDS guidance
 - [ ] Data Visualization Palettes: increase border thickness/padding on categorical table containers
 - [ ] Data Visualization Palettes: add hex codes to sequential palette gradient strips
 - [ ] Data Visualization Palettes: add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma

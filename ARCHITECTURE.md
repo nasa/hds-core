@@ -302,5 +302,6 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths (Phase 2)
 - [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
 - [ ] Gulp 5 migration (clears 11 dev-dependency vulnerabilities from Gulp 4's dependency chain)
-- [ ] Expand Chromatic visual regression to Tier 2: ColorPalettes (palette visual spec), Site Alert (scoped vars, no PaletteA11y), Table variants (Sortable/Borderless/Compact), Form Validation flow, Icon Button sizes/roles, Pagination edge cases
+- [ ] Expand Chromatic visual regression to Tier 2: Site Alert (scoped vars, no PaletteA11y), Table variants (Sortable/Borderless/Compact), Form Validation flow, Icon Button sizes/roles, Pagination edge cases
+- [ ] Grid overlay toolbar toggle for verifying component alignment (Phase 2 — pairs with Navigation work)
 - [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions
