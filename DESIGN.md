@@ -44,6 +44,24 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 
 HDS links use body text color — not brand color — for the text itself. The dotted underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
 
+#### Non-Text Contrast Ratios (WCAG 2.1 reference) - Links
+
+Verified manually — axe-core cannot inspect pseudo-elements or CSS-generated content.
+
+**External link arrow** (`::after`):
+
+| Palette group | Color | Background | Ratio |
+|---|---|---|---|
+| White, Light, Midtone | Carbon 60 (#58585B) | #FFFFFF / #F6F6F6 / #D1D1D1 | 7.09 / 6.56 / 4.64 ✅ |
+| Dark, Blue, Black | Carbon 40 (#959599) | #17171B / #0B3D91 / #000000 | 5.99 / 3.37 / 7.04 ✅ |
+
+**Link underline** (`text-decoration`):
+
+| Palette group | Color | Background | Ratio |
+|---|---|---|---|
+| White, Light, Midtone | Carbon 60 (#58585B) | #FFFFFF / #F6F6F6 / #D1D1D1 | 7.09 / 6.56 / 4.64 ✅ |
+| Dark, Blue, Black | Carbon 20 (#B9B9BB) | #17171B / #0B3D91 / #000000 | 9.12 / 5.13 / 10.72 ✅ |
+
 ## Naming & Organization
 
 ### Palette Names
@@ -224,6 +242,21 @@ Disabled treatment is color-based (not opacity-based), consistent with all HDS b
 
 Note: Figma shows Carbon 30 for the default light stroke, but the HDS Core Proposal specifies Carbon 20. Proposal takes precedence.
 
+### Utility Circle Stroke Contrast
+
+Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component.
+
+Stroke ratios are documented for future reference but are not compliance-blocking:
+
+| Palette | Background | Stroke | Ratio | 
+|---|---|---|---|
+| White | #FFFFFF | Carbon 20 (#D1D1D1) | 1.53:1 |
+| Light | #F6F6F6 | Carbon 20 | 1.41:1 |
+| Midtone | #D1D1D1 | Carbon 60 (#959599) | 1.95:1 |
+| Dark | #17171B | Carbon 60 (#58585B) | 2.52:1 |
+| Black | #000000 | Carbon 60 (#58585B) | 2.96:1 |
+| Blue | #0B3D91 | ⚠️ Bug — currently matches outline button style instead of utility stroke | — |
+
 ### Icon Button Size Scale
 
 8-size scale aligned with HDS Figma spec plus two sizes observed in Figma modules (flagged for creative director confirmation):
@@ -341,9 +374,7 @@ Three checkbox-specific tokens renamed to generic control names (shared by check
 - `--hds-palette-checkbox-fill` → `--hds-palette-control-fill`
 - `--hds-palette-checkbox-stroke` → `--hds-palette-control-stroke`
 
-### New Form Tokens (Flagged for Review)
-
-Six new tokens inferred from Figma component CSS. The HDS Core Proposal defines checkbox colors and UI borders but does not specify input backgrounds, disabled states, or error states. These need review — especially on midtone and blue palettes, which Figma never designed form elements for.
+### Form Color Tokens
 
 | Token | Light | Dark | Purpose |
 | --- | --- | --- | --- |
@@ -353,6 +384,14 @@ Six new tokens inferred from Figma component CSS. The HDS Core Proposal defines 
 | `--hds-palette-disabled-bg` | Carbon 05 | Carbon 90 | Disabled backgrounds |
 | `--hds-palette-error-border` | NASA Red | Red/Tint | Error state borders |
 | `--hds-palette-error-text` | Red/Shade | Red/Tint | Error message text |
+
+### Non-Text Contrast Ratios (WCAG 2.1 reference) - Checkbox/Radio Button
+
+Verified manually — axe-core cannot inspect pseudo-elements or CSS-generated content.
+
+| Element | Color | Background | Ratio |
+|---|---|---|---|
+| Check glyph / radio dot | White (#FFFFFF) | NASA Blue (#1C67E3) | 5.12:1 ✅ |
 
 ### Disabled Help Text
 
