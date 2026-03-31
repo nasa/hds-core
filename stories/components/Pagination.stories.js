@@ -4,8 +4,8 @@
 //
 // Sidebar structure:
 //   Guidance   — Pagination.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Bounded (default), Unbounded, Simplified
-//              (visible in sidebar)
+//   Stories    — Bounded (default), Unbounded, Simplified,
+//              All Variants (visible in sidebar)
 //
 // Numbered variants use HDS icon buttons for prev/next with
 // HDS sprite chevrons. Simplified variant uses HDS composed
@@ -18,6 +18,8 @@
 // generates the correct markup for each page state.
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -267,58 +269,99 @@ export const Simplified = {
   },
 };
 
-// --- Guidance embeds — Bounded (MDX only) ---
-
-export const BoundedMiddlePage = {
-  name: 'Bounded — middle page',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 20, currentPage: 6 }),
+export const AllVariants = {
+  name: 'All Variants',
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Bounded (page 6 of 20)')}
+        <div style="margin-top: 0.5rem;">
+          ${pagination({ totalPages: 20, currentPage: 6 })}
+        </div>
+      </div>
+      <div>
+        ${label('Unbounded (page 10)')}
+        <div style="margin-top: 0.5rem;">
+          ${pagination({ totalPages: 100, currentPage: 10, unbounded: true })}
+        </div>
+      </div>
+      <div>
+        ${label('Simplified (page 2 of 5)')}
+        <div style="margin-top: 0.5rem;">
+          ${pagination({ totalPages: 5, currentPage: 2, simplified: true })}
+        </div>
+      </div>
+    </div>
+  `,
 };
 
-export const BoundedNearEnd = {
-  name: 'Bounded — near end',
+// --- Guidance embeds (MDX only) ---
+
+export const BoundedStates = {
+  name: 'Bounded states',
   tags: ['!dev'],
-  render: () => pagination({ totalPages: 20, currentPage: 17 }),
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div>
+        ${label('Middle page (6 of 20) — ellipsis on both sides')}
+        ${pagination({ totalPages: 20, currentPage: 6 })}
+      </div>
+      <div>
+        ${label('Near end (17 of 20) — ellipsis shifts left')}
+        ${pagination({ totalPages: 20, currentPage: 17 })}
+      </div>
+      <div>
+        ${label('Last page (20 of 20) — next arrow disabled')}
+        ${pagination({ totalPages: 20, currentPage: 20 })}
+      </div>
+      <div>
+        ${label('All pages visible (7 pages) — no ellipsis')}
+        ${pagination({ totalPages: 7, currentPage: 1 })}
+      </div>
+      <div>
+        ${label('Minimal (2 pages)')}
+        ${pagination({ totalPages: 2, currentPage: 1 })}
+      </div>
+    </div>
+  `,
 };
 
-export const BoundedLastPage = {
-  name: 'Bounded — last page',
+export const SimplifiedStates = {
+  name: 'Simplified states',
   tags: ['!dev'],
-  render: () => pagination({ totalPages: 20, currentPage: 20 }),
-};
-
-export const BoundedFewPages = {
-  name: 'Bounded — all pages visible',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 7, currentPage: 1 }),
-};
-
-export const BoundedMinimal = {
-  name: 'Bounded — 2 pages',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 2, currentPage: 1 }),
-};
-
-// --- Guidance embeds — Unbounded (MDX only) ---
-
-export const UnboundedMiddle = {
-  name: 'Unbounded — middle',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 100, currentPage: 10, unbounded: true }),
-};
-
-// --- Guidance embeds — Simplified (MDX only) ---
-
-export const SimplifiedFirstPage = {
-  name: 'Simplified — first page',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 5, currentPage: 1, simplified: true }),
-};
-
-export const SimplifiedLastPage = {
-  name: 'Simplified — last page',
-  tags: ['!dev'],
-  render: () => pagination({ totalPages: 5, currentPage: 5, simplified: true }),
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div>
+        ${label('First page — previous disabled')}
+        ${pagination({ totalPages: 5, currentPage: 1, simplified: true })}
+      </div>
+      <div>
+        ${label('Last page — next disabled')}
+        ${pagination({ totalPages: 5, currentPage: 5, simplified: true })}
+      </div>
+    </div>
+  `,
 };
 
 // --- Palette accessibility tests ---
@@ -327,19 +370,48 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(BoundedMiddlePage.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(BoundedMiddlePage.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
+
+export const FocusPageNumber = {
+  name: 'Focus [page number]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(BoundedMiddlePage.render),
+  parameters: focusParams,
+  render: () => pagination({ totalPages: 20, currentPage: 6 }),
+  play: async ({ canvas, userEvent }) => {
+    // Tab past Previous arrow icon button → land on first page number link
+    await userEvent.tab(); // Previous arrow (icon button — covered by Icon Button FocusTest)
+    await userEvent.tab(); // Page 1 link — STOP
+    const pageLink = canvas.getByRole('link', { name: 'Page 1' });
+    await expect(pageLink).toHaveFocus();
+  },
+};
+
+export const FocusSimplified = {
+  name: 'Focus [simplified]',
+  tags: ['!dev'],
+  parameters: focusParams,
+  render: () => pagination({ totalPages: 5, currentPage: 2, simplified: true }),
+  play: async ({ canvas, userEvent }) => {
+    // Tab to first simplified button (Previous)
+    await userEvent.tab();
+    const prevBtn = canvas.getByRole('button', { name: 'Previous page' });
+    await expect(prevBtn).toHaveFocus();
+  },
 };

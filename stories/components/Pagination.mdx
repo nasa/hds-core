@@ -12,8 +12,6 @@ Pagination state logic (active page, ellipsis placement, disabled arrows) is you
 
 ## Variants
 
-HDS pagination comes in three variants.
-
 ### Bounded (known page count)
 
 Use bounded pagination when the total number of pages is known. The last page is always visible as the final slot. When there are more than 7 pages, ellipsis slots collapse intermediate pages. Previous and next arrows disable at the boundaries.
@@ -22,23 +20,9 @@ Use bounded pagination when the total number of pages is known. The last page is
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
-The ellipsis position shifts as the user moves through pages:
+Ellipsis position, boundary behavior, and edge cases:
 
-<Canvas of={PaginationStories.BoundedMiddlePage} />
-
-<Canvas of={PaginationStories.BoundedNearEnd} />
-
-When the last page is selected, the next arrow is disabled:
-
-<Canvas of={PaginationStories.BoundedLastPage} />
-
-When all pages fit (7 or fewer), no ellipsis is needed:
-
-<Canvas of={PaginationStories.BoundedFewPages} />
-
-Bounded pagination works with as few as 2 pages:
-
-<Canvas of={PaginationStories.BoundedMinimal} />
+<Canvas of={PaginationStories.BoundedStates} />
 
 ### Unbounded (unknown page count)
 
@@ -46,23 +30,23 @@ Use unbounded pagination when the total number of pages is unknown — for examp
 
 <Canvas of={PaginationStories.Unbounded} />
 
-<Canvas of={PaginationStories.UnboundedMiddle} />
-
 ### Simplified (small screens)
 
 For mobile viewports or touch-heavy contexts, a simplified Previous/Next pattern replaces numbered pages. Each direction is a single interactive element — the icon circle and text label share one focus box and one click target.
 
 <Canvas of={PaginationStories.Simplified} />
 
-When on the first page, "Previous" appears disabled (muted text and icon):
+Boundary states — disabled previous on first page, disabled next on last:
 
-<Canvas of={PaginationStories.SimplifiedFirstPage} />
-
-When on the last page, "Next" appears disabled:
-
-<Canvas of={PaginationStories.SimplifiedLastPage} />
+<Canvas of={PaginationStories.SimplifiedStates} />
 
 <Note type="figma">The HDS Figma spec suggests simplified pagination for 5 or fewer pages on mobile. HDS Core treats this as a screen-size and context decision rather than a strict page-count rule — simplified can be used at any page count on small screens.</Note>
+
+### All variants
+
+All three pagination types at a glance.
+
+<Canvas of={PaginationStories.AllVariants} />
 
 ## When to use the pagination component
 
