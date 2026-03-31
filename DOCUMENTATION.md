@@ -94,7 +94,7 @@ Every Guidance and Foundation page should include a Canvas or visual element imm
 
 ### Code blocks
 
-Always add a language identifier to fenced code blocks (` ```html `, ` ```scss `, ` ```js `, ` ```mdx `) for syntax highlighting. A full pass across existing files is pending.
+Always add a language identifier to fenced code blocks (` ```html `, ` ```scss `, ` ```js `, ` ```mdx `) for syntax highlighting.
 
 ### Key rules
 
