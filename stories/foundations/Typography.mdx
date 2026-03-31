@@ -2,7 +2,7 @@ import { Meta, Canvas } from '@storybook/addon-docs/blocks';
 import * as TypographyStories from './Typography.stories';
 import { Note } from '../helpers/Note';
 
-<Meta of={TypographyStories} />
+<Meta title="Foundations/Typography" />
 
 # Typography
 
@@ -28,15 +28,6 @@ H1–H3 use Inter Bold; H4–H6 use Inter SemiBold for a lighter hierarchy.
 
 <Canvas of={TypographyStories.HeadingScale} />
 
-| Element | Size       | Weight       | Line-height | Letter-spacing |
-| ------- | ---------- | ------------ | ----------- | -------------- |
-| `<h1>`  | 48px (2xl) | 700 Bold     | 1 (100%)    | -1.5px         |
-| `<h2>`  | 36px (xl)  | 700 Bold     | 1.1 (110%)  | -1px           |
-| `<h3>`  | 22px (md)  | 700 Bold     | 1.2 (120%)  | -0.5px         |
-| `<h4>`  | 18px (sm)  | 600 SemiBold | 1.3 (130%)  | -0.5px         |
-| `<h5>`  | 16px (xs)  | 600 SemiBold | 1.2 (120%)  | -0.5px         |
-| `<h6>`  | 14px (2xs) | 600 SemiBold | 1.3 (130%)  | -0.25px        |
-
 ## Display sizes
 
 Display typefaces are intended for large sizes, giving emphasis to the most important headline on the page.
@@ -53,11 +44,26 @@ Use `.usa-intro` for the opening paragraph of a page or section. See the [Intro 
 
 <Canvas of={TypographyStories.IntroText} />
 
-## Labels, metadata & captions
+## Overlines, metadata & captions
 
 Three visually similar but typographically distinct treatments for small supportive text:
 
 <Canvas of={TypographyStories.SmallText} />
+
+<Note type="figma">
+  HDS Figma calls all three of these styles <strong>"Labels"</strong> — but that term conflicts with HTML <code>&lt;label&gt;</code> elements and USWDS <code>.usa-label</code> form labels. HDS Core uses distinct class names to avoid confusion:
+  <ul style={{ marginBlockStart: '0.5rem', marginBlockEnd: '0' }}>
+    <li>
+      <code>.hds-overline</code> — called "Label" in HDS Figma and "Label (div)" in the HDS Core Proposal.
+    </li>
+    <li>
+      <code>.hds-metadata</code> — derived from usage patterns (dates, counts, categories) with size standardized to 12px.
+    </li>
+    <li>
+      <code>.hds-caption</code> — called "Figcaption" in the HDS Core Proposal.
+    </li>
+  </ul>
+</Note>
 
 ## Blockquote
 
@@ -96,4 +102,4 @@ The numbers typeface brings a technical feel to the system — from countdowns t
 }
 ```
 
-For the full USWDS typography token reference, see the[USWDS typography utilities documentation](https://designsystem.digital.gov/design-tokens/typesetting/overview/).
+For the full USWDS typography token reference, see the [USWDS typography utilities documentation](https://designsystem.digital.gov/design-tokens/typesetting/overview/).

@@ -1,4 +1,4 @@
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Foundations/Typography',
@@ -105,24 +105,19 @@ export const SmallText = {
         </thead>
         <tbody>
           <tr>
-            <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-label</code></td>
-            <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-label">NASA Eyes on the Solar System</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">DM Mono Bold · 12px · uppercase · 0.25px spacing</td>
-          </tr>
-          <tr>
-            <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-eyebrow</code></td>
-            <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-eyebrow">Featured Mission</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">DM Mono Bold · 12px · uppercase · 0.25px spacing</td>
+            <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-overline</code></td>
+            <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-overline">Featured Mission</span></td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">DM Mono Medium (500) · 12px · uppercase · 3.5px spacing</td>
           </tr>
           <tr>
             <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-metadata</code></td>
             <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-metadata">March 14, 2026 · 5 min read</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Inter Bold · 12px · uppercase · 0.25px spacing</td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Inter Bold (700) · 12px · uppercase · 0.25px spacing</td>
           </tr>
           <tr>
             <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-caption</code></td>
             <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-caption">Image credit: NASA/JPL-Caltech</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Public Sans Normal · 12px</td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Public Sans Regular (400) · 12px · 0.25px spacing</td>
           </tr>
         </tbody>
       </table>
@@ -239,7 +234,7 @@ export const FontStack = {
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
 
         <div>
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Display & Heading Typeface</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">Display & Heading Typeface</p>
           <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; margin-block: 0.5rem;">
             Inter
           </p>
@@ -258,7 +253,7 @@ export const FontStack = {
         </div>
 
         <div>
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Body Typeface</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">Body Typeface</p>
           <p style="font-family: var(--hds-font-family-body, 'Public Sans', sans-serif); font-size: 2rem; font-weight: 700; line-height: 1.1; margin-block: 0.5rem;">
             Public Sans
           </p>
@@ -277,7 +272,7 @@ export const FontStack = {
         </div>
 
         <div>
-          <p class="hds-eyebrow" style="margin-block-end: 0.5rem;">Numbers & Labels Typeface</p>
+          <p class="hds-overline" style="margin-block-end: 0.5rem;">Numbers & Labels Typeface</p>
           <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 2rem; font-weight: 500; line-height: 1.1; margin-block: 0.5rem;">
             DM Mono
           </p>
@@ -300,11 +295,47 @@ export const FontStack = {
   `,
 };
 
+// ============================================================
+// All Variants — combined render for PaletteA11y testing.
+// Includes every palette-aware typographic element to catch
+// unintended changes outside of built components.
+// ============================================================
+
+const allVariantsRender = () => `
+  <div style="max-width: 64em;">
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <h5>Heading 5</h5>
+    <h6>Heading 6</h6>
+
+    <p>Body text — Public Sans at 16px. The body typefaces are designed for large fields of text, from cards to articles.</p>
+
+    <p class="usa-intro">Intro text — Public Sans Light at 22px for opening paragraphs.</p>
+
+    <p class="hds-overline">Overline Label</p>
+    <p class="hds-metadata">Metadata · March 14, 2026</p>
+    <p class="hds-caption">Image credit: NASA/JPL-Caltech</p>
+
+    <blockquote>
+      <p>We choose to go to the Moon in this decade.</p>
+      <cite>President John F. Kennedy</cite>
+    </blockquote>
+
+    <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 48px; font-weight: 300; line-height: 1;">
+      12
+    </p>
+
+    <pre><code>const mission = 'Artemis';</code></pre>
+  </div>
+`;
+
 // --- Palette Accessibility tests (hidden from sidebar) ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(HeadingScale.render),
+  render: paletteRender(allVariantsRender),
 };
