@@ -1033,6 +1033,20 @@ input::file-selector-button,
 }
 
 // ------------------------------------------------------------
+// §7.0.1 Arrow visibility
+// ------------------------------------------------------------
+// USWDS hides .usa-pagination__arrow below $theme-pagination-
+// breakpoint ("tablet" / 640 px). At 200 % browser zoom the
+// effective CSS viewport halves, pushing desktop users below
+// that breakpoint and making prev/next buttons disappear.
+// Override so arrows are always visible — HDS pagination is
+// not expected to hide navigation controls at any viewport.
+
+.usa-pagination__arrow {
+  display: inherit;
+}
+
+// ------------------------------------------------------------
 // §7.1 Page number
 // ------------------------------------------------------------
 
