@@ -1,0 +1,53 @@
+// ============================================================
+// HDS Component — Grid Utilities
+// @nasa/hds-core
+// ============================================================
+// Responsive reverse, horizontal lists, and section spacing.
+// Refinements to the core USWDS grid.
+//
+// Restyles: https://designsystem.digital.gov/utilities/layout-grid/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// ── Responsive reverse ────────────────────────────────────────
+// Generates .grid-reverse-{breakpoint} classes for each active
+// USWDS breakpoint. Reverses flex column order below that
+// breakpoint.
+
+@each $token, $value in $theme-utility-breakpoints {
+  @if $value {
+    .grid-reverse-#{$token} {
+      @include at-media-max('#{$token}') {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+}
+
+// ── Section spacing ───────────────────────────────────────────
+
+.usa-section {
+  padding-block: units(8);
+}
+
+// ── Horizontal list ───────────────────────────────────────────
+
+.usa-list--horizontal {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: units(3);
+  row-gap: units(1.5);
+  li {
+    margin-bottom: 0;
+  }
+}
+
+// ── Top-level only list ───────────────────────────────────────
+
+.usa-list--top-level {
+  ul {
+    display: none;
+  }
+}

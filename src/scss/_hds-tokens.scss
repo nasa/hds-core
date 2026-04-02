@@ -6,7 +6,7 @@
 //
 // This file is loaded in two places:
 //   1. _hds-uswds-theme.scss — feeds values into USWDS config
-//   2. _hds-custom-styles.scss — outputs CSS custom properties
+//   2. base/_custom-properties.scss — outputs CSS custom properties
 //
 // WHY THIS FILE CAN'T USE USWDS:
 // Sass only allows `@use "module" with (...)` on the FIRST load.
@@ -149,7 +149,7 @@ $hds-weights: (
 // ============================================================
 // Values are USWDS line-height scale integers, resolved to
 // actual values via USWDS's line-height() function in
-// _hds-custom-styles.scss § CSS Custom Properties.
+// base/_custom-properties.scss
 // ============================================================
 
 $hds-line-heights: (
@@ -161,7 +161,7 @@ $hds-line-heights: (
   'intro': 4,
   // 1.15
   'input': 2,
-  // closest USWDS token; refined to 1.2 in _hds-custom-styles §2.3
+  // closest USWDS token; refined to 1.2 in base/_mixins.scss
   'button': 3,
   // 1.35
   'code': 3,
@@ -169,7 +169,7 @@ $hds-line-heights: (
   'table': 2,
   // 1.75 ≈ proposal 180%
   'label': 6,
-  // closest USWDS token; refined to 1.2 in _hds-custom-styles §3
+  // closest USWDS token; refined to 1.2 in components/_text-styles.scss
   'caption': 3
 );
 

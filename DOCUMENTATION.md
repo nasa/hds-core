@@ -502,8 +502,8 @@ Example — Button has two distinct treatments:
 
 | Treatment | SCSS | Visual |
 |---|---|---|
-| `.usa-button` (all filled/outline variants) | §4.1: `2px dashed Carbon-30` (fixed) | Dashed gray ring |
-| `.hds-btn--primary` (arrow button) | §11.1: `2px dotted palette-aware` | Dotted, color adapts |
+| `.usa-button` (all filled/outline variants) | `components/_button.scss`: `2px dashed Carbon-30` (fixed) | Dashed gray ring |
+| `.hds-btn--primary` (arrow button) | `components/_primary-arrow-button.scss`: `2px dotted palette-aware` | Dotted, color adapts |
 
 Result: 2 FocusTest stories for Button.
 

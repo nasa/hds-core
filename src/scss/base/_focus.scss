@@ -1,0 +1,39 @@
+// ============================================================
+// HDS Base — Focus Styles
+// @nasa/hds-core
+// ============================================================
+// ALWAYS ACTIVE — not gated (accessibility requirement).
+//
+// Figma: 1px dashed, palette-aware.
+//   Light: Carbon 60 (--hds-palette-muted)
+//   Dark:  Carbon 30 (--hds-palette-muted)
+// Offset: 2px default. Components with generous internal
+// spacing (e.g. pagination page numbers) may override to 0.
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// HDS :focus-visible ring
+[contenteditable='true']:focus-visible,
+[tabindex]:focus-visible,
+iframe:focus-visible,
+button:not([disabled]):focus-visible,
+input:not([disabled]):focus-visible,
+select:not([disabled]):focus-visible,
+textarea:not([disabled]):focus-visible {
+  outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
+  outline-offset: 2px;
+}
+
+// Suppress USWDS :focus outline on mouse click.
+// HDS uses :focus-visible (keyboard only). Without this,
+// USWDS's own :focus rules show through on mouse interaction
+// because HDS :focus-visible rules don't match on click.
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
+}

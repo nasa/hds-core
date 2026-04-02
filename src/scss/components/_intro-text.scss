@@ -1,0 +1,19 @@
+// ============================================================
+// HDS Component — Intro Text
+// @nasa/hds-core
+// ============================================================
+// Tier 1 override of .usa-intro.
+//
+// Restyles: https://designsystem.digital.gov/components/intro/
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+.usa-intro {
+  font-size: size('body', 'sm');
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+  line-height: var(--hds-line-height-intro);
+}

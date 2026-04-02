@@ -1,0 +1,33 @@
+// ============================================================
+// HDS Component — Text Styles
+// @nasa/hds-core
+// ============================================================
+// Small text treatment classes used across the system.
+// .hds-overline  — DM Mono uppercase label
+// .hds-metadata  — Inter uppercase label
+// .hds-caption   — body font caption text
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+.hds-overline {
+  @include hds-overline-label;
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+}
+
+.hds-metadata {
+  @include hds-metadata-type;
+}
+
+.hds-caption {
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  display: block;
+  font-family: family('body');
+  font-size: size('body', '3xs');
+  font-weight: font-weight('normal');
+  letter-spacing: 0.25px; // Proposal token "1"
+  line-height: 1.2; // Proposal 120%; USWDS token 3 (1.35) too coarse
+  margin-block-start: units(1);
+}

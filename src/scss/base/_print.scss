@@ -1,0 +1,74 @@
+// ============================================================
+// HDS Base — Print Styles
+// @nasa/hds-core
+// ============================================================
+// Forces readable output when printed regardless of palette.
+// ============================================================
+
+@media print {
+  // Reset all palettes to high-contrast light
+  :root,
+  [data-hds-palette],
+  [class*='hds-palette-'] {
+    --hds-palette-bg: #ffffff !important;
+    --hds-palette-heading: #000000 !important;
+    --hds-palette-text: #000000 !important;
+    --hds-palette-muted: #333333 !important;
+    --hds-palette-link-text: #000000 !important;
+    --hds-palette-link-underline: #000000 !important;
+    --hds-palette-border: #cccccc !important;
+    --hds-palette-icon: #000000 !important;
+
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  // Show link URLs after link text
+  a[href]:not([href^='#']):not([href^='javascript'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    font-weight: normal;
+    word-break: break-all;
+  }
+
+  // Don't print URL for buttons
+  .hds-btn--primary::after,
+  .hds-btn-icon::after,
+  [class*='usa-button']::after {
+    content: none !important;
+  }
+
+  // Hide non-essential interactive elements
+  .hds-btn-icon,
+  .usa-banner,
+  .usa-site-alert:not(.hds-print-visible),
+  .usa-nav,
+  .usa-footer,
+  .usa-skipnav {
+    display: none !important;
+  }
+
+  // Prevent images from breaking across pages
+  img,
+  svg,
+  figure {
+    break-inside: avoid;
+    max-width: 100% !important;
+  }
+
+  // Prevent headings orphaned at bottom of page
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid;
+  }
+
+  // Remove decorative effects
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

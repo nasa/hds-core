@@ -1,0 +1,108 @@
+// ============================================================
+// HDS Component — Site Alert
+// @nasa/hds-core
+// ============================================================
+// Tier 1 override — .usa-site-alert--emergency and
+// .usa-site-alert--info.
+//
+// HDS Figma calls this "Banner" — renamed to match USWDS
+// component name. Not the same as the government compliance
+// banner (components/_banner.scss).
+//
+// Scoped --hds-palette-* vars on each variant so existing
+// link/heading/text wiring works automatically.
+//
+// USWDS set-text-from-bg mixin applies hardcoded colors to
+// .usa-alert__body, ::before, heading, and links at high
+// specificity. Shared override section resets all of these.
+//
+// Restyles: https://designsystem.digital.gov/components/site-alert/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// ── Shared site alert override ────────────────────────────────
+// Matches USWDS specificity for set-text-from-bg output and
+// resets all child elements to inherit from palette vars on
+// the outer <section>. Applies to both variants at once.
+
+.usa-site-alert--emergency,
+.usa-site-alert--info {
+  // Alert container — remove left border, go transparent
+  .usa-alert {
+    background-color: transparent;
+    border-left-width: 0;
+  }
+
+  // Body — where set-text-from-bg applies its colors
+  .usa-alert .usa-alert__body {
+    background-color: transparent;
+    color: var(--hds-palette-text);
+  }
+
+  // Icon — set-text-from-bg sets background-color on ::before
+  .usa-alert .usa-alert__body::before {
+    background-color: var(--hds-palette-icon);
+  }
+
+  // Heading
+  .usa-alert .usa-alert__heading {
+    color: var(--hds-palette-heading);
+  }
+
+  // Body text
+  .usa-alert .usa-alert__text {
+    color: var(--hds-palette-text);
+  }
+
+  // Links — match USWDS 4-segment specificity from set-text-from-bg
+  .usa-alert .usa-alert__body a,
+  .usa-alert .usa-alert__body .usa-link,
+  .usa-alert .usa-alert__body .usa-link:visited,
+  .usa-alert .usa-alert__body .usa-link:hover,
+  .usa-alert .usa-alert__body .usa-link:active {
+    color: var(--hds-palette-link-text);
+  }
+}
+
+// ── Emergency — NASA Red Shade ────────────────────────────────
+// Full-width NASA Red Shade background with white text.
+// Used for: lapse in appropriations, service outages,
+// critical safety alerts.
+
+.usa-site-alert--emergency {
+  --hds-palette-bg: #{$hds-color-nasa-red-shade};
+  --hds-palette-heading: #{$hds-color-spacesuit-white};
+  --hds-palette-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline: #{$hds-color-carbon-30};
+  --hds-palette-link-arrow: #{$hds-color-carbon-40};
+  --hds-palette-muted: #{$hds-color-carbon-10};
+  --hds-palette-icon: #{$hds-color-spacesuit-white};
+
+  background-color: var(--hds-palette-bg);
+  color: var(--hds-palette-text);
+}
+
+// ── Info — NASA Blue Shade ────────────────────────────────────
+// Full-width NASA Blue Shade background with white text.
+// Used for: live events, language redirects, informational
+// announcements.
+//
+// Values match the blue palette scheme. If the blue palette
+// is updated, review these values for consistency.
+
+.usa-site-alert--info {
+  --hds-palette-bg: #{$hds-color-nasa-blue-shade};
+  --hds-palette-heading: #{$hds-color-spacesuit-white};
+  --hds-palette-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-text: #{$hds-color-spacesuit-white};
+  --hds-palette-link-underline: #{$hds-color-carbon-30};
+  --hds-palette-link-arrow: #{$hds-color-carbon-40};
+  --hds-palette-muted: #{$hds-color-carbon-10};
+  --hds-palette-icon: #{$hds-color-spacesuit-white};
+
+  background-color: var(--hds-palette-bg);
+  color: var(--hds-palette-text);
+}

@@ -186,8 +186,8 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
-  // secondary filled converts to outline here (§4.8) — borders
-  // need contrast against the NASA Blue Shade background.
+  // secondary filled converts to outline here (components/_button.scss);
+  // borders need contrast against the NASA Blue Shade background.
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
   // Inferred — same as dark scheme. Flagged for review.

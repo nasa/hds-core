@@ -1,0 +1,125 @@
+// ============================================================
+// HDS Component — Navigation
+// @nasa/hds-core
+// ============================================================
+// See DESIGN.md Navigation Component Mapping.
+//
+// STATUS: Phase 2 — inherited from prior work, not yet tested
+// or documented in Storybook. Review before v1.0 whether to
+// ship or remove until Phase 2 implementation.
+//
+// Restyles: https://designsystem.digital.gov/components/header/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// ------------------------------------------------------------
+// Header & Footer Link Resets
+// ------------------------------------------------------------
+
+.usa-header,
+.usa-footer,
+.usa-nav__submenu,
+.usa-megamenu {
+  a {
+    text-decoration-line: none;
+  }
+}
+
+.usa-header--basic .usa-nav-container {
+  align-items: center;
+  .usa-navbar {
+    width: auto;
+  }
+}
+
+.usa-footer__primary-content,
+.usa-footer__nav {
+  border: 0 !important;
+}
+
+.usa-footer__nav {
+  @include at-media-max('tablet-lg') {
+    nav > ul {
+      border-bottom-color: $hds-color-carbon-60;
+      padding-bottom: units(2) !important;
+      padding-top: units(2) !important;
+    }
+  }
+}
+
+// ------------------------------------------------------------
+// Agency Navbar
+// ------------------------------------------------------------
+
+.usa-navbar.agency-navbar {
+  border: 0;
+  position: relative;
+
+  .usa-nav__primary > .usa-nav__primary-item > a,
+  .usa-nav__primary button {
+    padding: units(3) units(2);
+  }
+
+  .usa-button--arrow {
+    padding: units(2) 0 !important;
+  }
+
+  @include at-media-max('desktop') {
+    .usa-nav {
+      padding: units(3);
+    }
+  }
+}
+
+// ------------------------------------------------------------
+// Navigation Menu Trigger
+// ------------------------------------------------------------
+
+.usa-nav__global-nav-trigger {
+  span:after {
+    background-color: currentColor;
+    mask-size: 1em !important;
+    mask-position: top center !important;
+    mask-repeat: no-repeat;
+  }
+
+  &[aria-expanded='true'] span:after {
+    mask-image:
+      url('../assets/img/hds-icons/arrow-chevron-up.svg'), linear-gradient(transparent, transparent) !important;
+  }
+
+  &[aria-expanded='false'] span:after {
+    mask-image:
+      url('../assets/img/hds-icons/arrow-chevron-down.svg'), linear-gradient(transparent, transparent) !important;
+  }
+}
+
+.usa-nav__mobile-menu-trigger {
+  padding-right: units(2.5);
+  width: 100%;
+
+  &[aria-expanded='false'] {
+    background-color: currentColor;
+    background-image: none;
+    mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
+    mask-position: right center;
+    mask-repeat: no-repeat;
+    mask-size: 1.2rem;
+  }
+
+  &[aria-expanded='true'] {
+    background-color: currentColor;
+    background-image: none;
+    mask-image: url('../assets/img/hds-icons/arrow-chevron-up.svg');
+    mask-position: right center;
+    mask-repeat: no-repeat;
+    mask-size: 1.2rem;
+  }
+}
+
+.usa-nav__mobile-menu {
+  padding: 1em 0;
+}
