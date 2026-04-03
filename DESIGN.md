@@ -4,14 +4,14 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-04-01
+Last updated: 2026-04-03
 
 ## Class Naming Convention
 
-| Tier | Pattern | When to use | Examples |
-| --- | --- | --- | --- |
-| 1 | `usa-*` | HDS maps to a USWDS component — same markup, same class names | `.usa-button`, `.usa-link`, `.usa-accordion`, `.usa-pagination` |
-| 3 | `hds-*` | No USWDS equivalent | `.hds-btn--primary`, `.hds-btn-icon`, `.hds-overline`, `.hds-palette-*` |
+| Pattern | When to use | Examples |
+| --- | --- | --- |
+| `usa-*` | HDS maps to a USWDS component — same markup, same class names | `.usa-button`, `.usa-link`, `.usa-accordion`, `.usa-pagination` |
+| `hds-*` | No USWDS equivalent | `.hds-btn--primary`, `.hds-btn-icon`, `.hds-overline`, `.hds-palette-*` |
 
 **Rule of thumb:** If a component maps to a USWDS component, it keeps `usa-*` regardless of how much HDS changes the styling or internals. If USWDS doesn't have it, it's `hds-*`. Where HDS diverges from USWDS in ways that affect developer markup or behavior, those differences are documented with "Differs from USWDS" callout notes in component guidance pages and migration guide entries.
 
@@ -58,7 +58,7 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 ### Consolidated Palette Variables
 
-**Original HDS:** ~30 individual color assignments per palette. **HDS Core:** 23+ semantic variables. Elements sharing the same color are combined (e.g., overline + metadata + caption → `muted`, heading + primary button text → `heading`).
+**Original HDS:** ~30 individual color assignments per palette. **HDS Core:** 27+ semantic variables (including 4 focus ring tokens). Elements sharing the same color are combined (e.g., overline + metadata + caption → `muted`, heading + primary button text → `heading`).
 
 ### Palette-Specific Overrides
 
@@ -116,7 +116,7 @@ Matches NASA.gov production styling: dashed underline, `.05em` thickness, `.25re
 
 ### Hover Behavior
 
-Link text color stays constant. Only the underline changes from dotted to solid on hover.
+Link text color stays constant. Only the underline changes from dashed to solid on hover.
 
 ### External Link Arrow
 
@@ -126,7 +126,7 @@ HDS diagonal arrow (`arrow-line-diagonal.svg`) replaces USWDS launch icon. Arrow
 
 ### Unstyled Button
 
-`.usa-button--unstyled` is visually identical to a text link — same color, dotted underline, and hover behavior. This matches USWDS's intent ("A button that looks like a link") and ensures unstyled buttons are visible across all palettes.
+`.usa-button--unstyled` is visually identical to a text link — same color, dashed underline, hover behavior, and focus ring. This matches USWDS's intent ("A button that looks like a link") and ensures unstyled buttons are visible across all palettes.
 
 ## Icons & Buttons
 
@@ -208,18 +208,62 @@ Default was moved from 32px (Figma XL) to 24px (Figma M) because 24px is the mos
 
 ## Focus Ring
 
-Components currently use per-component focus treatments with intentional variation in thickness, style, and color tokens. These were individually tuned during component development and approved by the creative director.
+### Three Focus Systems
 
-A standardization attempt (commit f90218b) flattened all focus styles into a single `1px dashed --hds-palette-muted` mixin, causing visible regressions. It was reverted. Issue #20 tracks the careful re-standardization with the following prerequisites:
+HDS components use three distinct focus mechanisms. The dashed outline ring system is the only one addressed by the focus token infrastructure. See ARCHITECTURE.md for implementation details (tokens, mixin, file locations).
 
-- A `--hds-palette-focus` token designed per-palette (no single gray passes 3:1 on all 6 backgrounds)
-- Creative director decision on thickness (1px vs 2px — 1px dashed is visually indistinguishable from dotted at browser rendering level)
-- Play-function Chromatic stories for visual regression before touching focus values
-- `:focus` → `:focus-visible` migration completed. USWDS `:focus` bleed-through suppressed via `:focus:not(:focus-visible)` rule in `base/_focus.scss`.
+| System | Mechanism | Components |
+| --- | --- | --- |
+| **Dashed outline ring** | Outline or border around component, contrasts against palette background | Link, Buttons, Icon buttons, Primary arrow, Accordion, Breadcrumb, Pagination, Checkbox/Radio outer box |
+| **Solid blue element highlight** | Blue border on the form element itself | Text input, Select, Checkbox inner ring, Radio inner ring |
+| **Surface-inverse ring** | Ring color is inverse of component's own fill | Table body cells, Table header cells |
 
-**Interactive icon buttons** use a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes — they are designed for use over images and 3D content, not palette backgrounds.
+### Five Figma Focus Treatments
 
-The global focus rule in `base/_focus.scss` provides the baseline. Individual components may override with different thickness, style, or color. See the individual component files in `components/` for per-component focus treatments.
+Figma specifies five distinct treatments for the dashed outline ring system. Four are palette-aware via semantic tokens. One is exempt.
+
+| Treatment | Light Value | Dark Value | Components | Token |
+| --- | --- | --- | --- | --- |
+| **Default** | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (global), Pagination prev/next, Breadcrumb | `--hds-palette-focus` |
+| **Bold** | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns | `--hds-palette-focus-bold` |
+| **Subtle** | C60 | C40 | Pagination page numbers, Pagination simplified btn | `--hds-palette-focus-subtle` |
+| **Minimal** | C30 | C80 | Checkbox/Radio outer box | `--hds-palette-focus-minimal` |
+| **Fixed** | C40 | C40 | Interactive icon button | None — exempt |
+
+### Figma Inconsistencies Resolved
+
+Figma's focus ring spec was not consistent across components. The standardization resolved these:
+
+| Issue | What Figma showed | What HDS Core does | Why |
+| --- | --- | --- | --- |
+| **Buttons use C30 on light** | C30 on both light and dark (Pattern B) | Ships as Figma specifies | Known WCAG 1.4.11 failure — tracked in Issue #40 for CD review |
+| **Checkbox/Radio C80 on dark** | C80 outer box on Carbon 90 | Ships as Figma specifies | Very hard to see — flagged but matches Figma intent |
+| **No midtone/blue designs** | Only white + dark designed | Extended using closest scheme values | Midtone uses light scheme; blue uses dark scheme |
+| **Midtone/blue minimal swap** | Not designed | Midtone gets C80 (dark value), blue gets C30 (light value) | C30 on C20 is ~1.1:1 (invisible); C80 on Blue Shade is invisible. Swapped values use existing Figma colors without inventing new ones |
+
+### Style and Width
+
+All dashed outline focus rings use `dashed` style (not `dotted` — 1px dashed is visually indistinguishable from dotted at browser rendering level). Two widths per Figma:
+
+| Width | Value | Components |
+| --- | --- | --- |
+| **Thin** | 1px | Link, Icon buttons, Checkbox/Radio outer, Pagination, Global baseline |
+| **Thick** | 2px | Text buttons (CTA/Secondary/Outline), Primary arrow, Breadcrumb |
+
+### Interactive Icon Button Exemption
+
+Interactive icon buttons use a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes. They are designed for use over images, video, and 3D content where palette backgrounds don't apply. The fixed ring provides consistent visibility on dynamic backgrounds.
+
+### Bug Fixes
+
+The following bugs were fixed as part of the focus ring standardization:
+
+| Bug | Components | Fix |
+| --- | --- | --- |
+| `dotted` instead of `dashed` | Link, Primary arrow, Breadcrumb | Style corrected to `dashed` |
+| Unstyled button focus doesn't match Link | `.usa-button--unstyled` | Own `:focus-visible` rule: thin width, default color |
+| Wrong token used for focus | Link (`--hds-palette-link-arrow`), Primary arrow (`--hds-palette-link-text`), Checkbox/Radio (`--hds-palette-border`) | Dedicated focus tokens |
+| No per-role focus on icon buttons | All roles shared one rule | Split: Utility → default, CTA/Sec/Out/Social → bold |
 
 ## Table
 
@@ -243,7 +287,7 @@ Mobile text sizing, mobile stacked variants, midtone palette sorted column color
 
 ### Architecture
 
-Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Figma accessibility spec. Two rendering approaches: `.usa-list` component (in `components/_list.scss`) uses `::before` + flex for precise DM Mono numeral control; bare `<ol>` inside `.usa-prose` (in `base/_elements.scss`) uses `::marker` fallback (DM Mono not guaranteed — browser support limitation).
+Uses standard USWDS `.usa-list` markup with `role="list"` per HDS Figma accessibility spec. Two rendering approaches: `.usa-list` component (in `components/_list.scss`) uses `::before` + flex for precise DM Mono numeral control; bare `<ol>` inside `.usa-prose` (in `base/_elements.scss`) uses `::marker` fallback (DM Mono not guaranteed — browser support limitation).
 
 ### Figma Deviations
 
@@ -321,6 +365,7 @@ Pending visual sign-offs:
 
 | Item | Question | Context |
 | --- | --- | --- |
+| Focus bold on light backgrounds | C30 on white/light/midtone fails WCAG 1.4.11 (3:1 non-text contrast). Should bold focus treatment use a darker value on light backgrounds? | Tracked in Issue #40. Ships as Figma spec for now. |
 | Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal says "normal" (400). Figma uses Medium (500). Currently shipping 500. |
 | Blue palette utility | Blue palette utility now uses Proposal palette 5 values (Carbon Black fill, Carbon 60 stroke — matching dark scheme). Figma shows NASA Blue fill + Blue Tint stroke. | Currently shipping Proposal values. Flagged in case CD prefers Figma treatment. |
 | Midtone utility hover/disabled | Carbon 05 hover fill on Carbon 20 background — visible but subtle | May need override |
@@ -345,7 +390,6 @@ All of these match the approved HDS Core Proposal exactly:
 | Area | Proposal | HDS Core | Rationale |
 | --- | --- | --- | --- |
 | Line-height values | Exact percentages | Closest USWDS token or raw CSS when delta >10% | USWDS scale too coarse for exact mapping |
-| `text-decoration-style` | Dashed | Dotted | CSS `dashed` looks wrong; `dotted` is closer to Figma |
 | Overline weight | 400 (normal) | 500 (medium) | Figma consistently uses 500. Pending review. |
 | Overline class name | "Label" | `.hds-overline` | Avoids collision with USWDS `.usa-label`. Industry standard term. |
 | Type normalization | Normalize all three fonts | Deferred | Requires measurement work; noted as tech debt |

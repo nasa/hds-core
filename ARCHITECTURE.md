@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-04-01
+Last updated: 2026-04-03
 
 ## Package Overview
 
@@ -151,16 +151,16 @@ Each component file has its own `@use` statements for the dependencies it needs 
 
 | File | Purpose |
 | --- | --- |
-| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
+| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens, focus ring widths (`$hds-focus-widths`). |
 | `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
 | `base/_custom-properties.scss` | All HDS token values output to `:root` as CSS custom properties. |
-| `base/_mixins.scss` | Shared mixins (zero CSS output): `visually-hidden`, typography (`hds-overline-label`, `hds-metadata-type`, `intro-text`), button structure/color/hover, `hds-utility-circle` (colors only — layout and sizing come from icon button base in `components/_icon-button.scss`), `hds-link-appearance` / `hds-link-hover`. |
+| `base/_mixins.scss` | Shared mixins (zero CSS output): `visually-hidden`, `hds-focus-ring` (palette-aware dashed outline/border with color, width, method, and offset parameters), typography (`hds-overline-label`, `hds-metadata-type`, `intro-text`), button structure/color/hover, `hds-utility-circle` (colors only — layout and sizing come from icon button base in `components/_icon-button.scss`), `hds-link-appearance` / `hds-link-hover`. |
 | `base/_elements.scss` | Bare HTML element styles (gated behind USWDS flags) and palette wiring (always active), organized by element type. Default styles and their palette-aware overrides are together so contributors see the full picture for each element. |
 | `base/_focus.scss` | Global `:focus-visible` ring and USWDS `:focus` suppression. Always active (accessibility requirement). Separated for audit visibility. |
 | `base/_print.scss` | `@media print` rules — palette reset, link URLs, element hiding. |
 | `components/_text-styles.scss` | Small text treatment classes (`.hds-overline`, `.hds-metadata`, `.hds-caption`). Component-like patterns that use shared typography mixins. |
-| `components/_*.scss` | One file per component. USWDS overrides (`usa-*`) and HDS-only components (`hds-*`). Each file documents its tier, palette behavior, and USWDS override rationale. |
-| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 23+ semantic CSS custom properties per palette. Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
+| `components/_*.scss` | One file per component. USWDS overrides (`usa-*`) and HDS-only components (`hds-*`). Each file documents palette behavior and USWDS override rationale. |
+| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 27+ semantic CSS custom properties per palette (including 4 focus ring tokens). Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
 
 ## SCSS Directory Naming
 
@@ -227,32 +227,63 @@ Focus styles (`base/_focus.scss`), palette wiring (in `base/_elements.scss`), al
 
 ## Focus Ring Architecture
 
-Two layers: USWDS theme settings + global palette-aware `:focus-visible` in `base/_focus.scss`. All HDS focus selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction. Components use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md for design rationale.
+HDS components use three distinct focus mechanisms:
+
+| System | Mechanism | Components | Token Strategy |
+| --- | --- | --- | --- |
+| **Dashed outline ring** | Outline or border around component, contrasts against palette background | Link, Buttons, Icon buttons, Primary arrow, Accordion, Breadcrumb, Pagination, Checkbox/Radio outer box | `--hds-palette-focus-*` tokens + `hds-focus-ring()` mixin |
+| **Solid blue element highlight** | Blue border on the form element itself | Text input, Select, Checkbox inner ring, Radio inner ring | `--hds-palette-btn-secondary-bg` — no change needed |
+| **Surface-inverse ring** | Ring color is inverse of component's own fill, not palette background | Table body cells, Table header cells | Per-component logic in `_table.scss` |
+
+### Dashed outline ring system
+
+All selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction.
+
+**Tokens:** Four semantic focus tokens in `_hds-palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
+
+| Token | Figma Pattern | Light Value | Dark Value | Components |
+| --- | --- | --- | --- | --- |
+| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb |
+| `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |
+| `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |
+| `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
+
+Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `_hds-palettes.scss` code comments for per-palette values.
+
+**Width tokens:** `$hds-focus-widths` map in `_hds-tokens.scss` with `'thin'` (1px) and `'thick'` (2px) entries. Thin is the default; thick is used by text buttons, primary arrow, and breadcrumb.
+
+**Mixin:** `hds-focus-ring($color, $width, $method, $offset)` in `base/_mixins.scss`. Supports `'outline'` (default — emits `outline` + `outline-offset`) and `'border'` (emits `border-color` + `border-style` + `outline: none`) methods. Border method is used by pagination page numbers and simplified button, which pre-reserve a transparent border for focus.
+
+**Global rule:** `base/_focus.scss` applies `hds-focus-ring()` with defaults (Pattern A, thin, outline, 2px offset) to all focusable elements. Components override as needed.
+
+**Interactive icon button** is exempt — uses a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes. Designed for use over images, video, and 3D content.
+
+See DESIGN.md for design rationale behind the focus patterns and Figma deviations.
 
 ## Component Files
 
 Components are organized by category in `components/_index.scss`:
 
-| Category | File | Tier | Notes |
-| --- | --- | --- | --- |
-| **Text styles** | `_text-styles.scss` | 3 | `.hds-overline`, `.hds-metadata`, `.hds-caption` |
-| **Foundational** | `_link.scss` | 1+3 | Loaded before button (unstyled button depends on link appearance) |
-|  | `_button.scss` | 1 | CTA, secondary, outline, unstyled, blue palette override |
-|  | `_icon-button.scss` | 3 | 6 roles, 8 sizes, inline glyph |
-|  | `_primary-arrow-button.scss` | 3 | Text + red circle arrow, 6 sizes |
-| **Form controls** | `_form.scss` | 1 | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
-| **Content** | `_intro-text.scss` | 1 |  |
-|  | `_list.scss` | 1 | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
-|  | `_table.scss` | 1 | Base, sorted columns, sort icons, borderless, dark palette, print |
-|  | `_accordion.scss` | 1 | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
-| **Navigation** | `_breadcrumb.scss` | 1 | Forward-slash separators replace USWDS chevrons |
-|  | `_pagination.scss` | 1+3 | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
-|  | `_in-page-nav.scss` | 1 | Stub — needs full stories for v1.0. Uses USWDS JS. |
-| **Notifications** | `_site-alert.scss` | 1 | Emergency (red) and info (blue) variants with scoped palette vars |
-|  | `_alert.scss` | 1 | Minimal override. Pure USWDS, not in HDS Figma. |
-| **Layout** | `_grid-utilities.scss` | 1 | Responsive reverse, horizontal lists, section spacing |
-| **Phase 2 stubs** | `_navigation.scss` | 1 | Header, footer, nav. Incomplete — inherited from prior work. |
-|  | `_banner.scss` | 1 | Government compliance bar. Incomplete. |
+| Category | File | Notes |
+| --- | --- | --- |
+| **Text styles** | `_text-styles.scss` | `.hds-overline`, `.hds-metadata`, `.hds-caption` |
+| **Foundational** | `_link.scss` | Loaded before button (unstyled button depends on link appearance) |
+|  | `_button.scss` | CTA, secondary, outline, unstyled, blue palette override |
+|  | `_icon-button.scss` | 6 roles, 8 sizes, inline glyph |
+|  | `_primary-arrow-button.scss` | Text + red circle arrow, 6 sizes |
+| **Form controls** | `_form.scss` | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
+| **Content** | `_intro-text.scss` |  |
+|  | `_list.scss` | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
+|  | `_table.scss` | Base, sorted columns, sort icons, borderless, dark palette, print |
+|  | `_accordion.scss` | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
+| **Navigation** | `_breadcrumb.scss` | Forward-slash separators replace USWDS chevrons |
+|  | `_pagination.scss` | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
+|  | `_in-page-nav.scss` | Stub — needs full stories for v1.0. Uses USWDS JS. |
+| **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
+|  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
+| **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
+| **Phase 2 stubs** | `_navigation.scss` | Header, footer, nav. Incomplete — inherited from prior work. |
+|  | `_banner.scss` | Government compliance bar. Incomplete. |
 
 Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
 
@@ -381,5 +412,5 @@ This package is maintained by the NASA HDS team. For conventions on adding new c
 - Create a new file in `src/scss/components/` following the naming pattern (`_component-name.scss`)
 - Add `@use` statements for dependencies the component needs (`uswds-core`, `hds-tokens`, `../base/mixins`)
 - Add the `@forward` to `components/_index.scss` in the appropriate category
-- Document tier, palette behavior, and USWDS override rationale in the file header comment
+- Document palette behavior and USWDS override rationale in the file header comment
 - See `components/_button.scss` as a reference for comment style and organization
