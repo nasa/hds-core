@@ -5,15 +5,15 @@
 // Follows USWDS's required load order:
 //   1. Theme config   — configure USWDS before it loads
 //   2. USWDS library  — the full design system
-//   3. Custom styles  — HDS foundations: tokens, mixins, base
-//   4. Components     — USWDS overrides + HDS components
+//   3. Base styles    — HDS tokens, mixins, elements, focus, print
+//   4. Components     — text styles, USWDS overrides, HDS components
 //   5. Palettes       — opt-in color palette system
 //
 // See: https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/
 // ============================================================
 
-@forward "hds-uswds-theme";    // 1. Configure USWDS with HDS values
-@forward "uswds";               // 2. Full USWDS library
-@forward "hds-custom-styles";   // 3. Foundations: tokens, mixins, base, print
-@forward "hds-components";      // 4. USWDS overrides + HDS components
-@forward "hds-palettes";        // 5. Palette system (opt-in per section)
+@forward 'hds-uswds-theme'; // 1. Configure USWDS with HDS values
+@forward 'uswds'; // 2. Full USWDS library
+@forward 'base'; // 3. Base: tokens, mixins, elements, focus, print
+@forward 'components'; // 4. Components: text styles, overrides, HDS-only
+@forward 'hds-palettes'; // 5. Palette system (opt-in per section)

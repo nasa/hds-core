@@ -1,0 +1,79 @@
+// ============================================================
+// HDS Component — Link
+// @nasa/hds-core
+// ============================================================
+// Tier 1 override — .usa-link and .usa-link--external.
+// HDS links use a dashed underline as the defining element.
+// Text color matches paragraph; underline/arrow use muted color.
+//
+// Usage:
+//   - Explicit: <a class="usa-link" href="#">Link</a>
+//   - Prose container: <div class="usa-prose"><a href="#">Link</a></div>
+//   - Global: Set $theme-global-link-styles: true in your theme
+//
+// External links get HDS diagonal arrow (not USWDS launch icon).
+//
+// Restyles: https://designsystem.digital.gov/components/link/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// ── Base link styling ─────────────────────────────────────────
+
+.usa-link {
+  @include hds-link-appearance;
+
+  &:visited {
+    color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+  }
+
+  &:hover,
+  &:active {
+    @include hds-link-hover;
+  }
+
+  &:focus-visible {
+    outline: 1px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+    outline-offset: 2px;
+  }
+}
+
+// ── External link arrow ───────────────────────────────────────
+// Replaces USWDS "launch" icon with HDS diagonal arrow per
+// HDS wayfinding rule: diagonal arrows = leaving NASA.
+//
+// Pure CSS via ::after + mask-image. Arrow auto-appears on
+// any .usa-link--external and auto-suppresses on
+// .hds-link--internal.
+//
+// display: inline and vertical-align: baseline override
+// USWDS defaults (inline-block, middle) so the arrow flows
+// as part of the text line, aligning correctly regardless
+// of line-height.
+//
+// NOTE: USWDS's built-in SR label for external links
+// ($theme-external-link-sr-label-tab-new/same) is overridden
+// by this ::after replacement. Add SR text manually:
+//   <span class="usa-sr-only">(external)</span>
+
+.usa-link--external::after {
+  background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
+  content: '\a0';
+  display: inline !important;
+  mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'), linear-gradient(transparent, transparent);
+  mask-size: 0.75em;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  vertical-align: baseline;
+}
+
+// ── Internal link escape hatch ────────────────────────────────
+// Tier 3 — HDS-specific modifier on Tier 1 .usa-link.
+// For links that look external but shouldn't show the arrow
+// (e.g., links to nasa.gov subdomains).
+
+.hds-link--internal::after {
+  display: none !important;
+}

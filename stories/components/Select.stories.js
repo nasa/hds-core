@@ -1,15 +1,14 @@
 // ============================================================
 // Select Stories — @nasa/hds-core
-// Covers §5.1, §5.2, §5.3, §5.8, §5.9
-//
-// HDS Figma: Text and Select Fields.pdf, Dropdown Menus.pdf
-// USWDS: https://designsystem.digital.gov/components/select/
+// CSS: components/_form.scss
 //
 // Sidebar structure:
 //   Guidance   — Select.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Default (visible in sidebar)
+//   Stories    — Default, All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -17,6 +16,8 @@ export default {
 };
 
 // --- Helpers ---
+
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const selectField = ({
   prefix = 'select',
@@ -69,7 +70,6 @@ const selectField = ({
   `;
 };
 
-// Hoisted to module scope — .label renamed to .text (parser safety)
 const topicOptions = [
   { value: 'humans', text: 'Humans in Space' },
   { value: 'moon', text: 'Moon to Mars' },
@@ -90,6 +90,13 @@ const centerOptions = [
   { value: 'marshall', text: 'Marshall Space Flight Center' },
   { value: 'stennis', text: 'Stennis Space Center' },
 ];
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
 
 // --- Stories (visible in sidebar) ---
 
@@ -152,6 +159,32 @@ export const Default = {
   },
 };
 
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('With value')}
+        <div style="margin-top: 0.5rem;">
+          ${selectField({ prefix: 'av-value', options: topicOptions, selected: 'humans' })}
+        </div>
+      </div>
+      <div>
+        ${label('Error')}
+        <div style="margin-top: 0.5rem;">
+          ${selectField({ prefix: 'av-error', options: topicOptions, error: 'Error explanation text' })}
+        </div>
+      </div>
+      <div>
+        ${label('Disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${selectField({ prefix: 'av-disabled', options: [], disabled: true })}
+        </div>
+      </div>
+    </div>
+  `,
+};
+
 // --- Guidance embeds (MDX only) ---
 
 export const WithValue = {
@@ -210,34 +243,36 @@ export const ManyOptions = {
     }),
 };
 
-export const PaletteReference = {
-  tags: ['!dev'],
-  render: () => `
-    ${selectField({ prefix: 'pal-default', options: topicOptions, selected: 'humans' })}
-    ${selectField({ prefix: 'pal-error', options: topicOptions, error: 'Error explanation text' })}
-    ${selectField({ prefix: 'pal-disabled', options: [], disabled: true })}
-  `,
-};
-
 // --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(PaletteReference.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(PaletteReference.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusSelect = {
+  name: 'Focus [select]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(PaletteReference.render),
+  parameters: focusParams,
+  render: () =>
+    selectField({
+      prefix: 'focus',
+      options: topicOptions,
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const select = canvas.getByLabelText('Topic');
+    await expect(select).toHaveFocus();
+  },
 };

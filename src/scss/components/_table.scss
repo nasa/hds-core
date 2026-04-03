@@ -1,0 +1,468 @@
+// ============================================================
+// HDS Component — Table
+// @nasa/hds-core
+// ============================================================
+// Overrides USWDS .usa-table with exact HDS Carbon colors.
+// USWDS theme settings (in _hds-uswds-theme.scss) provide
+// "close enough" token values for structural styles; this
+// section applies pixel-perfect HDS color values.
+//
+// SURFACE MODEL
+// Tables use a fixed background — white for light palettes,
+// Carbon 90 for dark palettes — rather than inheriting the
+// surrounding palette background. All Figma-confirmed colors
+// are designed against these two surfaces. Palette-aware
+// table backgrounds are deferred to Phase 2.
+//
+// SORTING
+// USWDS JS handles sort behavior via data-sortable / aria-sort /
+// data-sort-active attributes. This CSS themes the visual
+// presentation only. USWDS JS injects sort buttons with inline
+// SVG arrows — HDS replaces them visually with filled triangle
+// icons via CSS mask-image (same technique as the accordion
+// chevron in components/_accordion.scss).
+// Sort button initialization in Storybook is handled by the
+// USWDS init decorator in preview.js.
+//
+// CAPTION NAMING
+// HTML <caption> = HDS Figma "Title" + optional "Subtitle" —
+// the accessible name of the table, positioned at top.
+// HDS Figma "Caption" (small attribution text below the table)
+// uses .hds-caption on a <p> outside <table>, linked via
+// aria-describedby per HDS Figma accessibility guidance.
+//
+// STRIPED VARIANT
+// HDS Figma does not define a striped variant. We override
+// USWDS defaults with Carbon scale colors so it looks correct
+// if someone uses .usa-table--striped.
+//
+// DEFERRED TO PHASE 2
+//   - Mobile text sizing (small vs M-XL)
+//   - Mobile stacked variants (.usa-table--stacked,
+//     .usa-table--stacked-header) — untested with HDS overrides
+//   - Palette-aware table backgrounds (see GitHub Discussion #26)
+//   - Midtone/blue palette sorted column colors
+//   - Advanced features (tabs, actions bar, filters,
+//     downloads, accordion mobile, fixed first column)
+//
+// See DESIGN.md for design rationale.
+//
+// Restyles: https://designsystem.digital.gov/components/table/
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// ── Base table ────────────────────────────────────────────────
+
+.usa-table {
+  background-color: $hds-color-spacesuit-white;
+  color: $hds-color-carbon-90;
+
+  // --- Header cells (thead / tfoot) ---
+  thead td,
+  tfoot td,
+  th {
+    background-color: $hds-color-carbon-10;
+    color: $hds-color-carbon-black;
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
+    font-size: size('body', '2xs');
+    letter-spacing: -0.25px;
+    line-height: line-height('heading', 3);
+  }
+
+  // --- Body cells ---
+  td {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+    font-size: size('body', '2xs');
+    font-feature-settings:
+      'tnum' on,
+      'lnum' on;
+  }
+
+  // --- Row header cells (th[scope="row"] in tbody) ---
+  tbody th {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
+  }
+
+  // --- Borders ---
+  // HDS uses top-only row separators (no column borders).
+  th,
+  td {
+    border: 0;
+    border-top: 1px solid $hds-color-table-border-light;
+  }
+
+  // --- Padding ---
+  // Header cells are denser than body cells per Figma spec.
+  // Figma: headers 8px 12px, body 16px 12px.
+  thead th,
+  thead td,
+  tfoot th,
+  tfoot td {
+    padding: units(1) units(1.5);
+  }
+
+  td,
+  tbody th {
+    padding: units(2) units(1.5);
+  }
+
+  // --- Caption ---
+  // HTML <caption> = HDS "Title" + optional "Subtitle".
+  // Works with just a title (no subtitle span needed).
+  // Figma: Inter 29px bold — closest USWDS token is 'lg' (~28px).
+  caption {
+    caption-side: top;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    font-family: family('heading');
+    font-weight: font-weight('bold');
+    font-size: size('body', 'lg');
+    letter-spacing: map.get($hds-letterspacing, 'neg-3');
+    line-height: line-height('heading', 2);
+    padding-bottom: units(2);
+    text-align: left;
+
+    // Subtitle: Inter 14px regular, muted color
+    span {
+      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+      display: block;
+      font-family: family('heading');
+      font-size: size('body', '2xs');
+      font-weight: font-weight('normal');
+      letter-spacing: 0;
+      margin-top: units(0.5);
+    }
+  }
+
+  // --- Compact variant ---
+  &.usa-table--compact {
+    thead th,
+    thead td,
+    tfoot th,
+    tfoot td {
+      padding: units(0.5) units(1.5);
+    }
+
+    td,
+    tbody th {
+      padding: units(0.5) units(1.5);
+    }
+  }
+
+  // --- Striped variant ---
+  &.usa-table--striped {
+    tbody tr:nth-child(odd) {
+      td,
+      th {
+        background-color: $hds-color-carbon-05;
+      }
+    }
+  }
+}
+
+// --- Prose context override ---
+// USWDS .usa-prose > table sets 4-side borders at higher
+// specificity. This ensures row-only borders and correct
+// padding for all tables inside prose containers.
+.usa-prose > table th,
+.usa-prose > table td {
+  border: 0;
+  border-top: 1px solid $hds-color-table-border-light;
+}
+
+.usa-prose > table thead th,
+.usa-prose > table thead td,
+.usa-prose > table tfoot th,
+.usa-prose > table tfoot td {
+  padding: units(1) units(1.5);
+}
+
+.usa-prose > table td,
+.usa-prose > table tbody th {
+  padding: units(2) units(1.5);
+}
+
+// --- Scrollable header wrapping fix ---
+.usa-table-container--scrollable th {
+  white-space: nowrap;
+}
+
+// ── Sorted column ─────────────────────────────────────────────
+// USWDS JS sets data-sort-active on cells in the sorted column.
+
+.usa-table {
+  // Even rows — lighter tint
+  td[data-sort-active],
+  th[data-sort-active] {
+    background-color: $hds-color-table-sorted-bg;
+  }
+
+  // Odd rows — slightly darker tint
+  tbody tr:nth-child(odd) {
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: $hds-color-table-sorted-stripe-bg;
+    }
+  }
+
+  // Sorted column header
+  th[data-sortable][aria-sort='ascending'],
+  th[data-sortable][aria-sort='descending'] {
+    background-color: $hds-color-carbon-10;
+    color: $hds-color-carbon-black;
+  }
+}
+
+// ── Sort interaction ──────────────────────────────────────────
+// Sort icon, header hover/focus, and button positioning.
+//
+// USWDS JS injects a <button> with an inline SVG containing
+// arrow icons. HDS replaces the arrows with filled triangles
+// via mask-image — same technique as the accordion chevron
+// (components/_accordion.scss). The USWDS SVG stays in the
+// DOM for High Contrast Mode fallback but is visually hidden.
+
+.usa-table {
+  // --- Hide USWDS SVG icons ---
+  th[data-sortable] .usa-table__header__button .usa-icon {
+    display: none;
+  }
+
+  // --- Base sort button as icon container ---
+  th[data-sortable] .usa-table__header__button {
+    mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
+    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-size: 1.25rem;
+    -webkit-mask-size: 1.25rem;
+    background-color: transparent;
+  }
+
+  // --- Unsorted: hidden by default, gray on hover/focus ---
+  th[data-sortable]:not([aria-sort]),
+  th[data-sortable][aria-sort='none'] {
+    .usa-table__header__button {
+      background-color: transparent;
+    }
+    &:hover .usa-table__header__button,
+    &:focus-within .usa-table__header__button {
+      background-color: $hds-color-carbon-40;
+    }
+  }
+
+  // --- Sorted descending: filled arrow down, NASA Blue ---
+  th[data-sortable][aria-sort='descending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  // --- Sorted ascending: filled arrow up, NASA Blue ---
+  th[data-sortable][aria-sort='ascending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+    mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
+    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
+  }
+
+  // --- Sorted icon persists on hover ---
+  th[data-sortable][aria-sort='descending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  th[data-sortable][aria-sort='ascending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue;
+  }
+
+  // --- Header hover ---
+  th[data-sortable]:hover {
+    background-color: $hds-color-carbon-05;
+  }
+
+  // --- Remove USWDS ::after bottom border on sortable headers ---
+  th[data-sortable]::after {
+    border-bottom: 0;
+  }
+
+  // --- Right-aligned headers ---
+  th[data-sortable].text-right {
+    padding-left: units(5);
+    padding-right: units(1.5);
+    text-align: right;
+
+    .usa-table__header__button {
+      left: 0.25rem;
+      right: auto;
+    }
+  }
+}
+
+// ── Borderless variant ────────────────────────────────────────
+
+.usa-table--borderless {
+  th,
+  thead td,
+  tfoot td {
+    background-color: $hds-color-spacesuit-white;
+    color: $hds-color-carbon-90;
+  }
+}
+
+// ── Dark palette override ─────────────────────────────────────
+// Tables on dark and black palettes switch to a fixed Carbon 90
+// surface. All values are the dark-mode equivalents of the
+// light sections above.
+//
+// Blue palette uses the LIGHT table variant per creative
+// director review (2026-03-27). The table renders as a white
+// surface inside the blue section.
+//
+// NOTE: This block intentionally mirrors the structure of the
+// light-mode sections above. The repetition is inherent to
+// the fixed-surface model — these aren't palette custom
+// properties, they're hard color swaps.
+
+[class*='hds-palette-dark'],
+[class*='hds-palette-black'] {
+  // --- Base (dark) ---
+
+  .usa-table {
+    background-color: $hds-color-carbon-90;
+    color: $hds-color-spacesuit-white;
+
+    thead td,
+    tfoot td,
+    th {
+      background-color: $hds-color-carbon-80;
+      color: $hds-color-spacesuit-white;
+    }
+
+    td {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+
+    tbody th {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+
+    th,
+    td {
+      border: 0;
+      border-top: 1px solid $hds-color-table-border-dark;
+    }
+
+    caption {
+      color: var(--hds-palette-heading, #{$hds-color-spacesuit-white});
+
+      span {
+        color: var(--hds-palette-muted, #{$hds-color-carbon-40});
+      }
+    }
+  }
+
+  // --- Prose context (dark) ---
+  .usa-prose > table th,
+  .usa-prose > table td {
+    border: 0;
+    border-top: 1px solid $hds-color-table-border-dark;
+  }
+
+  // --- Sorted column (dark) ---
+
+  .usa-table td[data-sort-active],
+  .usa-table th[data-sort-active] {
+    background-color: $hds-color-table-sorted-bg-dark;
+  }
+
+  .usa-table tbody tr:nth-child(odd) {
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: $hds-color-table-sorted-stripe-bg-dark;
+    }
+  }
+
+  .usa-table th[data-sortable][aria-sort='ascending'],
+  .usa-table th[data-sortable][aria-sort='descending'] {
+    background-color: $hds-color-carbon-80;
+    color: $hds-color-spacesuit-white;
+  }
+
+  // --- Sort interaction (dark) ---
+
+  .usa-table th[data-sortable][aria-sort='ascending'] .usa-table__header__button,
+  .usa-table th[data-sortable][aria-sort='descending'] .usa-table__header__button {
+    background-color: $hds-color-nasa-blue-tint;
+  }
+
+  .usa-table th[data-sortable][aria-sort='ascending']:hover .usa-table__header__button,
+  .usa-table th[data-sortable][aria-sort='descending']:hover .usa-table__header__button {
+    background-color: $hds-color-nasa-blue-tint;
+  }
+
+  .usa-table th[data-sortable]:hover {
+    background-color: $hds-color-carbon-70;
+  }
+
+  // --- Borderless (dark) ---
+
+  .usa-table--borderless {
+    th,
+    thead td,
+    tfoot td {
+      background-color: $hds-color-carbon-90;
+      color: $hds-color-spacesuit-white;
+    }
+  }
+
+  // --- Striped (dark) ---
+
+  .usa-table--striped tbody tr:nth-child(odd) {
+    td,
+    th {
+      background-color: $hds-color-carbon-80;
+      color: $hds-color-spacesuit-white;
+    }
+  }
+}
+
+// ── Print ─────────────────────────────────────────────────────
+
+@media print {
+  .usa-table {
+    thead td,
+    tfoot td,
+    th {
+      background-color: #e3e3e3 !important;
+      color: #000 !important;
+    }
+
+    td {
+      background-color: #fff !important;
+      color: #000 !important;
+    }
+
+    th,
+    td {
+      border: 0 !important;
+      border-top: 1px solid #000 !important;
+    }
+
+    td[data-sort-active],
+    th[data-sort-active] {
+      background-color: #fff !important;
+    }
+
+    caption {
+      color: #000 !important;
+    }
+  }
+}

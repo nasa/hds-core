@@ -29,7 +29,7 @@
 // All HDS custom and component styles use exact $hds-color-*
 // values (not USWDS color() calls) to ensure pixel-perfect
 // adherence to the HDS spec. USWDS components that render
-// visible Carbon colors are overridden in _hds-components.scss
+// visible Carbon colors are overridden in components/_table.scss
 // with exact HDS values.
 //
 // HDS-specific colors (Carbon mid-range, International Orange,
@@ -43,7 +43,7 @@
 // HDS Core Proposal: primary = NASA Red, secondary = NASA Blue.
 // This file swaps the families so that USWDS components like
 // .usa-button automatically render with HDS brand colors.
-// See DESIGN.md § Class Naming Convention for rationale.
+// See DESIGN.md Class Naming Convention for rationale.
 // ============================================================
 
 @use 'hds-tokens' as hds;
@@ -193,7 +193,7 @@
   // affordance. These "ink" values prevent bare <a> tags from
   // turning NASA Red after the primary/secondary swap.
   // Full HDS link styling (underline, arrow) is applied via
-  // .usa-link overrides in _hds-components.scss.
+  // .usa-link overrides in components/_link.scss.
   // ----------------------------------------------------------
   $theme-body-background-color: 'white',
   $theme-text-color: 'ink',
@@ -209,11 +209,11 @@
   // ----------------------------------------------------------
   // Focus
   // ----------------------------------------------------------
-  // HDS focus: 1px dashed, palette-aware via §4.11 in
-  // _hds-custom-styles.scss. These USWDS settings prevent
-  // the default blue ring from appearing on USWDS components.
-  // Exact HDS colors are applied via --hds-palette-muted in
-  // the §4.11 :focus-visible rule; these are fallbacks only.
+  // HDS focus: 1px dashed, palette-aware via base/_focus.scss.
+  // These USWDS settings prevent the default blue ring from
+  // appearing on USWDS components. Exact HDS colors are
+  // applied via --hds-palette-muted in the :focus-visible
+  // rule; these are fallbacks only.
   // ----------------------------------------------------------
   $theme-focus-color: 'gray-60',
   // Carbon 60 #58585B ≈ #565c65
@@ -368,7 +368,7 @@
   // ----------------------------------------------------------
   // Closest USWDS token approximations for table colors.
   // Exact HDS values are applied via component overrides in
-  // _hds-components.scss §16. These settings provide valid
+  // components/_table.scss. These settings provide valid
   // USWDS tokens for structural styles (layout, spacing,
   // variant logic) and prevent color() function errors.
   //
@@ -396,12 +396,12 @@
   // ----------------------------------------------------------
   // Figma shows input values, help text, and error messages in
   // Public Sans (body). Labels and legends are overridden to
-  // Inter (heading) in _hds-components.scss §5.
+  // Inter (heading) in components/_form.scss.
   //
   // Input background: left at USWDS default. Checkbox/radio
-  // indicator backgrounds are set via ::before in §5 using
-  // --hds-palette-input-bg to avoid leaking white bg to
-  // fieldsets and group containers.
+  // indicator backgrounds are set via ::before in
+  // components/_form.scss using --hds-palette-input-bg to
+  // avoid leaking white bg to fieldsets and group containers.
   //
   // Checkbox/radio size: USWDS default is 2.5 units (20px).
   // Figma shows 18px (2.25 units — not a clean USWDS token).

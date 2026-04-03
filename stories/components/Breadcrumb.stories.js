@@ -1,19 +1,24 @@
 // ============================================================
 // Breadcrumb Stories — @nasa/hds-core
-// Covers §3 (USWDS .usa-breadcrumb override, Tier 1)
+// CSS: components/_breadcrumb.scss
 //
 // Sidebar structure:
-//   Guidance   — Breadcrumb.mdx (design rationale, Canvas embeds)
-//   Stories    — Default, ThreeLevels, Truncated (visible in sidebar)
+//   Guidance   — Breadcrumb.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — 2 levels (default), 3 levels, 4+ levels (truncated),
+//              All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Breadcrumb',
 };
 
-// --- Helpers (used in multiple stories) ---
+// --- Helpers ---
+
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const breadcrumb = (items) => {
   const listItems = items
@@ -38,6 +43,21 @@ const breadcrumb = (items) => {
   `;
 };
 
+const multiNavA11y = {
+  a11y: {
+    config: {
+      rules: [{ id: 'landmark-unique', enabled: false }],
+    },
+  },
+};
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
+
 // --- Stories (visible in sidebar) ---
 
 export const Default = {
@@ -47,14 +67,8 @@ export const Default = {
     level2: 'Missions',
   },
   argTypes: {
-    level1: {
-      control: 'text',
-      name: 'Root page',
-    },
-    level2: {
-      control: 'text',
-      name: 'Current page',
-    },
+    level1: { control: 'text', name: 'Root page' },
+    level2: { control: 'text', name: 'Current page' },
   },
   render: (args = {}) => {
     const { level1 = 'Home', level2 = 'Missions' } = args;
@@ -70,18 +84,9 @@ export const ThreeLevels = {
     level3: 'Artemis I',
   },
   argTypes: {
-    level1: {
-      control: 'text',
-      name: 'Root page',
-    },
-    level2: {
-      control: 'text',
-      name: 'Parent page',
-    },
-    level3: {
-      control: 'text',
-      name: 'Current page',
-    },
+    level1: { control: 'text', name: 'Root page' },
+    level2: { control: 'text', name: 'Parent page' },
+    level3: { control: 'text', name: 'Current page' },
   },
   render: (args = {}) => {
     const { level1 = 'Home', level2 = 'Missions', level3 = 'Artemis I' } = args;
@@ -96,14 +101,8 @@ export const Truncated = {
     level3: 'Multimedia',
   },
   argTypes: {
-    level2: {
-      control: 'text',
-      name: 'Parent page',
-    },
-    level3: {
-      control: 'text',
-      name: 'Current page',
-    },
+    level2: { control: 'text', name: 'Parent page' },
+    level3: { control: 'text', name: 'Current page' },
   },
   render: (args = {}) => {
     const { level2 = 'Artemis I', level3 = 'Multimedia' } = args;
@@ -111,34 +110,25 @@ export const Truncated = {
   },
 };
 
-// --- Guidance embeds (MDX only) ---
-
-export const AllDepths = {
-  name: 'All depths',
-  tags: ['!dev'],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [{ id: 'landmark-unique', enabled: false }],
-      },
-    },
-  },
-  render: () => `
+export const AllVariants = {
+  name: 'All Variants',
+  parameters: multiNavA11y,
+  render: (args = {}) => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>
-        <span class="hds-overline">2 levels</span>
+        ${label('2 levels')}
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions'])}
         </div>
       </div>
       <div>
-        <span class="hds-overline">3 levels</span>
+        ${label('3 levels')}
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['Home', 'Missions', 'Artemis I'])}
         </div>
       </div>
       <div>
-        <span class="hds-overline">4+ levels (truncated)</span>
+        ${label('4+ levels (truncated)')}
         <div style="margin-top: 0.5rem;">
           ${breadcrumb(['…', 'Artemis I', 'Multimedia'])}
         </div>
@@ -147,36 +137,32 @@ export const AllDepths = {
   `,
 };
 
-export const HoverState = {
-  name: 'Hover state',
-  tags: ['!dev'],
-  render: () => `
-    <p style="margin-bottom: 0.5rem;">
-      <span class="hds-overline">Hover the middle link to see bold treatment</span>
-    </p>
-    ${breadcrumb(['Home', 'Missions', 'Artemis I'])}
-  `,
-};
-
 // --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(AllDepths.render),
+  parameters: { ...paletteA11yParams, ...multiNavA11y },
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(AllDepths.render),
+  parameters: { ...paletteA11yParams, ...multiNavA11y, ...pseudoParams.hover },
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusBreadcrumb = {
+  name: 'Focus [breadcrumb]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(AllDepths.render),
+  parameters: focusParams,
+  render: () => breadcrumb(['Home', 'Missions', 'Artemis I']),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const link = canvas.getByRole('link', { name: 'Home' });
+    await expect(link).toHaveFocus();
+  },
 };

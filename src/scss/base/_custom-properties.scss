@@ -1,0 +1,69 @@
+// ============================================================
+// HDS Base — CSS Custom Properties
+// @nasa/hds-core
+// ============================================================
+// All HDS token values output to :root.
+// Use $hds-color-* variables in Sass.
+// Use these custom properties in plain CSS or JavaScript:
+//   var(--hds-color-nasa-blue)
+//   var(--hds-font-weight-bold)
+//   var(--hds-border-radius-button)
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+:root {
+  // Brand colors — var(--hds-color-nasa-blue)
+  --hds-color-carbon-black: #{$hds-color-carbon-black};
+  --hds-color-spacesuit-white: #{$hds-color-spacesuit-white};
+  --hds-color-nasa-red: #{$hds-color-nasa-red};
+  --hds-color-nasa-blue: #{$hds-color-nasa-blue};
+  --hds-color-carbon-90: #{$hds-color-carbon-90};
+  --hds-color-carbon-80: #{$hds-color-carbon-80};
+  --hds-color-carbon-70: #{$hds-color-carbon-70};
+  --hds-color-carbon-60: #{$hds-color-carbon-60};
+  --hds-color-carbon-50: #{$hds-color-carbon-50};
+  --hds-color-carbon-40: #{$hds-color-carbon-40};
+  --hds-color-carbon-30: #{$hds-color-carbon-30};
+  --hds-color-carbon-20: #{$hds-color-carbon-20};
+  --hds-color-carbon-10: #{$hds-color-carbon-10};
+  --hds-color-carbon-05: #{$hds-color-carbon-05};
+  --hds-color-nasa-red-tint: #{$hds-color-nasa-red-tint};
+  --hds-color-nasa-red-shade: #{$hds-color-nasa-red-shade};
+  --hds-color-nasa-blue-tint: #{$hds-color-nasa-blue-tint};
+  --hds-color-nasa-blue-shade: #{$hds-color-nasa-blue-shade};
+  --hds-color-international-orange: #{$hds-color-international-orange};
+  --hds-color-active-green: #{$hds-color-active-green};
+
+  // Font weights — var(--hds-font-weight-bold)
+  @each $name, $weight in $hds-weights {
+    --hds-font-weight-#{$name}: #{$weight};
+  }
+
+  // Line heights — var(--hds-line-height-body)
+  @each $name, $height in $hds-line-heights {
+    --hds-line-height-#{$name}: #{line-height(body, $height)};
+  }
+
+  // Border widths — var(--hds-border-size-2px)
+  @each $name, $width in $hds-border-sizes {
+    --hds-border-size-#{$name}: #{$width};
+  }
+
+  // Border radii — var(--hds-border-radius-sm)
+  @each $name, $radius in $hds-border-radii {
+    --hds-border-radius-#{$name}: #{$radius};
+  }
+
+  // Component border radius — var(--hds-border-radius-button)
+  @each $name, $token in $hds-radius-settings {
+    --hds-border-radius-#{$name}: var(--hds-border-radius-#{$token});
+  }
+
+  // Component border width — var(--hds-border-width-button)
+  @each $name, $value in $hds-width-settings {
+    --hds-border-width-#{$name}: #{$value};
+  }
+}

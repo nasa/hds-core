@@ -6,7 +6,7 @@
 // "Site Alert" to match the USWDS component and avoid
 // confusion with the USWDS Banner (government compliance bar).
 //
-// CSS: _hds-components.scss §15
+// CSS: components/_site-alert.scss
 // USWDS: https://designsystem.digital.gov/components/site-alert/
 //
 // Sidebar structure:

@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-03-31
+Last updated: 2026-04-01
 
 ## Package Overview
 
@@ -37,9 +37,37 @@ hds-core/
 │   │   ├── styles.scss             ← Entry point
 │   │   ├── _hds-tokens.scss        ← Pure Sass (NO uswds-core)
 │   │   ├── _hds-uswds-theme.scss   ← USWDS configuration
-│   │   ├── _hds-custom-styles.scss ← Mixins, base styles, palettes wiring
-│   │   ├── _hds-components.scss    ← Component overrides
-│   │   └── _hds-palettes.scss      ← 6 palette definitions
+│   │   ├── _hds-palettes.scss      ← 6 palette definitions
+│   │   │
+│   │   ├── base/                   ← Shared infrastructure (not components)
+│   │   │   ├── _index.scss         ← @forward's all in order
+│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
+│   │   │   ├── _mixins.scss        ← Shared mixins (zero CSS output)
+│   │   │   ├── _elements.scss      ← Bare HTML styles + palette wiring
+│   │   │   ├── _focus.scss         ← Global :focus-visible (always active)
+│   │   │   └── _print.scss         ← @media print
+│   │   │
+│   │   └── components/             ← One file per component
+│   │       ├── _index.scss         ← @forward's all in dependency order
+│   │       ├── _text-styles.scss   ← .hds-overline, .hds-metadata, .hds-caption
+│   │       ├── _link.scss
+│   │       ├── _button.scss
+│   │       ├── _icon-button.scss
+│   │       ├── _primary-arrow-button.scss
+│   │       ├── _form.scss          ← Inputs, selects, checkbox, radio, errors
+│   │       ├── _intro-text.scss
+│   │       ├── _list.scss
+│   │       ├── _table.scss
+│   │       ├── _accordion.scss
+│   │       ├── _breadcrumb.scss
+│   │       ├── _pagination.scss
+│   │       ├── _in-page-nav.scss
+│   │       ├── _site-alert.scss
+│   │       ├── _alert.scss
+│   │       ├── _grid-utilities.scss
+│   │       ├── _navigation.scss    ← Phase 2 stub
+│   │       └── _banner.scss        ← Phase 2 stub
+│   │
 │   └── assets/
 │       ├── fonts/{inter,dm-mono}/
 │       └── img/
@@ -96,14 +124,28 @@ hds-core/
 USWDS requires `uswds-core` to be configured before anything else loads it. This load order is critical — changing it will break the build.
 
 ```
-
-styles.scss → \_hds-uswds-theme.scss @use "hds-tokens" ← Pure Sass, no uswds-core @use "uswds-core" with (...) ← First load, configured → uswds ← Uses configured uswds-core → \_hds-custom-styles.scss → \_hds-components.scss → \_hds-palettes.scss
-
+styles.scss
+  → _hds-uswds-theme.scss
+      @use "hds-tokens"         ← Pure Sass, no uswds-core
+      @use "uswds-core" with (...) ← First load, configured
+  → uswds                      ← Uses configured uswds-core
+  → base/                      ← Shared infrastructure
+      _custom-properties.scss   ← :root token output
+      _mixins.scss              ← Shared mixins (zero CSS output)
+      _elements.scss            ← Bare HTML styles + palette wiring
+      _focus.scss               ← Global :focus-visible
+      _print.scss               ← @media print
+  → components/                 ← One file per component
+      _text-styles.scss         ← .hds-overline, .hds-metadata, .hds-caption
+      _link.scss                ← Foundational (loaded before button)
+      _button.scss
+      ... (dependency order — see components/_index.scss)
+  → _hds-palettes.scss          ← 6 palette definitions
 ```
 
 ⚠️ `_hds-tokens.scss` cannot `@use "uswds-core"` — this would load it unconfigured.
 
-`_hds-components.scss` accesses shared mixins via `@use "hds-custom-styles" as *` at the top of the file. Sass modules are singletons — this doesn't re-emit CSS.
+Each component file has its own `@use` statements for the dependencies it needs (`uswds-core`, `hds-tokens`, `../base/mixins`). Sass modules are singletons — multiple `@use` of the same module doesn't re-emit CSS.
 
 ## File Responsibilities
 
@@ -111,9 +153,20 @@ styles.scss → \_hds-uswds-theme.scss @use "hds-tokens" ← Pure Sass, no uswds
 | --- | --- |
 | `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens. |
 | `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
-| `_hds-custom-styles.scss` | CSS custom properties (§1), shared mixins (§2), utilities (§3), base element styles (§4, gated behind USWDS flags), palette wiring (§5), print styles (§6). §2 includes the `hds-utility-circle` mixin (colors only — layout and sizing come from icon button base §12.1) and `hds-link-appearance` mixin. |
-| `_hds-components.scss` | USWDS component overrides (`usa-*`) + HDS-only components (`hds-*`). See Component Sections below. |
+| `base/_custom-properties.scss` | All HDS token values output to `:root` as CSS custom properties. |
+| `base/_mixins.scss` | Shared mixins (zero CSS output): `visually-hidden`, typography (`hds-overline-label`, `hds-metadata-type`, `intro-text`), button structure/color/hover, `hds-utility-circle` (colors only — layout and sizing come from icon button base in `components/_icon-button.scss`), `hds-link-appearance` / `hds-link-hover`. |
+| `base/_elements.scss` | Bare HTML element styles (gated behind USWDS flags) and palette wiring (always active), organized by element type. Default styles and their palette-aware overrides are together so contributors see the full picture for each element. |
+| `base/_focus.scss` | Global `:focus-visible` ring and USWDS `:focus` suppression. Always active (accessibility requirement). Separated for audit visibility. |
+| `base/_print.scss` | `@media print` rules — palette reset, link URLs, element hiding. |
+| `components/_text-styles.scss` | Small text treatment classes (`.hds-overline`, `.hds-metadata`, `.hds-caption`). Component-like patterns that use shared typography mixins. |
+| `components/_*.scss` | One file per component. USWDS overrides (`usa-*`) and HDS-only components (`hds-*`). Each file documents its tier, palette behavior, and USWDS override rationale. |
 | `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 23+ semantic CSS custom properties per palette. Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
+
+## SCSS Directory Naming
+
+`base/` contains shared build infrastructure — mixins, utilities, CSS custom properties, bare element styles, palette wiring, and print styles. This is the layer between tokens and components.
+
+The name `base/` is deliberately different from the Storybook "Foundations" section (Typography, Color, Grid, Spacing, Icons). Those design system concepts map to `_hds-tokens.scss`, `_hds-uswds-theme.scss`, and `_hds-palettes.scss` — not to the `base/` directory. Contributors looking for "where are the typography foundations?" should look at `_hds-tokens.scss` and `_hds-uswds-theme.scss`, not `base/`.
 
 ## Color Convention
 
@@ -134,7 +187,7 @@ Always include fallbacks so styles work with or without palette wrappers:
 color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 ```
 
-Palette scheme architecture, utility circle tokens, and per-palette overrides are documented in code comments in `_hds-palettes.scss` and in DESIGN.md § Palette Scheme Architecture.
+Palette scheme architecture, utility circle tokens, and per-palette overrides are documented in code comments in `_hds-palettes.scss` and in DESIGN.md.
 
 ## SVG Icon Coloring
 
@@ -159,7 +212,7 @@ Always use `../assets/img/` in component styles. Configured in `_hds-uswds-theme
 
 ## Base Element Style Gating
 
-Bare HTML element styles in `_hds-custom-styles.scss` §4 are gated behind USWDS flags:
+Bare HTML element styles in `base/_elements.scss` are gated behind USWDS flags:
 
 | Flag | Controls | Default |
 | --- | --- | --- |
@@ -168,43 +221,46 @@ Bare HTML element styles in `_hds-custom-styles.scss` §4 are gated behind USWDS
 | `$theme-global-paragraph-styles` | `<p>` (also enabled by content flag) | `false` |
 | `$theme-global-link-styles` | `<a>` (also enabled by content flag) | `false` |
 
-Because these flags default to `false`, §4 styles do not emit in the default configuration. Bare elements inside `.usa-prose` receive USWDS styling (via USWDS's internal mixins) but not HDS-specific overrides for line-height, letterspacing, list spacing, link treatment, or table colors. The `.usa-list` and `.usa-table` component overrides (§17, §16) are always active and unaffected by these flags — only bare elements without component classes are impacted.
+Because these flags default to `false`, gated styles in `base/_elements.scss` do not emit in the default configuration. Bare elements inside `.usa-prose` receive USWDS styling (via USWDS's internal mixins) but not HDS-specific overrides for line-height, letterspacing, list spacing, link treatment, or table colors. The component overrides in `components/_list.scss` and `components/_table.scss` are always active and unaffected by these flags — only bare elements without component classes are impacted.
 
-Focus styles (§4.11), palette wiring (§5), all `usa-*` overrides, and all `hds-*` components are always active regardless of these flags.
+Focus styles (`base/_focus.scss`), palette wiring (in `base/_elements.scss`), all `usa-*` overrides, and all `hds-*` components are always active regardless of these flags.
 
 ## Focus Ring Architecture
 
-Two layers: USWDS theme settings + global palette-aware `:focus-visible` in §4.11. All HDS focus selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in §4.11 prevents USWDS `:focus` styles from bleeding through on mouse interaction. Components use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md § Focus Ring for design rationale.
+Two layers: USWDS theme settings + global palette-aware `:focus-visible` in `base/_focus.scss`. All HDS focus selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction. Components use per-component focus treatments with varying thickness, style, and color tokens. Standardization via shared mixins is tracked in Issue #20 — requires a `--hds-palette-focus` token and play-function Chromatic coverage before re-attempting. See DESIGN.md for design rationale.
 
-## Component Sections (`_hds-components.scss`)
+## Component Files
 
-| Section | Component | Tier | Subsections |
+Components are organized by category in `components/_index.scss`:
+
+| Category | File | Tier | Notes |
 | --- | --- | --- | --- |
-| §1 | Navigation (header, footer, nav) | 1 |  |
-| §2 | Banner | 1 |  |
-| §3 | Breadcrumb | 1 |  |
-| §4 | Buttons (CTA, secondary, outline, unstyled) | 1 | §4.1 Focus, §4.2 CTA, §4.3 Secondary, §4.4 Disabled, §4.5 Outline, §4.6 Inverse, §4.7 Unstyled, §4.8 Blue palette secondary→outline |
-| §5 | Forms | 1 |  |
-| §6 | In-Page Navigation | 1 |  |
-| §7 | Pagination | 1+3 |  |
-| §8 | Accordion | 1 |  |
-| §9 | Alerts | 1 |  |
-| §10 | Grid Utilities | 1 |  |
-| §11 | Primary Arrow Button | 3 | §11.1 Base, §11.2 Sizes (6-size scale) |
-| §12 | Icon Buttons | 3 | §12.1 Base (24px default), §12.2 Roles (colors only), §12.3 Sizes (8-size scale) |
-| §13 | Links | 1+3 |  |
-| §14 | Intro Text | 1 |  |
-| §15 | Site Alert | 1 |  |
-| §16 | Table | 1 | §16.1 Base, §16.2 Sorted column, §16.3 Sort interaction, §16.4 Borderless, §16.5 Dark palette (dark + black only), §16.6 Print |
-| §17 | List | 1 | §17.1 Base, §17.2 Unordered, §17.3 Ordered, §17.4 Unstyled |
+| **Text styles** | `_text-styles.scss` | 3 | `.hds-overline`, `.hds-metadata`, `.hds-caption` |
+| **Foundational** | `_link.scss` | 1+3 | Loaded before button (unstyled button depends on link appearance) |
+|  | `_button.scss` | 1 | CTA, secondary, outline, unstyled, blue palette override |
+|  | `_icon-button.scss` | 3 | 6 roles, 8 sizes, inline glyph |
+|  | `_primary-arrow-button.scss` | 3 | Text + red circle arrow, 6 sizes |
+| **Form controls** | `_form.scss` | 1 | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
+| **Content** | `_intro-text.scss` | 1 |  |
+|  | `_list.scss` | 1 | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
+|  | `_table.scss` | 1 | Base, sorted columns, sort icons, borderless, dark palette, print |
+|  | `_accordion.scss` | 1 | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
+| **Navigation** | `_breadcrumb.scss` | 1 | Forward-slash separators replace USWDS chevrons |
+|  | `_pagination.scss` | 1+3 | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
+|  | `_in-page-nav.scss` | 1 | Stub — needs full stories for v1.0. Uses USWDS JS. |
+| **Notifications** | `_site-alert.scss` | 1 | Emergency (red) and info (blue) variants with scoped palette vars |
+|  | `_alert.scss` | 1 | Minimal override. Pure USWDS, not in HDS Figma. |
+| **Layout** | `_grid-utilities.scss` | 1 | Responsive reverse, horizontal lists, section spacing |
+| **Phase 2 stubs** | `_navigation.scss` | 1 | Header, footer, nav. Incomplete — inherited from prior work. |
+|  | `_banner.scss` | 1 | Government compliance bar. Incomplete. |
 
-Each section has detailed code comments covering palette behavior, hover/disabled states, and USWDS override notes. See DESIGN.md for design rationale.
+Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
 
 ## Icon Architecture
 
 **Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg`. Color controlled by CSS. 15 icons renamed in v0.6.0 for USWDS naming consistency — see release notes for the full mapping.
 
-**Interactive icon buttons** use the same sprite glyphs as all other roles. CSS handles the color inversion on hover and `aria-expanded` — no standalone SVGs needed. See §12.2 in `_hds-components.scss`.
+**Interactive icon buttons** use the same sprite glyphs as all other roles. CSS handles the color inversion on hover and `aria-expanded` — no standalone SVGs needed. See `components/_icon-button.scss`.
 
 **Naming prefixes:** `arrow-*` (directional), `tag-*` (category markers), `logo-*` (third-party marks).
 
@@ -221,7 +277,7 @@ Each section has detailed code comments covering palette behavior, hover/disable
 
 `build` handles everything — asset copying, Sass compilation, sprite generation, and CSS minification. No need to run `init` first.
 
-`dev` runs two processes via `concurrently`: Gulp watch (Sass → CSS on save) and Storybook. The full development loop: edit `src/scss/*.scss` → Gulp recompiles to `dist/css/styles.css` → Storybook hot-reloads the CSS in the browser.
+`dev` runs two processes via `concurrently`: Gulp watch (Sass → CSS on save) and Storybook. The full development loop: edit `src/scss/**/*.scss` → Gulp recompiles to `dist/css/styles.css` → Storybook hot-reloads the CSS in the browser.
 
 ## Testing
 
@@ -231,13 +287,27 @@ Each section has detailed code comments covering palette behavior, hover/disable
 | `npm run test:watch`  | Watch mode (development)                    |
 | `npm run test:visual` | Visual regression via Chromatic (on demand) |
 
-Vitest runs every exported story in headless Chromium via `@storybook/addon-vitest/vitest-plugin` (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden `PaletteA11y` stories that test contrast across all five non-default palettes. Hover and focus-visible PaletteA11y stories exist but have a known limitation: `storybook-addon-pseudo-states` may not activate correctly in Vitest or Chromatic — see DOCUMENTATION.md § Palette accessibility tests for details. Play-function-based focus stories are planned as a replacement.
+Vitest runs every exported story in headless Chromium via @storybook/addon-vitest/vitest-plugin (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden PaletteA11y stories that render all six palettes via paletteRender — Vitest axe-core checks contrast across all palettes in one pass. FocusTest stories include play-function assertions that validate tab order and :focus-visible activation; Vitest runs these against the default palette.
 
 **Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Gulp output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
 
 **Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
 
-**Visual regression testing**: Uses [Chromatic](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab) via `@chromatic-com/storybook`. Snapshots are disabled globally (`disableSnapshot: true` in `preview.js`) and enabled only on PaletteA11y stories via `paletteA11yParams`. This scopes visual regression to PaletteA11y stories (~49 screenshots) plus Grid breakpoint regression (7 viewport captures). Each PaletteA11y story renders all six palettes in one image, covering ~264 component-palette combinations. Run on demand via `npm run test:visual`; not part of `npm test`. Screenshots are stored in Chromatic's cloud, not in the repo.
+### Visual Regression Testing
+
+Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (disableSnapshot: true in preview.js) and enabled per-story via parameters. Two snapshot strategies:
+
+1. PaletteA11y stories — stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. Mirrors production where HDS palettes coexist on pages. One snapshot per story. Vitest also runs axe-core against this stacked DOM for per-palette contrast checks locally.
+
+2. FocusTest stories — Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story (one per palette mode). Modes defined in .storybook/modes.js — imported in story files, not preview.js, to avoid TurboSnap full rebuilds.
+
+Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. Chromatic a11y will be re-evaluated when independent a11y/visual snapshot toggles are available (currently bundled: disableSnapshot controls both).
+
+TurboSnap enabled via chromatic.config.json (onlyChanged: true). External Sass and asset files declared via externals: ["src/scss/**", "src/assets/**"] — any change triggers a full rebuild (correct behavior for a CSS design system). TurboSnap savings apply to story-only and docs-only changes. Unlocks after 10 successful builds.
+
+Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+
+Run on demand via npm run test:visual; not part of npm test. Screenshots are stored in Chromatic's cloud, not in the repo.
 
 ## Storybook
 
@@ -269,15 +339,15 @@ The devcontainer (`.devcontainer/devcontainer.json`) automates the full setup:
 
 The intended Codespace experience: open → wait for build → Storybook auto-opens in browser → dedicated terminal shows Gulp + Storybook output → default terminal is free for commands.
 
-### Sections with CSS but no stories yet
+### Components with CSS but no stories yet
 
-| Section | Component                  | Notes                                |
-| ------- | -------------------------- | ------------------------------------ |
-| §1      | Navigation (header/footer) | Complex — Phase 2                    |
-| §2      | Banner                     | Uses USWDS JS for expand/collapse    |
-| §6      | In-Page Navigation         | Uses USWDS JS for scroll spy         |
-| §9      | Alerts                     | Pure USWDS, not in HDS Figma         |
-| §10     | Grid Utilities             | Responsive reverse, horizontal lists |
+| File                   | Component                  | Notes                                                   |
+| ---------------------- | -------------------------- | ------------------------------------------------------- |
+| `_navigation.scss`     | Navigation (header/footer) | Phase 2 stub — inherited from prior work, incomplete    |
+| `_banner.scss`         | Banner (gov compliance)    | Phase 2 stub — uses USWDS JS for expand/collapse        |
+| `_in-page-nav.scss`    | In-Page Navigation         | Stub — uses USWDS JS for scroll spy, needs full stories |
+| `_alert.scss`          | Alert                      | Pure USWDS, not in HDS Figma                            |
+| `_grid-utilities.scss` | Grid Utilities             | Responsive reverse, horizontal lists                    |
 
 ## Pending Work
 
@@ -288,19 +358,28 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Composed Forms review: USWDS `.usa-form-group--error` inserts a left border not present in HDS Figma. Error inline icon (red circle exclamation) present in HDS Figma but absent in USWDS — needs to be added.
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
-- [ ] Extract `_hds-mixins.scss` from `_hds-custom-styles.scss` §2
+- [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
 
 ### Pre-1.0 Verification
 
 - [ ] Spec verification pass across all components against Figma
 - [ ] Screen reader testing (NVDA, VoiceOver)
 - [ ] test.html: Replace with realistic integration page
+- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (pending meeting confirmation)
 
 ### Post-1.0 Infrastructure
 
-- [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths (Phase 2)
-- [ ] Replace `@uswds/compile` with direct sass + autoprefixer (Phase 2)
-- [ ] Gulp 5 migration (clears 11 dev-dependency vulnerabilities from Gulp 4's dependency chain)
-- [ ] Expand Chromatic visual regression to Tier 2: Site Alert (scoped vars, no PaletteA11y), Table variants (Sortable/Borderless/Compact), Form Validation flow, Icon Button sizes/roles, Pagination edge cases
-- [ ] Grid overlay toolbar toggle for verifying component alignment (Phase 2 — pairs with Navigation work)
-- [ ] Triage pending work for Phase 2+ into GitHub Issues and Discussions
+- [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
+- [ ] Re-evaluate Chromatic a11y tests when independent a11y/visual toggle ships
+- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work)
+- [ ] Migrate pending work for Phase 2+ into GitHub Issues and Discussions
+
+## Contributing
+
+This package is maintained by the NASA HDS team. For conventions on adding new components:
+
+- Create a new file in `src/scss/components/` following the naming pattern (`_component-name.scss`)
+- Add `@use` statements for dependencies the component needs (`uswds-core`, `hds-tokens`, `../base/mixins`)
+- Add the `@forward` to `components/_index.scss` in the appropriate category
+- Document tier, palette behavior, and USWDS override rationale in the file header comment
+- See `components/_button.scss` as a reference for comment style and organization

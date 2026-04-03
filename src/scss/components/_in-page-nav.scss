@@ -1,0 +1,32 @@
+// ============================================================
+// HDS Component — In-Page Navigation
+// @nasa/hds-core
+// ============================================================
+// STATUS: Stub — needs full stories and testing for v1.0.
+// Fixed sidebar with scroll spy for long-form articles.
+// Uses USWDS JS for scroll spy. Active state = NASA Blue.
+//
+// Restyles: https://designsystem.digital.gov/components/in-page-navigation/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+.usa-in-page-nav {
+  background-color: $hds-color-carbon-05;
+  border-radius: 0;
+  border-left: 4px solid $hds-color-carbon-60;
+}
+
+.usa-in-page-nav__link {
+  color: $hds-color-carbon-90;
+  &:hover {
+    color: $hds-color-carbon-black;
+  }
+}
+
+.usa-in-page-nav__link--active {
+  border-left-color: $hds-color-nasa-blue;
+  color: $hds-color-nasa-blue;
+  font-weight: font-weight('semibold');
+}

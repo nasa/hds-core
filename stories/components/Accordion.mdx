@@ -12,17 +12,11 @@ Expandable sections that let users show and hide content, reducing vertical scro
 
 ### Default
 
-One section open at a time. Clicking a new heading closes the previously open section. Set `aria-expanded="true"` on one button to have that section open on page load.
+One section open at a time. Clicking a new heading closes the previously open section. Set `aria-expanded="true"` on one button to have that section open on page load. Toggle "First item expanded" in the controls to see the all-collapsed state.
 
 <Canvas of={AccordionStories.Default} />
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
-
-### All collapsed
-
-All sections closed on page load. Users choose what to open.
-
-<Canvas of={AccordionStories.AllCollapsed} />
 
 ### Multiselectable
 
@@ -30,7 +24,9 @@ Multiple sections can be open at the same time. Add `data-allow-multiple` and th
 
 <Canvas of={AccordionStories.Multiselectable} />
 
-## When to use the accordion component
+<Note type="uswds">USWDS accordions display +/− icons with a filled background on the heading row. HDS replaces these with a circled chevron that adapts to palettes — no markup changes needed.</Note>
+
+## When to use
 
 - Users only need a few specific pieces of content on a page — like an FAQ where each question is its own section.
 - You have limited vertical space and the content can be logically grouped under clear headings.
@@ -47,10 +43,8 @@ Multiple sections can be open at the same time. Add `data-allow-multiple` and th
 - **Make the entire header row selectable.** The full row is a single click target — a larger target is easier to interact with. The USWDS markup handles this automatically.
 - **Use clear, descriptive headings.** Each heading should tell users what they'll find inside. Avoid vague labels like "More info" or "Click here."
 - **Keep content focused.** Each section should cover one topic. If a section grows too long, consider breaking it into its own page.
-- **Accordion content is flexible.** Panels can include paragraphs, lists, links, and other components — not just text. Wrap content in `.usa-prose` for full typography styling.
+- **Accordion content is flexible.** Panels can include paragraphs, lists, links, and other components — wrap content in `.usa-prose` for full typography styling.
 - **If titles cause line breaks, reduce the type size.** Long accordion titles are acceptable, but adjust styling if they wrap excessively.
-
-<Note type="uswds">USWDS accordions display +/− icons with a filled background on the heading row. HDS replaces these with a circled chevron that adapts to palettes — no markup changes needed.</Note>
 
 ## Accessibility
 
@@ -62,4 +56,8 @@ Multiple sections can be open at the same time. Add `data-allow-multiple` and th
 - **Screen readers:** VoiceOver uses Control+Option+Space or Space. JAWS and NVDA use Enter or Space. Collapsed and expanded states are announced automatically — no additional text alternatives are needed.
 - Accordions require the standard [USWDS JavaScript](https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript) for toggle behavior. HDS Core does not add any additional JavaScript.
 
-<Note type="code">USWDS JavaScript initializes accordions on page load. If you render accordions dynamically (e.g., in a React or Vue app without [react-uswds](https://github.com/trussworks/react-uswds)), you need to reinitialize after mount — see the [React Setup](?path=/docs/react-setup--docs) guide for details.</Note>
+<Note type="code">
+  USWDS JavaScript initializes accordions on page load. If you render accordions dynamically (e.g., in a React or Vue app without <a href="https://github.com/trussworks/react-uswds">react-uswds</a>), you need to reinitialize after mount — see the <a href="?path=/docs/react-setup--docs">React Setup</a> guide for details.
+</Note>
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

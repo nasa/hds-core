@@ -4,17 +4,16 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-03-31
+Last updated: 2026-04-01
 
 ## Class Naming Convention
 
 | Tier | Pattern | When to use | Examples |
 | --- | --- | --- | --- |
-| 1 | `usa-*` | HDS maps 1:1 to a USWDS component — override styles directly | `.usa-button`, `.usa-link`, `.usa-accordion`, `.usa-pagination` |
-| 2 | `hds-*` | HDS needs different markup than a same-named USWDS component | Identified case-by-case |
+| 1 | `usa-*` | HDS maps to a USWDS component — same markup, same class names | `.usa-button`, `.usa-link`, `.usa-accordion`, `.usa-pagination` |
 | 3 | `hds-*` | No USWDS equivalent | `.hds-btn--primary`, `.hds-btn-icon`, `.hds-overline`, `.hds-palette-*` |
 
-**Rule of thumb:** If a USWDS site could adopt HDS Core and the component works without changing HTML, it's Tier 1. If USWDS doesn't have it, it's Tier 3.
+**Rule of thumb:** If a component maps to a USWDS component, it keeps `usa-*` regardless of how much HDS changes the styling or internals. If USWDS doesn't have it, it's `hds-*`. Where HDS diverges from USWDS in ways that affect developer markup or behavior, those differences are documented with "Differs from USWDS" callout notes in component guidance pages and migration guide entries.
 
 ## Navigation Component Mapping
 
@@ -22,9 +21,9 @@ HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. 
 
 | HDS Figma | What it is | USWDS Equiv | HDS Core CSS | Status |
 | --- | --- | --- | --- | --- |
-| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | §1 | Phase 2 (top priority) |
-| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | §1 | Phase 2 (ships with Header/Footer) |
-| Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | §6 | Phase 1 |
+| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | `components/_navigation.scss` | Phase 2 (top priority) |
+| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | `components/_navigation.scss` | Phase 2 (ships with Header/Footer) |
+| Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | `components/_in-page-nav.scss` | Phase 1 |
 | Table of Contents | Non-sticky multi-column link grid at the top of the page (2-col or 3-col). Links can be anchor (↓), internal (→), or external (↗). Collapses to dropdown on small/medium screens. Minimum 5 rows. Should not duplicate Secondary Navigation. | No equivalent | — | Phase 2 |
 | _(none)_ | Vertical sidebar for navigating between pages in a section (docs left rail pattern). Not defined in HDS Figma. | `usa-sidenav` | — | Phase 2 (low — use USWDS default) |
 
@@ -42,7 +41,7 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 
 ### Link Colors
 
-HDS links use body text color — not brand color — for the text itself. The dotted underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
+HDS links use body text color — not brand color — for the text itself. The dashed underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
 
 ## Naming & Organization
 
@@ -83,7 +82,7 @@ Note: `family("serif")` returns Inter (a sans-serif font) — a USWDS constraint
 
 ### Heading Line-Heights and Letterspacing
 
-Per-element values per the HDS Core Proposal (USWDS only supports one line-height for all headings). See `_hds-custom-styles.scss` §4 for the exact values.
+Per-element values per the HDS Core Proposal (USWDS only supports one line-height for all headings). See `base/_elements.scss` for the exact values.
 
 ### Body Line-Height
 
@@ -93,15 +92,15 @@ Per-element values per the HDS Core Proposal (USWDS only supports one line-heigh
 
 Three distinct small-text utility classes with unique typography per the HDS Core Proposal:
 
-**`.hds-overline`**: DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators. HDS Figma calls this "Label" — renamed to avoid collision with USWDS `.usa-label` form labels.
+**`.hds-overline`**: DM Mono uppercase label. Used above headlines, for section labels, time-to-read indicators. HDS Figma calls this "Label" — renamed to avoid collision with USWDS `.usa-label` form labels. See `components/_text-styles.scss`.
 
-**`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. Not a named style in HDS Figma — derived from usage patterns, size standardized to 12px.
+**`.hds-metadata`**: Inter uppercase label. Used for dates, content counts, category indicators. Not a named style in HDS Figma — derived from usage patterns, size standardized to 12px. See `components/_text-styles.scss`.
 
-**`.hds-caption`**: Public Sans sentence-case caption for images and media. Called "Figcaption" in the HDS Core Proposal.
+**`.hds-caption`**: Public Sans sentence-case caption for images and media. Called "Figcaption" in the HDS Core Proposal. See `components/_text-styles.scss`.
 
 ### Form Labels
 
-Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from the typography classes above.
+Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from the typography classes above. See `components/_form.scss`.
 
 ### Type Normalization (Known Tech Debt)
 
@@ -162,13 +161,13 @@ Red = navigates away. Blue = stays on page.
 
 **Active:** Visually identical to hover. HDS does not define a distinct active state, consistent with Apple HIG.
 
-**Disabled:** Color-based (not opacity-based). Variant-specific selectors required to match USWDS specificity. See `_hds-components.scss` §4.4 and §4.5 for token values.
+**Disabled:** Color-based (not opacity-based). Variant-specific selectors required to match USWDS specificity. See `components/_button.scss` for token values.
 
 ### Secondary Button on Blue Palette
 
 NASA Blue (`#1C67E3`) is used for secondary filled buttons on all palettes per creative director review (2026-03-27). Passes WCAG AA (4.54:1 with white text).
 
-On the blue palette only, secondary filled text buttons automatically render as outline (§4.8) because any blue fill blends into the NASA Blue Shade background. Icon buttons are excluded — their smaller surface area avoids the contrast issue.
+On the blue palette only, secondary filled text buttons automatically render as outline (see `components/_button.scss` Blue Palette section) because any blue fill blends into the NASA Blue Shade background. Icon buttons are excluded — their smaller surface area avoids the contrast issue.
 
 ### Outline Inverse — Two-Layer Approach
 
@@ -201,7 +200,7 @@ Uses sprite glyphs with `currentColor` (same system as all other icon button rol
 
 ### Primary Arrow Button
 
-Text + CSS `::after` red circle with white arrow. The arrow is rendered via CSS background-image — no SVG markup needed. Arrow direction auto-swaps for external links via `.usa-link--external`.
+Text + CSS `::after` red circle with white arrow. The arrow is rendered via CSS background-image — no SVG markup needed. Arrow direction auto-swaps for external links via `.usa-link--external`. See `components/_primary-arrow-button.scss`.
 
 ### Icon Button Default Size
 
@@ -216,11 +215,11 @@ A standardization attempt (commit f90218b) flattened all focus styles into a sin
 - A `--hds-palette-focus` token designed per-palette (no single gray passes 3:1 on all 6 backgrounds)
 - Creative director decision on thickness (1px vs 2px — 1px dashed is visually indistinguishable from dotted at browser rendering level)
 - Play-function Chromatic stories for visual regression before touching focus values
-- `:focus` → `:focus-visible` migration completed. USWDS `:focus` bleed-through suppressed via `:focus:not(:focus-visible)` rule in §4.11.
+- `:focus` → `:focus-visible` migration completed. USWDS `:focus` bleed-through suppressed via `:focus:not(:focus-visible)` rule in `base/_focus.scss`.
 
 **Interactive icon buttons** use a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes — they are designed for use over images and 3D content, not palette backgrounds.
 
-The global focus rule in `_hds-custom-styles.scss` §4.11 provides the baseline. Individual components may override with different thickness, style, or color. See `_hds-components.scss` for per-component focus treatments.
+The global focus rule in `base/_focus.scss` provides the baseline. Individual components may override with different thickness, style, or color. See the individual component files in `components/` for per-component focus treatments.
 
 ## Table
 
@@ -234,7 +233,7 @@ HTML `<caption>` = HDS Figma "Title" + optional "Subtitle." It is the semantic a
 
 ### Sort Icon Approach
 
-USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback.
+USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback. See `components/_table.scss`.
 
 ### Deferred to Phase 2
 
@@ -244,7 +243,7 @@ Mobile text sizing, mobile stacked variants, midtone palette sorted column color
 
 ### Architecture
 
-Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Figma accessibility spec. Two rendering approaches: `.usa-list` component uses `::before` + flex for precise DM Mono numeral control; bare `<ol>` inside `.usa-prose` uses `::marker` fallback (DM Mono not guaranteed — browser support limitation).
+Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Figma accessibility spec. Two rendering approaches: `.usa-list` component (in `components/_list.scss`) uses `::before` + flex for precise DM Mono numeral control; bare `<ol>` inside `.usa-prose` (in `base/_elements.scss`) uses `::marker` fallback (DM Mono not guaranteed — browser support limitation).
 
 ### Figma Deviations
 
@@ -263,6 +262,8 @@ Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Fig
 - Checkbox/radio size forced to 18px via CSS — Figma specifies 18×18px but USWDS setting can't express 2.25 units
 - Checkbox icon replaced with HDS check glyph via data URI
 
+See `components/_form.scss` for implementation.
+
 ### Deferred to Phase 2+
 
 - **Select Chevron:** Figma shows a single thin down chevron. Currently using USWDS default double-arrow. Requires palette-aware approach or custom dropdown.
@@ -277,11 +278,13 @@ Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Fig
 - **Previous/Next Arrows:** Utility icon circle buttons. Legacy USWDS arrow markup auto-restyled via CSS.
 - **Filter Variant:** Deferred to Phase 2+ (requires dropdown menu component).
 
+See `components/_pagination.scss` for implementation.
+
 ## Site Alert
 
 ### Naming
 
-**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar.
+**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar (see `components/_banner.scss`).
 
 ### Color Variants
 
@@ -290,6 +293,8 @@ Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Fig
 | `--emergency` | NASA Red Shade (#B60109)  | White | Lapse in appropriations, outages, critical safety |
 | `--info`      | NASA Blue Shade (#0B3D91) | White | Live events, language redirects, announcements    |
 
+See `components/_site-alert.scss` for implementation.
+
 ## Accordion
 
 ### Key Decisions
@@ -297,6 +302,8 @@ Tier 1 — uses standard USWDS `.usa-list` markup with `role="list"` per HDS Fig
 - **Chevron Icon:** Circled chevron (down/up) replaces USWDS +/− icons, using utility circle tokens. 24px, matching icon button default.
 - **Bordered Variant:** Figma shows only borderless. Bordered renders with USWDS default treatment. Pending creative director review.
 - **Hover State:** Not specified in Figma. Currently unimplemented — pending research on full-row hover patterns.
+
+See `components/_accordion.scss` for implementation.
 
 ## System Behavior
 

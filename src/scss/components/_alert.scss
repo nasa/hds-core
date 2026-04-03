@@ -1,0 +1,16 @@
+// ============================================================
+// HDS Component — Alert
+// @nasa/hds-core
+// ============================================================
+// Minimal override. Pure USWDS, not in HDS Figma.
+// Colors and fonts apply automatically via theme settings.
+//
+// Restyles: https://designsystem.digital.gov/components/alert/
+// ============================================================
+
+@use 'uswds-core' as *;
+
+.usa-alert {
+  border-radius: 0;
+  border-left-width: 4px;
+}

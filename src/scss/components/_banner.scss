@@ -1,0 +1,29 @@
+// ============================================================
+// HDS Component — Banner (Government Compliance)
+// @nasa/hds-core
+// ============================================================
+// STATUS: Phase 2 — CSS exists but incomplete. Not the same as
+// HDS "Banners" (see components/_site-alert.scss). Uses USWDS
+// JS for expand/collapse. Needs creative director review before
+// HDS-specific styling.
+//
+// Restyles: https://designsystem.digital.gov/components/banner/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// Always light background, outside palette context.
+
+.usa-banner {
+  background-color: $hds-color-carbon-05;
+  font-size: size('body', '2xs');
+}
+
+.usa-banner__header {
+  padding-block: units(1);
+}
+
+.usa-banner__button {
+  text-decoration-line: underline;
+}

@@ -1,0 +1,298 @@
+// ============================================================
+// HDS Component — Pagination
+// @nasa/hds-core
+// ============================================================
+// USWDS .usa-pagination override (numbered variant) plus
+// HDS simplified pagination (Previous/Next composed button).
+//
+// Numbered pagination uses standard USWDS markup with HDS
+// theming applied automatically. Simplified pagination uses
+// HDS-specific markup (.hds-pagination__simplified-btn).
+//
+// Two markup paths for numbered prev/next arrows:
+//   Recommended: .hds-btn-icon--utility with HDS sprite chevron
+//   Legacy USWDS: .usa-pagination__previous-page / __next-page
+//     restyled via @include hds-utility-circle automatically
+//
+// Filter variant (rows-per-page dropdown) deferred to Phase 2+.
+//
+// Restyles: https://designsystem.digital.gov/components/pagination/
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// ── Base override ─────────────────────────────────────────────
+// USWDS sets color on .usa-pagination that doesn't respond
+// to palette containers. Override so all children (page
+// numbers, ellipsis, simplified glyphs) inherit palette color.
+
+.usa-pagination {
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+}
+
+.usa-pagination,
+.usa-pagination__list,
+.usa-pagination__button,
+.usa-pagination__button.usa-current {
+  background-color: transparent;
+}
+
+// ── Arrow visibility ──────────────────────────────────────────
+// USWDS hides .usa-pagination__arrow below $theme-pagination-
+// breakpoint ("tablet" / 640 px). At 200 % browser zoom the
+// effective CSS viewport halves, pushing desktop users below
+// that breakpoint and making prev/next buttons disappear.
+// Override so arrows are always visible — HDS pagination is
+// not expected to hide navigation controls at any viewport.
+
+.usa-pagination__arrow {
+  display: inherit;
+}
+
+// ── Page number ───────────────────────────────────────────────
+
+.usa-pagination__button {
+  align-items: center;
+  border: 1px solid transparent; // reserve for focus ring
+  border-radius: 0;
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  display: inline-flex;
+  font-size: size('body', 'xs');
+  font-weight: font-weight('semibold');
+  height: 2rem; // 32px
+  justify-content: center;
+  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  line-height: 1.25; // 20px / 16px
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+  width: 2rem; // 32px
+
+  // Bottom-bar indicator — shared by current + hover.
+  // Figma: 2px solid bar at bottom of 32px container.
+  // Uses ::after so it coexists with focus ring (which uses
+  // border on the element itself).
+  &::after {
+    background-color: transparent;
+    bottom: 0;
+    content: '';
+    height: 2px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    transition: background-color 0.15s ease;
+  }
+
+  // Current page — heading color text + bottom bar, no fill.
+  .usa-pagination &.usa-current {
+    background-color: transparent;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+
+    &::after {
+      background-color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent;
+      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    }
+
+    &:focus-visible {
+      background-color: transparent;
+      border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+      border-style: dashed;
+      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+      outline: none;
+    }
+  }
+
+  // Hover — bottom bar slides in (non-current pages)
+  &:hover:not(.usa-current) {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    text-decoration: none;
+
+    &::after {
+      background-color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    }
+  }
+
+  // Active — match hover, no distinct active state
+  &:active:not(.usa-current) {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    outline: none;
+  }
+
+  // Focus
+  &:focus-visible {
+    background-color: transparent;
+    border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+    border-style: dashed;
+    color: var(--hds-palette-text, #{$hds-color-carbon-90});
+    outline: none;
+  }
+}
+
+// ── Prev/Next — Legacy USWDS markup ──────────────────────────
+// Restyles USWDS prev/next links to look like HDS utility
+// circles. For new sites, use .hds-btn-icon--utility instead
+// (see Storybook Guidance tab).
+
+.usa-pagination__previous-page,
+.usa-pagination__next-page {
+  @include hds-utility-circle;
+  height: 32px;
+  width: 32px;
+
+  .usa-icon {
+    fill: currentColor;
+    height: 60%;
+    pointer-events: none;
+    width: 60%;
+  }
+
+  // Hover
+  &:hover {
+    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+  }
+
+  // Active — match hover, override USWDS blue ring
+  &:active {
+    background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+    border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+    outline: none;
+  }
+
+  // Focus — dashed ring outside solid circle border
+  &:focus-visible {
+    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
+    outline-offset: 2px;
+  }
+
+  // Disabled — color-based, not opacity-based
+  &[aria-disabled='true'] {
+    border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+    color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+      border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+    }
+  }
+
+  // Hide USWDS "Previous"/"Next" text labels
+  .usa-pagination__link-text {
+    @include visually-hidden;
+  }
+}
+
+// ── Ellipsis ──────────────────────────────────────────────────
+
+.usa-pagination__overflow {
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+}
+
+// ── Simplified pagination ─────────────────────────────────────
+// HDS-specific composed button — icon circle + text label as
+// a single interactive element. No USWDS equivalent.
+// Used on small screens or touch-heavy contexts.
+
+.hds-pagination__simplified-btn {
+  align-items: center;
+  background: none;
+  border: 1px solid transparent; // reserve for focus
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0;
+
+  // Icon circle inside the button — styled inline rather than
+  // using .hds-btn-icon--utility because the circle is a visual
+  // element within a larger button, not a standalone button.
+  .hds-icon {
+    align-items: center;
+    background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+    border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+    border-radius: 50%;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 2rem; // 32px
+    justify-content: center;
+    padding: 4px; // constrain icon within circle
+    width: 2rem; // 32px
+    color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
+    fill: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
+  }
+
+  // Hover — circle gets hover treatment
+  &:hover:not([disabled]) {
+    .hds-icon {
+      background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+      border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+    }
+  }
+
+  // Active — match hover
+  &:active:not([disabled]) {
+    outline: none;
+
+    .hds-icon {
+      background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
+      border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
+    }
+  }
+
+  // Focus — dashed box around the WHOLE button (text + circle).
+  // Uses border (not outline) so it wraps the composed shape.
+  // Must override global focus-visible outline (base/_focus.scss).
+  &:focus-visible,
+  button#{&}:focus-visible {
+    border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+    border-style: dashed;
+    outline: none !important; // override global focus
+  }
+
+  // Disabled — text and icon both mute, element stays visible
+  &[disabled],
+  &:disabled {
+    cursor: not-allowed;
+
+    .hds-pagination__simplified-text {
+      color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+    }
+
+    .hds-icon {
+      border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+      color: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+      fill: var(--hds-palette-btn-disabled-text, #{$hds-color-carbon-30});
+    }
+
+    &:hover {
+      .hds-icon {
+        background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
+        border-color: var(--hds-palette-utility-disabled-stroke, #{$hds-color-carbon-05});
+      }
+    }
+  }
+}
+
+// Text label inside simplified button
+.hds-pagination__simplified-text {
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  font-family: family('heading'); // Inter
+  font-size: size('heading', 'md');
+  font-weight: font-weight('bold');
+  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  line-height: 1.18; // 26/22
+}
