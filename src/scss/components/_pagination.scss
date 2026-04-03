@@ -136,6 +136,7 @@
     background-color: transparent;
     border-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
     border-style: dashed;
+    color: var(--hds-palette-text, #{$hds-color-carbon-90});
     outline: none;
   }
 }
