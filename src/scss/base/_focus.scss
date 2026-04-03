@@ -4,15 +4,19 @@
 // ============================================================
 // ALWAYS ACTIVE — not gated (accessibility requirement).
 //
-// Figma: 1px dashed, palette-aware.
-//   Light: Carbon 60 (--hds-palette-muted)
-//   Dark:  Carbon 30 (--hds-palette-muted)
+// Dashed palette-aware focus ring for keyboard navigation.
+// Uses --hds-palette-focus token (Pattern A: C60 light /
+// C30 dark). Components with different focus treatments
+// override via hds-focus-ring() mixin with appropriate
+// $color and $width parameters.
+//
 // Offset: 2px default. Components with generous internal
 // spacing (e.g. pagination page numbers) may override to 0.
 // ============================================================
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use 'mixins' as *;
 
 // HDS :focus-visible ring
 [contenteditable='true']:focus-visible,
@@ -22,8 +26,7 @@ button:not([disabled]):focus-visible,
 input:not([disabled]):focus-visible,
 select:not([disabled]):focus-visible,
 textarea:not([disabled]):focus-visible {
-  outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
-  outline-offset: 2px;
+  @include hds-focus-ring;
 }
 
 // Suppress USWDS :focus outline on mouse click.

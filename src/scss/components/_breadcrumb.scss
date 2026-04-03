@@ -20,6 +20,7 @@
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use '../base/mixins' as *;
 
 // ------------------------------------------------------------
 // Base
@@ -53,8 +54,7 @@
 }
 
 .usa-breadcrumb__link:focus-visible {
-  outline: 2px dotted var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
-  outline-offset: 2px;
+  @include hds-focus-ring($width: 'thick');
 }
 
 // Fix: USWDS overflow:hidden clips focus outline on first/last links

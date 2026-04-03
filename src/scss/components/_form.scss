@@ -27,11 +27,13 @@
 //   --hds-palette-muted           → help text, hover borders
 //   --hds-palette-border          → text input/select/textarea border
 //   --hds-palette-heading         → hover label darkening
-//   --hds-palette-btn-secondary-bg → focus color
+//   --hds-palette-btn-secondary-bg → focus color (solid blue inner ring)
 //   --hds-palette-control-text    → labels, input text, option text
 //   --hds-palette-control-fill    → checkbox/radio selected fill
 //   --hds-palette-control-stroke  → checkbox/radio selected border
 //   --hds-palette-control-border  → checkbox/radio default border
+//   --hds-palette-focus-minimal   → checkbox/radio outer focus box
+//                                   (Pattern D: C30 light / C80 dark)
 //
 // Tokens inferred from Figma (NOT in Proposal — flagged for
 // creative director review):
@@ -47,6 +49,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use '../base/mixins' as *;
 
 // HDS check icon — replaces USWDS default checkmark glyph
 $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.7071 5.70712L7.99995 15.4142L2.29285 9.70712L3.70706 8.29291L7.99995 12.5858L16.2928 4.29291L17.7071 5.70712Z' fill='%23fff'/%3E%3C/svg%3E");
@@ -108,8 +111,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // ── Input focus ───────────────────────────────────────────────
-// Figma shows a solid blue 2px border on focused form inputs,
-// not the dashed palette-aware ring used for buttons and links.
+// Solid blue element highlight — a separate focus system from
+// the dashed outline ring. Not addressed by focus ring
+// standardization (Issue #20).
 // Light palettes: NASA Blue. Dark palettes: NASA Blue/Tint.
 // Provided by --hds-palette-btn-secondary-bg.
 
@@ -203,13 +207,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   color: var(--hds-palette-heading);
 }
 
-// Focus — dashed ring around entire label + blue border on box
-// Figma: 1px dashed Carbon 30 on label, 2px solid NASA Blue on box.
-// Using --hds-palette-border for ring. Flagged for creative
-// director review.
+// Focus — dashed ring around entire label + blue border on box.
+// Outer box: Pattern D (Minimal) — C30 light / C80 dark.
+// Inner box: Solid blue element highlight (separate system).
 .usa-checkbox__input:focus-visible + .usa-checkbox__label {
-  outline: 1px dashed var(--hds-palette-border);
-  outline-offset: 2px;
+  @include hds-focus-ring($color: 'minimal');
   border-radius: 0;
 }
 
@@ -297,10 +299,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
     0 0 0 1px var(--hds-palette-muted);
 }
 
-// Focus — dashed ring around entire label + blue border on circle
+// Focus — dashed ring around entire label + blue border on circle.
+// Outer box: Pattern D (Minimal) — C30 light / C80 dark.
+// Inner circle: Solid blue element highlight (separate system).
 .usa-radio__input:focus-visible + .usa-radio__label {
-  outline: 1px dashed var(--hds-palette-border);
-  outline-offset: 2px;
+  @include hds-focus-ring($color: 'minimal');
   border-radius: 0;
 }
 

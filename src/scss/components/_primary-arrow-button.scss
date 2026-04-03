@@ -2,7 +2,6 @@
 // HDS Component — Primary Arrow Button
 // @nasa/hds-core
 // ============================================================
-// Tier 3 — no USWDS equivalent.
 // Text + CSS ::after red circle with white arrow.
 // Arrow direction auto-swaps for external links via
 // .usa-link--external. No SVG markup needed in HTML.
@@ -17,6 +16,7 @@
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use '../base/mixins' as *;
 
 $_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3Cpolyline points='13 6 19 12 13 18'/%3E%3C/svg%3E");
 $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'/%3E%3Cpolyline points='10 7 17 7 17 14'/%3E%3C/svg%3E");
@@ -70,8 +70,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 
   &:focus-visible {
-    outline: 2px dotted var(--hds-palette-link-text, #{$hds-color-carbon-90});
-    outline-offset: 2px;
+    @include hds-focus-ring($width: 'thick');
   }
 }
 

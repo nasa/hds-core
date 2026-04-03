@@ -2,9 +2,9 @@
 // HDS Component — Button
 // @nasa/hds-core
 // ============================================================
-// Tier 1 override. Theme tokens (in _hds-uswds-theme.scss)
-// handle border-radius (0), stroke-width (2px), and font-
-// family (Inter via "heading" slot).
+// Theme tokens (in _hds-uswds-theme.scss) handle border-radius
+// (0), stroke-width (2px), and font-family (Inter via "heading"
+// slot).
 //
 // After the primary/secondary color swap:
 //   .usa-button             → NASA Red filled (CTA)
@@ -27,14 +27,15 @@
 //   Blue = action on the current page
 //
 // PALETTE BEHAVIOR:
-//   Filled CTA     — universal (NASA Red everywhere)
-//   Filled secondary — palette-aware (Blue → Blue Tint on dark)
-//   Outline         — palette-aware (border + text adapt)
-//   Focus ring      — universal Carbon 30 (TODO: creative
-//                     director review for per-palette tuning)
-//   Hover shades    — universal (TODO: creative director review
-//                     for dark-palette hover values)
-//   Disabled        — palette-aware (stroke + text adapt)
+//   Filled CTA       — universal (NASA Red everywhere)
+//   Filled secondary  — palette-aware (Blue → Blue Tint on dark)
+//   Outline           — palette-aware (border + text adapt)
+//   Focus ring        — palette-aware via --hds-palette-focus-bold
+//                       (Pattern B: C30 universal — known WCAG
+//                       1.4.11 failure on light, tracked in #40)
+//   Hover shades      — universal (TODO: creative director review
+//                       for dark-palette hover values)
+//   Disabled          — palette-aware (stroke + text adapt)
 //
 // Restyles: https://designsystem.digital.gov/components/button/
 // ============================================================
@@ -44,16 +45,27 @@
 @use '../base/mixins' as *;
 
 // ------------------------------------------------------------
-// Focus — All Buttons
+// Focus — Filled + Outline Buttons
 // ------------------------------------------------------------
-// Universal Carbon 30 dashed ring per Figma spec.
-// TODO: Review with creative director once visible in
-// Storybook — may need per-palette tuning for contrast.
+// Pattern B (Bold): C30 on all palettes per Figma.
+// Known WCAG 1.4.11 failure on light backgrounds — tracked
+// in Issue #40.
 // ------------------------------------------------------------
 
 .usa-button:focus-visible:not(:disabled):not([aria-disabled='true']) {
-  outline: 2px dashed $hds-color-carbon-30;
-  outline-offset: 2px;
+  @include hds-focus-ring($color: 'bold', $width: 'thick');
+}
+
+// ------------------------------------------------------------
+// Focus — Unstyled Button
+// ------------------------------------------------------------
+// Unstyled button looks identical to a link (via
+// hds-link-appearance mixin) so its focus ring must also
+// match .usa-link: thin width, default color (Pattern A).
+// ------------------------------------------------------------
+
+.usa-button--unstyled:focus-visible:not(:disabled):not([aria-disabled='true']) {
+  @include hds-focus-ring;
 }
 
 // ------------------------------------------------------------

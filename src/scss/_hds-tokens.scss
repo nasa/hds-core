@@ -217,6 +217,22 @@ $hds-border-sizes: (
 );
 
 // ============================================================
+// § FOCUS RING WIDTHS
+// ============================================================
+// Named widths for the hds-focus-ring() mixin. Preserves
+// per-component variation from Figma spec:
+//   thin  — Link, Icon buttons, Checkbox/Radio outer,
+//           Pagination, Global baseline
+//   thick — Button (CTA/Secondary/Outline), Primary arrow,
+//           Breadcrumb
+// ============================================================
+
+$hds-focus-widths: (
+  'thin': 1px,
+  'thick': 2px,
+);
+
+// ============================================================
 // § BORDER RADII
 // ============================================================
 

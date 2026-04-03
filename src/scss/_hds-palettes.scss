@@ -44,6 +44,10 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-control-fill: #{$hds-color-nasa-blue};
   --hds-palette-social-fill: #{$hds-color-carbon-60};
   --hds-palette-social-icon: #{$hds-color-carbon-05};
+  // Focus: Bold uses C30 on all palettes per Figma (Pattern B).
+  // Known WCAG 1.4.11 failure on light backgrounds — tracked
+  // separately in Issue #40.
+  --hds-palette-focus-bold: #{$hds-color-carbon-30};
 }
 
 // --- Light scheme (white, light, midtone) ---
@@ -73,6 +77,12 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-05};
   --hds-palette-icon: #{$hds-color-carbon-black};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-70};
+  // Focus: Dashed outline ring tokens (Patterns A, E, D).
+  // C60 on light backgrounds per Figma. C30 minimal matches
+  // Figma checkbox/radio outer box on light.
+  --hds-palette-focus: #{$hds-color-carbon-60};
+  --hds-palette-focus-subtle: #{$hds-color-carbon-60};
+  --hds-palette-focus-minimal: #{$hds-color-carbon-30};
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-spacesuit-white};
@@ -115,6 +125,13 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-80};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
+  // Focus: Dashed outline ring tokens (Patterns A, E, D).
+  // C30 default per Figma. C40 subtle matches Figma pagination/
+  // tab on dark. C80 minimal matches Figma checkbox/radio outer
+  // box on dark.
+  --hds-palette-focus: #{$hds-color-carbon-30};
+  --hds-palette-focus-subtle: #{$hds-color-carbon-40};
+  --hds-palette-focus-minimal: #{$hds-color-carbon-80};
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};
@@ -155,6 +172,10 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-80};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-utility-stroke: #{$hds-color-carbon-40};
+  // Focus: Minimal overridden — light scheme C30 on C20
+  // background is ~1.1:1 (invisible). C80 is the Figma dark
+  // value, providing visibility without inventing new colors.
+  --hds-palette-focus-minimal: #{$hds-color-carbon-80};
   // Disabled overrides — light-scheme Carbon 20 values are
   // invisible on this Carbon 20 background. Inferred values
   // flagged for creative director review.
@@ -207,6 +228,15 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
+  // Focus: Blue palette is a dark background but doesn't use
+  // _scheme-dark, so focus tokens are set explicitly.
+  // C30 default/minimal match dark scheme. C40 subtle matches
+  // Figma pagination/tab on dark.
+  // Minimal uses C30 (not C80) — C80 on Blue Shade is very
+  // dark on dark. C30 is the Figma light value (visible).
+  --hds-palette-focus: #{$hds-color-carbon-30};
+  --hds-palette-focus-subtle: #{$hds-color-carbon-40};
+  --hds-palette-focus-minimal: #{$hds-color-carbon-30};
   // Form tokens — inferred from dark scheme, not in Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};

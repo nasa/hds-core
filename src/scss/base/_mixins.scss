@@ -7,6 +7,7 @@
 //
 // CONTENTS:
 //   Accessibility — visually-hidden
+//   Focus         — hds-focus-ring
 //   Typography    — hds-overline-label, hds-metadata-type, intro-text
 //   Buttons       — structure, color, hover, outline, round
 //   Utility       — hds-utility-circle (pagination, icon buttons)
@@ -32,6 +33,61 @@
   position: absolute;
   width: 1px;
   word-wrap: normal !important;
+}
+
+// ------------------------------------------------------------
+// Focus
+// ------------------------------------------------------------
+// Dashed focus ring for keyboard navigation. Palette-aware
+// via --hds-palette-focus-* custom properties defined in
+// _hds-palettes.scss.
+//
+// Four color treatments matching Figma focus patterns:
+//   'default'  — C60 light / C30 dark (Pattern A)
+//   'bold'     — C30 universal (Pattern B)
+//   'subtle'   — C60 light / C40 dark (Pattern E)
+//   'minimal'  — C30 light / C80 dark (Pattern D)
+//
+// Two width tokens from $hds-focus-widths:
+//   'thin'  (1px) — Link, Icon buttons, Global baseline
+//   'thick' (2px) — Text buttons, Primary arrow, Breadcrumb
+//
+// Two methods:
+//   'outline' — outline + outline-offset (default)
+//   'border'  — border-color + border-style + outline:none
+//               (for components that pre-reserve a transparent
+//               border, e.g. pagination page numbers)
+//
+// Interactive icon button is exempt — uses fixed colors for
+// high contrast on dynamic backgrounds. Does not use this mixin.
+// ------------------------------------------------------------
+
+// Fallback values for use without palette wrappers.
+// Each maps to the light-scheme value for that treatment.
+$_focus-fallbacks: (
+  'default': $hds-color-carbon-60,
+  'bold': $hds-color-carbon-30,
+  'subtle': $hds-color-carbon-60,
+  'minimal': $hds-color-carbon-30,
+);
+
+@mixin hds-focus-ring($color: 'default', $width: 'thin', $method: 'outline', $offset: 2px) {
+  $suffix: '';
+  @if $color != 'default' {
+    $suffix: '-#{$color}';
+  }
+  $prop: --hds-palette-focus#{$suffix};
+  $fallback: map.get($_focus-fallbacks, $color);
+  $resolved-width: map.get($hds-focus-widths, $width);
+
+  @if $method == 'outline' {
+    outline: #{$resolved-width} dashed var(#{$prop}, #{$fallback});
+    outline-offset: $offset;
+  } @else if $method == 'border' {
+    border-color: var(#{$prop}, #{$fallback});
+    border-style: dashed;
+    outline: none;
+  }
 }
 
 // ------------------------------------------------------------

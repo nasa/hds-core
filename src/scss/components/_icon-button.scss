@@ -2,7 +2,6 @@
 // HDS Component — Icon Button
 // @nasa/hds-core
 // ============================================================
-// Tier 3 — no USWDS equivalent.
 // Interactive circle containers. Require aria-label when used
 // without visible text. SVG inside always gets aria-hidden="true".
 //
@@ -17,6 +16,11 @@
 // Sizes:
 //   --sm          Inline with text
 //   --lg          Hero CTAs
+//
+// Focus treatments:
+//   Utility       — default (Pattern A: C60 light / C30 dark)
+//   CTA/Sec/Out/Social — bold (Pattern B: C30 universal)
+//   Interactive   — fixed (C40, 1px offset, exempt from palette)
 //
 // States:
 //   All roles except --interactive support hover, active,
@@ -43,11 +47,6 @@
   padding: 0;
   width: 24px;
 
-  &:focus-visible {
-    outline: 1px dashed var(--hds-palette-muted, #{$hds-color-carbon-60});
-    outline-offset: 2px;
-  }
-
   &[disabled],
   &:disabled {
     cursor: not-allowed;
@@ -58,6 +57,26 @@
     height: 60%;
     pointer-events: none;
     width: 60%;
+  }
+}
+
+// ── Focus — Per-Role ──────────────────────────────────────────
+// Split by Figma treatment. Utility uses default (Pattern A).
+// CTA, Secondary, Outline, Social use bold (Pattern B).
+// Interactive is exempt — fixed colors for dynamic backgrounds.
+
+.hds-btn-icon--utility {
+  &:focus-visible {
+    @include hds-focus-ring;
+  }
+}
+
+.hds-btn-icon--cta,
+.hds-btn-icon--secondary,
+.hds-btn-icon--outline,
+.hds-btn-icon--social {
+  &:focus-visible {
+    @include hds-focus-ring($color: 'bold');
   }
 }
 
@@ -188,9 +207,9 @@
     color: #{$hds-color-carbon-black};
   }
 
-  // Overrides global focus-visible (base/_focus.scss)
-  // which has higher specificity (0-2-1 vs 0-2-0).
-  &.hds-btn-icon:focus-visible {
+  // Fixed focus ring — exempt from palette system.
+  // C40 at 1px offset for high contrast on dynamic backgrounds.
+  &:focus-visible {
     outline: 1px dashed #{$hds-color-carbon-40};
     outline-offset: 1px;
   }
@@ -256,7 +275,6 @@
 }
 
 // ── Inline glyph ──────────────────────────────────────────────
-// Tier 3 — no USWDS equivalent.
 // For bare icons inline with text. Inherits color from parent.
 
 .hds-glyph {
