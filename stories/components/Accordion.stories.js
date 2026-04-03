@@ -1,21 +1,27 @@
 // ============================================================
 // Accordion Stories — @nasa/hds-core
-// Covers §8 (USWDS .usa-accordion override, Tier 1)
+// CSS: components/_accordion.scss
 //
 // Sidebar structure:
-//   Guidance   — Accordion.mdx (design rationale, Canvas embeds)
-//   Stories    — Default, Multiselectable (visible in sidebar)
+//   Guidance   — Accordion.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default, Multiselectable, All Variants
+//              (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Accordion',
+  parameters: {
+    chromatic: { delay: 300 },
+  },
 };
 
-// --- Helpers (used in multiple stories) ---
+// --- Helpers ---
 
-const label = (text) => `<p class="hds-overline" style="margin-bottom: 0.5rem">${text}</p>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const accordionItem = (id, title, content, expanded = false) => `
   <h4 class="usa-accordion__heading">
@@ -87,6 +93,14 @@ const accordion = ({ prefix = 'acc', multiselectable = false, itemCount = 5, fir
   `;
 };
 
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    delay: 300,
+    modes: paletteModes,
+  },
+};
+
 // --- Stories (visible in sidebar) ---
 
 export const Default = {
@@ -104,7 +118,7 @@ export const Default = {
       description: 'First item expanded on load',
     },
   },
-  render: (args) => accordion({ ...args, prefix: 'default' }),
+  render: (args = {}) => accordion({ ...args, prefix: 'default' }),
 };
 
 export const Multiselectable = {
@@ -122,37 +136,61 @@ export const Multiselectable = {
       description: 'First item expanded on load',
     },
   },
-  render: (args) => accordion({ ...args, prefix: 'multi', multiselectable: true }),
+  render: (args = {}) => accordion({ ...args, prefix: 'multi', multiselectable: true }),
 };
 
-// --- Guidance embeds (MDX only) ---
-
-// AllCollapsed is Default with firstExpanded: false.
-// Kept as a named embed target for Accordion.mdx.
-export const AllCollapsed = {
-  tags: ['!dev'],
-  render: () => accordion({ prefix: 'collapsed', firstExpanded: false }),
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Default (one open at a time)')}
+        <div style="margin-top: 0.5rem;">
+          ${accordion({ prefix: 'av-default', itemCount: 3 })}
+        </div>
+      </div>
+      <div>
+        ${label('All collapsed')}
+        <div style="margin-top: 0.5rem;">
+          ${accordion({ prefix: 'av-collapsed', itemCount: 3, firstExpanded: false })}
+        </div>
+      </div>
+      <div>
+        ${label('Multiselectable')}
+        <div style="margin-top: 0.5rem;">
+          ${accordion({ prefix: 'av-multi', itemCount: 3, multiselectable: true })}
+        </div>
+      </div>
+    </div>
+  `,
 };
 
-// --- Palette Accessibility tests ---
+// --- Palette accessibility tests ---
 
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(Default.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(Default.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusAccordion = {
+  name: 'Focus [accordion]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(Default.render),
+  parameters: focusParams,
+  render: () => accordion({ prefix: 'focus', itemCount: 3 }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button', { name: 'What is the Horizon Design System?' });
+    await expect(button).toHaveFocus();
+  },
 };

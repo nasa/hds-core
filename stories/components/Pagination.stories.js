@@ -1,6 +1,6 @@
 // ============================================================
 // Pagination Stories — @nasa/hds-core
-// Covers §7 (USWDS .usa-pagination override + HDS simplified)
+// CSS: components/_pagination.scss
 //
 // Sidebar structure:
 //   Guidance   — Pagination.mdx (design rationale, Canvas embeds, usage rules)

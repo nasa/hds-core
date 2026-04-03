@@ -1,35 +1,42 @@
 // ============================================================
 // Link Stories — @nasa/hds-core
-// Covers §13 (USWDS .usa-link override, Tier 1 + .hds-link--internal, Tier 3)
+// CSS: components/_link.scss
 //
 // Sidebar structure:
 //   Guidance   — Link.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Internal (default), External, Internal Escape
+//   Stories    — Internal (default), External, All Variants
 //              (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Link',
 };
 
-// --- Helpers (used in multiple stories) ---
+// --- Helpers ---
 
 const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const grid = (items) => `
   <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
     ${items}
-  </div>
-`;
+  </div>`;
 
 const gridItem = (labelText, content) => `
   <div style="min-width: 10rem;">
     ${label(labelText)}
     <div style="margin-top: 0.5rem;">${content}</div>
-  </div>
-`;
+  </div>`;
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
 
 // --- Stories (visible in sidebar) ---
 
@@ -53,88 +60,28 @@ export const External = {
   args: {
     text: "NASA's Flickr",
     href: 'https://flickr.com/nasa',
+    suppressArrow: false,
   },
   argTypes: {
     text: { control: 'text', description: 'Link text' },
     href: { control: 'text', description: 'URL' },
+    suppressArrow: {
+      control: 'boolean',
+      name: 'Internal escape (.hds-link--internal)',
+      description: 'Suppress external arrow for NASA subdomains',
+    },
   },
   render: (args = {}) => {
-    const { text = "NASA's Flickr", href = 'https://flickr.com/nasa' } = args;
-    return `<p>View the gallery on <a class="usa-link usa-link--external" href="${href}" rel="noreferrer">${text}<span class="usa-sr-only"> (external)</span></a>.</p>`;
+    const { text = "NASA's Flickr", href = 'https://flickr.com/nasa', suppressArrow = false } = args;
+    const escapeClass = suppressArrow ? ' hds-link--internal' : '';
+    const srText = suppressArrow ? '' : '<span class="usa-sr-only"> (external)</span>';
+    return `<p>View the gallery on <a class="usa-link usa-link--external${escapeClass}" href="${href}" rel="noreferrer">${text}${srText}</a>.</p>`;
   },
-};
-
-export const InternalEscape = {
-  name: 'Internal Escape',
-  args: {
-    text: 'science.nasa.gov',
-    href: 'https://science.nasa.gov/',
-  },
-  argTypes: {
-    text: { control: 'text', description: 'Link text' },
-    href: { control: 'text', description: 'URL (NASA subdomain)' },
-  },
-  render: (args = {}) => {
-    const { text = 'science.nasa.gov', href = 'https://science.nasa.gov/' } = args;
-    return `<p>Explore the latest findings at <a class="usa-link usa-link--external hds-link--internal" href="${href}" rel="noreferrer">${text}</a>.</p>`;
-  },
-};
-
-// --- Guidance embeds (MDX only) ---
-
-export const LinksInHeadings = {
-  name: 'Links in headings',
-  tags: ['!dev'],
-  render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <h2>
-        <a class="usa-link usa-link--external" href="https://www.spacex.com"
-           rel="noreferrer">Heading 2 with external link<span class="usa-sr-only"> (external)</span></a>
-      </h2>
-      <h3>
-        <a class="usa-link" href="#">Heading 3 with internal link</a>
-      </h3>
-      <h4>
-        <a class="usa-link" href="#">Heading 4 with internal link</a>
-      </h4>
-    </div>
-  `,
-};
-
-export const LinksInParagraph = {
-  name: 'Links in paragraph',
-  tags: ['!dev'],
-  render: () => `
-    <p>
-      As NASA advances its plans to explore the Moon under its
-      <a class="usa-link" href="#">Artemis program</a>, the two will
-      discuss areas of collaboration that include support for
-      <a class="usa-link" href="#">human spaceflight</a>, emerging
-      space transportation, and
-      <a class="usa-link usa-link--external"
-         href="https://science.nasa.gov/"
-         rel="noreferrer">scientific research<span class="usa-sr-only"> (external)</span></a>.
-    </p>
-  `,
-};
-
-export const MultiLineWrap = {
-  name: 'Multi-line wrap',
-  tags: ['!dev'],
-  render: () => `
-    <p style="max-width: 320px;">
-      On narrow viewports, this longer link wraps to multiple lines:
-      <a class="usa-link usa-link--external" href="https://example.com"
-         rel="noreferrer">a multi-line external link that demonstrates
-      the underline following across line breaks<span class="usa-sr-only"> (external)</span></a>.
-    </p>
-  `,
 };
 
 export const AllVariants = {
-  name: 'All variants',
-  tags: ['!dev'],
-  render: () =>
+  name: 'All Variants',
+  render: (args = {}) =>
     grid([
       gridItem('Internal', '<a class="usa-link" href="#">Artemis Program</a>'),
       gridItem(
@@ -146,6 +93,49 @@ export const AllVariants = {
         '<a class="usa-link usa-link--external hds-link--internal" href="https://science.nasa.gov/" rel="noreferrer">science.nasa.gov</a>',
       ),
     ]),
+};
+
+// --- Guidance embeds (MDX only) ---
+
+export const LinksInContext = {
+  name: 'Links in context',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('In headings')}
+        <h2 style="margin-top: 0.5rem;">
+          <a class="usa-link usa-link--external" href="https://www.spacex.com"
+             rel="noreferrer">Heading with external link<span class="usa-sr-only"> (external)</span></a>
+        </h2>
+        <h3>
+          <a class="usa-link" href="#">Heading with internal link</a>
+        </h3>
+      </div>
+      <div>
+        ${label('In body text')}
+        <p style="margin-top: 0.5rem;">
+          As NASA advances its plans to explore the Moon under its
+          <a class="usa-link" href="#">Artemis program</a>, the two will
+          discuss areas of collaboration that include support for
+          <a class="usa-link" href="#">human spaceflight</a>, emerging
+          space transportation, and
+          <a class="usa-link usa-link--external"
+             href="https://science.nasa.gov/"
+             rel="noreferrer">scientific research<span class="usa-sr-only"> (external)</span></a>.
+        </p>
+      </div>
+      <div>
+        ${label('Multi-line wrap')}
+        <p style="max-width: 320px; margin-top: 0.5rem;">
+          On narrow viewports, this longer link wraps to multiple lines:
+          <a class="usa-link usa-link--external" href="https://example.com"
+             rel="noreferrer">a multi-line external link that demonstrates
+          the underline following across line breaks<span class="usa-sr-only"> (external)</span></a>.
+        </p>
+      </div>
+    </div>
+  `,
 };
 
 // --- Palette accessibility tests ---
@@ -164,9 +154,18 @@ export const PaletteA11yHover = {
   render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusLink = {
+  name: 'Focus [link]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(AllVariants.render),
+  parameters: focusParams,
+  render: () => `
+    <p>Learn more about the <a class="usa-link" href="#">Artemis Program</a> and upcoming lunar missions.</p>
+  `,
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const link = canvas.getByRole('link', { name: 'Artemis Program' });
+    await expect(link).toHaveFocus();
+  },
 };

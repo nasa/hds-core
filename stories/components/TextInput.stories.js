@@ -1,15 +1,15 @@
 // ============================================================
 // Text Input Stories — @nasa/hds-core
-// Covers §5.1, §5.2, §5.3, §5.4, §5.5, §5.8, §5.9
-//
-// HDS Figma: Text and Select Fields.pdf
-// USWDS: https://designsystem.digital.gov/components/text-input/
+// CSS: components/_form.scss
 //
 // Sidebar structure:
 //   Guidance   — TextInput.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Default, Textarea (visible in sidebar)
+//   Stories    — Default, Textarea, All Variants
+//              (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -17,6 +17,8 @@ export default {
 };
 
 // --- Helpers ---
+
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const textInput = ({
   prefix = 'input',
@@ -109,6 +111,13 @@ const textareaField = ({
       ${error ? `<span class="usa-error-message" id="${errorId}" role="alert">${error}</span>` : ''}
     </div>
   `;
+};
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
 };
 
 // --- Stories (visible in sidebar) ---
@@ -236,6 +245,38 @@ export const Textarea = {
   },
 };
 
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('With value')}
+        <div style="margin-top: 0.5rem;">
+          ${textInput({ prefix: 'av-value', value: 'James Webb Space Telescope' })}
+        </div>
+      </div>
+      <div>
+        ${label('Error')}
+        <div style="margin-top: 0.5rem;">
+          ${textInput({ prefix: 'av-error', error: 'Error explanation text' })}
+        </div>
+      </div>
+      <div>
+        ${label('Disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${textInput({ prefix: 'av-disabled', value: 'Cannot edit', disabled: true })}
+        </div>
+      </div>
+      <div>
+        ${label('Textarea')}
+        <div style="margin-top: 0.5rem;">
+          ${textareaField({ prefix: 'av-textarea' })}
+        </div>
+      </div>
+    </div>
+  `,
+};
+
 // --- Guidance embeds (MDX only) ---
 
 export const Placeholder = {
@@ -311,32 +352,35 @@ export const Widths = {
 
 // --- Palette accessibility tests ---
 
-export const PaletteReference = {
-  tags: ['!dev'],
-  render: () => `
-    ${textInput({ prefix: 'pal-default', value: 'James Webb Space Telescope' })}
-    ${textInput({ prefix: 'pal-error', error: 'Error explanation text' })}
-    ${textInput({ prefix: 'pal-disabled', value: 'Cannot edit', disabled: true })}
-  `,
-};
-
 export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(PaletteReference.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(PaletteReference.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusTextInput = {
+  name: 'Focus [text input]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(PaletteReference.render),
+  parameters: focusParams,
+  render: () =>
+    textInput({
+      prefix: 'focus',
+      hint: '',
+      ariaHint: false,
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const input = canvas.getByRole('textbox', { name: 'Text input label' });
+    await expect(input).toHaveFocus();
+  },
 };

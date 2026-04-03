@@ -8,11 +8,9 @@ import * as BreadcrumbStories from './Breadcrumb.stories';
 
 Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy. HDS breadcrumbs use USWDS [`.usa-breadcrumb`](https://designsystem.digital.gov/components/breadcrumb/) markup.
 
-## Depth variants
+Breadcrumbs consist of a list of links separated by forward slashes, beginning with the homepage and ending with the current page. The current page is always the last item — displayed in a distinct color but never as a link. **Maximum 3 visible elements and 2 slashes**, regardless of how deep the page is.
 
-Breadcrumbs consist of a list of links, separated by forward slashes, beginning with the homepage and ending with the current page. The current page is always the last item — displayed in a distinct color but never as a link.
-
-**Maximum 3 visible elements and 2 slashes**, regardless of how deep the page is.
+## Variants
 
 ### 2 levels
 
@@ -36,15 +34,15 @@ For pages deeper than 3 levels, Home and all intermediate levels are replaced wi
 
 <Note type="uswds">HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of chevrons, a strict 3-element maximum with ellipsis truncation, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.</Note>
 
-## When to use the breadcrumb component
+## When to use
 
-- **Multi-level site hierarchies** — any page that is 2+ levels deep in the site structure.
-- **Below global navigation** — displayed on most pages at Large and XL screen sizes.
-- **Wayfinding** — helping users orient themselves and navigate back up the hierarchy.
+- **Multi-level site hierarchies** — any page that is 2+ levels deep in the site structure
+- **Below global navigation** — displayed on most pages at Large and XL screen sizes
+- **Wayfinding** — helping users orient themselves and navigate back up the hierarchy
 
 ## When to consider something else
 
-- **Single-level sites** — if there's no meaningful hierarchy, breadcrumbs add noise.
+- **Single-level sites** — if there's no meaningful hierarchy, breadcrumbs add noise
 - **Step-by-step processes** — use a step indicator instead. Breadcrumbs show hierarchy, not progress.
 
 ## Usability guidance

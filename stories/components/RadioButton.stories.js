@@ -1,15 +1,15 @@
 // ============================================================
 // Radio Button Stories — @nasa/hds-core
-// Covers §5.0, §5.7
-//
-// HDS Figma: Radio Buttons.pdf
-// USWDS: https://designsystem.digital.gov/components/radio-buttons/
+// CSS: components/_form.scss
 //
 // Sidebar structure:
 //   Guidance   — RadioButton.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Default, Tiles, Horizontal (visible in sidebar)
+//   Stories    — Default, Horizontal, Tiles, All Variants
+//              (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -18,14 +18,12 @@ export default {
 
 // --- Helpers ---
 
-const label = (text) => `<p class="hds-overline" style="margin-bottom: 0.5rem">${text}</p>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const radioItem = (prefix, value, labelText, opts = {}) => {
   const { checked = false, disabled = false, tile = false, description = '' } = opts;
   const inputClass = tile ? 'usa-radio__input usa-radio__input--tile' : 'usa-radio__input';
   const id = `${prefix}-${value}`;
-  // Disabled radios need a unique name so checked + disabled renders
-  // independently from the rest of the group in the States story.
   const name = disabled ? `${prefix}-${value}` : prefix;
 
   return `
@@ -76,7 +74,6 @@ const radioGroup = ({
   `;
 };
 
-// Hoisted to module scope — avoids label: parser bug in sidebar stories
 const missionTypes = [
   { value: 'crewed', text: 'Crewed', checked: true },
   { value: 'robotic', text: 'Robotic' },
@@ -99,7 +96,6 @@ const stateItems = [
   { value: 'disabled-checked', text: 'Disabled + selected', disabled: true, checked: true },
 ];
 
-// Shared argTypes
 const sharedArgTypes = {
   legend: {
     control: 'text',
@@ -108,6 +104,13 @@ const sharedArgTypes = {
   itemCount: {
     control: { type: 'range', min: 2, max: 6, step: 1 },
     description: 'Number of radio button options',
+  },
+};
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
   },
 };
 
@@ -125,23 +128,6 @@ export const Default = {
       prefix: 'default',
       legend,
       items: missionTypes.slice(0, itemCount),
-    });
-  },
-};
-
-export const Tiles = {
-  args: {
-    legend: 'Select destination',
-    itemCount: 3,
-  },
-  argTypes: sharedArgTypes,
-  render: (args = {}) => {
-    const { legend = 'Select destination', itemCount = 3 } = args;
-    return radioGroup({
-      prefix: 'tiles',
-      legend,
-      tile: true,
-      items: tileItems.slice(0, itemCount),
     });
   },
 };
@@ -168,6 +154,77 @@ export const Horizontal = {
       ],
     });
   },
+};
+
+export const Tiles = {
+  args: {
+    legend: 'Select destination',
+    itemCount: 3,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const { legend = 'Select destination', itemCount = 3 } = args;
+    return radioGroup({
+      prefix: 'tiles',
+      legend,
+      tile: true,
+      items: tileItems.slice(0, itemCount),
+    });
+  },
+};
+
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Default')}
+        <div style="margin-top: 0.5rem;">
+          ${radioGroup({
+            prefix: 'av-default',
+            legend: 'Radio button states',
+            items: stateItems,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Horizontal')}
+        <div style="margin-top: 0.5rem;">
+          ${radioGroup({
+            prefix: 'av-horiz',
+            legend: 'Label',
+            horizontal: true,
+            items: [
+              { value: 'yes', text: 'Yes', checked: true },
+              { value: 'no', text: 'No' },
+            ],
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Tiles')}
+        <div style="margin-top: 0.5rem;">
+          ${radioGroup({
+            prefix: 'av-tiles',
+            legend: 'Select destination',
+            tile: true,
+            items: tileItems,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Error')}
+        <div style="margin-top: 0.5rem;">
+          <fieldset class="usa-fieldset">
+            <legend class="usa-legend">Select a destination</legend>
+            ${radioItem('av-err', 'moon', 'Moon')}
+            ${radioItem('av-err', 'mars', 'Mars')}
+            <span class="usa-error-message" role="alert">Please select a destination</span>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  `,
 };
 
 // --- Guidance embeds (MDX only) ---
@@ -200,19 +257,34 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(States.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(States.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusRadio = {
+  name: 'Focus [radio]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(States.render),
+  parameters: focusParams,
+  render: () =>
+    radioGroup({
+      prefix: 'focus',
+      legend: 'Select one mission type',
+      items: [
+        { value: 'crewed', text: 'Crewed', checked: true },
+        { value: 'robotic', text: 'Robotic' },
+      ],
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const radio = canvas.getByRole('radio', { name: 'Crewed' });
+    await expect(radio).toHaveFocus();
+  },
 };

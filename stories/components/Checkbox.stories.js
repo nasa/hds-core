@@ -1,15 +1,14 @@
 // ============================================================
 // Checkbox Stories — @nasa/hds-core
-// Covers §5.0, §5.6
-//
-// HDS Figma: Checkbox.pdf
-// USWDS: https://designsystem.digital.gov/components/checkbox/
+// CSS: components/_form.scss
 //
 // Sidebar structure:
 //   Guidance   — Checkbox.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Default, Tiles (visible in sidebar)
+//   Stories    — Default, Tiles, All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -18,7 +17,7 @@ export default {
 
 // --- Helpers ---
 
-const label = (text) => `<p class="hds-overline" style="margin-bottom: 0.5rem">${text}</p>`;
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const checkboxItem = (prefix, value, labelText, opts = {}) => {
   const { checked = false, disabled = false, tile = false, description = '' } = opts;
@@ -66,7 +65,6 @@ const checkboxGroup = ({ prefix = 'check', legend = 'Missions', items = [], tile
   `;
 };
 
-// Hoisted to module scope — avoids label: parser bug in sidebar stories
 const missionItems = [
   { value: 'artemis', text: 'Artemis' },
   { value: 'commercial-crew', text: 'Commercial Crew', checked: true },
@@ -88,7 +86,6 @@ const tileItems = [
   { value: 'disabled', text: 'Disabled tile', disabled: true },
 ];
 
-// Shared argTypes for both sidebar stories
 const sharedArgTypes = {
   legend: {
     control: 'text',
@@ -101,6 +98,13 @@ const sharedArgTypes = {
   firstChecked: {
     control: 'boolean',
     description: 'First item selected on load',
+  },
+};
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
   },
 };
 
@@ -151,6 +155,46 @@ export const Tiles = {
   },
 };
 
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Default')}
+        <div style="margin-top: 0.5rem;">
+          ${checkboxGroup({
+            prefix: 'av-default',
+            legend: 'Checkbox states',
+            items: stateItems,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Tiles')}
+        <div style="margin-top: 0.5rem;">
+          ${checkboxGroup({
+            prefix: 'av-tiles',
+            legend: 'Select format',
+            tile: true,
+            items: tileItems,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Error')}
+        <div style="margin-top: 0.5rem;">
+          <fieldset class="usa-fieldset">
+            <legend class="usa-legend">Select areas of interest</legend>
+            ${checkboxItem('av-err', 'earth', 'Earth Science')}
+            ${checkboxItem('av-err', 'planetary', 'Planetary Science')}
+            <span class="usa-error-message" role="alert">Please select at least one area of interest</span>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  `,
+};
+
 // --- Guidance embeds (MDX only) ---
 
 export const States = {
@@ -181,19 +225,34 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(States.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(States.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusCheckbox = {
+  name: 'Focus [checkbox]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(States.render),
+  parameters: focusParams,
+  render: () =>
+    checkboxGroup({
+      prefix: 'focus',
+      legend: 'Missions',
+      items: [
+        { value: 'artemis', text: 'Artemis' },
+        { value: 'commercial-crew', text: 'Commercial Crew' },
+      ],
+    }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const checkbox = canvas.getByRole('checkbox', { name: 'Artemis' });
+    await expect(checkbox).toHaveFocus();
+  },
 };

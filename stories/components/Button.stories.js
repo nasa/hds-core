@@ -1,6 +1,6 @@
 // ============================================================
 // Button Stories — @nasa/hds-core
-// Covers §4 (USWDS button overrides) and §11 (primary arrow)
+// CSS: components/_button.scss, components/_primary-arrow-button.scss
 //
 // Sidebar structure:
 //   Guidance   — Button.mdx (design rationale, Canvas embeds, usage rules)

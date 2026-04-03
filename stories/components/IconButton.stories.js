@@ -1,16 +1,15 @@
 // ============================================================
 // Icon Button Stories — @nasa/hds-core
-// Covers §12 (HDS icon buttons, Tier 3)
-//
-// HDS Figma: Icon Buttons
-// USWDS: No equivalent (Tier 3)
+// CSS: components/_icon-button.scss
 //
 // Sidebar structure:
 //   Guidance   — IconButton.mdx (design rationale, Canvas embeds, usage rules)
 //   Stories    — CTA, Secondary, Outline, Utility, Social,
-//              Interactive, States (visible in sidebar)
+//              Interactive, All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
@@ -18,7 +17,7 @@ export default {
   title: 'Components/Icon Button',
 };
 
-// --- Helpers (used in multiple stories) ---
+// --- Helpers ---
 
 const label = (text) => `<span class="hds-overline">${text}</span>`;
 
@@ -54,7 +53,6 @@ const iconBtn = (role, iconName, ariaLabel, opts = {}) => {
   return `<button class="${cls}" type="button" aria-label="${ariaLabel}"${disabled}${expanded}>${iconSvg(iconName, sprite)}</button>`;
 };
 
-// Shared argTypes for icon button role stories
 const sharedArgTypes = {
   ariaLabel: {
     control: 'text',
@@ -95,7 +93,6 @@ const sharedArgTypes = {
   },
 };
 
-// Shared render factory — builds a render function for a given role
 const roleRender =
   (role) =>
   (args = {}) => {
@@ -111,15 +108,12 @@ const roleRender =
     });
   };
 
-// Hoisted for States story — avoids label: parse ambiguity
-const stateRoles = [
-  { role: 'cta', iconName: 'arrow-line-right', text: 'CTA' },
-  { role: 'secondary', iconName: 'download', text: 'Secondary' },
-  { role: 'outline', iconName: 'share', text: 'Outline' },
-  { role: 'utility', iconName: 'settings', text: 'Utility' },
-  { role: 'social', iconName: 'rss', text: 'Social' },
-  { role: 'interactive', iconName: 'plus', text: 'Interactive' },
-];
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
 
 // --- Stories (visible in sidebar) ---
 
@@ -198,9 +192,6 @@ export const Social = {
   render: roleRender('social'),
 };
 
-// Interactive — disclosure triggers over images and 3D content.
-// Uses sprite glyphs (same system as all other roles).
-// Toggle aria-expanded to control active/open visual state.
 export const Interactive = {
   name: 'Interactive',
   args: {
@@ -234,63 +225,41 @@ export const Interactive = {
   },
 };
 
-export const States = {
-  name: 'States (all roles)',
-  render: () => {
-    const header = `
-      <div style="display: grid; grid-template-columns: 7rem repeat(2, 5rem); gap: 1rem; align-items: center; margin-bottom: 0.75rem;">
-        <div></div>
-        ${label('Default')}
-        ${label('Disabled')}
-      </div>`;
-
-    const rows = stateRoles
-      .map(
-        (r) => `
-      <div style="display: grid; grid-template-columns: 7rem repeat(2, 5rem); gap: 1rem; align-items: center;">
-        ${label(r.text)}
-        <div>${iconBtn(r.role, r.iconName, `${r.text} default`)}</div>
-        <div>${
-          r.role === 'interactive'
-            ? iconBtn(r.role, r.iconName, `${r.text} expanded`, { expanded: true })
-            : iconBtn(r.role, r.iconName, `${r.text} disabled`, { disabled: true })
-        }</div>
-      </div>`,
-      )
-      .join('');
-
-    return `
-      ${header}
-      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-        ${rows}
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div>
+        ${label('Roles')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', iconBtn('cta', 'arrow-line-right', 'Navigate'))}
+            ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download'))}
+            ${gridItem('Outline', iconBtn('outline', 'share', 'Share'))}
+            ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings'))}
+            ${gridItem('Social', iconBtn('social', 'rss', 'RSS'))}
+            ${gridItem('Interactive', iconBtn('interactive', 'plus', 'More info'))}
+          `)}
+        </div>
       </div>
-      <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
-        Hover states require mouse interaction — hover each button above to preview.
-        Interactive shows default and expanded (not disabled — disclosure triggers should not be disabled).
-      </p>
-    `;
-  },
+      <div>
+        ${label('Disabled')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${gridItem('CTA', iconBtn('cta', 'arrow-line-right', 'Navigate', { disabled: true }))}
+            ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download', { disabled: true }))}
+            ${gridItem('Outline', iconBtn('outline', 'share', 'Share', { disabled: true }))}
+            ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings', { disabled: true }))}
+            ${gridItem('Social', iconBtn('social', 'rss', 'RSS', { disabled: true }))}
+            ${gridItem('Expanded', iconBtn('interactive', 'minus', 'Close', { expanded: true }))}
+          `)}
+        </div>
+      </div>
+    </div>
+  `,
 };
 
 // --- Guidance embeds (MDX only) ---
-
-export const AllRoles = {
-  name: 'All roles',
-  tags: ['!dev'],
-  render: () => `
-    ${grid(`
-      ${gridItem('CTA', iconBtn('cta', 'arrow-line-right', 'Navigate to page'))}
-      ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download file'))}
-      ${gridItem('Outline', iconBtn('outline', 'share', 'Share page'))}
-      ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings'))}
-      ${gridItem('Social', iconBtn('social', 'rss', 'RSS feed'))}
-      ${gridItem('Interactive', iconBtn('interactive', 'plus', 'More info'))}
-    `)}
-    <p style="margin-top: 1.5rem; font-size: 14px; color: var(--hds-palette-muted, #717171);">
-      <strong>Red</strong> = navigates away · <strong>Blue</strong> = stays on page · <strong>Neutral</strong> = UI controls
-    </p>
-  `,
-};
 
 export const InteractiveStates = {
   name: 'Interactive states',
@@ -323,36 +292,36 @@ export const Sizes = {
     `),
 };
 
-export const SocialRow = {
-  name: 'Social row',
-  tags: ['!dev'],
-  render: () =>
-    grid(`
-      ${iconBtn('social', 'notification', 'Notifications', { element: 'a', size: 'xl' })}
-      ${iconBtn('social', 'rss', 'RSS feed', { element: 'a', size: 'xl' })}
-      ${iconBtn('social', 'share', 'Share', { element: 'a', size: 'xl' })}
-    `),
-};
-
-export const ActionBar = {
-  name: 'Action bar',
+export const UsagePatterns = {
+  name: 'Usage patterns',
   tags: ['!dev'],
   render: () => `
-    <div style="display: flex; gap: 0.75rem;">
-      ${iconBtn('secondary', 'download', 'Download')}
-      ${iconBtn('outline', 'print', 'Print')}
-      ${iconBtn('utility', 'expand', 'Expand')}
-    </div>
-  `,
-};
-
-export const CTAWithText = {
-  name: 'CTA with adjacent text',
-  tags: ['!dev'],
-  render: () => `
-    <div style="display: flex; align-items: center; gap: 0.5rem;">
-      <span style="font-weight: 600;">Explore the mission</span>
-      ${iconBtn('cta', 'arrow-line-right', 'Go to mission page', { size: 'sm', element: 'a' })}
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Social row')}
+        <div style="margin-top: 0.5rem;">
+          ${grid(`
+            ${iconBtn('social', 'notification', 'Notifications', { element: 'a', size: 'xl' })}
+            ${iconBtn('social', 'rss', 'RSS feed', { element: 'a', size: 'xl' })}
+            ${iconBtn('social', 'share', 'Share', { element: 'a', size: 'xl' })}
+          `)}
+        </div>
+      </div>
+      <div>
+        ${label('Action bar')}
+        <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+          ${iconBtn('secondary', 'download', 'Download')}
+          ${iconBtn('outline', 'print', 'Print')}
+          ${iconBtn('utility', 'expand', 'Expand')}
+        </div>
+      </div>
+      <div>
+        ${label('CTA with adjacent text')}
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+          <span style="font-weight: 600;">Explore the mission</span>
+          ${iconBtn('cta', 'arrow-line-right', 'Go to mission page', { size: 'sm', element: 'a' })}
+        </div>
+      </div>
     </div>
   `,
 };
@@ -363,33 +332,44 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(AllRoles.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(AllRoles.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+
+export const FocusIconButton = {
+  name: 'Focus [icon button]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(AllRoles.render),
+  parameters: focusParams,
+  render: () => `
+    <div style="display: flex; gap: 1rem;">
+      ${iconBtn('cta', 'arrow-line-right', 'Navigate')}
+      ${iconBtn('secondary', 'download', 'Download')}
+      ${iconBtn('utility', 'settings', 'Settings')}
+    </div>
+  `,
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button', { name: 'Navigate' });
+    await expect(button).toHaveFocus();
+  },
 };
 
-export const PaletteA11yDisabled = {
-  name: 'Palette a11y [disabled]',
+export const FocusInteractive = {
+  name: 'Focus [interactive]',
   tags: ['!dev'],
-  parameters: paletteA11yParams,
-  render: paletteRender(States.render),
-};
-
-export const PaletteA11yStates = {
-  name: 'Palette a11y [states]',
-  tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(States.render),
+  parameters: focusParams,
+  render: () => iconBtn('interactive', 'plus', 'More info'),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button', { name: 'More info' });
+    await expect(button).toHaveFocus();
+  },
 };
