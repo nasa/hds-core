@@ -43,7 +43,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     background-size: 55%;
     border-radius: 50%;
     content: '';
-    display: inline-block;
+    display: inline-block !important; // override .usa-link--external::after
     height: 24px;
     margin-inline-start: 0.3em;
     vertical-align: text-bottom;
@@ -54,7 +54,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   &.usa-link--external::after {
     background-color: var(--hds-palette-btn-primary-bg, #{$hds-color-nasa-red});
     background-image: #{$_arrow-diagonal};
+    display: inline-block !important; // override link external ::after
+    height: 24px; // explicit — link ::after has no height
     mask-image: none;
+    width: 24px; // explicit — link ::after has no width
   }
 
   &:hover {
