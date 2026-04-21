@@ -158,9 +158,19 @@ const demo = (content) => `${demoStyles}<div class="grid-demo">${content}</div>`
 
 See `Grid.stories.js` for reference implementation.
 
-### Color swatches and grids
+### Color references and swatches
 
-For color swatch patterns (inline styled spans, CSS grid layouts), see `Color.mdx` and `ColorPalettes.mdx` as reference implementations.
+Use CSS custom properties for inline swatches in MDX — never hardcode hex values:
+
+```jsx
+// ✅ Correct — single source of truth
+<span style={{ backgroundColor: 'var(--hds-color-nasa-red)' }} />
+
+// ❌ Hardcoded — drifts when tokens change
+<span style={{ backgroundColor: '#F64137' }} />
+```
+
+HDS brand colors are available via `var(--hds-color-*)`. USWDS system colors used in data visualization are documented in `DataVisualizationPalettes.stories.js` — the single source of truth for data viz hex values.
 
 ### Figma screenshots
 
@@ -584,11 +594,5 @@ Storybook loads the same compiled `dist/css/styles.css` file that consumers rece
 
 - [ ] Overview: Add screenshots for "Using Storybook" section
 - [ ] Color: Check against color tokens, consider adding more detailed role token documentation
-- [ ] Color: Evaluate Storybook `ColorPalette`/`ColorItem` native doc blocks as replacement for custom JSX swatches
-- [ ] Typography: Evaluate Storybook `Typeset` native doc block
-- [ ] Icons: Evaluate Storybook `IconGallery`/`IconItem` native doc blocks
 - [ ] Data Visualization: Add screenshots to better match original HDS guidance
-- [ ] Data Visualization Palettes: Increase border thickness/padding on categorical table containers
-- [ ] Data Visualization Palettes: Add hex codes to sequential palette gradient strips
-- [ ] Data Visualization Palettes: Add smaller categorical groupings (3, 4, 5, 6, 8 color subsets) from HDS Figma
 - [ ] Roll out AllVariants + FocusTest pattern to remaining components
