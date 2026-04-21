@@ -1,12 +1,14 @@
 // ============================================================
 // Table Stories — @nasa/hds-core
-// Covers §16 (USWDS .usa-table override, Tier 1)
+// CSS: components/_table.scss
 //
 // Sidebar structure:
 //   Guidance   — Table.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Default, Sortable (visible in sidebar)
+//   Stories    — Default, Sortable, All Variants (visible in sidebar)
 // ============================================================
 
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -14,6 +16,8 @@ export default {
 };
 
 // --- Helpers ---
+
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const applyModifiers = (html, { striped = false, borderless = false, compact = false, scrollable = false } = {}) => {
   const modifiers = [
@@ -261,7 +265,7 @@ const sortableTable = ({
   ${buildDescription(prefix, description)}
 `;
 
-const borderlessTable = ({ prefix = 'borderless' }) => `
+const borderlessTable = ({ prefix = 'borderless' } = {}) => `
   <table class="usa-table usa-table--borderless">
     <caption>Orbital parameters</caption>
     <thead>
@@ -291,7 +295,7 @@ const borderlessTable = ({ prefix = 'borderless' }) => `
   </table>
 `;
 
-const compactTable = ({ prefix = 'compact' }) => `
+const compactTable = ({ prefix = 'compact' } = {}) => `
   <table class="usa-table usa-table--compact">
     <caption>Element abundance</caption>
     <thead>
@@ -410,7 +414,7 @@ const wideTable = ({ prefix = 'wide', title = 'Mission timeline', subtitle = '',
   ${buildDescription(prefix, description)}
 `;
 
-const scrollableTable = ({ prefix = 'scroll' }) => `
+const scrollableTable = ({ prefix = 'scroll' } = {}) => `
   <div class="usa-table-container--scrollable" tabindex="0">
     ${wideTable({ prefix })}
   </div>
@@ -551,6 +555,16 @@ const contentDefaults = {
   },
 };
 
+// Shared Chromatic parameters for focus test stories
+// Includes delay for USWDS JS sort button initialization
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    delay: 300,
+    modes: paletteModes,
+  },
+};
+
 // --- Stories (visible in sidebar) ---
 
 export const Default = {
@@ -627,6 +641,51 @@ export const Sortable = {
   },
 };
 
+export const AllVariants = {
+  name: 'All Variants',
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+      <div>
+        ${label('Default')}
+        <div style="margin-top: 0.5rem;">
+          ${basicTable({ prefix: 'av-basic' })}
+        </div>
+      </div>
+      <div>
+        ${label('Sortable')}
+        <div style="margin-top: 0.5rem;">
+          ${sortableTable({ prefix: 'av-sort' })}
+        </div>
+      </div>
+      <div>
+        ${label('Borderless')}
+        <div style="margin-top: 0.5rem;">
+          ${borderlessTable({ prefix: 'av-bless' })}
+        </div>
+      </div>
+      <div>
+        ${label('Compact')}
+        <div style="margin-top: 0.5rem;">
+          ${compactTable({ prefix: 'av-compact' })}
+        </div>
+      </div>
+      <div>
+        ${label('Interactive (links and buttons)')}
+        <div style="margin-top: 0.5rem;">
+          ${interactiveTable({ prefix: 'av-interact' })}
+        </div>
+      </div>
+    </div>
+  `,
+};
+
 // --- Guidance embeds (MDX only) ---
 
 export const Basic = {
@@ -667,19 +726,37 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(Sortable.render),
+  render: paletteRender(AllVariants.render),
 };
 
 export const PaletteA11yHover = {
   name: 'Palette a11y [hover]',
   tags: ['!dev'],
   parameters: { ...paletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender(Sortable.render),
+  render: paletteRender(AllVariants.render),
 };
 
-export const PaletteA11yFocus = {
-  name: 'Palette a11y [focus-visible]',
+// --- Focus tests (Chromatic modes + play function) ---
+// Sort button currently inherits the global focus ring from
+// base/_focus.scss (Pattern A, thin, outline). Surface-inverse
+// focus treatment not yet implemented — see DESIGN.md Table
+// section and _table.scss header comment. This story captures
+// the baseline so Chromatic diffs will show the change when
+// surface-inverse is implemented.
+//
+// Sort button currently has NO visible focus ring — mask-image
+// on the button clips the outline. This baseline captures the
+// broken state. When surface-inverse focus is implemented, the
+// fix must also address the mask clipping. See _table.scss.
+
+export const FocusSortButton = {
+  name: 'Focus [sort button]',
   tags: ['!dev'],
-  parameters: { ...paletteA11yParams, ...pseudoParams.focusVisible },
-  render: paletteRender(Sortable.render),
+  parameters: focusParams,
+  render: () => sortableTable({ prefix: 'focus-sort' }),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button', { name: /Planet/ });
+    await expect(button).toHaveFocus();
+  },
 };

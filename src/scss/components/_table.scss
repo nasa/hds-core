@@ -228,6 +228,19 @@
 // via mask-image — same technique as the accordion chevron
 // (components/_accordion.scss). The USWDS SVG stays in the
 // DOM for High Contrast Mode fallback but is visually hidden.
+//
+// FOCUS RING
+// Figma specifies a "surface-inverse" focus treatment for table
+// sort buttons (ring color inverse of the component's own fill).
+// Not yet implemented — sort buttons currently inherit the global
+// focus ring from base/_focus.scss (Pattern A, thin, outline).
+// See DESIGN.md Table section and FocusSortButton story.
+//
+// ⚠️ mask-image clips the focus ring on this element — the sort
+// button has no visible :focus-visible indicator. Fix when
+// implementing surface-inverse focus treatment. Consider
+// :focus-within on the parent <th> or box-shadow (not clipped
+// by mask). See FocusSortButton Chromatic baseline.
 
 .usa-table {
   // --- Hide USWDS SVG icons ---

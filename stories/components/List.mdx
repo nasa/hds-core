@@ -12,7 +12,7 @@ Lists group related text items. HDS Core uses standard USWDS `.usa-list` markup 
 
 Use an unordered list when items have no specific sequence or priority. Markers are blue filled discs that adapt to the current palette.
 
-<Canvas of={ListStories.UnorderedEmbed} />
+<Canvas of={ListStories.Unordered} />
 
 > Use the **palette switcher** (🖌 toolbar) to preview on all six HDS backgrounds.
 
@@ -20,13 +20,19 @@ Use an unordered list when items have no specific sequence or priority. Markers 
 
 Use an ordered list when items convey a ranking, hierarchy, or sequence. Numerals are styled in DM Mono with wide letterspacing and no trailing period.
 
-<Canvas of={ListStories.OrderedEmbed} />
+<Canvas of={ListStories.Ordered} />
+
+### Long ordered list
+
+Double-digit numerals maintain alignment and DM Mono styling at 20+ items.
+
+<Canvas of={ListStories.LongOrdered} />
 
 ## Unstyled list
 
 Use the unstyled variant to remove markers and indentation. Useful for navigation menus, link groups, or any list where bullets are not appropriate.
 
-<Canvas of={ListStories.UnstyledEmbed} />
+<Canvas of={ListStories.Unstyled} />
 
 <Note type="uswds">**Differs from USWDS:** HDS list item text is one step smaller than body text (14px vs 16px). In vanilla USWDS, list items inherit the body font size. This is an intentional HDS design choice — lists appear more compact and subordinate to surrounding paragraph text.</Note>
 

@@ -1,24 +1,27 @@
 // ============================================================
-// Site Alert — Stories
-// @nasa/hds-core
-// ============================================================
+// Site Alert Stories — @nasa/hds-core
+// CSS: components/_site-alert.scss
+//
 // NAMING: HDS Figma calls this "Banner." HDS Core uses
 // "Site Alert" to match the USWDS component and avoid
 // confusion with the USWDS Banner (government compliance bar).
 //
-// CSS: components/_site-alert.scss
-// USWDS: https://designsystem.digital.gov/components/site-alert/
-//
 // Sidebar structure:
 //   Guidance   — SiteAlert.mdx (design rationale, Canvas embeds, usage rules)
-//   Stories    — Emergency (default), Info (visible in sidebar)
+//   Stories    — Emergency (default), Info, All Variants (visible in sidebar)
+//
+// No palette tests — Site Alert uses scoped palette vars
+// (fixed red/blue backgrounds), not the 6-palette system.
+// No focus tests — not an interactive component.
 // ============================================================
 
 export default {
   title: 'Components/Site Alert',
 };
 
-// --- Helpers (used in multiple stories) ---
+// --- Helpers ---
+
+const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const siteAlert = ({
   variant = 'emergency',
@@ -117,6 +120,77 @@ export const Info = {
     } = args;
     return siteAlert({ variant: 'info', heading, text, slim, noIcon, noHeading });
   },
+};
+
+export const AllVariants = {
+  name: 'All Variants',
+  render: (args = {}) => `
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div>
+        ${label('Emergency — with heading')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'emergency',
+            heading: 'Scheduled site maintenance',
+            text: 'NASA.gov will be undergoing maintenance on Saturday, March 22 from 10 p.m. to 2 a.m. ET. Some services may be temporarily unavailable.',
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Emergency — slim, no icon')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'emergency',
+            text: 'Due to the lapse in federal government funding, NASA is not updating this website.',
+            slim: true,
+            noIcon: true,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Emergency — no icon')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'emergency',
+            heading: 'Notice',
+            text: 'Due to the lapse in federal government funding, NASA is not updating this website.',
+            noIcon: true,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Info — with heading')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'info',
+            heading: 'NASA TV live event',
+            text: 'The NASA Administrator will hold a media briefing on the Artemis II mission today at 2 p.m. ET. <a class="usa-link" href="#">Watch live on NASA TV</a>.',
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Info — slim')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'info',
+            text: 'Esta página solo está disponible en inglés. <a class="usa-link" href="#">Ir a NASA en español</a>.',
+            slim: true,
+          })}
+        </div>
+      </div>
+      <div>
+        ${label('Info — no icon')}
+        <div style="margin-top: 0.5rem;">
+          ${siteAlert({
+            variant: 'info',
+            heading: 'Informational statement',
+            text: 'Additional context and followup information including <a class="usa-link" href="#">a link</a>.',
+            noIcon: true,
+          })}
+        </div>
+      </div>
+    </div>
+  `,
 };
 
 // --- Guidance embeds (MDX only) ---

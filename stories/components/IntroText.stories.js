@@ -1,6 +1,6 @@
 // ============================================================
 // Intro Text Stories — @nasa/hds-core
-// Covers §14 (USWDS .usa-intro override, Tier 1)
+// CSS: components/_intro-text.scss
 //
 // Sidebar structure:
 //   Guidance   — IntroText.mdx (design rationale, Canvas embeds, usage rules)
@@ -35,24 +35,8 @@ export const Default = {
 
 // --- Guidance embeds (MDX only) ---
 
-export const WithBodyText = {
-  name: 'With body text',
-  tags: ['!dev'],
-  render: () => `
-    <p class="usa-intro">
-      NASA's Artemis campaign is the next chapter in human space exploration.
-    </p>
-    <p>
-      Working with commercial and international partners, NASA will establish
-      a long-term presence at and around the Moon to prepare for future
-      missions to Mars and beyond. The agency is building the Space Launch
-      System rocket and Orion spacecraft for deep space exploration.
-    </p>
-  `,
-};
-
-export const InPaletteContext = {
-  name: 'In palette context',
+export const InPageContext = {
+  name: 'In page context',
   tags: ['!dev'],
   render: () => `
     <h1>Mission Overview</h1>
@@ -63,6 +47,9 @@ export const InPaletteContext = {
     <p>
       More than 3,600 research investigations have been conducted aboard
       the station since the first expedition crew arrived in November 2000.
+      These experiments span biology, Earth science, physical sciences,
+      and technology demonstrations that benefit life on Earth and prepare
+      us for future missions to the Moon and Mars.
     </p>
   `,
 };
