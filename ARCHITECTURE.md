@@ -390,6 +390,7 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
+- [ ] Table: Sort button focus ring clipped by mask-image — invisible in all palettes (see FocusSortButton Chromatic baseline)
 
 ### Pre-1.0 Verification
 

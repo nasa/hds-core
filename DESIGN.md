@@ -281,7 +281,10 @@ USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable
 
 ### Deferred to Phase 2
 
-Mobile text sizing, mobile stacked variants, midtone palette sorted column colors, advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
+- Mobile text sizing, mobile stacked variants
+- Midtone palette sorted column colors
+- Advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
+- Surface-inverse focus ring (Figma specifies ring color inverse of component fill for table cells — not yet implemented, currently inherits global focus ring)
 
 ## List
 
