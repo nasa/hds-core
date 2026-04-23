@@ -8,26 +8,22 @@
 //
 // USWDS utility classes (!important) override palette values.
 //
+// Configuration flags are defined in _hds-tokens.scss:
+//   $hds-enable-dataviz-tokens
+//   $hds-enable-auto-dark-mode
+//   $hds-enable-experimental-palettes
+//
 // SECTIONS:
-//   §1 Configuration Flags
-//   §2 Shared Color Schemes
-//   §3 Palettes
-//   §4 Auto Dark Mode
+//   Shared Color Schemes
+//   Palettes
+//   Auto Dark Mode
 // ============================================================
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 
 // ============================================================
-// §1 CONFIGURATION FLAGS
-// ============================================================
-
-// Reserved for future experimental features
-$hds-enable-experimental-palettes: false !default;
-$hds-enable-auto-dark-mode: false !default;
-
-// ============================================================
-// §2 SHARED COLOR SCHEMES
+// SHARED COLOR SCHEMES
 // ============================================================
 
 // --- Palette selector mixin ---
@@ -162,22 +158,24 @@ $hds-enable-auto-dark-mode: false !default;
   //   cat-11: Lime 60   → green-50v
   //   cat-12: Aqua 40   → mint-cool-30v  (unchanged from light)
   // ==========================================================
-  --hds-dataviz-cat-1: #{color('blue-50v')};
-  --hds-dataviz-cat-2: #{color('red-40v')};
-  --hds-dataviz-cat-3: #{color('orange-20v')};
-  --hds-dataviz-cat-4: #{color('blue-cool-50')};
-  --hds-dataviz-cat-5: #{color('gold-20')};
-  --hds-dataviz-cat-6: #{color('blue-30v')};
-  --hds-dataviz-cat-7: #{color('red-20v')};
-  --hds-dataviz-cat-8: #{color('blue-cool-30')};
-  --hds-dataviz-cat-9: #{color('indigo-warm-50v')};
-  --hds-dataviz-cat-10: #{color('gold-20v')};
-  --hds-dataviz-cat-11: #{color('green-50v')};
-  --hds-dataviz-cat-12: #{color('mint-cool-30v')};
+  @if $hds-enable-dataviz-tokens {
+    --hds-dataviz-cat-1: #{color('blue-50v')};
+    --hds-dataviz-cat-2: #{color('red-40v')};
+    --hds-dataviz-cat-3: #{color('orange-20v')};
+    --hds-dataviz-cat-4: #{color('blue-cool-50')};
+    --hds-dataviz-cat-5: #{color('gold-20')};
+    --hds-dataviz-cat-6: #{color('blue-30v')};
+    --hds-dataviz-cat-7: #{color('red-20v')};
+    --hds-dataviz-cat-8: #{color('blue-cool-30')};
+    --hds-dataviz-cat-9: #{color('indigo-warm-50v')};
+    --hds-dataviz-cat-10: #{color('gold-20v')};
+    --hds-dataviz-cat-11: #{color('green-50v')};
+    --hds-dataviz-cat-12: #{color('mint-cool-30v')};
+  }
 }
 
 // ============================================================
-// §3 PALETTES
+// PALETTES
 // ============================================================
 
 // Palette 1 — White (Spacesuit White, default)
@@ -292,9 +290,9 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // ============================================================
-// §4 AUTO DARK MODE
+// AUTO DARK MODE
 // ============================================================
-// Opt-in: Set $hds-enable-auto-dark-mode: true
+// Opt-in: Set $hds-enable-auto-dark-mode: true in _hds-tokens.scss
 // Automatically applies dark palette when OS is in dark mode.
 // ============================================================
 

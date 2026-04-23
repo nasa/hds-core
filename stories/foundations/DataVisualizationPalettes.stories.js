@@ -6,7 +6,10 @@
 //
 // Consumers use:
 //   CSS/JS:  var(--hds-dataviz-cat-1) through var(--hds-dataviz-cat-12)
+//            var(--hds-dataviz-seq-{hue}-{step}) for sequential
 //   JS libs: Copy hex values from the Palettes docs page
+//
+// Enable: $hds-enable-dataviz-tokens: true in _hds-tokens.scss
 //
 // Architecture:
 //   - Scoped <style> block per DOCUMENTATION.md demo-only pattern
@@ -226,6 +229,14 @@ const dvpStyles = `
       overflow: hidden;
     }
     .dvp-strip > div { flex: 1; }
+    .dvp-strip-prefix {
+      margin: 0 0 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .dvp-light .dvp-strip-prefix { color: var(--hds-color-carbon-60); }
+    .dvp-dark .dvp-strip-prefix  { color: var(--hds-color-carbon-40); }
+    .dvp-transparent .dvp-strip-prefix { color: var(--hds-color-carbon-60); }
     .dvp-strip-labels {
       display: flex;
       margin-top: 0.5rem;
@@ -292,7 +303,7 @@ const categoricalTable = (colors, background = 'light') => {
 // Helper: sequential strip
 // ============================================================
 
-const sequentialStrip = (colors, background = 'transparent') => {
+const sequentialStrip = (family, colors, background = 'transparent') => {
   const swatches = colors.map((c) => `<div style="background-color: ${hex(c.token)};"></div>`).join('');
 
   const labels = colors
@@ -308,6 +319,7 @@ const sequentialStrip = (colors, background = 'transparent') => {
 
   return dvp(
     `
+    <p class="dvp-strip-prefix"><code>--hds-dataviz-seq-${family}-*</code></p>
     <div class="dvp-strip">${swatches}</div>
     <div class="dvp-strip-labels">${labels}</div>
   `,
@@ -675,65 +687,65 @@ export const GroupsDark = {
 export const SequentialReds = {
   name: 'Sequential: Reds',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqReds),
+  render: () => sequentialStrip('red', seqReds),
 };
 
 export const SequentialOranges = {
   name: 'Sequential: Oranges',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqOranges),
+  render: () => sequentialStrip('orange', seqOranges),
 };
 
 export const SequentialYellows = {
   name: 'Sequential: Yellows',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqYellows),
+  render: () => sequentialStrip('yellow', seqYellows),
 };
 
 export const SequentialGolds = {
   name: 'Sequential: Golds',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqGolds),
+  render: () => sequentialStrip('gold', seqGolds),
 };
 
 export const SequentialLimes = {
   name: 'Sequential: Limes',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqLimes),
+  render: () => sequentialStrip('lime', seqLimes),
 };
 
 export const SequentialGreens = {
   name: 'Sequential: Greens',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqGreens),
+  render: () => sequentialStrip('green', seqGreens),
 };
 
 export const SequentialAquas = {
   name: 'Sequential: Aquas',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqAquas),
+  render: () => sequentialStrip('aqua', seqAquas),
 };
 
 export const SequentialSlates = {
   name: 'Sequential: Slates',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqSlates),
+  render: () => sequentialStrip('slate', seqSlates),
 };
 
 export const SequentialBlues = {
   name: 'Sequential: Blues',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqBlues),
+  render: () => sequentialStrip('blue', seqBlues),
 };
 
 export const SequentialPurples = {
   name: 'Sequential: Purples',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqPurples),
+  render: () => sequentialStrip('purple', seqPurples),
 };
 
 export const SequentialMagentas = {
   name: 'Sequential: Magentas',
   tags: ['!dev'],
-  render: () => sequentialStrip(seqMagentas),
+  render: () => sequentialStrip('magenta', seqMagentas),
 };
