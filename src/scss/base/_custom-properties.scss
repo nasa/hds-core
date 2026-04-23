@@ -66,4 +66,41 @@
   @each $name, $value in $hds-width-settings {
     --hds-border-width-#{$name}: #{$value};
   }
+
+  // ==========================================================
+  // Data visualization — categorical palette
+  // ==========================================================
+  // USWDS system colors per HDS Core Proposal (Appendix).
+  // HDS Figma names are internal — consumers use these custom
+  // properties or copy hex values from the Palettes docs.
+  //
+  // Light-background defaults (white, light, midtone, blue).
+  // Dark-background overrides in _hds-palettes.scss (dark, black).
+  //
+  // Mapping (HDS Figma name → USWDS token):
+  //   cat-1:  Blue 80   → blue-70v
+  //   cat-2:  Red 50    → red-40v
+  //   cat-3:  Orange 40 → orange-30v
+  //   cat-4:  Slate 70  → blue-cool-60
+  //   cat-5:  Gold 40   → gold-40
+  //   cat-6:  Blue 50   → blue-40v
+  //   cat-7:  Red 80    → red-70v
+  //   cat-8:  Slate 40  → blue-cool-30
+  //   cat-9:  Purple 80 → indigo-warm-70v
+  //   cat-10: Yellow 40 → gold-30v
+  //   cat-11: Lime 70   → green-60v
+  //   cat-12: Aqua 40   → mint-cool-30v
+  // ==========================================================
+  --hds-dataviz-cat-1: #{color('blue-70v')};
+  --hds-dataviz-cat-2: #{color('red-40v')};
+  --hds-dataviz-cat-3: #{color('orange-30v')};
+  --hds-dataviz-cat-4: #{color('blue-cool-60')};
+  --hds-dataviz-cat-5: #{color('gold-40')};
+  --hds-dataviz-cat-6: #{color('blue-40v')};
+  --hds-dataviz-cat-7: #{color('red-70v')};
+  --hds-dataviz-cat-8: #{color('blue-cool-30')};
+  --hds-dataviz-cat-9: #{color('indigo-warm-70v')};
+  --hds-dataviz-cat-10: #{color('gold-30v')};
+  --hds-dataviz-cat-11: #{color('green-60v')};
+  --hds-dataviz-cat-12: #{color('mint-cool-30v')};
 }
