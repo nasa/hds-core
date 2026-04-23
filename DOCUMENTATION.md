@@ -592,7 +592,4 @@ Storybook loads the same compiled `dist/css/styles.css` file that consumers rece
 
 ## Pending documentation tasks
 
-- [ ] Overview: Add screenshots for "Using Storybook" section
 - [ ] Color: Check against color tokens, consider adding more detailed role token documentation
-- [ ] Data Visualization: Add screenshots to better match original HDS guidance
-- [ ] Roll out AllVariants + FocusTest pattern to remaining components
