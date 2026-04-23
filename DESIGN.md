@@ -43,6 +43,16 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 
 HDS links use body text color — not brand color — for the text itself. The dashed underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
 
+### Data Visualization Color Alignment
+
+The original HDS Figma data visualization palette used custom hex values unique to HDS. The HDS Core Proposal recommended aligning data viz colors with USWDS system color tokens for compatibility and maintainability, while keeping the HDS brand palette (NASA Red, Carbon series, etc.) as custom values. HDS Core follows this recommendation.
+
+Data viz colors are exposed as `--hds-dataviz-cat-1` through `--hds-dataviz-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_custom-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
+
+The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. The Figma-to-USWDS mapping is documented only in SCSS code comments for maintainers. Consumers use the `--hds-dataviz-cat-*` properties or copy hex values from the Palettes documentation.
+
+Sequential palette custom properties are deferred — categorical covers the primary use case. See `base/_custom-properties.scss` for the full mapping table.
+
 ## Naming & Organization
 
 ### Palette Names
