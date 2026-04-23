@@ -12,31 +12,62 @@ For general color guidance, see [Color](?path=/docs/foundations-color--docs). Fo
 
 ## How to use these palettes
 
-Use the USWDS `color()` function in Sass to reference any value:
+HDS provides data visualization colors as CSS custom properties. Use them in CSS, Sass, or copy the hex values into your charting library config.
 
-```scss
+### In CSS or Sass
+
+```css
 .my-chart-series-1 {
-  fill: color('blue-70v');
+  fill: var(--hds-dataviz-cat-1);
+}
+.my-chart-series-2 {
+  fill: var(--hds-dataviz-cat-2);
+}
+.my-chart-series-3 {
+  fill: var(--hds-dataviz-cat-3);
 }
 ```
 
-### Categorical data
+### In JavaScript charting libraries
 
-When comparing distinct categories (e.g., agencies, missions, planets), use the categorical palettes below. Colors are ordered to maximize contrast between adjacent items.
+Chart.js, Highcharts, Plotly, and ECharts accept hex strings. Copy the hex values from the palette tables below:
 
-### Sequential data
+```js
+const chart = new Chart(ctx, {
+  data: {
+    datasets: [
+      {
+        backgroundColor: ['#0b4778', '#fb5a47', '#fa9441'],
+      },
+    ],
+  },
+});
+```
 
-When color represents a value or range (e.g., temperature, density, altitude), use a single hue family from light (10) to dark (90).
+### Palette-aware behavior
 
-### Semantic associations
+On light backgrounds (white, light, midtone, blue), the properties resolve to light-background color values. Inside `.hds-palette-dark` or `.hds-palette-black`, they automatically switch to lighter values optimized for dark backgrounds. No extra classes or overrides needed — the same CSS works everywhere:
 
-When data categories have strong color associations (Mars = red, Earth = blue), use the matching hue family to make the visualization more intuitive.
+```html
+<section class="hds-palette-dark">
+  <!-- var(--hds-dataviz-cat-1) automatically resolves to the dark variant -->
+  <svg>
+    <rect fill="var(--hds-dataviz-cat-1)" />
+  </svg>
+</section>
+```
 
-<Note type="figma">The original HDS Figma spec defines data visualization colors using custom hex values. For HDS Core, these have been translated to the nearest USWDS color tokens for consistency with the USWDS utility system. Hex values shown below are the USWDS token values.</Note>
+### Choosing a palette type
+
+**Categorical** — when comparing distinct categories (e.g., agencies, missions, planets). Colors are ordered to maximize contrast between adjacent items.
+
+**Sequential** — when color represents a value or range (e.g., temperature, density, altitude). Use a single hue family from light to dark.
+
+**Semantic** — when data categories have strong color associations (Mars = red, Earth = blue). Use the matching hue family to make the visualization more intuitive.
 
 ## Categorical palettes
 
-Use these when data categories need distinct colors. Colors are ordered to maximize visual separation — use them in order starting from 01.
+Use these when data categories need distinct colors. Colors are ordered to maximize visual separation — use them in order, starting from `--hds-dataviz-cat-1`. For fewer categories, pick the first N.
 
 ### Light backgrounds
 
@@ -48,7 +79,7 @@ Use these when data categories need distinct colors. Colors are ordered to maxim
 
 ### Smaller categorical groupings
 
-Recommended subsets for visualizations with fewer data categories. Use these pre-selected groupings for maximum contrast.
+Recommended subsets for visualizations with fewer data categories. These pre-selected groupings are optimized for maximum contrast at each size.
 
 #### Light backgrounds
 
@@ -60,7 +91,7 @@ Recommended subsets for visualizations with fewer data categories. Use these pre
 
 ## Sequential palettes
 
-Use a single hue family from light (10) to dark (90) when color represents a value or range.
+Use a single hue family from light (10) to dark (90) when color represents a value or range. Sequential palettes are not yet available as CSS custom properties — copy hex values from the tables below.
 
 ### Reds
 

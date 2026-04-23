@@ -3,7 +3,10 @@
 //
 // Reference-only stories for documenting data viz color palettes.
 // Embedded in DataVisualizationPalettes.mdx via <Canvas sourceState="none" />.
-// Not intended for copy-paste — consumers use USWDS color() tokens directly.
+//
+// Consumers use:
+//   CSS/JS:  var(--hds-dataviz-cat-1) through var(--hds-dataviz-cat-12)
+//   JS libs: Copy hex values from the Palettes docs page
 //
 // Architecture:
 //   - Scoped <style> block per DOCUMENTATION.md demo-only pattern
@@ -11,6 +14,14 @@
 //   - HDS colors via var(--hds-color-*) CSS custom properties
 //   - WCAG AA auto text color via JS luminance function
 //   - Semantic <table> with <th scope="col"> for categorical/groups
+//
+// Maintainer reference — HDS Figma name → USWDS token:
+//   cat-1:  Blue 80   → blue-70v       cat-7:  Red 80    → red-70v
+//   cat-2:  Red 50    → red-40v        cat-8:  Slate 40  → blue-cool-30
+//   cat-3:  Orange 40 → orange-30v     cat-9:  Purple 80 → indigo-warm-70v
+//   cat-4:  Slate 70  → blue-cool-60   cat-10: Yellow 40 → gold-30v
+//   cat-5:  Gold 40   → gold-40        cat-11: Lime 70   → green-60v
+//   cat-6:  Blue 50   → blue-40v       cat-12: Aqua 40   → mint-cool-30v
 // ============================================================
 
 export default {
@@ -207,6 +218,7 @@ const dvpStyles = `
     .dvp-dark th  { color: var(--hds-color-carbon-40); }
     .dvp .dvp-right { text-align: right; }
     .dvp .dvp-left  { text-align: left; }
+    .dvp .dvp-mono  { font-family: var(--hds-font-family-code, 'DM Mono', monospace); }
 
     .dvp-strip {
       display: flex;
@@ -253,8 +265,7 @@ const categoricalTable = (colors, background = 'light') => {
       return `
       <tr>
         <td style="background-color: ${h}; color: ${color};">${c.id}</td>
-        <td style="background-color: ${h}; color: ${color};">${c.name}</td>
-        <td style="background-color: ${h}; color: ${color};" class="dvp-right">${c.token}</td>
+        <td style="background-color: ${h}; color: ${color};" class="dvp-mono">${c.property}</td>
         <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
       </tr>`;
     })
@@ -266,8 +277,7 @@ const categoricalTable = (colors, background = 'light') => {
       <thead>
         <tr>
           <th scope="col" class="dvp-left">#</th>
-          <th scope="col" class="dvp-left">HDS Name</th>
-          <th scope="col" class="dvp-right">USWDS Token</th>
+          <th scope="col" class="dvp-left">CSS Custom Property</th>
           <th scope="col" class="dvp-right">Hex</th>
         </tr>
       </thead>
@@ -289,8 +299,7 @@ const sequentialStrip = (colors, background = 'transparent') => {
     .map(
       (c) => `
     <div>
-      <div class="dvp-bold">${c.id}</div>
-      <div>${c.token}</div>
+      <div>${c.id}</div>
       <div>${hex(c.token)}</div>
     </div>
   `,
@@ -319,7 +328,7 @@ const groupGrid = (groups, background = 'light') => {
           const color = fg(h);
           return `
         <tr>
-          <td style="background-color: ${h}; color: ${color};">${c.name}</td>
+          <td style="background-color: ${h}; color: ${color};">${c.property}</td>
           <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
         </tr>`;
         })
@@ -341,33 +350,33 @@ const groupGrid = (groups, background = 'light') => {
 // ============================================================
 
 const catLight = [
-  { id: '01', name: 'Blue 80', token: 'blue-70v' },
-  { id: '02', name: 'Red 50', token: 'red-40v' },
-  { id: '03', name: 'Orange 40', token: 'orange-30v' },
-  { id: '04', name: 'Slate 70', token: 'blue-cool-60' },
-  { id: '05', name: 'Gold 40', token: 'gold-40' },
-  { id: '06', name: 'Blue 50', token: 'blue-40v' },
-  { id: '07', name: 'Red 80', token: 'red-70v' },
-  { id: '08', name: 'Slate 40', token: 'blue-cool-30' },
-  { id: '09', name: 'Purple 80', token: 'indigo-warm-70v' },
-  { id: '10', name: 'Yellow 40', token: 'gold-30v' },
-  { id: '11', name: 'Lime 70', token: 'green-60v' },
-  { id: '12', name: 'Aqua 40', token: 'mint-cool-30v' },
+  { id: '01', property: '--hds-dataviz-cat-1', token: 'blue-70v' },
+  { id: '02', property: '--hds-dataviz-cat-2', token: 'red-40v' },
+  { id: '03', property: '--hds-dataviz-cat-3', token: 'orange-30v' },
+  { id: '04', property: '--hds-dataviz-cat-4', token: 'blue-cool-60' },
+  { id: '05', property: '--hds-dataviz-cat-5', token: 'gold-40' },
+  { id: '06', property: '--hds-dataviz-cat-6', token: 'blue-40v' },
+  { id: '07', property: '--hds-dataviz-cat-7', token: 'red-70v' },
+  { id: '08', property: '--hds-dataviz-cat-8', token: 'blue-cool-30' },
+  { id: '09', property: '--hds-dataviz-cat-9', token: 'indigo-warm-70v' },
+  { id: '10', property: '--hds-dataviz-cat-10', token: 'gold-30v' },
+  { id: '11', property: '--hds-dataviz-cat-11', token: 'green-60v' },
+  { id: '12', property: '--hds-dataviz-cat-12', token: 'mint-cool-30v' },
 ];
 
 const catDark = [
-  { id: '01', name: 'Blue 60', token: 'blue-50v' },
-  { id: '02', name: 'Red 50', token: 'red-40v' },
-  { id: '03', name: 'Orange 30', token: 'orange-20v' },
-  { id: '04', name: 'Slate 60', token: 'blue-cool-50' },
-  { id: '05', name: 'Gold 30', token: 'gold-20' },
-  { id: '06', name: 'Blue 40', token: 'blue-30v' },
-  { id: '07', name: 'Red 30', token: 'red-20v' },
-  { id: '08', name: 'Slate 40', token: 'blue-cool-30' },
-  { id: '09', name: 'Purple 60', token: 'indigo-warm-50v' },
-  { id: '10', name: 'Yellow 30', token: 'gold-20v' },
-  { id: '11', name: 'Lime 60', token: 'green-50v' },
-  { id: '12', name: 'Aqua 40', token: 'mint-cool-30v' },
+  { id: '01', property: '--hds-dataviz-cat-1', token: 'blue-50v' },
+  { id: '02', property: '--hds-dataviz-cat-2', token: 'red-40v' },
+  { id: '03', property: '--hds-dataviz-cat-3', token: 'orange-20v' },
+  { id: '04', property: '--hds-dataviz-cat-4', token: 'blue-cool-50' },
+  { id: '05', property: '--hds-dataviz-cat-5', token: 'gold-20' },
+  { id: '06', property: '--hds-dataviz-cat-6', token: 'blue-30v' },
+  { id: '07', property: '--hds-dataviz-cat-7', token: 'red-20v' },
+  { id: '08', property: '--hds-dataviz-cat-8', token: 'blue-cool-30' },
+  { id: '09', property: '--hds-dataviz-cat-9', token: 'indigo-warm-50v' },
+  { id: '10', property: '--hds-dataviz-cat-10', token: 'gold-20v' },
+  { id: '11', property: '--hds-dataviz-cat-11', token: 'green-50v' },
+  { id: '12', property: '--hds-dataviz-cat-12', token: 'mint-cool-30v' },
 ];
 
 // ============================================================
@@ -388,16 +397,16 @@ const groupsLight3 = [
   [catLight[10], catLight[11], catLight[0]],
 ];
 const groupsLight4 = [
-  [catLight[0], catLight[2], catLight[11], catLight[10]], // Blue 80, Orange 40, Aqua 40, Lime 70
-  [catLight[1], catLight[6], catLight[5], catLight[11]], // Red 50, Red 80, Blue 50, Aqua 40
-  [catLight[2], catLight[8], catLight[1], catLight[9]], // Orange 40, Purple 80, Red 50, Yellow 40
-  [catLight[10], catLight[11], catLight[0], catLight[9]], // Lime 70, Aqua 40, Blue 80, Yellow 40
+  [catLight[0], catLight[2], catLight[11], catLight[10]],
+  [catLight[1], catLight[6], catLight[5], catLight[11]],
+  [catLight[2], catLight[8], catLight[1], catLight[9]],
+  [catLight[10], catLight[11], catLight[0], catLight[9]],
 ];
 const groupsLight5 = [
-  [catLight[0], catLight[2], catLight[11], catLight[10], catLight[4]], // Blue 80, Orange 40, Aqua 40, Lime 70, Gold 40
-  [catLight[1], catLight[6], catLight[5], catLight[11], catLight[8]], // Red 50, Red 80, Blue 50, Aqua 40, Purple 80
-  [catLight[2], catLight[8], catLight[1], catLight[9], catLight[6]], // Orange 40, Purple 80, Red 50, Yellow 40, Red 80
-  [catLight[10], catLight[11], catLight[0], catLight[9], catLight[6]], // Lime 70, Aqua 40, Blue 80, Yellow 40, Red 80
+  [catLight[0], catLight[2], catLight[11], catLight[10], catLight[4]],
+  [catLight[1], catLight[6], catLight[5], catLight[11], catLight[8]],
+  [catLight[2], catLight[8], catLight[1], catLight[9], catLight[6]],
+  [catLight[10], catLight[11], catLight[0], catLight[9], catLight[6]],
 ];
 
 const groupsDark1 = [[catDark[0]], [catDark[1]], [catDark[2]], [catDark[10]]];
@@ -414,16 +423,16 @@ const groupsDark3 = [
   [catDark[10], catDark[11], catDark[0]],
 ];
 const groupsDark4 = [
-  [catDark[0], catDark[2], catDark[11], catDark[10]], // Blue 60, Orange 30, Aqua 40, Lime 60
-  [catDark[1], catDark[6], catDark[5], catDark[11]], // Red 50, Red 30, Blue 40, Aqua 40
-  [catDark[10], catDark[11], catDark[0], catDark[9]], // Lime 60, Aqua 40, Blue 60, Yellow 30
-  [catDark[2], catDark[8], catDark[1], catDark[9]], // Orange 30, Purple 60, Red 50, Yellow 30
+  [catDark[0], catDark[2], catDark[11], catDark[10]],
+  [catDark[1], catDark[6], catDark[5], catDark[11]],
+  [catDark[10], catDark[11], catDark[0], catDark[9]],
+  [catDark[2], catDark[8], catDark[1], catDark[9]],
 ];
 const groupsDark5 = [
-  [catDark[0], catDark[2], catDark[11], catDark[10], catDark[4]], // Blue 60, Orange 30, Aqua 40, Lime 60, Gold 30
-  [catDark[1], catDark[6], catDark[5], catDark[11], catDark[8]], // Red 50, Red 30, Blue 40, Aqua 40, Purple 60
-  [catDark[10], catDark[11], catDark[0], catDark[9], catDark[6]], // Lime 60, Aqua 40, Blue 60, Yellow 30, Red 30
-  [catDark[2], catDark[8], catDark[1], catDark[9], catDark[6]], // Orange 30, Purple 60, Red 50, Yellow 30, Red 30
+  [catDark[0], catDark[2], catDark[11], catDark[10], catDark[4]],
+  [catDark[1], catDark[6], catDark[5], catDark[11], catDark[8]],
+  [catDark[10], catDark[11], catDark[0], catDark[9], catDark[6]],
+  [catDark[2], catDark[8], catDark[1], catDark[9], catDark[6]],
 ];
 
 // ============================================================
@@ -595,7 +604,7 @@ export const GroupsLight = {
               const color = fg(h);
               return `
             <tr>
-              <td style="background-color: ${h}; color: ${color};">${c.name}</td>
+              <td style="background-color: ${h}; color: ${color};">${c.property}</td>
               <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
             </tr>`;
             })
@@ -632,7 +641,7 @@ export const GroupsDark = {
               const color = fg(h);
               return `
             <tr>
-              <td style="background-color: ${h}; color: ${color};">${c.name}</td>
+              <td style="background-color: ${h}; color: ${color};">${c.property}</td>
               <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
             </tr>`;
             })
