@@ -151,7 +151,7 @@ Each component file has its own `@use` statements for the dependencies it needs 
 
 | File | Purpose |
 | --- | --- |
-| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens, focus ring widths (`$hds-focus-widths`). |
+| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens, focus ring widths, configuration flags. |
 | `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
 | `base/_custom-properties.scss` | All HDS token values output to `:root` as CSS custom properties. |
 | `base/_mixins.scss` | Shared mixins (zero CSS output): `visually-hidden`, `hds-focus-ring` (palette-aware dashed outline/border with color, width, method, and offset parameters), typography (`hds-overline-label`, `hds-metadata-type`, `intro-text`), button structure/color/hover, `hds-utility-circle` (colors only — layout and sizing come from icon button base in `components/_icon-button.scss`), `hds-link-appearance` / `hds-link-hover`. |
