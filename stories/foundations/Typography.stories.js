@@ -1,4 +1,4 @@
-import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
+import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
 
 export default {
   title: 'Foundations/Typography',
@@ -74,15 +74,14 @@ export const DisplaySizes = {
 export const Blockquote = {
   tags: ['!dev'],
   render: () => `
-    <div style="max-width: 64em;">
-      <blockquote>
+    <div style="padding-left: 3rem; max-width: 64em;">
+      <blockquote class="hds-blockquote">
         <p>We choose to go to the Moon in this decade and do the other things,
           not because they are easy, but because they are hard.</p>
-        <cite>President John F. Kennedy</cite>
+        <div class="hds-blockquote-attribution">
+          <span class="hds-blockquote-name">President John F. Kennedy</span>
+        </div>
       </blockquote>
-      <p style="font-size: 0.75rem; opacity: 0.7;">
-        Inter Light · 36px (xl) · line-height: 1.35 · letter-spacing: -1px
-      </p>
     </div>
   `,
 };
@@ -318,10 +317,12 @@ const allVariantsRender = () => `
     <p class="hds-metadata">Metadata · March 14, 2026</p>
     <p class="hds-caption">Image credit: NASA/JPL-Caltech</p>
 
-    <blockquote>
-      <p>We choose to go to the Moon in this decade.</p>
-      <cite>President John F. Kennedy</cite>
-    </blockquote>
+    <div class="usa-prose" style="padding-left: 3rem;">
+      <blockquote>
+        <p>We choose to go to the Moon in this decade.</p>
+        <cite>President John F. Kennedy</cite>
+      </blockquote>
+    </div>
 
     <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 48px; font-weight: 300; line-height: 1;">
       12
