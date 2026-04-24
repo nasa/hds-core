@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-04-03
+Last updated: 2026-04-24
 
 ## Package Overview
 

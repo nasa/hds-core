@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-04-03
+Last updated: 2026-04-24
 
 ## Class Naming Convention
 

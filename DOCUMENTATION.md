@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-03-31
+Last updated: 2026-04-24
 
 ## Audience
 
