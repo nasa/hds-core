@@ -362,6 +362,27 @@ See `components/_site-alert.scss` for implementation.
 
 See `components/_accordion.scss` for implementation.
 
+## Blockquote
+
+### Key Decisions
+
+- Pure HDS component (`.hds-blockquote`) — no USWDS equivalent. Bare element fallback in `base/_elements.scss` gated behind `$theme-global-content-styles`.
+- One new palette token: `--hds-palette-blockquote-icon` (Int'l Orange light, Carbon 60 midtone, White dark/blue). No existing token matched this three-value pattern.
+- Quote text uses `--hds-palette-heading` (Carbon Black on light, White on dark). Confirmed intentional emphasis — verified in Article context.
+- Attribution uses `--hds-palette-muted`. Figma uses 0.8 opacity — dropped for WCAG compliance.
+- Light palette icon (Int'l Orange on Carbon 05) is 2.86:1, below 3:1. Exempt as decorative — same rationale as utility circle strokes.
+
+### Figma Deviations
+
+| What | Figma | HDS Core | Why |
+| --- | --- | --- | --- |
+| Attribution name font-size | 11px | 12px (`3xs`) | Off-scale. Proposal silent. Snapped to nearest scale value. |
+| Mobile quote text | 29px | 28px (`lg`) | Off-scale. Proposal specifies 28–36px range. |
+| Attribution description opacity | 0.8 | Full opacity | C60 at 0.8 on white = 4.3:1 — fails WCAG 4.5:1. |
+| Dark attribution name color | White (desktop) vs. Carbon 40 (mobile) | `--hds-palette-muted` | Figma inconsistent across breakpoints. 3 of 4 variants use muted. |
+
+See `components/_blockquote.scss` for implementation.
+
 ## System Behavior
 
 ### OS Dark Mode Is Opt-In
@@ -386,6 +407,7 @@ Pending visual sign-offs:
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
 | Accordion hover state | Figma doesn't specify heading row hover — should one be added? | Full-row hover patterns need research |
 | Form token colors | Are the 6 Figma-inferred form tokens correct for midtone and blue palettes? | Tokens inferred from Figma light/dark only — midtone and blue not designed in Figma |
+
 
 ## What Hasn't Changed
 
