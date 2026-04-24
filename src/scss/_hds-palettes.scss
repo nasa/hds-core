@@ -8,25 +8,22 @@
 //
 // USWDS utility classes (!important) override palette values.
 //
+// Configuration flags are defined in _hds-tokens.scss:
+//   $hds-enable-dataviz-tokens
+//   $hds-enable-auto-dark-mode
+//   $hds-enable-experimental-palettes
+//
 // SECTIONS:
-//   §1 Configuration Flags
-//   §2 Shared Color Schemes
-//   §3 Palettes
-//   §4 Auto Dark Mode
+//   Shared Color Schemes
+//   Palettes
+//   Auto Dark Mode
 // ============================================================
 
+@use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 
 // ============================================================
-// §1 CONFIGURATION FLAGS
-// ============================================================
-
-// Reserved for future experimental features
-$hds-enable-experimental-palettes: false !default;
-$hds-enable-auto-dark-mode: false !default;
-
-// ============================================================
-// §2 SHARED COLOR SCHEMES
+// SHARED COLOR SCHEMES
 // ============================================================
 
 // --- Palette selector mixin ---
@@ -60,6 +57,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-60};
   --hds-palette-border: #{$hds-color-carbon-20};
   --hds-palette-marker: #{$hds-color-nasa-blue};
+  --hds-palette-blockquote-icon: #{$hds-color-international-orange};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
@@ -102,6 +100,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
+  --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
   // Secondary filled uses NASA Blue on all palettes per creative
   // director review (2026-03-27). Passes AA everywhere. See
   // Discussion #24 for rationale.
@@ -139,10 +138,46 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
   --hds-palette-error-border: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
+
+  // ==========================================================
+  // Data visualization — categorical (dark backgrounds)
+  // ==========================================================
+  // Lighter USWDS equivalents for dark/black backgrounds.
+  // Light defaults are set in :root (base/_custom-properties.scss).
+  // Blue palette inherits light defaults (chart bg assumed light).
+  //
+  // Mapping (HDS Figma name → USWDS token):
+  //   cat-1:  Blue 60   → blue-50v
+  //   cat-2:  Red 50    → red-40v        (unchanged from light)
+  //   cat-3:  Orange 30 → orange-20v
+  //   cat-4:  Slate 60  → blue-cool-50
+  //   cat-5:  Gold 30   → gold-20
+  //   cat-6:  Blue 40   → blue-30v
+  //   cat-7:  Red 30    → red-20v
+  //   cat-8:  Slate 40  → blue-cool-30   (unchanged from light)
+  //   cat-9:  Purple 60 → indigo-warm-50v
+  //   cat-10: Yellow 30 → gold-20v
+  //   cat-11: Lime 60   → green-50v
+  //   cat-12: Aqua 40   → mint-cool-30v  (unchanged from light)
+  // ==========================================================
+  @if $hds-enable-dataviz-tokens {
+    --hds-dataviz-cat-1: #{color('blue-50v')};
+    --hds-dataviz-cat-2: #{color('red-40v')};
+    --hds-dataviz-cat-3: #{color('orange-20v')};
+    --hds-dataviz-cat-4: #{color('blue-cool-50')};
+    --hds-dataviz-cat-5: #{color('gold-20')};
+    --hds-dataviz-cat-6: #{color('blue-30v')};
+    --hds-dataviz-cat-7: #{color('red-20v')};
+    --hds-dataviz-cat-8: #{color('blue-cool-30')};
+    --hds-dataviz-cat-9: #{color('indigo-warm-50v')};
+    --hds-dataviz-cat-10: #{color('gold-20v')};
+    --hds-dataviz-cat-11: #{color('green-50v')};
+    --hds-dataviz-cat-12: #{color('mint-cool-30v')};
+  }
 }
 
 // ============================================================
-// §3 PALETTES
+// PALETTES
 // ============================================================
 
 // Palette 1 — White (Spacesuit White, default)
@@ -172,6 +207,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-80};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-utility-stroke: #{$hds-color-carbon-40};
+  --hds-palette-blockquote-icon: #{$hds-color-carbon-60};
   // Focus: Minimal overridden — light scheme C30 on C20
   // background is ~1.1:1 (invisible). C80 is the Figma dark
   // value, providing visibility without inventing new colors.
@@ -206,6 +242,7 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
+  --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
   // secondary filled converts to outline here (components/_button.scss);
   // borders need contrast against the NASA Blue Shade background.
@@ -244,6 +281,9 @@ $hds-enable-auto-dark-mode: false !default;
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
   --hds-palette-error-border: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
+  // Data visualization: Blue palette inherits light defaults
+  // from :root (base/_custom-properties.scss). Chart surfaces
+  // inside blue sections use a light background, same as tables.
 }
 
 // Palette 6 — Black (Carbon Black, header/footer only)
@@ -254,9 +294,9 @@ $hds-enable-auto-dark-mode: false !default;
 }
 
 // ============================================================
-// §4 AUTO DARK MODE
+// AUTO DARK MODE
 // ============================================================
-// Opt-in: Set $hds-enable-auto-dark-mode: true
+// Opt-in: Set $hds-enable-auto-dark-mode: true in _hds-tokens.scss
 // Automatically applies dark palette when OS is in dark mode.
 // ============================================================
 

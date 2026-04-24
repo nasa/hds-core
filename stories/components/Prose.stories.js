@@ -1,30 +1,23 @@
 // ============================================================
-// Prose — Storybook Stories
-// @nasa/hds-core
-// ============================================================
-// Sidebar stories: Default
-// Guidance embeds: !dev tagged for MDX Canvas references
-// Palette tests: !dev tagged — one per palette to stay within
-//   Chromatic's 25,000,000px snapshot limit. Does not use
-//   paletteRender helper (stacking 6 full articles exceeds it).
+// Prose Stories — @nasa/hds-core
+// CSS: base/_elements.scss (bare element styles inside .usa-prose)
+//
+// Sidebar structure:
+//   Guidance   — Prose.mdx (design rationale, Canvas embeds, usage rules)
+//   Stories    — Default (visible in sidebar)
+//
+// Palette tests use one story per palette instead of paletteRender
+// because stacking 6 full articles exceeds Chromatic's 25,000,000px
+// snapshot limit. See Typography stories for the same approach.
 // ============================================================
 
 import { paletteA11yParams } from '../helpers/paletteTests';
 
-// ============================================================
-// Meta
-// ============================================================
-
 export default {
   title: 'Components/Prose',
-  parameters: {
-    docs: { page: null },
-  },
 };
 
-// ============================================================
-// 1. Helpers
-// ============================================================
+// --- Helpers ---
 
 const prose = () => `
 <div class="usa-prose">
@@ -177,35 +170,20 @@ EVA termination         111:39:13</code></pre>
 `;
 
 const paletteProse = (palette) => `
-<div class="hds-palette-${palette}">
+<div class="hds-palette-${palette}" style="padding: 2rem;">
   ${prose()}
 </div>
 `;
 
-// ============================================================
-// 2. Sidebar stories
-// ============================================================
+// --- Stories (visible in sidebar) ---
 
 export const Default = {
-  render: () => prose(),
+  render: (args = {}) => prose(),
 };
 
-// ============================================================
-// 3. Guidance embeds (!dev)
-// ============================================================
-
-export const DefaultEmbed = {
-  tags: ['!dev'],
-  render: () => prose(),
-};
-
-// ============================================================
-// 4. Palette tests (!dev)
-//
-// One story per palette instead of using paletteRender, because
-// stacking 6 full articles in one story exceeds Chromatic's
-// 25,000,000px snapshot limit.
-// ============================================================
+// --- Palette accessibility tests ---
+// One story per palette — stacking 6 full articles in paletteRender
+// exceeds Chromatic's 25,000,000px snapshot limit.
 
 const prosePaletteParams = {
   ...paletteA11yParams,

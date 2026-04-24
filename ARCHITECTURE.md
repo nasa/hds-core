@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-04-03
+Last updated: 2026-04-24
 
 ## Package Overview
 
@@ -64,6 +64,7 @@ hds-core/
 │   │       ├── _in-page-nav.scss
 │   │       ├── _site-alert.scss
 │   │       ├── _alert.scss
+│   │       ├── _blockquote.scss
 │   │       ├── _grid-utilities.scss
 │   │       ├── _navigation.scss    ← Phase 2 stub
 │   │       └── _banner.scss        ← Phase 2 stub
@@ -151,7 +152,7 @@ Each component file has its own `@use` statements for the dependencies it needs 
 
 | File | Purpose |
 | --- | --- |
-| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens, focus ring widths (`$hds-focus-widths`). |
+| `_hds-tokens.scss` | Pure Sass variables/maps. No USWDS dependency. Brand colors, type scale, weights, line-heights, letterspacing, border tokens, focus ring widths, configuration flags. |
 | `_hds-uswds-theme.scss` | Configures USWDS via `@use "uswds-core" with (...)`. Primary/secondary swap, font families, type scale, grid, button settings. |
 | `base/_custom-properties.scss` | All HDS token values output to `:root` as CSS custom properties. |
 | `base/_mixins.scss` | Shared mixins (zero CSS output): `visually-hidden`, `hds-focus-ring` (palette-aware dashed outline/border with color, width, method, and offset parameters), typography (`hds-overline-label`, `hds-metadata-type`, `intro-text`), button structure/color/hover, `hds-utility-circle` (colors only — layout and sizing come from icon button base in `components/_icon-button.scss`), `hds-link-appearance` / `hds-link-hover`. |
@@ -390,6 +391,7 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
+- [ ] Table: Sort button focus ring clipped by mask-image — invisible in all palettes (see FocusSortButton Chromatic baseline)
 
 ### Pre-1.0 Verification
 

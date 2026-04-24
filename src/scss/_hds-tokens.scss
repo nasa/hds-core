@@ -4,9 +4,12 @@
 // ============================================================
 // Pure Sass variables and maps. NO USWDS dependency.
 //
-// This file is loaded in two places:
-//   1. _hds-uswds-theme.scss — feeds values into USWDS config
-//   2. base/_custom-properties.scss — outputs CSS custom properties
+// This file is loaded across the system:
+//   - _hds-uswds-theme.scss — feeds values into USWDS config
+//   - _hds-palettes.scss — palette definitions and feature flags
+//   - base/_custom-properties.scss — outputs CSS custom properties
+//   - base/_mixins.scss, base/_elements.scss — shared infrastructure
+//   - components/*.scss — per-component token references
 //
 // WHY THIS FILE CAN'T USE USWDS:
 // Sass only allows `@use "module" with (...)` on the FIRST load.
@@ -16,6 +19,24 @@
 // ============================================================
 
 @use 'sass:map';
+
+// ============================================================
+// § CONFIGURATION FLAGS
+// ============================================================
+// All HDS feature flags in one place. Override when loading:
+//   @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
+// ============================================================
+
+/// Emit --hds-dataviz-cat-* and --hds-dataviz-seq-* custom
+/// properties. Default false — no CSS bloat for sites that
+/// don't use data visualizations.
+$hds-enable-dataviz-tokens: false !default;
+
+/// Automatically apply dark palette when OS prefers dark mode.
+$hds-enable-auto-dark-mode: false !default;
+
+/// Reserved for future experimental features.
+$hds-enable-experimental-palettes: false !default;
 
 // ============================================================
 // § BRAND COLORS

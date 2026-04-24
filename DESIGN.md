@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-04-03
+Last updated: 2026-04-24
 
 ## Class Naming Convention
 
@@ -42,6 +42,16 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 ### Link Colors
 
 HDS links use body text color — not brand color — for the text itself. The dashed underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
+
+### Data Visualization Color Alignment
+
+The original HDS Figma data visualization palette used custom hex values unique to HDS. The HDS Core Proposal recommended aligning data viz colors with USWDS system color tokens for compatibility and maintainability, while keeping the HDS brand palette (NASA Red, Carbon series, etc.) as custom values. HDS Core follows this recommendation.
+
+Data viz colors are exposed as `--hds-dataviz-cat-1` through `--hds-dataviz-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_custom-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
+
+The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. The Figma-to-USWDS mapping is documented only in SCSS code comments for maintainers. Consumers use the `--hds-dataviz-cat-*` properties or copy hex values from the Palettes documentation.
+
+Sequential palette custom properties are deferred — categorical covers the primary use case. See `base/_custom-properties.scss` for the full mapping table.
 
 ## Naming & Organization
 
@@ -281,7 +291,10 @@ USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable
 
 ### Deferred to Phase 2
 
-Mobile text sizing, mobile stacked variants, midtone palette sorted column colors, advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
+- Mobile text sizing, mobile stacked variants
+- Midtone palette sorted column colors
+- Advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
+- Surface-inverse focus ring (Figma specifies ring color inverse of component fill for table cells — not yet implemented, currently inherits global focus ring)
 
 ## List
 
@@ -349,11 +362,32 @@ See `components/_site-alert.scss` for implementation.
 
 See `components/_accordion.scss` for implementation.
 
+## Blockquote
+
+### Key Decisions
+
+- Pure HDS component (`.hds-blockquote`) — no USWDS equivalent. Bare element fallback in `base/_elements.scss` gated behind `$theme-global-content-styles`.
+- One new palette token: `--hds-palette-blockquote-icon` (Int'l Orange light, Carbon 60 midtone, White dark/blue). No existing token matched this three-value pattern.
+- Quote text uses `--hds-palette-heading` (Carbon Black on light, White on dark). Confirmed intentional emphasis — verified in Article context.
+- Attribution uses `--hds-palette-muted`. Figma uses 0.8 opacity — dropped for WCAG compliance.
+- Light palette icon (Int'l Orange on Carbon 05) is 2.86:1, below 3:1. Exempt as decorative — same rationale as utility circle strokes.
+
+### Figma Deviations
+
+| What | Figma | HDS Core | Why |
+| --- | --- | --- | --- |
+| Attribution name font-size | 11px | 12px (`3xs`) | Off-scale. Proposal silent. Snapped to nearest scale value. |
+| Mobile quote text | 29px | 28px (`lg`) | Off-scale. Proposal specifies 28–36px range. |
+| Attribution description opacity | 0.8 | Full opacity | C60 at 0.8 on white = 4.3:1 — fails WCAG 4.5:1. |
+| Dark attribution name color | White (desktop) vs. Carbon 40 (mobile) | `--hds-palette-muted` | Figma inconsistent across breakpoints. 3 of 4 variants use muted. |
+
+See `components/_blockquote.scss` for implementation.
+
 ## System Behavior
 
 ### OS Dark Mode Is Opt-In
 
-HDS Core does not automatically switch palettes based on OS dark mode. Enable with `$hds-enable-auto-dark-mode: true`.
+HDS Core does not automatically switch palettes based on OS dark mode. Enable with `$hds-enable-auto-dark-mode: true` in `_hds-tokens.scss`.
 
 ### TV Breakpoint (Deferred)
 
@@ -373,6 +407,7 @@ Pending visual sign-offs:
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
 | Accordion hover state | Figma doesn't specify heading row hover — should one be added? | Full-row hover patterns need research |
 | Form token colors | Are the 6 Figma-inferred form tokens correct for midtone and blue palettes? | Tokens inferred from Figma light/dark only — midtone and blue not designed in Figma |
+
 
 ## What Hasn't Changed
 
