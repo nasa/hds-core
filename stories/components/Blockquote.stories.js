@@ -165,5 +165,5 @@ export const PaletteA11y = {
   name: 'Palette a11y',
   tags: ['!dev'],
   parameters: paletteA11yParams,
-  render: paletteRender(AllVariants.render),
+  render: paletteRender(() => `<div style="padding-left: 3rem;">${AllVariants.render()}</div>`),
 };

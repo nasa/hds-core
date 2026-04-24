@@ -317,10 +317,13 @@ const allVariantsRender = () => `
     <p class="hds-metadata">Metadata · March 14, 2026</p>
     <p class="hds-caption">Image credit: NASA/JPL-Caltech</p>
 
-    <div class="usa-prose" style="padding-left: 3rem;">
-      <blockquote>
-        <p>We choose to go to the Moon in this decade.</p>
-        <cite>President John F. Kennedy</cite>
+    <div style="padding-left: 3rem;">
+      <blockquote class="hds-blockquote">
+        <p>We choose to go to the Moon in this decade and do the other things,
+          not because they are easy, but because they are hard.</p>
+        <div class="hds-blockquote-attribution">
+          <span class="hds-blockquote-name">President John F. Kennedy</span>
+        </div>
       </blockquote>
     </div>
 
