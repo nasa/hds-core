@@ -64,6 +64,7 @@ hds-core/
 │   │       ├── _in-page-nav.scss
 │   │       ├── _site-alert.scss
 │   │       ├── _alert.scss
+│   │       ├── _blockquote.scss
 │   │       ├── _grid-utilities.scss
 │   │       ├── _navigation.scss    ← Phase 2 stub
 │   │       └── _banner.scss        ← Phase 2 stub
