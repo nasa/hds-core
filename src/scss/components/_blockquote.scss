@@ -1,0 +1,195 @@
+// ============================================================
+// HDS Component — Blockquote
+// @nasa/hds-core
+// ============================================================
+// Rich blockquote with optional attribution (avatar, name,
+// description). No USWDS equivalent — pure HDS component.
+//
+// MARKUP:
+//   <blockquote class="hds-blockquote">
+//     <p>Quote text</p>
+//     <div class="hds-blockquote-attribution">
+//       <img class="hds-blockquote-avatar" src="..." alt="..." />
+//       <span class="hds-blockquote-name">Name</span>
+//       <span class="hds-blockquote-description">Description</span>
+//     </div>
+//   </blockquote>
+//
+// All attribution children are optional. Attribution div
+// itself is optional for quote-only treatment.
+//
+// PALETTE BEHAVIOR:
+//   Quote text  → --hds-palette-heading
+//   Icon        → --hds-palette-blockquote-icon
+//   Attribution → --hds-palette-muted
+//
+// RESPONSIVE:
+//   Mobile (<640px):  Icon in flow above text, quote 28px
+//   Desktop (≥640px): Icon absolute left of text, quote 36px
+//
+// FIGMA DEVIATIONS:
+//   - Name font-size: 12px (snapped from Figma 11px to type scale)
+//   - Mobile quote text: 28px per Proposal (Figma 29px off-scale)
+//   - Description opacity dropped — fails WCAG 4.5:1 on light
+//   - Dark attribution color inconsistency — ships --hds-palette-muted
+//
+// See DESIGN.md for full rationale.
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// ------------------------------------------------------------
+// Blockquote container + quote icon
+// ------------------------------------------------------------
+
+.hds-blockquote {
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  // Quote icon — mask-image technique (same as accordion, table)
+  &::before {
+    background-color: var(--hds-palette-blockquote-icon, #{$hds-color-international-orange});
+    content: '';
+    display: block;
+    height: 24px;
+    width: 24px;
+    mask-image: url('../assets/img/hds-icons/quote.svg');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 100%;
+
+    // Mobile: in flow, above text
+    margin-block-end: units(1);
+  }
+
+  // Desktop: icon hangs left of text column
+  @media (min-width: #{units('tablet')}) {
+    &::before {
+      left: -37px;
+      margin-block-end: 0;
+      position: absolute;
+      top: 1px;
+    }
+  }
+
+  // Quote text
+  p {
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    font-family: family('heading');
+    font-size: size('heading', 'lg'); // 28px mobile
+    font-weight: font-weight('light');
+    letter-spacing: -1px;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  @media (min-width: #{units('tablet')}) {
+    p {
+      font-size: size('heading', 'xl'); // 36px desktop
+    }
+  }
+}
+
+// ------------------------------------------------------------
+// Attribution container
+// ------------------------------------------------------------
+// CSS grid: [avatar] [name ]
+//                    [desc ]
+//
+// When avatar is absent, name/description span full width
+// via :first-child detection (no :has() needed).
+// ------------------------------------------------------------
+
+.hds-blockquote-attribution {
+  align-items: start;
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  column-gap: units(1); // 8px
+  display: grid;
+  font-family: family('body');
+  font-size: size('body', '2xs'); // 14px
+  font-weight: font-weight('normal');
+  grid-template-columns: auto 1fr;
+  line-height: lh('body', 3);
+  margin-block-start: units(2.5); // 20px
+  row-gap: 0;
+}
+
+// ------------------------------------------------------------
+// Avatar
+// ------------------------------------------------------------
+
+.hds-blockquote-avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  height: 40px;
+  object-fit: cover;
+  overflow: hidden;
+  width: 40px;
+}
+
+// ------------------------------------------------------------
+// Attribution name
+// ------------------------------------------------------------
+// Inter Bold 12px uppercase. Similar to .hds-metadata but
+// with component-specific line-height (19px per Figma).
+// Can be <span> (person) or wrapped in <a> for bio link.
+// ------------------------------------------------------------
+
+.hds-blockquote-name {
+  @include hds-metadata-type;
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  display: block;
+  grid-column: 2;
+}
+
+// ------------------------------------------------------------
+// Attribution description
+// ------------------------------------------------------------
+// Inherits font properties from attribution container.
+// Can be <span>, <cite> (for work titles), or wrapped in <a>.
+// ------------------------------------------------------------
+
+.hds-blockquote-description {
+  display: block;
+  grid-column: 2;
+}
+
+// ------------------------------------------------------------
+// Attribution links
+// ------------------------------------------------------------
+// Links inside attribution inherit muted color and receive
+// standard HDS link treatment (dashed underline, hover).
+// ------------------------------------------------------------
+
+.hds-blockquote-attribution a {
+  @include hds-link-appearance;
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  text-decoration-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+
+  &:hover {
+    @include hds-link-hover;
+    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  }
+}
+
+// ------------------------------------------------------------
+// No-avatar layout
+// ------------------------------------------------------------
+// When avatar is absent, name or description is the first
+// child — span full width so there's no empty column gap.
+// ------------------------------------------------------------
+
+.hds-blockquote-name:first-child,
+.hds-blockquote-description:first-child {
+  grid-column: 1 / -1;
+}
+
+.hds-blockquote-name:first-child ~ .hds-blockquote-description {
+  grid-column: 1 / -1;
+}

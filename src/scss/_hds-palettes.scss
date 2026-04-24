@@ -57,6 +57,7 @@
   --hds-palette-muted: #{$hds-color-carbon-60};
   --hds-palette-border: #{$hds-color-carbon-20};
   --hds-palette-marker: #{$hds-color-nasa-blue};
+  --hds-palette-blockquote-icon: #{$hds-color-international-orange};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
@@ -99,6 +100,7 @@
   --hds-palette-muted: #{$hds-color-carbon-30};
   --hds-palette-border: #{$hds-color-carbon-60};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
+  --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
   // Secondary filled uses NASA Blue on all palettes per creative
   // director review (2026-03-27). Passes AA everywhere. See
   // Discussion #24 for rationale.
@@ -205,6 +207,7 @@
   --hds-palette-muted: #{$hds-color-carbon-80};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-utility-stroke: #{$hds-color-carbon-40};
+  --hds-palette-blockquote-icon: #{$hds-color-carbon-60};
   // Focus: Minimal overridden — light scheme C30 on C20
   // background is ~1.1:1 (invisible). C80 is the Figma dark
   // value, providing visibility without inventing new colors.
@@ -239,6 +242,7 @@
   --hds-palette-muted: #{$hds-color-carbon-10};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
+  --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
   // secondary filled converts to outline here (components/_button.scss);
   // borders need contrast against the NASA Blue Shade background.

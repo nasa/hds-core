@@ -161,39 +161,88 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 
 @if $theme-global-content-styles {
   // ------------------------------------------------------------
-  // Blockquote
+  // Blockquote (bare element fallback)
+  // ------------------------------------------------------------
+  // Minimal treatment for CMS / .usa-prose content where
+  // developers can't add .hds-blockquote classes. Provides
+  // quote typography, decorative icon, and basic <cite>
+  // styling. For the full component with avatar and structured
+  // attribution, use .hds-blockquote (components/_blockquote.scss).
+  //
+  // Icon uses mask-image on ::before (same technique as
+  // accordion chevron and table sort icons). Responsive:
+  // mobile = icon above text, desktop = icon hangs left.
   // ------------------------------------------------------------
 
   blockquote {
-    border-left: 4px solid var(--hds-palette-border, #{$hds-color-carbon-10});
-    margin-inline-start: 0;
-    padding-inline-start: units(3);
+    margin: 0;
+    padding: 0;
 
-    // International Orange quote icon
-    &:before {
-      background-color: $hds-color-international-orange;
+    // Quote icon
+    &::before {
+      background-color: var(--hds-palette-blockquote-icon, #{$hds-color-international-orange});
       content: '';
       display: block;
-      height: 0.8em;
-      margin-block-end: units(1);
+      height: 24px;
+      width: 24px;
       mask-image: url('../assets/img/hds-icons/quote.svg');
-      mask-position: 50% 50%;
+      mask-position: center;
       mask-repeat: no-repeat;
       mask-size: 100%;
-      width: 0.8em;
+      margin-block-end: units(1); // 8px — mobile
+    }
+
+    // Desktop: icon hangs left of text column
+    @media (min-width: #{units('tablet')}) {
+      position: relative;
+
+      &::before {
+        left: -37px;
+        margin-block-end: 0;
+        position: absolute;
+        top: 1px;
+      }
     }
 
     p {
-      font-size: size('heading', 'xl');
+      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+      font-family: family('heading');
+      font-size: size('heading', 'lg'); // 28px — mobile
       font-weight: font-weight('light');
-      line-height: var(--hds-line-height-intro);
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin: 0;
     }
 
+    @media (min-width: #{units('tablet')}) {
+      p {
+        font-size: size('heading', 'xl'); // 36px — desktop
+      }
+    }
+
+    // Basic cite styling (description treatment)
     cite {
-      @include label-uppercase;
       color: var(--hds-palette-muted, #{$hds-color-carbon-60});
       display: block;
-      margin-block-start: units(1);
+      font-family: family('body');
+      font-size: size('body', '2xs'); // 14px
+      font-style: normal;
+      font-weight: font-weight('normal');
+      line-height: lh('body', 3);
+      margin-block-start: units(2.5); // 20px
+    }
+
+    // Also style <footer> for spec-correct markup:
+    //   <blockquote><p>...</p><footer>Name, <cite>Work</cite></footer></blockquote>
+    footer {
+      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+      display: block;
+      font-family: family('body');
+      font-size: size('body', '2xs');
+      font-style: normal;
+      font-weight: font-weight('normal');
+      line-height: lh('body', 3);
+      margin-block-start: units(2.5);
     }
   }
 

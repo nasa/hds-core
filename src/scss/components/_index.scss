@@ -6,7 +6,7 @@
 //   1. Text styles — small text treatments used across components
 //   2. Foundational — link and button, used/extended by others
 //   3. Form controls — inputs, selects, checkboxes, radios
-//   4. Content — tables, lists, intro text, accordion
+//   4. Content — tables, lists, intro text, accordion, blockquote
 //   5. Navigation — breadcrumb, pagination, in-page nav
 //   6. Notifications — site alert, alert
 //   7. Layout — grid utilities
@@ -30,6 +30,7 @@
 @forward 'list';
 @forward 'table';
 @forward 'accordion';
+@forward 'blockquote';
 
 // ── Navigation ──
 @forward 'breadcrumb';
