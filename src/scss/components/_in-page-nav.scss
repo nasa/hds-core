@@ -2,31 +2,114 @@
 // HDS Component — In-Page Navigation
 // @nasa/hds-core
 // ============================================================
-// STATUS: Stub — needs full stories and testing for v1.0.
 // Fixed sidebar with scroll spy for long-form articles.
-// Uses USWDS JS for scroll spy. Active state = NASA Blue.
+// Maps to HDS Figma "Tertiary / Local Navigation."
 //
-// Restyles: https://designsystem.digital.gov/components/in-page-navigation/
+// Palette support: white, light, dark, black.
+//
+// Palette tokens used:
+//   --hds-palette-text       Link text, heading text
+//   --hds-palette-heading    Link hover text
+//   --hds-palette-border     Left divider line
+//   --hds-palette-marker     Active indicator bar
+//
+// Restyles:
+//   https://designsystem.digital.gov/components/in-page-navigation/
 // ============================================================
 
+@use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// --- Container ---
 
 .usa-in-page-nav {
-  background-color: $hds-color-carbon-05;
-  border-radius: 0;
-  border-left: 4px solid $hds-color-carbon-60;
+  border-left: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
 }
 
-.usa-in-page-nav__link {
-  color: $hds-color-carbon-90;
+// --- Heading ---
+
+.usa-in-page-nav__heading {
+  @include hds-metadata-type;
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+}
+
+// --- Links: shared properties ---
+// Font-weight, spacing, padding, text-decoration are not
+// contested by USWDS — base specificity is sufficient.
+// Explicit font-weight kills inherited 700 from
+// .usa-in-page-nav__item--primary (<li>).
+
+.usa-in-page-nav__list a:not(.usa-button) {
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, '1');
+  padding: 2px;
+  padding-left: units(1.5);
+  text-decoration: none;
+
   &:hover {
-    color: $hds-color-carbon-black;
+    @include hds-nav-hover-underline;
+  }
+
+  &:focus-visible {
+    @include hds-focus-ring($width: 'thin');
   }
 }
 
-.usa-in-page-nav__link--active {
-  border-left-color: $hds-color-nasa-blue;
-  color: $hds-color-nasa-blue;
-  font-weight: font-weight('semibold');
+// --- Links: color overrides ---
+// USWDS set-link-from-bg.scss and nav-list.scss use
+// :not(.usa-current) selectors at (0,3,1) and (0,4,1).
+// Match their pattern to win on cascade order.
+
+.usa-in-page-nav__list a:not(.usa-button):not(.usa-current) {
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+
+  &:visited {
+    color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  }
+
+  &:hover {
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  }
+}
+
+// --- Active state ---
+// Beats set-text-from-bg.scss font-weight:inherit at (0,3,1).
+
+.usa-in-page-nav__list a:not(.usa-button).usa-current {
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  font-weight: font-weight('normal');
+
+  &::after {
+    background-color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+  }
+}
+
+// --- Sub-item indentation (h3 links) ---
+// USWDS JS does not generate .usa-in-page-nav__link--sub-item.
+// Primary items get --primary on <li>; sub-items do not.
+
+.usa-in-page-nav__item:not(.usa-in-page-nav__item--primary) > .usa-in-page-nav__link {
+  padding-left: units(3);
+}
+
+// --- Item spacing ---
+// Figma measurements (text-edge to text-edge):
+//   h2→h2: 12px, h3→h3: 8px, last h3→next h2: 20px.
+// Links have 2px vertical padding (4px per gap).
+// Margins compensate: margin = figma-gap − 4px.
+
+.usa-in-page-nav__list {
+  li + li {
+    margin-top: units(1);
+  }
+
+  li:not(.usa-in-page-nav__item--primary) + li:not(.usa-in-page-nav__item--primary) {
+    margin-top: units(0.5);
+  }
+
+  li:not(.usa-in-page-nav__item--primary) + li.usa-in-page-nav__item--primary {
+    margin-top: units(2);
+  }
 }
