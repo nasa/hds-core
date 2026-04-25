@@ -41,7 +41,7 @@ hds-core/
 │   │   │
 │   │   ├── base/                   ← Shared infrastructure (not components)
 │   │   │   ├── _index.scss         ← @forward's all in order
-│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
+│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties, inc. gates for dataviz and more
 │   │   │   ├── _mixins.scss        ← Shared mixins (zero CSS output)
 │   │   │   ├── _elements.scss      ← Bare HTML styles + palette wiring
 │   │   │   ├── _focus.scss         ← Global :focus-visible (always active)
@@ -59,12 +59,12 @@ hds-core/
 │   │       ├── _list.scss
 │   │       ├── _table.scss
 │   │       ├── _accordion.scss
+│   │       ├── _blockquote.scss
 │   │       ├── _breadcrumb.scss
 │   │       ├── _pagination.scss
 │   │       ├── _in-page-nav.scss
 │   │       ├── _site-alert.scss
 │   │       ├── _alert.scss
-│   │       ├── _blockquote.scss
 │   │       ├── _grid-utilities.scss
 │   │       ├── _navigation.scss    ← Phase 2 stub
 │   │       └── _banner.scss        ← Phase 2 stub
@@ -92,6 +92,7 @@ hds-core/
 │   │   ├── ColorPalettes.stories.js
 │   │   ├── DataVisualization.mdx
 │   │   ├── DataVisualizationPalettes.mdx
+│   │   ├── DataVisualizationPalettes.stories.js
 │   │   ├── Grid.mdx
 │   │   ├── Grid.stories.js
 │   │   ├── Icons.mdx
@@ -161,7 +162,7 @@ Each component file has its own `@use` statements for the dependencies it needs 
 | `base/_print.scss` | `@media print` rules — palette reset, link URLs, element hiding. |
 | `components/_text-styles.scss` | Small text treatment classes (`.hds-overline`, `.hds-metadata`, `.hds-caption`). Component-like patterns that use shared typography mixins. |
 | `components/_*.scss` | One file per component. USWDS overrides (`usa-*`) and HDS-only components (`hds-*`). Each file documents palette behavior and USWDS override rationale. |
-| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 27+ semantic CSS custom properties per palette (including 4 focus ring tokens). Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
+| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 28+ semantic CSS custom properties per palette (including 4 focus ring tokens). Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
 
 ## SCSS Directory Naming
 
@@ -277,6 +278,7 @@ Components are organized by category in `components/_index.scss`:
 |  | `_list.scss` | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
 |  | `_table.scss` | Base, sorted columns, sort icons, borderless, dark palette, print |
 |  | `_accordion.scss` | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
+|  | `_blockquote.scss` | `.hds-blockquote` - Quote icon, person vs. source attribution, palette token |
 | **Navigation** | `_breadcrumb.scss` | Forward-slash separators replace USWDS chevrons |
 |  | `_pagination.scss` | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
 |  | `_in-page-nav.scss` | Stub — needs full stories for v1.0. Uses USWDS JS. |
