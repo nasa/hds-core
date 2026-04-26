@@ -119,19 +119,19 @@ Install `http-server` globally if you don't have it: `npm install -g http-server
 
 ### Commands
 
-| Command                   | Purpose                                                      |
-| ------------------------- | ------------------------------------------------------------ |
-| `npm run dev`             | Sass watch + Storybook — day-to-day development              |
-| `npm run build`           | Full production build — assets, Sass, sprite, minify         |
-| `npm run storybook`       | Start Storybook only (no Sass watch)                         |
-| `npm run build-storybook` | Static Storybook build to `storybook-static/`                |
-| `npm run watch`           | Sass watch only (also runs inside `dev`)                     |
-| `npm run init`            | Copy assets and generate sprite without compiling Sass       |
-| `npm test`                | Run all tests once (CI)                                      |
-| `npm run test:watch`      | Run tests in watch mode                                      |
-| `npm run test:visual`     | Visual regression tests via Chromatic (on demand)            |
-| `npm run format`          | Format source files with Prettier                            |
-| `npm run format:check`    | Check formatting without writing changes                     |
+| Command                   | Purpose                                                |
+| ------------------------- | ------------------------------------------------------ |
+| `npm run dev`             | Sass watch + Storybook — day-to-day development        |
+| `npm run build`           | Full production build — assets, Sass, sprite, minify   |
+| `npm run storybook`       | Start Storybook only (no Sass watch)                   |
+| `npm run build-storybook` | Static Storybook build to `storybook-static/`          |
+| `npm run watch`           | Sass watch only (also runs inside `dev`)               |
+| `npm run init`            | Copy assets and generate sprite without compiling Sass |
+| `npm test`                | Run all tests once (CI)                                |
+| `npm run test:watch`      | Run tests in watch mode                                |
+| `npm run test:visual`     | Visual regression tests via Chromatic (on demand)      |
+| `npm run format`          | Format source files with Prettier                      |
+| `npm run format:check`    | Check formatting without writing changes               |
 
 `init` is available if you need to refresh USWDS or HDS assets (fonts, images, icons) without a full recompile. For most workflows, `build` is all you need — it handles asset copying, Sass compilation, sprite generation, and CSS minification in one step.
 
