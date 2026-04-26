@@ -1,0 +1,80 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Existing USWDS Site/Guidance" />
+
+# Adopting HDS Core on an Existing USWDS Site
+
+HDS Core is a CSS theme layer that sits on top of USWDS. If your site already uses USWDS 3.x, adopting HDS Core requires **no markup changes** — replace the stylesheet and your site renders in the HDS visual identity.
+
+Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme.
+
+## Installation
+
+Replace your existing USWDS stylesheet with the HDS Core stylesheet. Keep `uswds.min.js` — HDS Core does not modify JavaScript behavior.
+
+```html
+<!-- Before -->
+<link rel="stylesheet" href="/css/uswds.min.css" />
+
+<!-- After -->
+<link rel="stylesheet" href="/css/styles.css" />
+
+<!-- Keep USWDS JS -->
+<script src="/js/uswds.min.js" defer></script>
+```
+
+For Sass integration and build tooling, see [Getting Started](?path=/docs/getting-started--docs).
+
+## What to review after adopting
+
+Everything works out of the box. These are the items worth a manual review:
+
+### Button intent
+
+This is the most important change to review. HDS uses a two-color wayfinding system where red means "navigates away" and blue means "stays on page."
+
+| USWDS class              | USWDS default  | Under HDS            | HDS meaning                   |
+| ------------------------ | -------------- | -------------------- | ----------------------------- |
+| `.usa-button`            | Blue filled    | **Red filled**       | Navigates to a new page       |
+| `.usa-button--secondary` | Red filled     | **Blue filled**      | On-page action                |
+| `.usa-button--outline`   | Blue border    | Blue border          | Lower-emphasis on-page action |
+| `.usa-button--unstyled`  | Blue text link | Body-color text link | De-emphasized action          |
+
+If your site uses `.usa-button` for actions that _stay on the current page_ (form submits, toggles, dialogs), those buttons now appear red — implying navigation. Consider switching them to `.usa-button--secondary`.
+
+### Dark sections
+
+Inside an `hds-palette-*` wrapper, all components adapt to the palette automatically — including outline buttons on dark backgrounds. Without a palette wrapper, USWDS's `.usa-section--dark` still works but does not activate HDS palette tokens. If you use dark sections, consider migrating them to `.hds-palette-dark` for full HDS styling.
+
+### USWDS utility classes
+
+Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations — close to but not identical to HDS hex values. This is a USWDS architectural constraint, not a bug. For exact brand colors, use HDS CSS custom properties (`var(--hds-color-*)`).
+
+## Not yet styled by HDS
+
+These USWDS components render with default or partially-styled USWDS appearance in v1.0. They are functional — they just don't match the HDS visual identity yet. Full HDS treatment is planned for Phase 2:
+
+- Header and footer navigation
+- Government banner (expand/collapse bar)
+- Side navigation
+- Date picker, time picker, combo box (JS-driven form widgets)
+
+## Visual reference
+
+For a complete look at how USWDS components render under HDS Core, browse the baseline template stories in the sidebar. The table below summarizes the most noticeable changes — all happen automatically with no markup changes.
+
+| Area               | What changes                                          |
+| ------------------ | ----------------------------------------------------- |
+| Headings           | Inter (semibold) replaces Source Sans Pro             |
+| Body text          | Public Sans replaces Source Sans Pro                  |
+| Monospace          | DM Mono replaces Roboto Mono                          |
+| Links              | Body text color + dashed underline (not blue + solid) |
+| External link icon | HDS diagonal arrow replaces USWDS launch icon         |
+| Accordion          | Circled chevrons replace +/− icons                    |
+| Breadcrumb         | Forward slashes replace chevron separators            |
+| Pagination         | Bottom border indicator replaces filled pill          |
+| Checkbox / Radio   | HDS check glyph, 18px size                            |
+| Form inputs        | Updated border and focus ring styles                  |
+| Tables             | Fixed white/dark surface (not transparent)            |
+| Focus rings        | Dashed outlines, keyboard-only (`:focus-visible`)     |
+| Site Alert         | NASA Red (emergency) and NASA Blue (info) variants    |
