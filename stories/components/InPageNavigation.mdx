@@ -1,0 +1,74 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as InPageNavigationStories from './InPageNavigation.stories';
+
+<Meta title="Components/In Page Navigation/Guidance" />
+
+# In-Page Navigation
+
+A fixed sidebar for navigating long-form content. USWDS JavaScript automatically generates the link list from headings in a specified content area and highlights the current section as the user scrolls.
+
+<Note type="figma">HDS Figma calls this "Tertiary / Local Navigation." HDS Core uses the USWDS component name "In-Page Navigation" to match the markup.</Note>
+
+<Canvas of={InPageNavigationStories.Default} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+## When to use
+
+- **Long pages with clear sections.** In-page navigation works best for pages with three or more distinct content sections, or content that exceeds three or more viewport heights.
+- **Encyclopedic reference pages.** Pages with a defined hierarchical structure benefit from the fixed sidebar and optional second-level links for subsections.
+- **Long-form articles.** Articles with a linear narrative or list structure where readers may want to jump between sections.
+
+## When to consider something else
+
+- **Short pages.** If the page requires little or no scrolling, in-page navigation adds unnecessary complexity.
+- **Unstructured content.** Pages that lack heading-based hierarchy cannot use this component — USWDS JavaScript builds the nav from heading elements.
+- **Infinite scrolling.** In-page navigation is not practical for pages with dynamically loaded content.
+
+## Usability guidance
+
+- **Place the `aside` before your content area in source order.** USWDS positions it as a sticky sidebar at tablet breakpoints and above. Below tablet, the nav is hidden.
+- **Use clear, concise headings.** USWDS JavaScript copies heading text directly into the nav links — verbose headings make the sidebar harder to scan.
+- **Don't include the page `h1`.** By default, the component scans for `h2` and `h3` headings. The page title is already visible above the navigation.
+- **Limit top-level sections.** More than about 10 `h2` headings makes the nav difficult to scan. Consider consolidating or using `h3` subsections for deeper structure.
+- **Keyboard users reach the navigation first.** The `aside` precedes `main` in source order, so keyboard users encounter the nav links before the page content. This is intentional — tabbing through the entire page before reaching navigation links would diminish the user experience.
+
+### Initialization properties
+
+USWDS JavaScript reads data attributes from the `aside` element to configure behavior. These must be set before the component initializes. All properties are optional — defaults are shown below.
+
+| Property                     | Description                                                                | Default           |
+| ---------------------------- | -------------------------------------------------------------------------- | ----------------- |
+| `data-title-text`            | Text of the navigation heading.                                            | `"Contents"` \*   |
+| `data-title-heading-level`   | Heading level of the navigation title.                                     | `h4`              |
+| `data-heading-elements`      | Which heading levels to include in the link list.                          | `h2 h3`           |
+| `data-main-content-selector` | Element to scan for headings (class or ID selector).                       | `<main>`          |
+| `data-scroll-offset`         | Pixels to offset scroll position from the top.                             | `0`               |
+| `data-root-margin`           | Observable margin for calculating the current section (CSS margin syntax). | `0px 0px 0px 0px` |
+| `data-threshold`             | How much of a section must be visible before it becomes current (0–1).     | `1`               |
+| `data-minimum-heading-count` | Minimum headings required for the component to initialize.                 | `3` \*            |
+
+\* HDS defaults differ from USWDS. USWDS defaults `data-title-text` to `"On this page"` and `data-minimum-heading-count` to `2`. HDS recommends `"Contents"` to match the Figma spec and `3` because fewer sections typically indicate a short page that does not need in-page navigation.
+
+### Customizing initialization
+
+Sites can override any property to match their content structure. Set all properties on the `aside` element before USWDS JavaScript runs:
+
+```html
+<aside class="usa-in-page-nav" data-title-text="In this article" data-title-heading-level="h3" data-heading-elements="h2" data-main-content-selector="#article-body" data-scroll-offset="80" data-root-margin="0px 0px -30% 0px" data-threshold="0.8" data-minimum-heading-count="5"></aside>
+```
+
+<Note type="code">
+  USWDS JavaScript is required for scroll spy and nav link generation. If you render this component dynamically (e.g., in a React or Vue app without <a href="https://github.com/trussworks/react-uswds">react-uswds</a>), reinitialize after mount — see the <a href="?path=/docs/react-setup--docs">React Setup</a> guide.
+</Note>
+
+## Accessibility
+
+- USWDS JavaScript generates a `nav` element inside the `aside` with an `aria-label` derived from the title text (e.g., "Contents"). Confirm this label is present in your rendered output.
+- **Keyboard:** Tab moves between nav links. Enter activates a link, scrolling to the target section.
+- **Tab order:** Keyboard users reach the navigation before the main content because the `aside` precedes `main` in source order.
+- **Focus on activation:** When a keyboard user activates a nav link, focus moves to the target section. When a mouse user clicks, focus stays on the clicked link.
+- Do not skip heading levels in your content (e.g., `h2` to `h4`). The generated nav and screen readers both depend on a logical heading hierarchy.
+
+For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
