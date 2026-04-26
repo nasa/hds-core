@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-04-24
+Last updated: 2026-04-26
 
 ## Package Overview
 
@@ -244,11 +244,9 @@ All selectors use `:focus-visible` (keyboard only, not mouse click). A suppressi
 **Tokens:** Four semantic focus tokens in `_hds-palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
 
 | Token | Figma Pattern | Light Value | Dark Value | Components |
-| --- | --- | --- | --- | --- |
-| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb |
-| `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |
-| `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |
-| `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb, In-Page Navigation |
+|  | `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |  | `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |  | `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
 
 Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `_hds-palettes.scss` code comments for per-palette values.
 
@@ -281,7 +279,7 @@ Components are organized by category in `components/_index.scss`:
 |  | `_blockquote.scss` | `.hds-blockquote` - Quote icon, person vs. source attribution, palette token |
 | **Navigation** | `_breadcrumb.scss` | Forward-slash separators replace USWDS chevrons |
 |  | `_pagination.scss` | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
-|  | `_in-page-nav.scss` | Stub — needs full stories for v1.0. Uses USWDS JS. |
+|  | `_in-page-nav.scss` | Scroll spy sidebar for long-form content. Uses USWDS JS. Per-palette stories (not stacked). |
 | **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
@@ -375,13 +373,12 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 
 ### Components with CSS but no stories yet
 
-| File                   | Component                  | Notes                                                   |
-| ---------------------- | -------------------------- | ------------------------------------------------------- |
-| `_navigation.scss`     | Navigation (header/footer) | Phase 2 stub — inherited from prior work, incomplete    |
-| `_banner.scss`         | Banner (gov compliance)    | Phase 2 stub — uses USWDS JS for expand/collapse        |
-| `_in-page-nav.scss`    | In-Page Navigation         | Stub — uses USWDS JS for scroll spy, needs full stories |
-| `_alert.scss`          | Alert                      | Pure USWDS, not in HDS Figma                            |
-| `_grid-utilities.scss` | Grid Utilities             | Responsive reverse, horizontal lists                    |
+| File                   | Component                  | Notes                                                |
+| ---------------------- | -------------------------- | ---------------------------------------------------- |
+| `_navigation.scss`     | Navigation (header/footer) | Phase 2 stub — inherited from prior work, incomplete |
+| `_banner.scss`         | Banner (gov compliance)    | Phase 2 stub — uses USWDS JS for expand/collapse     |
+| `_alert.scss`          | Alert                      | Pure USWDS, not in HDS Figma                         |
+| `_grid-utilities.scss` | Grid Utilities             | Responsive reverse, horizontal lists                 |
 
 ## Pending Work
 

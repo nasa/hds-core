@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-04-24
+Last updated: 2026-04-26
 
 ## Class Naming Convention
 
@@ -23,7 +23,7 @@ HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. 
 | --- | --- | --- | --- | --- |
 | Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | `components/_navigation.scss` | Phase 2 (top priority) |
 | Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | `components/_navigation.scss` | Phase 2 (ships with Header/Footer) |
-| Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | `components/_in-page-nav.scss` | Phase 1 |
+| Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | `components/_in-page-nav.scss` | Complete |
 | Table of Contents | Non-sticky multi-column link grid at the top of the page (2-col or 3-col). Links can be anchor (↓), internal (→), or external (↗). Collapses to dropdown on small/medium screens. Minimum 5 rows. Should not duplicate Secondary Navigation. | No equivalent | — | Phase 2 |
 | _(none)_ | Vertical sidebar for navigating between pages in a section (docs left rail pattern). Not defined in HDS Figma. | `usa-sidenav` | — | Phase 2 (low — use USWDS default) |
 
@@ -326,6 +326,19 @@ See `components/_form.scss` for implementation.
 - **Select Chevron:** Figma shows a single thin down chevron. Currently using USWDS default double-arrow. Requires palette-aware approach or custom dropdown.
 - **Custom Dropdown Panel:** Figma shows styled dropdown with rounded corners and blue active highlight. Native browser `<select>` can't be styled. Requires JavaScript.
 - **Floating Label:** Figma shows label-inside-field pattern. Requires JavaScript.
+
+## In-Page Navigation
+
+Maps to HDS Figma "Tertiary / Local Navigation." Uses USWDS component name and markup.
+
+### Key Decisions
+
+- **HDS defaults differ from USWDS:** `data-title-text="Contents"` (USWDS: "On this page"), `data-minimum-heading-count="3"` (USWDS: 2).
+- Background transparent — not a card surface. USWDS default white background and border-radius removed.
+- **Border:** aside border removed. Heading and list each get a palette-aware border-left that reads as one continuous line. Active bar (::after) overlaps list border via `left: -1px`.
+- **Hover underline:** uses `--hds-palette-link-underline` (Carbon 60 on white), not `currentColor`. Overrides the shared `hds-nav-hover-underline` mixin per-component.
+
+See components/_in-page-nav.scss for implementation.
 
 ## Pagination
 

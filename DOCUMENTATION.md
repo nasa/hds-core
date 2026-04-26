@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-04-24
+Last updated: 2026-04-26
 
 ## Audience
 
@@ -247,6 +247,8 @@ Each component stories file follows this structure:
 
 Stories appear in the sidebar in export order. Place sidebar stories first, then guidance embeds, then palette tests, then focus tests.
 
+Tag visibility: `tags` must be a literal property on each story export — Storybook's static indexer cannot resolve tags from spread function calls or factory return values.
+
 **Gold standard:** `Button.stories.js` — refer to this when refactoring other components.
 
 ### AllVariants composed story
@@ -454,7 +456,7 @@ export const PaletteA11yHover = {
 
 **Vitest local a11y:** Vitest runs axe-core against every exported story including PaletteA11y stories. The stacked DOM gives local palette contrast coverage across all 6 palettes in one pass.
 
-**Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via `paletteRender` (stacking all 6 palettes vertically), use individual per-palette stories instead. See Typography stories for reference.
+**Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via paletteRender (stacking all 6 palettes vertically), or if USWDS JS needs unique IDs per instance, use individual per-palette stories instead. See Typography and In-Page Navigation stories for reference.
 
 **Known issues pending design review:** Use `a11y.test: 'todo'` inline so the test warns in Storybook UI but doesn't block CI:
 
