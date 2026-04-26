@@ -100,6 +100,12 @@ hds-core/
 │   │   ├── Spacing.mdx
 │   │   ├── Typography.mdx
 │   │   └── Typography.stories.js
+    ├── guides/
+    │   ├── USWDS.mdx                  # Guidance for existing USWDS sites
+    │   ├── USWDSDocumentation.stories.js
+    │   ├── USWDSLandingPage.stories.js
+    │   ├── USWDSFormTemplates.stories.js
+    │   └── React.mdx                  # Guidance for React sites
 │   └── components/
 │       ├── {Component}.mdx         # Guidance page
 │       └── {Component}.stories.js  # Sidebar variant stories
@@ -115,7 +121,7 @@ hds-core/
 ├── gulpfile.js
 ├── vitest.config.js
 ├── chromatic.config.json
-├── test.html                       # Visual test page (not shipped)
+├── test-uswds-js.html           # USWDS JS component test (not shipped)
 ├── .prettierrc
 ├── .prettierignore
 └── .browserslistrc
@@ -396,14 +402,13 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 - [ ] Spec verification pass across all components against Figma
 - [ ] Screen reader testing (NVDA, VoiceOver)
-- [ ] test.html: Replace with realistic integration page
 - [ ] Replace `@uswds/compile` with direct sass + autoprefixer (pending meeting confirmation)
 
 ### Post-1.0 Infrastructure
 
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - [ ] Re-evaluate Chromatic a11y tests when independent a11y/visual toggle ships
-- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work)
+- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work) [ ] USWDS JS re-initialization: Date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See test-uswds-js.html.
 - [ ] Migrate pending work for Phase 2+ into GitHub Issues and Discussions
 
 ## Contributing
