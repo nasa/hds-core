@@ -23,10 +23,7 @@ const sampleItems = [
   'Water is a precious resource in deep space. Whether the water SOFIA found is easily accessible for use as a resource remains to be determined.',
 ];
 
-const longItems = Array.from(
-  { length: 20 },
-  (_, i) => `Item ${i + 1}: ${sampleItems[i % sampleItems.length]}`
-);
+const longItems = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}: ${sampleItems[i % sampleItems.length]}`);
 
 const list = (tag, items, classes = '', ariaLabel = '') => {
   const cls = `usa-list${classes ? ` ${classes}` : ''}`;

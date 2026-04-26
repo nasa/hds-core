@@ -1,4 +1,3 @@
-// .storybook/preview.js
 // ============================================================
 // HDS Core Storybook Preview Configuration
 // @nasa/hds-core
@@ -7,6 +6,8 @@
 // viewport presets, accessibility testing, story sort order,
 // docs settings, and decorators.
 // ============================================================
+
+import initInPageNav from './utils/in-page-nav-init';
 
 const preview = {
   parameters: {
@@ -33,11 +34,12 @@ const preview = {
         order: [
           'Overview',
           'Getting Started',
-          'React Setup',
           'Roadmap',
           'Foundations',
           'Components',
           ['*', ['Guidance', '*']],
+          'Guides',
+          ['Existing USWDS Site', ['Guidance', '*'], 'React', ['Guidance', '*']],
         ],
       },
     },
@@ -109,6 +111,38 @@ const preview = {
       return `<div class="hds-palette-${palette}" style="padding: 2rem;">${Story()}</div>`;
     },
 
+    // USWDS accordion initial state — USWDS JS attaches
+    // delegated click handlers to document.body on
+    // DOMContentLoaded (before Storybook renders stories),
+    // so expand/collapse interactivity works automatically.
+    // But USWDS never set the initial hidden state on elements
+    // that didn't exist at DOMContentLoaded. This decorator
+    // collapses accordion panels whose trigger has
+    // aria-expanded="false" and hides mobile nav elements.
+    //
+    // NOT shipped to consumers. In production, uswds.min.js
+    // handles initial state natively on page load.
+    (Story) => {
+      const html = Story();
+
+      setTimeout(() => {
+        // Collapse accordion panels whose button starts closed
+        document.querySelectorAll('.usa-accordion__button[aria-expanded="false"]').forEach((btn) => {
+          const id = btn.getAttribute('aria-controls');
+          if (!id) return;
+          const content = document.getElementById(id);
+          if (content) content.hidden = true;
+        });
+
+        // Hide mobile nav (USWDS shows via .is-visible on toggle)
+        document.querySelectorAll('.usa-nav:not(.is-visible)').forEach((nav) => {
+          nav.setAttribute('hidden', '');
+        });
+      }, 0);
+
+      return html;
+    },
+
     // USWDS table sort initialization — USWDS JS runs init() on
     // DOMContentLoaded, before Storybook renders story content.
     // Table sort requires button injection into th[data-sortable]
@@ -172,6 +206,28 @@ const preview = {
             }
           });
         });
+      }, 0);
+
+      return html;
+    },
+
+    // USWDS in-page navigation initialization — same timing
+    // issue as table sort. USWDS JS expects .usa-in-page-nav
+    // elements to exist on DOMContentLoaded, but Storybook
+    // injects story content after that. setTimeout(0) defers
+    // init until after the story HTML is in the DOM.
+    //
+    // Uses ported USWDS createInPageNav() logic from
+    // .storybook/utils/in-page-nav-init.js. Idempotent —
+    // skips elements that already contain a built nav.
+    //
+    // NOT shipped to consumers. In production, uswds.min.js
+    // handles initialization natively.
+    (Story) => {
+      const html = Story();
+
+      setTimeout(() => {
+        initInPageNav(document);
       }, 0);
 
       return html;

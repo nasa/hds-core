@@ -2,7 +2,7 @@
 
 Technical decisions and conventions for contributors.
 
-Last updated: 2026-04-24
+Last updated: 2026-04-26
 
 ## Package Overview
 
@@ -41,7 +41,7 @@ hds-core/
 │   │   │
 │   │   ├── base/                   ← Shared infrastructure (not components)
 │   │   │   ├── _index.scss         ← @forward's all in order
-│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
+│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties, inc. gates for dataviz and more
 │   │   │   ├── _mixins.scss        ← Shared mixins (zero CSS output)
 │   │   │   ├── _elements.scss      ← Bare HTML styles + palette wiring
 │   │   │   ├── _focus.scss         ← Global :focus-visible (always active)
@@ -59,12 +59,12 @@ hds-core/
 │   │       ├── _list.scss
 │   │       ├── _table.scss
 │   │       ├── _accordion.scss
+│   │       ├── _blockquote.scss
 │   │       ├── _breadcrumb.scss
 │   │       ├── _pagination.scss
 │   │       ├── _in-page-nav.scss
 │   │       ├── _site-alert.scss
 │   │       ├── _alert.scss
-│   │       ├── _blockquote.scss
 │   │       ├── _grid-utilities.scss
 │   │       ├── _navigation.scss    ← Phase 2 stub
 │   │       └── _banner.scss        ← Phase 2 stub
@@ -92,6 +92,7 @@ hds-core/
 │   │   ├── ColorPalettes.stories.js
 │   │   ├── DataVisualization.mdx
 │   │   ├── DataVisualizationPalettes.mdx
+│   │   ├── DataVisualizationPalettes.stories.js
 │   │   ├── Grid.mdx
 │   │   ├── Grid.stories.js
 │   │   ├── Icons.mdx
@@ -99,6 +100,12 @@ hds-core/
 │   │   ├── Spacing.mdx
 │   │   ├── Typography.mdx
 │   │   └── Typography.stories.js
+    ├── guides/
+    │   ├── USWDS.mdx                  # Guidance for existing USWDS sites
+    │   ├── USWDSDocumentation.stories.js
+    │   ├── USWDSLandingPage.stories.js
+    │   ├── USWDSFormTemplates.stories.js
+    │   └── React.mdx                  # Guidance for React sites
 │   └── components/
 │       ├── {Component}.mdx         # Guidance page
 │       └── {Component}.stories.js  # Sidebar variant stories
@@ -114,7 +121,7 @@ hds-core/
 ├── gulpfile.js
 ├── vitest.config.js
 ├── chromatic.config.json
-├── test.html                       # Visual test page (not shipped)
+├── test-uswds-js.html           # USWDS JS component test (not shipped)
 ├── .prettierrc
 ├── .prettierignore
 └── .browserslistrc
@@ -161,7 +168,7 @@ Each component file has its own `@use` statements for the dependencies it needs 
 | `base/_print.scss` | `@media print` rules — palette reset, link URLs, element hiding. |
 | `components/_text-styles.scss` | Small text treatment classes (`.hds-overline`, `.hds-metadata`, `.hds-caption`). Component-like patterns that use shared typography mixins. |
 | `components/_*.scss` | One file per component. USWDS overrides (`usa-*`) and HDS-only components (`hds-*`). Each file documents palette behavior and USWDS override rationale. |
-| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 27+ semantic CSS custom properties per palette (including 4 focus ring tokens). Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
+| `_hds-palettes.scss` | 6 palette definitions with shared scheme mixins. 28+ semantic CSS custom properties per palette (including 4 focus ring tokens). Blue palette uses unique tokens for secondary button contrast (Blue Tint / Blue instead of Blue / Blue Shade). |
 
 ## SCSS Directory Naming
 
@@ -243,11 +250,9 @@ All selectors use `:focus-visible` (keyboard only, not mouse click). A suppressi
 **Tokens:** Four semantic focus tokens in `_hds-palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
 
 | Token | Figma Pattern | Light Value | Dark Value | Components |
-| --- | --- | --- | --- | --- |
-| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb |
-| `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |
-| `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |
-| `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb, In-Page Navigation |
+|  | `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |  | `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |  | `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
 
 Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `_hds-palettes.scss` code comments for per-palette values.
 
@@ -277,9 +282,10 @@ Components are organized by category in `components/_index.scss`:
 |  | `_list.scss` | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
 |  | `_table.scss` | Base, sorted columns, sort icons, borderless, dark palette, print |
 |  | `_accordion.scss` | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
+|  | `_blockquote.scss` | `.hds-blockquote` - Quote icon, person vs. source attribution, palette token |
 | **Navigation** | `_breadcrumb.scss` | Forward-slash separators replace USWDS chevrons |
 |  | `_pagination.scss` | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
-|  | `_in-page-nav.scss` | Stub — needs full stories for v1.0. Uses USWDS JS. |
+|  | `_in-page-nav.scss` | Scroll spy sidebar for long-form content. Uses USWDS JS. Per-palette stories (not stacked). |
 | **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
@@ -373,13 +379,12 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 
 ### Components with CSS but no stories yet
 
-| File                   | Component                  | Notes                                                   |
-| ---------------------- | -------------------------- | ------------------------------------------------------- |
-| `_navigation.scss`     | Navigation (header/footer) | Phase 2 stub — inherited from prior work, incomplete    |
-| `_banner.scss`         | Banner (gov compliance)    | Phase 2 stub — uses USWDS JS for expand/collapse        |
-| `_in-page-nav.scss`    | In-Page Navigation         | Stub — uses USWDS JS for scroll spy, needs full stories |
-| `_alert.scss`          | Alert                      | Pure USWDS, not in HDS Figma                            |
-| `_grid-utilities.scss` | Grid Utilities             | Responsive reverse, horizontal lists                    |
+| File                   | Component                  | Notes                                                |
+| ---------------------- | -------------------------- | ---------------------------------------------------- |
+| `_navigation.scss`     | Navigation (header/footer) | Phase 2 stub — inherited from prior work, incomplete |
+| `_banner.scss`         | Banner (gov compliance)    | Phase 2 stub — uses USWDS JS for expand/collapse     |
+| `_alert.scss`          | Alert                      | Pure USWDS, not in HDS Figma                         |
+| `_grid-utilities.scss` | Grid Utilities             | Responsive reverse, horizontal lists                 |
 
 ## Pending Work
 
@@ -397,14 +402,13 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 - [ ] Spec verification pass across all components against Figma
 - [ ] Screen reader testing (NVDA, VoiceOver)
-- [ ] test.html: Replace with realistic integration page
 - [ ] Replace `@uswds/compile` with direct sass + autoprefixer (pending meeting confirmation)
 
 ### Post-1.0 Infrastructure
 
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - [ ] Re-evaluate Chromatic a11y tests when independent a11y/visual toggle ships
-- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work)
+- [ ] Grid overlay toolbar toggle for verifying component alignment (pairs with Navigation work) [ ] USWDS JS re-initialization: Date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See test-uswds-js.html.
 - [ ] Migrate pending work for Phase 2+ into GitHub Issues and Discussions
 
 ## Contributing

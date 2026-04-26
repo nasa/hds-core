@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-04-24
+Last updated: 2026-04-26
 
 ## Audience
 
@@ -56,9 +56,15 @@ stories/
 │   ├── Spacing.mdx                   # Standalone MDX
 │   ├── Typography.mdx                # Attached to Typography.stories.js
 │   └── Typography.stories.js
-└── components/
-    ├── {Component}.mdx               # Guidance page
-    └── {Component}.stories.js        # Sidebar variant stories + guidance embeds + palette tests + focus tests
+├── components/
+│   ├── {Component}.mdx               # Guidance page
+│   └── {Component}.stories.js        # Sidebar variant stories + guidance embeds + palette tests + focus tests
+└── guides/
+    ├── USWDS.mdx                  # Existing USWDS Site guidance
+    ├── USWDSDocumentation.stories.js
+    ├── USWDSLandingPage.stories.js
+    ├── USWDSFormTemplates.stories.js
+    └── React.mdx                  # React setup (moved from overview/)
 ```
 
 ## Storybook configuration
@@ -246,6 +252,8 @@ Each component stories file follows this structure:
 5. **Focus tests** — FocusTest stories with Chromatic modes + play functions (`tags: ['!dev']`), one per unique focus treatment
 
 Stories appear in the sidebar in export order. Place sidebar stories first, then guidance embeds, then palette tests, then focus tests.
+
+Tag visibility: `tags` must be a literal property on each story export — Storybook's static indexer cannot resolve tags from spread function calls or factory return values.
 
 **Gold standard:** `Button.stories.js` — refer to this when refactoring other components.
 
@@ -454,7 +462,7 @@ export const PaletteA11yHover = {
 
 **Vitest local a11y:** Vitest runs axe-core against every exported story including PaletteA11y stories. The stacked DOM gives local palette contrast coverage across all 6 palettes in one pass.
 
-**Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via `paletteRender` (stacking all 6 palettes vertically), use individual per-palette stories instead. See Typography stories for reference.
+**Large components (Prose pattern):** If a component's PaletteA11y story exceeds Chromatic's 25,000,000px snapshot limit when rendered via paletteRender (stacking all 6 palettes vertically), or if USWDS JS needs unique IDs per instance, use individual per-palette stories instead. See Typography and In-Page Navigation stories for reference.
 
 **Known issues pending design review:** Use `a11y.test: 'todo'` inline so the test warns in Storybook UI but doesn't block CI:
 
@@ -551,20 +559,31 @@ parameters: {
 
 For play-function stories, the play function itself provides implicit delay — Chromatic waits for the play function to complete before snapshotting. If the play function interacts with a JS-dependent element (e.g., tabbing to an accordion button), it naturally waits for initialization.
 
+USWDS accordion-based components (Banner, Header nav) also need initial DOM
+state correction. The accordion initial-state decorator in preview.js collapses
+panels whose trigger has aria-expanded="false" and hides mobile nav elements.
+This runs globally on all stories — no per-story configuration needed.
+
+USWDS components that transform DOM on init (date picker, time picker, combo
+box, character count, file input) are not re-initialized in Storybook and fall
+back to native elements. This is a known limitation. See test-uswds-js.html
+for validation outside Storybook.
+
+## Guide stories
+
+Fullscreen USWDS baseline templates (layout: 'fullscreen', options: { showPanel: false }, paletteModes for Chromatic, a11y: { test: 'todo' }).
+
+Use site alert component for inline context linking back to guidance MDX.
+
 ## Chromatic budget and configuration
 
 ### Snapshot budget
 
-Target: ~100–120 snapshots per build at steady state.
+Target: ~100–120 snapshots per build at steady state
 
-| Story type | Approach | Snapshots per story |
-|---|---|---|
-| PaletteA11y (default) | Stacked `paletteRender` | 1 |
-| PaletteA11yHover | Stacked + pseudo-states | 1 |
-| FocusTest | 6 Chromatic palette modes | 6 |
-| Grid breakpoints | Chromatic viewport modes | 7 |
+Current: 153 tests (could be consolidated with smarter integration stories)
 
-At the 5,000 free snapshots/month tier: ~40+ builds/month.
+At the 5,000 free snapshots/month tier: ~32 builds/month.
 
 ### Chromatic accessibility tests
 

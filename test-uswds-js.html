@@ -1,0 +1,137 @@
+<!--
+  HDS Core — USWDS JS Component Test
+  Tests USWDS JS components that require DOMContentLoaded initialization.
+  These components fall back to native elements in Storybook due to
+  timing — this page confirms they work in a standard HTML context.
+  Not shipped. Open directly: npx serve . → /test-form.html
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HDS Core — USWDS JS Component Test</title>
+    <link rel="stylesheet" href="dist/css/styles.css" />
+    <script src="dist/js/uswds.min.js" defer></script>
+  </head>
+  <body>
+    <main id="main-content">
+      <div class="grid-container usa-section">
+        <h1>USWDS JS Component Test</h1>
+        <p class="usa-intro">
+          If these components render as enhanced widgets (not plain inputs), USWDS JS is initializing correctly under
+          HDS Core CSS.
+        </p>
+
+        <form class="usa-form usa-form--large">
+          <!-- Date Picker -->
+          <div class="usa-form-group margin-bottom-4">
+            <label class="usa-label" id="test-date-label" for="test-date"> Date picker </label>
+            <div class="usa-hint" id="test-date-hint">mm/dd/yyyy</div>
+            <div class="usa-date-picker">
+              <input
+                class="usa-input"
+                id="test-date"
+                name="test-date"
+                aria-labelledby="test-date-label"
+                aria-describedby="test-date-hint"
+              />
+            </div>
+          </div>
+
+          <!-- Time Picker -->
+          <div class="usa-form-group margin-bottom-4">
+            <label class="usa-label" id="test-time-label" for="test-time"> Time picker </label>
+            <div class="usa-hint" id="test-time-hint">Select a time from the dropdown.</div>
+            <div class="usa-time-picker">
+              <input
+                class="usa-input"
+                id="test-time"
+                name="test-time"
+                aria-describedby="test-time-label test-time-hint"
+              />
+            </div>
+          </div>
+
+          <!-- Combo Box -->
+          <div class="usa-form-group margin-bottom-4">
+            <label class="usa-label" for="test-combo">Combo box</label>
+            <div class="usa-combo-box">
+              <select class="usa-select" name="test-combo" id="test-combo">
+                <option value>Select an option</option>
+                <option value="one">Option One</option>
+                <option value="two">Option Two</option>
+                <option value="three">Option Three</option>
+                <option value="four">Option Four</option>
+                <option value="five">Option Five</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Character Count -->
+          <div class="usa-character-count margin-bottom-4">
+            <div class="usa-form-group">
+              <label class="usa-label" for="test-charcount"> Character count textarea </label>
+              <span class="usa-hint" id="test-charcount-hint"> This textarea has a 200 character limit. </span>
+              <textarea
+                class="usa-textarea usa-character-count__field"
+                id="test-charcount"
+                maxlength="200"
+                name="test-charcount"
+                rows="3"
+                aria-describedby="test-charcount-info test-charcount-hint"
+              ></textarea>
+            </div>
+            <span id="test-charcount-info" class="usa-character-count__message">
+              You can enter up to 200 characters
+            </span>
+          </div>
+
+          <!-- File Input -->
+          <div class="usa-form-group margin-bottom-4">
+            <label class="usa-label" for="test-file">File input</label>
+            <span class="usa-hint" id="test-file-hint">Select any file</span>
+            <input
+              id="test-file"
+              class="usa-file-input"
+              type="file"
+              name="test-file"
+              aria-describedby="test-file-hint"
+            />
+          </div>
+
+          <!-- Modal trigger -->
+          <div class="usa-form-group margin-bottom-4">
+            <label class="usa-label">Modal</label>
+            <a href="#test-modal" aria-controls="test-modal" data-open-modal> Open test modal </a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div
+      class="usa-modal"
+      id="test-modal"
+      aria-labelledby="test-modal-heading"
+      aria-describedby="test-modal-description"
+    >
+      <div class="usa-modal__content">
+        <div class="usa-modal__main">
+          <h2 class="usa-modal__heading" id="test-modal-heading">Test modal</h2>
+          <div class="usa-prose">
+            <p id="test-modal-description">If this modal opened, USWDS JS event delegation is working.</p>
+          </div>
+          <div class="usa-modal__footer">
+            <button type="button" class="usa-button" data-close-modal>Close</button>
+          </div>
+        </div>
+        <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+            <use href="dist/assets/img/sprite.svg#close"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

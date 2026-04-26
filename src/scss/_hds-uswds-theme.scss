@@ -432,5 +432,15 @@
   $theme-button-font-family: 'heading',
 
   // Pagination
-  $theme-pagination-font-family: 'heading'
+  $theme-pagination-font-family: 'heading',
+
+  // ----------------------------------------------------------
+  // In-Page Navigation
+  // ----------------------------------------------------------
+  $theme-in-page-nav-background-color: 'white',
+  $theme-in-page-nav-background-padding: 0,
+  $theme-in-page-nav-background-radius: 0,
+  $theme-in-page-nav-bar-color: 'secondary',
+  $theme-in-page-nav-bar-width: '2px',
+  $theme-in-page-nav-font-family: 'heading'
 );
