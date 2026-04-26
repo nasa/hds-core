@@ -1,4 +1,3 @@
-// .storybook/preview.js
 // ============================================================
 // HDS Core Storybook Preview Configuration
 // @nasa/hds-core
@@ -7,6 +6,8 @@
 // viewport presets, accessibility testing, story sort order,
 // docs settings, and decorators.
 // ============================================================
+
+import initInPageNav from './utils/in-page-nav-init';
 
 const preview = {
   parameters: {
@@ -172,6 +173,28 @@ const preview = {
             }
           });
         });
+      }, 0);
+
+      return html;
+    },
+
+    // USWDS in-page navigation initialization — same timing
+    // issue as table sort. USWDS JS expects .usa-in-page-nav
+    // elements to exist on DOMContentLoaded, but Storybook
+    // injects story content after that. setTimeout(0) defers
+    // init until after the story HTML is in the DOM.
+    //
+    // Uses ported USWDS createInPageNav() logic from
+    // .storybook/utils/in-page-nav-init.js. Idempotent —
+    // skips elements that already contain a built nav.
+    //
+    // NOT shipped to consumers. In production, uswds.min.js
+    // handles initialization natively.
+    (Story) => {
+      const html = Story();
+
+      setTimeout(() => {
+        initInPageNav(document);
       }, 0);
 
       return html;
