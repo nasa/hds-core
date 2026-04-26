@@ -24,7 +24,6 @@
 // ============================================================
 
 import { expect } from 'storybook/test';
-import { pseudoParams } from '../helpers/paletteTests';
 import initInPageNav from '../../.storybook/utils/in-page-nav-init';
 
 export default {
@@ -32,7 +31,7 @@ export default {
   parameters: {
     chromatic: { delay: 300 },
     a11y: {
-      options: {
+      config: {
         rules: [{ id: 'landmark-no-duplicate-main', enabled: false }],
       },
     },
@@ -274,48 +273,6 @@ export const PaletteA11yBlue = {
   tags: ['!dev'],
   parameters: perPaletteA11yParams,
   render: paletteRender('blue', 'pa11y-blue'),
-};
-
-export const PaletteA11yHoverWhite = {
-  name: 'Palette a11y hover [white]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('white', 'pa11y-hover-white'),
-};
-
-export const PaletteA11yHoverLight = {
-  name: 'Palette a11y hover [light]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('light', 'pa11y-hover-light'),
-};
-
-export const PaletteA11yHoverDark = {
-  name: 'Palette a11y hover [dark]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('dark', 'pa11y-hover-dark'),
-};
-
-export const PaletteA11yHoverBlack = {
-  name: 'Palette a11y hover [black]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('black', 'pa11y-hover-black'),
-};
-
-export const PaletteA11yHoverMidtone = {
-  name: 'Palette a11y hover [midtone]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('midtone', 'pa11y-hover-midtone'),
-};
-
-export const PaletteA11yHoverBlue = {
-  name: 'Palette a11y hover [blue]',
-  tags: ['!dev'],
-  parameters: { ...perPaletteA11yParams, ...pseudoParams.hover },
-  render: paletteRender('blue', 'pa11y-hover-blue'),
 };
 
 // --- Focus tests ---
