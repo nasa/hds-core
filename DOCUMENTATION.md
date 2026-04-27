@@ -607,7 +607,7 @@ TurboSnap unlocks after 10 successful Chromatic builds on CI.
 
 ### CSS parity
 
-Storybook loads the same compiled `dist/css/styles.css` file that consumers receive via `<link>` in `preview-head.html`. This ensures Chromatic snapshots always reflect the shipped CSS. Do not configure Vite to compile SCSS directly for Storybook — this would create a second compilation path with potential drift from the distributed output.
+Storybook loads the same compiled `dist/css/hds.css` file that consumers receive via `<link>` in `preview-head.html`. This ensures Chromatic snapshots always reflect the shipped CSS. Do not configure Vite to compile SCSS directly for Storybook — this would create a second compilation path with potential drift from the distributed output.
 
 ## Pending documentation tasks
 

@@ -318,7 +318,7 @@ export const SpriteRegression = {
           )
           .join('')}
       </div>
-      <p style="font-size: 0.75rem; opacity: 0.5; padding: 0 1rem;">
+      <p style="font-size: 0.75rem; color: #71767a; padding: 0 1rem;">
         ${allIcons.length} glyphs from hds-sprite.svg — visual regression baseline
       </p>
     `;

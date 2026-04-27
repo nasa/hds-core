@@ -1,6 +1,6 @@
-name: "🐛 Bug Report"
+name: '🐛 Bug Report'
 description: "Something in HDS Core isn't working as expected"
-labels: ["bug", "needs-triage"]
+labels: ['bug', 'needs-triage']
 body:
   - type: markdown
     attributes:
@@ -14,8 +14,8 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: "What happened?"
-      description: "A clear description of the bug."
+      label: 'What happened?'
+      description: 'A clear description of the bug.'
       placeholder: |
         When I use `color("base-dark")` in my Sass file, it compiles
         to #757575 instead of the expected HDS Carbon 80 value (#2E2E32).
@@ -25,8 +25,8 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: "Expected behavior"
-      description: "What did you expect to happen instead?"
+      label: 'Expected behavior'
+      description: 'What did you expect to happen instead?'
       placeholder: |
         `color("base-dark")` should resolve to #2E2E32 per the HDS
         extended color palette.
@@ -37,16 +37,15 @@ body:
   - type: textarea
     id: reproduction
     attributes:
-      label: "Steps to reproduce"
+      label: 'Steps to reproduce'
       description: >-
-        Minimal steps to reproduce the behavior.
-        Code snippets, a link to a minimal repo, or a failing test are
-        all extremely helpful.
+        Minimal steps to reproduce the behavior. Code snippets, a link to a minimal repo, or a failing test are all extremely helpful.
+
       placeholder: |
         1. Create a new project and `npm install @uswds/uswds @nasa/hds-core`
         2. Add Sass load paths per README
         3. Write `.test { color: color("base-dark"); }`
-        4. Compile with `npx gulp build`
+        4. Compile with `npx run build`
         5. Inspect compiled CSS — shows #757575
     validations:
       required: true
@@ -55,55 +54,55 @@ body:
   - type: dropdown
     id: integration-method
     attributes:
-      label: "How are you using HDS Core?"
+      label: 'How are you using HDS Core?'
       options:
-        - "Sass pipeline (Option A)"
-        - "Pre-compiled CSS (Option B)"
-        - "Both"
-        - "Other"
+        - 'Sass pipeline (Option A)'
+        - 'Pre-compiled CSS (Option B)'
+        - 'Both'
+        - 'Other'
     validations:
       required: true
 
   - type: input
     id: hds-version
     attributes:
-      label: "HDS Core version"
-      description: "Run `npm list @nasa/hds-core` to check."
-      placeholder: "0.3.1"
+      label: 'HDS Core version'
+      description: 'Run `npm list @nasa/hds-core` to check.'
+      placeholder: '0.3.1'
     validations:
       required: true
 
   - type: input
     id: uswds-version
     attributes:
-      label: "USWDS version"
-      description: "Run `npm list @uswds/uswds` to check."
-      placeholder: "3.13.0"
+      label: 'USWDS version'
+      description: 'Run `npm list @uswds/uswds` to check.'
+      placeholder: '3.13.0'
     validations:
       required: true
 
   - type: input
     id: node-version
     attributes:
-      label: "Node.js version"
-      description: "Run `node --version` to check."
-      placeholder: "v24.11.1"
+      label: 'Node.js version'
+      description: 'Run `node --version` to check.'
+      placeholder: 'v24.11.1'
     validations:
       required: false
 
   - type: dropdown
     id: build-tool
     attributes:
-      label: "Build tool / bundler"
+      label: 'Build tool / bundler'
       options:
-        - "Gulp (HDS default)"
-        - "Webpack"
-        - "Vite"
-        - "Eleventy / 11ty"
-        - "Next.js"
-        - "Astro"
-        - "Other (describe below)"
-        - "None (pre-compiled CSS)"
+        - 'npm scripts'
+        - 'Webpack'
+        - 'Vite'
+        - 'Eleventy / 11ty'
+        - 'Next.js'
+        - 'Astro'
+        - 'Other (describe below)'
+        - 'None (pre-compiled CSS)'
     validations:
       required: false
 
@@ -111,22 +110,22 @@ body:
   - type: dropdown
     id: area
     attributes:
-      label: "Affected area"
-      description: "Which part of HDS Core is affected?"
+      label: 'Affected area'
+      description: 'Which part of HDS Core is affected?'
       multiple: true
       options:
-        - "Design tokens / colors"
-        - "Typography (fonts, sizes, weights)"
-        - "Spacing / units"
-        - "Component overrides (USWDS components)"
-        - "Base styles (HTML elements)"
-        - "Mixins"
-        - "Assets (fonts, icons, images)"
-        - "CSS custom properties (--hds-*)"
-        - "Build / compilation"
-        - "Pre-compiled CSS output"
+        - 'Design tokens / colors'
+        - 'Typography (fonts, sizes, weights)'
+        - 'Spacing / units'
+        - 'Component overrides (USWDS components)'
+        - 'Base styles (HTML elements)'
+        - 'Mixins'
+        - 'Assets (fonts, icons, images)'
+        - 'CSS custom properties (--hds-*)'
+        - 'Build / compilation'
+        - 'Pre-compiled CSS output'
         - "Visual fidelity (implementation doesn't match HDS Figma spec)"
-        - "Other"
+        - 'Other'
     validations:
       required: true
 
@@ -134,19 +133,19 @@ body:
   - type: textarea
     id: additional
     attributes:
-      label: "Additional context"
+      label: 'Additional context'
       description: >-
-        Screenshots, compiled CSS output, console errors, or anything
-        else that helps.
+        Screenshots, compiled CSS output, console errors, or anything else that helps.
+
     validations:
       required: false
 
   - type: dropdown
     id: workaround
     attributes:
-      label: "Do you have a workaround?"
+      label: 'Do you have a workaround?'
       options:
-        - "Yes — I can work around it (describe above)"
-        - "No — this is blocking me"
+        - 'Yes — I can work around it (describe above)'
+        - 'No — this is blocking me'
     validations:
       required: false

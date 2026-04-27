@@ -1,0 +1,24 @@
+{
+  "mode": {
+    "symbol": {
+      "dest": "dist/assets/img",
+      "sprite": "hds-sprite.svg"
+    }
+  },
+  "shape": {
+    "id": {
+      "generator": "%s"
+    },
+    "transform": [
+      {
+        "svgo": {
+          "plugins": [{ "name": "cleanupIDs", "params": { "minify": true } }, { "name": "removeUselessDefs" }]
+        }
+      }
+    ]
+  },
+  "svg": {
+    "namespaceIDs": false,
+    "namespaceClassnames": false
+  }
+}

@@ -1,4 +1,4 @@
-title: "Q&A"
+title: 'Q&A'
 labels: []
 body:
   - type: markdown
@@ -18,30 +18,31 @@ body:
   - type: dropdown
     id: topic
     attributes:
-      label: "Topic area"
+      label: 'Topic area'
       description: "What's your question about?"
       options:
-        - "Installation / setup"
-        - "Sass pipeline integration"
-        - "Pre-compiled CSS usage"
-        - "Design tokens / CSS custom properties"
-        - "Colors / extended palette"
-        - "Typography (fonts, sizes, weights)"
-        - "Component styling / overrides"
-        - "Assets (fonts, icons)"
-        - "Build tooling (Gulp, Webpack, Vite, etc.)"
-        - "USWDS compatibility"
-        - "Upgrading / migration"
-        - "Other"
+        - 'Installation / setup'
+        - 'Sass pipeline integration'
+        - 'Pre-compiled CSS usage'
+        - 'Design tokens / CSS custom properties'
+        - 'Colors / extended palette'
+        - 'Typography (fonts, sizes, weights)'
+        - 'Component styling / overrides'
+        - 'Assets (fonts, icons)'
+        - 'Build tooling (Webpack, Vite, etc.)'
+        - 'USWDS compatibility'
+        - 'Upgrading / migration'
+        - 'Other'
     validations:
       required: true
 
   - type: textarea
     id: question
     attributes:
-      label: "Your question"
+      label: 'Your question'
       description: >-
         Be as specific as you can. Include code snippets, error messages, or config files if relevant.
+
       placeholder: |
         I'm trying to use HDS Core with Vite in a Next.js project. I've added the Sass load paths to my vite.config.js like this:
 
@@ -58,36 +59,37 @@ body:
         }
         ```
 
-        But I'm getting `Can't find stylesheet to import` when I `@forward "@nasa/hds-core/src/scss/styles"`. What am I missing?
+        But I'm getting `Can't find stylesheet to import` when I `@forward "@nasa/hds-core/src/scss/hds"`. What am I missing?
     validations:
       required: true
 
   - type: dropdown
     id: integration
     attributes:
-      label: "How are you using HDS Core?"
+      label: 'How are you using HDS Core?'
       options:
-        - "Sass pipeline (Option A)"
-        - "Pre-compiled CSS (Option B)"
+        - 'Sass pipeline (Option A)'
+        - 'Pre-compiled CSS (Option B)'
         - "Haven't started yet — evaluating"
-        - "Other"
+        - 'Other'
     validations:
       required: false
 
   - type: input
     id: environment
     attributes:
-      label: "Environment (if relevant)"
-      description: "HDS Core version, USWDS version, build tool, Node version"
-      placeholder: "hds-core 0.4.0, uswds 3.3.0, Vite 5.x, Node 20"
+      label: 'Environment (if relevant)'
+      description: 'HDS Core version, USWDS version, build tool, Node version'
+      placeholder: 'hds-core 0.4.0, uswds 3.3.0, Vite 5.x, Node 20'
     validations:
       required: false
 
   - type: textarea
     id: tried
     attributes:
-      label: "What have you already tried?"
+      label: 'What have you already tried?'
       description: >-
         Knowing what you've attempted helps us avoid suggesting things you've already ruled out.
+
     validations:
       required: false

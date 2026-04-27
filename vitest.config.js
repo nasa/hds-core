@@ -30,7 +30,6 @@ export default defineConfig({
                 '**/node_modules/**',
                 '**/package.json',
                 '**/package-lock.json',
-                '**/gulpfile.js',
                 '**/.devcontainer/**',
                 '**/.github/**',
                 '**/.vscode/**',
