@@ -29,6 +29,8 @@
     "copy:uswds-js": "cp -r node_modules/@uswds/uswds/dist/js/* dist/js/",
     "copy:hds": "cp -r src/assets/* dist/assets/",
     "copy:all": "npm run copy:uswds-fonts && npm run copy:uswds-img && npm run copy:uswds-js && npm run copy:hds",
+    "check:uswds": "bash scripts/check-uswds.sh",
+    "postinstall": "npm run check:uswds",
     "sprite": "svg-sprite --config svg-sprite.config.json src/assets/img/hds-icons/*.svg",
     "init": "mkdir -p dist/css dist/js dist/assets/fonts dist/assets/img && npm run copy:all && npm run sprite",
     "build": "npm run init && npm run sass:hds && npm run postcss:hds && npm run minify:hds && npm run sass:uswds && npm run postcss:uswds && npm run minify:uswds",
