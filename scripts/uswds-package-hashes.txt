@@ -1,0 +1,12 @@
+uswds-core: 8afa7fc3
+uswds-global: a1dfb451
+uswds-typography: 2d440821
+usa-layout-grid: f3985a4c
+usa-button: 59321642
+uswds-form-controls: 0b5d3acf
+usa-table: cf16f79f
+usa-accordion: c350f344
+usa-breadcrumb: e25dd252
+usa-in-page-navigation: 536580bb
+usa-pagination: c14b3372
+usa-site-alert: efbbce4c

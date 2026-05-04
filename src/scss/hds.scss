@@ -1,0 +1,47 @@
+// ============================================================
+// HDS Core — Main Entry Point
+// @nasa/hds-core
+// ============================================================
+// Selective USWDS loading: foundation packages every site needs,
+// plus the component packages HDS actually themes.
+// For full USWDS component coverage, also load hds-uswds.css.
+// Verified against @uswds/uswds 3.13.0
+//
+// Load order (critical — do not reorder):
+//   1. Theme config      — configure USWDS before it loads
+//   2. USWDS foundation  — core, global, typography, grid
+//   3. USWDS components  — only what HDS themes
+//   4. Base styles       — HDS tokens, mixins, elements, focus, print
+//   5. Components        — text styles, USWDS overrides, HDS components
+//   6. Palettes          — opt-in color palette system
+//
+// See: https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/
+// ============================================================
+
+// 1. Configure USWDS with HDS values (must be first USWDS load)
+@forward 'hds-uswds-theme';
+
+// 2. USWDS foundation (every site needs these)
+@forward 'uswds-core';
+@forward 'uswds-global';
+@forward 'uswds-typography';
+@forward 'usa-layout-grid';
+
+// 3. USWDS components (only what HDS themes)
+@forward 'usa-button';
+@forward 'uswds-form-controls';
+@forward 'usa-table';
+@forward 'usa-accordion';
+@forward 'usa-breadcrumb';
+@forward 'usa-in-page-navigation';
+@forward 'usa-pagination';
+@forward 'usa-site-alert'; // pulls in usa-alert as dependency
+
+// 4. Base: tokens, mixins, elements, focus, print
+@forward 'base';
+
+// 5. Components: text styles, overrides, HDS-only
+@forward 'components';
+
+// 6. Palette system (opt-in per section)
+@forward 'hds-palettes';

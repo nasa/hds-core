@@ -4,34 +4,32 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Adopting HDS Core on an Existing USWDS Site
 
-HDS Core is a CSS theme layer that sits on top of USWDS. If your site already uses USWDS 3.x, adopting HDS Core requires **no markup changes** — replace the stylesheet and your site renders in the HDS visual identity.
-
-Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme.
-
-## Installation
-
-Replace your existing USWDS stylesheet with the HDS Core stylesheet. Keep `uswds.min.js` — HDS Core does not modify JavaScript behavior.
+If your site already uses USWDS 3.x, adopting HDS Core requires **no markup changes** — swap the stylesheet and your site renders in the HDS visual identity. USWDS JavaScript is unmodified.
 
 ```html
 <!-- Before -->
 <link rel="stylesheet" href="/css/uswds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
 
 <!-- After -->
-<link rel="stylesheet" href="/css/styles.css" />
-
-<!-- Keep USWDS JS -->
+<link rel="stylesheet" href="/css/hds-uswds.min.css" />
+<link rel="stylesheet" href="/css/hds.min.css" />
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-For Sass integration and build tooling, see [Getting Started](?path=/docs/getting-started--docs).
+⚠️ **Load order matters:** `hds-uswds.css` must load **before** `hds.css` so HDS overrides win the cascade.
 
-## What to review after adopting
+`hds-uswds.css` provides base styles for USWDS components that HDS hasn't themed yet. If your site only uses HDS-themed components, you can load `hds.css` alone — but including both ensures nothing breaks.
 
-Everything works out of the box. These are the items worth a manual review:
+For full setup options (Sass integration, load paths, tokens), see [Getting Started](?path=/docs/getting-started--docs).
+
+## What to review
+
+Everything works out of the box. These items are worth a manual check.
 
 ### Button intent
 
-This is the most important change to review. HDS uses a two-color wayfinding system where red means "navigates away" and blue means "stays on page."
+This is the most important change. HDS uses a two-color wayfinding system: **red navigates away, blue stays on page.**
 
 | USWDS class              | USWDS default  | Under HDS            | HDS meaning                   |
 | ------------------------ | -------------- | -------------------- | ----------------------------- |
@@ -40,41 +38,47 @@ This is the most important change to review. HDS uses a two-color wayfinding sys
 | `.usa-button--outline`   | Blue border    | Blue border          | Lower-emphasis on-page action |
 | `.usa-button--unstyled`  | Blue text link | Body-color text link | De-emphasized action          |
 
-If your site uses `.usa-button` for actions that _stay on the current page_ (form submits, toggles, dialogs), those buttons now appear red — implying navigation. Consider switching them to `.usa-button--secondary`.
+If your site uses `.usa-button` for actions that _stay on the current page_ (form submits, toggles, dialogs), those buttons now appear red — implying navigation. Switch them to `.usa-button--secondary`.
 
 ### Dark sections
 
-Inside an `hds-palette-*` wrapper, all components adapt to the palette automatically — including outline buttons on dark backgrounds. Without a palette wrapper, USWDS's `.usa-section--dark` still works but does not activate HDS palette tokens. If you use dark sections, consider migrating them to `.hds-palette-dark` for full HDS styling.
+Inside an `hds-palette-*` wrapper, all components adapt automatically — including outline buttons on dark backgrounds. USWDS's `.usa-section--dark` still works without a palette wrapper but does not activate HDS palette tokens. Consider migrating dark sections to `.hds-palette-dark` for full HDS styling.
 
-### USWDS utility classes
+### Utility class colors
 
-Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations — close to but not identical to HDS hex values. This is a USWDS architectural constraint, not a bug. For exact brand colors, use HDS CSS custom properties (`var(--hds-color-*)`).
+Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations — close to but not identical to HDS hex values. This is a USWDS architectural constraint, not a bug. For exact brand colors, use `var(--hds-color-*)` CSS custom properties.
 
-## Not yet styled by HDS
+## For sites with existing Sass customization
 
-These USWDS components render with default or partially-styled USWDS appearance in v1.0. They are functional — they just don't match the HDS visual identity yet. Full HDS treatment is planned for Phase 2:
+If your site already customizes USWDS via `@use "uswds-core" with (...)`, you'll need to reconcile your settings with HDS Core's.
 
-- Header and footer navigation
-- Government banner (expand/collapse bar)
-- Side navigation
-- Date picker, time picker, combo box (JS-driven form widgets)
+### The singleton rule
 
-## Visual reference
+Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins — subsequent calls with different settings will error. When you adopt HDS Core:
 
-For a complete look at how USWDS components render under HDS Core, browse the baseline template stories in the sidebar. The table below summarizes the most noticeable changes — all happen automatically with no markup changes.
+- **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
+- **Sass path:** Your project's `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
 
-| Area               | What changes                                          |
-| ------------------ | ----------------------------------------------------- |
-| Headings           | Inter (semibold) replaces Source Sans Pro             |
-| Body text          | Public Sans replaces Source Sans Pro                  |
-| Monospace          | DM Mono replaces Roboto Mono                          |
-| Links              | Body text color + dashed underline (not blue + solid) |
-| External link icon | HDS diagonal arrow replaces USWDS launch icon         |
-| Accordion          | Circled chevrons replace +/− icons                    |
-| Breadcrumb         | Forward slashes replace chevron separators            |
-| Pagination         | Bottom border indicator replaces filled pill          |
-| Checkbox / Radio   | HDS check glyph, 18px size                            |
-| Form inputs        | Updated border and focus ring styles                  |
-| Tables             | Fixed white/dark surface (not transparent)            |
-| Focus rings        | Dashed outlines, keyboard-only (`:focus-visible`)     |
-| Site Alert         | NASA Red (emergency) and NASA Blue (info) variants    |
+**If you need to keep custom settings alongside HDS:** Don't reconfigure `uswds-core`. Instead, use your own Sass variables or CSS custom properties for project-specific values. HDS Core's configuration handles all USWDS settings.
+
+### Settings you may have customized
+
+Review these against your current theme file. HDS Core overrides all of them — your previous values will be replaced:
+
+| What you set                       | What HDS does                                              | Impact                                  |
+| ---------------------------------- | ---------------------------------------------------------- | --------------------------------------- |
+| Custom primary/secondary colors    | Swaps to NASA Red (primary) / NASA Blue (secondary)        | All buttons and links change color      |
+| Custom font families               | Remaps to Inter, Public Sans, DM Mono                      | All typography changes                  |
+| Custom focus styles                | Replaces with palette-aware dashed outlines, keyboard-only | Focus rings look and behave differently |
+| Custom link colors                 | Changes to body-text color + dashed underline              | Links no longer appear blue             |
+| Custom border radii / input styles | Sets HDS-specific values                                   | Form controls and buttons change shape  |
+
+If any of these are intentional deviations for your project, discuss with the HDS team — some can be accommodated, others are core to the HDS visual identity.
+
+### What you can still customize
+
+Settings not reserved by HDS Core continue to work. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs) for the full list of adjustable vs. reserved settings.
+
+## Live preview
+
+Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme.

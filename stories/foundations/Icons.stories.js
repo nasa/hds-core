@@ -281,3 +281,46 @@ export const UswdsIconDemo = {
     </div>
   `,
 };
+
+// ============================================================
+// Visual Regression (Chromatic only — not shown in sidebar)
+// ============================================================
+
+export const SpriteRegression = {
+  tags: ['!dev'],
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
+  render: () => {
+    const allIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons];
+    return `
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 64px);
+        gap: 4px;
+        padding: 1rem;
+        color: #1b1b1b;
+      ">
+        ${allIcons
+          .map(
+            (name) => `
+          <div style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+          ">
+            ${icon(name, '40px')}
+            <span style="font-size: 0.5rem; opacity: 0.6; text-align: center; word-break: break-all;">${name}</span>
+          </div>
+        `,
+          )
+          .join('')}
+      </div>
+      <p style="font-size: 0.75rem; color: #71767a; padding: 0 1rem;">
+        ${allIcons.length} glyphs from hds-sprite.svg — visual regression baseline
+      </p>
+    `;
+  },
+};
