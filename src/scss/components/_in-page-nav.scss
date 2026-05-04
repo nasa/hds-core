@@ -72,58 +72,18 @@
   border-left-color: var(--hds-palette-border, #{$hds-color-carbon-20});
 }
 
-// --- Links: shared properties ---
-// Font-weight, spacing, padding, text-decoration are not
-// contested by USWDS — base specificity is sufficient.
-// Explicit font-weight kills inherited 700 from
-// .usa-in-page-nav__item--primary (<li>).
+// --- Links: shared properties & states ---
+// Uses shared vertical navigation mixin for typography, hover,
+// and focus ring. Padding and ::after positioning are specific
+// to the In-Page Nav's single-list DOM structure.
 
 .usa-in-page-nav__list a:not(.usa-button) {
-  font-weight: font-weight('normal');
-  letter-spacing: map.get($hds-letterspacing, '1');
+  @include hds-vertical-nav-links;
   padding: 2px;
   padding-left: units(1.5);
-  text-decoration: none;
 
-  &:hover {
-    @include hds-nav-hover-underline;
-    text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
-  }
-
-  &:focus-visible {
-    @include hds-focus-ring($width: 'thin');
-  }
-}
-
-// --- Links: color overrides ---
-// USWDS set-link-from-bg.scss and nav-list.scss use
-// :not(.usa-current) selectors at (0,3,1) and (0,4,1).
-// Match their pattern to win on cascade order.
-
-.usa-in-page-nav__list a:not(.usa-button):not(.usa-current) {
-  color: var(--hds-palette-text, #{$hds-color-carbon-90});
-
-  &:visited {
-    color: var(--hds-palette-text, #{$hds-color-carbon-90});
-  }
-
-  &:hover {
-    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-  }
-}
-
-// --- Active state ---
-// Beats set-text-from-bg.scss font-weight:inherit at (0,3,1).
-// ::after is the blue indicator bar — USWDS positions it to
-// overlap the list border-left. We only override its color.
-
-.usa-in-page-nav__list a:not(.usa-button).usa-current {
-  color: var(--hds-palette-text, #{$hds-color-carbon-90});
-  font-weight: font-weight('normal');
-
-  &::after {
-    background-color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
-    left: -1px;
+  &.usa-current::after {
+    left: -1px; // Flush over the border-left of the container
   }
 }
 

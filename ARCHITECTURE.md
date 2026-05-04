@@ -44,13 +44,16 @@ npm run test:visual  # Visual regression via Chromatic (on demand)
 <!-- prettier-ignore -->
 ```
 hds-core/
+├── tokens.json                     ← Source of truth for design tokens (DTCG format)
 ├── src/
 │   ├── scss/
 │   │   ├── hds.scss                ← Primary entry point (selective USWDS + HDS)
 │   │   ├── hds-uswds.scss          ← Addon entry point (remaining USWDS packages)
+│   │   ├── hds-dataviz.scss        ← Dataviz entry point
 │   │   ├── _hds-tokens.scss        ← Pure Sass (NO uswds-core dependency)
 │   │   ├── _hds-uswds-theme.scss   ← USWDS configuration via @use "uswds-core" with (...)
 │   │   ├── _hds-palettes.scss      ← 6 palette definitions + focus ring tokens
+│   │   ├── _hds-dataviz-palettes.scss ← Dataviz color scales
 │   │   ├── base/                   ← Shared infrastructure (not components)
 │   │   │   ├── _index.scss
 │   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
@@ -110,6 +113,8 @@ hds-core/
 │           ├── sprite.svg           ← USWDS icon sprite (copied)
 │           └── us_flag*.{png,svg}   ← USWDS banner assets (copied)
 │
+├── tools/
+│   └── sd-example/                 ← Style Dictionary build scripts
 ├── postcss.config.mjs              ← Autoprefixer (+ cssnano when MINIFY=true)
 ├── svg-sprite.config.json          ← Sprite generation config
 ├── vitest.config.js
@@ -119,12 +124,13 @@ hds-core/
 
 ## Build Output
 
-Two CSS bundles, plus assets:
+Three CSS bundles, plus assets:
 
 | Bundle | Contents | Gzipped | Adopter loads |
 | --- | --- | --- | --- |
 | `hds.css` | Selective USWDS foundation + HDS-themed components + HDS-only components + palettes | **27 KB** | Everyone |
 | `hds-uswds.css` | Remaining ~30 USWDS component packages + utilities | 74 KB | Existing USWDS sites that use unthemed components |
+| `hds-dataviz.css` | Data visualization color scales and utilities | TBD | Sites rendering charts/graphs |
 
 **Load order matters:** `hds-uswds.css` must load **before** `hds.css` so HDS overrides win the cascade.
 
@@ -188,6 +194,8 @@ USWDS requires `uswds-core` to be configured via `@use "uswds-core" with (...)` 
 ### Token flow
 
 ```
+tokens.json (Style Dictionary source)
+    ↓ build
 _hds-tokens.scss (pure Sass — hex values, maps, flags)
     ↓ @use
 _hds-uswds-theme.scss (feeds tokens into USWDS config)
@@ -397,7 +405,6 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Grid overlay toolbar toggle for verifying component alignment
 - [ ] USWDS JS re-initialization: Date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
 - [ ] Migrate remaining pending work into GitHub Issues and Discussions
-- [ ] JSON-first design tokens — generate `_hds-tokens.scss` and `_custom-properties.scss` from a single `tokens.json` source (Style Dictionary or DTCG format)
 
 ## Contributing
 

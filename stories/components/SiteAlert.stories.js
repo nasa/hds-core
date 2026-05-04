@@ -122,6 +122,28 @@ export const Info = {
   },
 };
 
+export const InfoSlim = {
+  name: 'Info — slim',
+  args: {
+    heading: '',
+    text: 'Esta página solo está disponible en inglés. <a class="usa-link" href="#">Ir a NASA en español</a>.',
+    slim: true,
+    noIcon: false,
+    noHeading: false,
+  },
+  argTypes: sharedArgTypes,
+  render: (args = {}) => {
+    const {
+      heading = '',
+      text = 'Esta página solo está disponible en inglés. <a class="usa-link" href="#">Ir a NASA en español</a>.',
+      slim = true,
+      noIcon = false,
+      noHeading = false,
+    } = args;
+    return siteAlert({ variant: 'info', heading, text, slim, noIcon, noHeading });
+  },
+};
+
 export const AllVariants = {
   name: 'All Variants',
   render: (args = {}) => `
@@ -226,7 +248,7 @@ export const InfoWithHeading = {
     }),
 };
 
-export const InfoSlim = {
+export const InfoSlimMDX = {
   tags: ['!dev'],
   render: () =>
     siteAlert({

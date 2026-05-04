@@ -28,21 +28,21 @@ A quote attributed to a person with an optional avatar and description. All attr
 
 <Canvas of={BlockquoteStories.Author} sourceState="none" />
 
-| Element     | Class                         | Element        | Notes                                            |
-| ----------- | ----------------------------- | -------------- | ------------------------------------------------ |
-| Container   | `.hds-blockquote`             | `<blockquote>` | Semantic blockquote element                      |
-| Attribution | `.hds-blockquote-attribution` | `<div>`        | Omit entirely for quote-only treatment           |
-| Avatar      | `.hds-blockquote-avatar`      | `<img>`        | Optional, 40×40px circle, any aspect ratio crops |
-| Name        | `.hds-blockquote-name`        | `<span>`       | Person name, renders uppercase                   |
-| Description | `.hds-blockquote-description` | `<span>`       | Role, title, or supporting context               |
+| Element     | Class                          | Element        | Notes                                            |
+| ----------- | ------------------------------ | -------------- | ------------------------------------------------ |
+| Container   | `.hds-blockquote`              | `<blockquote>` | Semantic blockquote element                      |
+| Attribution | `.hds-blockquote__attribution` | `<div>`        | Omit entirely for quote-only treatment           |
+| Avatar      | `.hds-blockquote__avatar`      | `<img>`        | Optional, 40×40px circle, any aspect ratio crops |
+| Name        | `.hds-blockquote__name`        | `<span>`       | Person name, renders uppercase                   |
+| Description | `.hds-blockquote__description` | `<span>`       | Role, title, or supporting context               |
 
 ```html
 <blockquote class="hds-blockquote">
   <p>Quote text</p>
-  <div class="hds-blockquote-attribution">
-    <img class="hds-blockquote-avatar" src="photo.jpg" alt="Scott Kelly" />
-    <span class="hds-blockquote-name">Scott Kelly</span>
-    <span class="hds-blockquote-description">NASA Astronaut</span>
+  <div class="hds-blockquote__attribution">
+    <img class="hds-blockquote__avatar" src="photo.jpg" alt="Scott Kelly" />
+    <span class="hds-blockquote__name">Scott Kelly</span>
+    <span class="hds-blockquote__description">NASA Astronaut</span>
   </div>
 </blockquote>
 ```
@@ -56,8 +56,8 @@ A quote attributed to a document, report, or other work. Uses `<cite>` on the de
 ```html
 <blockquote class="hds-blockquote">
   <p>Quote text</p>
-  <div class="hds-blockquote-attribution">
-    <cite class="hds-blockquote-description">Apollo 11 Mission Report, NASA 1969</cite>
+  <div class="hds-blockquote__attribution">
+    <cite class="hds-blockquote__description">Apollo 11 Mission Report, NASA 1969</cite>
   </div>
 </blockquote>
 ```
@@ -76,21 +76,21 @@ Attribution names, sources, and avatars can optionally be wrapped in `<a>` tags 
 <!-- Linked person -->
 <blockquote class="hds-blockquote">
   <p>Quote text</p>
-  <div class="hds-blockquote-attribution">
+  <div class="hds-blockquote__attribution">
     <a href="/bio/kelly">
-      <img class="hds-blockquote-avatar" src="photo.jpg" alt="Scott Kelly" />
+      <img class="hds-blockquote__avatar" src="photo.jpg" alt="Scott Kelly" />
     </a>
-    <a href="/bio/kelly" class="hds-blockquote-name">Scott Kelly</a>
-    <span class="hds-blockquote-description">NASA Astronaut</span>
+    <a href="/bio/kelly" class="hds-blockquote__name">Scott Kelly</a>
+    <span class="hds-blockquote__description">NASA Astronaut</span>
   </div>
 </blockquote>
 
 <!-- Linked source -->
 <blockquote class="hds-blockquote">
   <p>Quote text</p>
-  <div class="hds-blockquote-attribution">
+  <div class="hds-blockquote__attribution">
     <a href="https://history.nasa.gov/spaceact.html">
-      <cite class="hds-blockquote-description">National Aeronautics and Space Act of 1958</cite>
+      <cite class="hds-blockquote__description">National Aeronautics and Space Act of 1958</cite>
     </a>
   </div>
 </blockquote>

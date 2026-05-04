@@ -1,0 +1,176 @@
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+@if $hds-enable-dataviz-tokens {
+  :root {
+    // ----------------------------------------------------------
+    // Categorical — light background defaults
+    // ----------------------------------------------------------
+    --hds-dataviz-color-cat-1: #1159cd;
+    --hds-dataviz-color-cat-2: #ef483f;
+    --hds-dataviz-color-cat-3: #e8892e;
+    --hds-dataviz-color-cat-4: #386470;
+    --hds-dataviz-color-cat-5: #b0a26a;
+    --hds-dataviz-color-cat-6: #3f83ef;
+    --hds-dataviz-color-cat-7: #8f0800;
+    --hds-dataviz-color-cat-8: #79a3ad;
+    --hds-dataviz-color-cat-9: #3e1c99;
+    --hds-dataviz-color-cat-10: #e09d00;
+    --hds-dataviz-color-cat-11: #387d00;
+    --hds-dataviz-color-cat-12: #0cc9ac;
+
+    // ----------------------------------------------------------
+    // Sequential — Reds
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-red-10: #fedad8;
+    --hds-dataviz-color-seq-red-20: #f7b6b2;
+    --hds-dataviz-color-seq-red-30: #fa8c87;
+    --hds-dataviz-color-seq-red-40: #f66860;
+    --hds-dataviz-color-seq-red-50: #ef483f;
+    --hds-dataviz-color-seq-red-60: #e42e25;
+    --hds-dataviz-color-seq-red-70: #c41d14;
+    --hds-dataviz-color-seq-red-80: #870700;
+    --hds-dataviz-color-seq-red-90: #460401;
+    --hds-dataviz-color-seq-red-100: #260200;
+
+    // ----------------------------------------------------------
+    // Sequential — Oranges
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-orange-10: #fce3ca;
+    --hds-dataviz-color-seq-orange-20: #fac48c;
+    --hds-dataviz-color-seq-orange-30: #f29d49;
+    --hds-dataviz-color-seq-orange-40: #e88323;
+    --hds-dataviz-color-seq-orange-50: #d96a00;
+    --hds-dataviz-color-seq-orange-60: #b25600;
+    --hds-dataviz-color-seq-orange-70: #914500;
+    --hds-dataviz-color-seq-orange-80: #5c2b00;
+    --hds-dataviz-color-seq-orange-90: #3b1b00;
+    --hds-dataviz-color-seq-orange-100: #241000;
+
+    // ----------------------------------------------------------
+    // Sequential — Yellows
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-yellow-10: #feebbe;
+    --hds-dataviz-color-seq-yellow-20: #ffcb47;
+    --hds-dataviz-color-seq-yellow-30: #f5af0c;
+    --hds-dataviz-color-seq-yellow-40: #e09d00;
+    --hds-dataviz-color-seq-yellow-50: #c78b00;
+    --hds-dataviz-color-seq-yellow-60: #a37200;
+    --hds-dataviz-color-seq-yellow-70: #825b00;
+    --hds-dataviz-color-seq-yellow-80: #573b00;
+    --hds-dataviz-color-seq-yellow-90: #422d00;
+    --hds-dataviz-color-seq-yellow-100: #291c00;
+
+    // ----------------------------------------------------------
+    // Sequential — Golds
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-gold-10: #f0e9cc;
+    --hds-dataviz-color-seq-gold-20: #ded19b;
+    --hds-dataviz-color-seq-gold-30: #c2b47c;
+    --hds-dataviz-color-seq-gold-40: #ab9d67;
+    --hds-dataviz-color-seq-gold-50: #968a53;
+    --hds-dataviz-color-seq-gold-60: #7d733e;
+    --hds-dataviz-color-seq-gold-70: #6b612b;
+    --hds-dataviz-color-seq-gold-80: #403916;
+    --hds-dataviz-color-seq-gold-90: #2e280f;
+    --hds-dataviz-color-seq-gold-100: #1c1807;
+
+    // ----------------------------------------------------------
+    // Sequential — Limes
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-lime-10: #d6faaf;
+    --hds-dataviz-color-seq-lime-20: #b0e879;
+    --hds-dataviz-color-seq-lime-30: #8bd640;
+    --hds-dataviz-color-seq-lime-40: #70c421;
+    --hds-dataviz-color-seq-lime-50: #60b015;
+    --hds-dataviz-color-seq-lime-60: #4b9609;
+    --hds-dataviz-color-seq-lime-70: #387d00;
+    --hds-dataviz-color-seq-lime-80: #214d00;
+    --hds-dataviz-color-seq-lime-90: #183b00;
+    --hds-dataviz-color-seq-lime-100: #0e2100;
+
+    // ----------------------------------------------------------
+    // Sequential — Greens
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-green-10: #c8fadb;
+    --hds-dataviz-color-seq-green-20: #8eedb3;
+    --hds-dataviz-color-seq-green-30: #45e580;
+    --hds-dataviz-color-seq-green-40: #1fcf62;
+    --hds-dataviz-color-seq-green-50: #09b84f;
+    --hds-dataviz-color-seq-green-60: #00993d;
+    --hds-dataviz-color-seq-green-70: #007d34;
+    --hds-dataviz-color-seq-green-80: #004d21;
+    --hds-dataviz-color-seq-green-90: #003618;
+    --hds-dataviz-color-seq-green-100: #001a0b;
+
+    // ----------------------------------------------------------
+    // Sequential — Aquas
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-aqua-10: #bdfcf2;
+    --hds-dataviz-color-seq-aqua-20: #79f2df;
+    --hds-dataviz-color-seq-aqua-30: #42dbc2;
+    --hds-dataviz-color-seq-aqua-40: #0cc9ac;
+    --hds-dataviz-color-seq-aqua-50: #05b59b;
+    --hds-dataviz-color-seq-aqua-60: #00917e;
+    --hds-dataviz-color-seq-aqua-70: #007869;
+    --hds-dataviz-color-seq-aqua-80: #004a41;
+    --hds-dataviz-color-seq-aqua-90: #00332f;
+    --hds-dataviz-color-seq-aqua-100: #001c1a;
+
+    // ----------------------------------------------------------
+    // Sequential — Slates
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-slate-10: #d8edf2;
+    --hds-dataviz-color-seq-slate-20: #b8d3d9;
+    --hds-dataviz-color-seq-slate-30: #99b8bf;
+    --hds-dataviz-color-seq-slate-40: #79a3ad;
+    --hds-dataviz-color-seq-slate-50: #5f919e;
+    --hds-dataviz-color-seq-slate-60: #487682;
+    --hds-dataviz-color-seq-slate-70: #386470;
+    --hds-dataviz-color-seq-slate-80: #1d3d47;
+    --hds-dataviz-color-seq-slate-90: #112930;
+    --hds-dataviz-color-seq-slate-100: #08171c;
+
+    // ----------------------------------------------------------
+    // Sequential — Blues
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-blue-10: #d8e6fe;
+    --hds-dataviz-color-seq-blue-20: #afcdfc;
+    --hds-dataviz-color-seq-blue-30: #82b0fa;
+    --hds-dataviz-color-seq-blue-40: #609af6;
+    --hds-dataviz-color-seq-blue-50: #3f83ef;
+    --hds-dataviz-color-seq-blue-60: #256ee4;
+    --hds-dataviz-color-seq-blue-70: #1159cd;
+    --hds-dataviz-color-seq-blue-80: #003487;
+    --hds-dataviz-color-seq-blue-90: #011b46;
+    --hds-dataviz-color-seq-blue-100: #000b1c;
+
+    // ----------------------------------------------------------
+    // Sequential — Purples
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-purple-10: #e9dffe;
+    --hds-dataviz-color-seq-purple-20: #d3befc;
+    --hds-dataviz-color-seq-purple-30: #b799fa;
+    --hds-dataviz-color-seq-purple-40: #a47ef6;
+    --hds-dataviz-color-seq-purple-50: #8e62ef;
+    --hds-dataviz-color-seq-purple-60: #794be4;
+    --hds-dataviz-color-seq-purple-70: #6337cd;
+    --hds-dataviz-color-seq-purple-80: #3e1c99;
+    --hds-dataviz-color-seq-purple-90: #1d0f46;
+    --hds-dataviz-color-seq-purple-100: #0b002b;
+
+    // ----------------------------------------------------------
+    // Sequential — Magentas
+    // ----------------------------------------------------------
+    --hds-dataviz-color-seq-magenta-10: #fcd7f6;
+    --hds-dataviz-color-seq-magenta-20: #fcaff0;
+    --hds-dataviz-color-seq-magenta-30: #f783e4;
+    --hds-dataviz-color-seq-magenta-40: #f25fdc;
+    --hds-dataviz-color-seq-magenta-50: #eb3bd1;
+    --hds-dataviz-color-seq-magenta-60: #d42cbd;
+    --hds-dataviz-color-seq-magenta-70: #bf1bab;
+    --hds-dataviz-color-seq-magenta-80: #820974;
+    --hds-dataviz-color-seq-magenta-90: #470041;
+    --hds-dataviz-color-seq-magenta-100: #1c001a;
+  }
+}

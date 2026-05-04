@@ -1,0 +1,99 @@
+// ============================================================
+// HDS Component — Side Navigation
+// @nasa/hds-core
+// ============================================================
+// Section navigation, typically used alongside docs layouts.
+// Maps to HDS Figma "Tertiary / Local Navigation."
+//
+// Palette tokens used (shares foundation with In-Page Nav):
+//   --hds-palette-text            Link text
+//   --hds-palette-heading         Link hover text
+//   --hds-palette-border          Left divider line
+//   --hds-palette-marker          Active indicator bar
+//   --hds-palette-link-underline  Hover underline color
+//
+// USWDS overrides:
+//   .usa-sidenav                  top/bottom borders removed
+//   .usa-sidenav__item            borders removed
+//
+// Border strategy:
+//   Borders between items are removed. The main list gets a
+//   palette-aware border-left that reads as one continuous line.
+//   Active bar (::after) overlaps via left: -1px.
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use '../base/mixins' as *;
+
+// --- Container (ul) ---
+
+.usa-sidenav {
+  border-bottom: none;
+  border-left: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.usa-sidenav__item {
+  border-top: none;
+}
+
+// --- Links: shared properties & states ---
+// Uses shared vertical navigation mixin for typography, hover,
+// and focus ring.
+
+.usa-sidenav a:not(.usa-button) {
+  @include hds-vertical-nav-links;
+
+  // Padding overrides (USWDS default is 0.5rem 1rem)
+  padding: 2px;
+  padding-left: units(1.5);
+  margin-bottom: units(1);
+
+  &.usa-current::after {
+    left: -1px; // Flush over the border-left of the container
+    top: 0;
+    bottom: 0;
+  }
+}
+
+.usa-sidenav .usa-sidenav__item:last-child > a:not(.usa-button) {
+  margin-bottom: 0;
+}
+
+// --- Sublist rendering ---
+// Light normalization to ensure sublists degrade gracefully.
+// Strips USWDS borders, inherits HDS vertical nav typography,
+// and maps spacing to the HDS 8px units scale.
+
+.usa-sidenav__sublist {
+  font-size: inherit;
+
+  .usa-sidenav__item,
+  .usa-sidenav__sublist-item {
+    border-top: none;
+  }
+
+  // Restore the active indicator for sub-items
+  .usa-current::after {
+    display: block;
+  }
+
+  // Indentation for Level 2
+  a:not(.usa-button) {
+    padding-left: units(3); // 24px
+  }
+
+  // Indentation for Level 3
+  .usa-sidenav__sublist a:not(.usa-button) {
+    padding-left: calc(units(3) + units(1.5)); // 36px
+  }
+}
+
+// Hide the parent's active indicator if a child is the current page.
+// Prevents confusing double-indicators on nested structures.
+.usa-sidenav__item:has(.usa-sidenav__sublist .usa-current) > a.usa-current::after {
+  display: none;
+}

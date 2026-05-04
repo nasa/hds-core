@@ -270,7 +270,8 @@ $_focus-fallbacks: (
 // ------------------------------------------------------------
 // Dashed underline that appears only on hover/focus.
 // Used by components where links have no default underline
-// but gain one on interaction: Breadcrumb, In-Page Navigation.
+// but gain one on interaction: Breadcrumb, In-Page Navigation,
+// Side Navigation.
 //
 // Distinct from hds-link-appearance (always-visible underline
 // using --hds-palette-link-underline). Same mechanical
@@ -288,4 +289,54 @@ $_focus-fallbacks: (
   text-decoration-style: dashed;
   text-decoration-thickness: 0.05em;
   text-underline-offset: 0.25rem;
+}
+
+// ------------------------------------------------------------
+// Vertical navigation links
+// ------------------------------------------------------------
+// Shared typography, hover states, and active indicators for
+// vertical list-based navigation (In-Page Nav, Side Nav).
+//
+// Applies to: `a:not(.usa-button)`
+// ------------------------------------------------------------
+
+@mixin hds-vertical-nav-links {
+  font-weight: font-weight('normal');
+  letter-spacing: map.get($hds-letterspacing, '1');
+  text-decoration: none;
+
+  &:hover {
+    background-color: transparent; // override USWDS solid fills
+    @include hds-nav-hover-underline;
+    text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
+  }
+
+  &:focus-visible {
+    @include hds-focus-ring($width: 'thin');
+  }
+
+  &:not(.usa-current) {
+    color: var(--hds-palette-text, #{$hds-color-carbon-90});
+
+    &:visited {
+      color: var(--hds-palette-text, #{$hds-color-carbon-90});
+    }
+
+    &:hover {
+      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+    }
+  }
+
+  &.usa-current {
+    color: var(--hds-palette-text, #{$hds-color-carbon-90});
+    font-weight: font-weight('normal');
+
+    &::after {
+      background-color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+      border-radius: 0; // Override USWDS pill
+      width: 2px;
+      // Note: components must handle top/bottom/left positioning
+      // of this pseudo-element according to their specific layout.
+    }
+  }
 }

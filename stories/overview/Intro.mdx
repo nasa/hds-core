@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview/Introduction" />
+
+<img src="overview-hds-cover.png" alt="Horizon Design System" style={{ width: '100%', display: 'block' }} />
+<br />
+
+# HDS Core
+
+**HDS Core** (`@nasa/hds-core`) is a Sass/CSS theme layer that configures the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/) with NASA's **Horizon Design System (HDS)** values: colors, typography, spacing, icons, and component styles. It is intended for NASA-branded websites on `*.nasa.gov` domains.
+
+HDS is NASA's unified visual language for public-facing websites. USWDS is the open-source design system used across U.S. federal government websites. HDS Core bridges the two: all standard USWDS components and utility classes continue to work, themed to match HDS.
+
+## What's included
+
+HDS Core v1.0 provides:
+
+- **Foundations**: Color, palettes, typography, spacing, grid, and icons
+- **Components**: Buttons, links, pagination, breadcrumbs, accordion, forms, tables, and more
+- **Palette system**: Six color palettes that automatically adapt every component
+
+This is a CSS-only package. It does not add any JavaScript. HDS Core assumes that your project includes the standard [USWDS JavaScript](https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript) for interactive components like accordions and banners. Additional interactive components are planned for future releases. See the [Roadmap](?path=/docs/overview-roadmap--docs) for details.
+
+## Key concepts
+
+**Red means "go somewhere," blue means "do something here."** HDS uses NASA Red for actions that navigate to a new page (`.usa-button`) and NASA Blue for on-page interactions (`.usa-button--secondary`, `.usa-button--outline`). This wayfinding rule applies consistently across all components.
+
+**Palettes are automatic.** Wrap any section in a palette class and every HDS component inside it adapts: text, borders, backgrounds, buttons, links. You don't need to set individual colors.
+
+```html
+<div class="hds-palette-dark">
+  <!-- Everything inside adapts automatically -->
+</div>
+```
+
+## Using this Storybook
+
+- **Foundations**: Document the design tokens and systems (color, type, spacing)
+- **Components**: Each component has a **Guidance** page for usage documentation, along with interactive variants in the sidebar
+- Click **"Show code"** below any component example to copy the HTML markup
+- Use the **palette switcher** (paintbrush icon in the toolbar) to preview any component on all six palettes
+- Use the **viewport switcher** (phone icon in the toolbar) to test components at different screen sizes
+- Use the **Measure tool** (ruler icon in the toolbar) to inspect pixel spacing between elements
+
+{/* TODO: Add a "Sites using HDS" section here with 3-4 curated before/after screenshots (earthdata, data.nasa.gov, science.data.nasa.gov, planetary data). Link to GitHub Discussions Show & Tell for the community gallery. This is a follow-up task requiring graphic assets. */}
+
+## What to read next
+
+- **[Design Standards](?path=/docs/overview-design-standards--docs)**: What every NASA site must achieve visually
+- **[Getting Started](?path=/docs/overview-getting-started--docs)**: Whether HDS Core is the right path for your site
+- **[Installation](?path=/docs/overview-installation--docs)**: Technical setup
+
+HDS Core is available on [GitHub](https://github.com/nasa/hds-core).

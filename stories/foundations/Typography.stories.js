@@ -78,8 +78,8 @@ export const Blockquote = {
       <blockquote class="hds-blockquote">
         <p>We choose to go to the Moon in this decade and do the other things,
           not because they are easy, but because they are hard.</p>
-        <div class="hds-blockquote-attribution">
-          <span class="hds-blockquote-name">President John F. Kennedy</span>
+        <div class="hds-blockquote__attribution">
+          <span class="hds-blockquote__name">President John F. Kennedy</span>
         </div>
       </blockquote>
     </div>
@@ -321,8 +321,8 @@ const allVariantsRender = () => `
       <blockquote class="hds-blockquote">
         <p>We choose to go to the Moon in this decade and do the other things,
           not because they are easy, but because they are hard.</p>
-        <div class="hds-blockquote-attribution">
-          <span class="hds-blockquote-name">President John F. Kennedy</span>
+        <div class="hds-blockquote__attribution">
+          <span class="hds-blockquote__name">President John F. Kennedy</span>
         </div>
       </blockquote>
     </div>

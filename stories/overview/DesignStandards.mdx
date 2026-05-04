@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview/Design Standards" />
+
+# Design Standards
+
+These standards define what every standalone NASA website must achieve visually to comply with [NID 2800.147](https://nodis3.gsfc.nasa.gov/OPD_Docs/NID_2800_147_.pdf). They apply regardless of how you build your site, whether you use HDS Core, reference our guidance to build your own implementation, or take another approach entirely.
+
+Looking for how to use HDS Core? See [Getting Started](?path=/docs/overview-getting-started--docs) to find the right path for your site.
+
+## Standards hierarchy
+
+NASA's design standards build on federal requirements and sit alongside other agency-specific standards. You should be familiar with the full picture.
+
+**Federal standards**
+
+- **[Federal Website Standards](https://standards.digital.gov/)** — Requirements for all federal public-facing websites, including page titles, meta descriptions, and the federal government banner.
+- **[Section 508 / WCAG 2.1 AA](https://www.section508.gov/)** — Accessibility requirements for all government websites (public-facing or internal). Includes contrast ratios, keyboard navigation, screen reader support, and visible focus indicators.
+- **[USWDS Design Principles](https://designsystem.digital.gov/design-principles/)** — Human-centered design guidance from the U.S. Web Design System. Focused on user research, trust, consistency, and continuous feedback.
+
+**NASA standards**
+
+- **[NASA Internet Publishing Standards](https://nodis3.gsfc.nasa.gov/) (NAII 2800.2, Appendix D)** — What content can and cannot be published on NASA websites, including restrictions on OPSEC-sensitive information, PII, and export-controlled material.
+- **[NASA Stylebook and Communications Manual](https://website.nasa.gov/style-guide/) (NASA internal)** — How to write and format content on NASA sites: voice, tone, editorial conventions, and plain language.
+- **NASA Design Standards (this page)** — Visual design and branding requirements for the unified public web experience, per NID 2800.147.
+
+## NASA design standards
+
+The following standards implement NID 2800.147's requirement that standalone sites "adhere to the unified design system and global navigation of the flagship." Compliance is determined by what the public sees and experiences on your site, not by your underlying technology choices.
+
+{/* 🎨 GRAPHIC OPPORTUNITY: Visual cards with a small screenshot or illustration showing what right looks like for each standard. Before/after screenshots from success stories could serve as a collective reference. */}
+
+| Standard                                                   | What compliance looks like                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**Color**](?path=/docs/foundations-color--docs)           | Site uses HDS colors in the correct roles: NASA Red for primary actions, NASA Blue for secondary actions, Carbon scale for text and UI. Custom or legacy color values are replaced with HDS equivalents. See [Color](?path=/docs/foundations-color--docs) for the full specification and [Color Palettes](?path=/docs/foundations-color-palettes--docs) for a system that handles this automatically. |
+| [**Typography**](?path=/docs/foundations-typography--docs) | Site uses the official NASA type stack. See the [Typography](?path=/docs/foundations-typography--docs) foundation page for the full specification.                                                                                                                                                                                                                                                    |
+| [**Grid**](?path=/docs/foundations-grid--docs)             | Layout is responsive across viewport sizes. Site is functional and readable on mobile devices.                                                                                                                                                                                                                                                                                                        |
+| [**Spacing**](?path=/docs/foundations-spacing--docs)       | Layout uses consistent spacing aligned with the HDS spacing scale.                                                                                                                                                                                                                                                                                                                                    |
+| [**Icons**](?path=/docs/foundations-icons--docs)           | Site uses NASA-standard icons where icons appear. Some icons are reserved for specific meanings across the agency; the [Icons](?path=/docs/foundations-icons--docs) page documents which are reserved and which are available for general use.                                                                                                                                                        |
+| **Agency header**                                          | Site displays the standard NASA header, including the federal government banner, agency identifier and Explore navigation menu. Both a full and simplified header variant are planned.                                                                                                                                                                                                                |
+| **Global site search**                                     | Header includes the shared NASA site search.                                                                                                                                                                                                                                                                                                                                                          |
+| **Agency footer**                                          | Site displays the standard NASA footer with required links, the Responsible NASA Official's name, a site or page editor name or team contact, and a "Last Updated" date on every public-facing, non-authenticated page (per NID Section 5r.3).                                                                                                                                                        |
+
+{/* Agency header: Design work ongoing. Link to component page once available. */} {/* Global site search: Open policy question: scope and implementation for standalone sites still being determined. Keep in table since policy requires it, but don't over-specify. */} {/* Agency footer: Link to footer component page once available. */}
+
+## What "compliance by result" means
+
+These standards describe outcomes, not tools or techniques. This is intentional.
+
+A site that uses HDS Core's compiled CSS and a site that independently implements the same visual standards are equally compliant. HDS Core is the easiest path to these results because it's maintained by the web modernization team and stays current automatically as NASA's design language evolves. But it is not the only valid path.
+
+If your site achieves the visual results described above through a different implementation, it meets the standard. The Foundations and Components sections in the sidebar document the design decisions behind each standard and serve as a reference for any implementation approach.
+
+## The bigger picture
+
+Meeting NASA's design standards covers the frontend dimension of modernization. A fully modernized NASA website also addresses:
+
+- **Accessibility.** Full Section 508 / WCAG 2.1 AA compliance, including contrast ratios, keyboard navigation, and screen reader support. HDS Core provides accessible color palettes and focus ring styles, but accessibility also depends on your markup, content structure, and interaction patterns. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
+- **Backend.** Secure, consolidated, cost-effective, up-to-date, and fully resourced for ongoing maintenance.
+- **Content.** Accurate, authoritative, current, written in plain language, and optimized for discoverability per the [NASA Stylebook](https://website.nasa.gov/style-guide/) (NASA internal).
+- **Federal and agency compliance.** All requirements in [NAII 2800.2](https://nodis3.gsfc.nasa.gov/OPD_Docs/NAII_2800_2_.pdf), Appendix C, including analytics, IT and content security, privacy, and records management.

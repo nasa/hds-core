@@ -51,3 +51,15 @@
     display: none;
   }
 }
+
+// ── Grid Gutter Override ───────────────────────────────────────
+// USWDS natively switches from mobile to desktop gap at the desktop breakpoint (1024px).
+// The HDS proposal requires the 16px gap to begin at the tablet breakpoint (640px).
+
+.grid-row.grid-gap {
+  @include at-media('tablet') {
+    @include at-media-max('desktop') {
+      @include grid-gap(2);
+    }
+  }
+}
