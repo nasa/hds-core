@@ -1,5 +1,7 @@
 # @nasa/hds-core
 
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.7.1](https://img.shields.io/badge/Release-v0.7.1-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+
 NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.
 
 > **Status:** Pre-1.0. API and class names may change between minor versions. Not yet published to npm.
@@ -26,10 +28,10 @@ Full documentation, component examples, and integration guides are available in 
 
 ## Installation (Pre-1.0)
 
-HDS Core is currently distributed as a GitHub repository. You can install it directly via npm:
+HDS Core is not yet published to the npm registry (publishing is planned for the 1.0 release). You can install it directly from this public GitHub repository alongside its required peer dependency, the U.S. Web Design System (v3.13+):
 
 ```bash
-npm install @nasa/hds-core
+npm install github:nasa/hds-core @uswds/uswds
 ```
 
 For detailed instructions on consuming the pre-compiled CSS bundles (`hds.css` and `hds-uswds.css`) or integrating the Sass source into your build pipeline, see the [Getting Started Guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs).
