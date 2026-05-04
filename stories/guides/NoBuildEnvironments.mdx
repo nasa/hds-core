@@ -1,0 +1,138 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/No-Build Environments" />
+
+# No-Build Environments
+
+HDS Core works without a build step. If your site runs on a CMS, static HTML, or a legacy framework, you can adopt NASA's visual language, accessible components, and compliant layout patterns by linking a compiled CSS file and adding two script tags — no Node.js, no React, no full rewrite required.
+
+Before using this guide, confirm your site is approved to remain standalone. See [Getting Started](?path=/docs/overview-getting-started--docs) if you haven't already.
+
+## 1. The "Minimum Floor" for Compliance
+
+If you have a legacy application in maintenance mode, you can achieve visual and accessible compliance by meeting this Minimum Floor:
+
+1. **Responsive Grid & Semantic HTML:** Strip out fixed widths (`width: 400px;`), legacy HTML tables for layout, and hardcoded `float` properties. Adopt the modern HDS/USWDS fluid grid classes (`.grid-container`, `.grid-row`, `.grid-col-*`).
+2. **Typography & Color:** Replace hardcoded hex values (like `#007bff`) with HDS CSS variables (like `var(--hds-color-blue-60v)`), and adopt the official NASA typography stack (Inter / Public Sans).
+3. **Focus Rings & Accessibility:** Ensure all interactive elements (links, buttons, inputs) receive the high-contrast HDS standard focus rings (`:focus-visible`). Stop using `<div>` or `<img>` tags for buttons.
+4. **Header & Footer:** Wrap your application in the standard NASA Agency Header and Footer.
+
+## 2. Layout Modernization: Moving to the HDS Grid
+
+The biggest friction point for older apps is the layout. If your site looks broken on a mobile phone, it is non-compliant.
+
+### Anti-Patterns to Remove
+
+Before importing HDS Core, audit your CSS and HTML for these legacy patterns:
+
+- **Hardcoded pixel widths** on containers (e.g., `width: 960px;`). These will force horizontal scrolling on mobile.
+- **Inline layout styles** like `style="float: right; margin: 3em 0;"`.
+- **Deprecated attributes** like `align="middle"` or `valign="top"`.
+
+### Mapping Legacy Grids to HDS
+
+If you are using an older version of Bootstrap or a similar 12-column grid, the migration to the HDS (USWDS-based) grid is straightforward:
+
+| Legacy Bootstrap 3/4 Concept | HDS Equivalent                               | Notes                                                                              |
+| :--------------------------- | :------------------------------------------- | :--------------------------------------------------------------------------------- |
+| `.container-fluid`           | `.grid-container` or `.grid-container-fluid` | Use `.grid-container` for a max-width centered layout, or `-fluid` for 100% width. |
+| `.row`                       | `.grid-row`                                  | Wraps your columns.                                                                |
+| `.col-md-3`                  | `tablet:grid-col-3`                          | The HDS grid uses breakpoints as prefixes (`mobile:`, `tablet:`, `desktop:`).      |
+| `.col-xs-12`                 | `.grid-col-12`                               | The default (mobile-first) column width.                                           |
+
+**Example Migration:**
+
+_Legacy (Broken on mobile, hardcoded):_
+
+```html
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" style="width: 400px; float: left;">
+      <!-- Sidebar -->
+    </div>
+  </div>
+</div>
+```
+
+_Modernized (Responsive HDS):_
+
+```html
+<div class="grid-container">
+  <div class="grid-row">
+    <div class="grid-col-12 tablet:grid-col-4 desktop:grid-col-3">
+      <!-- Sidebar (stacks on mobile, 25% on desktop) -->
+    </div>
+  </div>
+</div>
+```
+
+## 3. The HTML Rewrite: Semantics and Accessibility
+
+You do not need to rewrite your application in React or Vue. You do not even need to use the exact USWDS HTML structure for every component if your existing custom components are functional.
+
+**However, if your current HTML is not semantic, you must rewrite it.** You cannot pass compliance by simply changing the color of an inaccessible element.
+
+### HTML Anti-Patterns to Fix
+
+Audit your markup and replace these common legacy hacks with semantic HTML:
+
+- **Fake Buttons:** Replace `<div class="btn" onclick="...">` or `<a>` tags acting as buttons with a real `<button type="button">`. Browsers and screen readers cannot properly focus or activate `div`s masquerading as buttons.
+- **Fake Links:** Replace `<span onclick="...">` with a real `<a href="...">`.
+- **Table Layouts:** If you are using `<table>` elements to position content on the screen, replace them with the `.grid-container` and `.grid-col` classes described above. Tables must only be used for tabular data.
+- **Missing Form Labels:** Ensure every `<input>`, `<select>`, and `<textarea>` has a `<label>` explicitly tied to it via the `for` and `id` attributes.
+
+### The Focus Ring Test
+
+Once your HTML is semantic, press the `Tab` key to navigate your site. Every interactive element (links, buttons, form fields) must show a clear, visible outline (the HDS Focus Ring). If an element is skipped or doesn't show a ring, your HTML needs to be fixed.
+
+## 4. Applying the "Paint Job"
+
+Once your structure is responsive, you can apply HDS visual styles without adopting our complex HTML components.
+
+### Linking the Tokens
+
+Include the compiled `hds.css` file in your document `<head>`. This provides access to the typography stack and all CSS Custom Properties (`var(--hds-...)`).
+
+### Color Mapping
+
+Do a global Find-and-Replace in your legacy stylesheets. Map your existing system colors to the nearest HDS token.
+
+- Legacy Blue (`#007bff`) &rarr; `var(--hds-color-blue-60v)`
+- Legacy Dark Gray (`#1b1b1b`) &rarr; `var(--hds-color-gray-90)`
+- Legacy Red (`#dc3545`) &rarr; `var(--hds-color-red-60v)`
+
+### Typography
+
+Update your root font family to leverage the HDS stack:
+
+```css
+body {
+  font-family: var(--hds-font-sans);
+}
+```
+
+## 5. JavaScript for Interactive Components
+
+While HDS Core provides the CSS, the official NASA Header, Footer, and interactive components (like Accordions and Mobile Navigation) require the USWDS JavaScript to function.
+
+You do not need Node or NPM to use this JavaScript. USWDS provides pre-compiled files specifically for sites that don't have a modern build step, and **HDS Core bundles these exact files for you.**
+
+### Why this is safe (No jQuery Conflicts)
+
+USWDS 3.x is written in **100% Vanilla JavaScript** and does not use or conflict with jQuery. If your legacy site is heavily dependent on older versions of jQuery (common in older WordPress or Drupal themes), the USWDS scripts will run safely alongside it without namespace collisions.
+
+### Adding the Scripts
+
+Download the HDS Core distribution from GitHub or install via npm, then add these files to your HTML:
+
+**1. The Init Script (in the `<head>`)** This tiny script prevents the "flash of unstyled content" (FOUC) on interactive components before the main JS loads.
+
+```html
+<script src="path/to/hds-core/dist/js/uswds-init.min.js"></script>
+```
+
+**2. The Main Script (at the bottom of the `<body>` or with `defer`)** This powers the mobile menu, accordions, and other interactive elements.
+
+```html
+<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+```

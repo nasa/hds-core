@@ -5,8 +5,8 @@
 // Embedded in DataVisualizationPalettes.mdx via <Canvas sourceState="none" />.
 //
 // Consumers use:
-//   CSS/JS:  var(--hds-dataviz-cat-1) through var(--hds-dataviz-cat-12)
-//            var(--hds-dataviz-seq-{hue}-{step}) for sequential
+//   CSS/JS:  var(--hds-dataviz-color-cat-1) through var(--hds-dataviz-color-cat-12)
+//            var(--hds-dataviz-color-seq-{hue}-{step}) for sequential
 //   JS libs: Copy hex values from the Palettes docs page
 //
 // Enable: $hds-enable-dataviz-tokens: true in _hds-tokens.scss
@@ -27,6 +27,8 @@
 //   cat-6:  Blue 50   → blue-40v       cat-12: Aqua 40   → mint-cool-30v
 // ============================================================
 
+import { datavizColors } from '../helpers/hdsDatavizColors';
+
 export default {
   title: 'Foundations/Data Visualization Palettes',
   parameters: {
@@ -38,126 +40,6 @@ export default {
 // USWDS color tokens (data visualization only)
 // Verify against: node_modules/@uswds/uswds/src/data/colors.json
 // ============================================================
-
-const uswds = {
-  // Blues (vivid)
-  'blue-5v': '#e8f5ff',
-  'blue-10v': '#cfe8ff',
-  'blue-20v': '#a1d3ff',
-  'blue-30v': '#58b4ff',
-  'blue-40v': '#2491ff',
-  'blue-50v': '#0076d6',
-  'blue-60v': '#005ea2',
-  'blue-70v': '#0b4778',
-  'blue-80v': '#112f4e',
-  // Blue cools (non-vivid)
-  'blue-cool-5': '#e7f2f5',
-  'blue-cool-10': '#dae9ee',
-  'blue-cool-20': '#adcfdc',
-  'blue-cool-30': '#82b4c9',
-  'blue-cool-40': '#6499af',
-  'blue-cool-50': '#3a7d95',
-  'blue-cool-60': '#2e6276',
-  'blue-cool-70': '#224a58',
-  'blue-cool-80': '#14333d',
-  // Reds (vivid)
-  'red-5v': '#fff3f2',
-  'red-10v': '#fde0db',
-  'red-20v': '#fdb8ae',
-  'red-30v': '#ff8d7b',
-  'red-40v': '#fb5a47',
-  'red-50v': '#e52207',
-  'red-60v': '#b50909',
-  'red-70v': '#8b0a03',
-  'red-80v': '#5c1111',
-  // Oranges (vivid)
-  'orange-5v': '#fef2e4',
-  'orange-10v': '#fce2c5',
-  'orange-20v': '#ffbc78',
-  'orange-30v': '#fa9441',
-  'orange-40v': '#e66f0e',
-  'orange-50v': '#c05600',
-  'orange-60v': '#8c471c',
-  'orange-70v': '#5f3617',
-  'orange-80v': '#352313',
-  // Golds (vivid)
-  'gold-5v': '#fef0c8',
-  'gold-10v': '#ffe396',
-  'gold-20v': '#ffbe2e',
-  'gold-30v': '#e5a000',
-  'gold-40v': '#c2850c',
-  'gold-50v': '#936f38',
-  'gold-60v': '#7a591a',
-  'gold-70v': '#5c410a',
-  'gold-80v': '#3b2b15',
-  // Golds (non-vivid)
-  'gold-5': '#f5f0e6',
-  'gold-10': '#f1e5cd',
-  'gold-20': '#dec69a',
-  'gold-30': '#c7a97b',
-  'gold-40': '#ad8b65',
-  'gold-50': '#8e704f',
-  'gold-60': '#6b5947',
-  'gold-70': '#4d4438',
-  'gold-80': '#322d26',
-  'gold-90': '#191714',
-  // Greens (vivid)
-  'green-5v': '#ddf9c7',
-  'green-10v': '#c5ee93',
-  'green-20v': '#98d035',
-  'green-30v': '#7fb135',
-  'green-40v': '#719f2a',
-  'green-50v': '#538200',
-  'green-60v': '#466c04',
-  'green-70v': '#2f4a0b',
-  'green-80v': '#243413',
-  // Mints (vivid)
-  'mint-5v': '#c9fbeb',
-  'mint-10v': '#83fcd4',
-  'mint-20v': '#0ceda6',
-  'mint-30v': '#04c585',
-  'mint-40v': '#00a871',
-  'mint-50v': '#008659',
-  'mint-60v': '#146947',
-  'mint-70v': '#0c4e29',
-  'mint-80v': '#0d351e',
-  // Mint cools (vivid)
-  'mint-cool-5v': '#d5fbf3',
-  'mint-cool-10v': '#7efbe1',
-  'mint-cool-20v': '#29e1cb',
-  'mint-cool-30v': '#1dc2ae',
-  'mint-cool-40v': '#00a398',
-  'mint-cool-50v': '#008480',
-  'mint-cool-60v': '#0f6460',
-  'mint-cool-70v': '#0b4b3f',
-  'mint-cool-80v': '#123131',
-  // Indigo warms (vivid)
-  'indigo-warm-5v': '#f5f2ff',
-  'indigo-warm-10v': '#e4deff',
-  'indigo-warm-20v': '#cfc4fd',
-  'indigo-warm-30v': '#b69fff',
-  'indigo-warm-40v': '#967efb',
-  'indigo-warm-50v': '#745fe9',
-  'indigo-warm-60v': '#5942d2',
-  'indigo-warm-70v': '#3d2c9d',
-  'indigo-warm-80v': '#261f5b',
-  // Violet warms (vivid)
-  'violet-warm-5v': '#fef2ff',
-  'violet-warm-10v': '#fbdcff',
-  'violet-warm-20v': '#f4b2ff',
-  'violet-warm-30v': '#ee83ff',
-  'violet-warm-40v': '#d85bef',
-  'violet-warm-50v': '#be32d0',
-  'violet-warm-60v': '#93348c',
-  'violet-warm-70v': '#711e6c',
-  'violet-warm-80v': '#481441',
-};
-
-const hex = (token) => {
-  const val = uswds[token];
-  if (!val) console.warn(`Unknown USWDS token: "${token}"`);
-  return val || '#FF00FF';
-};
 
 // ============================================================
 // WCAG AA luminance — auto text color
@@ -271,12 +153,13 @@ const dvp = (content, background = 'light') => `<div class="dvp dvp-${background
 const categoricalTable = (colors, background = 'light') => {
   const rows = colors
     .map((c) => {
-      const h = hex(c.token);
+      const h = c.hex;
       const color = fg(h);
       return `
       <tr>
         <td style="background-color: ${h}; color: ${color};">${c.id}</td>
         <td style="background-color: ${h}; color: ${color};" class="dvp-mono">${c.property}</td>
+        <td style="background-color: ${h}; color: ${color};">${c.semantic || ''}</td>
         <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
       </tr>`;
     })
@@ -289,6 +172,7 @@ const categoricalTable = (colors, background = 'light') => {
         <tr>
           <th scope="col" class="dvp-left">#</th>
           <th scope="col" class="dvp-left">CSS Custom Property</th>
+          <th scope="col" class="dvp-left">Semantic Match</th>
           <th scope="col" class="dvp-right">Hex</th>
         </tr>
       </thead>
@@ -304,14 +188,14 @@ const categoricalTable = (colors, background = 'light') => {
 // ============================================================
 
 const sequentialStrip = (family, colors, background = 'transparent') => {
-  const swatches = colors.map((c) => `<div style="background-color: ${hex(c.token)};"></div>`).join('');
+  const swatches = colors.map((c) => `<div style="background-color: ${c.hex};"></div>`).join('');
 
   const labels = colors
     .map(
       (c) => `
     <div>
       <div>${c.id}</div>
-      <div>${hex(c.token)}</div>
+      <div>${c.hex}</div>
     </div>
   `,
     )
@@ -319,7 +203,7 @@ const sequentialStrip = (family, colors, background = 'transparent') => {
 
   return dvp(
     `
-    <p class="dvp-strip-prefix"><code>--hds-dataviz-seq-${family}-*</code></p>
+    <p class="dvp-strip-prefix"><code>--hds-dataviz-color-seq-${family}-*</code></p>
     <div class="dvp-strip">${swatches}</div>
     <div class="dvp-strip-labels">${labels}</div>
   `,
@@ -336,7 +220,7 @@ const groupGrid = (groups, background = 'light') => {
     .map((group) => {
       const rows = group
         .map((c) => {
-          const h = hex(c.token);
+          const h = c.hex;
           const color = fg(h);
           return `
         <tr>
@@ -362,33 +246,48 @@ const groupGrid = (groups, background = 'light') => {
 // ============================================================
 
 const catLight = [
-  { id: '01', property: '--hds-dataviz-cat-1', token: 'blue-70v' },
-  { id: '02', property: '--hds-dataviz-cat-2', token: 'red-40v' },
-  { id: '03', property: '--hds-dataviz-cat-3', token: 'orange-30v' },
-  { id: '04', property: '--hds-dataviz-cat-4', token: 'blue-cool-60' },
-  { id: '05', property: '--hds-dataviz-cat-5', token: 'gold-40' },
-  { id: '06', property: '--hds-dataviz-cat-6', token: 'blue-40v' },
-  { id: '07', property: '--hds-dataviz-cat-7', token: 'red-70v' },
-  { id: '08', property: '--hds-dataviz-cat-8', token: 'blue-cool-30' },
-  { id: '09', property: '--hds-dataviz-cat-9', token: 'indigo-warm-70v' },
-  { id: '10', property: '--hds-dataviz-cat-10', token: 'gold-30v' },
-  { id: '11', property: '--hds-dataviz-cat-11', token: 'green-60v' },
-  { id: '12', property: '--hds-dataviz-cat-12', token: 'mint-cool-30v' },
+  { id: '01', property: '--hds-dataviz-color-cat-1', hex: datavizColors.cat.light[1], semantic: 'Blue 70' },
+  { id: '02', property: '--hds-dataviz-color-cat-2', hex: datavizColors.cat.light[2], semantic: 'Red 50' },
+  {
+    id: '03',
+    property: '--hds-dataviz-color-cat-3',
+    hex: datavizColors.cat.light[3],
+    semantic: 'Orange ~38',
+  },
+  { id: '04', property: '--hds-dataviz-color-cat-4', hex: datavizColors.cat.light[4], semantic: 'Slate 70' },
+  {
+    id: '05',
+    property: '--hds-dataviz-color-cat-5',
+    hex: datavizColors.cat.light[5],
+    semantic: 'Gold ~38',
+  },
+  { id: '06', property: '--hds-dataviz-color-cat-6', hex: datavizColors.cat.light[6], semantic: 'Blue 50' },
+  {
+    id: '07',
+    property: '--hds-dataviz-color-cat-7',
+    hex: datavizColors.cat.light[7],
+    semantic: 'Red ~79',
+  },
+  { id: '08', property: '--hds-dataviz-color-cat-8', hex: datavizColors.cat.light[8], semantic: 'Slate 40' },
+  { id: '09', property: '--hds-dataviz-color-cat-9', hex: datavizColors.cat.light[9], semantic: 'Purple 80' },
+  { id: '10', property: '--hds-dataviz-color-cat-10', hex: datavizColors.cat.light[10], semantic: 'Yellow 40' },
+  { id: '11', property: '--hds-dataviz-color-cat-11', hex: datavizColors.cat.light[11], semantic: 'Lime 70' },
+  { id: '12', property: '--hds-dataviz-color-cat-12', hex: datavizColors.cat.light[12], semantic: 'Aqua 40' },
 ];
 
 const catDark = [
-  { id: '01', property: '--hds-dataviz-cat-1', token: 'blue-50v' },
-  { id: '02', property: '--hds-dataviz-cat-2', token: 'red-40v' },
-  { id: '03', property: '--hds-dataviz-cat-3', token: 'orange-20v' },
-  { id: '04', property: '--hds-dataviz-cat-4', token: 'blue-cool-50' },
-  { id: '05', property: '--hds-dataviz-cat-5', token: 'gold-20' },
-  { id: '06', property: '--hds-dataviz-cat-6', token: 'blue-30v' },
-  { id: '07', property: '--hds-dataviz-cat-7', token: 'red-20v' },
-  { id: '08', property: '--hds-dataviz-cat-8', token: 'blue-cool-30' },
-  { id: '09', property: '--hds-dataviz-cat-9', token: 'indigo-warm-50v' },
-  { id: '10', property: '--hds-dataviz-cat-10', token: 'gold-20v' },
-  { id: '11', property: '--hds-dataviz-cat-11', token: 'green-50v' },
-  { id: '12', property: '--hds-dataviz-cat-12', token: 'mint-cool-30v' },
+  { id: '01', property: '--hds-dataviz-color-cat-1', hex: datavizColors.cat.dark[1], semantic: 'Blue 60' },
+  { id: '02', property: '--hds-dataviz-color-cat-2', hex: datavizColors.cat.dark[2], semantic: 'Red 50' },
+  { id: '03', property: '--hds-dataviz-color-cat-3', hex: datavizColors.cat.dark[3], semantic: 'Orange 30' },
+  { id: '04', property: '--hds-dataviz-color-cat-4', hex: datavizColors.cat.dark[4], semantic: 'Slate 60' },
+  { id: '05', property: '--hds-dataviz-color-cat-5', hex: datavizColors.cat.dark[5], semantic: 'Gold 30' },
+  { id: '06', property: '--hds-dataviz-color-cat-6', hex: datavizColors.cat.dark[6], semantic: 'Blue 40' },
+  { id: '07', property: '--hds-dataviz-color-cat-7', hex: datavizColors.cat.dark[7], semantic: 'Red 30' },
+  { id: '08', property: '--hds-dataviz-color-cat-8', hex: datavizColors.cat.dark[8], semantic: 'Slate 40' },
+  { id: '09', property: '--hds-dataviz-color-cat-9', hex: datavizColors.cat.dark[9], semantic: 'Purple 60' },
+  { id: '10', property: '--hds-dataviz-color-cat-10', hex: datavizColors.cat.dark[10], semantic: 'Yellow 30' },
+  { id: '11', property: '--hds-dataviz-color-cat-11', hex: datavizColors.cat.dark[11], semantic: 'Lime 60' },
+  { id: '12', property: '--hds-dataviz-color-cat-12', hex: datavizColors.cat.dark[12], semantic: 'Aqua 40' },
 ];
 
 // ============================================================
@@ -452,135 +351,146 @@ const groupsDark5 = [
 // ============================================================
 
 const seqReds = [
-  { id: '10', token: 'red-5v' },
-  { id: '20', token: 'red-10v' },
-  { id: '30', token: 'red-20v' },
-  { id: '40', token: 'red-30v' },
-  { id: '50', token: 'red-40v' },
-  { id: '60', token: 'red-50v' },
-  { id: '70', token: 'red-60v' },
-  { id: '80', token: 'red-70v' },
-  { id: '90', token: 'red-80v' },
+  { id: '10', hex: datavizColors.seq.red[0] },
+  { id: '20', hex: datavizColors.seq.red[1] },
+  { id: '30', hex: datavizColors.seq.red[2] },
+  { id: '40', hex: datavizColors.seq.red[3] },
+  { id: '50', hex: datavizColors.seq.red[4] },
+  { id: '60', hex: datavizColors.seq.red[5] },
+  { id: '70', hex: datavizColors.seq.red[6] },
+  { id: '80', hex: datavizColors.seq.red[7] },
+  { id: '90', hex: datavizColors.seq.red[8] },
+  { id: '100', hex: datavizColors.seq.red[9] },
 ];
 
 const seqOranges = [
-  { id: '10', token: 'orange-5v' },
-  { id: '20', token: 'orange-10v' },
-  { id: '30', token: 'orange-20v' },
-  { id: '40', token: 'orange-30v' },
-  { id: '50', token: 'orange-40v' },
-  { id: '60', token: 'orange-50v' },
-  { id: '70', token: 'orange-60v' },
-  { id: '80', token: 'orange-70v' },
-  { id: '90', token: 'orange-80v' },
+  { id: '10', hex: datavizColors.seq.orange[0] },
+  { id: '20', hex: datavizColors.seq.orange[1] },
+  { id: '30', hex: datavizColors.seq.orange[2] },
+  { id: '40', hex: datavizColors.seq.orange[3] },
+  { id: '50', hex: datavizColors.seq.orange[4] },
+  { id: '60', hex: datavizColors.seq.orange[5] },
+  { id: '70', hex: datavizColors.seq.orange[6] },
+  { id: '80', hex: datavizColors.seq.orange[7] },
+  { id: '90', hex: datavizColors.seq.orange[8] },
+  { id: '100', hex: datavizColors.seq.orange[9] },
 ];
 
 const seqYellows = [
-  { id: '10', token: 'gold-5v' },
-  { id: '20', token: 'gold-10v' },
-  { id: '30', token: 'gold-20v' },
-  { id: '40', token: 'gold-30v' },
-  { id: '50', token: 'gold-40v' },
-  { id: '60', token: 'gold-50v' },
-  { id: '70', token: 'gold-60v' },
-  { id: '80', token: 'gold-70v' },
-  { id: '90', token: 'gold-80v' },
+  { id: '10', hex: datavizColors.seq.yellow[0] },
+  { id: '20', hex: datavizColors.seq.yellow[1] },
+  { id: '30', hex: datavizColors.seq.yellow[2] },
+  { id: '40', hex: datavizColors.seq.yellow[3] },
+  { id: '50', hex: datavizColors.seq.yellow[4] },
+  { id: '60', hex: datavizColors.seq.yellow[5] },
+  { id: '70', hex: datavizColors.seq.yellow[6] },
+  { id: '80', hex: datavizColors.seq.yellow[7] },
+  { id: '90', hex: datavizColors.seq.yellow[8] },
+  { id: '100', hex: datavizColors.seq.yellow[9] },
 ];
 
 const seqGolds = [
-  { id: '10', token: 'gold-10' },
-  { id: '20', token: 'gold-20' },
-  { id: '30', token: 'gold-30' },
-  { id: '40', token: 'gold-40' },
-  { id: '50', token: 'gold-50' },
-  { id: '60', token: 'gold-60' },
-  { id: '70', token: 'gold-70' },
-  { id: '80', token: 'gold-80' },
-  { id: '90', token: 'gold-90' },
+  { id: '10', hex: datavizColors.seq.gold[0] },
+  { id: '20', hex: datavizColors.seq.gold[1] },
+  { id: '30', hex: datavizColors.seq.gold[2] },
+  { id: '40', hex: datavizColors.seq.gold[3] },
+  { id: '50', hex: datavizColors.seq.gold[4] },
+  { id: '60', hex: datavizColors.seq.gold[5] },
+  { id: '70', hex: datavizColors.seq.gold[6] },
+  { id: '80', hex: datavizColors.seq.gold[7] },
+  { id: '90', hex: datavizColors.seq.gold[8] },
+  { id: '100', hex: datavizColors.seq.gold[9] },
 ];
 
 const seqLimes = [
-  { id: '10', token: 'green-5v' },
-  { id: '20', token: 'green-10v' },
-  { id: '30', token: 'green-20v' },
-  { id: '40', token: 'green-30v' },
-  { id: '50', token: 'green-40v' },
-  { id: '60', token: 'green-50v' },
-  { id: '70', token: 'green-60v' },
-  { id: '80', token: 'green-70v' },
-  { id: '90', token: 'green-80v' },
+  { id: '10', hex: datavizColors.seq.lime[0] },
+  { id: '20', hex: datavizColors.seq.lime[1] },
+  { id: '30', hex: datavizColors.seq.lime[2] },
+  { id: '40', hex: datavizColors.seq.lime[3] },
+  { id: '50', hex: datavizColors.seq.lime[4] },
+  { id: '60', hex: datavizColors.seq.lime[5] },
+  { id: '70', hex: datavizColors.seq.lime[6] },
+  { id: '80', hex: datavizColors.seq.lime[7] },
+  { id: '90', hex: datavizColors.seq.lime[8] },
+  { id: '100', hex: datavizColors.seq.lime[9] },
 ];
 
 const seqGreens = [
-  { id: '10', token: 'mint-5v' },
-  { id: '20', token: 'mint-10v' },
-  { id: '30', token: 'mint-20v' },
-  { id: '40', token: 'mint-30v' },
-  { id: '50', token: 'mint-40v' },
-  { id: '60', token: 'mint-50v' },
-  { id: '70', token: 'mint-60v' },
-  { id: '80', token: 'mint-70v' },
-  { id: '90', token: 'mint-80v' },
+  { id: '10', hex: datavizColors.seq.green[0] },
+  { id: '20', hex: datavizColors.seq.green[1] },
+  { id: '30', hex: datavizColors.seq.green[2] },
+  { id: '40', hex: datavizColors.seq.green[3] },
+  { id: '50', hex: datavizColors.seq.green[4] },
+  { id: '60', hex: datavizColors.seq.green[5] },
+  { id: '70', hex: datavizColors.seq.green[6] },
+  { id: '80', hex: datavizColors.seq.green[7] },
+  { id: '90', hex: datavizColors.seq.green[8] },
+  { id: '100', hex: datavizColors.seq.green[9] },
 ];
 
 const seqAquas = [
-  { id: '10', token: 'mint-cool-5v' },
-  { id: '20', token: 'mint-cool-10v' },
-  { id: '30', token: 'mint-cool-20v' },
-  { id: '40', token: 'mint-cool-30v' },
-  { id: '50', token: 'mint-cool-40v' },
-  { id: '60', token: 'mint-cool-50v' },
-  { id: '70', token: 'mint-cool-60v' },
-  { id: '80', token: 'mint-cool-70v' },
-  { id: '90', token: 'mint-cool-80v' },
+  { id: '10', hex: datavizColors.seq.aqua[0] },
+  { id: '20', hex: datavizColors.seq.aqua[1] },
+  { id: '30', hex: datavizColors.seq.aqua[2] },
+  { id: '40', hex: datavizColors.seq.aqua[3] },
+  { id: '50', hex: datavizColors.seq.aqua[4] },
+  { id: '60', hex: datavizColors.seq.aqua[5] },
+  { id: '70', hex: datavizColors.seq.aqua[6] },
+  { id: '80', hex: datavizColors.seq.aqua[7] },
+  { id: '90', hex: datavizColors.seq.aqua[8] },
+  { id: '100', hex: datavizColors.seq.aqua[9] },
 ];
 
 const seqSlates = [
-  { id: '10', token: 'blue-cool-5' },
-  { id: '20', token: 'blue-cool-10' },
-  { id: '30', token: 'blue-cool-20' },
-  { id: '40', token: 'blue-cool-30' },
-  { id: '50', token: 'blue-cool-40' },
-  { id: '60', token: 'blue-cool-50' },
-  { id: '70', token: 'blue-cool-60' },
-  { id: '80', token: 'blue-cool-70' },
-  { id: '90', token: 'blue-cool-80' },
+  { id: '10', hex: datavizColors.seq.slate[0] },
+  { id: '20', hex: datavizColors.seq.slate[1] },
+  { id: '30', hex: datavizColors.seq.slate[2] },
+  { id: '40', hex: datavizColors.seq.slate[3] },
+  { id: '50', hex: datavizColors.seq.slate[4] },
+  { id: '60', hex: datavizColors.seq.slate[5] },
+  { id: '70', hex: datavizColors.seq.slate[6] },
+  { id: '80', hex: datavizColors.seq.slate[7] },
+  { id: '90', hex: datavizColors.seq.slate[8] },
+  { id: '100', hex: datavizColors.seq.slate[9] },
 ];
 
 const seqBlues = [
-  { id: '10', token: 'blue-5v' },
-  { id: '20', token: 'blue-10v' },
-  { id: '30', token: 'blue-20v' },
-  { id: '40', token: 'blue-30v' },
-  { id: '50', token: 'blue-40v' },
-  { id: '60', token: 'blue-50v' },
-  { id: '70', token: 'blue-60v' },
-  { id: '80', token: 'blue-70v' },
-  { id: '90', token: 'blue-80v' },
+  { id: '10', hex: datavizColors.seq.blue[0] },
+  { id: '20', hex: datavizColors.seq.blue[1] },
+  { id: '30', hex: datavizColors.seq.blue[2] },
+  { id: '40', hex: datavizColors.seq.blue[3] },
+  { id: '50', hex: datavizColors.seq.blue[4] },
+  { id: '60', hex: datavizColors.seq.blue[5] },
+  { id: '70', hex: datavizColors.seq.blue[6] },
+  { id: '80', hex: datavizColors.seq.blue[7] },
+  { id: '90', hex: datavizColors.seq.blue[8] },
+  { id: '100', hex: datavizColors.seq.blue[9] },
 ];
 
 const seqPurples = [
-  { id: '10', token: 'indigo-warm-5v' },
-  { id: '20', token: 'indigo-warm-10v' },
-  { id: '30', token: 'indigo-warm-20v' },
-  { id: '40', token: 'indigo-warm-30v' },
-  { id: '50', token: 'indigo-warm-40v' },
-  { id: '60', token: 'indigo-warm-50v' },
-  { id: '70', token: 'indigo-warm-60v' },
-  { id: '80', token: 'indigo-warm-70v' },
-  { id: '90', token: 'indigo-warm-80v' },
+  { id: '10', hex: datavizColors.seq.purple[0] },
+  { id: '20', hex: datavizColors.seq.purple[1] },
+  { id: '30', hex: datavizColors.seq.purple[2] },
+  { id: '40', hex: datavizColors.seq.purple[3] },
+  { id: '50', hex: datavizColors.seq.purple[4] },
+  { id: '60', hex: datavizColors.seq.purple[5] },
+  { id: '70', hex: datavizColors.seq.purple[6] },
+  { id: '80', hex: datavizColors.seq.purple[7] },
+  { id: '90', hex: datavizColors.seq.purple[8] },
+  { id: '100', hex: datavizColors.seq.purple[9] },
 ];
 
 const seqMagentas = [
-  { id: '10', token: 'violet-warm-5v' },
-  { id: '20', token: 'violet-warm-10v' },
-  { id: '30', token: 'violet-warm-20v' },
-  { id: '40', token: 'violet-warm-30v' },
-  { id: '50', token: 'violet-warm-40v' },
-  { id: '60', token: 'violet-warm-50v' },
-  { id: '70', token: 'violet-warm-60v' },
-  { id: '80', token: 'violet-warm-70v' },
-  { id: '90', token: 'violet-warm-80v' },
+  { id: '10', hex: datavizColors.seq.magenta[0] },
+  { id: '20', hex: datavizColors.seq.magenta[1] },
+  { id: '30', hex: datavizColors.seq.magenta[2] },
+  { id: '40', hex: datavizColors.seq.magenta[3] },
+  { id: '50', hex: datavizColors.seq.magenta[4] },
+  { id: '60', hex: datavizColors.seq.magenta[5] },
+  { id: '70', hex: datavizColors.seq.magenta[6] },
+  { id: '80', hex: datavizColors.seq.magenta[7] },
+  { id: '90', hex: datavizColors.seq.magenta[8] },
+  { id: '100', hex: datavizColors.seq.magenta[9] },
 ];
 
 // ============================================================
@@ -590,12 +500,14 @@ const seqMagentas = [
 export const CategoricalLight = {
   name: 'Categorical (light)',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => categoricalTable(catLight),
 };
 
 export const CategoricalDark = {
   name: 'Categorical (dark)',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => categoricalTable(catDark, 'dark'),
 };
 
@@ -606,18 +518,20 @@ export const CategoricalDark = {
 export const GroupsLight = {
   name: 'Groups (light)',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const grid = (title, groups) => {
       const blocks = groups
         .map((group) => {
           const rows = group
             .map((c) => {
-              const h = hex(c.token);
+              const h = c.hex;
               const color = fg(h);
               return `
             <tr>
-              <td style="background-color: ${h}; color: ${color};">${c.property}</td>
-              <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
+              <td style="background-color: ${h}; color: ${color};" class="dvp-mono">${c.property}</td>
+              <td style="background-color: ${h}; color: ${color};">${c.semantic || ''}</td>
+              <td style="background-color: ${h}; color: ${color};" class="dvp-right dvp-mono">${h}</td>
             </tr>`;
             })
             .join('');
@@ -643,18 +557,20 @@ export const GroupsLight = {
 export const GroupsDark = {
   name: 'Groups (dark)',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const grid = (title, groups) => {
       const blocks = groups
         .map((group) => {
           const rows = group
             .map((c) => {
-              const h = hex(c.token);
+              const h = c.hex;
               const color = fg(h);
               return `
             <tr>
-              <td style="background-color: ${h}; color: ${color};">${c.property}</td>
-              <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
+              <td style="background-color: ${h}; color: ${color};" class="dvp-mono">${c.property}</td>
+              <td style="background-color: ${h}; color: ${color};">${c.semantic || ''}</td>
+              <td style="background-color: ${h}; color: ${color};" class="dvp-right dvp-mono">${h}</td>
             </tr>`;
             })
             .join('');
@@ -687,65 +603,141 @@ export const GroupsDark = {
 export const SequentialReds = {
   name: 'Sequential: Reds',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('red', seqReds),
 };
 
 export const SequentialOranges = {
   name: 'Sequential: Oranges',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('orange', seqOranges),
 };
 
 export const SequentialYellows = {
   name: 'Sequential: Yellows',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('yellow', seqYellows),
 };
 
 export const SequentialGolds = {
   name: 'Sequential: Golds',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('gold', seqGolds),
 };
 
 export const SequentialLimes = {
   name: 'Sequential: Limes',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('lime', seqLimes),
 };
 
 export const SequentialGreens = {
   name: 'Sequential: Greens',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('green', seqGreens),
 };
 
 export const SequentialAquas = {
   name: 'Sequential: Aquas',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('aqua', seqAquas),
 };
 
 export const SequentialSlates = {
   name: 'Sequential: Slates',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('slate', seqSlates),
 };
 
 export const SequentialBlues = {
   name: 'Sequential: Blues',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('blue', seqBlues),
 };
 
 export const SequentialPurples = {
   name: 'Sequential: Purples',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('purple', seqPurples),
 };
 
 export const SequentialMagentas = {
   name: 'Sequential: Magentas',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('magenta', seqMagentas),
+};
+
+// ============================================================
+// Stories: All Variants (Chromatic Baseline)
+// ============================================================
+
+export const AllVariants = {
+  name: 'All Variants',
+  tags: ['!dev'],
+  render: () => {
+    const seqFamilies = [
+      { name: 'Red', data: seqReds },
+      { name: 'Orange', data: seqOranges },
+      { name: 'Yellow', data: seqYellows },
+      { name: 'Gold', data: seqGolds },
+      { name: 'Lime', data: seqLimes },
+      { name: 'Green', data: seqGreens },
+      { name: 'Aqua', data: seqAquas },
+      { name: 'Slate', data: seqSlates },
+      { name: 'Blue', data: seqBlues },
+      { name: 'Purple', data: seqPurples },
+      { name: 'Magenta', data: seqMagentas },
+    ];
+
+    const headers = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'];
+    const headerRow =
+      '<tr><th class="dvp-left">Hue Family</th>' +
+      headers.map((h) => `<th class="dvp-right">${h}</th>`).join('') +
+      '</tr>';
+
+    const seqRows = seqFamilies
+      .map((fam) => {
+        const cells = fam.data
+          .map((c) => {
+            const color = fg(c.hex);
+            return `<td style="background-color: ${c.hex}; color: ${color};" class="dvp-right dvp-mono">${c.hex}</td>`;
+          })
+          .join('');
+        return `<tr><th class="dvp-left">${fam.name}</th>${cells}</tr>`;
+      })
+      .join('');
+
+    const sequentialTable = dvp(
+      `<table>
+        <thead>${headerRow}</thead>
+        <tbody>${seqRows}</tbody>
+      </table>`,
+      'light',
+    );
+
+    return `<div style="display: flex; flex-direction: column; gap: 2rem; padding: 2rem; background: var(--hds-color-carbon-05); font-family: var(--hds-font-family-sans, sans-serif);">
+      <div>
+        <h2 style="margin: 0 0 1rem 1.5rem; font-size: 1.5rem; color: var(--hds-color-carbon-100);">Sequential Palettes</h2>
+        ${sequentialTable}
+      </div>
+      <div>
+        <h2 style="margin: 0 0 1rem 1.5rem; font-size: 1.5rem; color: var(--hds-color-carbon-100);">Categorical (Light)</h2>
+        ${categoricalTable(catLight, 'light')}
+      </div>
+      <div>
+        <h2 style="margin: 0 0 1rem 1.5rem; font-size: 1.5rem; color: var(--hds-color-carbon-100);">Categorical (Dark)</h2>
+        ${categoricalTable(catDark, 'dark')}
+      </div>
+    </div>`;
+  },
 };

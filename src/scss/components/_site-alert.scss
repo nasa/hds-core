@@ -29,10 +29,11 @@
 
 .usa-site-alert--emergency,
 .usa-site-alert--info {
-  // Alert container — remove left border, go transparent
+  // Alert container — hide USWDS base border color but maintain 0.5rem width
+  // to preserve the native USWDS horizontal icon/text geometry geometry.
   .usa-alert {
     background-color: transparent;
-    border-left-width: 0;
+    border-left-color: transparent;
   }
 
   // Body — where set-text-from-bg applies its colors

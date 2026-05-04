@@ -7,7 +7,7 @@ import { Note } from '../helpers/Note';
 
 > **This guide is new and hasn't been tested in production projects yet.** If you find something wrong or missing, please [open an issue](https://github.com/nasa/hds-core/issues) or submit a PR.
 
-This guide covers HDS Core integration for React projects. It assumes you've read [Getting Started](?path=/docs/getting-started--docs) and understand the Sass vs. pre-compiled CSS approaches.
+This guide covers HDS Core integration for React projects. It assumes you've read [Installation](?path=/docs/overview-installation--docs) and understand the Sass vs. pre-compiled CSS approaches.
 
 ## With react-uswds (recommended)
 
@@ -46,7 +46,7 @@ import './styles/index.css'; // Your compiled Sass output
 import '@trussworks/react-uswds/lib/index.css';
 ```
 
-Your build tool needs the same load paths described in [Getting Started](?path=/docs/getting-started--docs#load-paths). For Vite:
+Your build tool needs the same load paths described in [Installation](?path=/docs/overview-installation--docs#load-paths). For Vite:
 
 ```js
 // vite.config.js
@@ -84,7 +84,7 @@ HDS Core provides styles only and does not require `uswds.js` when paired with r
 
 If you prefer not to add a component library dependency, write USWDS markup directly in JSX and let HDS Core handle the styling.
 
-Follow the Sass or pre-compiled setup in [Getting Started](?path=/docs/getting-started--docs). Then write components using USWDS class names:
+Follow the Sass or pre-compiled setup in [Installation](?path=/docs/overview-installation--docs). Then write components using USWDS class names:
 
 ```jsx
 function MyButton({ children, ...props }) {

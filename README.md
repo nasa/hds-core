@@ -1,200 +1,48 @@
-# HDS Core
+# @nasa/hds-core
 
-NASA's Horizon Design System as a distributable code package.
+NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.
 
-HDS Core (`@nasa/hds-core`) is a CMS-agnostic Sass package that configures [USWDS](https://designsystem.digital.gov/) with NASA's Horizon Design System values. It provides HDS colors, typography, spacing, icons, and component styles as a theme layer on top of USWDS — not a replacement. All USWDS components, utility classes, and patterns continue to work, themed to match HDS. USWDS JavaScript is unmodified — HDS Core is CSS-only.
+> **Status:** Pre-1.0. API and class names may change between minor versions. Not yet published to npm.
 
-**Status:** Pre-1.0. API and class names may change between minor versions.
+## What is HDS Core?
 
-## What's Included
+`@nasa/hds-core` is a CMS-agnostic CSS design system built as a theme layer on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/). It provides the canonical NASA brand visual language (typography, color palettes, spacing, and component styling) required by NASA's web modernization policy (NID 2800.147).
 
-- **CSS/Sass theme** — USWDS configured with HDS colors, typography, spacing, and component styles
-- **Design tokens** — `$hds-color-*` Sass variables and `var(--hds-color-*)` CSS custom properties
-- **Color palette system** — Six palettes (white, light, midtone, dark, blue, black) with automatic component adaptation
-- **SVG icon sprite** — HDS icons compiled into `hds-sprite.svg`
-- **Fonts** — Inter, Public Sans, DM Mono
-- **Storybook documentation** — Foundations (color, typography, spacing, icons, grid) and component guidance
+It is designed for use by **standalone applications, platforms, and microapps** that are approved to operate outside of NASA's core flagship content management systems (like `www.nasa.gov`).
 
-HDS Core ships two CSS bundles:
-
-| Bundle | Contents | Who needs it |
-| --- | --- | --- |
-| `hds.css` | HDS theme + selective USWDS foundation + HDS-themed components | **Everyone** |
-| `hds-uswds.css` | Remaining USWDS component packages + utilities | Sites using unthemed USWDS components |
-
-## Installation
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (LTS recommended)
-- npm
-- Access to the [HDS Core repository](https://github.com/nasa/hds-core) (request from the HDS team)
-
-### Install
-
-HDS Core will be published to npm as `@nasa/hds-core` for the v1.0 release. Until then, install directly from the GitHub repository:
-
-```bash
-npm install git+https://github.com/nasa/hds-core.git @uswds/uswds
-```
-````
-
-`@uswds/uswds` is a peer dependency and must be installed alongside HDS Core.
-
-## Usage
-
-### New HDS site
-
-Load the primary bundle and USWDS JavaScript:
-
-```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
-```
-
-This gives you HDS-themed components plus all USWDS foundation styles (typography, grid, layout). If your site uses USWDS components that HDS hasn't themed yet (cards, modals, hero, etc.), add the addon bundle:
-
-```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds-uswds.min.css" />
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
-```
-
-⚠️ **Load order matters:** `hds-uswds.css` must load **before** `hds.css` so HDS overrides win the cascade.
-
-### Existing USWDS site
-
-If your site already uses USWDS 3.x, adopting HDS Core requires **no markup changes**. Replace your stylesheet, keep your JS:
-
-```html
-<!-- Before -->
-<link rel="stylesheet" href="/css/uswds.min.css" />
-<script src="/js/uswds.min.js" defer></script>
-
-<!-- After -->
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds-uswds.min.css" />
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-<script src="/js/uswds.min.js" defer></script>
-```
-
-Your site renders in the HDS visual identity. See the **Existing USWDS Site** guide in Storybook for what to review after adopting (button intent, dark sections, utility classes).
-
-### Sass (recommended for full control)
-
-Configure your Sass compiler with these load paths:
-
-- `node_modules/@uswds/uswds/packages`
-- `node_modules/@nasa/hds-core/src/scss`
-
-```scss
-// your-project.scss
-@forward '@nasa/hds-core/src/scss/hds';
-@forward 'my-project-styles';
-```
-
-This gives you full access to HDS Sass variables, USWDS functions (`family()`, `size()`, `units()`, `color()`), and theme configuration. For full setup instructions — USWDS settings, HDS tokens, global element style flags, reserved settings, and common mistakes — see the **Getting Started** guide in Storybook.
-
-**If you have your own PostCSS pipeline:** Consider adding [PurgeCSS](https://purgecss.com/) to strip unused selectors from the HDS bundle. This is especially effective for sites that only use a subset of USWDS components.
-
-## Storybook
-
-Storybook is the primary documentation for HDS Core. It includes:
-
-- **Getting Started** — Integration guide covering Sass setup, pre-compiled CSS, USWDS settings, and HDS tokens
-- **Foundations** — Color, color palettes, typography, spacing, icons, grid, data visualization, accessibility
-- **Components** — Guidance pages with usage rules, variant demos, and accessibility requirements
-- **Guides** — Existing USWDS site adoption, React setup
-
-### Browsing Storybook
-
-Until HDS Core is publicly released, run Storybook locally:
-
-```bash
-npm run build         # Build CSS (first time, or after pulling changes)
-npm run dev           # Starts Storybook + Sass watch
-```
-
-Use the **palette switcher** (paintbrush icon in the toolbar) to test components across all six HDS palettes.
-
-To generate a static Storybook for sharing without a dev server:
-
-```bash
-npm run build-storybook               # Outputs to storybook-static/
-npx http-server storybook-static      # Serves at localhost:8080
-```
-
-## Development
-
-### Local setup
-
-```bash
-git clone https://github.com/nasa/hds-core.git
-cd hds-core
-npm install
-npm run build
-npm run dev
-```
-
-### GitHub Codespaces
-
-HDS Core includes a devcontainer that fully automates the development environment. When you open the repo in a [GitHub Codespace](https://github.com/features/codespaces):
-
-1. Node.js, extensions, and editor settings are configured automatically
-2. `npm install`, `npm run build`, and Playwright are set up as part of container creation
-3. Storybook starts automatically and opens in your browser
-
-No terminal commands needed — just wait for the build to finish. The first time, VS Code will prompt "This workspace has tasks that run automatically. Allow?" — click **Allow**.
-
-### Build commands
-
-| Command               | Purpose                                                  |
-| --------------------- | -------------------------------------------------------- |
-| `npm run dev`         | Sass watch + Storybook — day-to-day development          |
-| `npm run build`       | Full production build — assets, Sass, autoprefix, minify |
-| `npm run watch`       | Sass watch only (also runs inside `dev`)                 |
-| `npm run init`        | Copy assets + sprite without compiling Sass              |
-| `npm test`            | Run all tests once (CI)                                  |
-| `npm run test:watch`  | Run tests in watch mode                                  |
-| `npm run test:visual` | Visual regression tests via Chromatic (on demand)        |
-| `npm run check:uswds` | Verify USWDS packages haven't changed (auto on install)  |
-
-### Build output
-
-```
-dist/
-├── css/
-│   ├── hds.css              ← Primary bundle (dev, autoprefixed)
-│   ├── hds.min.css          ← Primary bundle (production, minified)
-│   ├── hds-uswds.css        ← USWDS addon (dev, autoprefixed)
-│   └── hds-uswds.min.css    ← USWDS addon (production, minified)
-├── js/
-│   └── uswds.min.js         ← USWDS JavaScript (copied from @uswds/uswds)
-└── assets/
-    ├── fonts/               ← Inter, DM Mono, Public Sans + USWDS extras
-    └── img/
-        └── hds-sprite.svg   ← HDS icon sprite
-```
+**Before adopting HDS Core**, please read our [Getting Started](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs) guide to ensure your project aligns with NASA's consolidation strategy.
 
 ## Documentation
 
-| Need                 | Location                                 |
-| -------------------- | ---------------------------------------- |
-| Quick start          | This README                              |
-| Integration guide    | Storybook → Getting Started              |
-| Existing USWDS sites | Storybook → Guides → Existing USWDS Site |
-| Visual reference     | Storybook                                |
-| Design decisions     | DESIGN.md                                |
-| Architecture         | ARCHITECTURE.md                          |
-| Docs conventions     | DOCUMENTATION.md                         |
-| 508 conformance      | 508.md                                   |
+Full documentation, component examples, and integration guides are available in our Storybook:
 
-## Contributing
+👉 **[HDS Core Storybook Documentation](https://nasa.github.io/hds-core/)**
 
-This package is maintained by the NASA HDS team. To suggest changes or report issues, please [open an issue](https://github.com/nasa/hds-core/issues) in this repository.
+### Quick Links
 
-For technical architecture, file conventions, and how the codebase is organized, see [ARCHITECTURE.md](ARCHITECTURE.md).
+- [Getting Started Guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs)
+- [Adopting HDS for existing USWDS sites](https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs)
+- [Using HDS Design Tokens](https://nasa.github.io/hds-core/?path=/docs/foundations-design-tokens--docs)
 
-## License
+## Installation (Pre-1.0)
 
-See [LICENSE.md](LICENSE.md).
+HDS Core is currently distributed as a GitHub repository. You can install it directly via npm:
 
+```bash
+npm install @nasa/hds-core
+```
+
+For detailed instructions on consuming the pre-compiled CSS bundles (`hds.css` and `hds-uswds.css`) or integrating the Sass source into your build pipeline, see the [Getting Started Guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs).
+
+## Developing HDS Core
+
+If you are contributing to the HDS Core repository itself:
+
+```bash
+npm install
+npm run dev
+```
+
+This starts the Sass compiler in watch mode and launches the local Storybook dev server.
+
+For deep technical details on the architecture, testing strategy, and pre-1.0 roadmap, see [ARCHITECTURE.md](ARCHITECTURE.md) and [AGENTS.md](AGENTS.md).

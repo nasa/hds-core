@@ -47,13 +47,34 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 The original HDS Figma data visualization palette used custom hex values unique to HDS. The HDS Core Proposal recommended aligning data viz colors with USWDS system color tokens for compatibility and maintainability, while keeping the HDS brand palette (NASA Red, Carbon series, etc.) as custom values. HDS Core follows this recommendation.
 
-Data viz colors are exposed as `--hds-dataviz-cat-1` through `--hds-dataviz-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_custom-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
+Data viz colors are exposed as `--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_custom-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
 
-The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. The Figma-to-USWDS mapping is documented only in SCSS code comments for maintainers. Consumers use the `--hds-dataviz-cat-*` properties or copy hex values from the Palettes documentation.
+The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. Dataviz tokens now live in `tokens.json` under `dataviz.color.*`. Consumers use the `--hds-dataviz-color-cat-*` properties or copy hex values from the Palettes documentation.
 
 Sequential palette custom properties are deferred — categorical covers the primary use case. See `base/_custom-properties.scss` for the full mapping table.
 
+### Highlighting data
+
+To highlight a specific data point against a baseline in a chart:
+
+- Focal point: Use a saturated, dark-step hue (e.g., `dataviz.color.seq.blue.70`)
+- Baseline: Use a desaturated, light-step hue (e.g., `dataviz.color.seq.slate.40`)
+
+Always contrast in both hue AND value. The step gap (e.g., 70 vs 40) ensures the highlight is perceptible without relying on color alone — a user who cannot distinguish blue from slate will still see the lightness difference.
+
+This pattern is documented in the `dataviz.color` `$description` in `tokens.json`.
+
 ## Naming & Organization
+
+### Domain-First Naming Architecture
+
+Dataviz tokens are grouped by domain first, then category, to support future non-color dataviz tokens (typography, spacing, motion).
+
+### Categorical color independence
+
+Categorical dataviz tokens (`dataviz.color.cat.light.*`, `dataviz.color.cat.dark.*`) use hardcoded hex values, not aliases to sequential palette tokens. Three of the 12 categorical colors fall between sequential steps (e.g., fractional lightness values optimized for perceptual contrast across the full 12-color set). The remaining 9 happen to match sequential steps today, but that is a coincidence of current optimization, not an architectural guarantee. Hardcoding all 12 ensures the categorical palette is independently tunable as a unit without risk of sequential palette changes silently affecting categorical contrast.
+
+The `$description` field on each categorical token notes its approximate sequential equivalent (e.g., "Blue 70") for human reference without creating a technical dependency.
 
 ### Palette Names
 
@@ -115,6 +136,10 @@ Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from 
 ### Type Normalization (Known Tech Debt)
 
 All three fonts use the same USWDS cap-height, which disables optical normalization. The Proposal acknowledges this needs future work.
+
+### Composite Tokens (Deferred to Post-1.0)
+
+Composite typography tokens are planned post-1.0, pending Style Dictionary composite support maturity. For 1.0, HDS ships atomic tokens only.
 
 ## Links
 
@@ -404,7 +429,7 @@ HDS Core does not automatically switch palettes based on OS dark mode. Enable wi
 
 ### TV Breakpoint (Deferred)
 
-The Proposal defines a `tv` breakpoint at 1920px. Deferred — USWDS doesn't have a built-in `tv` breakpoint.
+The Proposal defines a `tv` breakpoint at 1920px. Deferred — USWDS doesn't have a built-in `tv` breakpoint. Note that layout.gutter.xl (32px) now exists in tokens.json but the SCSS override is not yet implemented.
 
 ## Creative Director Review
 
@@ -430,7 +455,7 @@ All of these match the approved HDS Core Proposal exactly:
 - Font families (Inter, Public Sans, DM Mono)
 - Font size scale (3xs through 4xl)
 - Spacing tokens
-- Grid settings (12-column, breakpoints through widescreen)
+- Grid settings (12-column, breakpoints through desktop-lg)
 - Palette background colors
 
 ## What Changed From the Proposal

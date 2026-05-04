@@ -7,33 +7,39 @@ import { Note } from '../helpers/Note';
 
 Color is used in restrained and purposeful ways throughout HDS. With content at the forefront, color gives attention and hierarchy without distraction.
 
-HDS colors are designed to meet **WCAG AAA** contrast standards — all text and background combinations maintain a minimum **7.0:1** contrast ratio. For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
+**Red means "go somewhere." Blue means "do something here."** This wayfinding rule applies consistently across all HDS components. NASA Red is for actions that navigate to a new page. NASA Blue is for on-page interactions.
 
-## Primary palette
+This page covers UI colors. For chart and data visualization colors, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).
 
-The primary palette consists of black, white, red, and blue. These colors are used in logical ways to highlight actions when they are important.
+## Brand colors
+
+The four primary brand colors carry the NASA visual identity across all HDS components:
 
 <ColorPalette>
   <ColorItem title="Carbon Black" subtitle="Text, backgrounds, headings" colors={{ '$hds-color-carbon-black': '#000000' }} />
   <ColorItem title="Spacesuit White" subtitle="Backgrounds, button text, icons" colors={{ '$hds-color-spacesuit-white': '#FFFFFF' }} />
-  <ColorItem title="NASA Red" subtitle="Primary buttons, CTA, navigation away" colors={{ '$hds-color-nasa-red': '#F64137' }} />
-  <ColorItem title="NASA Blue" subtitle="Secondary buttons, on-page actions" colors={{ '$hds-color-nasa-blue': '#1C67E3' }} />
+  <ColorItem title="NASA Red" subtitle="Navigation actions (.usa-button), error states, breaking news alerts" colors={{ '$hds-color-nasa-red': '#F64137' }} />
+  <ColorItem title="NASA Blue" subtitle="On-page interactions (.usa-button--secondary), active elements" colors={{ '$hds-color-nasa-blue': '#1C67E3' }} />
 </ColorPalette>
 
-## Extended palette
+<Note type="uswds">
+  HDS Core swaps the USWDS primary and secondary color families. In standard USWDS, primary is blue and secondary is red. In HDS Core, <code>color("primary")</code> returns NASA Red and <code>color("secondary")</code> returns NASA Blue. This means <code>.usa-button</code> automatically renders NASA Red and <code>.usa-button--secondary</code> renders NASA Blue, matching the HDS wayfinding rule with no extra classes needed.
+</Note>
 
-Tints and shades of the brand colors ensure AAA-accessible combinations across all contexts.
+### Tints & shades
+
+Tints and shades of the primary brand colors provide accessible alternatives for hover states, dark backgrounds, and emphasis.
 
 <ColorPalette>
-  <ColorItem title="NASA Red / Tint" subtitle="Hover states, error highlights" colors={{ '$hds-color-nasa-red-tint': '#FF5C52' }} />
-  <ColorItem title="NASA Red / Shade" subtitle="Button hover, error dark" colors={{ '$hds-color-nasa-red-shade': '#B60109' }} />
-  <ColorItem title="NASA Blue / Tint" subtitle="Active elements, dark palette buttons" colors={{ '$hds-color-nasa-blue-tint': '#288BFF' }} />
-  <ColorItem title="NASA Blue / Shade" subtitle="Blue palette background" colors={{ '$hds-color-nasa-blue-shade': '#0B3D91' }} />
+  <ColorItem title="NASA Red / Tint" subtitle="Error highlights, action borders" colors={{ '$hds-color-nasa-red-tint': '#FF5C52' }} />
+  <ColorItem title="NASA Red / Shade" subtitle="Primary button hover, error states on dark backgrounds" colors={{ '$hds-color-nasa-red-shade': '#B60109' }} />
+  <ColorItem title="NASA Blue / Tint" subtitle="Active element highlights, buttons on dark palettes" colors={{ '$hds-color-nasa-blue-tint': '#288BFF' }} />
+  <ColorItem title="NASA Blue / Shade" subtitle="Secondary button hover, background color" colors={{ '$hds-color-nasa-blue-shade': '#0B3D91' }} />
 </ColorPalette>
 
 ## Neutrals — Carbon scale
 
-Neutrals provide appropriate levels of contrast across the system. They are used for text, borders, and subtle backgrounds.
+The Carbon scale provides appropriate levels of contrast for text, borders, and subtle backgrounds.
 
 <ColorPalette>
   <ColorItem
@@ -60,11 +66,6 @@ Neutrals provide appropriate levels of contrast across the system. They are used
   />
 </ColorPalette>
 
-Key text pairings for AAA contrast:
-
-- **Carbon 60** (`#58585B`) — body text on white/light backgrounds
-- **Carbon 40** (`#959599`) — body text on dark/black backgrounds
-
 All neutrals use the token pattern `$hds-color-carbon-{step}` (Sass) or `var(--hds-color-carbon-{step})` (CSS).
 
 ## Additional colors
@@ -72,46 +73,37 @@ All neutrals use the token pattern `$hds-color-carbon-{step}` (Sass) or `var(--h
 International Orange and Active Green are used sparingly and intentionally.
 
 <ColorPalette>
-  <ColorItem title="International Orange" subtitle="Blockquote icon, status indicators" colors={{ '$hds-color-international-orange': '#EA6F24' }} />
-  <ColorItem title="Active Green" subtitle="Active missions, confirmation status" colors={{ '$hds-color-active-green': '#47DA84' }} />
+  <ColorItem title="International Orange" subtitle="Blockquote icon, status indicator dot" colors={{ '$hds-color-international-orange': '#EA6F24' }} />
+  <ColorItem title="Active Green" subtitle="Confirmation/complete, active-status indicator dot" colors={{ '$hds-color-active-green': '#47DA84' }} />
 </ColorPalette>
 
-## Color roles
+## Accessibility
 
-HDS uses color to create consistent wayfinding patterns across all components.
+HDS colors meet **WCAG AA** contrast standards. Body text and headings target **AAA**. 
 
-| Role         | Swatch                                                                                                                                                   | Color                | Meaning                   | Examples |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------- | -------- |
-| Primary      | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'var(--hds-color-nasa-red)', borderRadius: '50%' }} />             | NASA Red             | Navigates to a new page   | ...      |
-| Secondary    | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'var(--hds-color-nasa-blue)', borderRadius: '50%' }} />            | NASA Blue            | Stays on the current page | ...      |
-| Neutral      | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'var(--hds-color-carbon-50)', borderRadius: '50%' }} />            | Carbon scale         | UI controls               | ...      |
-| Significance | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'var(--hds-color-international-orange)', borderRadius: '50%' }} /> | International Orange | Status, emphasis          | ...      |
-| Active       | <span style={{ display: 'inline-block', width: '1em', height: '1em', backgroundColor: 'var(--hds-color-active-green)', borderRadius: '50%' }} />         | Active Green         | Confirmation              | ...      |
+Key text pairings for AAA contrast:
 
-Beyond wayfinding, color is used sparingly — only to show status, call attention to timely events, and give emphasis to the human element of quotes.
+- **Carbon 60** (`#58585B`, 7.09:1 AAA on White) — body text on white/light backgrounds
+- **Carbon 40** (`#959599`, 7.03:1 AAA on Black) — body text on dark/black backgrounds
 
-<Note type="uswds">
-  HDS Core swaps the USWDS primary and secondary color families. In standard USWDS, primary is blue and secondary is red. In HDS Core,
-  <code>color("primary")</code> returns NASA Red and
-  <code>color("secondary")</code> returns NASA Blue. This means
-  <code>.usa-button</code> automatically renders NASA Red and
-  <code>.usa-button--secondary</code> renders NASA Blue — matching the HDS wayfinding rule with no extra classes needed.
+<Note type="code">
+  NASA Red (`#F64137`) passes **AA Large** (3.66:1) on light backgrounds. Valid for text ≥18 pt / ≥14 pt bold and non-text UI elements. For small body text on light backgrounds, use NASA Red Shade (`#B60109`, 7.00:1 AAA).
 </Note>
+
+For verified contrast ratios, see the [Color Contrast Tool](?path=/docs/foundations-color-contrast-tool--docs). For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
 
 ## Using colors in code
 
 HDS Core provides three ways to reference colors:
 
-| Method                    | Syntax                       | Values        | When to use                                           |
-| ------------------------- | ---------------------------- | ------------- | ----------------------------------------------------- |
-| **HDS Sass variables**    | `$hds-color-carbon-90`       | Exact HDS hex | Custom Sass — ✅ recommended                          |
-| **CSS custom properties** | `var(--hds-color-carbon-90)` | Exact HDS hex | Plain CSS / JS — ✅ recommended                       |
-| **USWDS theme tokens**    | `color("base-darker")`       | Approximate   | Inside USWDS mixins only — ⚠️ close but not identical |
+| Method                    | Syntax                       | Values                                | When to use                                     |
+| ------------------------- | ---------------------------- | ------------------------------------- | ----------------------------------------------- |
+| **HDS Sass variables**    | `$hds-color-carbon-90`       | Exact HDS hex                         | Custom Sass. Recommended.                       |
+| **CSS custom properties** | `var(--hds-color-carbon-90)` | Exact HDS hex                         | Plain CSS / JS. Recommended.                    |
+| **USWDS theme tokens**    | `color("base-darker")`       | USWDS system values (differ from HDS) | Inside USWDS mixins only. Not exact HDS values. |
 
 <Note type="code">
-  USWDS theme tokens use USWDS's own system color strings, which don't have exact matches for every Carbon value. For example,
-  <code>color("base-darker")</code> returns <code>#1b1b1b</code> while
-  <code>$hds-color-carbon-90</code> is <code>#17171B</code>. Use HDS variables or custom properties for exact values.
+  USWDS theme tokens map to USWDS system colors, which are different values than HDS tokens. For example, <code>color("base-darker")</code> returns <code>#1b1b1b</code>; <code>$hds-color-carbon-90</code> is <code>#17171B</code>. Always use HDS variables or custom properties when exact HDS values are required.
 </Note>
 
 ### Sass
@@ -134,19 +126,24 @@ HDS Core provides three ways to reference colors:
 }
 ```
 
-### Palette-aware custom properties
+### Design tokens
 
-Inside a palette wrapper, use `--hds-palette-*` tokens to automatically adapt to the active palette. See [Color Palettes](?path=/docs/foundations-color-palettes--docs) for the full list.
+HDS ships color values in a DTCG-compliant `tokens.json` file for teams using Style Dictionary or other token tooling. Token paths use unprefixed groups. Add `prefix: 'hds'` in your build config to match HDS output.
 
-```css
-.my-element {
-  color: var(--hds-palette-text);
-  background: var(--hds-palette-bg);
-  border-color: var(--hds-palette-border);
+```js
+// Style Dictionary config example
+{
+  prefix: 'hds';
 }
 ```
 
-## CSS custom properties reference
+See the project README for full token consumption setup.
+
+### Palette-aware custom properties
+
+HDS provides six palettes that automatically adapt all component colors to their background context. Inside a palette wrapper, use `--hds-palette-*` tokens to respond to the active palette. See [Color Palettes](?path=/docs/foundations-color-palettes--docs) for usage, available tokens, and examples.
+
+### CSS custom properties reference
 
 All `--hds-color-*` properties are output to `:root` and available globally:
 
@@ -223,7 +220,3 @@ All `--hds-color-*` properties are output to `:root` and available globally:
 </div>
 
 For chart and data visualization colors, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).
-
-```
-
-```

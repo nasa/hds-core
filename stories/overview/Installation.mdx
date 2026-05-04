@@ -1,0 +1,128 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview/Installation" />
+
+# Installation
+
+Technical setup for integrating HDS Core into your project. If you're evaluating whether HDS Core is the right fit for your site, start with [Getting Started](?path=/docs/overview-getting-started--docs). For what your site needs to achieve visually, see [Design Standards](?path=/docs/overview-design-standards--docs).
+
+## Choose your approach
+
+|                   | Pre-compiled CSS                                                        | Sass (recommended)                                                                    |
+| ----------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Setup**         | Drop in a `<link>` tag                                                  | Requires a Sass compiler and load path configuration                                  |
+| **Customization** | Limited to CSS custom properties                                        | Full access to USWDS settings, HDS Sass variables, and USWDS functions                |
+| **Custom code**   | Use `var(--hds-color-*)` and `var(--hds-font-weight-*)` in your own CSS | Use `$hds-color-*` variables, `family()`, `size()`, `units()`, `color()` in your Sass |
+| **Upgrade path**  | May need to switch to Sass later for full control                       | Easiest to evolve as HDS Core adds features                                           |
+
+If you're evaluating HDS Core, working on a content site, or don't have a build pipeline, start with pre-compiled CSS. You can switch to Sass later without changing your markup.
+
+No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-build-environments--docs) guide for CDN-based setup.
+
+## Pre-compiled CSS
+
+### New HDS site
+
+```html
+<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
+<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+```
+
+That's it. You get HDS-themed components plus all USWDS foundation styles (typography, grid, layout).
+
+### Existing USWDS site
+
+Replace your stylesheet and keep your JS:
+
+```html
+<!-- Before -->
+<link rel="stylesheet" href="/css/uswds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+
+<!-- After -->
+<link rel="stylesheet" href="/css/hds-uswds.min.css" />
+<link rel="stylesheet" href="/css/hds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+```
+
+⚠️ **Load order matters.** `hds-uswds.css` must load **before** `hds.css` so that HDS overrides take precedence in the cascade.
+
+Your site renders in the HDS visual identity with no markup changes. See the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs) for what to review after switching.
+
+### Using unthemed USWDS components
+
+`hds.css` includes HDS-themed components and USWDS foundations (typography, grid). If your site also uses USWDS components that HDS hasn't themed yet (cards, modals, hero, etc.), load both bundles together as shown in the existing USWDS site example above.
+
+### Using HDS tokens in your CSS
+
+HDS design tokens are available as CSS custom properties in your own stylesheets:
+
+```css
+.my-element {
+  color: var(--hds-color-nasa-blue);
+  font-weight: var(--hds-font-weight-bold);
+}
+```
+
+All `$hds-color-*` values are also available as `var(--hds-color-*)` custom properties.
+
+### Optimizing bundle size
+
+If your build pipeline supports [PurgeCSS](https://purgecss.com/), consider adding it to strip unused CSS selectors from the compiled output.
+
+## Sass setup
+
+### Load paths
+
+Configure your Sass compiler with these load paths:
+
+- `node_modules/@uswds/uswds/packages`
+- `node_modules/@nasa/hds-core/src/scss`
+
+How you set these depends on your build tool. Most accept a `loadPaths` or `includePaths` array in their Sass configuration.
+
+### Entry point
+
+```scss
+// your-project.scss
+@forward '@nasa/hds-core/src/scss/hds';
+@forward 'my-project-styles';
+```
+
+### Using HDS tokens in Sass
+
+With HDS Core loaded, HDS Sass variables and USWDS functions are available in your own stylesheets:
+
+```scss
+.my-component {
+  background-color: $hds-color-carbon-05;
+  color: $hds-color-carbon-90;
+  font-family: family('heading');
+  font-size: size('heading', 'md');
+  padding: units(3);
+}
+```
+
+**Available HDS variables.** All HDS brand and Carbon colors are available as `$hds-color-*` Sass variables. These return exact HDS hex values.
+
+**USWDS functions.** `family()`, `size()`, `units()`, and `color()` all work as documented in the [USWDS documentation](https://designsystem.digital.gov/design-tokens/).
+
+**Color precision note.** USWDS `color()` returns USWDS system token values, which are close approximations of HDS Carbon colors but not exact matches. For example, USWDS `gray-90` is `#1b1b1b`, while HDS Carbon 90 is `#17171B`. When you need exact HDS hex values, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties.
+
+### Going deeper with Sass
+
+For USWDS theme customization, global element style flags, reserved settings, and advanced configuration, see the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
+
+## Common mistakes
+
+**Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself can load it without HDS configuration, breaking the theme. Use HDS Sass variables and USWDS functions directly; they're available automatically after forwarding HDS Core.
+
+**Bare HTML elements aren't styled by default.** If your headings, paragraphs, or links aren't picking up HDS styles, add USWDS classes like `.usa-prose`, `.usa-link`, and `.usa-button`. Sass users can enable global element styling in the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
+
+## Framework-specific guides
+
+Using a JavaScript framework? These guides cover additional setup:
+
+- [React](?path=/docs/guides-react-guidance--docs) — Integration with and without [react-uswds](https://github.com/trussworks/react-uswds)
+
+{/* Additional framework guides will be added as they become available. */}

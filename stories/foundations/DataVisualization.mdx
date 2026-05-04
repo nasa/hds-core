@@ -7,31 +7,31 @@ import { Note } from '../helpers/Note';
 
 Guidance for creating charts and data visualizations that are consistent with HDS and accessible to all users. For the recommended color palettes, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).
 
-HDS data visualizations use the same foundations as the rest of the design system — [Typography](?path=/docs/foundations-typography--docs), [Color](?path=/docs/foundations-color--docs), [Icons](?path=/docs/foundations-icons--docs), and [Spacing](?path=/docs/foundations-spacing--docs) — with additional guidance specific to charts.
+HDS data visualizations use the same foundations as the rest of the design system: [Typography](?path=/docs/foundations-typography--docs), [Color](?path=/docs/foundations-color--docs), [Icons](?path=/docs/foundations-icons--docs), and [Spacing](?path=/docs/foundations-spacing--docs): with additional guidance specific to charts.
 
 <figure style={{ margin: '1.5rem 0' }}>
   <img src="dataviz-intro-chart-examples.png" alt="Examples of common HDS data visualizations: line graph, pie chart, bar graph, and volumetric chart" style={{ width: '100%', maxWidth: '720px', display: 'block' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
 ## Chart anatomy
 
 Every data visualization should include:
 
-- **Title** — a "takeaway title" that communicates the main insight, not just a description of the data. Use Inter Bold.
-- **Subtitle** — additional context in Inter Regular at a smaller size
-- **Axis labels** — always label both axes, even when the data makes units obvious. "Years (2004–2021)" is more useful than "x."
-- **Legend** — clearly identify what each color or shape represents. Use actual words, not variable names. Position legends below the chart on desktop, above on mobile.
-- **Description or citation** — recommended for additional clarity. Can be part of the surrounding article if immediately adjacent.
+- **Title**: a "takeaway title" that communicates the main insight, not just a description of the data. Use Inter Bold.
+- **Subtitle**: additional context in Inter Regular at a smaller size
+- **Axis labels**: always label both axes, even when the data makes units obvious. "Years (2004–2021)" is more useful than "x."
+- **Legend**: clearly identify what each color or shape represents. Use actual words, not variable names. Position legends below the chart on desktop, above on mobile.
+- **Description or citation**: recommended for additional clarity. Can be part of the surrounding article if immediately adjacent.
 
 Optional elements:
 
-- **Data controls and filters** — dropdowns, tabs, or filter panels for switching datasets or adjusting what's displayed. Provide a download/export option when possible.
-- **Tooltips** — useful for dense data. Show precise values on hover without cluttering the chart. For multiple datasets, tooltips can show all values at that data point.
+- **Data controls and filters**: dropdowns, tabs, or filter panels for switching datasets or adjusting what's displayed. Provide a download/export option when possible.
+- **Tooltips**: useful for dense data. Show precise values on hover without cluttering the chart. For multiple datasets, tooltips can show all values at that data point.
 
 <figure style={{ margin: '1.5rem 0' }}>
   <img src="dataviz-chart-anatomy.png" alt="Annotated chart diagram showing the UI shell elements: title, subtitle, data controls, tabs, axis labels, data points, zoom controls, legend, and description" style={{ width: '100%', maxWidth: '720px', display: 'block' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
 ## Choosing the right chart type
@@ -40,7 +40,7 @@ Optional elements:
 
 Best for comparing values across categories. Preferred over pie/donut charts for simple comparisons because they are easier to read accurately.
 
-- Use consistent bar spacing — roughly 50% of bar width
+- Use consistent bar spacing: roughly 50% of bar width
 - For contiguous shapes (like stacked bars), add a 1px divider in the background color between segments
 - Horizontal bars work well when category labels are long
 
@@ -49,7 +49,7 @@ Best for comparing values across categories. Preferred over pie/donut charts for
 Best for showing change over time with continuous data.
 
 - Limit to 4–5 lines before the chart becomes hard to read
-- Use distinct colors with varying value (lightness), not just hue — see the accessibility section below
+- Use distinct colors with varying value (lightness), not just hue: see the accessibility section below
 
 ### Area charts
 
@@ -70,7 +70,7 @@ Best for showing relationships between two variables.
 Use sparingly. Bar charts are almost always easier to read. Donut charts can work for showing a few proportions of a whole (e.g., 3–5 categories) when exact comparison isn't the goal.
 
 - Don't use for more than 5–6 categories
-- Always include value labels — angles are hard to judge accurately
+- Always include value labels: angles are hard to judge accurately
 
 <Note type="figma">The HDS Figma spec includes additional chart types (pyramid, bubble, gauge). This guidance covers the most common types. Refer to the Figma library for the full set.</Note>
 
@@ -80,12 +80,12 @@ Use sparingly. Bar charts are almost always easier to read. Donut charts can wor
 
 <figure style={{ float: 'right', margin: '0 0 1rem 1.5rem', maxWidth: '320px' }}>
   <img src="dataviz-color-categories.png" alt="Chart examples showing categorical color usage: colors vary in both hue and value for maximum distinction between data series" style={{ width: '100%' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
-When data categories need distinct colors, use colors that vary in both **hue and value** (lightness). Varying hue alone doesn't provide enough contrast — alternating lighter and darker colors creates more accessible palettes for all users, including those with color vision deficiency.
+When data categories need distinct colors, use colors that vary in both **hue and value** (lightness). Varying hue alone doesn't provide enough contrast: alternating lighter and darker colors creates more accessible palettes for all users, including those with color vision deficiency.
 
-HDS provides categorical colors as CSS custom properties (`--hds-dataviz-cat-1` through `--hds-dataviz-cat-12`) that automatically adapt to light and dark backgrounds. See [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) for the full set of recommended categorical and sequential palettes with usage instructions.
+HDS provides categorical colors as CSS custom properties (`--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12`) that automatically adapt to light and dark backgrounds. See [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) for the full set of recommended categorical and sequential palettes with usage instructions.
 
 <div style={{ clear: 'both' }} />
 
@@ -93,7 +93,7 @@ HDS provides categorical colors as CSS custom properties (`--hds-dataviz-cat-1` 
 
 <figure style={{ float: 'right', margin: '0 0 1rem 1.5rem', maxWidth: '320px' }}>
   <img src="dataviz-color-quantity.png" alt="Heatmap example showing a sequential color palette representing data values from light to dark" style={{ width: '100%' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
 When color represents a value or range (e.g., temperature, density), use a single-hue sequential palette that progresses from light to dark.
@@ -104,10 +104,10 @@ When color represents a value or range (e.g., temperature, density), use a singl
 
 <figure style={{ float: 'right', margin: '0 0 1rem 1.5rem', maxWidth: '320px' }}>
   <img src="dataviz-color-meaning.png" alt="Chart example showing semantic color usage: red for negative values, green for positive values, warm and cool tones for temperature changes" style={{ width: '100%' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
-In some cases, data categories have strong associations with a specific color (countries, companies, or even planets — Mars = red, Earth = blue). These associations can make visualizations more intuitive.
+In some cases, data categories have strong associations with a specific color (countries, companies, or even planets, such as e.g., Mars is red, Earth is blue). These associations can make visualizations more intuitive.
 
 Colors can also carry inherent meaning: green for positivity, red for negativity, warm and cool tones for temperature. Use these carefully and always provide a non-color alternative.
 
@@ -120,18 +120,18 @@ Multiple colors are not always necessary. A single highlight color can effective
 ### Don'ts
 
 - **Don't use color alone to convey meaning.** Always pair color with labels, icons, or patterns.
-- **Don't use only hue variation** for categorical palettes — include value (lightness) variation for color-blind accessibility.
+- **Don't use only hue variation** for categorical palettes: include value (lightness) variation for color-blind accessibility.
 
 ## Typography in charts
 
 <figure style={{ margin: '1.5rem 0' }}>
   <img src="dataviz-typography-hierarchy.png" alt="Do: maintain a clear hierarchy for titles, labels, captions, and other text. Don't: mix and match type styles in ways that confuse the hierarchy." style={{ width: '100%', maxWidth: '720px', display: 'block' }} />
-  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#71767a', marginTop: '0.5rem' }}>Visual reference from HDS Figma — implementation may differ.</figcaption>
+  <figcaption style={{ fontSize: '0.85rem', fontStyle: 'italic', color: 'var(--hds-color-carbon-60)', marginTop: '0.5rem' }}>Visual reference from HDS Figma: implementation may differ.</figcaption>
 </figure>
 
 | Element       | Font  | Weight  | Notes                                                |
 | ------------- | ----- | ------- | ---------------------------------------------------- |
-| Chart title   | Inter | Bold    | Takeaway title — communicates the insight            |
+| Chart title   | Inter | Bold    | Takeaway title: communicates the insight             |
 | Subtitle      | Inter | Regular | Smaller size than title                              |
 | Axis labels   | Inter | Regular | Descriptive, accessible through assistive technology |
 | Data labels   | Inter | Regular | Use when values need to be precise                   |
@@ -195,8 +195,8 @@ Accessible data visualizations should provide:
 - **A properly coded data table** with the underlying data, available as an alternative to the visual chart
 - **Keyboard navigation** for interactive charts
 - **Descriptive axis labels** accessible through assistive technology
-- **Sufficient color contrast** — vary both hue and value, not just hue
-- **No reliance on color alone** — pair color with labels, icons, or patterns
+- **Sufficient color contrast**: vary both hue and value, not just hue
+- **No reliance on color alone**: pair color with labels, icons, or patterns
 
 ### White space
 
@@ -210,40 +210,40 @@ Allow users to view and interact with content at their own pace. Nothing should 
 
 These tools can help test visualizations for color accessibility before publishing:
 
-- [Sim Daltonism](https://apps.apple.com/app/sim-daltonism/id693112260) — simulate color blindness on Mac/iOS
-- [Viz Palette](https://projects.susielu.com/viz-palette) — test and optimize palettes for data visualization
-- [ColorBrewer](https://colorbrewer2.org) — sample palettes for map-based data visualization
-- [ColorBox](https://colorbox.io) — create color scales with a range of hues and values
-- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) — check contrast ratios against backgrounds
+- [Sim Daltonism](https://apps.apple.com/app/sim-daltonism/id693112260): simulate color blindness on Mac/iOS
+- [Viz Palette](https://projects.susielu.com/viz-palette): test and optimize palettes for data visualization
+- [ColorBrewer](https://colorbrewer2.org): sample palettes for map-based data visualization
+- [ColorBox](https://colorbox.io): create color scales with a range of hues and values
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/): check contrast ratios against backgrounds
 
 For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
 
 ## Implementation
 
-HDS Core does not ship chart components — use the charting library that best fits your project (Chart.js, Highcharts, Plotly, D3, ECharts, etc.). HDS provides the design foundations to keep your charts visually consistent.
+HDS Core does not ship chart components. Use the charting library that best fits your project (Chart.js, Highcharts, Plotly, D3, ECharts, etc.). HDS provides the design foundations to keep your charts visually consistent.
 
 **What HDS Core provides today:**
 
-- **Categorical color custom properties** — `--hds-dataviz-cat-1` through `--hds-dataviz-cat-12`, palette-aware (automatically switch for dark backgrounds)
-- **Sequential color palettes** — hex values documented on the [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) page
-- **Typography** — Inter, Public Sans, and DM Mono via the HDS font stack
-- **Icons** — HDS icon sprite for common actions (download, share, filter)
+- **Categorical color custom properties**: `--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12`, palette-aware (automatically switch for dark backgrounds)
+- **Sequential color palettes**: hex values documented on the [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) page
+- **Typography**: Inter, Public Sans, and DM Mono via the HDS font stack
+- **Icons**: HDS icon sprite for common actions (download, share, filter)
 
 **How to apply colors to your charts:**
 
 ```css
-/* CSS / Sass — use custom properties */
+/* CSS / Sass: use custom properties */
 .series-1 {
-  fill: var(--hds-dataviz-cat-1);
+  fill: var(--hds-dataviz-color-cat-1);
 }
 .series-2 {
-  fill: var(--hds-dataviz-cat-2);
+  fill: var(--hds-dataviz-color-cat-2);
 }
 ```
 
 ```js
-// JS charting libraries — copy hex values from the Palettes page
-backgroundColor: ['#0b4778', '#fb5a47', '#fa9441'];
+// JS charting libraries: copy hex values from the Palettes page
+backgroundColor: ['#1159cd', '#ef483f', '#e8892e'];
 ```
 
 See [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs) for the complete palette reference and hex values.

@@ -1,0 +1,56 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as SideNavigationStories from './SideNavigation.stories';
+
+<Meta title="Components/Side Navigation/Guidance" />
+
+# Side Navigation
+
+The side navigation component is a vertical list of links used for navigating between pages within a section or topic.
+
+<Canvas of={SideNavigationStories.AllVariants} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+## Variants
+
+### Single Level
+
+The default implementation uses a flat, single-level hierarchy.
+
+<Canvas of={SideNavigationStories.SingleLevel} />
+
+### Multi-Level
+
+The component supports nested hierarchies up to three levels deep (parent, child, grandchild) using the `usa-sidenav__sublist` markup. Minor spacing refinements for deep nesting are in progress, but the component is functionally complete.
+
+<Canvas of={SideNavigationStories.MultiLevel} />
+
+## When to use
+
+- To display a list of pages within the current section or topic.
+- In conjunction with a documentation or multi-column layout where the left rail is reserved for section wayfinding.
+
+## When to consider something else
+
+- For navigating to anchor links within the current page, use [In-Page Navigation](/docs/components-in-page-navigation-guidance--docs).
+- For global navigation across major site sections, a header navigation pattern is more appropriate than side navigation.
+- For small sites with fewer than five pages, side navigation may be unnecessary — a simpler navigation pattern or direct links may be more appropriate.
+- If a page already has both horizontal and vertical navigation, consider simplifying the existing navigation before adding a side navigation component.
+
+## Usability guidance
+
+- **Link labels:** Keep labels short and scannable. Use shorter derivatives of page titles when possible.
+- **Testing:** Test deep hierarchies with real content. Three levels of nesting can create cognitive overload if labels are long or sections are large.
+- **Markup structure:** Use `usa-sidenav` for the root list, `usa-sidenav__item` for list items, and `usa-sidenav__sublist` for nested lists.
+- **Active state tracking:** For nested lists, apply the `usa-current` class to the active link and all of its active ancestors (the parent and child trail). This maintains the visual highlight tree. Apply `aria-current="page"` **only** to the specific terminal link the user is viewing.
+
+## Legacy USWDS support
+
+Side navigation is fully supported in HDS Core. Existing USWDS sites using `.usa-sidenav` will work with the HDS theme. A future Secondary Navigation component may offer additional patterns for section wayfinding, but side navigation is not being replaced or deprecated.
+
+## Accessibility
+
+- **Component behavior:** Side navigation is a CSS-only component. It does not depend on JavaScript for expand/collapse behavior. The visible hierarchy is determined entirely by where `usa-current` is applied in the HTML markup.
+- **Keyboard navigation:** Tabbing moves sequentially through all visible links. Nested sublists displayed via `usa-current` on a parent are part of the tab order. All levels must be reachable without skipping.
+- **Screen reader expectations:** Users expect standard HTML list navigation (`<ul>`, `<li>`) to announce the number of items in the current level.
+- **Contrast:** Active state contrast across all six HDS palettes has been verified via automated Chromatic palette accessibility tests.

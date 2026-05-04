@@ -24,42 +24,52 @@ Use a class or data attribute on any container element:
 </section>
 ```
 
-**White is the default.** If no palette is assigned to a parent element, white palette coloring is used. You don't need to add `hds-palette-white` unless you're overriding a section inside a different palette.
-
 ## The six palettes
 
-| Swatch                                                                                                                            | Palette | Class                 | Background                |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------- | ------------------------- |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#FFFFFF', border: '1px solid #ccc' }} /> | White   | `hds-palette-white`   | Spacesuit White (default) |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#F6F6F6', border: '1px solid #ccc' }} /> | Light   | `hds-palette-light`   | Carbon 05                 |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#D1D1D1' }} />                           | Midtone | `hds-palette-midtone` | Carbon 20                 |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#17171B' }} />                           | Dark    | `hds-palette-dark`    | Carbon 90                 |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#0B3D91' }} />                           | Blue    | `hds-palette-blue`    | NASA Blue Shade           |
-| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#000000' }} />                           | Black   | `hds-palette-black`   | Carbon Black              |
-
-<Note type="figma">The Black palette is reserved for site headers and footers. For dark content areas within the page body, use the Dark palette instead.</Note>
+| Swatch                                                                                                                            | Palette                                  | Class                 | Background                |
+| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | --------------------- | ------------------------- |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#FFFFFF', border: '1px solid #ccc' }} /> | [White](#white-default)                  | `hds-palette-white`   | Spacesuit White (default) |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#F6F6F6', border: '1px solid #ccc' }} /> | [Light](#light)                          | `hds-palette-light`   | Carbon 05                 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#D1D1D1' }} />                           | [Midtone](#midtone)                      | `hds-palette-midtone` | Carbon 20                 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#17171B' }} />                           | [Dark](#dark)                            | `hds-palette-dark`    | Carbon 90                 |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#0B3D91' }} />                           | [Blue](#blue)                            | `hds-palette-blue`    | NASA Blue Shade           |
+| <span style={{ display: 'inline-block', width: '1.5em', height: '1em', backgroundColor: '#000000' }} />                           | [Black](#black-headers-and-footers-only) | `hds-palette-black`   | Carbon Black              |
 
 ### White (default)
+
+The default palette for body content. Use for text-heavy sections, reference pages, and anywhere readability is the primary concern. Most pages are predominantly White.
 
 <Canvas of={PaletteStories.White} />
 
 ### Light
 
+Provides subtle visual separation from White without a change in text treatment. Use for sections that need gentle differentiation: search bars, form areas, content-dense card grids, or section headers on reference pages.
+
 <Canvas of={PaletteStories.Light} />
 
 ### Midtone
+
+A true middle ground: headings stay dark while muted text and borders shift to accommodate the gray background. Used sparingly for sections that need to stand apart from both light and dark contexts. Midtone is the least common palette across NASA templates.
 
 <Canvas of={PaletteStories.Midtone} />
 
 ### Dark
 
+Serves two roles: as the dominant palette for immersive, media-rich pages, or as accent sections on light pages to create visual rhythm (related articles, featured media, visual callouts). Dark is the most versatile non-White palette.
+
 <Canvas of={PaletteStories.Dark} />
 
 ### Blue
 
+<Note type="uswds">⚠️ Known gap (Issue #39): Red Tint error text on Blue Shade background = 3.30:1, which fails AA for normal text. Form error messages inside `.hds-palette-blue` require an alternative (proposed fix: use White for error text, pending Creative Director review).</Note>
+
+Used with intention for accent sections that need to stand apart from Dark: calls-to-action, visual transitions, or key engagement moments. Blue sections should feel purposeful, not decorative. Not used as a whole-page background.
+
 <Canvas of={PaletteStories.Blue} />
 
 ### Black (headers and footers only)
+
+Reserved for the site header and footer. Do not use Black for content sections within the page body. For dark content areas, use Dark instead.
 
 <Canvas of={PaletteStories.Black} />
 
@@ -69,9 +79,19 @@ Palettes can be nested. A child palette overrides its parent for everything insi
 
 <Canvas of={PaletteStories.Nested} />
 
-## Using palette tokens in custom styles
+### Component palette support
 
-Inside a palette wrapper, `--hds-palette-*` CSS custom properties automatically resolve to the correct colors for that palette. Use these instead of hardcoded color values so your custom styles adapt to any palette context:
+Most HDS components fully adapt to all six palettes through the `--hds-palette-*` token system. The following exceptions apply:
+
+| Component                                       | Behavior                                                                                                              |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [**Table**](?path=/docs/components-table--docs) | Supports White, Light, Dark, and Black. On Midtone and Blue, falls back to light theme. Full palette support planned. |
+| **Site Alert**                                  | Creates its own palette context (emergency = red, info = blue). Ignores parent palette by design.                     |
+| **Banner**                                      | Always renders with a light background by design.                                                                     |
+
+## Using palette tokens
+
+Inside a palette wrapper, `--hds-palette-*` CSS custom properties automatically resolve to the correct colors for that palette. Every HDS component uses them internally; your custom styles can use these same tokens to adapt to any context instead of relying on hardcoded hex values.
 
 ```css
 .my-component {
@@ -94,6 +114,89 @@ Inside a palette wrapper, `--hds-palette-*` CSS custom properties automatically 
 }
 ```
 
-These tokens cover text, headings, muted text (labels, metadata, captions), links, borders, backgrounds, button colors, and more. Every HDS component uses them internally — your custom styles can use the same tokens to stay consistent.
+For resolved hex values per palette, see the `color.palette` tier in `tokens.json`.
 
-For the full list of available color values, see [Color](?path=/docs/foundations-color--docs).
+### Token reference
+
+#### Text and content
+
+| Token                           | Controls                                                                                           |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `--hds-palette-heading`         | [Heading](?path=/docs/foundations-typography--docs#heading-scale) text color                       |
+| `--hds-palette-text`            | [Body text](?path=/docs/foundations-typography--docs#body-text) color                              |
+| `--hds-palette-muted`           | [Labels, captions, metadata](?path=/docs/foundations-typography--docs#overlines-metadata-captions) |
+| `--hds-palette-bg`              | Section background                                                                                 |
+| `--hds-palette-border`          | Default border color                                                                               |
+| `--hds-palette-icon`            | Default [icon](?path=/docs/foundations-icons--docs) color                                          |
+| `--hds-palette-marker`          | [List](?path=/docs/components-list-guidance--docs) markers, indicators                             |
+| `--hds-palette-blockquote-icon` | [Blockquote](?path=/docs/components-blockquote-guidance--docs) decorative icon                     |
+
+#### Links
+
+| Token                          | Controls                                                      |
+| ------------------------------ | ------------------------------------------------------------- |
+| `--hds-palette-link-text`      | [Link](?path=/docs/components-link-guidance--docs) text color |
+| `--hds-palette-link-underline` | Link underline color                                          |
+| `--hds-palette-link-arrow`     | Link arrow/chevron color                                      |
+
+#### Buttons
+
+| Token                                  | Controls                                                                    |
+| -------------------------------------- | --------------------------------------------------------------------------- |
+| `--hds-palette-btn-primary-bg`         | [Primary button](?path=/docs/components-button-guidance--docs) background   |
+| `--hds-palette-btn-primary-bg-hover`   | Primary button hover                                                        |
+| `--hds-palette-btn-secondary-bg`       | [Secondary button](?path=/docs/components-button-guidance--docs) background |
+| `--hds-palette-btn-secondary-bg-hover` | Secondary button hover                                                      |
+| `--hds-palette-btn-disabled-bg`        | [Disabled button](?path=/docs/components-button-guidance--docs) background  |
+| `--hds-palette-btn-disabled-stroke`    | Disabled button border                                                      |
+| `--hds-palette-btn-disabled-text`      | Disabled button text                                                        |
+| `--hds-palette-btn-filled-text`        | Text on filled buttons                                                      |
+
+#### Form controls
+
+| Token                          | Controls                                                                           |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| `--hds-palette-control-fill`   | [Checkbox/radio](?path=/docs/components-checkbox-guidance--docs) fill when checked |
+| `--hds-palette-control-text`   | Form control label text                                                            |
+| `--hds-palette-control-stroke` | Checkbox/radio border when checked                                                 |
+| `--hds-palette-control-border` | Form control border                                                                |
+| `--hds-palette-input-bg`       | [Text input](?path=/docs/components-text-input-guidance--docs) background          |
+| `--hds-palette-disabled`       | Disabled control color                                                             |
+| `--hds-palette-disabled-bg`    | Disabled control background                                                        |
+
+#### Error states
+
+| Token                        | Controls               |
+| ---------------------------- | ---------------------- |
+| `--hds-palette-error-border` | Error indicator border |
+| `--hds-palette-error-text`   | Error message text     |
+
+#### Focus indicators
+
+| Token                         | Controls                |
+| ----------------------------- | ----------------------- |
+| `--hds-palette-focus`         | Default focus ring      |
+| `--hds-palette-focus-subtle`  | Subtle focus indicator  |
+| `--hds-palette-focus-minimal` | Minimal focus indicator |
+| `--hds-palette-focus-bold`    | Bold focus ring         |
+
+#### Utility elements
+
+| Token                                   | Controls                                                                                 |
+| --------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--hds-palette-utility-fill`            | [Utility button](?path=/docs/components-icon-button-guidance--docs#utility)/element fill |
+| `--hds-palette-utility-stroke`          | Utility element border                                                                   |
+| `--hds-palette-utility-icon`            | Utility element icon                                                                     |
+| `--hds-palette-utility-hover-fill`      | Utility element hover fill                                                               |
+| `--hds-palette-utility-hover-stroke`    | Utility element hover border                                                             |
+| `--hds-palette-utility-disabled-stroke` | Disabled utility border                                                                  |
+
+#### Social media
+
+| Token                             | Controls                                                                                 |
+| --------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--hds-palette-social-fill`       | [Social media icon](?path=/docs/components-icon-button-guidance--docs#social) background |
+| `--hds-palette-social-icon`       | Social media icon color                                                                  |
+| `--hds-palette-social-hover-fill` | Social media icon hover                                                                  |
+
+For primitive color values, see [Color](?path=/docs/foundations-color--docs). For contrast checking, use the [Contrast Checker](?path=/docs/foundations-color-contrast-tool--docs).

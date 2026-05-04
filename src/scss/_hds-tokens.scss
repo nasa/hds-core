@@ -27,7 +27,7 @@
 //   @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
 // ============================================================
 
-/// Emit --hds-dataviz-cat-* and --hds-dataviz-seq-* custom
+/// Emit --hds-dataviz-color-cat-* and --hds-dataviz-color-seq-* custom
 /// properties. Default false — no CSS bloat for sites that
 /// don't use data visualizations.
 $hds-enable-dataviz-tokens: false !default;

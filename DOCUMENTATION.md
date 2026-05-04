@@ -12,6 +12,8 @@ Write as if the reader knows HTML/CSS and USWDS basics, but has never looked at 
 
 ## Language guidelines
 
+**No emojis in section headers.** Emojis can look unprofessional or like AI-generated text. Use them very sparingly, and only in body text if absolutely necessary.
+
 **No internal architecture terms in docs.** "Tier 1 override," "palette-aware custom properties," "shared mixin" — these belong in code comments and DESIGN.md.
 
 **No visual implementation details.** Don't explain which CSS tokens produce a color or how a `::after` pseudo-element creates an indicator. Show the result, not the mechanism.
@@ -40,7 +42,7 @@ stories/
 │   └── paletteTests.js               # Palette a11y test helpers
 ├── overview/
 │   ├── Getting Started.mdx
-│   ├── Overview.mdx
+│   ├── Intro.mdx
 │   └── Roadmap.mdx
 ├── foundations/
 │   ├── Accessibility.mdx             # Docs-only (no stories file)
@@ -64,7 +66,8 @@ stories/
     ├── USWDSDocumentation.stories.js
     ├── USWDSLandingPage.stories.js
     ├── USWDSFormTemplates.stories.js
-    └── React.mdx                  # React setup (moved from overview/)
+    ├── React.mdx                  # React setup (moved from overview/)
+    └── NoBuildEnvironments.mdx    # No-build/CMS/legacy site adoption guide
 ```
 
 ## Storybook configuration
@@ -176,7 +179,7 @@ Use CSS custom properties for inline swatches in MDX — never hardcode hex valu
 <span style={{ backgroundColor: '#F64137' }} />
 ```
 
-HDS brand colors are available via `var(--hds-color-*)`. USWDS system colors used in data visualization are documented in `DataVisualizationPalettes.stories.js` — the single source of truth for data viz hex values.
+HDS brand colors are available via `var(--hds-color-*)`. Data visualization colors are documented in `DataVisualizationPalettes.stories.js`. The source of truth is now `tokens.json`. The `stories.js` file renders the values for documentation.
 
 ### Figma screenshots
 
@@ -456,7 +459,9 @@ export const PaletteA11yHover = {
 
 **Non-interactive foundations** (Typography): Only need a default PaletteA11y story — no hover or focus variants since there are no interactive elements.
 
-**Skip:** Site Alert (scoped palette vars), Color Palettes (tests palettes by definition), Grid (layout only — uses Chromatic breakpoint modes instead), Icons (catalog display).
+**Skip:** Site Alert (scoped palette vars), Grid (layout only — uses Chromatic breakpoint modes instead), Icons (catalog display).
+
+**Color Palettes & Dataviz:** Color scales are exempt from PaletteA11y testing since they test the palettes themselves. However, to maintain a visual baseline for the raw hex values without burning snapshot budget, they should use a single `AllVariants` composed story (with `disableSnapshot: false`) that renders all palette tables/strips in one view. All individual fragmented stories (e.g. "Categorical Light", "Sequential Reds") must have `parameters: { chromatic: { disableSnapshot: true } }`.
 
 **Chromatic visual regression:** PaletteA11y stories use stacked `paletteRender` (all 6 palettes in one image). This produces one Chromatic snapshot per story — budget-efficient. FocusTest stories use Chromatic modes instead (see below). All other stories are excluded via the global `disableSnapshot: true` in `preview.js`. Grid uses separate Chromatic breakpoint mode snapshots (see `Grid.stories.js`). Review results at the [Chromatic dashboard](https://www.chromatic.com/library?appId=69c86234709fb66fd7e0b4ab).
 

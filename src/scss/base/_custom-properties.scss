@@ -13,6 +13,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use 'dataviz-properties';
 
 :root {
   // Brand colors — var(--hds-color-nasa-blue)
@@ -74,10 +75,10 @@
 // Gated behind $hds-enable-dataviz-tokens (default: false).
 // Enable: @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
 //
-// Categorical: --hds-dataviz-cat-1 through cat-12
+// Categorical: --hds-dataviz-color-cat-1 through cat-12
 //   Light defaults here; dark overrides in _hds-palettes.scss.
 //
-// Sequential: --hds-dataviz-seq-{hue}-{step}
+// Sequential: --hds-dataviz-color-seq-{hue}-{step}
 //   11 hue families × 9 steps. Not palette-aware — used inside
 //   chart surfaces with controlled backgrounds.
 //
@@ -99,165 +100,3 @@
 //   Magenta → violet-warm-{vivid}
 // ============================================================
 
-@if $hds-enable-dataviz-tokens {
-  :root {
-    // ----------------------------------------------------------
-    // Categorical — light background defaults
-    // ----------------------------------------------------------
-    --hds-dataviz-cat-1: #{color('blue-70v')};
-    --hds-dataviz-cat-2: #{color('red-40v')};
-    --hds-dataviz-cat-3: #{color('orange-30v')};
-    --hds-dataviz-cat-4: #{color('blue-cool-60')};
-    --hds-dataviz-cat-5: #{color('gold-40')};
-    --hds-dataviz-cat-6: #{color('blue-40v')};
-    --hds-dataviz-cat-7: #{color('red-70v')};
-    --hds-dataviz-cat-8: #{color('blue-cool-30')};
-    --hds-dataviz-cat-9: #{color('indigo-warm-70v')};
-    --hds-dataviz-cat-10: #{color('gold-30v')};
-    --hds-dataviz-cat-11: #{color('green-60v')};
-    --hds-dataviz-cat-12: #{color('mint-cool-30v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Reds
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-red-10: #{color('red-5v')};
-    --hds-dataviz-seq-red-20: #{color('red-10v')};
-    --hds-dataviz-seq-red-30: #{color('red-20v')};
-    --hds-dataviz-seq-red-40: #{color('red-30v')};
-    --hds-dataviz-seq-red-50: #{color('red-40v')};
-    --hds-dataviz-seq-red-60: #{color('red-50v')};
-    --hds-dataviz-seq-red-70: #{color('red-60v')};
-    --hds-dataviz-seq-red-80: #{color('red-70v')};
-    --hds-dataviz-seq-red-90: #{color('red-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Oranges
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-orange-10: #{color('orange-5v')};
-    --hds-dataviz-seq-orange-20: #{color('orange-10v')};
-    --hds-dataviz-seq-orange-30: #{color('orange-20v')};
-    --hds-dataviz-seq-orange-40: #{color('orange-30v')};
-    --hds-dataviz-seq-orange-50: #{color('orange-40v')};
-    --hds-dataviz-seq-orange-60: #{color('orange-50v')};
-    --hds-dataviz-seq-orange-70: #{color('orange-60v')};
-    --hds-dataviz-seq-orange-80: #{color('orange-70v')};
-    --hds-dataviz-seq-orange-90: #{color('orange-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Yellows
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-yellow-10: #{color('gold-5v')};
-    --hds-dataviz-seq-yellow-20: #{color('gold-10v')};
-    --hds-dataviz-seq-yellow-30: #{color('gold-20v')};
-    --hds-dataviz-seq-yellow-40: #{color('gold-30v')};
-    --hds-dataviz-seq-yellow-50: #{color('gold-40v')};
-    --hds-dataviz-seq-yellow-60: #{color('gold-50v')};
-    --hds-dataviz-seq-yellow-70: #{color('gold-60v')};
-    --hds-dataviz-seq-yellow-80: #{color('gold-70v')};
-    --hds-dataviz-seq-yellow-90: #{color('gold-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Golds
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-gold-10: #{color('gold-10')};
-    --hds-dataviz-seq-gold-20: #{color('gold-20')};
-    --hds-dataviz-seq-gold-30: #{color('gold-30')};
-    --hds-dataviz-seq-gold-40: #{color('gold-40')};
-    --hds-dataviz-seq-gold-50: #{color('gold-50')};
-    --hds-dataviz-seq-gold-60: #{color('gold-60')};
-    --hds-dataviz-seq-gold-70: #{color('gold-70')};
-    --hds-dataviz-seq-gold-80: #{color('gold-80')};
-    --hds-dataviz-seq-gold-90: #{color('gold-90')};
-
-    // ----------------------------------------------------------
-    // Sequential — Limes
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-lime-10: #{color('green-5v')};
-    --hds-dataviz-seq-lime-20: #{color('green-10v')};
-    --hds-dataviz-seq-lime-30: #{color('green-20v')};
-    --hds-dataviz-seq-lime-40: #{color('green-30v')};
-    --hds-dataviz-seq-lime-50: #{color('green-40v')};
-    --hds-dataviz-seq-lime-60: #{color('green-50v')};
-    --hds-dataviz-seq-lime-70: #{color('green-60v')};
-    --hds-dataviz-seq-lime-80: #{color('green-70v')};
-    --hds-dataviz-seq-lime-90: #{color('green-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Greens
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-green-10: #{color('mint-5v')};
-    --hds-dataviz-seq-green-20: #{color('mint-10v')};
-    --hds-dataviz-seq-green-30: #{color('mint-20v')};
-    --hds-dataviz-seq-green-40: #{color('mint-30v')};
-    --hds-dataviz-seq-green-50: #{color('mint-40v')};
-    --hds-dataviz-seq-green-60: #{color('mint-50v')};
-    --hds-dataviz-seq-green-70: #{color('mint-60v')};
-    --hds-dataviz-seq-green-80: #{color('mint-70v')};
-    --hds-dataviz-seq-green-90: #{color('mint-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Aquas
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-aqua-10: #{color('mint-cool-5v')};
-    --hds-dataviz-seq-aqua-20: #{color('mint-cool-10v')};
-    --hds-dataviz-seq-aqua-30: #{color('mint-cool-20v')};
-    --hds-dataviz-seq-aqua-40: #{color('mint-cool-30v')};
-    --hds-dataviz-seq-aqua-50: #{color('mint-cool-40v')};
-    --hds-dataviz-seq-aqua-60: #{color('mint-cool-50v')};
-    --hds-dataviz-seq-aqua-70: #{color('mint-cool-60v')};
-    --hds-dataviz-seq-aqua-80: #{color('mint-cool-70v')};
-    --hds-dataviz-seq-aqua-90: #{color('mint-cool-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Slates
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-slate-10: #{color('blue-cool-5')};
-    --hds-dataviz-seq-slate-20: #{color('blue-cool-10')};
-    --hds-dataviz-seq-slate-30: #{color('blue-cool-20')};
-    --hds-dataviz-seq-slate-40: #{color('blue-cool-30')};
-    --hds-dataviz-seq-slate-50: #{color('blue-cool-40')};
-    --hds-dataviz-seq-slate-60: #{color('blue-cool-50')};
-    --hds-dataviz-seq-slate-70: #{color('blue-cool-60')};
-    --hds-dataviz-seq-slate-80: #{color('blue-cool-70')};
-    --hds-dataviz-seq-slate-90: #{color('blue-cool-80')};
-
-    // ----------------------------------------------------------
-    // Sequential — Blues
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-blue-10: #{color('blue-5v')};
-    --hds-dataviz-seq-blue-20: #{color('blue-10v')};
-    --hds-dataviz-seq-blue-30: #{color('blue-20v')};
-    --hds-dataviz-seq-blue-40: #{color('blue-30v')};
-    --hds-dataviz-seq-blue-50: #{color('blue-40v')};
-    --hds-dataviz-seq-blue-60: #{color('blue-50v')};
-    --hds-dataviz-seq-blue-70: #{color('blue-60v')};
-    --hds-dataviz-seq-blue-80: #{color('blue-70v')};
-    --hds-dataviz-seq-blue-90: #{color('blue-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Purples
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-purple-10: #{color('indigo-warm-5v')};
-    --hds-dataviz-seq-purple-20: #{color('indigo-warm-10v')};
-    --hds-dataviz-seq-purple-30: #{color('indigo-warm-20v')};
-    --hds-dataviz-seq-purple-40: #{color('indigo-warm-30v')};
-    --hds-dataviz-seq-purple-50: #{color('indigo-warm-40v')};
-    --hds-dataviz-seq-purple-60: #{color('indigo-warm-50v')};
-    --hds-dataviz-seq-purple-70: #{color('indigo-warm-60v')};
-    --hds-dataviz-seq-purple-80: #{color('indigo-warm-70v')};
-    --hds-dataviz-seq-purple-90: #{color('indigo-warm-80v')};
-
-    // ----------------------------------------------------------
-    // Sequential — Magentas
-    // ----------------------------------------------------------
-    --hds-dataviz-seq-magenta-10: #{color('violet-warm-5v')};
-    --hds-dataviz-seq-magenta-20: #{color('violet-warm-10v')};
-    --hds-dataviz-seq-magenta-30: #{color('violet-warm-20v')};
-    --hds-dataviz-seq-magenta-40: #{color('violet-warm-30v')};
-    --hds-dataviz-seq-magenta-50: #{color('violet-warm-40v')};
-    --hds-dataviz-seq-magenta-60: #{color('violet-warm-50v')};
-    --hds-dataviz-seq-magenta-70: #{color('violet-warm-60v')};
-    --hds-dataviz-seq-magenta-80: #{color('violet-warm-70v')};
-    --hds-dataviz-seq-magenta-90: #{color('violet-warm-80v')};
-  }
-}

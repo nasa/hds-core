@@ -24,14 +24,14 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
 
 ## When to consider something else
 
-- **Individual components.** If you control the markup, use component classes directly — [List](?path=/docs/components-list--guidance) (`.usa-list`), [Table](?path=/docs/components-table--guidance) (`.usa-table`), [Link](?path=/docs/components-link--guidance) (`.usa-link`). Component classes give more precise control and don't require a wrapper.
+- **Individual components.** If you control the markup, use component classes directly — [List](?path=/docs/components-list-guidance--docs) (`.usa-list`), [Table](?path=/docs/components-table-guidance--docs) (`.usa-table`), [Link](?path=/docs/components-link-guidance--docs) (`.usa-link`). Component classes give more precise control and don't require a wrapper.
 - **Application UI.** Forms, navigation, cards, and other interactive patterns should use their dedicated component markup, not prose.
 
 ## Usability guidance
 
 - **Apply `.usa-prose` to the content container**, not to `<body>` or a site-wide wrapper. Keep the scope tight to avoid unintended styling on UI elements.
 - **Prose styles only affect direct children.** Nested components inside a prose block that use their own USWDS classes (`.usa-table`, `.usa-list`) will use component styles, not bare-element styles.
-- **Lists inside prose use bare-element styling.** For ordered lists with precise DM Mono numeral alignment, use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list--guidance) for details.
+- **Lists inside prose use bare-element styling.** For ordered lists with precise DM Mono numeral alignment, use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list-guidance--docs) for details.
 
 <Note type="uswds">**Differs from USWDS:** HDS prose styles include smaller list item text (14px vs body 16px), blue list markers, DM Mono ordered list numerals, and HDS-specific heading typography. Vanilla USWDS prose uses default browser markers and body-sized list text.</Note>
 

@@ -37,26 +37,26 @@ const quoteArg = {
 };
 
 const nameEl = (name, linked) =>
-  linked ? `<a href="#" class="hds-blockquote-name">${name}</a>` : `<span class="hds-blockquote-name">${name}</span>`;
+  linked ? `<a href="#" class="hds-blockquote__name">${name}</a>` : `<span class="hds-blockquote__name">${name}</span>`;
 
-const avatarEl = (name) => `<img class="hds-blockquote-avatar" src="blockquote-avatar-kelly.png" alt="${name}" />`;
+const avatarEl = (name) => `<img class="hds-blockquote__avatar" src="blockquote-avatar-kelly.png" alt="${name}" />`;
 
 const blockquote = (inner, ariaLabel) =>
   `<blockquote class="hds-blockquote"${ariaLabel ? ` aria-label="${ariaLabel}"` : ''}>${inner}</blockquote>`;
 
 // Helpers for AllVariants / PaletteA11y (use defaults, not args)
 const personAttribution = ({ linked = false } = {}) => `
-  <div class="hds-blockquote-attribution">
+  <div class="hds-blockquote__attribution">
     ${avatarEl(defaults.name)}
     ${nameEl(defaults.name, linked)}
-    <span class="hds-blockquote-description">${defaults.description}</span>
+    <span class="hds-blockquote__description">${defaults.description}</span>
   </div>`;
 
 const sourceAttribution = ({ linked = false } = {}) => {
   const desc = linked
-    ? `<a href="#"><cite class="hds-blockquote-description">${defaults.source}</cite></a>`
-    : `<cite class="hds-blockquote-description">${defaults.source}</cite>`;
-  return `<div class="hds-blockquote-attribution">${desc}</div>`;
+    ? `<a href="#"><cite class="hds-blockquote__description">${defaults.source}</cite></a>`
+    : `<cite class="hds-blockquote__description">${defaults.source}</cite>`;
+  return `<div class="hds-blockquote__attribution">${desc}</div>`;
 };
 
 // --- Stories (visible in sidebar) ---
@@ -87,10 +87,10 @@ export const Author = {
   render: ({ quote, name, description, showAvatar, linked }) =>
     blockquote(
       `<p>${quote}</p>
-    <div class="hds-blockquote-attribution">
+    <div class="hds-blockquote__attribution">
       ${showAvatar ? avatarEl(name) : ''}
       ${nameEl(name, linked)}
-      <span class="hds-blockquote-description">${description}</span>
+      <span class="hds-blockquote__description">${description}</span>
     </div>`,
       `Quote by ${name}`,
     ),
@@ -110,12 +110,12 @@ export const Source = {
   },
   render: ({ quote, source, linked }) => {
     const desc = linked
-      ? `<a href="#"><cite class="hds-blockquote-description">${source}</cite></a>`
-      : `<cite class="hds-blockquote-description">${source}</cite>`;
+      ? `<a href="#"><cite class="hds-blockquote__description">${source}</cite></a>`
+      : `<cite class="hds-blockquote__description">${source}</cite>`;
 
     return blockquote(
       `<p>${quote}</p>
-      <div class="hds-blockquote-attribution">${desc}</div>`,
+      <div class="hds-blockquote__attribution">${desc}</div>`,
       `Quote from ${source}`,
     );
   },

@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Accessibility
 
-HDS is designed to meet **WCAG 2.1 AA** standards, with **AAA (7.0:1 contrast)** as a goal. All text and background combinations in HDS palettes meet AA requirements. AAA compliance is actively tracked and improved — see [Color](?path=/docs/foundations-color--docs) for details on how HDS colors are selected with accessibility in mind.
+HDS meets **WCAG 2.1 AA** standards, targeting **AAA (7.0:1)** for body text and headings. See the [Color Contrast Tool](?path=/docs/foundations-color-contrast-tool--docs) for the full contrast reference with verified ratios.
 
 The best approach to accessibility is to consider it throughout the entire process — from stakeholder discussions through design, development, testing, and distribution — rather than attempting to address it after the build is complete.
 
@@ -18,6 +18,10 @@ HDS Core's color palettes, typography, and component styles are built with acces
 - **Automated accessibility testing** on every component story via [axe-core](https://www.deque.com/axe/) — results are visible in the Accessibility panel when browsing Storybook
 
 These are automatic — you don't need to configure them.
+
+### Color contrast
+
+HDS palettes meet AA contrast across all six background contexts, with AAA for most body text combinations. For the full matrix of verified ratios, see the [Color Contrast Tool](?path=/docs/foundations-color-contrast-tool--docs). For color-specific usage rules and pairings, see [Color](?path=/docs/foundations-color--docs).
 
 ## What you need to handle
 
@@ -55,7 +59,7 @@ The best time to write alt text is when the image is created or selected. If tha
 
 ### Icons
 
-All HDS icons in the sprite have descriptive names that are coded into the application. When using icons:
+All [HDS icons](?path=/docs/foundations-icons--docs) in the sprite have descriptive names that are coded into the application. When using icons:
 
 - **Decorative icons** (next to visible text that already describes the action): add `aria-hidden="true"` and `focusable="false"` to the `<svg>`
 - **Meaningful icons** (the icon is the only indicator of an action, such as an icon-only button): add an `aria-label` to the button or a `.usa-sr-only` text span
@@ -82,7 +86,7 @@ Storybook includes tools to help verify accessibility as you work:
 
 - **Accessibility panel** — click the 'Accessibility' tab in the addons panel below any story to see axe-core results (violations, passes, and items needing manual review)
 - **Vision simulator** — use the 👁 button in the toolbar to simulate color blindness and other vision impairments
-- **Palette switcher** — use the 🖌 button in the toolbar to preview any component on all six HDS backgrounds and confirm it remains readable
+- **Palette switcher** — use the 🖌 button in the toolbar to preview any component on all six [HDS color palettes](?path=/docs/foundations-color-palettes--docs) and confirm it remains readable
 
 ### Automated testing in HDS Core
 

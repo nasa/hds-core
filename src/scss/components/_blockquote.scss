@@ -8,10 +8,10 @@
 // MARKUP:
 //   <blockquote class="hds-blockquote">
 //     <p>Quote text</p>
-//     <div class="hds-blockquote-attribution">
-//       <img class="hds-blockquote-avatar" src="..." alt="..." />
-//       <span class="hds-blockquote-name">Name</span>
-//       <span class="hds-blockquote-description">Description</span>
+//     <div class="hds-blockquote__attribution">
+//       <img class="hds-blockquote__avatar" src="..." alt="..." />
+//       <span class="hds-blockquote__name">Name</span>
+//       <span class="hds-blockquote__description">Description</span>
 //     </div>
 //   </blockquote>
 //
@@ -104,7 +104,7 @@
 // via :first-child detection (no :has() needed).
 // ------------------------------------------------------------
 
-.hds-blockquote-attribution {
+.hds-blockquote__attribution {
   align-items: start;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   column-gap: units(1); // 8px
@@ -122,7 +122,7 @@
 // Avatar
 // ------------------------------------------------------------
 
-.hds-blockquote-avatar {
+.hds-blockquote__avatar {
   border-radius: 50%;
   flex-shrink: 0;
   grid-column: 1;
@@ -141,7 +141,7 @@
 // Can be <span> (person) or wrapped in <a> for bio link.
 // ------------------------------------------------------------
 
-.hds-blockquote-name {
+.hds-blockquote__name {
   @include hds-metadata-type;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   display: block;
@@ -155,7 +155,7 @@
 // Can be <span>, <cite> (for work titles), or wrapped in <a>.
 // ------------------------------------------------------------
 
-.hds-blockquote-description {
+.hds-blockquote__description {
   display: block;
   grid-column: 2;
 }
@@ -167,7 +167,7 @@
 // standard HDS link treatment (dashed underline, hover).
 // ------------------------------------------------------------
 
-.hds-blockquote-attribution a {
+.hds-blockquote__attribution a {
   @include hds-link-appearance;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   text-decoration-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
@@ -185,11 +185,11 @@
 // child — span full width so there's no empty column gap.
 // ------------------------------------------------------------
 
-.hds-blockquote-name:first-child,
-.hds-blockquote-description:first-child {
+.hds-blockquote__name:first-child,
+.hds-blockquote__description:first-child {
   grid-column: 1 / -1;
 }
 
-.hds-blockquote-name:first-child ~ .hds-blockquote-description {
+.hds-blockquote__name:first-child ~ .hds-blockquote__description {
   grid-column: 1 / -1;
 }

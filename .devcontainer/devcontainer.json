@@ -16,7 +16,9 @@
     "vscode": {
       "settings": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "remote.autoForwardPorts": false
       },
       "extensions": ["esbenp.prettier-vscode", "syler.sass-indented"]
     }
