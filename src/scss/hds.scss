@@ -9,32 +9,39 @@
 //
 // ARCHITECTURE NOTE:
 // All CSS output is isolated into three cascade layers:
+//   uswds          — USWDS foundation and components
 //   hds-base       — custom properties, elements, print, palettes
 //   hds-components — component overrides and custom components
-//   uswds          — USWDS foundation and components
 //
 // However, the USWDS and HDS Sass APIs (mixins/functions) are
 // preserved for consumers via unlayered `@forward` statements.
 //
 // Load order (critical — do not reorder):
-//   1. Theme config (@forward) — configures USWDS before evaluation
-//   2. Sass meta module (@use) — required for CSS loading
-//   3. APIs (@forward)         — preserves Sass API, emits zero CSS
-//   4. CSS @layer blocks       — Base, Components, USWDS
+//   - Theme config (@forward) — configures USWDS before evaluation
+//   - Sass meta module (@use) — required for CSS loading
+//   - APIs (@forward)         — preserves Sass API, emits zero CSS
+//   - Layer order declaration — establishes specificity cascade
+//   - CSS @layer blocks       — Base, Components, USWDS
 // ============================================================
 
-// 1. Configure USWDS with HDS values (must be first USWDS load)
+// Configure USWDS with HDS values (must be first USWDS load)
 @forward 'hds-uswds-theme';
 
 @use 'sass:meta';
 
-// 3. UNLAYERED APIS (Zero CSS Output)
+// ── UNLAYERED APIS (Zero CSS Output) ──
 @forward 'uswds-core';
 @forward 'hds-tokens';
 @forward 'hds-mixins';
 @forward 'hds-dataviz-palettes';
 
-// 4. LAYERED CSS OUTPUT
+// ── DECLARE CASCADE LAYER ORDER ──
+// Priority: lowest to highest.
+// Note: `hds-dataviz` and `site` are reserved for the optional
+// dataviz bundle and consumer overrides respectively.
+@layer uswds, hds-base, hds-components, hds-dataviz, site;
+
+// ── LAYERED CSS OUTPUT ──
 @layer hds-base {
   @include meta.load-css('base');
 }

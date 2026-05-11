@@ -24,6 +24,12 @@
 
 @use 'sass:meta';
 
+// ── DECLARE CASCADE LAYER ORDER ──
+// Priority: lowest to highest.
+// Note: `hds-dataviz` and `site` are reserved for the optional
+// dataviz bundle and consumer overrides respectively.
+@layer uswds, hds-base, hds-components, hds-dataviz, site;
+
 @layer uswds {
 // ── Components not themed by HDS ──
   @include meta.load-css('usa-banner');
