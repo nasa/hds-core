@@ -17,7 +17,7 @@ If your site already uses USWDS 3.x, adopting HDS Core requires **no markup chan
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-⚠️ **Load order matters:** `hds-uswds.css` must load **before** `hds.css` so HDS overrides win the cascade.
+**Load order.** HDS Core uses CSS cascade layers to manage specificity. Loading `hds-uswds.css` first remains good practice, but the cascade priorities are enforced internally regardless of DOM order.
 
 `hds-uswds.css` provides base styles for USWDS components that HDS hasn't themed yet. If your site only uses HDS-themed components, you can load `hds.css` alone — but including both ensures nothing breaks.
 
@@ -58,6 +58,12 @@ Sass modules can only be configured once. Whoever calls `@use "uswds-core" with 
 
 - **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
 - **Sass path:** Your project's `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+
+### Custom styles and cascade layers
+
+HDS Core isolates its CSS into `@layer` blocks. If you write custom CSS alongside HDS:
+- **Unlayered CSS** (most standard CSS) will automatically win against HDS styles.
+- **Layered CSS** can be assigned to the reserved `@layer site;` (which sits at the top of the cascade) to cleanly override HDS components without needing high-specificity selectors or `!important`.
 
 **If you need to keep custom settings alongside HDS:** Don't reconfigure `uswds-core`. Instead, use your own Sass variables or CSS custom properties for project-specific values. HDS Core's configuration handles all USWDS settings.
 

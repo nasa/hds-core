@@ -72,6 +72,19 @@ We want your PR to succeed. These guidelines help us review and merge contributi
 
 **Keep accessibility in scope.** Interactive elements need visible focus indicators. Color alone can't convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
 
+### Adding new components
+
+If you are adding a new component to the system, follow these steps:
+
+1. Create `src/scss/components/_component-name.scss`
+2. Add `@use` statements for dependencies (`uswds-core`, `hds-tokens`, `hds-mixins`)
+3. Add `@forward` to `components/_index.scss` in the appropriate category
+4. Document palette behavior and USWDS override rationale in the file header comment
+5. If the component requires a new USWDS package, add its `meta.load-css()` call to the `@layer uswds` block in `hds.scss` and remove it from `hds-uswds.scss`
+6. Run `npm run check:uswds` to regenerate the hash baseline if the USWDS package list changed
+
+See `components/_button.scss` as a reference for comment style and organization.
+
 ### Code style conventions
 
 - **Sass and PostCSS:** We write styles using Sass and process them with PostCSS. Keep your code clean, modular, and lean.
