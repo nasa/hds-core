@@ -8,17 +8,19 @@
 // Verified against @uswds/uswds 3.13.0
 //
 // ARCHITECTURE NOTE:
-// All USWDS CSS output is encapsulated inside `@layer uswds` using
-// `meta.load-css()` to protect HDS styles from USWDS utility classes.
-// However, the USWDS Sass API (mixins/functions) is preserved for
-// consumers via an unlayered `@forward 'uswds-core'`.
+// All CSS output is isolated into three cascade layers:
+//   hds-base       — custom properties, elements, print, palettes
+//   hds-components — component overrides and custom components
+//   uswds          — USWDS foundation and components
+//
+// However, the USWDS and HDS Sass APIs (mixins/functions) are
+// preserved for consumers via unlayered `@forward` statements.
 //
 // Load order (critical — do not reorder):
 //   1. Theme config (@forward) — configures USWDS before evaluation
 //   2. Sass meta module (@use) — required for CSS loading
-//   3. USWDS Core (@forward)   — preserves API, emits zero CSS
-//   4. HDS source (@forward)   — base styles, components, palettes
-//   5. @layer uswds block      — CSS-emitting USWDS packages
+//   3. APIs (@forward)         — preserves Sass API, emits zero CSS
+//   4. CSS @layer blocks       — Base, Components, USWDS
 // ============================================================
 
 // 1. Configure USWDS with HDS values (must be first USWDS load)
@@ -26,17 +28,20 @@
 
 @use 'sass:meta';
 
-// 2. USWDS foundation (every site needs these)
+// 3. UNLAYERED APIS (Zero CSS Output)
 @forward 'uswds-core';
+@forward 'hds-tokens';
+@forward 'hds-mixins';
+@forward 'hds-dataviz-palettes';
 
-// 4. Base: tokens, mixins, elements, focus, print
-@forward 'base';
+// 4. LAYERED CSS OUTPUT
+@layer hds-base {
+  @include meta.load-css('base');
+}
 
-// 5. Components: text styles, overrides, HDS-only
-@forward 'components';
-
-// 6. Palette system (opt-in per section)
-@forward 'hds-palettes';
+@layer hds-components {
+  @include meta.load-css('components');
+}
 
 @layer uswds {
   @include meta.load-css('uswds-global');

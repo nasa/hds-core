@@ -42,7 +42,7 @@
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use '../base/mixins' as *;
+@use 'hds-mixins' as *;
 
 // ------------------------------------------------------------
 // Focus — Filled + Outline Buttons
@@ -209,7 +209,7 @@
 // Unstyled (.usa-button--unstyled)
 // ------------------------------------------------------------
 // Per USWDS: "A button that looks like a link."
-// Reuses shared link appearance mixin (base/_mixins.scss)
+// Reuses shared link appearance mixin (_hds-mixins.scss)
 // so unstyled buttons are visually identical to .usa-link
 // across all palettes.
 //
