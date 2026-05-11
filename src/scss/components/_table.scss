@@ -243,6 +243,11 @@
 // by mask). See FocusSortButton Chromatic baseline.
 
 .usa-table {
+  th[data-sortable] {
+    // Reserve space for absolutely-positioned sort button.
+    padding-right: units(5);
+  }
+
   // --- Hide USWDS SVG icons ---
   th[data-sortable] .usa-table__header__button .usa-icon {
     display: none;
