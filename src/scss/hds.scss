@@ -2,20 +2,23 @@
 // HDS Core — Main Entry Point
 // @nasa/hds-core
 // ============================================================
-// Selective USWDS loading: foundation packages every site needs,
-// plus the component packages HDS actually themes.
+// Generates hds.css. Includes HDS components, base styles, and
+// the subset of USWDS foundation/component packages that HDS themes.
 // For full USWDS component coverage, also load hds-uswds.css.
 // Verified against @uswds/uswds 3.13.0
 //
-// Load order (critical — do not reorder):
-//   1. Theme config      — configure USWDS before it loads
-//   2. USWDS foundation  — core, global, typography, grid
-//   3. USWDS components  — only what HDS themes
-//   4. Base styles       — HDS tokens, mixins, elements, focus, print
-//   5. Components        — text styles, USWDS overrides, HDS components
-//   6. Palettes          — opt-in color palette system
+// ARCHITECTURE NOTE:
+// All USWDS CSS output is encapsulated inside `@layer uswds` using
+// `meta.load-css()` to protect HDS styles from USWDS utility classes.
+// However, the USWDS Sass API (mixins/functions) is preserved for
+// consumers via an unlayered `@forward 'uswds-core'`.
 //
-// See: https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/
+// Load order (critical — do not reorder):
+//   1. Theme config (@forward) — configures USWDS before evaluation
+//   2. Sass meta module (@use) — required for CSS loading
+//   3. USWDS Core (@forward)   — preserves API, emits zero CSS
+//   4. HDS source (@forward)   — base styles, components, palettes
+//   5. @layer uswds block      — CSS-emitting USWDS packages
 // ============================================================
 
 // 1. Configure USWDS with HDS values (must be first USWDS load)

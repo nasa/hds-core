@@ -2,8 +2,8 @@
 // HDS USWDS Addon — Remaining USWDS Packages
 // @nasa/hds-core
 // ============================================================
-// Loads the USWDS component packages NOT included in hds.css.
-// Use alongside hds.css for full USWDS coverage.
+// Generates hds-uswds.css. Includes all USWDS component packages
+// and utility classes NOT included in the primary HDS bundle.
 //
 // Adopter usage:
 //   <link rel="stylesheet" href="hds-uswds.min.css" />
@@ -11,8 +11,12 @@
 //
 // Verified against @uswds/uswds 3.13.0
 //
-// When HDS themes a new USWDS component, its @forward moves
-// from this file into hds.scss. This file shrinks over time.
+// ARCHITECTURE NOTE:
+// All CSS output from this file is encapsulated inside `@layer uswds`
+// using `meta.load-css()`.
+//
+// When HDS themes a new USWDS component, its `load-css()` call
+// moves from this file's layer block into hds.scss.
 // ============================================================
 
 // USWDS must be configured before any packages load.
