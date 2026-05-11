@@ -21,21 +21,10 @@
 // 1. Configure USWDS with HDS values (must be first USWDS load)
 @forward 'hds-uswds-theme';
 
+@use 'sass:meta';
+
 // 2. USWDS foundation (every site needs these)
 @forward 'uswds-core';
-@forward 'uswds-global';
-@forward 'uswds-typography';
-@forward 'usa-layout-grid';
-
-// 3. USWDS components (only what HDS themes)
-@forward 'usa-button';
-@forward 'uswds-form-controls';
-@forward 'usa-table';
-@forward 'usa-accordion';
-@forward 'usa-breadcrumb';
-@forward 'usa-in-page-navigation';
-@forward 'usa-pagination';
-@forward 'usa-site-alert'; // pulls in usa-alert as dependency
 
 // 4. Base: tokens, mixins, elements, focus, print
 @forward 'base';
@@ -45,3 +34,19 @@
 
 // 6. Palette system (opt-in per section)
 @forward 'hds-palettes';
+
+@layer uswds {
+  @include meta.load-css('uswds-global');
+  @include meta.load-css('uswds-typography');
+  @include meta.load-css('usa-layout-grid');
+
+// 3. USWDS components (only what HDS themes)
+  @include meta.load-css('usa-button');
+  @include meta.load-css('uswds-form-controls');
+  @include meta.load-css('usa-table');
+  @include meta.load-css('usa-accordion');
+  @include meta.load-css('usa-breadcrumb');
+  @include meta.load-css('usa-in-page-navigation');
+  @include meta.load-css('usa-pagination');
+  @include meta.load-css('usa-site-alert'); // pulls in usa-alert as dependency
+}
