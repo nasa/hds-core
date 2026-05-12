@@ -481,8 +481,8 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 
   input::file-selector-button {
-    background-color: $hds-color-nasa-red !important;
-    color: $hds-color-spacesuit-white !important;
+    background-color: $hds-color-nasa-red;
+    color: $hds-color-spacesuit-white;
   }
 
   input[type='search']:focus::-webkit-search-cancel-button {

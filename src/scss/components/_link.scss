@@ -60,7 +60,7 @@
 .usa-link--external::after {
   background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
   content: '\a0';
-  display: inline !important;
+  display: inline;
   mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'), linear-gradient(transparent, transparent);
   mask-size: 0.75em;
   mask-position: center;
@@ -73,5 +73,5 @@
 // (e.g., links to nasa.gov subdomains).
 
 .hds-link--internal::after {
-  display: none !important;
+  display: none;
 }
