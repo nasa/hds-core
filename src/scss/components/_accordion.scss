@@ -51,11 +51,11 @@
 
 .usa-accordion__button {
   // Override USWDS set-text-and-bg mixin
-  background-color: transparent !important;
-  color: var(--hds-palette-heading, #{$hds-color-carbon-black}) !important;
+  background-color: transparent;
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 
   // Override USWDS set-icon-from-bg mixin (+/- background icons)
-  background-image: none !important;
+  background-image: none;
 
   // Layout: heading text left, chevron circle right
   display: flex;
@@ -63,26 +63,26 @@
   justify-content: space-between;
 
   &:hover {
-    background-color: transparent !important;
-    background-image: none !important;
-    color: var(--hds-palette-heading, #{$hds-color-carbon-black}) !important;
+    background-color: transparent;
+    background-image: none;
+    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   }
 
   // Override USWDS [aria-expanded="false"] which applies the "add" icon
   &[aria-expanded='false'] {
-    background-image: none !important;
+    background-image: none;
 
     &:hover {
-      background-image: none !important;
+      background-image: none;
     }
   }
 
   // Override USWDS [aria-expanded="true"] which applies the "remove" icon
   &[aria-expanded='true'] {
-    background-image: none !important;
+    background-image: none;
 
     &:hover {
-      background-image: none !important;
+      background-image: none;
     }
   }
 
@@ -127,7 +127,7 @@
 // Transparent, palette-aware text, no top border
 
 .usa-accordion__content {
-  background-color: transparent !important;
-  color: var(--hds-palette-text, #{$hds-color-carbon-90}) !important;
+  background-color: transparent;
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-top: 0;
 }
