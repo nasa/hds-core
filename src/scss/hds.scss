@@ -55,7 +55,7 @@
   @include meta.load-css('uswds-typography');
   @include meta.load-css('usa-layout-grid');
 
-// 3. USWDS components (only what HDS themes)
+  // USWDS components (only what HDS themes)
   @include meta.load-css('usa-button');
   @include meta.load-css('uswds-form-controls');
   @include meta.load-css('usa-table');

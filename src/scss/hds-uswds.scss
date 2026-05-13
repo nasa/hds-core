@@ -31,7 +31,7 @@
 @layer uswds, hds-base, hds-components, hds-dataviz, site;
 
 @layer uswds {
-// ── Components not themed by HDS ──
+  // ── Components not themed by HDS ──
   @include meta.load-css('usa-banner');
   @include meta.load-css('usa-button-group');
   @include meta.load-css('usa-card');
@@ -62,6 +62,6 @@
   @include meta.load-css('usa-tag');
   @include meta.load-css('usa-tooltip');
 
-// ── Utilities ──
+  // ── Utilities ──
   @include meta.load-css('uswds-utilities');
 }
