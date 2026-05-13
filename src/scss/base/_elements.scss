@@ -19,7 +19,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use 'mixins' as *;
+@use 'hds-mixins' as *;
 
 // Selector shorthand for all palette containers
 $_p: '[data-hds-palette], [class*="hds-palette-"]';
@@ -136,7 +136,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 // Gate: $theme-global-link-styles OR $theme-global-content-styles
 // ------------------------------------------------------------
 // When enabled, bare <a> tags receive HDS link treatment.
-// Uses shared hds-link-appearance mixin (base/_mixins.scss)
+// Uses shared hds-link-appearance mixin (_hds-mixins.scss)
 // for DRY consistency with .usa-link component.
 // ------------------------------------------------------------
 
@@ -481,8 +481,8 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 
   input::file-selector-button {
-    background-color: $hds-color-nasa-red !important;
-    color: $hds-color-spacesuit-white !important;
+    background-color: $hds-color-nasa-red;
+    color: $hds-color-spacesuit-white;
   }
 
   input[type='search']:focus::-webkit-search-cancel-button {

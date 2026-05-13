@@ -39,7 +39,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use '../base/mixins' as *;
+@use 'hds-mixins' as *;
 
 // ------------------------------------------------------------
 // Blockquote container + quote icon

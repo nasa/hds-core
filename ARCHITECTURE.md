@@ -51,17 +51,18 @@ hds-core/
 │   │   ├── hds-uswds.scss          ← Addon entry point (remaining USWDS packages)
 │   │   ├── hds-dataviz.scss        ← Dataviz entry point
 │   │   ├── _hds-tokens.scss        ← Pure Sass (NO uswds-core dependency)
+│   │   ├── _hds-mixins.scss        ← Shared mixins (zero CSS output)
 │   │   ├── _hds-uswds-theme.scss   ← USWDS configuration via @use "uswds-core" with (...)
-│   │   ├── _hds-palettes.scss      ← 6 palette definitions + focus ring tokens
 │   │   ├── _hds-dataviz-palettes.scss ← Dataviz color scales
-│   │   ├── base/                   ← Shared infrastructure (not components)
+│   │   ├── base/                   ← Layer 1 CSS (hds-base)
 │   │   │   ├── _index.scss
 │   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
-│   │   │   ├── _mixins.scss        ← Shared mixins (zero CSS output)
-│   │   │   ├── _elements.scss      ← Bare HTML styles (gated) + palette wiring (always active)
+│   │   │   ├── _dataviz-properties.scss ← :root dataviz properties
+│   │   │   ├── _elements.scss      ← Bare HTML styles (gated) + palette wiring
 │   │   │   ├── _focus.scss         ← Global :focus-visible (always active)
+│   │   │   ├── _palettes.scss      ← 6 palette definitions + focus ring tokens
 │   │   │   └── _print.scss         ← @media print
-│   │   └── components/             ← One file per component
+│   │   └── components/             ← Layer 2 CSS (hds-components)
 │   │       ├── _index.scss         ← @forward's all in dependency order
 │   │       ├── _text-styles.scss   ← .hds-overline, .hds-metadata, .hds-caption
 │   │       ├── _link.scss          ← Loaded before button (unstyled button depends on link)
@@ -151,18 +152,17 @@ USWDS JS is copied to `dist/js/` for convenience. Adopters with existing USWDS i
 
 ### Entry points
 
-**`hds.scss`** — Primary bundle. Selective USWDS loading:
+**`hds.scss`** — Primary bundle. Encapsulates CSS into cascade layers (`hds-base`, `hds-components`, `uswds`) while preserving unlayered APIs for Sass consumers:
 
 ```
 1. _hds-uswds-theme.scss    ← Configure USWDS (must be first)
-2. USWDS foundation         ← uswds-core, uswds-global, uswds-typography, usa-layout-grid
-3. USWDS components         ← Only what HDS themes (~8 packages)
-4. base/                    ← HDS tokens, mixins, elements, focus, print
-5. components/              ← HDS overrides + HDS-only components
-6. _hds-palettes.scss       ← 6 palette definitions
+2. APIs                     ← uswds-core, hds-tokens, hds-mixins (unlayered)
+3. @layer hds-base          ← tokens, elements, focus, print, palettes
+4. @layer hds-components    ← HDS overrides + HDS-only components
+5. @layer uswds             ← USWDS CSS-emitting packages
 ```
 
-**`hds-uswds.scss`** — Addon. Remaining USWDS packages not in `hds.scss`. Independently compiled — also starts with `_hds-uswds-theme.scss` to configure USWDS. As HDS themes more components, packages move from this file into `hds.scss` and this addon shrinks.
+**`hds-uswds.scss`** — Addon. Remaining USWDS packages not in `hds.scss`. Independently compiled — also starts with `_hds-uswds-theme.scss` to configure USWDS. Outputs exclusively into `@layer uswds`. As HDS themes more components, their `meta.load-css()` calls move from this file into `hds.scss` and this addon shrinks.
 
 ### USWDS package inventory
 
@@ -256,7 +256,7 @@ HDS components use three distinct focus mechanisms:
 
 All selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction.
 
-**Tokens:** Four semantic focus tokens in `_hds-palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
+**Tokens:** Four semantic focus tokens in `base/_palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
 
 | Token | Figma Pattern | Light Value | Dark Value | Components |
 | --- | --- | --- | --- | --- |
@@ -265,11 +265,11 @@ All selectors use `:focus-visible` (keyboard only, not mouse click). A suppressi
 | `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |
 | `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
 
-Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `_hds-palettes.scss` code comments for per-palette values.
+Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `base/_palettes.scss` code comments for per-palette values.
 
 **Width tokens:** `$hds-focus-widths` map in `_hds-tokens.scss` with `'thin'` (1px) and `'thick'` (2px) entries. Thin is the default; thick is used by text buttons, primary arrow, and breadcrumb.
 
-**Mixin:** `hds-focus-ring($color, $width, $method, $offset)` in `base/_mixins.scss`. Supports `'outline'` (default — emits `outline` + `outline-offset`) and `'border'` (emits `border-color` + `border-style` + `outline: none`) methods. Border method is used by pagination page numbers and simplified button, which pre-reserve a transparent border for focus.
+**Mixin:** `hds-focus-ring($color, $width, $method, $offset)` in `_hds-mixins.scss`. Supports `'outline'` (default — emits `outline` + `outline-offset`) and `'border'` (emits `border-color` + `border-style` + `outline: none`) methods. Border method is used by pagination page numbers and simplified button, which pre-reserve a transparent border for focus.
 
 **Global rule:** `base/_focus.scss` applies `hds-focus-ring()` with defaults (Pattern A, thin, outline, 2px offset) to all focusable elements. Components override as needed.
 
@@ -408,13 +408,4 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ## Contributing
 
-This package is maintained by the NASA HDS team. For conventions on adding new components:
-
-1. Create `src/scss/components/_component-name.scss`
-2. Add `@use` statements for dependencies (`uswds-core`, `hds-tokens`, `../base/mixins`)
-3. Add `@forward` to `components/_index.scss` in the appropriate category
-4. Document palette behavior and USWDS override rationale in the file header comment
-5. If the component requires a new USWDS package, add its `@forward` to `hds.scss` under the component packages section and remove it from `hds-uswds.scss`
-6. Run `npm run check:uswds` to regenerate the hash baseline if the USWDS package list changed
-
-See `components/_button.scss` as a reference for comment style and organization.
+This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code, and submitting PRs, please see [CONTRIBUTING.md](CONTRIBUTING.md).

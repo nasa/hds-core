@@ -6,9 +6,9 @@
 //
 // This file is loaded across the system:
 //   - _hds-uswds-theme.scss — feeds values into USWDS config
-//   - _hds-palettes.scss — palette definitions and feature flags
+//   - base/_palettes.scss — palette definitions and feature flags
 //   - base/_custom-properties.scss — outputs CSS custom properties
-//   - base/_mixins.scss, base/_elements.scss — shared infrastructure
+//   - _hds-mixins.scss, base/_elements.scss — shared infrastructure
 //   - components/*.scss — per-component token references
 //
 // WHY THIS FILE CAN'T USE USWDS:
@@ -45,7 +45,7 @@ $hds-enable-experimental-palettes: false !default;
 //   color("primary") → NASA Red
 //   color("secondary") → NASA Blue
 //   color("base-darker") → Carbon 90
-// These variables are used by _hds-palettes.scss and to
+// These variables are used by base/_palettes.scss and to
 // output CSS custom properties (var(--hds-color-nasa-blue)).
 // ============================================================
 
@@ -182,7 +182,7 @@ $hds-line-heights: (
   'intro': 4,
   // 1.15
   'input': 2,
-  // closest USWDS token; refined to 1.2 in base/_mixins.scss
+  // closest USWDS token; refined to 1.2 in _hds-mixins.scss
   'button': 3,
   // 1.35
   'code': 3,

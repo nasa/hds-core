@@ -27,7 +27,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use '../base/mixins' as *;
+@use 'hds-mixins' as *;
 
 // ── Base override ─────────────────────────────────────────────
 // USWDS sets color on .usa-pagination that doesn't respond

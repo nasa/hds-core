@@ -45,9 +45,19 @@ Replace your stylesheet and keep your JS:
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-⚠️ **Load order matters.** `hds-uswds.css` must load **before** `hds.css` so that HDS overrides take precedence in the cascade.
+**Strong Recommendation:** If your site already uses USWDS, you almost certainly use components that HDS Core hasn't themed yet (like the header, footer, or cards). You **must load both bundles** (`hds-uswds.min.css` and `hds.min.css`) to ensure those unthemed components don't break. 
+
+**Load order.** HDS Core uses CSS cascade layers to manage specificity internally. The bundles do not need to be strictly ordered in the DOM because their priority is established internally, but loading `hds-uswds.css` first remains a safe default practice.
 
 Your site renders in the HDS visual identity with no markup changes. See the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs) for what to review after switching.
+
+### Data visualization
+
+If your site renders charts or graphs, an optional third bundle provides CSS custom properties (`--hds-dataviz-color-*`) for the HDS dataviz color scales:
+
+```html
+<link rel="stylesheet" href="path/to/hds-core/dist/css/hds-dataviz.min.css" />
+```
 
 ### Using unthemed USWDS components
 
@@ -89,6 +99,16 @@ How you set these depends on your build tool. Most accept a `loadPaths` or `incl
 @forward 'my-project-styles';
 ```
 
+*(Note: If you need unthemed USWDS components like the header or footer, you should also `@forward '@nasa/hds-core/src/scss/hds-uswds';`)*
+
+### Data visualization
+
+To access the dataviz color scales in your Sass project, you can load the optional dataviz bundle. It only emits CSS custom properties to the `:root`.
+
+```scss
+@forward '@nasa/hds-core/src/scss/hds-dataviz';
+```
+
 ### Using HDS tokens in Sass
 
 With HDS Core loaded, HDS Sass variables and USWDS functions are available in your own stylesheets:
@@ -115,7 +135,7 @@ For USWDS theme customization, global element style flags, reserved settings, an
 
 ## Common mistakes
 
-**Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself can load it without HDS configuration, breaking the theme. Use HDS Sass variables and USWDS functions directly; they're available automatically after forwarding HDS Core.
+**Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself can load it without HDS configuration, breaking the theme. Use HDS Sass variables and USWDS functions directly; they're available automatically after forwarding HDS Core (`@forward '@nasa/hds-core/src/scss/hds';`).
 
 **Bare HTML elements aren't styled by default.** If your headings, paragraphs, or links aren't picking up HDS styles, add USWDS classes like `.usa-prose`, `.usa-link`, and `.usa-button`. Sass users can enable global element styling in the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
 

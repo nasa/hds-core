@@ -2,46 +2,66 @@
 // HDS Core — Main Entry Point
 // @nasa/hds-core
 // ============================================================
-// Selective USWDS loading: foundation packages every site needs,
-// plus the component packages HDS actually themes.
+// Generates hds.css. Includes HDS components, base styles, and
+// the subset of USWDS foundation/component packages that HDS themes.
 // For full USWDS component coverage, also load hds-uswds.css.
 // Verified against @uswds/uswds 3.13.0
 //
-// Load order (critical — do not reorder):
-//   1. Theme config      — configure USWDS before it loads
-//   2. USWDS foundation  — core, global, typography, grid
-//   3. USWDS components  — only what HDS themes
-//   4. Base styles       — HDS tokens, mixins, elements, focus, print
-//   5. Components        — text styles, USWDS overrides, HDS components
-//   6. Palettes          — opt-in color palette system
+// ARCHITECTURE NOTE:
+// All CSS output is isolated into three cascade layers:
+//   uswds          — USWDS foundation and components
+//   hds-base       — custom properties, elements, print, palettes
+//   hds-components — component overrides and custom components
 //
-// See: https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/
+// However, the USWDS and HDS Sass APIs (mixins/functions) are
+// preserved for consumers via unlayered `@forward` statements.
+//
+// Load order (critical — do not reorder):
+//   - Theme config (@forward) — configures USWDS before evaluation
+//   - Sass meta module (@use) — required for CSS loading
+//   - APIs (@forward)         — preserves Sass API, emits zero CSS
+//   - Layer order declaration — establishes specificity cascade
+//   - CSS @layer blocks       — Base, Components, USWDS
 // ============================================================
 
-// 1. Configure USWDS with HDS values (must be first USWDS load)
+// Configure USWDS with HDS values (must be first USWDS load)
 @forward 'hds-uswds-theme';
 
-// 2. USWDS foundation (every site needs these)
+@use 'sass:meta';
+
+// ── UNLAYERED APIS (Zero CSS Output) ──
 @forward 'uswds-core';
-@forward 'uswds-global';
-@forward 'uswds-typography';
-@forward 'usa-layout-grid';
+@forward 'hds-tokens';
+@forward 'hds-mixins';
+@forward 'hds-dataviz-palettes';
 
-// 3. USWDS components (only what HDS themes)
-@forward 'usa-button';
-@forward 'uswds-form-controls';
-@forward 'usa-table';
-@forward 'usa-accordion';
-@forward 'usa-breadcrumb';
-@forward 'usa-in-page-navigation';
-@forward 'usa-pagination';
-@forward 'usa-site-alert'; // pulls in usa-alert as dependency
+// ── DECLARE CASCADE LAYER ORDER ──
+// Priority: lowest to highest.
+// Note: `hds-dataviz` and `site` are reserved for the optional
+// dataviz bundle and consumer overrides respectively.
+@layer uswds, hds-base, hds-components, hds-dataviz, site;
 
-// 4. Base: tokens, mixins, elements, focus, print
-@forward 'base';
+// ── LAYERED CSS OUTPUT ──
+@layer hds-base {
+  @include meta.load-css('base');
+}
 
-// 5. Components: text styles, overrides, HDS-only
-@forward 'components';
+@layer hds-components {
+  @include meta.load-css('components');
+}
 
-// 6. Palette system (opt-in per section)
-@forward 'hds-palettes';
+@layer uswds {
+  @include meta.load-css('uswds-global');
+  @include meta.load-css('uswds-typography');
+  @include meta.load-css('usa-layout-grid');
+
+  // USWDS components (only what HDS themes)
+  @include meta.load-css('usa-button');
+  @include meta.load-css('uswds-form-controls');
+  @include meta.load-css('usa-table');
+  @include meta.load-css('usa-accordion');
+  @include meta.load-css('usa-breadcrumb');
+  @include meta.load-css('usa-in-page-navigation');
+  @include meta.load-css('usa-pagination');
+  @include meta.load-css('usa-site-alert'); // pulls in usa-alert as dependency
+}

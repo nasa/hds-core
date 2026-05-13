@@ -2,16 +2,19 @@
 // HDS Base — Index
 // @nasa/hds-core
 // ============================================================
+// Emits the CSS for base styles. Loaded via meta.load-css
+// into the hds-base cascade layer in hds.scss.
+//
 // Load order:
 //   1. Custom properties — :root token output
-//   2. Mixins — tools used by everything below (zero CSS output)
-//   3. Elements — bare HTML styles + palette wiring
-//   4. Focus — always active, after elements so it can layer on top
+//   2. Elements — bare HTML styles + palette wiring
+//   3. Focus — always active, after elements so it can layer on top
+//   4. Palettes — explicit palette classes
 //   5. Print — @media print, last so it overrides everything above
 // ============================================================
 
 @forward 'custom-properties';
-@forward 'mixins';
 @forward 'elements';
 @forward 'focus';
+@forward 'palettes';
 @forward 'print';

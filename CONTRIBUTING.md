@@ -72,6 +72,27 @@ We want your PR to succeed. These guidelines help us review and merge contributi
 
 **Keep accessibility in scope.** Interactive elements need visible focus indicators. Color alone can't convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
 
+### Adding new components
+
+If you are adding a new component to the system, follow these steps:
+
+1. Create `src/scss/components/_component-name.scss`
+2. Add `@use` statements for dependencies (`uswds-core`, `hds-tokens`, `hds-mixins`)
+3. Add `@forward` to `components/_index.scss` in the appropriate category
+4. Document palette behavior and USWDS override rationale in the file header comment
+5. If the component requires a new USWDS package, add its `meta.load-css()` call to the `@layer uswds` block in `hds.scss` and remove it from `hds-uswds.scss`
+6. Run `npm run check:uswds` to regenerate the hash baseline if the USWDS package list changed
+
+See `components/_button.scss` as a reference for comment style and organization.
+
+### Upgrading USWDS
+
+When bumping the `@uswds/uswds` dependency in `package.json`, our CI pipeline runs two blocking checks to ensure the upgrade is safe:
+
+1. **`npm run check:uswds-core` (Architectural Gate):** Our CSS layer cascade relies on the assumption that `@use 'uswds-core'` is a pure Sass API and emits zero CSS selectors. If this test fails, USWDS has introduced CSS into their core package, breaking our layer specificity strategy. Do not merge the upgrade until our architecture is updated to account for this upstream change.
+2. **`npm run check:uswds` (Component Tracker):** This script monitors the specific USWDS components that HDS themes. It fails if the upstream Sass source for those components changed, serving as a reminder to check for visual regressions. 
+   * **To resolve:** Review the USWDS release notes, verify our component overrides in Storybook, and regenerate the baseline by running `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
+
 ### Code style conventions
 
 - **Sass and PostCSS:** We write styles using Sass and process them with PostCSS. Keep your code clean, modular, and lean.

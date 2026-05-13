@@ -79,7 +79,7 @@ HDS uses CSS custom property scoping for 6 palettes. Components reference `var(-
 
 - NEVER convert palette assignments to static variables.
 - NEVER generate palette CSS from tokens.json.
-- The palette system is hand-authored in `_hds-palettes.scss`. It is not represented in tokens.json.
+- The palette system is hand-authored in `base/_palettes.scss`. It is not represented in tokens.json.
 
 Always include fallbacks:
 

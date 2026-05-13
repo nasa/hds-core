@@ -29,7 +29,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use '../base/mixins' as *;
+@use 'hds-mixins' as *;
 
 // --- Container (aside) ---
 // Remove all USWDS visual treatment. The aside is a structural

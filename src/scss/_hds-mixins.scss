@@ -33,7 +33,7 @@
   padding: 0;
   position: absolute;
   width: 1px;
-  word-wrap: normal !important;
+  word-wrap: normal;
 }
 
 // ------------------------------------------------------------
@@ -41,7 +41,7 @@
 // ------------------------------------------------------------
 // Dashed focus ring for keyboard navigation. Palette-aware
 // via --hds-palette-focus-* custom properties defined in
-// _hds-palettes.scss.
+// base/_palettes.scss.
 //
 // Four color treatments matching Figma focus patterns:
 //   'default'  — C60 light / C30 dark (Pattern A)

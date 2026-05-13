@@ -2,8 +2,8 @@
 // HDS USWDS Addon — Remaining USWDS Packages
 // @nasa/hds-core
 // ============================================================
-// Loads the USWDS component packages NOT included in hds.css.
-// Use alongside hds.css for full USWDS coverage.
+// Generates hds-uswds.css. Includes all USWDS component packages
+// and utility classes NOT included in the primary HDS bundle.
 //
 // Adopter usage:
 //   <link rel="stylesheet" href="hds-uswds.min.css" />
@@ -11,42 +11,57 @@
 //
 // Verified against @uswds/uswds 3.13.0
 //
-// When HDS themes a new USWDS component, its @forward moves
-// from this file into hds.scss. This file shrinks over time.
+// ARCHITECTURE NOTE:
+// All CSS output from this file is encapsulated inside `@layer uswds`
+// using `meta.load-css()`.
+//
+// When HDS themes a new USWDS component, its `load-css()` call
+// moves from this file's layer block into hds.scss.
 // ============================================================
 
 // USWDS must be configured before any packages load.
 @forward 'hds-uswds-theme';
 
-// ── Components not themed by HDS ──
-@forward 'usa-banner';
-@forward 'usa-button-group';
-@forward 'usa-card';
-@forward 'usa-checklist';
-@forward 'usa-collection';
-@forward 'usa-embed-container';
-@forward 'usa-footer';
-@forward 'usa-form';
-@forward 'usa-graphic-list';
-@forward 'usa-header';
-@forward 'usa-hero';
-@forward 'usa-icon';
-@forward 'usa-icon-list';
-@forward 'usa-identifier';
-@forward 'usa-language-selector';
-@forward 'usa-layout-docs';
-@forward 'usa-media-block';
-@forward 'usa-modal';
-@forward 'usa-nav';
-@forward 'usa-process-list';
-@forward 'usa-search';
-@forward 'usa-section';
-@forward 'usa-sidenav';
-@forward 'usa-skipnav';
-@forward 'usa-step-indicator';
-@forward 'usa-summary-box';
-@forward 'usa-tag';
-@forward 'usa-tooltip';
+@use 'sass:meta';
 
-// ── Utilities ──
-@forward 'uswds-utilities';
+// ── DECLARE CASCADE LAYER ORDER ──
+// Priority: lowest to highest.
+// Note: `hds-dataviz` and `site` are reserved for the optional
+// dataviz bundle and consumer overrides respectively.
+@layer uswds, hds-base, hds-components, hds-dataviz, site;
+
+@layer uswds {
+  // ── Components not themed by HDS ──
+  @include meta.load-css('usa-banner');
+  @include meta.load-css('usa-button-group');
+  @include meta.load-css('usa-card');
+  @include meta.load-css('usa-checklist');
+  @include meta.load-css('usa-collection');
+  @include meta.load-css('usa-embed-container');
+  @include meta.load-css('usa-footer');
+  @include meta.load-css('usa-form');
+  @include meta.load-css('usa-graphic-list');
+  @include meta.load-css('usa-header');
+  @include meta.load-css('usa-hero');
+  @include meta.load-css('usa-icon');
+  @include meta.load-css('usa-icon-list');
+  @include meta.load-css('usa-identifier');
+  @include meta.load-css('usa-language-selector');
+  @include meta.load-css('usa-layout-docs');
+  @include meta.load-css('usa-media-block');
+  @include meta.load-css('usa-modal');
+  @include meta.load-css('usa-nav');
+  @include meta.load-css('usa-process-list');
+  @include meta.load-css('usa-prose');
+  @include meta.load-css('usa-search');
+  @include meta.load-css('usa-section');
+  @include meta.load-css('usa-sidenav');
+  @include meta.load-css('usa-skipnav');
+  @include meta.load-css('usa-step-indicator');
+  @include meta.load-css('usa-summary-box');
+  @include meta.load-css('usa-tag');
+  @include meta.load-css('usa-tooltip');
+
+  // ── Utilities ──
+  @include meta.load-css('uswds-utilities');
+}

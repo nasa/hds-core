@@ -16,7 +16,7 @@
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use 'mixins' as *;
+@use 'hds-mixins' as *;
 
 // HDS :focus-visible ring
 [contenteditable='true']:focus-visible,

@@ -76,7 +76,7 @@
 // Enable: @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
 //
 // Categorical: --hds-dataviz-color-cat-1 through cat-12
-//   Light defaults here; dark overrides in _hds-palettes.scss.
+//   Light defaults here; dark overrides in base/_palettes.scss.
 //
 // Sequential: --hds-dataviz-color-seq-{hue}-{step}
 //   11 hue families × 9 steps. Not palette-aware — used inside

@@ -47,7 +47,7 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 The original HDS Figma data visualization palette used custom hex values unique to HDS. The HDS Core Proposal recommended aligning data viz colors with USWDS system color tokens for compatibility and maintainability, while keeping the HDS brand palette (NASA Red, Carbon series, etc.) as custom values. HDS Core follows this recommendation.
 
-Data viz colors are exposed as `--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_custom-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
+Data viz colors are exposed as `--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_dataviz-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-dataviz-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
 
 The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. Dataviz tokens now live in `tokens.json` under `dataviz.color.*`. Consumers use the `--hds-dataviz-color-cat-*` properties or copy hex values from the Palettes documentation.
 
@@ -93,7 +93,7 @@ The `$description` field on each categorical token notes its approximate sequent
 
 ### Palette-Specific Overrides
 
-White and light share a light scheme. Dark and black share a dark scheme. Midtone and blue override specific values. See `_hds-palettes.scss` for the complete token list per palette.
+White and light share a light scheme. Dark and black share a dark scheme. Midtone and blue override specific values. See `base/_palettes.scss` for the complete token list per palette.
 
 ### Component Organization
 
@@ -217,7 +217,7 @@ HDS outline buttons on dark backgrounds keep the **NASA Blue** border (not monot
 
 ### Utility Circle Stroke Contrast
 
-Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component. See `_hds-palettes.scss` for per-palette token values.
+Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component. See `base/_palettes.scss` for per-palette token values.
 
 ### Interactive Icon Button
 
