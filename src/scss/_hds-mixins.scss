@@ -62,7 +62,7 @@ $_focus-fallbacks: (
 );
 
 // Standard block-level elements (buttons, pagination)
-@mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'after') {
+@mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'after', $circle-size-px: 24) {
   $suffix: '';
 
   @if $color != 'default' {
@@ -78,67 +78,59 @@ $_focus-fallbacks: (
   &::#{$pseudo} {
     content: '';
     position: absolute;
-    inset: -1px;
     pointer-events: none;
     background-color: var(#{$prop}, #{$fallback});
+    z-index: 1;
 
     @if $shape == 'circle' {
-      mask-image: var(--hds-focus-mask-circle);
-      -webkit-mask-image: var(--hds-focus-mask-circle);
-      border-radius: 50%;
-    } @else {
-      mask-image: var(--hds-focus-mask-rect);
-      -webkit-mask-image: var(--hds-focus-mask-rect);
-      border-radius: inherit;
-    }
+      // Generate hardcoded pixel values at compile time based on button size.
+      // This eliminates all calc(), percentages, inset, and transform bugs.
+      $container-size: $circle-size-px + 6;
+      $center: $container-size * 0.5;
+      $radius: $center - 1.5;
 
-    mask-size: 100% 100%;
-    -webkit-mask-size: 100% 100%;
-    z-index: 1;
+      top: 50%;
+      left: 50%;
+      width: #{$container-size}px;
+      height: #{$container-size}px;
+      margin-top: -#{$center}px;
+      margin-left: -#{$center}px;
+
+      $svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E";
+      mask-image: url($svg);
+      -webkit-mask-image: url($svg);
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+
+    } @else {
+      inset: -2px;
+      $svg-rect: "data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2%2c3' stroke-dashoffset='1' stroke-linecap='butt'/%3e%3c/svg%3e";
+      mask-image: url($svg-rect);
+      -webkit-mask-image: url($svg-rect);
+      border-radius: inherit;
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+    }
   }
 }
 
-// Input wrappers (checkboxes, radios)
-@mixin hds-focus-ring-wrapped($color: 'minimal', $shape: 'rect') {
-  $suffix: '';
-  @if $color != 'default' {
-    $suffix: '-#{$color}';
-  }
-  $prop: --hds-palette-focus#{$suffix};
-  $fallback: map.get($_focus-fallbacks, $color);
+// ------------------------------------------------------------
+// Focus Ring Size Override (For circle modifiers)
+// ------------------------------------------------------------
+@mixin hds-focus-ring-size($circle-size-px, $pseudo: 'after') {
+  &::#{$pseudo} {
+    $container-size: $circle-size-px + 6;
+    $center: $container-size * 0.5;
+    $radius: $center - 1.5;
 
-  &::after {
-    content: '';
-    position: absolute;
-    pointer-events: none;
-    z-index: 1;
+    width: #{$container-size}px;
+    height: #{$container-size}px;
+    margin-top: -#{$center}px;
+    margin-left: -#{$center}px;
 
-    // USWDS checkbox size is 24px (1.5rem). Ring needs to be 1px offset around it.
-    // 24px + 1px left + 1px right = 26px ring size.
-    width: 26px;
-    height: 26px;
-
-    // Match ::before positioning minus 1px offset
-    // Checkbox has left padding, ::before is at left: 0
-    left: -1px;
-
-    // Center vertically exactly matching USWDS math minus offset
-    margin-top: calc(((line-height(body, 3) * size(body, md) - 1.5rem) / 2) - 1px);
-
-    background-color: var(#{$prop}, #{$fallback});
-
-    @if $shape == 'circle' {
-      mask-image: var(--hds-focus-mask-circle);
-      -webkit-mask-image: var(--hds-focus-mask-circle);
-      border-radius: 50%;
-    } @else {
-      mask-image: var(--hds-focus-mask-rect);
-      -webkit-mask-image: var(--hds-focus-mask-rect);
-      border-radius: 0; // Ensures it's square
-    }
-
-    mask-size: 100% 100%;
-    -webkit-mask-size: 100% 100%;
+    $svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E";
+    mask-image: url($svg);
+    -webkit-mask-image: url($svg);
   }
 }
 
@@ -308,6 +300,7 @@ $_focus-fallbacks: (
   display: inline-flex;
   justify-content: center;
   padding: 0;
+  position: relative;
 }
 
 // ------------------------------------------------------------

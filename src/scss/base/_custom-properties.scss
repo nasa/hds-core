@@ -73,10 +73,6 @@
   @each $name, $value in $hds-width-settings {
     --hds-border-width-#{$name}: #{$value};
   }
-
-  // Focus Ring SVG Masks
-  --hds-focus-mask-rect: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'><rect x='0.5' y='0.5' width='calc(100%25 - 1px)' height='calc(100%25 - 1px)' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' vector-effect='non-scaling-stroke'/></svg>");
-  --hds-focus-mask-circle: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'><circle cx='50%25' cy='50%25' r='calc(50%25 - 0.5px)' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' vector-effect='non-scaling-stroke'/></svg>");
 }
 
 // ============================================================
