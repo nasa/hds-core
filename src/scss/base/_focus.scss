@@ -40,3 +40,12 @@ select:focus:not(:focus-visible),
 textarea:focus:not(:focus-visible) {
   outline: none;
 }
+
+// Ensure the dashed link underline perfectly replaces the original
+// solid/dashed underline so they don't double up or bleed through.
+// The outline approach we take for links creates a box, so we need
+// to remove text-decoration when focused.
+a:focus-visible,
+.usa-button--unstyled:focus-visible {
+  text-decoration: none;
+}
