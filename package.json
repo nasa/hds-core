@@ -20,19 +20,19 @@
   "scripts": {
     "sass:hds": "sass src/scss/hds.scss dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "postcss:hds": "postcss dist/css/hds.css -o dist/css/hds.css --map",
-    "minify:hds": "MINIFY=true postcss dist/css/hds.css -o dist/css/hds.min.css --no-map",
+    "minify:hds": "postcss dist/css/hds.css -o dist/css/hds.min.css --no-map --env production",
     "sass:uswds": "sass src/scss/hds-uswds.scss dist/css/hds-uswds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.css --map",
-    "minify:uswds": "MINIFY=true postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --no-map",
-    "copy:uswds-fonts": "cp -r node_modules/@uswds/uswds/dist/fonts/* dist/assets/fonts/",
-    "copy:uswds-img": "cp -r node_modules/@uswds/uswds/dist/img/* dist/assets/img/",
-    "copy:uswds-js": "cp -r node_modules/@uswds/uswds/dist/js/* dist/js/",
-    "copy:hds": "cp -r src/assets/* dist/assets/",
+    "minify:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --no-map --env production",
+    "copy:uswds-fonts": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/fonts', 'dist/assets/fonts', {recursive: true})\"",
+    "copy:uswds-img": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/img', 'dist/assets/img', {recursive: true})\"",
+    "copy:uswds-js": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/js', 'dist/js', {recursive: true})\"",
+    "copy:hds": "node -e \"require('fs').cpSync('src/assets', 'dist/assets', {recursive: true})\"",
     "copy:all": "npm run copy:uswds-fonts && npm run copy:uswds-img && npm run copy:uswds-js && npm run copy:hds",
     "check:uswds": "bash scripts/check-uswds.sh",
     "check:uswds-core": "bash scripts/check-uswds-core.sh",
     "sprite": "svg-sprite --config svg-sprite.config.json src/assets/img/hds-icons/*.svg",
-    "init": "mkdir -p dist/css dist/js dist/assets/fonts dist/assets/img && npm run copy:all && npm run sprite",
+    "init": "node -e \"const fs=require('fs');['dist/css','dist/js','dist/assets/fonts','dist/assets/img'].forEach(d=>fs.mkdirSync(d,{recursive:true}))\" && npm run copy:all && npm run sprite",
     "build": "npm run init && npm run sass:hds && npm run postcss:hds && npm run minify:hds && npm run sass:uswds && npm run postcss:uswds && npm run minify:uswds && npm run sass:dataviz && npm run postcss:dataviz && npm run minify:dataviz",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
     "dev": "concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
@@ -45,7 +45,7 @@
     "test:visual": "chromatic --log-level warn",
     "sass:dataviz": "sass src/scss/hds-dataviz.scss dist/css/hds-dataviz.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "postcss:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.css --map",
-    "minify:dataviz": "MINIFY=true postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --no-map"
+    "minify:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --no-map --env production"
   },
   "peerDependencies": {
     "@uswds/uswds": "^3.13.0"
