@@ -8,10 +8,10 @@
 // Uses --hds-palette-focus token (Pattern A: C60 light /
 // C30 dark). Components with different focus treatments
 // override via hds-focus-ring() mixin with appropriate
-// $color and $width parameters.
+// $color and $shape parameters.
 //
-// Offset: 2px default. Components with generous internal
-// spacing (e.g. pagination page numbers) may override to 0.
+// Global baseline is a 1px dashed ring with 1px offset,
+// rendered via SVG mask in the ::after pseudo-element.
 // ============================================================
 
 @use 'uswds-core' as *;

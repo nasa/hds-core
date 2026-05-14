@@ -48,18 +48,8 @@
 //   'subtle'   — C60 light / C40 dark (Pattern E)
 //   'minimal'  — C30 light / C80 dark (Pattern D)
 //
-// Two width tokens from $hds-focus-widths:
-//   'thin'  (1px) — Link, Icon buttons, Global baseline
-//   'thick' (2px) — Text buttons, Primary arrow, Breadcrumb
-//
-// Two methods:
-//   'outline' — outline + outline-offset (default)
-//   'border'  — border-color + border-style + outline:none
-//               (for components that pre-reserve a transparent
-//               border, e.g. pagination page numbers)
-//
-// Interactive icon button is exempt — uses fixed colors for
-// high contrast on dynamic backgrounds. Does not use this mixin.
+// Standard properties: 1px width, 1px offset, 2,3 dasharray.
+// SVG Masks defined in _custom-properties.scss.
 // ------------------------------------------------------------
 
 // Fallback values for use without palette wrappers.
@@ -71,7 +61,8 @@ $_focus-fallbacks: (
   'minimal': $hds-color-carbon-30,
 );
 
-@mixin hds-focus-ring($color: 'default', $width: 'thin', $method: 'outline', $offset: 2px) {
+// Standard block-level elements (buttons, pagination)
+@mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'after') {
   $suffix: '';
 
   @if $color != 'default' {
@@ -80,16 +71,90 @@ $_focus-fallbacks: (
 
   $prop: --hds-palette-focus#{$suffix};
   $fallback: map.get($_focus-fallbacks, $color);
-  $resolved-width: map.get($hds-focus-widths, $width);
 
-  @if $method == 'outline' {
-    outline: #{$resolved-width} dashed var(#{$prop}, #{$fallback});
-    outline-offset: $offset;
-  } @else if $method == 'border' {
-    border-color: var(#{$prop}, #{$fallback});
-    border-style: dashed;
-    outline: none;
+  position: relative;
+  outline: none; // Override native focus
+
+  &::#{$pseudo} {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background-color: var(#{$prop}, #{$fallback});
+
+    @if $shape == 'circle' {
+      mask-image: var(--hds-focus-mask-circle);
+      -webkit-mask-image: var(--hds-focus-mask-circle);
+      border-radius: 50%;
+    } @else {
+      mask-image: var(--hds-focus-mask-rect);
+      -webkit-mask-image: var(--hds-focus-mask-rect);
+      border-radius: inherit;
+    }
+
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    z-index: 1;
   }
+}
+
+// Input wrappers (checkboxes, radios)
+@mixin hds-focus-ring-wrapped($color: 'minimal', $shape: 'rect') {
+  $suffix: '';
+  @if $color != 'default' {
+    $suffix: '-#{$color}';
+  }
+  $prop: --hds-palette-focus#{$suffix};
+  $fallback: map.get($_focus-fallbacks, $color);
+
+  &::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+
+    // USWDS checkbox size is 24px (1.5rem). Ring needs to be 1px offset around it.
+    // 24px + 1px left + 1px right = 26px ring size.
+    width: 26px;
+    height: 26px;
+
+    // Match ::before positioning minus 1px offset
+    // Checkbox has left padding, ::before is at left: 0
+    left: -1px;
+
+    // Center vertically exactly matching USWDS math minus offset
+    margin-top: calc(((line-height(body, 3) * size(body, md) - 1.5rem) / 2) - 1px);
+
+    background-color: var(#{$prop}, #{$fallback});
+
+    @if $shape == 'circle' {
+      mask-image: var(--hds-focus-mask-circle);
+      -webkit-mask-image: var(--hds-focus-mask-circle);
+      border-radius: 50%;
+    } @else {
+      mask-image: var(--hds-focus-mask-rect);
+      -webkit-mask-image: var(--hds-focus-mask-rect);
+      border-radius: 0; // Ensures it's square
+    }
+
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+  }
+}
+
+// Inline multi-line elements (links)
+@mixin hds-focus-ring-inline($color: 'default') {
+  $suffix: '';
+  @if $color != 'default' {
+    $suffix: '-#{$color}';
+  }
+  $prop: --hds-palette-focus#{$suffix};
+  $fallback: map.get($_focus-fallbacks, $color);
+
+  outline: 1px dashed var(#{$prop}, #{$fallback});
+  outline-offset: 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 // ------------------------------------------------------------
@@ -316,7 +381,7 @@ $_focus-fallbacks: (
   }
 
   &:focus-visible {
-    @include hds-focus-ring($width: 'thin');
+    @include hds-focus-ring($pseudo: 'before');
   }
 
   &:not(.usa-current) {

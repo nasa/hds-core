@@ -53,7 +53,7 @@
 // ------------------------------------------------------------
 
 .usa-button:focus-visible:not(:disabled, [aria-disabled='true']) {
-  @include hds-focus-ring($color: 'bold', $width: 'thick');
+  @include hds-focus-ring($color: 'bold');
 }
 
 // ------------------------------------------------------------
@@ -65,7 +65,7 @@
 // ------------------------------------------------------------
 
 .usa-button--unstyled:focus-visible:not(:disabled, [aria-disabled='true']) {
-  @include hds-focus-ring;
+  @include hds-focus-ring-inline;
 }
 
 // ------------------------------------------------------------

@@ -54,7 +54,7 @@
 }
 
 .usa-breadcrumb__link:focus-visible {
-  @include hds-focus-ring($width: 'thick');
+  @include hds-focus-ring-inline;
 }
 
 // Fix: USWDS overflow:hidden clips focus outline on first/last links

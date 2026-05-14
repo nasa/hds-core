@@ -70,7 +70,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 
   &:focus-visible {
-    @include hds-focus-ring($width: 'thick');
+    @include hds-focus-ring($pseudo: 'before');
   }
 }
 

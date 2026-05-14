@@ -67,7 +67,7 @@
 
 .hds-btn-icon--utility {
   &:focus-visible {
-    @include hds-focus-ring;
+    @include hds-focus-ring($shape: 'circle');
   }
 }
 
@@ -76,7 +76,7 @@
 .hds-btn-icon--outline,
 .hds-btn-icon--social {
   &:focus-visible {
-    @include hds-focus-ring($color: 'bold');
+    @include hds-focus-ring($color: 'bold', $shape: 'circle');
   }
 }
 

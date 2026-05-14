@@ -213,8 +213,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Outer box: Pattern D (Minimal) — C30 light / C80 dark.
 // Inner box: Solid blue element highlight (separate system).
 .usa-checkbox__input:focus-visible + .usa-checkbox__label {
-  @include hds-focus-ring($color: 'minimal');
-
+  @include hds-focus-ring-wrapped($color: 'minimal');
   border-radius: 0;
 }
 
@@ -306,8 +305,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Outer box: Pattern D (Minimal) — C30 light / C80 dark.
 // Inner circle: Solid blue element highlight (separate system).
 .usa-radio__input:focus-visible + .usa-radio__label {
-  @include hds-focus-ring($color: 'minimal');
-
+  @include hds-focus-ring-wrapped($color: 'minimal', $shape: 'circle');
   border-radius: 0;
 }
 

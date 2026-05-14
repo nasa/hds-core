@@ -35,7 +35,7 @@
   }
 
   &:focus-visible {
-    @include hds-focus-ring;
+    @include hds-focus-ring-inline;
   }
 }
 
