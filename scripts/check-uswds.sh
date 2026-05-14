@@ -34,6 +34,7 @@ fi
 echo "Checking USWDS packages against baseline..."
 CHANGED=0
 while IFS=': ' read -r pkg hash; do
+  hash="${hash%$'\r'}"
   current=$(find node_modules/@uswds/uswds/packages/$pkg -name '*.scss' | sort | xargs cat | shasum | cut -c1-8)
   if [ "$current" != "$hash" ]; then
     echo "✗ $pkg changed (was $hash, now $current)"
