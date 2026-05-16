@@ -1,4 +1,4 @@
-# HDS Core Architecture
+﻿# HDS Core Architecture
 
 Technical decisions by maintainers and conventions for contributors.
 
@@ -214,38 +214,28 @@ Always use `../assets/img/` in component styles. Configured in `_hds-uswds-theme
 
 ## Focus Ring Architecture
 
-HDS components use three distinct focus mechanisms:
+HDS components use a hybrid approach to focus rings to perfectly match the Figma spec (1px stroke, 2,3 dash array) while avoiding layout shifts caused by USWDS structural quirks.
 
-| System | Mechanism | Components | Token Strategy |
-| --- | --- | --- | --- |
-| **Dashed outline ring** | Outline or border around component, contrasts against palette background | Link, Buttons, Icon buttons, Primary arrow, Accordion, Breadcrumb, Pagination, Checkbox/Radio outer box | `--hds-palette-focus-*` tokens + `hds-focus-ring()` mixin |
-| **Solid blue element highlight** | Blue border on the form element itself | Text input, Select, Checkbox inner ring, Radio inner ring | `--hds-palette-btn-secondary-bg` — no change needed |
-| **Surface-inverse ring** | Ring color is inverse of component's own fill, not palette background | Table body cells, Table header cells | Per-component logic in `_table.scss` |
+### Two Focus Systems
 
-### Dashed outline ring system
+1. **Hybrid Dashed Ring:** Used by most interactive components (Links, Buttons, Accordions, Forms, etc.). Driven by `--hds-palette-focus-*` tokens.
+2. **Surface-inverse Ring:** Used strictly for Table cells. The ring color is calculated as the inverse of the component's own fill (see `_table.scss`).
 
-All selectors use `:focus-visible` (keyboard only, not mouse click). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction.
+### Application Methods (Dashed Ring)
 
-**Tokens:** Four semantic focus tokens in `base/_palettes.scss`, matching Figma's five focus patterns (the fifth — Interactive — is fixed/exempt):
+All selectors use `:focus-visible` (keyboard only). A suppression rule in `base/_focus.scss` prevents USWDS `:focus` styles from bleeding through on mouse interaction.
 
-| Token | Figma Pattern | Light Value | Dark Value | Components |
-| --- | --- | --- | --- | --- |
-| `--hds-palette-focus` | A (default) | C60 | C30 | Link, Primary arrow, Utility icon btn, Accordion (via global), Pagination prev/next, Breadcrumb, In-Page Navigation |
-| `--hds-palette-focus-bold` | B (bold) | C30 | C30 | CTA/Secondary/Outline text buttons, CTA/Secondary/Outline/Social icon btns |
-| `--hds-palette-focus-subtle` | E (subtle) | C60 | C40 | Pagination page numbers, Pagination simplified btn |
-| `--hds-palette-focus-minimal` | D (minimal) | C30 | C80 | Checkbox/Radio outer box |
+To prevent layout shifts, the dashed system uses four application methods depending on the component's layout constraints:
 
-Midtone and blue palettes override specific tokens where the scheme default would be invisible. See `base/_palettes.scss` code comments for per-palette values.
+1. **Blocks, Buttons, and Utility Circles:** Uses `@include hds-focus-ring(<shape>, <token>)`. Creates an absolute pseudo-element and applies a dynamically generated, data-URI SVG mask.
+2. **Inline Text (Links, Unstyled Buttons):** Uses `@include hds-focus-ring-inline()`. Relies on native CSS `outline: 1px dashed` and `box-decoration-break: clone`.
+3. **Form Elements (Checkboxes & Radios):** Applies `display: inline-flex` to the label wrapper, locks the hidden input with `position: absolute`, and applies a native outline to the adjacent `<label>` sibling.
+4. **Accordions:** Applies `position: relative` and an empty `::before` pseudo-element to the default button state to prevent the `space-between` flexbox layout from recalculating when the focus ring mixin injects its mask.
 
-**Width tokens:** `$hds-focus-widths` map in `_hds-tokens.scss` with `'thin'` (1px) and `'thick'` (2px) entries. Thin is the default; thick is used by text buttons, primary arrow, and breadcrumb.
+### Tokens and Globals
 
-**Mixin:** `hds-focus-ring($color, $width, $method, $offset)` in `_hds-mixins.scss`. Supports `'outline'` (default — emits `outline` + `outline-offset`) and `'border'` (emits `border-color` + `border-style` + `outline: none`) methods. Border method is used by pagination page numbers and simplified button, which pre-reserve a transparent border for focus.
-
-**Global rule:** `base/_focus.scss` applies `hds-focus-ring()` with defaults (Pattern A, thin, outline, 2px offset) to all focusable elements. Components override as needed.
-
-**Interactive icon button** is exempt — uses a fixed focus ring (1px dashed Carbon 40, 1px offset) that does not adapt to palettes. Designed for use over images, video, and 3D content.
-
-See DESIGN.md for design rationale behind the focus patterns and Figma deviations.
+- **Semantic Tokens:** The four adaptive focus treatments are defined as semantic tokens in `base/_palettes.scss`. This file also contains the explicit logic for swapping midtone and blue values to prevent contrast failures.
+- **Global Fallback:** `base/_focus.scss` applies the `hds-focus-ring()` mixin with baseline defaults (Default treatment, rect shape) to all focusable elements. Components then override this global rule as needed.
 
 ## Icon Architecture
 
