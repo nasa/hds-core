@@ -96,15 +96,19 @@ export const Checker = {
           <div style="font-size: 1.5rem; font-weight: 500; margin-bottom: 1rem; color: #17171b;">
             ${level}
           </div>
-          ${level === '⚠️ AA Large' || level === '❌ Fail' ? `
+          ${
+            level === '⚠️ AA Large' || level === '❌ Fail'
+              ? `
           <div style="margin-top: auto;">
             <p style="margin: 0; font-size: 0.875rem; color: #58585b; line-height: 1.4;">
               <strong>Note:</strong> "AA Large" requires a ratio of at least 3:1 and applies only to text that is ≥18pt, or ≥14pt and bold.
             </p>
           </div>
-          ` : ''}
+          `
+              : ''
+          }
         </div>
       </div>
     `;
-  }
+  },
 };
