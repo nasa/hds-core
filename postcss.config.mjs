@@ -3,7 +3,7 @@ import cssnano from 'cssnano';
 
 const plugins = [autoprefixer()];
 
-if (process.env.MINIFY === 'true') {
+if (process.env.MINIFY === 'true' || process.env.NODE_ENV === 'production') {
   plugins.push(cssnano({ preset: 'default' }));
 }
 

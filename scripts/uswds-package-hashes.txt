@@ -1,4 +1,4 @@
-uswds-core: 8afa7fc3
+uswds-core: ee9cfb50
 uswds-global: a1dfb451
 uswds-typography: 2d440821
 usa-layout-grid: f3985a4c

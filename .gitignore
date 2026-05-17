@@ -4,3 +4,8 @@
 *.css.map
 *storybook.log
 storybook-static
+
+# Claude & Testing Artifacts
+/.claude/
+/.playwright-mcp/
+/temp/
