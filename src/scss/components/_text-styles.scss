@@ -14,6 +14,7 @@
 
 .hds-overline {
   @include hds-overline-label;
+
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
 }
 

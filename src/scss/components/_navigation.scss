@@ -30,6 +30,7 @@
 
 .usa-header--basic .usa-nav-container {
   align-items: center;
+
   .usa-navbar {
     width: auto;
   }
@@ -79,19 +80,19 @@
 // ------------------------------------------------------------
 
 .usa-nav__global-nav-trigger {
-  span:after {
-    background-color: currentColor;
+  span::after {
+    background-color: currentcolor;
     mask-size: 1em !important;
     mask-position: top center !important;
     mask-repeat: no-repeat;
   }
 
-  &[aria-expanded='true'] span:after {
+  &[aria-expanded='true'] span::after {
     mask-image:
       url('../assets/img/hds-icons/arrow-chevron-up.svg'), linear-gradient(transparent, transparent) !important;
   }
 
-  &[aria-expanded='false'] span:after {
+  &[aria-expanded='false'] span::after {
     mask-image:
       url('../assets/img/hds-icons/arrow-chevron-down.svg'), linear-gradient(transparent, transparent) !important;
   }
@@ -102,7 +103,7 @@
   width: 100%;
 
   &[aria-expanded='false'] {
-    background-color: currentColor;
+    background-color: currentcolor;
     background-image: none;
     mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
     mask-position: right center;
@@ -111,7 +112,7 @@
   }
 
   &[aria-expanded='true'] {
-    background-color: currentColor;
+    background-color: currentcolor;
     background-image: none;
     mask-image: url('../assets/img/hds-icons/arrow-chevron-up.svg');
     mask-position: right center;

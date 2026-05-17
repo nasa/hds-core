@@ -52,7 +52,7 @@
 // in Issue #40.
 // ------------------------------------------------------------
 
-.usa-button:focus-visible:not(:disabled):not([aria-disabled='true']) {
+.usa-button:focus-visible:not(:disabled, [aria-disabled='true']) {
   @include hds-focus-ring($color: 'bold', $width: 'thick');
 }
 
@@ -64,7 +64,7 @@
 // match .usa-link: thin width, default color (Pattern A).
 // ------------------------------------------------------------
 
-.usa-button--unstyled:focus-visible:not(:disabled):not([aria-disabled='true']) {
+.usa-button--unstyled:focus-visible:not(:disabled, [aria-disabled='true']) {
   @include hds-focus-ring;
 }
 
@@ -78,8 +78,8 @@
 // during creative director review.
 // ------------------------------------------------------------
 
-.usa-button:hover:not(:disabled):not([aria-disabled='true']),
-.usa-button:active:not(:disabled):not([aria-disabled='true']) {
+.usa-button:hover:not(:disabled, [aria-disabled='true']),
+.usa-button:active:not(:disabled, [aria-disabled='true']) {
   background-color: $hds-color-nasa-red-shade;
 }
 
@@ -96,8 +96,8 @@
   background-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
 }
 
-.usa-button--secondary:hover:not(:disabled):not([aria-disabled='true']),
-.usa-button--secondary:active:not(:disabled):not([aria-disabled='true']) {
+.usa-button--secondary:hover:not(:disabled, [aria-disabled='true']),
+.usa-button--secondary:active:not(:disabled, [aria-disabled='true']) {
   background-color: var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
 }
 
@@ -147,8 +147,8 @@
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 }
 
-.usa-button--outline:hover:not(:disabled):not([aria-disabled='true']),
-.usa-button--outline:active:not(:disabled):not([aria-disabled='true']) {
+.usa-button--outline:hover:not(:disabled, [aria-disabled='true']),
+.usa-button--outline:active:not(:disabled, [aria-disabled='true']) {
   background-color: transparent;
   box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover, #{$hds-color-nasa-blue-shade});
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
@@ -189,8 +189,8 @@
   box-shadow: inset 0 0 0 2px #{$hds-color-nasa-blue-tint};
   color: #{$hds-color-spacesuit-white};
 
-  &:hover:not(:disabled):not([aria-disabled='true']),
-  &:active:not(:disabled):not([aria-disabled='true']) {
+  &:hover:not(:disabled, [aria-disabled='true']),
+  &:active:not(:disabled, [aria-disabled='true']) {
     background-color: transparent;
     box-shadow: inset 0 0 0 2px #{$hds-color-nasa-blue};
     color: #{$hds-color-spacesuit-white};
@@ -219,15 +219,17 @@
 
 .usa-button--unstyled {
   @include hds-link-appearance;
+
   background-color: transparent;
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
   }
 
-  &:hover:not(:disabled):not([aria-disabled='true']),
-  &:active:not(:disabled):not([aria-disabled='true']) {
+  &:hover:not(:disabled, [aria-disabled='true']),
+  &:active:not(:disabled, [aria-disabled='true']) {
     @include hds-link-hover;
+
     background-color: transparent;
   }
 
@@ -270,8 +272,8 @@
   box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   color: var(--hds-palette-heading);
 
-  &:hover:not(:disabled):not([aria-disabled='true']),
-  &:active:not(:disabled):not([aria-disabled='true']) {
+  &:hover:not(:disabled, [aria-disabled='true']),
+  &:active:not(:disabled, [aria-disabled='true']) {
     background-color: transparent;
     box-shadow: inset 0 0 0 2px var(--hds-palette-btn-secondary-bg-hover);
     color: var(--hds-palette-heading);

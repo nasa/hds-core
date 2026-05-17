@@ -133,9 +133,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Light: C20 → C40 (= --hds-palette-control-border).
 // Dark: C80 → inferred C60 (= --hds-palette-border on dark).
 
-.usa-input:hover:not(:disabled):not(:focus-visible),
-.usa-textarea:hover:not(:disabled):not(:focus-visible),
-.usa-select:hover:not(:disabled):not(:focus-visible) {
+.usa-input:hover:not(:disabled, :focus-visible),
+.usa-textarea:hover:not(:disabled, :focus-visible),
+.usa-select:hover:not(:disabled, :focus-visible) {
   border-color: var(--hds-palette-control-border);
 }
 
@@ -212,6 +212,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Inner box: Solid blue element highlight (separate system).
 .usa-checkbox__input:focus-visible + .usa-checkbox__label {
   @include hds-focus-ring($color: 'minimal');
+
   border-radius: 0;
 }
 
@@ -288,7 +289,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // Hover — unchecked: border darkens
-.usa-radio__input:hover:not(:disabled):not(:checked) + .usa-radio__label::before {
+.usa-radio__input:hover:not(:disabled, :checked) + .usa-radio__label::before {
   box-shadow: 0 0 0 1px var(--hds-palette-muted);
 }
 
@@ -304,6 +305,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Inner circle: Solid blue element highlight (separate system).
 .usa-radio__input:focus-visible + .usa-radio__label {
   @include hds-focus-ring($color: 'minimal');
+
   border-radius: 0;
 }
 

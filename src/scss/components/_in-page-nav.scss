@@ -56,6 +56,7 @@
 
 .usa-in-page-nav__heading {
   @include hds-metadata-type;
+
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-left: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
   padding-left: units(1.5);
@@ -79,6 +80,7 @@
 
 .usa-in-page-nav__list a:not(.usa-button) {
   @include hds-vertical-nav-links;
+
   padding: 2px;
   padding-left: units(1.5);
 

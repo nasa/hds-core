@@ -48,7 +48,6 @@
 
 @use 'hds-tokens' as hds;
 @use 'sass:map';
-
 @use 'uswds-core' with (
   // ----------------------------------------------------------
   // Build Config
@@ -392,7 +391,7 @@
   $theme-table-sorted-header-background-color: 'gray-10',
   $theme-table-sorted-icon-color: 'blue-60v',
   $theme-table-unsorted-icon-color: 'gray-50',
-  $theme-table-sticky-top-offset: 0px,
+  $theme-table-sticky-top-offset: 0,
 
   // ----------------------------------------------------------
   // Form Settings

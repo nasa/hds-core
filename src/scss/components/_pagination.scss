@@ -109,7 +109,9 @@
 
     &:focus-visible {
       background-color: transparent;
+
       @include hds-focus-ring($color: 'subtle', $method: 'border');
+
       color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     }
   }
@@ -137,7 +139,9 @@
   // Focus — non-current pages
   &:focus-visible {
     background-color: transparent;
+
     @include hds-focus-ring($color: 'subtle', $method: 'border');
+
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
   }
 }
@@ -150,11 +154,12 @@
 .usa-pagination__previous-page,
 .usa-pagination__next-page {
   @include hds-utility-circle;
+
   height: 32px;
   width: 32px;
 
   .usa-icon {
-    fill: currentColor;
+    fill: currentcolor;
     height: 60%;
     pointer-events: none;
     width: 60%;
@@ -260,6 +265,7 @@
   &:focus-visible,
   button#{&}:focus-visible {
     @include hds-focus-ring($color: 'subtle', $method: 'border');
+
     outline: none !important; // override global focus
   }
 

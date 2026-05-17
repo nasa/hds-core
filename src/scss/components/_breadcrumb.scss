@@ -46,7 +46,7 @@
 .usa-breadcrumb__link:hover {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   font-weight: font-weight('semibold');
-  text-decoration-color: currentColor;
+  text-decoration-color: currentcolor;
   text-decoration-line: underline;
   text-decoration-style: dashed;
   text-decoration-thickness: 0.05em;

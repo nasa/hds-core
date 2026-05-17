@@ -21,7 +21,6 @@
 
 // USWDS must be configured before any packages load.
 @forward 'hds-uswds-theme';
-
 @use 'sass:meta';
 
 // ── DECLARE CASCADE LAYER ORDER ──
