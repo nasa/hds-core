@@ -40,6 +40,7 @@
     "build-storybook": "storybook build",
     "format": "prettier --write \"**/*.{md,mdx,js,json}\"",
     "format:check": "prettier --check \"**/*.{md,mdx,js,json}\"",
+    "lint:scss": "stylelint \"src/scss/**/*.scss\"",
     "test": "npm run check:uswds && npm run check:uswds-core && vitest run --reporter=dot",
     "test:watch": "vitest watch",
     "test:visual": "chromatic --log-level warn",
@@ -69,6 +70,8 @@
     "sass": "^1.99.0",
     "storybook": "^10.3.3",
     "storybook-addon-pseudo-states": "^10.3.3",
+    "stylelint": "^17.11.1",
+    "stylelint-config-standard-scss": "^17.0.0",
     "svg-sprite": "^2.0.4",
     "vitest": "^4.1.0"
   },
