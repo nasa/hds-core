@@ -169,14 +169,14 @@ HDS diagonal arrow (`arrow-line-diagonal.svg`) replaces USWDS launch icon. Arrow
 
 Red = navigates away. Blue = stays on page.
 
-| Role            | Color                   | Meaning                                           |
-| --------------- | ----------------------- | ------------------------------------------------- |
-| `--cta`         | NASA Red                | Navigates to new page                             |
-| `--secondary`   | NASA Blue filled        | On-page action                                    |
-| `--outline`     | NASA Blue border        | Lower emphasis on-page                            |
-| `--utility`     | Neutral                 | UI controls                                       |
-| `--social`      | Gray                    | Social media                                      |
-| `--interactive` | NASA Blue Shade (fixed) | Disclosure triggers over images and 3D content    |
+| Role            | Color                   | Meaning                                        |
+| --------------- | ----------------------- | ---------------------------------------------- |
+| `--cta`         | NASA Red                | Navigates to new page                          |
+| `--secondary`   | NASA Blue filled        | On-page action                                 |
+| `--outline`     | NASA Blue border        | Lower emphasis on-page                         |
+| `--utility`     | Neutral                 | UI controls                                    |
+| `--social`      | Gray                    | Social media                                   |
+| `--interactive` | NASA Blue Shade (fixed) | Disclosure triggers over images and 3D content |
 
 ### USWDS ↔ HDS Button Mapping
 
@@ -280,10 +280,10 @@ Figma's focus ring spec was not consistent across components. The standardizatio
 
 All dashed outline focus rings use `dashed` style (not `dotted` — 1px dashed is visually indistinguishable from dotted at browser rendering level). Two widths per Figma:
 
-| Width | Value | Components |
-| --- | --- | --- |
-| **Thin** | 1px | Link, Icon buttons, Checkbox/Radio outer, Pagination, Global baseline |
-| **Thick** | 2px | Text buttons (CTA/Secondary/Outline), Primary arrow, Breadcrumb |
+| Width     | Value | Components                                                            |
+| --------- | ----- | --------------------------------------------------------------------- |
+| **Thin**  | 1px   | Link, Icon buttons, Checkbox/Radio outer, Pagination, Global baseline |
+| **Thick** | 2px   | Text buttons (CTA/Secondary/Outline), Primary arrow, Breadcrumb       |
 
 ### Interactive Icon Button Exemption
 
@@ -363,7 +363,7 @@ Maps to HDS Figma "Tertiary / Local Navigation." Uses USWDS component name and m
 - **Border:** aside border removed. Heading and list each get a palette-aware border-left that reads as one continuous line. Active bar (::after) overlaps list border via `left: -1px`.
 - **Hover underline:** uses `--hds-palette-link-underline` (Carbon 60 on white), not `currentColor`. Overrides the shared `hds-nav-hover-underline` mixin per-component.
 
-See components/_in-page-nav.scss for implementation.
+See components/\_in-page-nav.scss for implementation.
 
 ## Pagination
 
@@ -445,7 +445,6 @@ Pending visual sign-offs:
 | Accordion bordered variant | Should HDS define its own bordered variant or discourage it? | Figma shows only borderless |
 | Accordion hover state | Figma doesn't specify heading row hover — should one be added? | Full-row hover patterns need research |
 | Form token colors | Are the 6 Figma-inferred form tokens correct for midtone and blue palettes? | Tokens inferred from Figma light/dark only — midtone and blue not designed in Figma |
-
 
 ## What Hasn't Changed
 

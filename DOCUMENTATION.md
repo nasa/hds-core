@@ -73,7 +73,7 @@ stories/
 ## Storybook configuration
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
 | `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
 | `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
@@ -90,9 +90,11 @@ Always use `<Meta title="..." />` with an explicit title string. Do not use `<Me
 
 ```mdx
 // ✅ Correct
+
 <Meta title="Components/Button/Guidance" />
 
 // ❌ Breaks when stories file is renamed or exports change
+
 <Meta of={ButtonStories} />
 ```
 
@@ -122,9 +124,11 @@ import { Canvas } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
 
 {/* References a visible sidebar story — shows with controls */}
+
 <Canvas of={ButtonStories.CTA} />
 
 {/* References a !dev guidance embed */}
+
 <Canvas of={ButtonStories.PrimaryArrowSizes} />
 ```
 
@@ -189,11 +193,11 @@ Store in `stories/assets/`. Use a `<figure>` with a standard caption noting that
 
 Three types for contextual information that supplements guidance:
 
-| Type | Label | Use for |
-|---|---|---|
-| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS |
-| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec |
-| `code` | How this works | Technical detail useful for understanding, not essential for usage |
+| Type    | Label              | Use for                                                            |
+| ------- | ------------------ | ------------------------------------------------------------------ |
+| `uswds` | Differs from USWDS | Where HDS requires different markup or usage than vanilla USWDS    |
+| `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec      |
+| `code`  | How this works     | Technical detail useful for understanding, not essential for usage |
 
 ```mdx
 import { Note } from '../helpers/Note';
@@ -213,11 +217,11 @@ import { Note } from '../helpers/Note';
 
 Storybook provides native doc blocks that could replace custom markup on Foundation pages:
 
-| Block | Where it would help |
-|---|---|
+| Block                        | Where it would help                              |
+| ---------------------------- | ------------------------------------------------ |
 | `ColorPalette` / `ColorItem` | `Color.mdx` — replace custom inline JSX swatches |
-| `Typeset` | `Typography.mdx` — document font families/sizes |
-| `IconGallery` / `IconItem` | `Icons.mdx` — replace custom grid rendering |
+| `Typeset`                    | `Typography.mdx` — document font families/sizes  |
+| `IconGallery` / `IconItem`   | `Icons.mdx` — replace custom grid rendering      |
 
 These are documentation quality improvements for Phase 2 — no testing impact.
 
@@ -415,15 +419,15 @@ export const AllCollapsed = { render: () => accordion({ prefix: 'collapsed' }) }
 
 Icon ID arrays live in `stories/helpers/icons.js` — the single source of truth for which icons exist in each sprite.
 
-| Export | Contents |
-|---|---|
-| `hdsUiIcons` | UI icons (no `tag-*` or `logo-*`) |
-| `hdsTagIcons` | Tag/category icons only |
-| `hdsLogoIcons` | Logo/brand icons |
-| `hdsIcons` | All HDS (UI + Tag + Logo) |
+| Export             | Contents                           |
+| ------------------ | ---------------------------------- |
+| `hdsUiIcons`       | UI icons (no `tag-*` or `logo-*`)  |
+| `hdsTagIcons`      | Tag/category icons only            |
+| `hdsLogoIcons`     | Logo/brand icons                   |
+| `hdsIcons`         | All HDS (UI + Tag + Logo)          |
 | `uswdsUniqueIcons` | USWDS icons with no HDS equivalent |
-| `uswdsPortedIcons` | USWDS icons replaced by HDS |
-| `uswdsIcons` | All USWDS (unique + ported) |
+| `uswdsPortedIcons` | USWDS icons replaced by HDS        |
+| `uswdsIcons`       | All USWDS (unique + ported)        |
 
 ## Palette accessibility tests
 
@@ -524,7 +528,7 @@ Analyze the component's `:focus-visible` SCSS. One FocusTest per unique focus tr
 Example — Button has two distinct treatments:
 
 | Treatment | SCSS | Visual |
-|---|---|---|
+| --- | --- | --- |
 | `.usa-button` (all filled/outline variants) | `components/_button.scss`: `2px dashed Carbon-30` (fixed) | Dashed gray ring |
 | `.hds-btn--primary` (arrow button) | `components/_primary-arrow-button.scss`: `2px dotted palette-aware` | Dotted, color adapts |
 
@@ -564,15 +568,9 @@ parameters: {
 
 For play-function stories, the play function itself provides implicit delay — Chromatic waits for the play function to complete before snapshotting. If the play function interacts with a JS-dependent element (e.g., tabbing to an accordion button), it naturally waits for initialization.
 
-USWDS accordion-based components (Banner, Header nav) also need initial DOM
-state correction. The accordion initial-state decorator in preview.js collapses
-panels whose trigger has aria-expanded="false" and hides mobile nav elements.
-This runs globally on all stories — no per-story configuration needed.
+USWDS accordion-based components (Banner, Header nav) also need initial DOM state correction. The accordion initial-state decorator in preview.js collapses panels whose trigger has aria-expanded="false" and hides mobile nav elements. This runs globally on all stories — no per-story configuration needed.
 
-USWDS components that transform DOM on init (date picker, time picker, combo
-box, character count, file input) are not re-initialized in Storybook and fall
-back to native elements. This is a known limitation. See test-uswds-js.html
-for validation outside Storybook.
+USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See test-uswds-js.html for validation outside Storybook.
 
 ## Guide stories
 

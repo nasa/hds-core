@@ -11,14 +11,14 @@ export default {
         {
           destination: 'hds-tokens.scss',
           format: 'scss/variables',
-          filter: (token) => token.path[0] !== 'dataviz'
+          filter: (token) => token.path[0] !== 'dataviz',
         },
         {
           destination: 'hds-dataviz-tokens.scss',
           format: 'scss/variables',
-          filter: (token) => token.path[0] === 'dataviz'
-        }
-      ]
-    }
-  }
+          filter: (token) => token.path[0] === 'dataviz',
+        },
+      ],
+    },
+  },
 };

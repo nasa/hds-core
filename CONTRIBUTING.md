@@ -90,8 +90,8 @@ See `components/_button.scss` as a reference for comment style and organization.
 When bumping the `@uswds/uswds` dependency in `package.json`, our CI pipeline runs two blocking checks to ensure the upgrade is safe:
 
 1. **`npm run check:uswds-core` (Architectural Gate):** Our CSS layer cascade relies on the assumption that `@use 'uswds-core'` is a pure Sass API and emits zero CSS selectors. If this test fails, USWDS has introduced CSS into their core package, breaking our layer specificity strategy. Do not merge the upgrade until our architecture is updated to account for this upstream change.
-2. **`npm run check:uswds` (Component Tracker):** This script monitors the specific USWDS components that HDS themes. It fails if the upstream Sass source for those components changed, serving as a reminder to check for visual regressions. 
-   * **To resolve:** Review the USWDS release notes, verify our component overrides in Storybook, and regenerate the baseline by running `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
+2. **`npm run check:uswds` (Component Tracker):** This script monitors the specific USWDS components that HDS themes. It fails if the upstream Sass source for those components changed, serving as a reminder to check for visual regressions.
+   - **To resolve:** Review the USWDS release notes, verify our component overrides in Storybook, and regenerate the baseline by running `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
 
 ### Code style conventions
 

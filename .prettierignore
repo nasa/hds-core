@@ -1,7 +1,5 @@
 dist/
 node_modules/
 *.min.css
-*.css.mapARCHITECTURE.md
-DESIGN.md
-DOCUMENTATION.md
-508.md
+*.css.map
+*.mdx
