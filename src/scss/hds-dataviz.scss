@@ -9,7 +9,6 @@
 @use 'hds-tokens' as * with (
   $hds-enable-dataviz-tokens: true
 );
-
 @use 'base/dataviz-properties';
 
 // We also need the dark mode palettes for dataviz if auto dark mode is enabled,

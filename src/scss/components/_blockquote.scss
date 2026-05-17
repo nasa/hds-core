@@ -143,6 +143,7 @@
 
 .hds-blockquote__name {
   @include hds-metadata-type;
+
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   display: block;
   grid-column: 2;
@@ -169,11 +170,13 @@
 
 .hds-blockquote__attribution a {
   @include hds-link-appearance;
+
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   text-decoration-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
 
   &:hover {
     @include hds-link-hover;
+
     color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   }
 }

@@ -105,13 +105,9 @@
     // Chevron icon via mask
     background-color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
     mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
-    -webkit-mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
     mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-position: center;
     mask-size: 0.75em;
-    -webkit-mask-size: 0.75em;
 
     // Collapsed = chevron down (default)
     transition: transform 0.2s ease;

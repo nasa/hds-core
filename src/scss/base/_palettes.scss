@@ -42,6 +42,7 @@
   --hds-palette-control-fill: #{$hds-color-nasa-blue};
   --hds-palette-social-fill: #{$hds-color-carbon-60};
   --hds-palette-social-icon: #{$hds-color-carbon-05};
+
   // Focus: Bold uses C30 on all palettes per Figma (Pattern B).
   // Known WCAG 1.4.11 failure on light backgrounds — tracked
   // separately in Issue #40.
@@ -76,12 +77,14 @@
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-05};
   --hds-palette-icon: #{$hds-color-carbon-black};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-70};
+
   // Focus: Dashed outline ring tokens (Patterns A, E, D).
   // C60 on light backgrounds per Figma. C30 minimal matches
   // Figma checkbox/radio outer box on light.
   --hds-palette-focus: #{$hds-color-carbon-60};
   --hds-palette-focus-subtle: #{$hds-color-carbon-60};
   --hds-palette-focus-minimal: #{$hds-color-carbon-30};
+
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-spacesuit-white};
@@ -102,11 +105,13 @@
   --hds-palette-border: #{$hds-color-carbon-60};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
+
   // Secondary filled uses NASA Blue on all palettes per creative
   // director review (2026-03-27). Passes AA everywhere. See
   // Discussion #24 for rationale.
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
+
   // Inferred — same value as light scheme. Flagged for creative
   // director review: does Red → Red Shade provide enough visible
   // hover feedback against dark backgrounds?
@@ -125,6 +130,7 @@
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-80};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
+
   // Focus: Dashed outline ring tokens (Patterns A, E, D).
   // C30 default per Figma. C40 subtle matches Figma pagination/
   // tab on dark. C80 minimal matches Figma checkbox/radio outer
@@ -132,6 +138,7 @@
   --hds-palette-focus: #{$hds-color-carbon-30};
   --hds-palette-focus-subtle: #{$hds-color-carbon-40};
   --hds-palette-focus-minimal: #{$hds-color-carbon-80};
+
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};
@@ -155,6 +162,7 @@
 .hds-palette-white {
   @include _scheme-universal;
   @include _scheme-light;
+
   --hds-palette-bg: #{$hds-color-spacesuit-white};
 }
 
@@ -162,6 +170,7 @@
 @include palette('light') {
   @include _scheme-universal;
   @include _scheme-light;
+
   --hds-palette-bg: #{$hds-color-carbon-05};
 }
 
@@ -171,22 +180,26 @@
 @include palette('midtone') {
   @include _scheme-universal;
   @include _scheme-light;
+
   --hds-palette-bg: #{$hds-color-carbon-20};
   --hds-palette-text: #{$hds-color-carbon-black};
   --hds-palette-muted: #{$hds-color-carbon-80};
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-utility-stroke: #{$hds-color-carbon-40};
   --hds-palette-blockquote-icon: #{$hds-color-carbon-60};
+
   // Focus: Minimal overridden — light scheme C30 on C20
   // background is ~1.1:1 (invisible). C80 is the Figma dark
   // value, providing visibility without inventing new colors.
   --hds-palette-focus-minimal: #{$hds-color-carbon-80};
+
   // Disabled overrides — light-scheme Carbon 20 values are
   // invisible on this Carbon 20 background. Inferred values
   // flagged for creative director review.
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-50};
+
   // --hds-palette-marker inherits NASA Blue from _scheme-light.
   // Passes 3:1 non-text contrast on Carbon 20 (~3.35:1).
 }
@@ -195,6 +208,7 @@
 @include palette('dark') {
   @include _scheme-universal;
   @include _scheme-dark;
+
   --hds-palette-bg: #{$hds-color-carbon-90};
 }
 
@@ -202,6 +216,7 @@
 // Unique values differ from standard dark scheme
 @include palette('blue') {
   @include _scheme-universal;
+
   --hds-palette-bg: #{$hds-color-nasa-blue-shade};
   --hds-palette-heading: #{$hds-color-spacesuit-white};
   --hds-palette-text: #{$hds-color-spacesuit-white};
@@ -212,11 +227,13 @@
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
+
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
   // secondary filled converts to outline here (components/_button.scss);
   // borders need contrast against the NASA Blue Shade background.
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue-tint};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue};
+
   // Inferred — same as dark scheme. Flagged for review.
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-50};
@@ -225,6 +242,7 @@
   --hds-palette-control-text: #{$hds-color-carbon-20};
   --hds-palette-control-stroke: #{$hds-color-nasa-blue-tint};
   --hds-palette-control-border: #{$hds-color-carbon-60};
+
   // Utility — matches dark scheme per Proposal palette 5 table.
   --hds-palette-utility-icon: #{$hds-color-spacesuit-white};
   --hds-palette-utility-fill: #{$hds-color-carbon-black};
@@ -234,6 +252,7 @@
   --hds-palette-utility-disabled-stroke: #{$hds-color-carbon-50};
   --hds-palette-icon: #{$hds-color-spacesuit-white};
   --hds-palette-social-hover-fill: #{$hds-color-carbon-50};
+
   // Focus: Blue palette is a dark background but doesn't use
   // _scheme-dark, so focus tokens are set explicitly.
   // C30 default/minimal match dark scheme. C40 subtle matches
@@ -243,6 +262,7 @@
   --hds-palette-focus: #{$hds-color-carbon-30};
   --hds-palette-focus-subtle: #{$hds-color-carbon-40};
   --hds-palette-focus-minimal: #{$hds-color-carbon-30};
+
   // Form tokens — inferred from dark scheme, not in Proposal.
   // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};
@@ -250,6 +270,7 @@
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
   --hds-palette-error-border: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
+
   // Data visualization: Blue palette inherits light defaults
   // from :root (base/_custom-properties.scss). Chart surfaces
   // inside blue sections use a light background, same as tables.
@@ -259,6 +280,7 @@
 @include palette('black') {
   @include _scheme-universal;
   @include _scheme-dark;
+
   --hds-palette-bg: #{$hds-color-carbon-black};
 }
 
@@ -274,6 +296,7 @@
     :root {
       @include _scheme-universal;
       @include _scheme-dark;
+
       --hds-palette-bg: #{$hds-color-carbon-90};
     }
   }

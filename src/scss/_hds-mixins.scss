@@ -33,7 +33,7 @@
   padding: 0;
   position: absolute;
   width: 1px;
-  word-wrap: normal;
+  overflow-wrap: normal;
 }
 
 // ------------------------------------------------------------
@@ -74,9 +74,11 @@ $_focus-fallbacks: (
 
 @mixin hds-focus-ring($color: 'default', $width: 'thin', $method: 'outline', $offset: 2px) {
   $suffix: '';
+
   @if $color != 'default' {
     $suffix: '-#{$color}';
   }
+
   $prop: --hds-palette-focus#{$suffix};
   $fallback: map.get($_focus-fallbacks, $color);
   $resolved-width: map.get($hds-focus-widths, $width);
@@ -159,7 +161,7 @@ $_focus-fallbacks: (
   color: var(--hds-palette-btn-filled-text, #{$hds-color-spacesuit-white});
 
   svg {
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 
@@ -189,6 +191,7 @@ $_focus-fallbacks: (
 @mixin button-outline {
   @include button-padding-border;
   @include button-typography;
+
   background-color: transparent;
   border-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
   color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
@@ -284,7 +287,7 @@ $_focus-fallbacks: (
 // ------------------------------------------------------------
 
 @mixin hds-nav-hover-underline {
-  text-decoration-color: currentColor;
+  text-decoration-color: currentcolor;
   text-decoration-line: underline;
   text-decoration-style: dashed;
   text-decoration-thickness: 0.05em;
@@ -307,7 +310,9 @@ $_focus-fallbacks: (
 
   &:hover {
     background-color: transparent; // override USWDS solid fills
+
     @include hds-nav-hover-underline;
+
     text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
   }
 
@@ -335,6 +340,7 @@ $_focus-fallbacks: (
       background-color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
       border-radius: 0; // Override USWDS pill
       width: 2px;
+
       // Note: components must handle top/bottom/left positioning
       // of this pseudo-element according to their specific layout.
     }

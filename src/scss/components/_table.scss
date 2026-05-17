@@ -256,13 +256,9 @@
   // --- Base sort button as icon container ---
   th[data-sortable] .usa-table__header__button {
     mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
-    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
     mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-position: center;
     mask-size: 1.25rem;
-    -webkit-mask-size: 1.25rem;
     background-color: transparent;
   }
 
@@ -272,6 +268,7 @@
     .usa-table__header__button {
       background-color: transparent;
     }
+
     &:hover .usa-table__header__button,
     &:focus-within .usa-table__header__button {
       background-color: $hds-color-carbon-40;
@@ -287,7 +284,6 @@
   th[data-sortable][aria-sort='ascending'] .usa-table__header__button {
     background-color: $hds-color-nasa-blue;
     mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
-    -webkit-mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
   }
 
   // --- Sorted icon persists on hover ---

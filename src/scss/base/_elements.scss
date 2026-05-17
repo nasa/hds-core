@@ -46,7 +46,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     font-family: family('body');
     font-size: size('body', 'xs');
     line-height: var(--hds-line-height-body);
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizelegibility;
   }
 }
 
@@ -103,7 +103,9 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     letter-spacing: -0.25px;
     line-height: 1.3; // 130%
   }
-} // end headings
+}
+
+// end headings
 
 // Heading palette wiring (always active)
 #{$_p} {
@@ -342,7 +344,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     padding-inline-start: units(4); // 32px — room for double-digit numerals
   }
 
-  ol:where(:not([class*='usa-']):not([class*='hds-'])) > li::marker {
+  ol:where(:not([class*='usa-'], [class*='hds-'])) > li::marker {
     color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
     content: counter(list-item);
     font-family: family('mono');
@@ -503,10 +505,13 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 
   a.button {
     text-decoration-line: none;
+
     @include button-styles;
     @include button-hover;
   }
-} // end $theme-global-content-styles
+}
+
+// end $theme-global-content-styles
 
 // ------------------------------------------------------------
 // Palette Muted Text (always active)
@@ -561,6 +566,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 
 #{$_p} {
   .hds-icon {
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
