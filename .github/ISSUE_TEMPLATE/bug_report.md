@@ -16,6 +16,6 @@ assignees: ''
 
 **Environment:**
 
-- OS: [e.g. Windows, macOS]
-- Browser: [e.g. Chrome, Safari]
-- HDS Core Version: [e.g. 0.7.0]
+- OS: \[e.g. Windows, macOS]
+- Browser: \[e.g. Chrome, Safari]
+- HDS Core Version: \[e.g. 0.7.0]
