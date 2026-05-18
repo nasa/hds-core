@@ -212,36 +212,6 @@ const sequentialStrip = (family, colors, background = 'transparent') => {
 };
 
 // ============================================================
-// Helper: group grid
-// ============================================================
-
-const groupGrid = (groups, background = 'light') => {
-  const blocks = groups
-    .map((group) => {
-      const rows = group
-        .map((c) => {
-          const h = c.hex;
-          const color = fg(h);
-          return `
-        <tr>
-          <td style="background-color: ${h}; color: ${color};">${c.property}</td>
-          <td style="background-color: ${h}; color: ${color};" class="dvp-right">${h}</td>
-        </tr>`;
-        })
-        .join('');
-      return `<table><tbody>${rows}</tbody></table>`;
-    })
-    .join('');
-
-  return dvp(
-    `
-    <div class="dvp-groups">${blocks}</div>
-  `,
-    background,
-  );
-};
-
-// ============================================================
 // Data: Categorical palettes
 // ============================================================
 
