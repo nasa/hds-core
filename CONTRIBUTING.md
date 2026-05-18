@@ -21,7 +21,7 @@ HDS Core themes and distributes a selective subset of USWDS components. When a b
 3. **Fix it here first** — NASA sites cannot wait on upstream release cycles, so we patch bugs in our own Sass source.
 4. **Contribute back** — when our fix is stable, maintainers will open a PR upstream so the broader USWDS community benefits.
 
-When filing, note in the issue title or description that the root cause is upstream (e.g., "[USWDS] Button focus ring clipped in Safari"). This helps maintainers triage and track companion issues.
+When filing, note in the issue title or description that the root cause is upstream (e.g., "\[USWDS] Button focus ring clipped in Safari"). This helps maintainers triage and track companion issues.
 
 ### Ask a question or propose an idea
 
@@ -58,7 +58,16 @@ _(Note: `npm run storybook` runs Storybook without compiling Sass. Use `npm run 
 - `docs/` for documentation updates
 - `chore/` for tooling or dependency updates Example: `feature/button-variants` or `fix/header-contrast`.
 
-**4. Linting and build checks** Before committing, ensure your code passes our formatting rules. We use standard linting for CSS/Sass and JavaScript. Running `npm run build` or the corresponding test scripts locally will catch issues early.
+**4. Linting and build checks** Before pushing, run the following to catch issues before CI does:
+
+```bash
+npm run format:check   # Prettier formatting
+npm run lint:scss      # Stylelint (CSS/Sass)
+npm run lint:js        # ESLint (JS and MDX)
+npm run lint:md        # remark-lint (Markdown)
+```
+
+Use `npm run format`, `npm run lint:scss:fix`, or `npm run lint:js:fix` to auto-fix where possible.
 
 **5. PR template** When you open a Pull Request, a template will populate automatically. Fill it out completely—it helps us understand your goals and speeds up the review process.
 
@@ -146,8 +155,8 @@ Design changes that affect NASA's visual identity may involve additional review 
 
 HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on USWDS. Some things fall outside this repo's scope:
 
-- **Flagship CMS features** (www.nasa.gov or science.nasa.gov functionality). See the [Web Toolkit](https://website.nasa.gov) for CMS support.
-- **Content or editorial questions.** See the [NASA Stylebook](https://website.nasa.gov/style-guide/) (NASA internal).
+- **Flagship CMS features** (`www.nasa.gov` or `science.nasa.gov` functionality). See the [Web Toolkit](https://website.nasa.gov) (internal NASA link) for CMS support.
+- **Content or editorial questions.** See the [NASA Stylebook](https://website.nasa.gov/style-guide/) (internal NASA link).
 - **USWDS-originated bugs.** If you find a bug that originates in upstream USWDS, report it here — we'll triage and fix it for HDS Core users. We also file companion issues with the USWDS repository to support the broader community. See [Handling USWDS Bugs](#handling-uswds-bugs) below.
 
 ## Code of Conduct
@@ -157,4 +166,8 @@ HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on U
 ## Questions?
 
 - [GitHub Discussions](https://github.com/nasa/hds-core/discussions) for public questions
-- [Web Toolkit](https://website.nasa.gov) for NASA-internal guidance and team contacts
+- [Web Toolkit](https://website.nasa.gov) (internal NASA link) for NASA-internal guidance and team contacts
+
+```
+
+```

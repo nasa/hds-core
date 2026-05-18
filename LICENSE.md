@@ -15,8 +15,8 @@ HDS Core includes the following third-party software, each subject to its own li
 Inter is a typeface designed by Rasmus Andersson.
 
 - License: SIL Open Font License 1.1
-- Source: https://github.com/rsms/inter
-- Full license: https://github.com/rsms/inter/blob/master/LICENSE.txt
+- Source: <https://github.com/rsms/inter>
+- Full license: <https://github.com/rsms/inter/blob/master/LICENSE.txt>
 
 SIL Open Font License 1.1 — Summary of key terms:
 
@@ -30,8 +30,8 @@ SIL Open Font License 1.1 — Summary of key terms:
 DM Mono is a typeface designed by Colophon Foundry for Google.
 
 - License: SIL Open Font License 1.1
-- Source: https://github.com/googlefonts/dm-mono
-- Full license: https://github.com/googlefonts/dm-mono/blob/main/OFL.txt
+- Source: <https://github.com/googlefonts/dm-mono>
+- Full license: <https://github.com/googlefonts/dm-mono/blob/main/OFL.txt>
 
 The same SIL Open Font License 1.1 terms described above for Inter apply to DM Mono.
 
@@ -40,7 +40,7 @@ The same SIL Open Font License 1.1 terms described above for Inter apply to DM M
 HDS Core is built on the U.S. Web Design System (USWDS), which is a peer dependency installed separately by consuming projects. USWDS is not included in the HDS Core distribution.
 
 - USWDS License: CC0 1.0 Universal (Public Domain Dedication)
-- Source: https://github.com/uswds/uswds
-- Full license: https://github.com/uswds/uswds/blob/develop/LICENSE.md
+- Source: <https://github.com/uswds/uswds>
+- Full license: <https://github.com/uswds/uswds/blob/develop/LICENSE.md>
 
 USWDS includes the Public Sans typeface (CC0 1.0, Public Domain), which HDS Core uses as its body font. Public Sans is provided by USWDS, not by HDS Core.
