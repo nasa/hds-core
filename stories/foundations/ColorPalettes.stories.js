@@ -10,7 +10,7 @@ const icon = (name) => `
     <use xlink:href="/assets/img/hds-sprite.svg#${name}"></use>
   </svg>`;
 
-const paletteSample = (content = '') => `
+const paletteSample = () => `
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
     <div>
       <p class="hds-overline">Label text</p>

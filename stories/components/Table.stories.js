@@ -265,7 +265,7 @@ const sortableTable = ({
   ${buildDescription(prefix, description)}
 `;
 
-const borderlessTable = ({ prefix = 'borderless' } = {}) => `
+const borderlessTable = () => `
   <table class="usa-table usa-table--borderless">
     <caption>Orbital parameters</caption>
     <thead>
@@ -295,7 +295,7 @@ const borderlessTable = ({ prefix = 'borderless' } = {}) => `
   </table>
 `;
 
-const compactTable = ({ prefix = 'compact' } = {}) => `
+const compactTable = () => `
   <table class="usa-table usa-table--compact">
     <caption>Element abundance</caption>
     <thead>
