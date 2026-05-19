@@ -6,25 +6,28 @@
 // Useful for charting libraries that don't need the full HDS bundle.
 // ============================================================
 
+@use 'sass:meta';
 @use 'hds-tokens' as * with (
   $hds-enable-dataviz-tokens: true
 );
-@use 'base/dataviz-properties';
-
-// We also need the dark mode palettes for dataviz if auto dark mode is enabled,
-// or if we're rendering dataviz inside a .hds-palette-dark container.
-// To fully support this standalone, we'll output the dark variables scoped to .hds-palette-dark.
 @use 'hds-dataviz-palettes' as *;
 
-.hds-palette-dark,
-[data-hds-palette="dark"] {
-  @include scheme-dataviz-dark;
-}
+// ── DECLARE CASCADE LAYER ORDER ──
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 
-@if $hds-enable-auto-dark-mode {
-  @media (prefers-color-scheme: dark) {
-    :root {
-      @include scheme-dataviz-dark;
+@layer hds-dataviz {
+  @include meta.load-css('base/dataviz-properties');
+
+  .hds-palette-dark,
+  [data-hds-palette='dark'] {
+    @include scheme-dataviz-dark;
+  }
+
+  @if $hds-enable-auto-dark-mode {
+    @media (prefers-color-scheme: dark) {
+      :root {
+        @include scheme-dataviz-dark;
+      }
     }
   }
 }
