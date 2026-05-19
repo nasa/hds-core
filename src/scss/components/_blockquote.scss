@@ -18,6 +18,13 @@
 // All attribution children are optional. Attribution div
 // itself is optional for quote-only treatment.
 //
+// QUOTE TEXT:
+//   Always wrap quote text in <p>. Block-level semantics
+//   are required for correct screen reader announcement of
+//   blockquote content. Bare text nodes are not supported.
+//   Multiple <p> elements are allowed for multi-paragraph
+//   quotes; they receive spacing between them automatically.
+//
 // PALETTE BEHAVIOR:
 //   Quote text  → --hds-palette-heading
 //   Icon        → --hds-palette-blockquote-icon
@@ -44,8 +51,19 @@
 // ------------------------------------------------------------
 // Blockquote container + quote icon
 // ------------------------------------------------------------
+// Quote text styles live here at root, not on p, so the
+// component renders correctly regardless of whether quote
+// content is wrapped in <p> or not. <p> is required for
+// accessibility but is not a styling dependency.
+// ------------------------------------------------------------
 
 .hds-blockquote {
+  color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  font-family: var(--hds-font-family-heading);
+  font-size: size('heading', 'lg'); // 28px mobile
+  font-weight: font-weight('light');
+  letter-spacing: -1px;
+  line-height: 1.2;
   margin: 0;
   padding: 0;
   position: relative;
@@ -66,8 +84,10 @@
     margin-block-end: units(1);
   }
 
-  // Desktop: icon hangs left of text column
+  // Desktop: icon hangs left of text column, quote text 36px
   @media (min-width: #{units('tablet')}) {
+    font-size: size('heading', 'xl'); // 36px desktop
+
     &::before {
       left: -37px;
       margin-block-end: 0;
@@ -76,21 +96,15 @@
     }
   }
 
-  // Quote text
+  // <p> resets browser default margins only.
+  // All typographic styles inherit from .hds-blockquote root.
   p {
-    color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-    font-family: family('heading');
-    font-size: size('heading', 'lg'); // 28px mobile
-    font-weight: font-weight('light');
-    letter-spacing: -1px;
-    line-height: 1.2;
     margin: 0;
   }
 
-  @media (min-width: #{units('tablet')}) {
-    p {
-      font-size: size('heading', 'xl'); // 36px desktop
-    }
+  // Spacing between consecutive paragraphs in multi-paragraph quotes.
+  p + p {
+    margin-block-start: units(2);
   }
 }
 
@@ -113,6 +127,7 @@
   font-size: size('body', '2xs'); // 14px
   font-weight: font-weight('normal');
   grid-template-columns: auto 1fr;
+  letter-spacing: normal; // Guard: prevent quote's -1px from inheriting
   line-height: lh('body', 3);
   margin-block-start: units(2.5); // 20px
   row-gap: 0;
