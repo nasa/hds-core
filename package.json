@@ -46,7 +46,7 @@
     "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
-    "lint:md": "remark --rc-path .remarkrc.mjs --quiet --frail **/*.md",
+    "lint:md": "remark --rc-path .remarkrc.mjs --quiet --frail *.md .github/**/*.md",
     "lint:mdx": "remark --rc-path .remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
     "test": "npm run check:uswds && npm run check:uswds-core && vitest run --reporter=dot",
     "test:watch": "vitest watch",

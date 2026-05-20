@@ -61,13 +61,14 @@ _(Note: `npm run storybook` runs Storybook without compiling Sass. Use `npm run 
 **4. Linting and build checks** Before pushing, run the following to catch issues before CI does:
 
 ```bash
-npm run format:check   # Prettier formatting
-npm run lint:scss      # Stylelint (CSS/Sass)
-npm run lint:js        # ESLint (JS and MDX)
-npm run lint:md        # remark-lint (Markdown)
+npm run format      # Prettier formatting
+npm run lint:scss   # Stylelint (CSS/Sass)
+npm run lint:js     # ESLint (JS and MDX)
+npm run lint:md     # remark-lint (Markdown)
+npm run lint:mdx    # remark-lint (MDX)
 ```
 
-Use `npm run format`, `npm run lint:scss:fix`, or `npm run lint:js:fix` to auto-fix where possible.
+Use `npm run format:fix`, `npm run lint:scss:fix`, or `npm run lint:js:fix` to auto-fix where possible.
 
 **5. PR template** When you open a Pull Request, a template will populate automatically. Fill it out completely—it helps us understand your goals and speeds up the review process.
 
