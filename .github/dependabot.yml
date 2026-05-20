@@ -1,0 +1,27 @@
+version: 2
+updates:
+  # npm dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'friday'
+      time: '09:00'
+      timezone: 'America/New_York'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+    # Review all dependency PRs manually pre-v1.0.
+    # Once Changesets lands, can enable auto-merge for patch-level dev dependencies.
+
+  # GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'friday'
+      time: '09:00'
+      timezone: 'America/New_York'
+    labels:
+      - 'dependencies'
+      - 'github-actions'
