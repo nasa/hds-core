@@ -1,5 +1,5 @@
 dist/
 node_modules/
 *.min.css
-*.css.map
-*.mdx
+*.min.css.map
+*.min.js
