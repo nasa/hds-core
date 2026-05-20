@@ -1,50 +1,117 @@
 # @nasa/hds-core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.7.1](https://img.shields.io/badge/Release-v0.7.1-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.7.2](https://img.shields.io/badge/Release-v0.7.2-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
-NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.
-
-> **Status:** Pre-1.0. API and class names may change between minor versions. Not yet published to npm.
+> **Pre-1.0:** API and class names may change between minor versions. Not yet published to npm.
 
 ## What is HDS Core?
 
-`@nasa/hds-core` is a CMS-agnostic CSS design system built as a theme layer on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/). It provides the canonical NASA brand visual language (typography, color palettes, spacing, and component styling) required by NASA's web modernization policy (NID 2800.147).
+NASA Horizon Design System (HDS) Core is a CSS design system built as a theme layer on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/). It applies NASA brand typography, color, spacing and component styling as required by NASA's web modernization policy [NID 2800.147](https://nodis3.gsfc.nasa.gov/OPD_Docs/NID_2800_147_.pdf) and [design standards](https://github.com/nasa/hds-core/blob/main/stories/overview/DesignStandards.mdx).
 
-It is designed for use by **standalone applications, platforms, and microapps** that are approved to operate outside of NASA's core flagship content management systems (like `www.nasa.gov`).
+HDS Core is intended for standalone NASA websites, applications and platforms approved to operate outside of the agency's flagship content management system (`www.nasa.gov` and `science.nasa.gov`), as well as microapps and embeds within the flagship that aren't styled by the CMS theme.
 
-**Before adopting HDS Core**, please read our [Getting Started](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs) guide to ensure your project aligns with NASA's consolidation strategy.
+Before adopting HDS Core, please read our [Getting Started guide](https://github.com/nasa/hds-core/blob/main/stories/overview/GettingStarted.mdx) to confirm your project aligns with NASA's web modernization and consolidation strategy. Interagency, non-.gov, and other non-NASA-branded sites should use [USWDS](https://designsystem.digital.gov/) instead.
+
+## Requirements
+
+- Node.js 20+
+- npm 10+
+- Peer dependency: `@uswds/uswds` 3.13+
+
+**Browser support:** `> 2%, last 2 versions, not dead` (matches USWDS targets; IE not supported)
 
 ## Documentation
 
-Full documentation, component examples, and integration guides are available in our Storybook:
+Full documentation, component examples, and integration guides are in Storybook, which will be available at <https://nasa.github.io/hds-core/> once repo is published. For now, you can build the Storybook locally or reference the `/stories/**/*.mdx` files directly. Key pages include:
 
-👉 **[HDS Core Storybook Documentation](https://nasa.github.io/hds-core/)**
+- [Getting Started](https://github.com/nasa/hds-core/blob/main/stories/overview/GettingStarted.mdx): Figure out whether HDS Core is the right tool for your project
+- [Installation](https://github.com/nasa/hds-core/blob/main/stories/overview/Installation.mdx): Technical setup for teams adopting HDS Core
+- Guides for [existing USWDS sites](https://github.com/nasa/hds-core/blob/main/stories/guides/USWDS.mdx), [React](https://github.com/nasa/hds-core/blob/main/stories/guides/ReactSetup.mdx), [no-build environments](https://github.com/nasa/hds-core/blob/main/stories/guides/NoBuildEnvironments.mdx) and [Sass configuration](https://github.com/nasa/hds-core/blob/main/stories/guides/SassConfiguration.mdx)
+- [Roadmap](https://github.com/nasa/hds-core/blob/main/stories/overview/Roadmap.mdx): Which HDS components are available now, what's coming before v1.0 and what's planned for future releases
 
-### Quick Links
+## Installation
 
-- [Getting Started Guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs)
-- [Adopting HDS for existing USWDS sites](https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs)
-- [Using HDS Design Tokens](https://nasa.github.io/hds-core/?path=/docs/foundations-design-tokens--docs)
-
-## Installation (Pre-1.0)
-
-HDS Core is not yet published to the npm registry (publishing is planned for the 1.0 release). You can install it directly from this public GitHub repository alongside its required peer dependency, the U.S. Web Design System (v3.13+):
+HDS Core is not yet published to npm. Install directly from GitHub:
 
 ```bash
 npm install github:nasa/hds-core @uswds/uswds
 ```
 
-For detailed instructions on consuming the pre-compiled CSS bundles (`hds.css` and `hds-uswds.css`) or integrating the Sass source into your build pipeline, see the [Getting Started Guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs).
+## What Ships
 
-## Developing HDS Core
+```
+dist/
+  css/
+    hds.min.css         # Required: all USWDS components + HDS theme
+    hds.min.css.map
+    hds-uswds.min.css   # Optional: USWDS utility classes (.padding-*, etc.)
+    hds-uswds.min.css.map
+    hds-dataviz.min.css # Optional: data visualization color palettes
+    hds-dataviz.min.css.map
+  assets/
+    fonts/              # Inter, DM Mono, Public Sans (woff2)
+    img/                # USWDS images and HDS icons
+  js/
+    uswds.js            # USWDS JavaScript (unmodified)
+src/
+  scss/                 # Public Sass API: tokens, mixins, theme config
+```
 
-If you are contributing to the HDS Core repository itself:
+## Usage
+
+### Required (all sites)
+
+```html
+<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds.min.css" />
+```
+
+### Optional: USWDS utility classes
+
+For sites that rely on USWDS [utility classes](https://designsystem.digital.gov/utilities/) (`.padding-2`, `.margin-top-3`, etc.):
+
+```html
+<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds-uswds.min.css" />
+<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds.min.css" />
+```
+
+Load order does not matter. All styles use CSS cascade layers.
+
+### Optional: Data visualization
+
+```html
+<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds-dataviz.min.css" />
+```
+
+Can be loaded standalone without `hds.min.css` for embedded chart contexts.
+
+### Sass API
+
+```scss
+@use '@nasa/hds-core/scss' as hds;
+```
+
+Exposes HDS tokens, mixins, and USWDS core utilities for use in your own Sass pipeline.
+
+## Bundle Sizes (gzipped)
+
+| File                  | Size   | Notes                                     |
+| --------------------- | ------ | ----------------------------------------- |
+| `hds.min.css`         | 43 KB  | Required; HDS/USWDS styles and components |
+| `hds-uswds.min.css`   | 48 KB  | Optional; USWDS utility classes           |
+| `hds-dataviz.min.css` | 1.2 KB | Optional; HDS data visualization styles   |
+
+## Contributing to HDS Core
 
 ```bash
 npm install
-npm run dev
+npm run dev    # Sass watch + Storybook
+npm test       # Unit tests + USWDS version checks
 ```
 
-This starts the Sass compiler in watch mode and launches the local Storybook dev server.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting changes, the public API contract and the versioning policy.
 
-For deep technical details on the architecture, testing strategy, and pre-1.0 roadmap, see [ARCHITECTURE.md](ARCHITECTURE.md) and [AGENTS.md](AGENTS.md).
+For architecture details and build pipeline documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+## License
+
+See [LICENSE.md](LICENSE.md) for draft. Will be finalized during NASA software release approval (in process).

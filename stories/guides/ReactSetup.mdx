@@ -5,29 +5,29 @@ import { Note } from '../helpers/Note';
 
 # React Setup
 
-> **This guide is new and hasn't been tested in production projects yet.** If you find something wrong or missing, please [open an issue](https://github.com/nasa/hds-core/issues) or submit a PR.
+> **This guide has not been tested in production projects yet.** If you find something wrong or missing, please [open an issue](https://github.com/nasa/hds-core/issues) or submit a PR.
 
 This guide covers HDS Core integration for React projects. It assumes you've read [Installation](?path=/docs/overview-installation--docs) and understand the Sass vs. pre-compiled CSS approaches.
 
 ## With react-uswds (recommended)
 
-[react-uswds](https://github.com/trussworks/react-uswds) (`@trussworks/react-uswds`) is a widely adopted React component library that wraps USWDS markup in typed React components. HDS Core styles apply automatically to react-uswds components — no extra configuration needed.
+[react-uswds](https://github.com/trussworks/react-uswds) (`@trussworks/react-uswds`) is a widely adopted React component library that wraps USWDS markup in typed React components. HDS Core styles should apply automatically to react-uswds components with no extra configuration.
 
 ```bash
 npm install @trussworks/react-uswds @nasa/hds-core @uswds/uswds
 ```
 
-react-uswds components render standard USWDS class names (`usa-button`, `usa-accordion`, etc.), and HDS Core overrides those styles with NASA colors, typography, and spacing. Components like `<Button>`, `<Accordion>`, and `<Pagination>` look like HDS immediately.
+react-uswds components render standard USWDS class names (`usa-button`, `usa-accordion`, etc.), and HDS Core overrides those styles with NASA colors, typography, and spacing. Components like `<Button>`, `<Accordion>`, and `<Pagination>` render in the HDS visual identity immediately.
 
 ### Sass setup
 
-Use a single compiled stylesheet that includes USWDS base styles, HDS overrides, and your project styles. This avoids loading duplicate CSS bundles and gives you full access to HDS tokens in your own Sass.
+Use a single compiled stylesheet that includes USWDS base styles, HDS overrides, and your project styles. This avoids loading duplicate CSS and gives you full access to HDS tokens in your own Sass.
 
 Your Sass entry point:
 
 ```scss
 // src/styles/index.scss
-@forward '@nasa/hds-core/src/scss/styles';
+@forward '@nasa/hds-core/src/scss/hds';
 @forward './my-project-styles';
 ```
 
@@ -39,10 +39,10 @@ import { Button, Accordion } from '@trussworks/react-uswds';
 import './styles/index.css'; // Your compiled Sass output
 ```
 
-**Do not also import react-uswds CSS.** Your Sass entry point already includes USWDS base styles via HDS Core. Loading both creates duplicate rules.
+Do not also import react-uswds CSS. Your Sass entry point already includes USWDS base styles via HDS Core. Loading both creates duplicate rules:
 
 ```jsx
-// ❌ Remove this — it duplicates USWDS styles
+// Remove this — duplicates USWDS styles already in your compiled output
 import '@trussworks/react-uswds/lib/index.css';
 ```
 
@@ -63,22 +63,19 @@ export default defineConfig({
 
 ### Pre-compiled CSS setup
 
-If your project doesn't use Sass, load both CSS files. **HDS Core must load after react-uswds** so the NASA styles take precedence:
+If your project does not use Sass, import `hds.min.css` directly. It includes all USWDS base styles and HDS overrides in one file, so react-uswds CSS is not needed:
 
 ```jsx
 // App.jsx
-import '@trussworks/react-uswds/lib/index.css'; // USWDS base styles
-import '@nasa/hds-core/dist/css/hds.css'; // HDS overrides — must be second
+import '@nasa/hds-core/dist/css/hds.min.css';
 import { Button, Accordion } from '@trussworks/react-uswds';
 ```
 
-This loads two overlapping stylesheets (both include USWDS CSS). It works, but the Sass setup above is more efficient.
+Do not also import react-uswds CSS. `hds.min.css` already includes everything react-uswds CSS provides, plus HDS overrides on top.
 
-### Don't load `uswds.js`
+### Do not load `uswds.js` with react-uswds
 
-react-uswds handles all component behavior — accordion expand/collapse, combo box, date picker, and other interactive patterns — in React. Loading `uswds.js` alongside react-uswds causes components to initialize twice.
-
-HDS Core provides styles only and does not require `uswds.js` when paired with react-uswds.
+react-uswds handles all component behavior in React. Loading `uswds.js` alongside react-uswds causes components to initialize twice.
 
 ## Without react-uswds
 
@@ -124,7 +121,7 @@ function MyAccordion({ items }) {
 }
 ```
 
-**Option B: Handle behavior in React yourself.** Manage expanded/collapsed state, ARIA attributes, and keyboard navigation in your own code. This is what react-uswds does internally.
+**Option B: Handle behavior in React yourself.** Manage expanded/collapsed state, ARIA attributes, and keyboard navigation in your own code.
 
 Both options require more work than using react-uswds, which is why we recommend it for most React projects.
 
@@ -145,7 +142,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. Use the
 }
 <button type="button" className="hds-btn-icon hds-btn-icon--utility">
   <svg className="hds-glyph" role="img" aria-hidden="true">
-    <use xlinkHref="/path/to/hds-sprite.svg#close" />
+    <use href="/path/to/hds-sprite.svg#close" />
   </svg>
   <span className="usa-sr-only">Close</span>
 </button>;
@@ -160,7 +157,7 @@ Check each component's Guidance page in Storybook for the correct markup.
 
 ## Color palettes
 
-Wrap any section in a palette class to switch the color scheme. All child elements — including react-uswds components — adapt automatically:
+Wrap any section in a palette class to switch the color scheme. All child elements including react-uswds components adapt automatically:
 
 ```jsx
 <div className="hds-palette-dark">
@@ -172,11 +169,11 @@ Wrap any section in a palette class to switch the color scheme. All child elemen
 
 Available palettes: `hds-palette-white` (default), `hds-palette-light`, `hds-palette-midtone`, `hds-palette-dark`, `hds-palette-blue`, `hds-palette-black` (header/footer only).
 
-Use the palette switcher (🖌 toolbar) in any component page to preview all six palettes.
+Use the palette switcher in the Storybook toolbar to preview all six palettes on any component page.
 
 ## Version compatibility
 
-HDS Core and react-uswds v11 are both built on USWDS 3.13.0. If you're using a different version of react-uswds, check that its USWDS peer dependency aligns with HDS Core's — minor version differences are generally safe, but a major version gap may cause styling inconsistencies.
+HDS Core and react-uswds v11 are both built on USWDS 3.13.0. If you are using a different version of react-uswds, confirm its USWDS peer dependency aligns with HDS Core's. Minor version differences are generally safe; a major version gap may cause styling inconsistencies.
 
 | Package         | USWDS version |
 | --------------- | ------------- |
