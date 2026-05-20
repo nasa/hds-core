@@ -74,7 +74,7 @@ const dvpStyles = `
   <style>
     .dvp {
       padding: 1.5rem;
-      font-family: var(--hds-font-family-code, 'DM Mono', monospace);
+      font-family: var(--hds-font-family-code);
       font-size: 0.8rem;
     }
     .dvp-light { background: var(--hds-color-carbon-05); }
@@ -103,7 +103,7 @@ const dvpStyles = `
     .dvp-dark th  { color: var(--hds-color-carbon-40); }
     .dvp .dvp-right { text-align: right; }
     .dvp .dvp-left  { text-align: left; }
-    .dvp .dvp-mono  { font-family: var(--hds-font-family-code, 'DM Mono', monospace); }
+    .dvp .dvp-mono  { font-family: var(--hds-font-family-code); }
 
     .dvp-strip {
       display: flex;
@@ -695,7 +695,7 @@ export const AllVariants = {
       'light',
     );
 
-    return `<div style="display: flex; flex-direction: column; gap: 2rem; padding: 2rem; background: var(--hds-color-carbon-05); font-family: var(--hds-font-family-sans, sans-serif);">
+    return `<div style="display: flex; flex-direction: column; gap: 2rem; padding: 2rem; background: var(--hds-color-carbon-05); font-family: var(--hds-font-family-sans);">
       <div>
         <h2 style="margin: 0 0 1rem 1.5rem; font-size: 1.5rem; color: var(--hds-color-carbon-100);">Sequential Palettes</h2>
         ${sequentialTable}

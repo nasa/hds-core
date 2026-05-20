@@ -71,11 +71,11 @@ export const Checker = {
     const level = getWCAGLevel(ratio);
 
     return `
-      <div style="font-family: var(--hds-font-family-body, sans-serif); display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: stretch;">
+      <div style="font-family: var(--hds-font-family-body); display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: stretch;">
         <div style="flex: 1 1 400px; background-color: ${bgHex}; color: ${fgHex}; padding: 2.5rem; border-radius: 8px; border: 1px solid #d1d1d1; display: flex; flex-direction: column; justify-content: center;">
           <div style="display: flex; gap: 1.5rem; align-items: flex-start; justify-content: space-between;">
             <div style="flex: 1;">
-              <h2 style="margin: 0 0 1rem 0; font-family: var(--hds-font-family-heading, sans-serif); font-size: 1.5rem;">
+              <h2 style="margin: 0 0 1rem 0; font-family: var(--hds-font-family-heading); font-size: 1.5rem;">
                 Sample Heading
               </h2>
               <p style="margin: 0; font-size: 1rem; line-height: 1.6;">

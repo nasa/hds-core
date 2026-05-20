@@ -17,7 +17,9 @@ const headingSpec = (tag, size, weight, weightLabel, lineHeight, letterSpacing) 
       <code>&lt;${tag}&gt;</code>
     </td>
     <td style="vertical-align: top; padding-bottom: 1.5rem;">
-      <${tag} style="margin: 0;">The National Aeronautics and Space Administration</${tag}>
+      <${tag} style="margin: 0; font-family: var(--hds-font-family-heading);">
+        National Aeronautics and Space Administration
+      </${tag}>
       <p style="font-size: 0.75rem; opacity: 0.7; margin-block: 0.5rem 0;">
         Inter ${weightLabel} · ${size} · line-height: ${lineHeight} · letter-spacing: ${letterSpacing}
       </p>
@@ -53,13 +55,13 @@ export const DisplaySizes = {
     <div style="max-width: 64em; overflow-x: auto;" tabindex="0">
       <div style="margin-block-end: 2rem;">
         <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">H1-2xl · Inter Bold · 120px · line-height: 1</p>
-        <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 120px; font-weight: 700; line-height: 1; letter-spacing: -5.5px; margin: 0;">
+        <p style="font-family: var(--hds-font-family-heading); font-size: 120px; font-weight: 700; line-height: 1; letter-spacing: -5.5px; margin: 0;">
           NASA
         </p>
       </div>
       <div>
         <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">H1-xl · Inter Bold · 80px · line-height: 1.1</p>
-        <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 80px; font-weight: 700; line-height: 1.1; letter-spacing: -3px; margin: 0;">
+        <p style="font-family: var(--hds-font-family-heading); font-size: 80px; font-weight: 700; line-height: 1.1; letter-spacing: -3px; margin: 0;">
           NASA
         </p>
       </div>
@@ -150,7 +152,7 @@ export const IntroText = {
 export const BodyText = {
   tags: ['!dev'],
   render: () => `
-    <div style="max-width: 64em;">
+    <div class="usa-prose" style="max-width: 64em;">
       <p>
         The body typefaces are designed for large fields of text. These fields of text
         can be found on something small, like a card, or large areas, like an article.
@@ -175,25 +177,25 @@ export const Numbers = {
       <div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: baseline; margin-block: 1rem;">
         <div>
           <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-lg · 120px</p>
-          <span style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 120px; font-weight: 300; line-height: 1; letter-spacing: -3px;">
+          <span style="font-family: var(--hds-font-family-code); font-size: 120px; font-weight: 300; line-height: 1; letter-spacing: -3px;">
             12
           </span>
         </div>
         <div>
           <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-md · 48px</p>
-          <span style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 48px; font-weight: 300; line-height: 1; letter-spacing: 0;">
+          <span style="font-family: var(--hds-font-family-code); font-size: 48px; font-weight: 300; line-height: 1; letter-spacing: 0;">
             12
           </span>
         </div>
         <div>
           <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-sm · 36px</p>
-          <span style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 36px; font-weight: 300; line-height: 1; letter-spacing: 0;">
+          <span style="font-family: var(--hds-font-family-code); font-size: 36px; font-weight: 300; line-height: 1; letter-spacing: 0;">
             12
           </span>
         </div>
         <div>
           <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-xs · 28px</p>
-          <span style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 28px; font-weight: 300; line-height: 1.1; letter-spacing: 0;">
+          <span style="font-family: var(--hds-font-family-code); font-size: 28px; font-weight: 300; line-height: 1.1; letter-spacing: 0;">
             12
           </span>
         </div>
@@ -212,7 +214,7 @@ export const Numbers = {
 export const Code = {
   tags: ['!dev'],
   render: () => `
-    <div style="max-width: 64em;">
+    <div class="usa-prose" style="max-width: 64em;">
       <pre><code>const mission = 'Artemis';
 console.log(\`Next stop: \${mission}\`);</code></pre>
       <p style="font-size: 0.75rem; opacity: 0.7;">
@@ -234,11 +236,11 @@ export const FontStack = {
 
         <div>
           <p class="hds-overline" style="margin-block-end: 0.5rem;">Display & Heading Typeface</p>
-          <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; margin-block: 0.5rem;">
+          <p style="font-family: var(--hds-font-family-heading); font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; margin-block: 0.5rem;">
             Inter
           </p>
-          <p style="font-family: var(--hds-font-family-heading, Inter, sans-serif); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
-            The National Aeronautics and Space Administration
+          <p style="font-family: var(--hds-font-family-heading); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
+            National Aeronautics and Space Administration
           </p>
           <p style="margin-block-start: 1rem; font-size: 0.875rem;">
             Inter is a variable font family carefully crafted for computer screens.
@@ -253,11 +255,11 @@ export const FontStack = {
 
         <div>
           <p class="hds-overline" style="margin-block-end: 0.5rem;">Body Typeface</p>
-          <p style="font-family: var(--hds-font-family-body, 'Public Sans', sans-serif); font-size: 2rem; font-weight: 700; line-height: 1.1; margin-block: 0.5rem;">
+          <p style="font-family: var(--hds-font-family-body); font-size: 2rem; font-weight: 700; line-height: 1.1; margin-block: 0.5rem;">
             Public Sans
           </p>
-          <p style="font-family: var(--hds-font-family-body, 'Public Sans', sans-serif); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
-            The National Aeronautics and Space Administration
+          <p style="font-family: var(--hds-font-family-body); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
+            National Aeronautics and Space Administration
           </p>
           <p style="margin-block-start: 1rem; font-size: 0.875rem;">
             Public Sans is a strong, neutral typeface for interfaces and text.
@@ -272,11 +274,11 @@ export const FontStack = {
 
         <div>
           <p class="hds-overline" style="margin-block-end: 0.5rem;">Numbers & Labels Typeface</p>
-          <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 2rem; font-weight: 500; line-height: 1.1; margin-block: 0.5rem;">
+          <p style="font-family: var(--hds-font-family-code); font-size: 2rem; font-weight: 500; line-height: 1.1; margin-block: 0.5rem;">
             DM Mono
           </p>
-          <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
-            The National Aeronautics and Space Administration
+          <p style="font-family: var(--hds-font-family-code); font-size: 1rem; line-height: 1.6; margin-block-start: 0.5rem;">
+            National Aeronautics and Space Administration
           </p>
           <p style="margin-block-start: 1rem; font-size: 0.875rem;">
             DM Mono is a monospace font, perfect for reading numbers and small
@@ -301,7 +303,7 @@ export const FontStack = {
 // ============================================================
 
 const allVariantsRender = () => `
-  <div style="max-width: 64em;">
+  <div class="usa-prose" style="max-width: 64em;">
     <h1>Heading 1</h1>
     <h2>Heading 2</h2>
     <h3>Heading 3</h3>
@@ -327,7 +329,7 @@ const allVariantsRender = () => `
       </blockquote>
     </div>
 
-    <p style="font-family: var(--hds-font-family-code, 'DM Mono', monospace); font-size: 48px; font-weight: 300; line-height: 1;">
+    <p style="font-family: var(--hds-font-family-code); font-size: 48px; font-weight: 300; line-height: 1;">
       12
     </p>
 

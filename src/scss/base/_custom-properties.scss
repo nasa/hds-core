@@ -38,6 +38,14 @@
   --hds-color-international-orange: #{$hds-color-international-orange};
   --hds-color-active-green: #{$hds-color-active-green};
 
+  // Font family custom properties
+  // Names must match @font-face declarations exactly
+  --hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --hds-font-family-body:
+    'Public Sans Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace;
+
   // Font weights — var(--hds-font-weight-bold)
   @each $name, $weight in $hds-weights {
     --hds-font-weight-#{$name}: #{$weight};
@@ -99,4 +107,3 @@
 //   Blue    → blue-{vivid}     Purple  → indigo-warm-{vivid}
 //   Magenta → violet-warm-{vivid}
 // ============================================================
-

@@ -242,11 +242,6 @@
       'display-name': 'DM Mono',
       'cap-height': 364px,
       'stack': "'Consolas', 'Courier', monospace",
-    ),
-    'public-sans': (
-      'display-name': 'Public Sans',
-      'cap-height': 364px,
-      'stack': 'Helvetica, Arial, sans-serif',
     )
   ),
 
@@ -254,14 +249,25 @@
     dir: 'inter',
     roman: (
       100: false,
-      200: 'Inter-ExtraLight',
+      200: false,
       300: 'Inter-Light',
       400: 'Inter-Regular',
       500: 'Inter-Medium',
       600: 'Inter-SemiBold',
       700: 'Inter-Bold',
-      800: 'Inter-ExtraBold',
-      900: 'Inter-Black',
+      800: false,
+      900: false,
+    ),
+    italic: (
+      100: false,
+      200: false,
+      300: 'Inter-LightItalic',
+      400: 'Inter-Italic',
+      500: 'Inter-MediumItalic',
+      600: 'Inter-SemiBoldItalic',
+      700: 'Inter-BoldItalic',
+      800: false,
+      900: false,
     )
   ),
 

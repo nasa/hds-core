@@ -24,7 +24,7 @@
     "sass:uswds": "sass src/scss/hds-uswds.scss dist/css/hds-uswds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.css --map",
     "minify:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --no-map --env production",
-    "copy:uswds-fonts": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/fonts', 'dist/assets/fonts', {recursive: true})\"",
+    "copy:uswds-fonts": "node -e \"const fs=require('fs'),src='node_modules/@uswds/uswds/dist/fonts/public-sans',dst='dist/assets/fonts/public-sans';fs.mkdirSync(dst,{recursive:true});fs.readdirSync(src).filter(f=>f.endsWith('.woff2')).forEach(f=>fs.copyFileSync(src+'/'+f,dst+'/'+f))\"",
     "copy:uswds-img": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/img', 'dist/assets/img', {recursive: true})\"",
     "copy:uswds-js": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/js', 'dist/js', {recursive: true})\"",
     "copy:hds": "node -e \"require('fs').cpSync('src/assets', 'dist/assets', {recursive: true})\"",
