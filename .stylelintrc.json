@@ -1,5 +1,6 @@
 {
   "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": ["dist/**", "node_modules/**"],
   "rules": {
     "selector-class-pattern": null,
     "scss/comment-no-empty": null,
@@ -7,6 +8,12 @@
     "scss/at-mixin-pattern": null,
     "shorthand-property-no-redundant-values": null,
     "declaration-block-no-redundant-longhand-properties": null,
-    "color-hex-length": null
+    "color-hex-length": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreFontFamilyNames": ["Helvetica", "Arial", "BlinkMacSystemFont", "Roboto"]
+      }
+    ]
   }
 }

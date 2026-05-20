@@ -1,0 +1,5 @@
+# Compiled output — linted at source in src/scss/
+dist/
+
+# Dependencies
+node_modules/
