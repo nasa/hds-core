@@ -38,7 +38,7 @@
 // Priority: lowest to highest.
 // Note: `hds-dataviz` and `site` are reserved for the optional
 // dataviz bundle and consumer overrides respectively.
-@layer uswds, hds-base, hds-components, hds-dataviz, site;
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 
 // ── LAYERED CSS OUTPUT ──
 @layer hds-base {
@@ -50,17 +50,5 @@
 }
 
 @layer uswds {
-  @include meta.load-css('uswds-global');
-  @include meta.load-css('uswds-typography');
-  @include meta.load-css('usa-layout-grid');
-
-  // USWDS components (only what HDS themes)
-  @include meta.load-css('usa-button');
-  @include meta.load-css('uswds-form-controls');
-  @include meta.load-css('usa-table');
-  @include meta.load-css('usa-accordion');
-  @include meta.load-css('usa-breadcrumb');
-  @include meta.load-css('usa-in-page-navigation');
-  @include meta.load-css('usa-pagination');
-  @include meta.load-css('usa-site-alert'); // pulls in usa-alert as dependency
+  @include meta.load-css('uswds');
 }

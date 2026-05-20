@@ -1,14 +1,14 @@
 {
   "name": "@nasa/hds-core",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.",
   "license": "SEE LICENSE.MD",
   "private": true,
+  "type": "module",
   "exports": {
-    "./css": "./dist/css/hds.css",
-    "./css/min": "./dist/css/hds.min.css",
-    "./css/uswds": "./dist/css/hds-uswds.css",
-    "./css/uswds/min": "./dist/css/hds-uswds.min.css",
+    "./css": "./dist/css/hds.min.css",
+    "./css/uswds": "./dist/css/hds-uswds.min.css",
+    "./css/dataviz": "./dist/css/hds-dataviz.min.css",
     "./scss": "./src/scss/hds.scss",
     "./assets": "./dist/assets/"
   },
@@ -19,11 +19,12 @@
   ],
   "scripts": {
     "sass:hds": "sass src/scss/hds.scss dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
-    "postcss:hds": "postcss dist/css/hds.css -o dist/css/hds.css --map",
-    "minify:hds": "postcss dist/css/hds.css -o dist/css/hds.min.css --no-map --env production",
     "sass:uswds": "sass src/scss/hds-uswds.scss dist/css/hds-uswds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
-    "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.css --map",
-    "minify:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --no-map --env production",
+    "sass:dataviz": "sass src/scss/hds-dataviz.scss dist/css/hds-dataviz.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
+    "postcss:hds": "postcss dist/css/hds.css -o dist/css/hds.min.css --map --env production",
+    "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --map --env production",
+    "postcss:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --map --env production",
+    "clean:intermediate": "node -e \"const fs=require('fs'),p=require('path'),d='dist/css';fs.readdirSync(d).filter(f=>f.endsWith('.css')&&!f.includes('.min.')||f.endsWith('.css.map')&&!f.includes('.min.')).forEach(f=>fs.unlinkSync(p.join(d,f)))\"",
     "copy:uswds-fonts": "node -e \"const fs=require('fs'),src='node_modules/@uswds/uswds/dist/fonts/public-sans',dst='dist/assets/fonts/public-sans';fs.mkdirSync(dst,{recursive:true});fs.readdirSync(src).filter(f=>f.endsWith('.woff2')).forEach(f=>fs.copyFileSync(src+'/'+f,dst+'/'+f))\"",
     "copy:uswds-img": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/img', 'dist/assets/img', {recursive: true})\"",
     "copy:uswds-js": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/js', 'dist/js', {recursive: true})\"",
@@ -33,7 +34,7 @@
     "check:uswds-core": "bash scripts/check-uswds-core.sh",
     "sprite": "svg-sprite --config svg-sprite.config.json src/assets/img/hds-icons/*.svg",
     "init": "node -e \"const fs=require('fs');['dist/css','dist/js','dist/assets/fonts','dist/assets/img'].forEach(d=>fs.mkdirSync(d,{recursive:true}))\" && npm run copy:all && npm run sprite",
-    "build": "npm run init && npm run sass:hds && npm run postcss:hds && npm run minify:hds && npm run sass:uswds && npm run postcss:uswds && npm run minify:uswds && npm run sass:dataviz && npm run postcss:dataviz && npm run minify:dataviz",
+    "build": "npm run init && npm run sass:hds && npm run postcss:hds && npm run sass:uswds && npm run postcss:uswds && npm run sass:dataviz && npm run postcss:dataviz && npm run clean:intermediate",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
     "dev": "concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
     "storybook": "storybook dev -p 6006 --no-open --ci",
@@ -47,10 +48,7 @@
     "lint:md": "remark . --quiet --frail",
     "test": "npm run check:uswds && npm run check:uswds-core && vitest run --reporter=dot",
     "test:watch": "vitest watch",
-    "test:visual": "chromatic --log-level warn",
-    "sass:dataviz": "sass src/scss/hds-dataviz.scss dist/css/hds-dataviz.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
-    "postcss:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.css --map",
-    "minify:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --no-map --env production"
+    "test:visual": "chromatic --log-level warn"
   },
   "peerDependencies": {
     "@uswds/uswds": "^3.13.0"
@@ -73,6 +71,7 @@
     "playwright": "^1.58.2",
     "postcss": "^8.5.12",
     "postcss-cli": "^11.0.1",
+    "postcss-discard-comments": "8.0.0",
     "prettier": "^3.8.1",
     "remark-cli": "^12.0.1",
     "remark-frontmatter": "^5.0.0",

@@ -19,48 +19,16 @@
 // moves from this file's layer block into hds.scss.
 // ============================================================
 
-// USWDS must be configured before any packages load.
-@forward 'hds-uswds-theme';
+// Configure USWDS with the tweaked HDS theme settings that include USWDS utilities (must be first USWDS load)
+@forward 'hds-uswds-theme-utils';
 @use 'sass:meta';
 
 // ── DECLARE CASCADE LAYER ORDER ──
 // Priority: lowest to highest.
 // Note: `hds-dataviz` and `site` are reserved for the optional
 // dataviz bundle and consumer overrides respectively.
-@layer uswds, hds-base, hds-components, hds-dataviz, site;
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 
-@layer uswds {
-  // ── Components not themed by HDS ──
-  @include meta.load-css('usa-banner');
-  @include meta.load-css('usa-button-group');
-  @include meta.load-css('usa-card');
-  @include meta.load-css('usa-checklist');
-  @include meta.load-css('usa-collection');
-  @include meta.load-css('usa-embed-container');
-  @include meta.load-css('usa-footer');
-  @include meta.load-css('usa-form');
-  @include meta.load-css('usa-graphic-list');
-  @include meta.load-css('usa-header');
-  @include meta.load-css('usa-hero');
-  @include meta.load-css('usa-icon');
-  @include meta.load-css('usa-icon-list');
-  @include meta.load-css('usa-identifier');
-  @include meta.load-css('usa-language-selector');
-  @include meta.load-css('usa-layout-docs');
-  @include meta.load-css('usa-media-block');
-  @include meta.load-css('usa-modal');
-  @include meta.load-css('usa-nav');
-  @include meta.load-css('usa-process-list');
-  @include meta.load-css('usa-prose');
-  @include meta.load-css('usa-search');
-  @include meta.load-css('usa-section');
-  @include meta.load-css('usa-sidenav');
-  @include meta.load-css('usa-skipnav');
-  @include meta.load-css('usa-step-indicator');
-  @include meta.load-css('usa-summary-box');
-  @include meta.load-css('usa-tag');
-  @include meta.load-css('usa-tooltip');
-
-  // ── Utilities ──
+@layer uswds-utils {
   @include meta.load-css('uswds-utilities');
 }
