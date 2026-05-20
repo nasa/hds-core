@@ -1,19 +1,18 @@
 # HDS Core Architecture
 
-Technical decisions and conventions for contributors.
+Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-04-26
+Last updated: 2026-05-20
 
 ## Package Overview
 
-| Key          | Value                                                         |
-| ------------ | ------------------------------------------------------------- |
-| Name         | `@nasa/hds-core`                                              |
-| Foundation   | CMS-agnostic Sass on `@uswds/uswds ^3.13.0`                   |
-| Build tools  | `sass` + `postcss` + `autoprefixer` + `cssnano`, `svg-sprite` |
-| Storybook    | v10, Vite, HTML template literals                             |
-| Testing      | Vitest 4.x, Playwright (Chromium)                             |
-| Visual tests | Chromatic (PaletteA11y + FocusTest stories)                   |
+| Key         | Value                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------- |
+| Name        | `@nasa/hds-core`                                                                        |
+| Foundation  | Sass theme layer on `@uswds/uswds ^3.13.0`                                              |
+| Build tools | `sass`, `postcss` (`autoprefixer`, `postcss-discard-comments`, `cssnano`), `svg-sprite` |
+| Storybook   | v10, Vite, HTML template literals                                                       |
+| Testing     | Vitest 4.x, Playwright (Chromium), Chromatic                                            |
 
 ## Quick Start
 
@@ -21,103 +20,68 @@ Last updated: 2026-04-26
 npm install          # Install dependencies
 npm run build        # Full production build
 npm run dev          # Sass watch + Storybook (day-to-day development)
-npm test             # Run all tests once
-npm run test:visual  # Visual regression via Chromatic (on demand)
+npm test             # Run all Vitest functional and a11y tests
 ```
 
-`build` handles everything — asset copying, Sass compilation, sprite generation, CSS autoprefixing, and minification. `dev` runs Sass watch + Storybook via `concurrently`. Edit `.scss` → Sass recompiles → Storybook hot-reloads.
+| Script                | Purpose                                              |
+| --------------------- | ---------------------------------------------------- |
+| `npm run build`       | Full build: assets + Sass + autoprefix + minify      |
+| `npm run dev`         | Sass watch + Storybook (day-to-day)                  |
+| `npm run watch`       | Sass watch only (also runs inside `dev`)             |
+| `npm run init`        | Copy assets + generate sprite without compiling Sass |
+| `npm run storybook`   | Start Storybook only (no Sass watch)                 |
+| `npm test`            | Run all tests once (CI mode)                         |
+| `npm run test:watch`  | Watch mode (development)                             |
+| `npm run test:visual` | Visual regression via Chromatic (on demand)          |
+| `npm run check:uswds` | Verify USWDS packages haven't changed (runs in CI)   |
 
-| Script                | Purpose                                                 |
-| --------------------- | ------------------------------------------------------- |
-| `npm run build`       | Full build: assets → Sass → autoprefix → minify         |
-| `npm run dev`         | Sass watch + Storybook (day-to-day)                     |
-| `npm run watch`       | Sass watch only (also runs inside `dev`)                |
-| `npm run init`        | Copy assets + generate sprite without compiling Sass    |
-| `npm run storybook`   | Start Storybook only (no Sass watch)                    |
-| `npm test`            | Run all tests once (CI mode)                            |
-| `npm run test:watch`  | Watch mode (development)                                |
-| `npm run test:visual` | Visual regression via Chromatic (on demand)             |
-| `npm run check:uswds` | Verify USWDS packages haven't changed (runs on install) |
+`dev` runs Sass watch + Storybook via `concurrently`. Edit `.scss` → Sass recompiles → Storybook hot-reloads.
 
 ## File Structure
 
 <!-- prettier-ignore -->
 ```
 hds-core/
-├── tokens.json                     ← Source of truth for design tokens (DTCG format)
+├── tokens.json                          ← Source of truth for design tokens (DTCG format)
 ├── src/
 │   ├── scss/
-│   │   ├── hds.scss                ← Primary entry point (selective USWDS + HDS)
-│   │   ├── hds-uswds.scss          ← Addon entry point (remaining USWDS packages)
-│   │   ├── hds-dataviz.scss        ← Dataviz entry point
-│   │   ├── _hds-tokens.scss        ← Pure Sass (NO uswds-core dependency)
-│   │   ├── _hds-mixins.scss        ← Shared mixins (zero CSS output)
-│   │   ├── _hds-uswds-theme.scss   ← USWDS configuration via @use "uswds-core" with (...)
-│   │   ├── _hds-dataviz-palettes.scss ← Dataviz color scales
-│   │   ├── base/                   ← Layer 1 CSS (hds-base)
-│   │   │   ├── _index.scss
-│   │   │   ├── _custom-properties.scss  ← :root CSS custom properties
-│   │   │   ├── _dataviz-properties.scss ← :root dataviz properties
-│   │   │   ├── _elements.scss      ← Bare HTML styles (gated) + palette wiring
-│   │   │   ├── _focus.scss         ← Global :focus-visible (always active)
-│   │   │   ├── _palettes.scss      ← 6 palette definitions + focus ring tokens
-│   │   │   └── _print.scss         ← @media print
-│   │   └── components/             ← Layer 2 CSS (hds-components)
-│   │       ├── _index.scss         ← @forward's all in dependency order
-│   │       ├── _text-styles.scss   ← .hds-overline, .hds-metadata, .hds-caption
-│   │       ├── _link.scss          ← Loaded before button (unstyled button depends on link)
-│   │       ├── _button.scss
-│   │       ├── _icon-button.scss
-│   │       ├── _primary-arrow-button.scss
-│   │       ├── _form.scss
-│   │       ├── _intro-text.scss
-│   │       ├── _list.scss
-│   │       ├── _table.scss
-│   │       ├── _accordion.scss
-│   │       ├── _blockquote.scss
-│   │       ├── _breadcrumb.scss
-│   │       ├── _pagination.scss
-│   │       ├── _in-page-nav.scss
-│   │       ├── _site-alert.scss
-│   │       ├── _alert.scss
-│   │       ├── _grid-utilities.scss
-│   │       ├── _navigation.scss    ← Phase 2 stub
-│   │       └── _banner.scss        ← Phase 2 stub
+│   │   ├── hds.scss                    ← Primary entry point (all USWDS + HDS)
+│   │   ├── hds-uswds.scss              ← Utilities add-on entry point
+│   │   ├── hds-dataviz.scss            ← Dataviz entry point
+│   │   ├── _hds-tokens.scss            ← Pure Sass variables (no uswds-core dependency)
+│   │   ├── _hds-mixins.scss            ← Shared mixins (zero CSS output)
+│   │   ├── _hds-uswds-theme.scss       ← USWDS config (utilities suppressed)
+│   │   ├── _hds-uswds-theme-utils.scss ← Theme variant for utilities add-on
+│   │   ├── _hds-dataviz-palettes.scss  ← Dataviz color scales
+│   │   ├── base/                       ← hds-base layer
+│   │   └── components/                 ← hds-components layer
 │   └── assets/
 │       ├── fonts/{inter,dm-mono}/
 │       └── img/
-│           ├── hds-icons/          ← Themeable SVGs → hds-sprite.svg
+│           ├── hds-icons/              ← Themeable SVGs → hds-sprite.svg
 │           └── nasa-branding/
-│
-├── stories/                        # Storybook documentation (not shipped)
+├── stories/                            # Storybook documentation (not shipped)
 ├── scripts/
-│   ├── check-uswds.sh             ← USWDS package hash verification
-│   └── uswds-package-hashes.txt   ← Baseline for @uswds/uswds 3.13.0
-│
-├── dist/                           # Build output
-│   ├── css/
-│   │   ├── hds.css                 ← Primary bundle (dev, autoprefixed)
-│   │   ├── hds.css.map
-│   │   ├── hds.min.css             ← Primary bundle (production, minified)
-│   │   ├── hds-uswds.css           ← Addon bundle (dev, autoprefixed)
-│   │   ├── hds-uswds.css.map
-│   │   └── hds-uswds.min.css       ← Addon bundle (production, minified)
+│   ├── check-uswds.sh                  ← USWDS package hash verification
+│   ├── check-uswds-core.sh             ← Verify uswds-core emits no CSS
+│   └── uswds-package-hashes.txt        ← Baseline for @uswds/uswds 3.13.0
+├── dist/                               # Build output (gitignored)
+│   ├── css/                            ← See Build Output below
 │   ├── js/
-│   │   └── uswds.min.js            ← Copied from @uswds/uswds for convenience
+│   │   └── uswds.min.js                ← Copied from @uswds/uswds for convenience
 │   └── assets/
-│       ├── fonts/                   ← Inter, DM Mono, Public Sans + USWDS extras
+│       ├── fonts/                      ← Inter, DM Mono, Public Sans (woff2 only)
 │       └── img/
-│           ├── hds-icons/           ← Individual SVGs
-│           ├── hds-sprite.svg       ← Compiled sprite
+│           ├── hds-icons/
+│           ├── hds-sprite.svg          ← Compiled sprite
 │           ├── nasa-branding/
-│           ├── usa-icons/           ← USWDS icons (copied)
-│           ├── sprite.svg           ← USWDS icon sprite (copied)
-│           └── us_flag*.{png,svg}   ← USWDS banner assets (copied)
-│
+│           ├── usa-icons/              ← Copied from USWDS
+│           ├── sprite.svg              ← USWDS icon sprite
+│           └── us_flag*.{png,svg}      ← USWDS banner assets
 ├── tools/
-│   └── sd-example/                 ← Style Dictionary build scripts
-├── postcss.config.mjs              ← Autoprefixer (+ cssnano when MINIFY=true)
-├── svg-sprite.config.json          ← Sprite generation config
+│   └── sd-example/                     ← Style Dictionary prototype (not wired into build)
+├── postcss.config.mjs
+├── svg-sprite.config.json
 ├── vitest.config.js
 ├── chromatic.config.json
 └── .browserslistrc
@@ -125,85 +89,106 @@ hds-core/
 
 ## Build Output
 
-Three CSS bundles, plus assets:
-
-| Bundle | Contents | Gzipped | Adopter loads |
+| Bundle | Contents | Gzipped | Who loads it |
 | --- | --- | --- | --- |
-| `hds.css` | Selective USWDS foundation + HDS-themed components + HDS-only components + palettes | **27 KB** | Everyone |
-| `hds-uswds.css` | Remaining ~30 USWDS component packages + utilities | 74 KB | Existing USWDS sites that use unthemed components |
-| `hds-dataviz.css` | Data visualization color scales and utilities | TBD | Sites rendering charts/graphs |
+| `hds.min.css` | All USWDS components + HDS base + HDS components | 43 KB | Everyone |
+| `hds-uswds.min.css` | USWDS utility classes (`.padding-*`, `.margin-*`, etc.) | 48 KB | Sites using USWDS utilities |
+| `hds-dataviz.min.css` | Data visualization color palettes | 1.2 KB | Sites rendering charts; standalone-capable |
 
-**Load order matters:** `hds-uswds.css` must load **before** `hds.css` so HDS overrides win the cascade.
+Vanilla USWDS reference: 73 KB (all components + utilities, no HDS theming).
+
+Intermediate `.css` files are generated during the build and cleaned up automatically. Only `.min.css` and `.min.css.map` files ship. Source maps chain directly to original Sass source.
 
 ```html
-<!-- Existing USWDS site — full coverage -->
-<link rel="stylesheet" href="hds-uswds.min.css" />
+<!-- All sites -->
 <link rel="stylesheet" href="hds.min.css" />
 <script src="uswds.min.js" defer></script>
 
-<!-- New HDS site — lean bundle -->
-<link rel="stylesheet" href="hds.min.css" />
-<script src="uswds.min.js" defer></script>
+<!-- Also add for sites using USWDS utility classes -->
+<link rel="stylesheet" href="hds-uswds.min.css" />
 ```
 
-USWDS JS is copied to `dist/js/` for convenience. Adopters with existing USWDS installations can use their own copy.
+Load order does not matter. All styles use CSS cascade layers.
 
 ## Sass Architecture
 
-### Entry points
+### Entry points and layer structure
 
-**`hds.scss`** — Primary bundle. Encapsulates CSS into cascade layers (`hds-base`, `hds-components`, `uswds`) while preserving unlayered APIs for Sass consumers:
+All CSS output is organized into named cascade layers declared in every entry point:
 
-```
-1. _hds-uswds-theme.scss    ← Configure USWDS (must be first)
-2. APIs                     ← uswds-core, hds-tokens, hds-mixins (unlayered)
-3. @layer hds-base          ← tokens, elements, focus, print, palettes
-4. @layer hds-components    ← HDS overrides + HDS-only components
-5. @layer uswds             ← USWDS CSS-emitting packages
+```css
+@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
 ```
 
-**`hds-uswds.scss`** — Addon. Remaining USWDS packages not in `hds.scss`. Independently compiled — also starts with `_hds-uswds-theme.scss` to configure USWDS. Outputs exclusively into `@layer uswds`. As HDS themes more components, their `meta.load-css()` calls move from this file into `hds.scss` and this addon shrinks.
+| Layer             | Contents                                    | Empty if...                      |
+| ----------------- | ------------------------------------------- | -------------------------------- |
+| `uswds`           | All USWDS component defaults                | —                                |
+| `uswds-utilities` | USWDS utility classes                       | `hds-uswds.min.css` not loaded   |
+| `hds-base`        | Custom properties, element styles, palettes | —                                |
+| `hds-components`  | HDS component overrides                     | —                                |
+| `hds-dataviz`     | Dataviz palettes                            | `hds-dataviz.min.css` not loaded |
+| `site`            | Adopter overrides                           | Not reserved by HDS              |
 
-### USWDS package inventory
+**`hds.scss`** build order:
 
-Verified against `@uswds/uswds 3.13.0`. Hash baseline in `scripts/uswds-package-hashes.txt`. Run `npm run check:uswds` after any USWDS version bump.
+```
+1. _hds-uswds-theme.scss    ← Configure USWDS first (utilities suppressed via
+                               $output-these-utilities: ())
+2. uswds-core, hds-tokens,  ← Unlayered Sass API — zero CSS output, available
+   hds-mixins                  to downstream Sass consumers via @use
+3. @layer uswds             ← All USWDS packages via meta.load-css('uswds')
+                               Single call = one module graph = fonts emit once
+4. @layer hds-base          ← Custom properties, elements, focus, palettes, print
+5. @layer hds-components    ← HDS component overrides and custom components
+```
 
-**Foundation (in `hds.scss` — every site needs these):**
+**`hds-uswds.scss`** build order:
 
-- `uswds-core` — functions, mixins, tokens (no CSS output)
-- `uswds-global` — normalize, elements, helpers, fonts
-- `uswds-typography` — usa-link, usa-list, usa-prose, usa-intro, usa-paragraph, usa-content, usa-display, usa-dark-background
-- `usa-layout-grid` — grid container, row, column system
+```
+1. _hds-uswds-theme-utils.scss  ← Same config as main theme, utilities unrestricted
+2. @layer uswds-utilities       ← meta.load-css('uswds-utilities') only
+```
 
-**Components (in `hds.scss` — only what HDS themes):**
-
-- `usa-button`, `uswds-form-controls`, `usa-table`, `usa-accordion`
-- `usa-breadcrumb`, `usa-in-page-navigation`, `usa-pagination`
-- `usa-site-alert` (pulls in `usa-alert` as dependency)
-
-**Remaining (in `hds-uswds.scss` — addon for full USWDS coverage):**
-
-~30 packages including `usa-banner`, `usa-header`, `usa-nav`, `usa-footer`, `usa-card`, `usa-modal`, `uswds-utilities`. See `hds-uswds.scss` for the complete list.
+USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any USWDS version bump. Run `npm run check:uswds-core` to verify `uswds-core` still emits zero CSS (a regression here would break the token flow above).
 
 ### Module singleton rule
 
-USWDS requires `uswds-core` to be configured via `@use "uswds-core" with (...)` before anything else loads it. `_hds-uswds-theme.scss` does this. Sass module singletons ensure `uswds-core` is configured once and shared everywhere.
+`_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
 
-⚠️ `_hds-tokens.scss` cannot `@use "uswds-core"` — it loads before the theme file and would trigger an unconfigured load.
+Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is pure Sass: hex values, maps, and flags only.
 
-### Token flow
+### Cascade layer order
+
+All three bundles declare the same layer order (first declaration wins; subsequent declarations in other files are ignored):
+
+```css
+@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
+```
+
+| Layer             | Source                | Notes                                        |
+| ----------------- | --------------------- | -------------------------------------------- |
+| `uswds`           | `hds.min.css`         | All USWDS component defaults                 |
+| `uswds-utilities` | `hds-uswds.min.css`   | Utility classes; empty if add-on not loaded  |
+| `hds-base`        | `hds.min.css`         | Custom properties, element styles, palettes  |
+| `hds-components`  | `hds.min.css`         | HDS component overrides                      |
+| `hds-dataviz`     | `hds-dataviz.min.css` | Dataviz palettes; empty if add-on not loaded |
+| `site`            | Adopter               | Reserved for adopter overrides; always wins  |
+
+### Token flow (future)
+
+This is still notional, and exists only in the prototype `tools/sd-example/` today:
 
 ```
 tokens.json (Style Dictionary source)
     ↓ build
-_hds-tokens.scss (pure Sass — hex values, maps, flags)
+_hds-tokens.scss (pure Sass variables)
     ↓ @use
 _hds-uswds-theme.scss (feeds tokens into USWDS config)
     ↓ @use "uswds-core" with (...)
-Everything else (gets configured USWDS)
+Everything else (receives configured USWDS)
 ```
 
-Each component file has its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
+Each component file can have its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
 
 ## Conventions
 
@@ -349,7 +334,7 @@ Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core
 
 **Stories:** HTML template literals (not React/Twig). JSX used only for docs helpers (`Note.jsx`).
 
-**CSS loading:** Static `<link>` tags in `preview-head.html` load both `hds-uswds.css` (USWDS base) then `hds.css` (HDS overrides). This matches the adopter load order and ensures all stories — including USWDS template demos — render correctly. CSS is not imported as a Vite module to avoid caching issues when CSS is rebuilt externally by Sass.
+**CSS loading:** Static `<link>` tags in `preview-head.html` load `hds.min.css` and `hds-uswds.min.css`. Load order does not matter (cascade layers handle specificity). Both are loaded so stories can demonstrate both component and utility class behavior.
 
 **Addons:**
 
@@ -389,12 +374,9 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
 - [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
-- [ ] Replace `usa-prose` with clean HDS implementation (removes USWDS specificity conflicts)
 
 ### Pre-1.0 Verification
 
-- [x] ~~Replace `@uswds/compile` with direct sass + postcss + autoprefixer + cssnano~~
-- [x] ~~Selective USWDS loading (hds.scss + hds-uswds.scss addon)~~
 - [ ] Spec verification pass across all components against Figma
 - [ ] Screen reader testing (NVDA, VoiceOver)
 
@@ -408,4 +390,4 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ## Contributing
 
-This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code, and submitting PRs, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](CONTRIBUTING.md).

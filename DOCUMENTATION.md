@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-04-26
+Last updated: 2026-05-20
 
 ## Audience
 
@@ -32,53 +32,43 @@ The Overview page explains these concepts once — don't re-explain on component
 
 ## File structure
 
+Stories live in `stories/` and are not shipped in the npm package.
+
 <!-- prettier-ignore -->
 ```
 stories/
-├── assets/                           # Storybook-only images (not shipped)
-├── helpers/
-│   ├── Note.jsx                      # Callout note component
-│   ├── icons.js                      # Shared icon ID arrays (HDS + USWDS)
-│   └── paletteTests.js               # Palette a11y test helpers
-├── overview/
-│   ├── Getting Started.mdx
-│   ├── Intro.mdx
-│   └── Roadmap.mdx
-├── foundations/
-│   ├── Accessibility.mdx             # Docs-only (no stories file)
-│   ├── Color.mdx                     # Docs-only
-│   ├── ColorPalettes.mdx             # Attached to ColorPalettes.stories.js
-│   ├── ColorPalettes.stories.js
-│   ├── DataVisualization.mdx         # Docs-only
-│   ├── DataVisualizationPalettes.mdx # Docs-only
-│   ├── Grid.mdx                      # Attached to Grid.stories.js
-│   ├── Grid.stories.js
-│   ├── Icons.mdx                     # Attached to Icons.stories.js
-│   ├── Icons.stories.js
-│   ├── Spacing.mdx                   # Standalone MDX
-│   ├── Typography.mdx                # Attached to Typography.stories.js
-│   └── Typography.stories.js
-├── components/
-│   ├── {Component}.mdx               # Guidance page
-│   └── {Component}.stories.js        # Sidebar variant stories + guidance embeds + palette tests + focus tests
-└── guides/
-    ├── USWDS.mdx                  # Existing USWDS Site guidance
-    ├── USWDSDocumentation.stories.js
-    ├── USWDSLandingPage.stories.js
-    ├── USWDSFormTemplates.stories.js
-    ├── React.mdx                  # React setup (moved from overview/)
-    └── NoBuildEnvironments.mdx    # No-build/CMS/legacy site adoption guide
+├── assets/          # Storybook-only images (not shipped in dist/)
+├── helpers/         # Shared JS utilities (see below)
+├── overview/        # Getting started, intro, roadmap MDX pages
+├── foundations/     # Token documentation (color, type, spacing, icons, grid, dataviz)
+├── components/      # One .mdx + one .stories.js per component
+└── guides/          # Integration and migration guides
 ```
+
+Component and foundation pages follow a predictable naming convention: `{Name}.mdx` (guidance) paired with `{Name}.stories.js` (interactive demos). New files follow this pattern automatically.
+
+### Non-obvious files
+
+| File | Purpose |
+| --- | --- |
+| `helpers/Note.jsx` | Callout component (`uswds`, `figma`, `code` types) used in MDX guidance pages |
+| `helpers/icons.js` | Single source of truth for icon ID arrays (HDS + USWDS). Used by Icons stories and any story embedding icons. |
+| `helpers/paletteTests.js` | Shared helpers for palette a11y stories (`paletteRender`, `paletteA11yParams`, `pseudoParams`) |
+| `guides/existing-uswds-site/guidance.mdx` | Adopter migration guide for existing USWDS sites |
 
 ## Storybook configuration
 
 | File | Purpose |
 | --- | --- |
 | `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
-| `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
-| `.storybook/preview-head.html` | CSS link to HDS styles, docs-only CSS (`.hds-note__icon`) |
+| `.storybook/manager.js` | Theme settings for Storybook with HDS colors, typography |
+| `.storybook/manager-head.html` | Fixes for Storybook sidebar and main templates |
 | `.storybook/modes.js` | Chromatic palette modes for FocusTest stories (imported by story files, not preview.js) |
+| `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
+| `.storybook/preview-head.html` | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`) |
+| `.storybook/utils/in-page-nav-init.js` | Re-initializes USWDS in-page navigation per story render. Required because `DOMContentLoaded` has already fired when stories mount — USWDS JS does not auto-initialize dynamically rendered components. |
 | `chromatic.config.json` | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`) |
+| `vitest.config.json` | Vitest |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
@@ -119,6 +109,7 @@ Always add a language identifier to fenced code blocks (` ```html `, ` ```scss `
 
 Canvas embeds can reference both `!dev` guidance stories and visible sidebar stories:
 
+<!-- prettier-ignore -->
 ```mdx
 import { Canvas } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
@@ -610,7 +601,7 @@ TurboSnap unlocks after 10 successful Chromatic builds on CI.
 
 ### CSS parity
 
-Storybook loads the same compiled `dist/css/hds.css` file that consumers receive via `<link>` in `preview-head.html`. This ensures Chromatic snapshots always reflect the shipped CSS. Do not configure Vite to compile SCSS directly for Storybook — this would create a second compilation path with potential drift from the distributed output.
+Storybook loads the same compiled `dist/css/hds.min.css` and `dist/css/hds-uswds.min.css` files that consumers receive via `<link>` in `preview-head.html`. This ensures Chromatic snapshots always reflect the shipped CSS. Do not configure Vite to compile SCSS directly for Storybook — this would create a second compilation path with potential drift from the distributed output.
 
 ## Pending documentation tasks
 

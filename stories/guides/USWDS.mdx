@@ -4,21 +4,21 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Adopting HDS Core on an Existing USWDS Site
 
-HDS Core is designed to adopt cleanly onto an existing USWDS 3.x site. Your existing markup works unchanged, with no class renames or DOM restructuring required. To render correctly in HDS's visual identity, some markup additions and CSS review are needed. This guide walks through what to expect and what to adjust.
+HDS Core adopts cleanly onto an existing USWDS 3.x site. Your existing markup should work unchanged, with no class renames or DOM restructuring required. Some markup additions and CSS review are needed to render correctly in HDS's visual identity. This guide walks through what to expect and what to adjust.
 
 ## The adoption shape
 
 Expect three layers of work, in order:
 
-1. **Install.** Swap the stylesheet references. Your site still renders, nothing crashes.
-2. **Visual alignment.** Add HDS palette classes where your site uses USWDS dark or light context markup. Audit your custom CSS against HDS's cascade architecture.
-3. **Brand compliance.** Review button intent, component variants, and any USWDS patterns HDS renders differently.
+1. **Install**: Swap the stylesheet reference. Your site still renders, nothing crashes.
+2. **Visual alignment**: Add HDS palette classes where your site uses USWDS dark or light context markup. Audit your custom CSS against HDS's cascade architecture.
+3. **Brand compliance**: Review button intent, component variants, and any USWDS patterns HDS renders differently.
 
-A site that completes step 1 but skips steps 2 and 3 will render without breaking, but will not match the HDS design language. Full visual alignment requires all three.
+A site that completes step 1 but skips steps 2 and 3 will render without breaking, but will not match the HDS design language. Full alignment requires all three.
 
 ## Install
 
-Swap the stylesheet references. USWDS JavaScript is unmodified.
+Swap the stylesheet reference. USWDS JavaScript is unmodified.
 
 ```html
 <!-- Before -->
@@ -26,14 +26,21 @@ Swap the stylesheet references. USWDS JavaScript is unmodified.
 <script src="/js/uswds.min.js" defer></script>
 
 <!-- After -->
-<link rel="stylesheet" href="/css/hds-uswds.min.css" />
 <link rel="stylesheet" href="/css/hds.min.css" />
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-**Load order.** HDS Core uses CSS cascade layers to manage specificity. Loading `hds-uswds.css` first remains good practice, but the cascade priorities are enforced internally regardless of DOM order.
+`hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles. No other CSS file is required.
 
-`hds-uswds.css` provides base styles for USWDS components that HDS has not themed yet. If your site only uses HDS-themed components, you can load `hds.css` alone. Including both ensures nothing breaks.
+**If your site uses USWDS utility classes** (`.padding-2`, `.margin-top-3`, `.text-primary`, etc.), you must also load the utilities bundle:
+
+```html
+<link rel="stylesheet" href="/css/hds.min.css" />
+<link rel="stylesheet" href="/css/hds-uswds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+```
+
+Load order does not matter. HDS Core uses CSS cascade layers, so priority is determined by layer order, not file order. Not sure if your site uses utility classes? Search your templates for classes not prefixed with `usa-` or `hds-`. Classes like `.padding-2` or `.margin-top-3` are utilities.
 
 For full setup options (Sass integration, load paths, tokens), see [Installation](?path=/docs/overview-installation--docs).
 
@@ -43,11 +50,11 @@ After installing, review the following to bring your site into HDS's intended vi
 
 ### Palettes: required for dark and alternate contexts
 
-HDS Core uses a palette system that activates through `.hds-palette-*` wrapper classes. When no palette class is set, HDS applies its default white palette.
+HDS Core uses a palette system activated through `.hds-palette-*` wrapper classes. When no palette class is set, HDS applies its default white palette.
 
-**USWDS's `.usa-section--dark` does not activate the HDS dark palette.** A section marked `.usa-section--dark` will render with a dark background and white base text (from USWDS's own rules, which HDS themes at the color-token level), but HDS components placed inside will inherit the default white-palette custom properties. This can produce visible contrast failures, such as light-mode buttons rendered on a dark background.
+**USWDS's `.usa-section--dark` does not activate the HDS dark palette.** A section marked `.usa-section--dark` will render with a dark background and white base text, but HDS components placed inside will still inherit white-palette custom properties. This can produce contrast failures, such as light-mode buttons on a dark background.
 
-To activate the full HDS dark palette, add `.hds-palette-dark` to the same element or a parent wrapper. You can keep `.usa-section--dark` alongside it during migration, or replace it entirely.
+To activate the full HDS dark palette, add `.hds-palette-dark` to the same element or a parent wrapper:
 
 ```html
 <!-- Before -->
@@ -68,40 +75,35 @@ Review every page for dark-mode markup and add palette classes accordingly. This
 HDS Core uses CSS `@layer` to establish a predictable cascade:
 
 ```css
-@layer uswds, hds-base, hds-components, hds-dataviz, site;
+@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
 ```
 
-The `site` layer is reserved for your custom CSS. Styles written inside `@layer site { }` always win over HDS cleanly, without specificity hacks or `!important`.
+The `site` layer is reserved for your custom CSS. Styles written inside `@layer site {}` always win over HDS without specificity hacks or `!important`.
 
 #### The unlayered CSS trap
 
-Custom CSS written outside any layer silently beats every HDS rule, regardless of specificity. This is a property of CSS cascade layers: unlayered rules always outperform layered rules.
+Custom CSS written outside any named layer silently beats every HDS rule, regardless of specificity. Unlayered rules always outrank layered rules in the CSS cascade. For existing USWDS sites with accumulated custom CSS, this has real consequences:
 
-For existing USWDS sites with accumulated custom CSS, this has real consequences:
-
-- HDS may not render as designed on your site. Your existing rules can override HDS styling in places you do not expect.
-- "Adopt HDS and inherit NASA design" will not fully deliver if your unlayered overrides mask what HDS is trying to change.
-- Debugging cascade issues becomes harder because "unlayered beats layered" is counterintuitive when you are used to specificity-based overrides.
+- HDS may not render as designed. Your existing rules can override HDS styling in places you do not expect.
+- Debugging cascade issues is harder because "unlayered beats layered" is counterintuitive if you are used to specificity-based overrides.
 
 #### Recommended adoption process for custom CSS
 
-To get HDS's intended behavior while preserving the custom styles you actually need:
-
 1. **Install HDS Core alongside your existing stylesheets.** Do not remove anything yet.
 
-2. **Temporarily disable your site-specific CSS.** Comment out your custom stylesheets, or load HDS Core without them. Navigate your site in this state. This shows you what HDS delivers on its own.
+2. **Temporarily disable your site-specific CSS.** Comment out your custom stylesheets and navigate your site. This shows you what HDS delivers on its own.
 
-3. **Note what breaks or looks wrong without your overrides.** These are the places where your site genuinely needs custom CSS beyond what HDS provides. Many rules that previously fought USWDS specificity are no longer necessary, since HDS's layer architecture handles priority without them.
+3. **Note what breaks or looks wrong without your overrides.** These are the places where your site genuinely needs custom CSS beyond what HDS provides. Many rules that previously fought USWDS specificity are no longer necessary.
 
-4. **Re-enable your CSS inside `@layer site { }`.** Wrap your entire site-specific stylesheet in a single layer block:
+4. **Re-enable your CSS inside `@layer site {}`.**
 
    ```scss
    @layer site {
-     /* your existing custom CSS goes here */
+     /* your existing custom CSS */
    }
    ```
 
-   Or, if you use Sass:
+   Or with Sass:
 
    ```scss
    @use 'sass:meta';
@@ -111,11 +113,11 @@ To get HDS's intended behavior while preserving the custom styles you actually n
    }
    ```
 
-5. **Audit and remove obsolete overrides over time.** Many rules that existed as specificity workarounds against USWDS can now be deleted. Each removal is a net simplification.
+5. **Audit and remove obsolete overrides over time.** Rules that existed as specificity workarounds against USWDS can often be deleted. Each removal simplifies your codebase.
 
 ### Utility class colors
 
-Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations, which are close to but not identical to HDS hex values. This is a USWDS architectural constraint, not a bug. For exact brand colors, use `var(--hds-color-*)` CSS custom properties.
+Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations, which are close to but not identical to HDS hex values. This is a USWDS architectural constraint. For exact brand colors, use `var(--hds-color-*)` CSS custom properties.
 
 ## Brand compliance
 
@@ -143,13 +145,13 @@ If your site already customizes USWDS via `@use "uswds-core" with (...)`, you wi
 Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins. Subsequent calls with different settings will error. When you adopt HDS Core:
 
 - **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
-- **Sass path:** Your project's `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+- **Sass path:** `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
 
-Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings, and reconfiguring will break HDS's intended output. Instead, use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
+Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings. Use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
 
 ### Settings you may have customized
 
-Review these against your current theme file. HDS Core overrides all of them, so your previous values will be replaced:
+Review these against your current theme file. HDS Core overrides all of them:
 
 | What you set                       | What HDS does                                              | Impact                                  |
 | ---------------------------------- | ---------------------------------------------------------- | --------------------------------------- |
