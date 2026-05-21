@@ -41,13 +41,14 @@
     "build-storybook": "storybook build",
     "format": "prettier --check \"**/*.{md,mdx,js,json}\"",
     "format:fix": "prettier --write \"**/*.{md,mdx,js,json}\"",
-    "lint": "npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx",
+    "lint": "npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx && npm run lint:lockfile",
     "lint:scss": "stylelint \"src/scss/**/*.scss\"",
     "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
     "lint:md": "remark --rc-path .remarkrc.mjs --quiet --frail *.md .github/**/*.md",
     "lint:mdx": "remark --rc-path .remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm",
     "test": "npm run check:uswds && npm run check:uswds-core && vitest run --reporter=dot",
     "test:watch": "vitest watch",
     "test:visual": "chromatic --log-level warn"
@@ -56,6 +57,7 @@
     "@uswds/uswds": "^3.13.0"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@chromatic-com/storybook": "^5.1.1",
     "@storybook/addon-a11y": "^10.3.3",
     "@storybook/addon-docs": "^10.3.3",
@@ -70,6 +72,7 @@
     "eslint-plugin-mdx": "^3.7.0",
     "eslint-plugin-storybook": "^10.4.0",
     "globals": "^17.6.0",
+    "lockfile-lint": "^5.0.0",
     "playwright": "^1.58.2",
     "postcss": "^8.5.12",
     "postcss-cli": "^11.0.1",
