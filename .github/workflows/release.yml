@@ -1,0 +1,98 @@
+# Runs on every push to main.
+# Two modes:
+#   1. Changeset files exist -- opens/updates "Version Packages" PR
+#   2. Version Packages PR was just merged (version bumped) --
+#      creates git tag, builds dist, generates SBOM, creates GitHub Release
+#
+# npm publish is not yet wired, but should be set up once the repo is public.
+
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Changesets -- manage Version Packages PR
+        uses: changesets/action@v1
+        with:
+          commit: 'chore: version packages'
+          title: 'Version Packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Everything below runs only when a version bump landed on main
+      # (i.e., the Version Packages PR was just merged).
+      # Detection: compare package.json version against latest git tag.
+
+      - name: Check if version was bumped
+        id: version-check
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LATEST_VERSION=${LATEST_TAG#v}
+          if [ "$CURRENT" != "$LATEST_VERSION" ]; then
+            echo "released=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT" >> $GITHUB_OUTPUT
+            echo "Version bump detected: $LATEST_VERSION -> $CURRENT"
+          else
+            echo "released=false" >> $GITHUB_OUTPUT
+            echo "No version change -- skipping release steps"
+          fi
+
+      - name: Build
+        if: steps.version-check.outputs.released == 'true'
+        run: npm run build
+
+      - name: Generate SBOM
+        if: steps.version-check.outputs.released == 'true'
+        run: |
+          npm install --no-save @cyclonedx/cyclonedx-npm
+          npx @cyclonedx/cyclonedx-npm --output-file sbom.json
+
+      - name: Get changelog entry
+        if: steps.version-check.outputs.released == 'true'
+        id: changelog
+        run: |
+          NOTES=$(awk '/^## /{found++} found==1{print} found==2{exit}' CHANGELOG.md)
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create dist zip
+        if: steps.version-check.outputs.released == 'true'
+        run: |
+          cd dist && zip -r ../hds-core-v${{ steps.version-check.outputs.version }}-dist.zip . && cd ..
+
+      - name: Create GitHub Release
+        if: steps.version-check.outputs.released == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.version-check.outputs.version }}" \
+            --title "v${{ steps.version-check.outputs.version }}" \
+            --notes "${{ steps.changelog.outputs.notes }}" \
+            "hds-core-v${{ steps.version-check.outputs.version }}-dist.zip#dist artifacts" \
+            "sbom.json#SBOM (CycloneDX)"
