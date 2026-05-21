@@ -1,0 +1,374 @@
+# ci.yml
+# PR gate -- runs on every pull request to main.
+# Jobs are path-filtered so only relevant checks run for each PR.
+# Chromatic only runs if compiled CSS hash differs from base branch.
+#
+# Action tags will be converted to SHA pins automatically by Dependabot
+# on its first run. Do not manually replace tags with SHAs -- let
+# Dependabot maintain them so updates are tracked via PR.
+
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  # -----------------------------------------------------------------------
+  # Filter -- determines which jobs run based on what changed
+  # -----------------------------------------------------------------------
+  filter:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    outputs:
+      scss: ${{ steps.filter.outputs.scss }}
+      js: ${{ steps.filter.outputs.js }}
+      json: ${{ steps.filter.outputs.json }}
+      md: ${{ steps.filter.outputs.md }}
+      mdx: ${{ steps.filter.outputs.mdx }}
+      stories: ${{ steps.filter.outputs.stories }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            scss:
+              - 'src/scss/**'
+              - 'tokens.json'
+            js:
+              - '**/*.js'
+            json:
+              - '**/*.json'
+              - '!package-lock.json'
+            md:
+              - '**/*.md'
+            mdx:
+              - 'stories/**/*.mdx'
+            stories:
+              - '**/*.stories.js'
+
+  # -----------------------------------------------------------------------
+  # Lint: lockfile -- always runs (fast, supply chain check)
+  # -----------------------------------------------------------------------
+  lint-lockfile:
+    name: Lint / lockfile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lockfile lint
+        run: npm run lint:lockfile
+
+  # -----------------------------------------------------------------------
+  # Lint: SCSS -- runs if src/scss or tokens.json changed
+  # -----------------------------------------------------------------------
+  lint-scss:
+    name: Lint / SCSS
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.scss == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Stylelint
+        run: npm run lint:scss
+
+  # -----------------------------------------------------------------------
+  # Lint: JS -- runs if any JS changed (including stories)
+  # -----------------------------------------------------------------------
+  lint-js:
+    name: Lint / JS and JSON
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint:js
+
+  # -----------------------------------------------------------------------
+  # Lint: Markdown -- runs if .md files changed
+  # -----------------------------------------------------------------------
+  lint-md:
+    name: Lint / Markdown
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.md == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: remark-lint
+        run: npm run lint:md
+
+  # -----------------------------------------------------------------------
+  # Lint: MDX -- runs if stories MDX files changed
+  # -----------------------------------------------------------------------
+  lint-mdx:
+    name: Lint / MDX
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.mdx == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: remark-lint MDX
+        run: npm run lint:mdx
+
+  # -----------------------------------------------------------------------
+  # Lint: Prettier -- runs if any Prettier-covered file type changed
+  # -----------------------------------------------------------------------
+  lint-format:
+    name: Lint / Prettier
+    runs-on: ubuntu-latest
+    needs: filter
+    if: |
+      needs.filter.outputs.md == 'true' ||
+      needs.filter.outputs.mdx == 'true' ||
+      needs.filter.outputs.js == 'true' ||
+      needs.filter.outputs.json == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prettier format check
+        run: npm run format
+
+  # -----------------------------------------------------------------------
+  # Build -- runs if SCSS, tokens, stories, or JS changed
+  # Uploads compiled CSS artifact for bundle-size and css-hash jobs only.
+  # Test job runs its own full build because it needs all of dist/.
+  # -----------------------------------------------------------------------
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: filter
+    if: |
+      needs.filter.outputs.scss == 'true' ||
+      needs.filter.outputs.stories == 'true' ||
+      needs.filter.outputs.js == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload compiled CSS
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-css
+          path: dist/css/*.min.css
+          retention-days: 1
+
+  # -----------------------------------------------------------------------
+  # Test -- runs its own full build because Storybook needs all of dist/
+  # (fonts, images, JS) via staticDirs, not just compiled CSS.
+  # Installs Playwright browsers explicitly -- npm ci does not include them.
+  # -----------------------------------------------------------------------
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: filter
+    if: |
+      needs.filter.outputs.scss == 'true' ||
+      needs.filter.outputs.stories == 'true' ||
+      needs.filter.outputs.js == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+  # -----------------------------------------------------------------------
+  # Bundle size -- runs after build if SCSS or tokens changed
+  # -----------------------------------------------------------------------
+  bundle-size:
+    name: Bundle size
+    runs-on: ubuntu-latest
+    needs: [filter, build]
+    if: needs.filter.outputs.scss == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download compiled CSS
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-css
+          path: dist/css/
+
+      - name: Check bundle size
+        run: bash scripts/check-bundle-size.sh
+
+  # -----------------------------------------------------------------------
+  # CSS hash -- compares compiled output vs. base branch
+  # Builds base branch independently to get a clean comparison point.
+  # Downloads PR CSS artifact for the PR side -- avoids building twice.
+  # -----------------------------------------------------------------------
+  css-hash:
+    name: Compare CSS hash
+    runs-on: ubuntu-latest
+    needs: [filter, build]
+    if: needs.filter.outputs.scss == 'true'
+    outputs:
+      changed: ${{ steps.compare.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies (base branch)
+        run: npm ci
+
+      - name: Build base branch
+        run: npm run build
+
+      - name: Hash base CSS
+        id: base-hash
+        run: |
+          echo "hash=$(sha256sum dist/css/hds.min.css dist/css/hds-uswds.min.css dist/css/hds-dataviz.min.css | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+
+      - name: Download PR compiled CSS
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-css
+          path: dist/css/
+
+      - name: Hash PR CSS
+        id: pr-hash
+        run: |
+          echo "hash=$(sha256sum dist/css/hds.min.css dist/css/hds-uswds.min.css dist/css/hds-dataviz.min.css | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+
+      - name: Compare hashes
+        id: compare
+        run: |
+          if [ "${{ steps.base-hash.outputs.hash }}" = "${{ steps.pr-hash.outputs.hash }}" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "CSS output identical to base branch -- skipping Chromatic"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "CSS output changed -- Chromatic will run"
+          fi
+
+  # -----------------------------------------------------------------------
+  # Chromatic -- runs only if CSS hash changed vs. base branch
+  # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection
+  # -----------------------------------------------------------------------
+  chromatic:
+    name: Chromatic visual regression
+    runs-on: ubuntu-latest
+    needs: css-hash
+    if: needs.css-hash.outputs.changed == 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Chromatic
+        uses: chromaui/action@v11
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
+
+  # -----------------------------------------------------------------------
+  # API contract check -- stub until ci/api-check-script lands
+  # Wired now so branch protection can reference this job name.
+  # HDS_SEMVER_PHASE controls classification: pre-v1 = removals are minor
+  # -----------------------------------------------------------------------
+  api-check:
+    name: Public API contract check
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.scss == 'true'
+    env:
+      HDS_SEMVER_PHASE: pre-v1
+    steps:
+      - name: API check stub
+        run: echo "API contract check -- full implementation coming in ci/api-check-script"
