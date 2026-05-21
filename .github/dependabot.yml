@@ -11,8 +11,19 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - 'dependencies'
-    # Review all dependency PRs manually pre-v1.0.
-    # Once Changesets lands, can enable auto-merge for patch-level dev dependencies.
+    groups:
+      storybook:
+        patterns:
+          - '@storybook/*'
+      vitest:
+        patterns:
+          - '@vitest/*'
+          - 'vitest'
+      postcss:
+        patterns:
+          - 'postcss*'
+          - 'cssnano*'
+          - 'autoprefixer'
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'
@@ -25,3 +36,7 @@ updates:
     labels:
       - 'dependencies'
       - 'github-actions'
+    groups:
+      actions:
+        patterns:
+          - '*'
