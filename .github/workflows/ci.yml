@@ -353,7 +353,7 @@ jobs:
         run: npm ci
 
       - name: Run Chromatic
-        uses: chromaui/action@v11
+        uses: chromaui/action@v17
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
