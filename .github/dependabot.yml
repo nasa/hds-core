@@ -8,22 +8,39 @@ updates:
       day: 'friday'
       time: '09:00'
       timezone: 'America/New_York'
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 10
     labels:
       - 'dependencies'
     groups:
       storybook:
         patterns:
           - '@storybook/*'
+          - '@chromatic-com/*'
+          - 'storybook'
+          - 'storybook-addon-*'
+          - 'eslint-plugin-storybook'
       vitest:
         patterns:
           - '@vitest/*'
           - 'vitest'
       postcss:
         patterns:
-          - 'postcss*'
-          - 'cssnano*'
+          - 'postcss'
+          - 'postcss-*'
+          - 'cssnano'
           - 'autoprefixer'
+      remark:
+        patterns:
+          - 'remark-*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-plugin-*'
+          - 'globals'
+      stylelint:
+        patterns:
+          - 'stylelint'
+          - 'stylelint-*'
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'
