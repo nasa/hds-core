@@ -88,7 +88,7 @@
     "remark-validate-links": "^13.1.0",
     "sass": "^1.99.0",
     "storybook": "^10.3.3",
-    "storybook-addon-pseudo-states": "^10.3.3",
+    "storybook-addon-pseudo-states": "^10.4.0",
     "stylelint": "^17.11.1",
     "stylelint-config-standard-scss": "^17.0.0",
     "svg-sprite": "^2.0.4",
