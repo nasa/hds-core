@@ -6,7 +6,7 @@ import * as CheckboxStories from './Checkbox.stories';
 
 # Checkbox
 
-Checkboxes are a form element that allows users to select zero, one, or multiple options from a list. HDS checkboxes use standard USWDS [`.usa-checkbox`](https://designsystem.digital.gov/components/checkbox/) markup with no additional classes.
+Checkboxes allow users to select zero, one, or multiple options from a list. They use USWDS [`.usa-checkbox`](https://designsystem.digital.gov/components/checkbox/) markup with no additional classes required.
 
 ## Variants
 
@@ -32,22 +32,24 @@ Tile checkboxes provide a larger touch target with an optional description. Use 
 
 ### With error
 
-When a required checkbox group has no selection, display an error message below the options.
+When a required checkbox group has no selection, an error message appears below the options inside the fieldset.
 
 <Canvas of={CheckboxStories.WithError} />
 
+<Note type="uswds">If your site uses standard USWDS error markup, HDS Core supports that order. See [Form: Legacy USWDS support](?path=/docs/components-form-guidance--docs#legacy-uswds-support) for details.</Note>
+
 ## When to use checkboxes
 
-- **Multiple selections** — users can choose zero, one, or any number of options from a list.
-- **Filtering** — narrowing search results, galleries, or data tables by category.
-- **Toggleable settings** — independent on/off options like notification preferences.
-- **Terms and agreements** — a single checkbox to confirm acceptance.
+- **Multiple selections:** users can choose zero, one, or any number of options from a list.
+- **Filtering:** narrowing search results, galleries, or data tables by category.
+- **Toggleable settings:** independent on/off options like notification preferences.
+- **Terms and agreements:** a single checkbox to confirm acceptance.
 
 ## When to consider something else
 
-- **Mutually exclusive choices** — use [radio buttons](?path=/docs/components-radio-button-guidance--docs) when only one option can be selected (e.g., Yes or No).
-- **Single on/off toggle** — for a binary setting with immediate effect, consider a toggle switch.
-- **Long option lists** — for more than about 10 options, consider a filterable list or combo box to reduce scrolling.
+- **Mutually exclusive choices:** use [radio buttons](?path=/docs/components-radio-button-guidance--docs) when only one option can be selected.
+- **Single on/off toggle:** for a binary setting with immediate effect, consider a toggle switch.
+- **Long option lists:** for more than about 10 options, consider a filterable list or combo box to reduce scrolling.
 
 ## Usability guidance
 
@@ -65,7 +67,7 @@ When a required checkbox group has no selection, display an error message below 
 - **Group with `<fieldset>` and `<legend>`.** Every checkbox group must be wrapped in a `<fieldset>` with a descriptive `<legend>`. This is required — screen readers use the legend to announce context for each option.
 - **Unique `id` and matching `for`.** Each `<input>` needs a unique `id`, and its `<label>` must reference it with a matching `for` attribute.
 - **Keyboard navigation:** Users move between checkboxes with **Tab** and **Shift+Tab**, and toggle them with **Space**.
-- **Error messages:** Associate error text with the group using `role="alert"` so screen readers announce it immediately.
+- **Error messages:** Add `role="alert"` and an `id` to the error element. Reference that `id` via `aria-describedby` on each checkbox input in the group so screen readers associate the error with every option, not just the last one.
 - **VoiceOver on iOS** does not fully support `<fieldset>` and `<legend>`. For maximum compatibility, add `aria-labelledby` referencing the legend `id` on each input.
 
 <Note type="uswds">USWDS recommends avoiding disabled states. Disabled checkboxes have low contrast, don't receive focus, and provide no feedback to screen readers. If you must disable an option, explain why using visible help text and use `aria-disabled="true"` with JavaScript instead of the HTML `disabled` attribute. See the [USWDS disabled state guidance](https://github.com/uswds/uswds/wiki/Disabled-States-Research-Findings-2023) for details.</Note>

@@ -3,9 +3,15 @@
 // CSS: components/_form.scss
 //
 // Sidebar structure:
-//   Guidance   — RadioButton.mdx (design rationale, Canvas embeds, usage rules)
+//   Guidance   — RadioButton.mdx
 //   Stories    — Default, Horizontal, Tiles, All Variants
 //              (visible in sidebar)
+//
+// Radio button errors are group-level, not field-level. The
+// error message sits after all radio items inside the fieldset.
+// Each radio input references the error via aria-describedby.
+// Legacy USWDS order is documented in Form.mdx
+// (Components/Form/Guidance#legacy-uswds-support).
 // ============================================================
 
 import { expect } from 'storybook/test';
@@ -212,14 +218,34 @@ export const AllVariants = {
           })}
         </div>
       </div>
-      <div>
+<div>
         ${label('Error')}
         <div style="margin-top: 0.5rem;">
           <fieldset class="usa-fieldset">
             <legend class="usa-legend">Select a destination</legend>
-            ${radioItem('av-err', 'moon', 'Moon')}
-            ${radioItem('av-err', 'mars', 'Mars')}
-            <span class="usa-error-message" role="alert">Please select a destination</span>
+            <div class="usa-radio">
+              <input
+                class="usa-radio__input"
+                id="av-err-moon"
+                type="radio"
+                name="av-err"
+                value="moon"
+                aria-describedby="av-err-group-error"
+              />
+              <label class="usa-radio__label" for="av-err-moon">Moon</label>
+            </div>
+            <div class="usa-radio">
+              <input
+                class="usa-radio__input"
+                id="av-err-mars"
+                type="radio"
+                name="av-err"
+                value="mars"
+                aria-describedby="av-err-group-error"
+              />
+              <label class="usa-radio__label" for="av-err-mars">Mars</label>
+            </div>
+            <span class="usa-error-message" id="av-err-group-error" role="alert">Please select a destination</span>
           </fieldset>
         </div>
       </div>
@@ -244,9 +270,29 @@ export const WithError = {
   render: () => `
     <fieldset class="usa-fieldset">
       <legend class="usa-legend">Select a destination</legend>
-      ${radioItem('err', 'moon', 'Moon')}
-      ${radioItem('err', 'mars', 'Mars')}
-      <span class="usa-error-message" role="alert">Please select a destination</span>
+      <div class="usa-radio">
+        <input
+          class="usa-radio__input"
+          id="err-moon"
+          type="radio"
+          name="err"
+          value="moon"
+          aria-describedby="err-group-error"
+        />
+        <label class="usa-radio__label" for="err-moon">Moon</label>
+      </div>
+      <div class="usa-radio">
+        <input
+          class="usa-radio__input"
+          id="err-mars"
+          type="radio"
+          name="err"
+          value="mars"
+          aria-describedby="err-group-error"
+        />
+        <label class="usa-radio__label" for="err-mars">Mars</label>
+      </div>
+      <span class="usa-error-message" id="err-group-error" role="alert">Please select a destination</span>
     </fieldset>
   `,
 };
