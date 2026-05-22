@@ -3,8 +3,13 @@
 // CSS: components/_form.scss
 //
 // Sidebar structure:
-//   Guidance   — Select.mdx (design rationale, Canvas embeds, usage rules)
+//   Guidance   — Select.mdx
 //   Stories    — Default, All Variants (visible in sidebar)
+//
+// Error state markup uses recommended HDS order:
+//   label > select > hint > error
+// Legacy USWDS order is documented in Form.mdx
+// (Components/Form/Guidance#legacy-uswds-support).
 // ============================================================
 
 import { expect } from 'storybook/test';
@@ -222,13 +227,29 @@ export const Disabled = {
     }),
 };
 
-export const Error = {
+export const ErrorModern = {
+  name: 'Error (recommended markup)',
   tags: ['!dev'],
   render: () =>
     selectField({
-      prefix: 'error',
-      options: topicOptions,
-      error: 'Error explanation text',
+      prefix: 'error-modern',
+      labelText: 'NASA center',
+      hint: 'Choose the center closest to your location',
+      options: centerOptions,
+      error: 'Please select a NASA center',
+    }),
+};
+
+export const ErrorMultiline = {
+  name: 'Error (multiline message)',
+  tags: ['!dev'],
+  render: () =>
+    selectField({
+      prefix: 'error-multiline',
+      labelText: 'NASA center',
+      options: centerOptions,
+      error:
+        'Please select a valid NASA center. If your center is not listed, contact your program office for assistance.',
     }),
 };
 
