@@ -40,7 +40,7 @@
 //   --hds-palette-input-bg        → input/control backgrounds
 //   --hds-palette-disabled        → disabled text and labels
 //   --hds-palette-disabled-bg     → disabled backgrounds
-//   --hds-palette-error-border    → error state borders
+//   --hds-palette-error-indicator    → error state borders
 //   --hds-palette-error-text      → error message text
 //
 // Restyles: https://designsystem.digital.gov/components/form/
@@ -374,7 +374,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // container by 1.8px per side, which exactly clips the scaled
 // viewbox padding. mask-position: center keeps it centered.
 //
-// Icon color: --hds-palette-error-border (NASA Red on light/dark).
+// Icon color: --hds-palette-error-indicator (NASA Red on light/dark).
 // Text color: --hds-palette-error-text (NASA Red Shade on light/dark).
 // These are intentionally different tokens — the icon uses the
 // brighter red and the text uses the darker shade for contrast.
@@ -382,7 +382,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 
 .usa-input--error,
 .usa-input--error:focus-visible {
-  border-color: var(--hds-palette-error-border);
+  border-color: var(--hds-palette-error-indicator);
   border-width: 1px;
 }
 
@@ -401,9 +401,10 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   font-weight: font-weight('normal');
   gap: units(1);
   letter-spacing: map.get($hds-letterspacing, '1');
+  line-height: units(2); // Figma spec: 16px.
 
   &::before {
-    background-color: var(--hds-palette-error-border);
+    background-color: var(--hds-palette-error-indicator);
     content: '';
     display: block;
     flex-shrink: 0;
