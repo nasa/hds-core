@@ -352,7 +352,7 @@ export const ErrorMultiline = {
       labelText: 'Password',
       type: 'password',
       error:
-        'Password does not meet requirements. Must be at least 8 characters, include one uppercase letter, one number, and one special character.',
+        'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character such as ! or @.',
     }),
 };
 
