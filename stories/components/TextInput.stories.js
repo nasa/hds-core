@@ -3,9 +3,17 @@
 // CSS: components/_form.scss
 //
 // Sidebar structure:
-//   Guidance   — TextInput.mdx (design rationale, Canvas embeds, usage rules)
+//   Guidance   — TextInput.mdx
 //   Stories    — Default, Textarea, All Variants
-//              (visible in sidebar)
+//
+// Individual text input and textarea stories. Composed form
+// patterns (multiple fields, fieldsets, validation flows) live
+// in Form.stories.js.
+//
+// Error state markup uses recommended HDS order:
+//   label > input > hint > error
+// Legacy USWDS order is documented in Form.mdx
+// (Components/Form/Guidance#legacy-uswds-support).
 // ============================================================
 
 import { expect } from 'storybook/test';
@@ -127,7 +135,7 @@ export const Default = {
     labelText: 'Text input label',
     type: 'text',
     placeholder: '',
-    hint: 'Help text (optional)',
+    hint: '',
     error: '',
     disabled: false,
     required: false,
@@ -181,17 +189,7 @@ export const Default = {
       required = false,
       width = '',
     } = args;
-    return textInput({
-      prefix: 'default',
-      labelText,
-      type,
-      placeholder,
-      hint,
-      error,
-      disabled,
-      required,
-      width,
-    });
+    return textInput({ prefix: 'default', labelText, type, placeholder, hint, error, disabled, required, width });
   },
 };
 
@@ -273,6 +271,12 @@ export const AllVariants = {
           ${textareaField({ prefix: 'av-textarea' })}
         </div>
       </div>
+      <div>
+        ${label('Textarea error')}
+        <div style="margin-top: 0.5rem;">
+          ${textareaField({ prefix: 'av-textarea-error', error: 'Error explanation text' })}
+        </div>
+      </div>
     </div>
   `,
 };
@@ -284,16 +288,9 @@ export const Placeholder = {
   render: () =>
     textInput({
       prefix: 'placeholder',
+      hint: '',
+      ariaHint: false,
       placeholder: 'e.g., Artemis I',
-    }),
-};
-
-export const WithValue = {
-  tags: ['!dev'],
-  render: () =>
-    textInput({
-      prefix: 'value',
-      value: 'James Webb Space Telescope',
     }),
 };
 
@@ -304,7 +301,17 @@ export const WithHelpText = {
       prefix: 'help',
       labelText: 'Email address',
       type: 'email',
-      hint: 'e.g., mission-lead@nasa.gov',
+      hint: 'Enter your .gov or .mil email address',
+    }),
+};
+
+export const WithValue = {
+  tags: ['!dev'],
+  render: () =>
+    textInput({
+      prefix: 'value',
+      value: 'James Webb Space Telescope',
+      hint: '',
     }),
 };
 
@@ -318,12 +325,34 @@ export const Disabled = {
     }),
 };
 
-export const Error = {
+// Modern HDS markup — error after input (DOM order matches visual order).
+// aria-describedby wires the error to the input for screen readers.
+export const ErrorModern = {
+  name: 'Error (HDS recommended markup)',
   tags: ['!dev'],
   render: () =>
     textInput({
-      prefix: 'error',
-      error: 'Error explanation text',
+      prefix: 'error-modern',
+      labelText: 'Email address',
+      type: 'email',
+      value: 'james.green.nasa.gov',
+      hint: 'e.g., mission-lead@nasa.gov',
+      error: 'Incorrect email address format',
+    }),
+};
+
+// Error with multiline message — confirms icon stays top-aligned
+// to first line rather than centering on the full text block.
+export const ErrorMultiline = {
+  name: 'Error (multiline message)',
+  tags: ['!dev'],
+  render: () =>
+    textInput({
+      prefix: 'error-multiline',
+      labelText: 'Password',
+      type: 'password',
+      error:
+        'Password does not meet requirements. Must be at least 8 characters, include one uppercase letter, one number, and one special character.',
     }),
 };
 
