@@ -18,6 +18,10 @@
 //   Legacy (USWDS)    — label > error > input > hint
 //   Both are supported. See ErrorLegacyMarkup story and the
 //   Legacy USWDS support section in Form.mdx.
+//
+// TODO: ServerSideValidation error summary — style bulleted list
+// with red bullets per Figma spec. Deferred pending CSS work on
+// the summary block pattern.
 // ============================================================
 
 export default {
@@ -249,9 +253,6 @@ export const MixedElements = {
 
 export const ValidationFlow = {
   name: 'Validation flow',
-  parameters: {
-    chromatic: { disableSnapshot: true },
-  },
   render: () => `
     <form class="usa-form usa-form--large">
       <fieldset class="usa-fieldset">
@@ -318,9 +319,6 @@ export const FormActions = {
 export const ServerSideValidation = {
   name: 'Server-side validation',
   tags: ['!dev'],
-  parameters: {
-    chromatic: { disableSnapshot: true },
-  },
   render: () => `
     <form class="usa-form usa-form--large">
       <fieldset class="usa-fieldset">
@@ -352,15 +350,11 @@ export const ServerSideValidation = {
         <button class="usa-button" type="submit" disabled>Sign Up</button>
       </div>
 
-      <hr style="border: none; border-top: 2px solid var(--hds-palette-error-border, #F64137); margin-top: 2rem;" />
+      <hr style="border: none; border-top: 2px solid var(--hds-palette-error-indicator, #F64137); margin-top: 2rem;" />
 
-      <div class="usa-error-message" role="alert" style="margin-top: 1rem;">
-        Correct the following fields before submitting this form:
-        <ul style="margin-top: 0.25rem; margin-bottom: 0; padding-left: 1.25rem;">
-          <li>Incorrect email address format</li>
-          <li>Agree to the terms and conditions</li>
-        </ul>
-      </div>
+      <span class="usa-error-message" role="alert" style="margin-top: 1rem;">
+        Correct the following fields before submitting this form: incorrect email address format, agree to the terms and conditions.
+      </span>
     </form>
   `,
 };
