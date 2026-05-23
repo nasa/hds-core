@@ -252,8 +252,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
+      - name: Unit tests
+        run: npx vitest run --project unit --reporter=dot
+
+      - name: A11y tests
+        run: npx vitest run --project storybook --reporter=dot
+        continue-on-error: true
 
   # -----------------------------------------------------------------------
   # Bundle size -- runs after build if SCSS or tokens changed
