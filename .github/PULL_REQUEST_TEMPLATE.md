@@ -31,7 +31,7 @@ Closes #
 
 - [ ] Ran `npm run update:api-snapshot` and reviewed the diff
 - [ ] Changeset added (`npx changeset`) with appropriate bump level
-- [ ] Bump level matches the [semver rubric](CONTRIBUTING.md#semver-rubric)
+- [ ] Bump level matches the [semver rubric](../CONTRIBUTING.md#semver-rubric)
 
 ## Visual review
 
