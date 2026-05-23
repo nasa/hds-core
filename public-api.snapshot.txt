@@ -96,7 +96,7 @@ src/scss/hds-uswds.scss
 --hds-palette-control-text
 --hds-palette-disabled
 --hds-palette-disabled-bg
---hds-palette-error-border
+--hds-palette-error-indicator
 --hds-palette-error-text
 --hds-palette-focus
 --hds-palette-focus-bold
@@ -369,7 +369,6 @@ hds-vertical-nav-links
 .usa-current
 .usa-error-message
 .usa-fieldset
-.usa-file-input__target
 .usa-footer
 .usa-footer__nav
 .usa-footer__primary-content
