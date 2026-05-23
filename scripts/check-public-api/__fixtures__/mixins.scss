@@ -1,0 +1,23 @@
+@mixin hds-focus-ring($width: 'thin') {
+  outline: 1px dashed currentcolor;
+}
+
+@mixin hds-link-appearance {
+  text-decoration: underline;
+}
+
+@mixin _private-helper {
+  display: none;
+}
+
+@function hds-spacing($key) {
+  @return map.get($spacing, $key);
+}
+
+@function _internal-calc($val) {
+  @return $val * 2;
+}
+
+@mixin hds-overline-label {
+  text-transform: uppercase;
+}

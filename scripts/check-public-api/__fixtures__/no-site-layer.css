@@ -1,0 +1,7 @@
+@layer uswds, uswds-utils, hds-base, hds-components;
+
+@layer hds-components {
+  .hds-widget {
+    color: black;
+  }
+}

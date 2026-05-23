@@ -1,0 +1,13 @@
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
+
+@layer uswds {
+  @layer theme {
+    .usa-foo {
+      color: red;
+    }
+
+    .usa-bar__baz {
+      color: blue;
+    }
+  }
+}

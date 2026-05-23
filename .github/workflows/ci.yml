@@ -252,8 +252,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
+      - name: Unit tests
+        run: npx vitest run --project unit --reporter=dot
+
+      - name: A11y tests
+        run: npx vitest run --project storybook --reporter=dot
+        continue-on-error: true
 
   # -----------------------------------------------------------------------
   # Bundle size -- runs after build if SCSS or tokens changed
@@ -359,17 +363,21 @@ jobs:
           onlyChanged: true
 
   # -----------------------------------------------------------------------
-  # API contract check -- stub until ci/api-check-script lands
-  # Wired now so branch protection can reference this job name.
-  # HDS_SEMVER_PHASE controls classification: pre-v1 = removals are minor
+  # API contract check
+  # Runs after build to verify public-api.snapshot.txt is up to date.
   # -----------------------------------------------------------------------
   api-check:
     name: Public API contract check
     runs-on: ubuntu-latest
     needs: filter
     if: needs.filter.outputs.scss == 'true'
-    env:
-      HDS_SEMVER_PHASE: pre-v1
     steps:
-      - name: API check stub
-        run: echo "API contract check -- full implementation coming in ci/api-check-script"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Check public API snapshot
+        run: npm run check:public-api

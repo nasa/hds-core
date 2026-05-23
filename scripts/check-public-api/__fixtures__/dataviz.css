@@ -1,0 +1,13 @@
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
+
+@layer hds-dataviz {
+  :root {
+    --hds-dataviz-color-cat-1: #1159cd;
+    --hds-dataviz-color-cat-2: #ef483f;
+    --usa-system-color-red: #b50909;
+  }
+
+  .hds-palette-dark {
+    --hds-dataviz-color-cat-1: #256ee4;
+  }
+}

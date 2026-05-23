@@ -117,17 +117,19 @@ Load order does not matter. All styles use CSS cascade layers.
 All CSS output is organized into named cascade layers declared in every entry point:
 
 ```css
-@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 ```
 
-| Layer             | Contents                                    | Empty if...                      |
-| ----------------- | ------------------------------------------- | -------------------------------- |
-| `uswds`           | All USWDS component defaults                | —                                |
-| `uswds-utilities` | USWDS utility classes                       | `hds-uswds.min.css` not loaded   |
-| `hds-base`        | Custom properties, element styles, palettes | —                                |
-| `hds-components`  | HDS component overrides                     | —                                |
-| `hds-dataviz`     | Dataviz palettes                            | `hds-dataviz.min.css` not loaded |
-| `site`            | Adopter overrides                           | Not reserved by HDS              |
+First declaration wins. Subsequent declarations in other bundles are ignored.
+
+| Layer | Source | Contents | Empty if... |
+| --- | --- | --- | --- |
+| `uswds` | `hds.min.css` | All USWDS component defaults |  |
+| `uswds-utils` | `hds-uswds.min.css` | USWDS utility classes | `hds-uswds.min.css` not loaded |
+| `hds-base` | `hds.min.css` | Custom properties, element styles, palettes |  |
+| `hds-components` | `hds.min.css` | HDS component overrides |  |
+| `hds-dataviz` | `hds-dataviz.min.css` | Dataviz palettes | `hds-dataviz.min.css` not loaded |
+| `site` | Adopter | Reserved for adopter overrides — always wins |  |
 
 **`hds.scss`** build order:
 
@@ -146,7 +148,7 @@ All CSS output is organized into named cascade layers declared in every entry po
 
 ```
 1. _hds-uswds-theme-utils.scss  ← Same config as main theme, utilities unrestricted
-2. @layer uswds-utilities       ← meta.load-css('uswds-utilities') only
+2. @layer uswds-utils       ← meta.load-css('uswds-utilities') only
 ```
 
 USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any USWDS version bump. Run `npm run check:uswds-core` to verify `uswds-core` still emits zero CSS (a regression here would break the token flow above).
@@ -156,23 +158,6 @@ USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any U
 `_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
 
 Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is pure Sass: hex values, maps, and flags only.
-
-### Cascade layer order
-
-All three bundles declare the same layer order (first declaration wins; subsequent declarations in other files are ignored):
-
-```css
-@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
-```
-
-| Layer             | Source                | Notes                                        |
-| ----------------- | --------------------- | -------------------------------------------- |
-| `uswds`           | `hds.min.css`         | All USWDS component defaults                 |
-| `uswds-utilities` | `hds-uswds.min.css`   | Utility classes; empty if add-on not loaded  |
-| `hds-base`        | `hds.min.css`         | Custom properties, element styles, palettes  |
-| `hds-components`  | `hds.min.css`         | HDS component overrides                      |
-| `hds-dataviz`     | `hds-dataviz.min.css` | Dataviz palettes; empty if add-on not loaded |
-| `site`            | Adopter               | Reserved for adopter overrides; always wins  |
 
 ### Token flow (future)
 

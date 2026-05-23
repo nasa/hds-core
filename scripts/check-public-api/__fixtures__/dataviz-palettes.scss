@@ -1,0 +1,13 @@
+@use 'sass:map';
+
+$hds-dataviz-palette-default: (
+  'cat-1': #1159cd,
+  'cat-2': #ef483f,
+);
+
+$hds-dataviz-foo: #abcdef;
+
+$_internal-dataviz-scale: (
+  10: #fedad8,
+  20: #f7b6b2,
+);

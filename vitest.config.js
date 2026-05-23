@@ -43,6 +43,13 @@ export default defineConfig({
           },
         },
       },
+      {
+        test: {
+          name: 'unit',
+          include: ['scripts/**/__tests__/**/*.test.js'],
+          environment: 'node',
+        },
+      },
     ],
   },
 });

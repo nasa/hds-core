@@ -4,24 +4,19 @@ HDS Core is NASA's design system for public-facing websites on `*.nasa.gov` doma
 
 Whether you're fixing a typo, reporting a browser bug, proposing a new component pattern, or improving accessibility, your contribution helps make NASA's web presence better for the public. We want to make the contribution process as clear and low-friction as possible.
 
-## How to contribute
+## Scope
 
-There are several ways to get involved, depending on what you'd like to do.
+HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on USWDS. Some things fall outside this repo's scope:
+
+- **Flagship CMS features** (`www.nasa.gov` or `science.nasa.gov` functionality). See the [Web Toolkit](https://website.nasa.gov) (internal NASA link) for CMS support.
+- **Content or editorial questions.** See the [NASA Stylebook](https://website.nasa.gov/style-guide/) (internal NASA link).
+- **USWDS-originated bugs.** If you find a bug that originates in upstream USWDS, report it here. We triage and fix it for HDS Core users, then contribute the fix back. See [Handling USWDS Bugs](#handling-uswds-bugs) for the full process.
+
+## How to contribute
 
 ### Report a bug or suggest an improvement
 
 Open an [Issue](https://github.com/nasa/hds-core/issues). Include what you expected, what happened instead, and (if relevant) the browser and viewport size where you saw the problem.
-
-#### Handling USWDS Bugs
-
-HDS Core themes and distributes a selective subset of USWDS components. When a bug originates upstream, our process is:
-
-1. **Report it here** — file an issue in this repository so we can triage and fix it for HDS Core users.
-2. **Upstream visibility** — during triage, maintainers will file a companion issue with the USWDS repository and link it to the HDS Core issue.
-3. **Fix it here first** — NASA sites cannot wait on upstream release cycles, so we patch bugs in our own Sass source.
-4. **Contribute back** — when our fix is stable, maintainers will open a PR upstream so the broader USWDS community benefits.
-
-When filing, note in the issue title or description that the root cause is upstream (e.g., "\[USWDS] Button focus ring clipped in Safari"). This helps maintainers triage and track companion issues.
 
 ### Ask a question or propose an idea
 
@@ -29,13 +24,13 @@ Start a [Discussion](https://github.com/nasa/hds-core/discussions). This is the 
 
 ### Submit a code change
 
-Open a pull request. See the development workflow section below for setup instructions and conventions.
+Open a pull request. See the sections below for setup instructions, conventions, and what we look for in review.
 
-### Development workflow
+## Development setup
 
-**1. Local dev setup** _(Note: If you are using GitHub Codespaces, this environment is fully automated and you can skip these steps.)_
+_(If you are using GitHub Codespaces, the environment is fully automated and you can skip these steps.)_
 
-Clone the repository and install dependencies using npm:
+Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/nasa/hds-core.git
@@ -43,7 +38,7 @@ cd hds-core
 npm install
 ```
 
-**2. Run local development** We use Storybook for interactive development and documentation. Start the local dev server (which runs both Storybook and the Sass watcher) with:
+Start the local dev server (Storybook + Sass watcher):
 
 ```bash
 npm run dev
@@ -51,14 +46,20 @@ npm run dev
 
 _(Note: `npm run storybook` runs Storybook without compiling Sass. Use `npm run dev` for day-to-day work.)_
 
-**3. Branch naming** Create a new branch from `main`. Use a simple prefix to help us understand the context:
+## Branch naming
+
+Create a new branch from `main`. Use a prefix to signal context:
 
 - `feature/` for new components or enhancements
 - `fix/` for bug fixes
 - `docs/` for documentation updates
-- `chore/` for tooling or dependency updates Example: `feature/button-variants` or `fix/header-contrast`.
+- `chore/` for tooling or dependency updates
 
-**4. Linting and build checks** Before pushing, run the following to catch issues before CI does:
+Example: `feature/button-variants` or `fix/header-contrast`.
+
+## Linting and build checks
+
+Before pushing, run the following to catch issues before CI does:
 
 ```bash
 npm run format      # Prettier formatting
@@ -70,21 +71,76 @@ npm run lint:mdx    # remark-lint (MDX)
 
 Use `npm run format:fix`, `npm run lint:scss:fix`, or `npm run lint:js:fix` to auto-fix where possible.
 
-**5. PR template** When you open a Pull Request, a template will populate automatically. Fill it out completely—it helps us understand your goals and speeds up the review process.
+## Pull request guidelines
 
-## What makes a good contribution
+When you open a Pull Request, a template will populate automatically. Fill it out completely. It helps us understand your goals and speeds up review.
 
-We want your PR to succeed. These guidelines help us review and merge contributions quickly.
+### Match the design standards
 
-**Match the design standards.** HDS Core implements NASA's [Design Standards](?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](DESIGN.md) for how we map to USWDS, color precision, and link logic. If you're unsure whether a visual change fits, open a Discussion first and we'll work through it together before you write code.
+HDS Core implements NASA's [Design Standards](?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](DESIGN.md) for how we map to USWDS, color precision, and link logic. If you're unsure whether a visual change fits, open a Discussion first and we'll work through it together before you write code.
 
-**Test across palettes.** HDS Core supports six color palettes. Component styles must work correctly on all of them. Use the palette switcher in Storybook to verify.
+### Test across palettes
 
-**Keep accessibility in scope.** Interactive elements need visible focus indicators. Color alone can't convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
+HDS Core supports six color palettes. Component styles must work correctly on all of them. Use the palette switcher in Storybook to verify.
 
-### Adding new components
+### Test across viewports
 
-If you are adding a new component to the system, follow these steps:
+Components must be fully responsive. Test your work across mobile, tablet, and desktop breakpoints.
+
+### Keep accessibility in scope
+
+Interactive elements need visible focus indicators. Color alone cannot convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
+
+### Automated checks
+
+Ensure your code passes the automated accessibility and linting checks in the PR workflow before requesting review.
+
+## Public API and versioning
+
+HDS Core maintains a committed file called `public-api.snapshot.txt` that lists every public symbol the package promises to keep stable: custom properties, selectors, Sass variables, Sass mixins, entry points, and the adopter layer position. CI regenerates this snapshot on every PR that touches `src/scss/**` and fails if the committed file is stale.
+
+### When CI fails the snapshot check
+
+```
+Public API surface changed. Review the diff below.
+If intentional, run `npm run update:api-snapshot` and add a changeset.
+```
+
+To resolve:
+
+1. Run `npm run update:api-snapshot` to regenerate the snapshot.
+2. Review the diff. Confirm the changes are intentional.
+3. Use the semver rubric below to determine the correct bump level.
+4. Write a changeset: `npx changeset` and follow the prompts.
+5. Commit both the updated snapshot and the changeset file.
+
+### Semver rubric
+
+Use this table to decide the bump level for your changeset when the snapshot changes.
+
+| What changed in the snapshot                                      | Bump (post-v1.0) | Bump (pre-v1.0) |
+| ----------------------------------------------------------------- | ---------------- | --------------- |
+| Line removed (custom property, Sass variable, mixin, or selector) | major            | minor           |
+| Entry point removed                                               | major            | minor           |
+| `@layer site` no longer last or missing                           | major            | minor           |
+| `.usa-*` selector removed (HDS dropped its override)              | major            | minor           |
+| Line added (new custom property, variable, mixin, or selector)    | minor            | minor           |
+| New `.usa-*` selector appears (HDS adopted a USWDS component)     | minor            | minor           |
+| Only change is sort-order fix from a stale snapshot               | none             | none            |
+
+### Pre-v1.0 semantics
+
+While the major version is 0, SemVer permits breaking changes in minor releases. Removals are minor bumps, not major. Deprecation grace periods still apply: keep deprecated symbols for at least one minor release cycle before removal.
+
+### Additional guidance
+
+- If your PR is a visual restyling that does not change the snapshot but will meaningfully affect adopter layouts, apply the `visual-breaking-change` label and bump one notch above what the rubric otherwise suggests.
+- When in doubt, bump more severely. A minor that could have been a patch is fine; a patch that should have been a minor can break someone.
+- Removals that lack a prior deprecation: still allowed pre-v1.0 (minor bump), but flag in your changeset summary so adopters scanning the changelog can prepare.
+
+## Adding new components
+
+If you are adding a new component to the system:
 
 1. Create `src/scss/components/_component-name.scss`
 2. Add `@use` statements for dependencies (`uswds-core`, `hds-tokens`, `hds-mixins`)
@@ -92,37 +148,40 @@ If you are adding a new component to the system, follow these steps:
 4. Document palette behavior and USWDS override rationale in the file header comment
 5. If the component requires a new USWDS package, add its `meta.load-css()` call to the `@layer uswds` block in `hds.scss` and remove it from `hds-uswds.scss`
 6. Run `npm run check:uswds` to regenerate the hash baseline if the USWDS package list changed
+7. Run `npm run update:api-snapshot` if new selectors or custom properties appear in the build
 
 See `components/_button.scss` as a reference for comment style and organization.
 
-### Upgrading USWDS
+## Upgrading USWDS
 
-When bumping the `@uswds/uswds` dependency in `package.json`, our CI pipeline runs two blocking checks to ensure the upgrade is safe:
+When bumping the `@uswds/uswds` dependency in `package.json`, CI runs two blocking checks:
 
-1. **`npm run check:uswds-core` (Architectural Gate):** Our CSS layer cascade relies on the assumption that `@use 'uswds-core'` is a pure Sass API and emits zero CSS selectors. If this test fails, USWDS has introduced CSS into their core package, breaking our layer specificity strategy. Do not merge the upgrade until our architecture is updated to account for this upstream change.
-2. **`npm run check:uswds` (Component Tracker):** This script monitors the specific USWDS components that HDS themes. It fails if the upstream Sass source for those components changed, serving as a reminder to check for visual regressions.
-   - **To resolve:** Review the USWDS release notes, verify our component overrides in Storybook, and regenerate the baseline by running `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
+1. **`npm run check:uswds-core` (Architectural Gate):** Our CSS layer cascade relies on the assumption that `@use 'uswds-core'` emits zero CSS selectors. If this test fails, USWDS introduced CSS into their core package, breaking our layer specificity strategy. Do not merge the upgrade until architecture is updated.
+2. **`npm run check:uswds` (Component Tracker):** Monitors the USWDS components that HDS themes. Fails if upstream Sass source for those components changed, serving as a reminder to check for visual regressions. To resolve: review the USWDS release notes, verify overrides in Storybook, and regenerate the baseline with `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
 
-### Code style conventions
+## Handling USWDS bugs
 
-- **Sass and PostCSS:** We write styles using Sass and process them with PostCSS. Keep your code clean, modular, and lean.
-- **Naming conventions:** Follow BEM (Block Element Modifier) conventions for custom CSS classes (`.hds-block`, `.hds-block__element`, `.hds-block--modifier`). For Sass variables and Design Token Community Group (DTCG) tokens, use lowercase with hyphens (kebab-case).
-- **File organization:** Place new component styles in the appropriate `src/scss/components/` folder. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. For full architecture details, see [ARCHITECTURE.md](ARCHITECTURE.md).
+HDS Core themes and distributes a selective subset of USWDS components. When a bug originates upstream:
 
-### Storybook stories
+1. **Report it here.** File an issue in this repository so we can triage and fix it for HDS Core users.
+2. **Upstream visibility.** During triage, maintainers file a companion issue with the USWDS repository and link it to the HDS Core issue.
+3. **Fix it here first.** NASA sites cannot wait on upstream release cycles, so we patch bugs in our own Sass source.
+4. **Contribute back.** When the fix is stable, maintainers open a PR upstream so the broader USWDS community benefits.
 
-Storybook is the primary source of truth for our adopters. Please review our [DOCUMENTATION.md](DOCUMENTATION.md) for strict guidelines on writing documentation (e.g., plain language, palette awareness, avoiding internal architecture terms). When changing a component or adding a new one:
+When filing, note in the issue title or description that the root cause is upstream (e.g., "\[USWDS] Button focus ring clipped in Safari"). This helps maintainers triage and track companion issues.
 
-- **Files:** Update or create the `.mdx` file for documentation and the `.stories.js` file for interactive examples in `stories/components/`.
-- **Structure:** A complete component requires both a **Guidance** tab (how and when to use it, accessibility notes) and a **Playground** tab (the interactive `.stories.js` embed).
+## Code style conventions
 
-### Testing requirements
+- **Sass and PostCSS:** Write styles using Sass, processed with PostCSS. Keep code clean, modular, and lean.
+- **Naming conventions:** Follow BEM (Block Element Modifier) for custom CSS classes (`.hds-block`, `.hds-block__element`, `.hds-block--modifier`). For Sass variables and DTCG tokens, use lowercase kebab-case.
+- **File organization:** Place component styles in `src/scss/components/`. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
-To make your PR easy to merge, verify these three things before submitting:
+## Storybook documentation
 
-1. **The Palette Switcher:** HDS Core is built for 6 distinct thematic palettes. You must test your component across all 6 using the Storybook toolbar switcher to guarantee visual harmony.
-2. **Viewport testing:** Components must be fully responsive. Test your work across mobile, tablet, and desktop breakpoints.
-3. **Automated checks:** Ensure your code passes any automated accessibility (a11y) and linting checks in the PR workflow.
+Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms). When changing or adding a component:
+
+- Update or create the `.mdx` file for documentation and the `.stories.js` file for interactive examples in `stories/components/`.
+- A complete component requires both a **Guidance** tab (how and when to use, accessibility notes) and a **Playground** tab (interactive `.stories.js` embed).
 
 ## Design proposals
 
@@ -137,11 +196,11 @@ In your Discussion, include:
 - Visual examples (screenshots, Figma mockups, or a description of the intended result)
 - Whether you've seen this pattern on an existing NASA site
 
-Once a design direction is agreed on, the code PR follows. This process keeps things moving and avoids wasted effort on both sides.
+Once a design direction is agreed on, the code PR follows. This keeps things moving and avoids wasted effort on both sides.
 
 ## Review process
 
-All pull requests are reviewed by the HDS Core maintainers. We aim to respond within **1 to 2 weeks**. Because the project is currently supported by a single core maintainer, review times can occasionally fluctuate, but we deeply value your contribution and will get to it as soon as we can.
+All pull requests are reviewed by HDS Core maintainers. We aim to respond within **1 to 2 weeks**. Because the project is currently supported by a single core maintainer, review times can occasionally fluctuate, but we value your contribution and will get to it as soon as we can.
 
 Maintainers may:
 
@@ -152,14 +211,6 @@ Maintainers may:
 
 Design changes that affect NASA's visual identity may involve additional review to ensure alignment with agency brand standards.
 
-## Scope
-
-HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on USWDS. Some things fall outside this repo's scope:
-
-- **Flagship CMS features** (`www.nasa.gov` or `science.nasa.gov` functionality). See the [Web Toolkit](https://website.nasa.gov) (internal NASA link) for CMS support.
-- **Content or editorial questions.** See the [NASA Stylebook](https://website.nasa.gov/style-guide/) (internal NASA link).
-- **USWDS-originated bugs.** If you find a bug that originates in upstream USWDS, report it here — we'll triage and fix it for HDS Core users. We also file companion issues with the USWDS repository to support the broader community. See [Handling USWDS Bugs](#handling-uswds-bugs) below.
-
 ## Code of Conduct
 
 {/_ TODO: NASA's standard open-source code of conduct. Confirm with OGC/open-source approval process what language to use here. Placeholder until then. _/}
@@ -168,7 +219,3 @@ HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on U
 
 - [GitHub Discussions](https://github.com/nasa/hds-core/discussions) for public questions
 - [Web Toolkit](https://website.nasa.gov) (internal NASA link) for NASA-internal guidance and team contacts
-
-```
-
-```

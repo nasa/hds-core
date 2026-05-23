@@ -75,7 +75,7 @@ Review every page for dark-mode markup and add palette classes accordingly. This
 HDS Core uses CSS `@layer` to establish a predictable cascade:
 
 ```css
-@layer uswds, uswds-utilities, hds-base, hds-components, hds-dataviz, site;
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 ```
 
 The `site` layer is reserved for your custom CSS. Styles written inside `@layer site {}` always win over HDS without specificity hacks or `!important`.
