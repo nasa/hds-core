@@ -1,0 +1,16 @@
+@use 'sass:map';
+
+$hds-color-carbon-05: #f6f6f6;
+$hds-color-nasa-red: #f64137;
+$hds-spacing-2: 16px;
+
+$_internal-helper: #333;
+$_private-scale: (
+  sm: 4px,
+  md: 8px,
+);
+
+$hds-extended-palette: (
+  'base-dark': #2e2e32,
+  'base-darker': #17171b,
+);

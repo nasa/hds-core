@@ -1,0 +1,28 @@
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
+
+@layer uswds {
+  .usa-banner {
+    background-color: #f0f0f0;
+  }
+}
+
+@layer hds-components {
+  .hds-button {
+    background-color: var(--hds-palette-btn-primary-bg, #f64137);
+    border-radius: 0;
+  }
+
+  :root {
+    --hds-spacing-2: 16px;
+  }
+
+  .hds-card {
+    --hds-spacing-2: 16px;
+
+    border: 1px solid #ccc;
+  }
+
+  .usa-card {
+    border-radius: 0;
+  }
+}
