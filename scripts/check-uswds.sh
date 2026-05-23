@@ -25,7 +25,7 @@ PACKAGES=(
 if [ ! -f "$HASH_FILE" ]; then
   echo "No baseline found. Generating $HASH_FILE..."
   for pkg in "${PACKAGES[@]}"; do
-    echo "$pkg: $(find node_modules/@uswds/uswds/packages/$pkg -name '*.scss' | sort | xargs cat | shasum | cut -c1-8)"
+    echo "$pkg: $(find node_modules/@uswds/uswds/packages/$pkg -name '*.scss' | sort | xargs cat | tr -d '\r' | shasum | cut -c1-8)"
   done > "$HASH_FILE"
   echo "✓ Baseline saved to $HASH_FILE"
   exit 0
@@ -35,7 +35,7 @@ echo "Checking USWDS packages against baseline..."
 CHANGED=0
 while IFS=': ' read -r pkg hash; do
   hash="${hash%$'\r'}"
-  current=$(find node_modules/@uswds/uswds/packages/$pkg -name '*.scss' | sort | xargs cat | shasum | cut -c1-8)
+  current=$(find node_modules/@uswds/uswds/packages/$pkg -name '*.scss' | sort | xargs cat | tr -d '\r' | shasum | cut -c1-8)
   if [ "$current" != "$hash" ]; then
     echo "✗ $pkg changed (was $hash, now $current)"
     CHANGED=1
