@@ -142,8 +142,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // ── Labels and legends ────────────────────────────────────────
 // Figma: Inter 600 (semibold) 14px, -0.25px letterspacing.
 // Color = Carbon 80 on light = --hds-palette-control-text.
+// Large legend variant:
+//   Figma: Inter 700 (bold) 22px, -0.5px letterspacing (H3 style).
 
-.usa-label {
+.usa-label,
+.usa-legend {
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-size: size('body', '2xs');
@@ -151,12 +154,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   letter-spacing: map.get($hds-letterspacing, 'neg-1');
 }
 
-.usa-legend {
-  color: var(--hds-palette-control-text);
-  font-family: family('heading');
-  font-size: size('body', '2xs');
-  font-weight: font-weight('semibold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+.usa-legend--large {
+  font-size: size('body', 'md');
+  font-weight: font-weight('bold');
+  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  margin-top: 2rem;
 }
 
 // ── Help text ─────────────────────────────────────────────────
