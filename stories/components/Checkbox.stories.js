@@ -3,8 +3,14 @@
 // CSS: components/_form.scss
 //
 // Sidebar structure:
-//   Guidance   — Checkbox.mdx (design rationale, Canvas embeds, usage rules)
+//   Guidance   — Checkbox.mdx
 //   Stories    — Default, Tiles, All Variants (visible in sidebar)
+//
+// Checkbox errors are group-level, not field-level. The error
+// message sits after all checkbox items inside the fieldset.
+// Each checkbox references the error via aria-describedby.
+// Legacy USWDS order is documented in Form.mdx
+// (Components/Form/Guidance#legacy-uswds-support).
 // ============================================================
 
 import { expect } from 'storybook/test';
@@ -185,9 +191,29 @@ export const AllVariants = {
         <div style="margin-top: 0.5rem;">
           <fieldset class="usa-fieldset">
             <legend class="usa-legend">Select areas of interest</legend>
-            ${checkboxItem('av-err', 'earth', 'Earth Science')}
-            ${checkboxItem('av-err', 'planetary', 'Planetary Science')}
-            <span class="usa-error-message" role="alert">Please select at least one area of interest</span>
+            <div class="usa-checkbox">
+              <input
+                class="usa-checkbox__input"
+                id="av-err-earth"
+                type="checkbox"
+                name="av-err"
+                value="earth"
+                aria-describedby="av-err-group-error"
+              />
+              <label class="usa-checkbox__label" for="av-err-earth">Earth Science</label>
+            </div>
+            <div class="usa-checkbox">
+              <input
+                class="usa-checkbox__input"
+                id="av-err-planetary"
+                type="checkbox"
+                name="av-err"
+                value="planetary"
+                aria-describedby="av-err-group-error"
+              />
+              <label class="usa-checkbox__label" for="av-err-planetary">Planetary Science</label>
+            </div>
+            <span class="usa-error-message" id="av-err-group-error" role="alert">Please select at least one area of interest</span>
           </fieldset>
         </div>
       </div>
@@ -210,11 +236,31 @@ export const States = {
 export const WithError = {
   tags: ['!dev'],
   render: () => `
-    <fieldset class="usa-fieldset">
+    <fieldset class="usa-fieldset" aria-describedby="err-group-error">
       <legend class="usa-legend">Select areas of interest</legend>
-      ${checkboxItem('err', 'earth', 'Earth Science')}
-      ${checkboxItem('err', 'planetary', 'Planetary Science')}
-      <span class="usa-error-message" role="alert">Please select at least one area of interest</span>
+      <div class="usa-checkbox">
+        <input
+          class="usa-checkbox__input"
+          id="err-earth"
+          type="checkbox"
+          name="err"
+          value="earth"
+          aria-describedby="err-group-error"
+        />
+        <label class="usa-checkbox__label" for="err-earth">Earth Science</label>
+      </div>
+      <div class="usa-checkbox">
+        <input
+          class="usa-checkbox__input"
+          id="err-planetary"
+          type="checkbox"
+          name="err"
+          value="planetary"
+          aria-describedby="err-group-error"
+        />
+        <label class="usa-checkbox__label" for="err-planetary">Planetary Science</label>
+      </div>
+      <span class="usa-error-message" id="err-group-error" role="alert">Please select at least one area of interest</span>
     </fieldset>
   `,
 };

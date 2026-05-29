@@ -40,7 +40,7 @@
 //   --hds-palette-input-bg        → input/control backgrounds
 //   --hds-palette-disabled        → disabled text and labels
 //   --hds-palette-disabled-bg     → disabled backgrounds
-//   --hds-palette-error-border    → error state borders
+//   --hds-palette-error-indicator    → error state borders
 //   --hds-palette-error-text      → error message text
 //
 // Restyles: https://designsystem.digital.gov/components/form/
@@ -142,8 +142,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // ── Labels and legends ────────────────────────────────────────
 // Figma: Inter 600 (semibold) 14px, -0.25px letterspacing.
 // Color = Carbon 80 on light = --hds-palette-control-text.
+// Large legend variant:
+//   Figma: Inter 700 (bold) 22px, -0.5px letterspacing (H3 style).
 
-.usa-label {
+.usa-label,
+.usa-legend {
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-size: size('body', '2xs');
@@ -151,12 +154,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   letter-spacing: map.get($hds-letterspacing, 'neg-1');
 }
 
-.usa-legend {
-  color: var(--hds-palette-control-text);
-  font-family: family('heading');
-  font-size: size('body', '2xs');
-  font-weight: font-weight('semibold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+.usa-legend--large {
+  font-size: size('body', 'md');
+  font-weight: font-weight('bold');
+  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  margin-top: 2rem;
 }
 
 // ── Help text ─────────────────────────────────────────────────
@@ -362,40 +364,65 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // ── Error states ──────────────────────────────────────────────
-// Figma: red border on input (1px, not USWDS thick 4px).
-// Error message text: Public Sans 400 12px, +0.25px ls.
-// Form group left bar thinned from USWDS default to 2px.
+// Figma: red border (1px solid) on input, all four sides.
+// No form group left accent bar — USWDS default suppressed per Figma.
+// Error message: error.svg icon + text in flex row, 8px gap,
+// icon top-aligned to first line of text.
+// Text: Public Sans 400 12px, line-height 16px, +0.25px ls.
+//
+// Icon size math: glyph is 20×20 centered in a 24×24 viewbox.
+// To render the glyph at 18px (Figma spec), mask-size must be
+// 21.6px (= 18 × 24÷20). The 21.6px mask overflows the 18×18
+// container by 1.8px per side, which exactly clips the scaled
+// viewbox padding. mask-position: center keeps it centered.
+//
+// Icon color: --hds-palette-error-indicator (NASA Red on light/dark).
+// Text color: --hds-palette-error-text (NASA Red Shade on light/dark).
+// These are intentionally different tokens — the icon uses the
+// brighter red and the text uses the darker shade for contrast.
+// Palette-specific overrides live in base/_palettes.scss.
 
 .usa-input--error,
 .usa-input--error:focus-visible {
-  border-color: var(--hds-palette-error-border);
+  border-color: var(--hds-palette-error-indicator);
   border-width: 1px;
 }
 
+// HDS Figma shows no form group left border — USWDS default suppressed.
 .usa-form-group--error {
-  border-left-color: var(--hds-palette-error-border);
-  border-left-width: 2px;
-  padding-left: units(2);
+  border-left: none;
+  padding-left: 0;
 }
 
 .usa-error-message {
+  align-items: flex-start;
   color: var(--hds-palette-error-text);
+  display: flex;
   font-family: family('body');
   font-size: size('body', '3xs');
   font-weight: font-weight('normal');
+  gap: units(1);
   letter-spacing: map.get($hds-letterspacing, '1');
+  line-height: units(2); // Figma spec: 16px.
+
+  &::before {
+    background-color: var(--hds-palette-error-indicator);
+    content: '';
+    display: block;
+    flex-shrink: 0;
+    height: 18px;
+    mask-image: url('../assets/img/hds-icons/error.svg');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 21.6px 21.6px;
+    width: 18px;
+  }
 }
 
-// Success state (input border only — no form group variant)
+// Success state — inherited from USWDS, not in HDS Figma.
+// Carried forward for sites migrating from USWDS that use this state.
+// See TextInput.mdx Success variant note for usage guidance.
 .usa-input--success {
   border-color: color('success');
-  border-width: 2px;
-}
-
-// ── File input ────────────────────────────────────────────────
-
-input::file-selector-button,
-.usa-file-input__target {
-  background-color: var(--hds-palette-btn-primary-bg);
-  color: var(--hds-palette-btn-filled-text);
+  border-width: 1px;
 }

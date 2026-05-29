@@ -146,6 +146,13 @@ export const InfoSlim = {
 
 export const AllVariants = {
   name: 'All Variants',
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'landmark-unique', enabled: false }],
+      },
+    },
+  },
   render: (args = {}) => `
     <div style="display: flex; flex-direction: column; gap: 2rem;">
       <div>

@@ -20,7 +20,6 @@ src/scss/hds-uswds.scss
 --hds-border-radius-md
 --hds-border-radius-modal
 --hds-border-radius-pagination
---hds-border-radius-pill
 --hds-border-radius-sm
 --hds-border-radius-summary
 --hds-border-radius-xl
@@ -96,7 +95,7 @@ src/scss/hds-uswds.scss
 --hds-palette-control-text
 --hds-palette-disabled
 --hds-palette-disabled-bg
---hds-palette-error-border
+--hds-palette-error-indicator
 --hds-palette-error-text
 --hds-palette-focus
 --hds-palette-focus-bold
@@ -369,7 +368,6 @@ hds-vertical-nav-links
 .usa-current
 .usa-error-message
 .usa-fieldset
-.usa-file-input__target
 .usa-footer
 .usa-footer__nav
 .usa-footer__primary-content
@@ -392,6 +390,7 @@ hds-vertical-nav-links
 .usa-intro
 .usa-label
 .usa-legend
+.usa-legend--large
 .usa-link
 .usa-link--external
 .usa-list

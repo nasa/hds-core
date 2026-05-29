@@ -41,9 +41,7 @@
   // Font family custom properties
   // Names must match @font-face declarations exactly
   --hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --hds-font-family-body:
-    'Public Sans Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace;
 
   // Font weights — var(--hds-font-weight-bold)

@@ -61,8 +61,6 @@ Serves two roles: as the dominant palette for immersive, media-rich pages, or as
 
 ### Blue
 
-<Note type="uswds">⚠️ Known gap (Issue #39): Red Tint error text on Blue Shade background = 3.30:1, which fails AA for normal text. Form error messages inside `.hds-palette-blue` require an alternative (proposed fix: use White for error text, pending Creative Director review).</Note>
-
 Used with intention for accent sections that need to stand apart from Dark: calls-to-action, visual transitions, or key engagement moments. Blue sections should feel purposeful, not decorative. Not used as a whole-page background.
 
 <Canvas of={PaletteStories.Blue} />
@@ -166,10 +164,10 @@ For resolved hex values per palette, see the `color.palette` tier in `tokens.jso
 
 #### Error states
 
-| Token                        | Controls               |
-| ---------------------------- | ---------------------- |
-| `--hds-palette-error-border` | Error indicator border |
-| `--hds-palette-error-text`   | Error message text     |
+| Token                           | Controls                              |
+| ------------------------------- | ------------------------------------- |
+| `--hds-palette-error-indicator` | Error indicators (field border, icon) |
+| `--hds-palette-error-text`      | Error message text                    |
 
 #### Focus indicators
 

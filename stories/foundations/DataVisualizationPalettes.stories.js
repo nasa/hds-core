@@ -470,14 +470,12 @@ const seqMagentas = [
 export const CategoricalLight = {
   name: 'Categorical (light)',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => categoricalTable(catLight),
 };
 
 export const CategoricalDark = {
   name: 'Categorical (dark)',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => categoricalTable(catDark, 'dark'),
 };
 
@@ -488,7 +486,6 @@ export const CategoricalDark = {
 export const GroupsLight = {
   name: 'Groups (light)',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const grid = (title, groups) => {
       const blocks = groups
@@ -527,7 +524,6 @@ export const GroupsLight = {
 export const GroupsDark = {
   name: 'Groups (dark)',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => {
     const grid = (title, groups) => {
       const blocks = groups
@@ -573,77 +569,66 @@ export const GroupsDark = {
 export const SequentialReds = {
   name: 'Sequential: Reds',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('red', seqReds),
 };
 
 export const SequentialOranges = {
   name: 'Sequential: Oranges',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('orange', seqOranges),
 };
 
 export const SequentialYellows = {
   name: 'Sequential: Yellows',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('yellow', seqYellows),
 };
 
 export const SequentialGolds = {
   name: 'Sequential: Golds',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('gold', seqGolds),
 };
 
 export const SequentialLimes = {
   name: 'Sequential: Limes',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('lime', seqLimes),
 };
 
 export const SequentialGreens = {
   name: 'Sequential: Greens',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('green', seqGreens),
 };
 
 export const SequentialAquas = {
   name: 'Sequential: Aquas',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('aqua', seqAquas),
 };
 
 export const SequentialSlates = {
   name: 'Sequential: Slates',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('slate', seqSlates),
 };
 
 export const SequentialBlues = {
   name: 'Sequential: Blues',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('blue', seqBlues),
 };
 
 export const SequentialPurples = {
   name: 'Sequential: Purples',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('purple', seqPurples),
 };
 
 export const SequentialMagentas = {
   name: 'Sequential: Magentas',
   tags: ['!dev'],
-  parameters: { chromatic: { disableSnapshot: true } },
   render: () => sequentialStrip('magenta', seqMagentas),
 };
 
@@ -654,6 +639,7 @@ export const SequentialMagentas = {
 export const AllVariants = {
   name: 'All Variants',
   tags: ['!dev'],
+  parameters: { chromatic: { disableSnapshot: false } },
   render: () => {
     const seqFamilies = [
       { name: 'Red', data: seqReds },

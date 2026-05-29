@@ -25,19 +25,16 @@ if (generated === committed) {
   console.error('Public API surface changed. Review the diff below.');
   console.error('If intentional, run `npm run update:api-snapshot` and add a changeset.\n');
 
-  // Simple line-by-line diff for visibility
   const committedLines = committed.split('\n');
   const generatedLines = generated.split('\n');
-  const maxLines = Math.max(committedLines.length, generatedLines.length);
+  const committedSet = new Set(committedLines);
+  const generatedSet = new Set(generatedLines);
 
-  for (let i = 0; i < maxLines; i++) {
-    const c = committedLines[i] ?? '';
-    const g = generatedLines[i] ?? '';
-    if (c !== g) {
-      if (c) console.error(`- ${c}`);
-      if (g) console.error(`+ ${g}`);
-    }
-  }
+  const removed = committedLines.filter((l) => l && !generatedSet.has(l));
+  const added = generatedLines.filter((l) => l && !committedSet.has(l));
+
+  for (const line of removed) console.error(`- ${line}`);
+  for (const line of added) console.error(`+ ${line}`);
 
   process.exit(1);
 }

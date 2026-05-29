@@ -6,21 +6,29 @@ import * as TextInputStories from './TextInput.stories';
 
 # Text Input
 
-Text inputs and textareas are form elements used to capture text from users. Text inputs handle short strings (names, emails, URLs). Textareas handle longer content (messages, descriptions). Both use standard USWDS [`.usa-input`](https://designsystem.digital.gov/components/text-input/) and [`.usa-textarea`](https://designsystem.digital.gov/components/text-input/) markup with no additional classes.
+# Text Input
+
+Text inputs and textareas capture text from users. Text inputs handle short strings (names, email addresses, URLs). Textareas handle longer content (messages, descriptions). Both use USWDS [`.usa-input`](https://designsystem.digital.gov/components/text-input/) and `.usa-textarea` markup. HDS recommends a different DOM order for error states (see [Form: Legacy USWDS support](?path=/docs/components-form-guidance--docs#legacy-uswds-support)).
 
 ## Variants
 
 ### Default
 
-Every text input includes a label above the field. Help text below the field provides guidance on expected input.
+Every text input includes a label above the field.
 
 <Canvas of={TextInputStories.Default} />
 
 > Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
 
+### With help text
+
+Help text provides formatting guidance, character limits, or accepted values. Link it to the input with `aria-describedby` so screen readers announce it when the field receives focus.
+
+<Canvas of={TextInputStories.WithHelpText} />
+
 ### Placeholder
 
-Placeholder text provides a brief example of expected input. It disappears when the user begins typing and should never replace a label.
+Placeholder text shows a brief example of expected input. It disappears when the user begins typing and should never replace a label.
 
 <Canvas of={TextInputStories.Placeholder} />
 
@@ -30,11 +38,37 @@ A field with an existing value.
 
 <Canvas of={TextInputStories.WithValue} />
 
-### With help text
+### Textarea
 
-Help text can provide formatting guidance, character limits, or accepted values. Link it to the input with `aria-describedby` so screen readers announce it.
+Textareas handle longer text content. They are resizable by default.
 
-<Canvas of={TextInputStories.WithHelpText} />
+<Canvas of={TextInputStories.Textarea} />
+
+### Input widths
+
+Width classes constrain an input to match an expected data format (zip codes, phone numbers, dates) without affecting validation behavior.
+
+<Canvas of={TextInputStories.Widths} />
+
+### Error
+
+When validation fails, the field border turns red and an error message with an icon appears below the field. Error messages appear after the input so the visual and reading order match.
+
+<Canvas of={TextInputStories.ErrorModern} />
+
+On longer messages, the icon stays top-aligned to the first line.
+
+<Canvas of={TextInputStories.ErrorMultiline} />
+
+<Note type="uswds">If your site uses standard USWDS error markup (error message before the input), HDS Core supports that order. See [Form: Legacy USWDS support](?path=/docs/components-form-guidance--docs#legacy-uswds-support) for details.</Note>
+
+### Success
+
+A green border indicates the field value has passed validation.
+
+<Canvas of={TextInputStories.Success} />
+
+<Note type="uswds">The success border is a USWDS feature carried forward for compatibility. HDS Figma does not specify a success state for form fields. Use sparingly and only when your application needs explicit positive validation feedback.</Note>
 
 ### Disabled
 
@@ -44,63 +78,38 @@ Disabled fields prevent interaction. The label dims to match. Help text remains 
 
 <Note type="uswds">USWDS recommends avoiding disabled states. Disabled inputs have low contrast, don't receive focus, and provide no feedback to screen readers. If you must disable a field, explain why using visible help text and use `aria-disabled="true"` with JavaScript instead of the HTML `disabled` attribute. See the [USWDS disabled state guidance](https://github.com/uswds/uswds/wiki/Disabled-States-Research-Findings-2023) for details.</Note>
 
-### Error
-
-Error messages appear below the field when validation fails. The field border turns red and the error message uses `role="alert"` for immediate screen reader announcement.
-
-<Canvas of={TextInputStories.Error} />
-
-### Success
-
-A success border indicates the field has been validated.
-
-<Canvas of={TextInputStories.Success} />
-
-### Textarea
-
-Textareas are used for longer text content. They are resizable by default.
-
-<Canvas of={TextInputStories.Textarea} />
-
-### Input widths
-
-USWDS provides width classes for inputs that need to match a specific data format (zip codes, phone numbers, dates). These constrain the width without affecting validation.
-
-<Canvas of={TextInputStories.Widths} />
-
 ## When to use text inputs
 
-- **Short text** — names, email addresses, phone numbers, search terms, single-line responses.
-- **Free-form input** — when the answer can't be predicted from a fixed set of options.
-- **Longer content** — use a textarea for messages, descriptions, or multi-line input.
+- **Short text:** names, email addresses, phone numbers, search terms, single-line responses.
+- **Free-form input:** when the answer cannot be predicted from a fixed set of options.
+- **Longer content:** use a textarea for messages, descriptions, or multi-line input.
 
 ## When to consider something else
 
-- **Choosing from a list** — use [radio buttons](?path=/docs/components-radio-button-guidance--docs) (fewer than 7 options) or a [select field](?path=/docs/components-select-guidance--docs) (7 or more options).
-- **Multiple selections from a list** — use [checkboxes](?path=/docs/components-checkbox-guidance--docs).
-- **Date input** — use a date picker for calendar dates rather than a free-text field.
-- **Yes/No questions** — use radio buttons rather than a text field.
+- **Choosing from a list:** use [radio buttons](?path=/docs/components-radio-button-guidance--docs) for fewer than 7 options or a [select field](?path=/docs/components-select-guidance--docs) for 7 or more.
+- **Multiple selections from a list:** use [checkboxes](?path=/docs/components-checkbox-guidance--docs).
+- **Date input:** use a date picker for calendar dates rather than a free-text field.
+- **Yes/No questions:** use radio buttons rather than a text field.
 
 ## Usability guidance
 
-- **Always include a visible label.** Labels go above the field. Never rely on placeholder text alone — it disappears on focus and isn't announced by all screen readers.
+- **Always include a visible label.** Labels go above the field. Never rely on placeholder text alone. It disappears on focus and is not announced by all screen readers.
 - **Use help text for formatting guidance.** Character limits, accepted formats, and examples go in help text below the field, not in the label.
-- **Match width to expected input.** A zip code field shouldn't be as wide as an address field. Use the USWDS width classes (`usa-input--sm`, `usa-input--md`, etc.) to give users a visual hint about expected length.
-- **Mark required fields with an asterisk.** Combine the asterisk with a text description at the top of the form: "Required fields are marked with an asterisk (\*)."
+- **Match width to expected input.** Use width classes to give users a visual hint about expected length.
+- **Mark required fields with an asterisk.** Include a note at the top of the form: "Required fields are marked with an asterisk (\*)."
 - **Mark optional fields when most are required.** Add "(optional)" to the label text.
 - **Use `inputmode` for mobile keyboards.** Set `inputmode="email"`, `inputmode="tel"`, or `inputmode="numeric"` to show the appropriate keyboard on mobile devices.
-- **Don't use placeholder as a label.** Placeholder text is for examples only. It has low contrast by design and disappears when the user types.
+- **Write specific error messages.** Describe what went wrong and how to fix it. "Incorrect email address format" is more useful than "Invalid input."
 
-<Note type="figma">For compact fields (e.g., a single email input in a subscription banner), HDS Figma shows the label inside the field as placeholder text that moves above on focus. This floating label pattern requires JavaScript and is deferred to a future phase.</Note>
+<Note type="figma">For compact fields (for example, a single email input in a subscription banner), HDS Figma shows the label inside the field as placeholder text that moves above on focus. This floating label pattern requires JavaScript and is deferred to a future phase.</Note>
 
 ## Accessibility
 
-- **Every input needs a `<label>`.** The label's `for` attribute must match the input's `id`. This is required — clicking the label should focus the input.
-- **Link help text with `aria-describedby`.** When help text is present, add `aria-describedby` on the input referencing the help text element's `id`. Screen readers announce the label first, then the description.
-- **Link error messages with `aria-describedby`.** When both help text and an error message are present, reference both IDs: `aria-describedby="hint-id error-id"`.
-- **Use `role="alert"` on error messages.** This ensures screen readers announce the error immediately when it appears.
-- **Add the `required` attribute** to required fields. This provides native browser validation and announces "required" to screen readers.
-- **Keyboard navigation:** Users move between fields with **Tab** and **Shift+Tab**.
-- **Don't use `autocomplete="off"`** unless there is a strong security reason. Autocomplete helps users fill forms faster and reduces errors.
+- **Every input needs a `<label>`.** The label's `for` attribute must match the input's `id`. Clicking the label must focus the input.
+- **Link help text and error messages with `aria-describedby`.** When both are present, reference both IDs in order: `aria-describedby="hint-id error-id"`. Screen readers announce the label first, then the description.
+- **Use `role="alert"` on error messages.** This announces the error immediately when it appears in the DOM, regardless of focus position.
+- **Add the `required` attribute** to required fields. This enables native browser validation and announces "required" to screen readers.
+- **Keyboard navigation:** users move between fields with Tab and Shift+Tab.
+- **Do not use `autocomplete="off"`** unless there is a specific security requirement. Autocomplete helps users complete forms faster and reduces errors.
 
 For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).

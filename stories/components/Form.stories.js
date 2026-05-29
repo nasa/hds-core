@@ -1,24 +1,34 @@
 // ============================================================
 // Form Stories — @nasa/hds-core
-// Covers §5 (composed form patterns)
-//
-// HDS Figma: Forms module
-// USWDS: https://designsystem.digital.gov/components/form/
+// CSS: components/_form.scss
 //
 // Sidebar structure:
-//   Components / Form / Guidance  — Form.mdx (future)
-//   Components / Form / Playground — TBD
+//   Guidance   — Form.mdx
+//   Stories    — Required fields, Grouped sections, Mixed elements,
+//               Validation flow
 //
-// These stories demonstrate composed form patterns using
-// text inputs, selects, checkboxes, and radio buttons together.
-// Individual element stories live in their own files.
+// Composed form patterns demonstrating multiple fields, fieldsets,
+// validation flows, and form actions together. Individual element
+// stories live in their own files:
+//   TextInput.stories.js, Select.stories.js,
+//   Checkbox.stories.js, RadioButton.stories.js
+//
+// Error state markup:
+//   Recommended (HDS) — label > input > hint > error
+//   Legacy (USWDS)    — label > error > input > hint
+//   Both are supported. See ErrorLegacyMarkup story and the
+//   Legacy USWDS support section in Form.mdx.
+//
+// TODO: ServerSideValidation error summary — style bulleted list
+// with red bullets per Figma spec. Deferred pending CSS work on
+// the summary block pattern.
 // ============================================================
 
 export default {
   title: 'Components/Form',
 };
 
-// --- Required fields (most fields required) ---
+// --- Stories (visible in sidebar) ---
 
 export const RequiredFields = {
   name: 'Required fields',
@@ -53,8 +63,6 @@ export const RequiredFields = {
     </form>
   `,
 };
-
-// --- Grouped sections (matches HDS Figma composed form layout) ---
 
 export const GroupedSections = {
   name: 'Grouped sections',
@@ -135,8 +143,6 @@ export const GroupedSections = {
     </form>
   `,
 };
-
-// --- Mixed elements (text + select + checkbox + radio) ---
 
 export const MixedElements = {
   name: 'Mixed elements',
@@ -245,8 +251,6 @@ export const MixedElements = {
   `,
 };
 
-// --- Validation flow ---
-
 export const ValidationFlow = {
   name: 'Validation flow',
   render: () => `
@@ -293,6 +297,82 @@ export const ValidationFlow = {
           </select>
         </div>
       </fieldset>
+    </form>
+  `,
+};
+
+// --- Guidance embeds (MDX only) ---
+
+// TODO: Use .usa-button-group wrapper once Button Group component is tested.
+export const FormActions = {
+  name: 'Form actions',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button class="usa-button" type="submit">Register for Event</button>
+      <button class="usa-button usa-button--outline" type="button">Back</button>
+      <a href="#" class="usa-link">Cancel</a>
+    </div>
+  `,
+};
+
+export const ServerSideValidation = {
+  name: 'Server-side validation',
+  tags: ['!dev'],
+  render: () => `
+    <form class="usa-form usa-form--large">
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend usa-legend--large">Sign up for [Event]</legend>
+
+        <div class="usa-form-group">
+          <label class="usa-label" for="srv-name">Full Name</label>
+          <input class="usa-input" id="srv-name" name="srv-name" type="text" value="Jim Green" />
+        </div>
+
+        <div class="usa-form-group usa-form-group--error">
+          <label class="usa-label" for="srv-email">Email Address</label>
+          <input class="usa-input usa-input--error" id="srv-email" name="srv-email" type="email"
+            value="james.green.nasa.gov" aria-describedby="srv-email-error" />
+          <span class="usa-error-message" id="srv-email-error" role="alert">Incorrect email address format</span>
+        </div>
+
+        <div class="usa-form-group usa-form-group--error">
+          <label class="usa-label" for="srv-terms">
+            <input class="usa-checkbox__input" id="srv-terms" type="checkbox" name="srv-terms"
+              aria-describedby="srv-terms-error" />
+            <span class="usa-checkbox__label" for="srv-terms">I agree to the terms and conditions</span>
+          </label>
+          <span class="usa-error-message" id="srv-terms-error" role="alert">This field is required</span>
+        </div>
+      </fieldset>
+
+      <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+        <button class="usa-button" type="submit" disabled>Sign Up</button>
+      </div>
+
+      <hr style="border: none; border-top: 2px solid var(--hds-palette-error-indicator, #F64137); margin-top: 2rem;" />
+
+      <span class="usa-error-message" role="alert" style="margin-top: 1rem;">
+        Correct the following fields before submitting this form: incorrect email address format, agree to the terms and conditions.
+      </span>
+    </form>
+  `,
+};
+
+export const ErrorLegacyMarkup = {
+  name: 'Error (legacy USWDS markup)',
+  tags: ['!dev'],
+  render: () => `
+    <form class="usa-form usa-form--large">
+      <div class="usa-form-group usa-form-group--error">
+        <label class="usa-label" for="legacy-email">
+          Email address <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+        </label>
+        <span class="usa-error-message" id="legacy-email-error" role="alert">Incorrect email address format</span>
+        <span class="usa-hint" id="legacy-email-hint">e.g., mission-lead@nasa.gov</span>
+        <input class="usa-input usa-input--error" id="legacy-email" name="legacy-email" type="email"
+          value="james.green.nasa.gov" aria-describedby="legacy-email-hint legacy-email-error" />
+      </div>
     </form>
   `,
 };

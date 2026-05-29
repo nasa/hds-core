@@ -86,11 +86,13 @@
   --hds-palette-focus-minimal: #{$hds-color-carbon-30};
 
   // Form tokens — inferred from Figma, not in HDS Core Proposal.
-  // Flagged for creative director review.
+  // White/light palettes confirmed Figma-exact.
+  // Midtone error-border overridden in palette block (contrast fix).
+  // Blue error-text overridden in palette block (contrast fix).
   --hds-palette-input-bg: #{$hds-color-spacesuit-white};
   --hds-palette-disabled: #{$hds-color-carbon-40};
   --hds-palette-disabled-bg: #{$hds-color-carbon-05};
-  --hds-palette-error-border: #{$hds-color-nasa-red};
+  --hds-palette-error-indicator: #{$hds-color-nasa-red};
   --hds-palette-error-text: #{$hds-color-nasa-red-shade};
 }
 
@@ -144,12 +146,10 @@
   --hds-palette-input-bg: #{$hds-color-carbon-black};
   --hds-palette-disabled: #{$hds-color-carbon-60};
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
-  --hds-palette-error-border: #{$hds-color-nasa-red-tint};
+  --hds-palette-error-indicator: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
 
-
   @include scheme-dataviz-dark;
-
 }
 
 // ============================================================
@@ -194,14 +194,15 @@
   --hds-palette-focus-minimal: #{$hds-color-carbon-80};
 
   // Disabled overrides — light-scheme Carbon 20 values are
-  // invisible on this Carbon 20 background. Inferred values
-  // flagged for creative director review.
+  // invisible on this Carbon 20 background.
   --hds-palette-btn-disabled-bg: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-stroke: #{$hds-color-carbon-40};
   --hds-palette-btn-disabled-text: #{$hds-color-carbon-50};
 
-  // --hds-palette-marker inherits NASA Blue from _scheme-light.
-  // Passes 3:1 non-text contrast on Carbon 20 (~3.35:1).
+  // Error border override — light scheme NASA Red (#F64137) is
+  // ~2.6:1 on Carbon 20, failing WCAG 1.4.11 (3:1 non-text).
+  // NASA Red Shade (#B60109) passes with ~4.7:1 on Carbon 20.
+  --hds-palette-error-indicator: #{$hds-color-nasa-red-shade};
 }
 
 // Palette 4 — Dark (Carbon 90)
@@ -264,12 +265,16 @@
   --hds-palette-focus-minimal: #{$hds-color-carbon-30};
 
   // Form tokens — inferred from dark scheme, not in Proposal.
-  // Flagged for creative director review.
   --hds-palette-input-bg: #{$hds-color-carbon-black};
   --hds-palette-disabled: #{$hds-color-carbon-60};
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
-  --hds-palette-error-border: #{$hds-color-nasa-red-tint};
-  --hds-palette-error-text: #{$hds-color-nasa-red-tint};
+
+  // Form error border keeps NASA Red Tint (3.3:1 on Blue
+  // Shade, passes 1.4.11 non-text). Error text must be white —
+  // Red Tint on Blue Shade = 3.3:1, fails 4.5:1 for normal text.
+  // White passes with 9.9:1.
+  --hds-palette-error-indicator: #{$hds-color-nasa-red-tint};
+  --hds-palette-error-text: #{$hds-color-spacesuit-white};
 
   // Data visualization: Blue palette inherits light defaults
   // from :root (base/_custom-properties.scss). Chart surfaces

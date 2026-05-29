@@ -6,7 +6,7 @@ import * as RadioButtonStories from './RadioButton.stories';
 
 # Radio Button
 
-Radio buttons are a form element that allows users to select exactly one option from a list. HDS radio buttons use standard USWDS [`.usa-radio`](https://designsystem.digital.gov/components/radio-buttons/) markup with no additional classes.
+Radio buttons allow users to select exactly one option from a list. They use USWDS [`.usa-radio`](https://designsystem.digital.gov/components/radio-buttons/) markup with no additional classes required.
 
 ## Variants
 
@@ -38,21 +38,23 @@ Tile radio buttons provide a larger touch target with an optional description. U
 
 ### With error
 
-When a required radio button group has no selection on submit, display an error message below the options.
+When a required radio button group has no selection on submit, an error message appears below the options inside the fieldset.
 
 <Canvas of={RadioButtonStories.WithError} />
 
+<Note type="uswds">If your site uses standard USWDS error markup, HDS Core supports that order. See [Form: Legacy USWDS support](?path=/docs/components-form-guidance--docs#legacy-uswds-support) for details.</Note>
+
 ## When to use radio buttons
 
-- **Mutually exclusive choices** — only one option can be selected at a time (e.g., mission type, yes/no questions).
-- **Short lists** — 6 or fewer options that the user should be able to see and compare at once.
-- **Important choices** — when the user needs to see all options before deciding, rather than picking from a hidden dropdown.
+- **Mutually exclusive choices:** only one option can be selected at a time (for example, mission type, yes/no questions).
+- **Short lists:** 6 or fewer options that the user should be able to see and compare at once.
+- **Important choices:** when the user needs to see all options before deciding, rather than picking from a hidden dropdown.
 
 ## When to consider something else
 
-- **Multiple selections** — use [checkboxes](?path=/docs/components-checkbox-guidance--docs) when users can select more than one option.
-- **7 or more options** — use a [select field](?path=/docs/components-select-guidance--docs) to save space and reduce visual complexity.
-- **Binary toggles with immediate effect** — use a toggle switch for on/off settings that take effect immediately.
+- **Multiple selections:** use [checkboxes](?path=/docs/components-checkbox-guidance--docs) when users can select more than one option.
+- **7 or more options:** use a [select field](?path=/docs/components-select-guidance--docs) to save space and reduce visual complexity.
+- **Binary toggles with immediate effect:** use a toggle switch for on/off settings that take effect immediately.
 
 ## Usability guidance
 
@@ -71,7 +73,7 @@ When a required radio button group has no selection on submit, display an error 
 - **Unique `id` and matching `for`.** Each `<input>` needs a unique `id`, and its `<label>` must reference it with a matching `for` attribute.
 - **Keyboard navigation:** Users **Tab** to the radio group as a whole, then use **arrow keys** (up/down or left/right) to move between options. Arrow keys both move focus and select the option — this is standard browser behavior.
 - **Pre-selection aids keyboard users.** A pre-selected option ensures the group is reachable via Tab. An unselected radio group may be skipped entirely by keyboard navigation in some browsers.
-- **Error messages:** Associate error text with the group using `role="alert"` so screen readers announce it immediately.
+- **Error messages:** Add `role="alert"` and an `id` to the error element. Reference that `id` via `aria-describedby` on each radio input in the group so screen readers associate the error with every option, not just the last one.
 - **VoiceOver on iOS** does not fully support `<fieldset>` and `<legend>`. For maximum compatibility, add `aria-labelledby` referencing the legend `id` on each input.
 
 <Note type="uswds">USWDS recommends avoiding disabled states. Disabled radio buttons have low contrast, don't receive focus, and provide no feedback to screen readers. If you must disable an option, explain why using visible help text and use `aria-disabled="true"` with JavaScript instead of the HTML `disabled` attribute. See the [USWDS disabled state guidance](https://github.com/uswds/uswds/wiki/Disabled-States-Research-Findings-2023) for details.</Note>

@@ -337,6 +337,8 @@ jobs:
   # -----------------------------------------------------------------------
   # Chromatic -- runs only if CSS hash changed vs. base branch
   # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection
+  # Runs its own full build -- needs all of dist/ for Storybook staticDirs
+  # (fonts, images, JS), not just compiled CSS.
   # -----------------------------------------------------------------------
   chromatic:
     name: Chromatic visual regression
@@ -355,6 +357,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Run Chromatic
         uses: chromaui/action@v17
