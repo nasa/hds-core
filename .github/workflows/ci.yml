@@ -340,7 +340,7 @@ jobs:
   # Runs its own full build -- needs all of dist/ for Storybook staticDirs
   # (fonts, images, JS), not just compiled CSS.
   # -----------------------------------------------------------------------
-chromatic:
+  chromatic:
     name: Chromatic visual regression
     runs-on: ubuntu-latest
     needs: css-hash
