@@ -71,7 +71,7 @@
     "concurrently": "^9.1.2",
     "cssnano": "^8.0.1",
     "eslint": "^10.4.0",
-    "eslint-plugin-mdx": "^3.7.0",
+    "eslint-plugin-mdx": "^3.7.1",
     "eslint-plugin-storybook": "^10.4.1",
     "globals": "^17.6.0",
     "lockfile-lint": "^5.0.0",
