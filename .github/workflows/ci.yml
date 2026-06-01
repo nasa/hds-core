@@ -377,8 +377,8 @@ jobs:
     needs: filter
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '24.15.0'
           cache: 'npm'
