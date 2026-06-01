@@ -289,6 +289,8 @@ $hds-width-settings
 
 ## Sass Mixins (_hds-mixins.scss)
 hds-focus-ring
+hds-focus-ring-inline
+hds-focus-ring-size
 hds-link-appearance
 hds-link-hover
 hds-metadata-type
