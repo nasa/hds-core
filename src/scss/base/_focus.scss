@@ -5,8 +5,8 @@
 // ALWAYS ACTIVE — not gated (accessibility requirement).
 //
 // Dashed palette-aware focus ring for keyboard navigation.
-// Uses --hds-palette-focus token (Pattern A: C60 light /
-// C30 dark). Components with different focus treatments
+// Uses --hds-palette-focus token (default treatment: C60
+// light / C30 dark). Components with different focus treatments
 // override via hds-focus-ring() mixin with appropriate
 // $color and $shape parameters.
 //

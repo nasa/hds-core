@@ -18,8 +18,8 @@
 //   --lg          Hero CTAs
 //
 // Focus treatments:
-//   Utility       — default (Pattern A: C60 light / C30 dark)
-//   CTA/Sec/Out/Social — bold (Pattern B: C30 universal)
+//   Utility       — default (C60 light / C30 dark)
+//   CTA/Sec/Out/Social — bold (C30 universal)
 //   Interactive   — fixed (C40, 1px offset, exempt from palette)
 //
 // States:
@@ -63,8 +63,8 @@
 }
 
 // ── Focus — Per-Role ──────────────────────────────────────────
-// Split by Figma treatment. Utility uses default (Pattern A).
-// CTA, Secondary, Outline, Social use bold (Pattern B).
+// Split by Figma treatment. Utility uses default.
+// CTA, Secondary, Outline, Social use bold.
 // Interactive is exempt — fixed colors for dynamic backgrounds.
 
 .hds-btn-icon--utility {

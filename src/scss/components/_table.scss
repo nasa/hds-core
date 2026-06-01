@@ -233,7 +233,7 @@
 // Figma specifies a "surface-inverse" focus treatment for table
 // sort buttons (ring color inverse of the component's own fill).
 // Not yet implemented — sort buttons currently inherit the global
-// focus ring from base/_focus.scss (Pattern A, thin, outline).
+// focus ring from base/_focus.scss (default treatment, 1px dashed).
 // See DESIGN.md Table section and FocusSortButton story.
 //
 // ⚠️ mask-image clips the focus ring on this element — the sort
