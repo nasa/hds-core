@@ -2,20 +2,12 @@ import { Meta, Unstyled } from '@storybook/addon-docs/blocks';
 
 <Meta title="Overview/Getting Started" />
 
+{/* prettier-ignore */}
 <Unstyled>
-  <section class="usa-site-alert usa-site-alert--info usa-site-alert--slim margin-bottom-4" aria-label="Site alert">
+  <section class="usa-site-alert usa-site-alert--info usa-site-alert--slim margin-bottom-4" aria-label="Alert">
     <div class="usa-alert">
       <div class="usa-alert__body">
-        <div class="usa-alert__text">
-          <strong>
-            HDS Core is for NASA-branded <code>*.nasa.gov</code> websites only.
-          </strong>{' '}
-          Interagency, non-.gov, and other non-NASA-branded sites should use{' '}
-          <a class="usa-link" href="https://designsystem.digital.gov/">
-            USWDS
-          </a>{' '}
-          instead.
-        </div>
+        <p class="usa-alert__text"><strong>HDS Core is for NASA-branded <code>*.nasa.gov</code> websites only.</strong> Interagency, non-.gov, and other non-NASA-branded sites should use <a class="usa-link" href="https://designsystem.digital.gov/">USWDS</a> instead.</p>
       </div>
     </div>
   </section>
@@ -37,9 +29,7 @@ Sites that can't consolidate may be authorized by the CIO to remain standalone. 
 
 HDS Core also supports **microapps, data visualizations, and interactive embeds** that are served on Flagship CMS sites or enterprise platforms but developed and styled outside the host platform's theme.
 
-{/* 🎨 GRAPHIC OPPORTUNITY: Three-path visual. Columns or minimal flowchart: Archive / Consolidate / Standalone, with HDS Core highlighted on the standalone path and a secondary callout for microapps. Mirrors community meeting structure. */}
-
-{/* COMMENTED OUT: governance for standalone approval is still in flux. Revisit when we have a clear public-facing process to point to. Not sure which path applies to your site? Visit the [Web Toolkit](https://website.nasa.gov) for guidance, or reach out on [GitHub Discussions](https://github.com/nasa/hds-core/discussions). */}
+{/* TODO: Not sure which path applies to your site? Visit the [Web Toolkit](https://website.nasa.gov) (internal NASA link) for guidance, or reach out on [GitHub Discussions](https://github.com/nasa/hds-core/discussions). */}
 
 ## Is HDS Core your path?
 
@@ -52,7 +42,7 @@ HDS Core also supports **microapps, data visualizations, and interactive embeds*
 **You probably need a different path if:**
 
 - Your site's content or functionality could move to a Flagship CMS or another enterprise platform, even if you haven't explored that option yet
-- Your site is being archived or decommissioned
+- Your site is outdated or no longer actively maintained, and is a candidate for archival and decommissioning
 - Your site is not on a `*.nasa.gov` domain
 
 ## Already adopted HDS on your own?
@@ -68,9 +58,9 @@ Two things to consider:
 
 Depending on your site's current state, adopting HDS Core can range from adding a single CSS file to a more involved migration.
 
-- **[Design Standards](?path=/docs/overview-design-standards--docs)** — What every NASA site must achieve visually, whether or not you use HDS Core
-- **[Installation](?path=/docs/overview-installation--docs)** — Technical setup for teams adopting HDS Core
-- **Guides** — Detailed walkthroughs for [existing USWDS sites](?path=/docs/guides-existing-uswds-site-guidance--docs), [React](?path=/docs/guides-react-guidance--docs), [no-build environments](?path=/docs/guides-no-build-environments--docs), and [Sass configuration](?path=/docs/guides-sass-configuration--docs)
+- **[Design Standards](?path=/docs/overview-design-standards--docs)**: What every NASA site must achieve visually, whether or not you use HDS Core
+- **[Installation](?path=/docs/overview-installation--docs)**: Technical setup for teams adopting HDS Core
+- **Guides**: Detailed walkthroughs for [existing USWDS sites](?path=/docs/guides-existing-uswds-site-guidance--docs), [React](?path=/docs/guides-react-guidance--docs), [no-build environments](?path=/docs/guides-no-build-environments--docs), and [Sass configuration](?path=/docs/guides-sass-configuration--docs)
 
 Sites referencing HDS guidance without adopting the package directly will also find the **Foundations** and **Components** sections in the sidebar useful as a design and implementation reference.
 
