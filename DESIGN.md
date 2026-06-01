@@ -1,4 +1,4 @@
-﻿# HDS Core Design Decisions
+# HDS Core Design Decisions
 
 Visual and UX decisions for the HDS creative director, designers, and design-minded developers. This document tracks where HDS Core intentionally differs from the HDS Core Proposal and HDS Figma spec, and flags items needing creative director review.
 
@@ -255,7 +255,7 @@ Figma's focus ring specifications contained a few inconsistencies and accessibil
 | --- | --- | --- | --- |
 | **Buttons (Bold)** | C30 on both light and dark | Ships as Figma specifies | Known WCAG 1.4.11 failure on light backgrounds; tracked in Issue #40 for CD review. |
 | **Checkbox/Radio (Minimal)** | C80 outer box on Carbon 90 | Ships as Figma specifies | Very low contrast, but matches Figma's intended dark-mode subtle design. |
-| **Midtone/Blue Palettes** | Only white + dark designed | Extended using closest scheme values | Midtone maps to the light scheme; Blue maps to the dark scheme. |
+| **Midtone/Blue Palettes** | Only white + dark designed | Extended using closest scheme values | Midtone reuses the light scheme via `_scheme-light`. Blue is a dark background but doesn't call `_scheme-dark`; it sets dark-scheme focus values explicitly. |
 | **Midtone/Blue (Minimal)** | Not designed | Midtone gets C80 (dark); Blue gets C30 (light) | Swapped for contrast. C30 on C20 is invisible (~1.1:1); C80 on Blue Shade is invisible. Swapping utilizes existing Figma colors. |
 
 ### Interactive Icon Button Exemption
