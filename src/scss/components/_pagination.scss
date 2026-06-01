@@ -109,7 +109,9 @@
 
     &:focus-visible {
       background-color: transparent;
+
       @include hds-focus-ring($color: 'subtle', $pseudo: 'before');
+
       color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     }
   }
@@ -137,7 +139,9 @@
   // Focus — non-current pages
   &:focus-visible {
     background-color: transparent;
+
     @include hds-focus-ring($color: 'subtle', $pseudo: 'before');
+
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
   }
 }
@@ -260,6 +264,7 @@
   &:focus-visible,
   button#{&}:focus-visible {
     @include hds-focus-ring($color: 'subtle');
+
     outline: none !important; // override global focus
   }
 

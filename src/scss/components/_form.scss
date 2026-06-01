@@ -225,7 +225,6 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   align-items: flex-start; // Align to top if text wraps
   gap: 8px; // Exact Figma gap!
   padding-left: 0; // Nuke the USWDS indent hack
-
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-weight: font-weight('normal');
@@ -333,7 +332,6 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   align-items: flex-start;
   gap: 8px;
   padding-left: 0;
-
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-weight: font-weight('normal');
