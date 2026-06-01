@@ -1,6 +1,6 @@
 {
   "name": "@nasa/hds-core",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "description": "NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.",
   "license": "SEE LICENSE.MD",
   "private": true,
