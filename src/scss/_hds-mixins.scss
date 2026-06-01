@@ -9,7 +9,7 @@
 //   Accessibility — visually-hidden
 //   Focus         — hds-focus-ring
 //   Typography    — hds-overline-label, hds-metadata-type, intro-text
-//   Buttons       — structure, color, hover, outline, round
+//   Buttons       — structure, color, interactive states, round
 //   Utility       — hds-utility-circle (pagination, icon buttons)
 //   Links         — hds-link-appearance, hds-link-hover,
 //                   hds-nav-hover-underline
@@ -43,10 +43,10 @@
 // base/_palettes.scss.
 //
 // Four color treatments matching Figma focus patterns:
-//   'default'  — C60 light / C30 dark (Pattern A)
-//   'bold'     — C30 universal (Pattern B)
-//   'subtle'   — C60 light / C40 dark (Pattern E)
-//   'minimal'  — C30 light / C80 dark (Pattern D)
+//   'default'  — C60 light / C30 dark
+//   'bold'     — C30 universal
+//   'subtle'   — C60 light / C40 dark
+//   'minimal'  — C30 light / C80 dark
 //
 // Standard properties: 1px width, 1px offset, 2,3 dasharray.
 // SVG Masks defined in _custom-properties.scss.
@@ -228,40 +228,21 @@ $_focus-fallbacks: (
   @include button-color;
 }
 
-@mixin button-hover {
-  &:hover {
-    filter: brightness(0.85);
+// Hover/active/focus states shared by .usa-button and the base
+// stock-button reset (base/_elements.scss). Defensive :not()
+// qualifiers prevent disabled buttons from picking up these states
+// regardless of source order.
+@mixin button-interactive-states {
+  &:hover:not(:disabled, [aria-disabled='true']),
+  &:active:not(:disabled, [aria-disabled='true']) {
+    background-color: $hds-color-nasa-red-shade;
     text-decoration-line: none;
   }
 
-  &:active {
-    filter: brightness(0.75);
-  }
+  &:focus-visible:not(:disabled, [aria-disabled='true']) {
+    @include hds-focus-ring($color: 'bold');
 
-  &:focus-visible {
-    outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-    outline-offset: 2px;
     text-decoration-line: none;
-  }
-}
-
-@mixin button-outline {
-  @include button-padding-border;
-  @include button-typography;
-
-  background-color: transparent;
-  border-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-  color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-
-  &:hover {
-    background-color: var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-    color: var(--hds-palette-btn-filled-text, #{$hds-color-spacesuit-white});
-    text-decoration-line: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--hds-palette-btn-secondary-bg, #{$hds-color-nasa-blue});
-    outline-offset: 2px;
   }
 }
 

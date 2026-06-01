@@ -500,14 +500,14 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   button:where(:not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])),
   input[type='submit'] {
     @include button-styles;
-    @include button-hover;
+    @include button-interactive-states;
   }
 
   a.button {
     text-decoration-line: none;
 
     @include button-styles;
-    @include button-hover;
+    @include button-interactive-states;
   }
 }
 
