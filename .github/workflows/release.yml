@@ -36,6 +36,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Capture the committed version BEFORE changesets/action runs.
+      # The action modifies package.json locally when it prepares the Version
+      # Packages PR, so reading the file after the action would give the
+      # bumped version even when no version bump was merged to main.
+      - name: Capture committed package version
+        id: committed-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Changesets -- manage Version Packages PR
         uses: changesets/action@v1
         with:
@@ -46,12 +54,12 @@ jobs:
 
       # Everything below runs only when a version bump landed on main
       # (i.e., the Version Packages PR was just merged).
-      # Detection: compare package.json version against latest git tag.
+      # Detection: compare the committed package.json version against the latest git tag.
 
       - name: Check if version was bumped
         id: version-check
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
+          CURRENT="${{ steps.committed-version.outputs.version }}"
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           LATEST_VERSION=${LATEST_TAG#v}
           if [ "$CURRENT" != "$LATEST_VERSION" ]; then
