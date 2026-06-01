@@ -2,7 +2,7 @@
 '@nasa/hds-core': minor
 ---
 
-minor: form error style updates
+form error style updates
 
 **Renamed:** `--hds-palette-error-border` is now `--hds-palette-error-indicator`. If you were referencing this property directly, update to the new name.
 
