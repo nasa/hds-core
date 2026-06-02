@@ -225,6 +225,8 @@
   @include hds-link-appearance;
 
   background-color: transparent;
+  padding: 0 4px; // re-assert over USWDS reset
+  margin: 0 -4px; // cancel padding's flow contribution
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});

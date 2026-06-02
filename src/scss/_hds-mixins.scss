@@ -7,12 +7,16 @@
 //
 // CONTENTS:
 //   Accessibility — visually-hidden
-//   Focus         — hds-focus-ring
+//   Focus         — hds-focus-ring, hds-focus-ring-size,
+//                   hds-focus-ring-inline
 //   Typography    — hds-overline-label, hds-metadata-type, intro-text
-//   Buttons       — structure, color, interactive states, round
+//   Buttons       — button-styles (bundles button-padding-border,
+//                   button-typography, and button-color),
+//                   button-interactive-states, button-round
 //   Utility       — hds-utility-circle (pagination, icon buttons)
-//   Links         — hds-link-appearance, hds-link-hover,
-//                   hds-nav-hover-underline
+//   Links         — hds-link-appearance, hds-link-hover
+//   Navigation    — hds-nav-hover-underline (breadcrumb, in-page nav,
+//                   side nav), hds-vertical-nav-links
 // ============================================================
 
 @use 'sass:map';
@@ -48,11 +52,22 @@
 //   'subtle'   — C60 light / C40 dark
 //   'minimal'  — C30 light / C80 dark
 //
-// Standard properties: 1px width, 1px offset, 2,3 dasharray.
-// SVG Masks defined in _custom-properties.scss.
+// Standard properties: 1px stroke, 2,3 dasharray.
+//
+// Three application methods — pick by host layout:
+//   hds-focus-ring()        — block/flex elements (buttons,
+//                             pagination, accordion). SVG mask
+//                             on ::before (default) or ::after.
+//   hds-focus-ring-size()   — overrides circle ring geometry
+//                             on icon button size modifiers.
+//   hds-focus-ring-inline() — inline text elements (links,
+//                             unstyled buttons, breadcrumbs).
+//                             Four-sided repeating-linear-gradient
+//                             ring; fragments per line box on
+//                             multiline elements.
 // ------------------------------------------------------------
 
-// Fallback values for use without palette wrappers.
+// Fallback values for contexts without a palette wrapper.
 // Each maps to the light-scheme value for that treatment.
 $_focus-fallbacks: (
   'default': $hds-color-carbon-60,
@@ -61,11 +76,16 @@ $_focus-fallbacks: (
   'minimal': $hds-color-carbon-30,
 );
 
-// Standard block-level elements (buttons, pagination)
-// Default $pseudo is 'before' so component-owned ::after icons
-// (chevrons, arrows, active bars) aren't clobbered by the global
-// focus rule in base/_focus.scss. Pass $pseudo: 'after' if the
-// component owns ::before instead.
+// Rect SVG mask — module-level constant (never varies).
+// overflow="visible" lets the outer half of the 1px stroke
+// paint outside the SVG viewport; the pseudo's inset: -2px
+// provides that space so no edge is clipped.
+$_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25' overflow='visible' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2%2C3' stroke-dashoffset='1' stroke-linecap='butt'/%3E%3C/svg%3E";
+
+// Block/flex elements (buttons, accordion, pagination, primary arrow).
+// $pseudo defaults to 'before' because component-owned trailing icons
+// (chevrons, arrows, active bars) conventionally live on ::after.
+// Pass $pseudo: 'after' only when the host already uses ::before.
 @mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'before', $circle-size-px: 24) {
   $suffix: '';
 
@@ -77,7 +97,7 @@ $_focus-fallbacks: (
   $fallback: map.get($_focus-fallbacks, $color);
 
   position: relative;
-  outline: none; // Override native focus
+  outline: none;
 
   &::#{$pseudo} {
     content: '';
@@ -87,8 +107,6 @@ $_focus-fallbacks: (
     z-index: 1;
 
     @if $shape == 'circle' {
-      // Generate hardcoded pixel values at compile time based on button size.
-      // This eliminates all calc(), percentages, inset, and transform bugs.
       $container-size: $circle-size-px + 6;
       $center: $container-size * 0.5;
       $radius: $center - 1.5;
@@ -99,44 +117,40 @@ $_focus-fallbacks: (
       height: #{$container-size}px;
       margin-top: -#{$center}px;
       margin-left: -#{$center}px;
-
-      $svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E";
-
-      mask-image: url($svg);
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}' overflow='visible'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E");
       mask-size: 100% 100%;
     } @else {
       inset: -2px;
-
-      $svg-rect: "data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2%2c3' stroke-dashoffset='1' stroke-linecap='butt'/%3e%3c/svg%3e";
-
-      mask-image: url($svg-rect);
       border-radius: inherit;
+      mask-image: url($_focus-ring-rect-svg);
       mask-size: 100% 100%;
     }
   }
 }
 
-// ------------------------------------------------------------
-// Focus Ring Size Override (For circle modifiers)
-// ------------------------------------------------------------
+// Overrides circle ring geometry for icon button size modifiers
+// (--xs, --sm, --lg, etc.) without re-declaring the full mixin.
 @mixin hds-focus-ring-size($circle-size-px, $pseudo: 'before') {
-  &::#{$pseudo} {
-    $container-size: $circle-size-px + 6;
-    $center: $container-size * 0.5;
-    $radius: $center - 1.5;
+  $container-size: $circle-size-px + 6;
+  $center: $container-size * 0.5;
+  $radius: $center - 1.5;
 
+  &::#{$pseudo} {
     width: #{$container-size}px;
     height: #{$container-size}px;
     margin-top: -#{$center}px;
     margin-left: -#{$center}px;
-
-    $svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E";
-
-    mask-image: url($svg);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='#{$container-size}' height='#{$container-size}' overflow='visible'%3E%3Ccircle cx='#{$center}' cy='#{$center}' r='#{$radius}' fill='none' stroke='black' stroke-width='1' stroke-dasharray='2,3' stroke-linecap='butt'/%3E%3C/svg%3E");
   }
 }
 
-// Inline multi-line elements (links)
+// Inline text elements (links, unstyled buttons, breadcrumbs).
+// Four repeating-linear-gradient layers draw the 2,3 dash spec
+// on all four edges. background-image on inline elements fragments
+// naturally per line box — each wrapped line gets its own ring.
+// The host must have padding: 0 4px (always-on) so the left/right
+// edges have space to render; hds-link-appearance provides this
+// for links and unstyled buttons. Breadcrumb sets it directly.
 @mixin hds-focus-ring-inline($color: 'default') {
   $suffix: '';
 
@@ -147,11 +161,28 @@ $_focus-fallbacks: (
   $prop: --hds-palette-focus#{$suffix};
   $fallback: map.get($_focus-fallbacks, $color);
 
-  outline: 1px dashed var(#{$prop}, #{$fallback});
-  outline-offset: 1px;
-  box-decoration-break: clone;
-  // stylelint-disable-next-line property-no-vendor-prefix
-  -webkit-box-decoration-break: clone;
+  // Local custom property avoids repeating var() across gradient layers.
+  --hds-ring: var(#{$prop}, #{$fallback});
+
+  outline: none;
+
+  // Order: bottom, top, left, right
+  background-image:
+    repeating-linear-gradient(to right, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
+    repeating-linear-gradient(to right, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
+    repeating-linear-gradient(to bottom, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
+    repeating-linear-gradient(to bottom, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px);
+  background-size:
+    100% 1px,
+    100% 1px,
+    1px 100%,
+    1px 100%;
+  background-position:
+    0 100%,
+    0 0,
+    0 0,
+    100% 0;
+  background-repeat: no-repeat;
 }
 
 // ------------------------------------------------------------
@@ -193,7 +224,7 @@ $_focus-fallbacks: (
 }
 
 // ------------------------------------------------------------
-// Button Structure
+// Buttons
 // ------------------------------------------------------------
 
 @mixin button-padding-border {
@@ -211,10 +242,6 @@ $_focus-fallbacks: (
   line-height: 1.2; // Proposal 120%; USWDS token 3 (1.35) too coarse
   text-decoration-line: none;
 }
-
-// ------------------------------------------------------------
-// Button Colors (palette-aware)
-// ------------------------------------------------------------
 
 @mixin button-color {
   background-color: var(--hds-palette-btn-primary-bg, #{$hds-color-nasa-red});
@@ -292,23 +319,50 @@ $_focus-fallbacks: (
 // ------------------------------------------------------------
 // Link appearance
 // ------------------------------------------------------------
-// Shared visual treatment for elements that look like text
-// links: .usa-link and .usa-button--unstyled.
-// Palette-aware with light-palette fallbacks.
+// Dashed underline via repeating-linear-gradient rather than
+// text-decoration, matching the Figma 2,3 dash spec exactly.
+// Uses background-image so it fragments per line box on
+// multiline inline elements (no box-decoration-break needed
+// for background — inline elements fragment backgrounds
+// natively with clone).
+//
+// Horizontal padding (4px) per Figma focus ring spec — always
+// present so no layout shift occurs on focus.
 // ------------------------------------------------------------
 
 @mixin hds-link-appearance {
   color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-  text-decoration-color: var(--hds-palette-link-underline, #{$hds-color-carbon-60});
-  text-decoration-line: underline;
-  text-decoration-style: dashed;
-  text-decoration-thickness: 0.05em;
-  text-underline-offset: 0.25rem;
+  text-decoration: none;
+  padding: 0 4px;
+  margin: 0 -4px;
+  box-decoration-break: clone;
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -webkit-box-decoration-break: clone;
+
+  // Dashed underline — content width only (excludes 4px padding each side)
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--hds-palette-link-underline, #{$hds-color-carbon-60}) 0,
+    var(--hds-palette-link-underline, #{$hds-color-carbon-60}) 2px,
+    transparent 2px,
+    transparent 5px
+  );
+  background-size: calc(100% - 8px) 1px;
+  background-position: center 100%;
+  background-repeat: no-repeat;
 }
 
 @mixin hds-link-hover {
   color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-  text-decoration-style: solid;
+
+  // Solid underline — same content-width constraint
+  background-image: linear-gradient(
+    to right,
+    var(--hds-palette-link-underline, #{$hds-color-carbon-60}),
+    var(--hds-palette-link-underline, #{$hds-color-carbon-60})
+  );
+  background-size: calc(100% - 8px) 1px;
+  background-position: center 100%;
 }
 
 // ------------------------------------------------------------
