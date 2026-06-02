@@ -11,3 +11,5 @@ primary arrow button + external link fixes
 **Fixed:** External diagonal glyph appeared smaller than the internal right-facing glyph at matching sizes. Both inline SVGs now use the HDS filled-icon paths (`arrow-line-right`, `arrow-line-diagonal`) so their drawn extents match.
 
 **Fixed:** `.usa-link--external::after` reset `margin-top: 0.7ex` leaked from USWDS's `external-link()` mixin, shifting the arrow off the text baseline. The base rule now sets `margin: 0`.
+
+**Fixed:** `.hds-btn--primary` focus ring switched from `hds-focus-ring-inline` to `hds-focus-ring` with per-size `inset` overrides matching Figma spacing (4px top/bottom, 6px left/right on default/sm/xs; 6px all sides on lg/xl; 6px top/bottom, 8px left/right on 2xl).

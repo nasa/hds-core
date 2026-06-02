@@ -351,9 +351,7 @@ hds-vertical-nav-links
 .usa-banner__button
 .usa-banner__header
 .usa-breadcrumb
-.usa-breadcrumb--wrap
 .usa-breadcrumb__link
-.usa-breadcrumb__list
 .usa-breadcrumb__list-item
 .usa-button
 .usa-button--arrow
