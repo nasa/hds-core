@@ -110,7 +110,7 @@
     &:focus-visible {
       background-color: transparent;
 
-      @include hds-focus-ring($color: 'subtle', $pseudo: 'before');
+      @include hds-focus-ring($color: 'subtle');
 
       color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     }
@@ -140,7 +140,7 @@
   &:focus-visible {
     background-color: transparent;
 
-    @include hds-focus-ring($color: 'subtle', $pseudo: 'before');
+    @include hds-focus-ring($color: 'subtle');
 
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
   }

@@ -70,9 +70,9 @@
 .usa-button--unstyled:focus-visible:not(:disabled, [aria-disabled='true']) {
   @include hds-focus-ring-inline;
 
-  // Kill the ::after pseudo-element from the base .usa-button rule
+  // Kill the ::before pseudo-element from the base .usa-button rule
   // to prevent double focus rings (outline + pseudo-element mask).
-  &::after {
+  &::before {
     display: none;
   }
 }

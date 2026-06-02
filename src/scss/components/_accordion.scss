@@ -64,7 +64,7 @@
   justify-content: space-between;
 
   &:focus-visible {
-    @include hds-focus-ring($pseudo: 'before');
+    @include hds-focus-ring;
   }
 
   &:hover {
