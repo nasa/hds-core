@@ -18,19 +18,25 @@
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 
-$_arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3Cpolyline points='13 6 19 12 13 18'/%3E%3C/svg%3E");
-$_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'/%3E%3Cpolyline points='10 7 17 7 17 14'/%3E%3C/svg%3E");
+// Inlined from src/assets/img/hds-icons/arrow-line-{right,diagonal}.svg
+// (filled paths, fill='white' for the always-white-on-red circle).
+// Keeps glyph identity with the HDS icon family used elsewhere.
+$_arrow-right: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 11.1944L15.7545 11.1944L10.9496 16.3277L12.5145 18L20 10L12.5145 2L10.9496 3.6723L15.7545 8.80562L0 8.80562L0 11.1944Z' fill='white'/%3E%3C/svg%3E");
+$_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.77359 17.9156L14.9137 6.77551L15.1459 13.8029L17.435 13.8788L17.0712 2.92893L6.1213 2.5651L6.1972 4.85419L13.2246 5.0864L2.08448 16.2265L3.77359 17.9156Z' fill='white'/%3E%3C/svg%3E");
 
 // ── Base ──────────────────────────────────────────────────────
 
 .hds-btn--primary {
+  align-items: center;
   background-color: transparent;
   border: 0;
   border-radius: 0;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+  display: inline-flex;
   font-family: family('heading');
   font-size: 18px;
   font-weight: font-weight('bold');
+  gap: 4px;
   line-height: var(--hds-line-height-button);
   padding: 0;
   text-decoration-line: none;
@@ -43,21 +49,23 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
     background-size: 55%;
     border-radius: 50%;
     content: '';
-    display: inline-block; // override .usa-link--external::after
+    flex-shrink: 0;
     height: 24px;
-    margin-inline-start: 0.3em;
-    vertical-align: text-bottom;
     width: 24px;
   }
 
-  // External links: swap horizontal arrow to diagonal
+  // External links: swap horizontal arrow to diagonal.
+  // Only override the background-image so size variants
+  // (--xs/--sm/--lg/--xl/--2xl) still control circle dimensions.
+  // mask-image: none blocks the diagonal-arrow mask from
+  // _link.scss's .usa-link--external::after base rule, which
+  // would otherwise clip the red circle down to just the
+  // arrow shape. padding: 0 blocks USWDS external-link()
+  // mixin's padding-left leak.
   &.usa-link--external::after {
-    background-color: var(--hds-palette-btn-primary-bg, #{$hds-color-nasa-red});
     background-image: #{$_arrow-diagonal};
-    display: inline-block; // override link external ::after
-    height: 24px; // explicit — link ::after has no height
     mask-image: none;
-    width: 24px; // explicit — link ::after has no width
+    padding: 0;
   }
 
   &:hover {
@@ -70,7 +78,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   }
 
   &:focus-visible {
-    @include hds-focus-ring($pseudo: 'before');
+    @include hds-focus-ring-inline;
+
+    outline-offset: 4px;
   }
 }
 
@@ -112,6 +122,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // 22px text / 28px circle
 .hds-btn--primary--lg {
   font-size: 22px;
+  gap: 8px;
 
   &::after {
     height: 28px;
@@ -122,6 +133,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // 29px text / 32px circle
 .hds-btn--primary--xl {
   font-size: 29px;
+  gap: 8px;
 
   &::after {
     height: 32px;
@@ -132,6 +144,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 // 36px text / 36px circle
 .hds-btn--primary--2xl {
   font-size: 36px;
+  gap: 8px;
 
   &::after {
     height: 36px;
