@@ -78,9 +78,11 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
   }
 
   &:focus-visible {
-    @include hds-focus-ring-inline;
+    @include hds-focus-ring('default', 'rect', 'before');
 
-    outline-offset: 4px;
+    &::before {
+      inset: -4px -6px;
+    }
   }
 }
 
@@ -128,6 +130,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
     height: 28px;
     width: 28px;
   }
+
+  &:focus-visible::before {
+    inset: -6px;
+  }
 }
 
 // 29px text / 32px circle
@@ -139,6 +145,10 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
     height: 32px;
     width: 32px;
   }
+
+  &:focus-visible::before {
+    inset: -6px;
+  }
 }
 
 // 36px text / 36px circle
@@ -149,5 +159,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
   &::after {
     height: 36px;
     width: 36px;
+  }
+
+  &:focus-visible::before {
+    inset: -6px -8px;
   }
 }
