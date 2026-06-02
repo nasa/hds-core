@@ -161,17 +161,38 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
   $prop: --hds-palette-focus#{$suffix};
   $fallback: map.get($_focus-fallbacks, $color);
 
-  // Local custom property avoids repeating var() across gradient layers.
-  --hds-ring: var(#{$prop}, #{$fallback});
-
   outline: none;
 
   // Order: bottom, top, left, right
   background-image:
-    repeating-linear-gradient(to right, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
-    repeating-linear-gradient(to right, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
-    repeating-linear-gradient(to bottom, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px),
-    repeating-linear-gradient(to bottom, var(--hds-ring) 0, var(--hds-ring) 2px, transparent 2px, transparent 5px);
+    repeating-linear-gradient(
+      to right,
+      var(#{$prop}, #{$fallback}) 0,
+      var(#{$prop}, #{$fallback}) 2px,
+      transparent 2px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(#{$prop}, #{$fallback}) 0,
+      var(#{$prop}, #{$fallback}) 2px,
+      transparent 2px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(#{$prop}, #{$fallback}) 0,
+      var(#{$prop}, #{$fallback}) 2px,
+      transparent 2px,
+      transparent 5px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(#{$prop}, #{$fallback}) 0,
+      var(#{$prop}, #{$fallback}) 2px,
+      transparent 2px,
+      transparent 5px
+    );
   background-size:
     100% 1px,
     100% 1px,
