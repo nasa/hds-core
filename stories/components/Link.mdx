@@ -29,9 +29,7 @@ Add `.usa-link--external` to display a diagonal arrow icon after the link text. 
 Toggle the "Internal escape" control above to see `.hds-link--internal` — an HDS-only escape hatch that suppresses the arrow for NASA subdomains (e.g., `science.nasa.gov`) while keeping any CMS-driven external class intact.
 
 <Note type="uswds">
-  USWDS applies the external arrow automatically when
-  <code>.usa-link--external</code> is present. The HDS external arrow CSS replaces USWDS's built-in external link screen reader labels. Developers <strong>must</strong> add SR text manually:
-  <code>&lt;span class="usa-sr-only"&gt; (external)&lt;/span&gt;</code>
+  USWDS applies the external arrow automatically when <code>.usa-link--external</code> is present. The HDS external arrow CSS replaces USWDS's built-in external link screen reader labels. Developers <strong>must</strong> add SR text manually: <code>&lt;span class="usa-sr-only"&gt; (external)&lt;/span&gt;</code>
 </Note>
 
 ## Links in context
@@ -58,11 +56,7 @@ Links work in headings, body text, and across line breaks. The external arrow sc
 - **Write meaningful link text.** Avoid "click here" or "read more." The link text should make sense out of context (e.g., in a screen reader's links list).
 - **Mark external links consistently.** Any URL that leaves NASA.gov should get `.usa-link--external` unless the destination is a NASA subdomain using `.hds-link--internal`.
 - **Links inherit font size.** No link-specific size classes. Links scale with their parent text.
-- **Never remove the underline.** Because HDS links use body-text color, the dashed underline is the **sole** visual differentiator.
-
-<Note type="figma">
-  The HDS Figma spec shows a dashed underline with a "2, 3" dash pattern. CSS <code>text-decoration</code> doesn't support custom dash patterns, so HDS Core uses <code>dashed</code> as the closest approximation.
-</Note>
+- **Never remove the underline in the default state.** Because HDS links use body-text color, the dashed underline is the **sole** visual differentiator. On focus, the underline is replaced by the full dashed focus ring; the bottom edge of the ring serves the same purpose.
 
 ## Bare link styling (opt-in)
 
@@ -71,21 +65,14 @@ By default, bare `<a>` tags are unstyled. HDS link treatment only applies via `.
 - `$theme-global-link-styles`
 - `$theme-global-content-styles`
 
-<Note type="uswds">This mirrors USWDS's default behavior exactly. Existing USWDS sites migrating to HDS Core keep their existing scoping behavior.</Note>
-
 ## Accessibility
 
 - **External links require screen reader text.** The HDS external arrow is CSS-only and invisible to screen readers. Add SR text manually:
-
   ```html
   <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer"> Example<span class="usa-sr-only"> (external)</span> </a>
   ```
-
-```
-
 - **Visited links** look the same as unvisited links — intentional to prevent contrast issues across palettes.
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
 - **Underline is the affordance.** Removing it breaks accessibility.
 
 The recommended markup shown above includes all necessary attributes. For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
-```
