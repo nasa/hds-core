@@ -226,17 +226,17 @@ HDS focus rings target a 1px dashed Figma spec (`2,3` dasharray) while sidestepp
 
 All defined in `_hds-mixins.scss` (public Sass surface).
 
-| Mixin                   | Signature                                                                    |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| `hds-focus-ring`        | `($color: 'default', $shape: 'rect', $pseudo: 'after', $circle-size-px: 24)` |
-| `hds-focus-ring-size`   | `($circle-size-px, $pseudo: 'after')`                                        |
-| `hds-focus-ring-inline` | `($color: 'default')`                                                        |
+| Mixin                   | Signature                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `hds-focus-ring`        | `($color: 'default', $shape: 'rect', $pseudo: 'before', $circle-size-px: 24)` |
+| `hds-focus-ring-size`   | `($circle-size-px, $pseudo: 'before')`                                        |
+| `hds-focus-ring-inline` | `($color: 'default')`                                                         |
 
 `hds-focus-ring` parameters:
 
 - **`$color`** — `'default'`, `'bold'`, `'subtle'`, or `'minimal'`. Resolves to the matching `--hds-palette-focus-*` custom property with a light-scheme fallback for non-palette contexts.
 - **`$shape`** — `'rect'` (inherits the host's `border-radius`) or `'circle'`.
-- **`$pseudo`** — `'after'` (default) or `'before'`. Use `'before'` when the host already uses `::after` for another purpose. Current consumers: accordion chevron, in-page nav active bar, pagination current-page bar, primary arrow button.
+- **`$pseudo`** — `'before'` (default) or `'after'`. Default is `'before'` because trailing icons (chevrons, active bars, arrows) conventionally live on `::after`; painting the focus ring on `::before` keeps the global focus rule in `base/_focus.scss` from clobbering those icons. Pass `'after'` only when a host already uses `::before` for something else.
 - **`$circle-size-px`** — host size in pixels. Only used when `$shape: 'circle'`. The mask SVG is generated at compile time to match exactly, eliminating `calc()`, percentage, and transform-based rounding bugs.
 
 `hds-focus-ring-size` overrides ring geometry on icon button size modifiers (`--xs`, `--lg`, etc.) without re-declaring the full mixin.
@@ -245,7 +245,7 @@ All defined in `_hds-mixins.scss` (public Sass surface).
 
 The mixin you call depends on the host element's layout:
 
-1. **Block elements via SVG mask** — `hds-focus-ring()` on the host. Sets `position: relative`, kills the native outline, paints the ring through an absolute `::after` (or `::before`) pseudo-element with a `mask-image` data-URI SVG. The `2,3` dash pattern is baked into the SVG because native CSS `dashed` produces a different rhythm at 1px. Used by `.usa-button`, icon button circles, accordion headings, pagination links, in-page nav links, primary arrow button.
+1. **Block elements via SVG mask** — `hds-focus-ring()` on the host. Sets `position: relative`, kills the native outline, paints the ring through an absolute `::before` (or `::after`) pseudo-element with a `mask-image` data-URI SVG. The `2,3` dash pattern is baked into the SVG because native CSS `dashed` produces a different rhythm at 1px. Used by `.usa-button`, icon button circles, accordion headings, pagination links, in-page nav links, primary arrow button.
 2. **Inline text via native outline** — `hds-focus-ring-inline()` on the host. Native `outline: 1px dashed` plus `box-decoration-break: clone` so the ring wraps cleanly across line breaks. Used by `.usa-link`, `.usa-button--unstyled`, `.usa-breadcrumb__link`.
 3. **Form controls via sibling outline** — checkbox and radio labels apply `display: inline-flex`, lock the hidden input with `position: absolute`, then paint a native `outline: 1px dashed var(--hds-palette-focus-minimal)` on the adjacent `<label>`. Pattern lives directly in `components/_form.scss` (no shared mixin).
 

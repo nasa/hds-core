@@ -15,3 +15,5 @@ focus ring system update
 **Changed:** Focused links (`a:focus-visible`) and unstyled buttons (`.usa-button--unstyled:focus-visible`) no longer show a text underline. The dashed outline ring replaces it.
 
 **Removed:** `$hds-focus-widths` Sass map (`thin: 1px`, `thick: 2px`). The unified focus ring system bakes 1px directly into the SVG mask, so the map had no remaining consumers. If you were importing it, inline the pixel value at the call site.
+
+**Changed:** `hds-focus-ring` and `hds-focus-ring-size` mixin defaults for `$pseudo` flipped from `'after'` to `'before'`. Component-owned `::after` icons (accordion chevrons, pagination arrows, primary arrow circles) were being clobbered by the global focus rule's pseudo-element. If you were calling either mixin without passing `$pseudo`, the focus ring now renders on `::before` instead of `::after`. Pass `$pseudo: 'after'` explicitly to restore the previous behavior.

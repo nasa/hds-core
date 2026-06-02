@@ -62,7 +62,11 @@ $_focus-fallbacks: (
 );
 
 // Standard block-level elements (buttons, pagination)
-@mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'after', $circle-size-px: 24) {
+// Default $pseudo is 'before' so component-owned ::after icons
+// (chevrons, arrows, active bars) aren't clobbered by the global
+// focus rule in base/_focus.scss. Pass $pseudo: 'after' if the
+// component owns ::before instead.
+@mixin hds-focus-ring($color: 'default', $shape: 'rect', $pseudo: 'before', $circle-size-px: 24) {
   $suffix: '';
 
   @if $color != 'default' {
@@ -115,7 +119,7 @@ $_focus-fallbacks: (
 // ------------------------------------------------------------
 // Focus Ring Size Override (For circle modifiers)
 // ------------------------------------------------------------
-@mixin hds-focus-ring-size($circle-size-px, $pseudo: 'after') {
+@mixin hds-focus-ring-size($circle-size-px, $pseudo: 'before') {
   &::#{$pseudo} {
     $container-size: $circle-size-px + 6;
     $center: $container-size * 0.5;
@@ -356,7 +360,7 @@ $_focus-fallbacks: (
   }
 
   &:focus-visible {
-    @include hds-focus-ring($pseudo: 'before');
+    @include hds-focus-ring;
   }
 
   &:not(.usa-current) {
