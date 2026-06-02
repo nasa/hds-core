@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-05-20
+Last updated: 2026-06-02
 
 ## Package Overview
 
@@ -246,12 +246,12 @@ All defined in `_hds-mixins.scss` (public Sass surface).
 The mixin you call depends on the host element's layout:
 
 1. **Block elements via SVG mask** — `hds-focus-ring()` on the host. Sets `position: relative`, kills the native outline, paints the ring through an absolute `::before` (or `::after`) pseudo-element with a `mask-image` data-URI SVG. The `2,3` dash pattern is baked into the SVG because native CSS `dashed` produces a different rhythm at 1px. Used by `.usa-button`, icon button circles, accordion headings, pagination links, in-page nav links, primary arrow button.
-2. **Inline text via native outline** — `hds-focus-ring-inline()` on the host. Native `outline: 1px dashed` plus `box-decoration-break: clone` so the ring wraps cleanly across line breaks. Used by `.usa-link`, `.usa-button--unstyled`, `.usa-breadcrumb__link`.
+2. **Inline text via repeating-linear-gradient** — `hds-focus-ring-inline()` on the host. Four `repeating-linear-gradient` layers paint the `2,3` dash spec on bottom, top, left, and right edges of the element's padding box. `background-image` on inline elements fragments naturally per line box — each wrapped line gets its own ring without `box-decoration-break`. The host must have always-on `padding: 0 4px` so left/right edges have space to render; `hds-link-appearance` provides this for links and unstyled buttons, breadcrumbs set it directly. Used by `.usa-link`, `.usa-button--unstyled`, `.usa-breadcrumb__link`.
 3. **Form controls via sibling outline** — checkbox and radio labels apply `display: inline-flex`, lock the hidden input with `position: absolute`, then paint a native `outline: 1px dashed var(--hds-palette-focus-minimal)` on the adjacent `<label>`. Pattern lives directly in `components/_form.scss` (no shared mixin).
 
 ### Fixed Exemption
 
-`.hds-btn-icon--interactive` opts out of the palette system with a hardcoded `outline: 1px dashed $hds-color-carbon-40`. These buttons live over images, video, and 3D content where palette backgrounds don't apply; a fixed mid-contrast ring ensures consistent visibility on dynamic surfaces.
+`.hds-btn-icon--interactive` uses `hds-focus-ring($shape: 'circle')` like all other icon button roles, but overrides `::before { background-color }` with a hardcoded `$hds-color-carbon-40`. These buttons live over images, video, and 3D content where palette containers don't apply; a fixed mid-contrast ring ensures consistent visibility on dynamic surfaces.
 
 ### Tokens and Global Fallback
 

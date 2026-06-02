@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-04-26
+Last updated: 2026-06-02
 
 ## Class Naming Convention
 
@@ -145,19 +145,21 @@ Composite typography tokens are planned post-1.0, pending Style Dictionary compo
 
 ### Underline Style
 
-**Figma:** Dashed, 1px, "2, 3" dash pattern. **HDS Core:** `text-decoration-style: dashed`.
+**Figma:** Dashed, 1px, "2, 3" dash pattern. **HDS Core:** `repeating-linear-gradient`.
 
-Matches NASA.gov production styling: dashed underline, `.05em` thickness, `.25rem` offset. CSS `text-decoration` doesn't support custom dash patterns ("2, 3") but `dashed` at thin weights is visually close to the Figma intent and consistent with focus ring styles (also dashed) across the system.
+Matches NASA.gov production styling: dashed underline using a `repeating-linear-gradient` that produces the exact Figma `2,3` dash spec (2px dash, 3px gap). Uses `background-image` rather than `text-decoration` so the underline and focus ring share the same coordinate origin; the bottom edge does not shift when focus is applied.
+
+Always-on `padding: 0 4px` and `margin: 0 -4px` on the link element provide horizontal breathing room for the focus ring without affecting text layout.
 
 ### Hover Behavior
 
-Link text color stays constant. Only the underline changes from dashed to solid on hover.
+### Hover Behavior
+
+Link text color stays constant. Only the underline changes from dashed to solid on hover. Implemented by swapping the `repeating-linear-gradient` (dashed) for a plain `linear-gradient` (solid) at the same position and size.
 
 ### External Link Arrow
 
 HDS diagonal arrow (`arrow-line-diagonal.svg`) replaces USWDS launch icon. Arrow direction follows the HDS wayfinding rule: diagonal = leaving NASA. Appears automatically with no markup changes.
-
-**Known limitation:** CSS `text-decoration` cannot flow through `::after` pseudo-elements, creating a small underline gap before the arrow. Shared by USWDS, GOV.UK, and other government design systems.
 
 ### Unstyled Button
 
@@ -260,7 +262,7 @@ Figma's focus ring specifications contained a few inconsistencies and accessibil
 
 ### Interactive Icon Button Exemption
 
-Interactive icon buttons use a "Fixed" focus treatment (1px dashed Carbon 40, 1px offset) that does not adapt to palettes. Because these buttons are designed for use over images, video, and 3D content, a fixed, mid-contrast ring ensures consistent visibility against dynamic, unpredictable backgrounds where palette backgrounds don't apply.
+Interactive icon buttons use a "Fixed" focus treatment that does not adapt to palettes (always Carbon 40). Because these buttons are designed for use over images, video, and 3D content, a fixed, mid-contrast ring ensures consistent visibility against dynamic, unpredictable backgrounds where palette backgrounds don't apply.
 
 ## Table
 
