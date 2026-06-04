@@ -60,24 +60,6 @@
 }
 
 // ------------------------------------------------------------
-// Focus — Unstyled Button
-// ------------------------------------------------------------
-// Unstyled button looks identical to a link (via
-// hds-link-appearance mixin) so its focus ring must also
-// match .usa-link: inline outline, default treatment.
-// ------------------------------------------------------------
-
-.usa-button--unstyled:focus-visible:not(:disabled, [aria-disabled='true']) {
-  @include hds-focus-ring-inline;
-
-  // Kill the ::before pseudo-element from the base .usa-button rule
-  // to prevent double focus rings (outline + pseudo-element mask).
-  &::before {
-    display: none;
-  }
-}
-
-// ------------------------------------------------------------
 // CTA — Filled Red (.usa-button)
 // ------------------------------------------------------------
 // Base color handled by USWDS via primary/secondary swap.
@@ -225,8 +207,8 @@
   @include hds-link-appearance;
 
   background-color: transparent;
-  padding: 0 4px; // re-assert over USWDS reset
-  margin: 0 -4px; // cancel padding's flow contribution
+  padding: 2px 4px; // re-assert over USWDS reset
+  margin: -2px -4px; // cancel padding's flow contribution
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
@@ -237,6 +219,16 @@
     @include hds-link-hover;
 
     background-color: transparent;
+  }
+
+  &:focus-visible:not(:disabled, [aria-disabled='true']) {
+    @include hds-focus-ring-inline;
+
+    // Kill the ::before pseudo-element from the base .usa-button rule
+    // to prevent double focus rings (outline + pseudo-element mask).
+    &::before {
+      display: none;
+    }
   }
 
   &:disabled,
