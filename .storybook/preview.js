@@ -8,6 +8,7 @@
 // ============================================================
 
 import initInPageNav from './utils/in-page-nav-init';
+import { DocsContainer } from './DocsContainer.jsx';
 
 const preview = {
   parameters: {
@@ -22,6 +23,7 @@ const preview = {
       },
     },
     docs: {
+      container: DocsContainer,
       codePanel: true,
       toc: {
         headingSelector: 'h2, h3',
