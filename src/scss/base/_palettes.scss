@@ -43,7 +43,7 @@
   --hds-palette-social-fill: #{$hds-color-carbon-60};
   --hds-palette-social-icon: #{$hds-color-carbon-05};
 
-  // Focus: Bold uses C30 on all palettes per Figma (Pattern B).
+  // Focus: Bold uses C30 on all palettes per Figma.
   // Known WCAG 1.4.11 failure on light backgrounds — tracked
   // separately in Issue #40.
   --hds-palette-focus-bold: #{$hds-color-carbon-30};

@@ -21,7 +21,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
+    if: "github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/main'"
     steps:
       - uses: actions/checkout@v6
         with:
@@ -36,6 +36,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Capture the committed version BEFORE changesets/action runs.
+      # The action modifies package.json locally when it prepares the Version
+      # Packages PR, so reading the file after the action would give the
+      # bumped version even when no version bump was merged to main.
+      - name: Capture committed package version
+        id: committed-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Changesets -- manage Version Packages PR
         uses: changesets/action@v1
         with:
@@ -46,21 +54,22 @@ jobs:
 
       # Everything below runs only when a version bump landed on main
       # (i.e., the Version Packages PR was just merged).
-      # Detection: compare package.json version against latest git tag.
+      # Detection: check whether an exact tag for the committed version already
+      # exists. Using git tag -l rather than git describe avoids a false-positive
+      # on repos with no prior tags (git describe falls back to v0.0.0, which
+      # never matches any real version).
 
       - name: Check if version was bumped
         id: version-check
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          LATEST_VERSION=${LATEST_TAG#v}
-          if [ "$CURRENT" != "$LATEST_VERSION" ]; then
+          CURRENT="${{ steps.committed-version.outputs.version }}"
+          if git tag -l "v${CURRENT}" | grep -q "v${CURRENT}"; then
+            echo "released=false" >> $GITHUB_OUTPUT
+            echo "Tag v${CURRENT} already exists -- skipping release steps"
+          else
             echo "released=true" >> $GITHUB_OUTPUT
             echo "version=$CURRENT" >> $GITHUB_OUTPUT
-            echo "Version bump detected: $LATEST_VERSION -> $CURRENT"
-          else
-            echo "released=false" >> $GITHUB_OUTPUT
-            echo "No version change -- skipping release steps"
+            echo "No tag for v${CURRENT} found -- release steps will run"
           fi
 
       - name: Build
@@ -75,12 +84,8 @@ jobs:
 
       - name: Get changelog entry
         if: steps.version-check.outputs.released == 'true'
-        id: changelog
         run: |
-          NOTES=$(awk '/^## /{found++} found==1{print} found==2{exit}' CHANGELOG.md)
-          echo "notes<<EOF" >> $GITHUB_OUTPUT
-          echo "$NOTES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          awk '/^## /{found++} found==1{print} found==2{exit}' CHANGELOG.md > release-notes.md
 
       - name: Create dist zip
         if: steps.version-check.outputs.released == 'true'
@@ -94,6 +99,6 @@ jobs:
         run: |
           gh release create "v${{ steps.version-check.outputs.version }}" \
             --title "v${{ steps.version-check.outputs.version }}" \
-            --notes "${{ steps.changelog.outputs.notes }}" \
+            --notes-file release-notes.md \
             "hds-core-v${{ steps.version-check.outputs.version }}-dist.zip#dist artifacts" \
             "sbom.json#SBOM (CycloneDX)"

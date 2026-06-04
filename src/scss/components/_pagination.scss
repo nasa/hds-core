@@ -15,9 +15,9 @@
 //     restyled via @include hds-utility-circle automatically
 //
 // Focus treatments:
-//   Prev/next arrows — default (Pattern A), outline method
-//   Page numbers     — subtle (Pattern E), border method
-//   Simplified btn   — subtle (Pattern E), border method
+//   Prev/next arrows — default, outline method
+//   Page numbers     — subtle, border method
+//   Simplified btn   — subtle, border method
 //
 // Filter variant (rows-per-page dropdown) deferred to Phase 2+.
 //
@@ -110,7 +110,7 @@
     &:focus-visible {
       background-color: transparent;
 
-      @include hds-focus-ring($color: 'subtle', $method: 'border');
+      @include hds-focus-ring($color: 'subtle');
 
       color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     }
@@ -140,7 +140,7 @@
   &:focus-visible {
     background-color: transparent;
 
-    @include hds-focus-ring($color: 'subtle', $method: 'border');
+    @include hds-focus-ring($color: 'subtle');
 
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
   }
@@ -180,7 +180,7 @@
 
   // Focus — dashed ring outside solid circle border
   &:focus-visible {
-    @include hds-focus-ring;
+    @include hds-focus-ring($shape: 'circle');
   }
 
   // Disabled — color-based, not opacity-based
@@ -259,12 +259,11 @@
   }
 
   // Focus — dashed box around the WHOLE button (text + circle).
-  // Uses border method so it wraps the composed shape.
   // Must override global focus-visible outline (base/_focus.scss)
   // because this is a <button> element.
   &:focus-visible,
   button#{&}:focus-visible {
-    @include hds-focus-ring($color: 'subtle', $method: 'border');
+    @include hds-focus-ring($color: 'subtle');
 
     outline: none !important; // override global focus
   }

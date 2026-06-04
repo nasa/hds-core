@@ -5,13 +5,13 @@
 // ALWAYS ACTIVE — not gated (accessibility requirement).
 //
 // Dashed palette-aware focus ring for keyboard navigation.
-// Uses --hds-palette-focus token (Pattern A: C60 light /
-// C30 dark). Components with different focus treatments
+// Uses --hds-palette-focus token (default treatment: C60
+// light / C30 dark). Components with different focus treatments
 // override via hds-focus-ring() mixin with appropriate
-// $color and $width parameters.
+// $color and $shape parameters.
 //
-// Offset: 2px default. Components with generous internal
-// spacing (e.g. pagination page numbers) may override to 0.
+// Global baseline is a 1px dashed ring with 1px offset,
+// rendered via SVG mask in the ::after pseudo-element.
 // ============================================================
 
 @use 'uswds-core' as *;
@@ -39,4 +39,11 @@ input:focus:not(:focus-visible),
 select:focus:not(:focus-visible),
 textarea:focus:not(:focus-visible) {
   outline: none;
+}
+
+// Ensure no text-decoration bleeds through from USWDS or
+// browser defaults. The gradient underline replaces it.
+a:focus-visible,
+.usa-button--unstyled:focus-visible {
+  text-decoration: none;
 }

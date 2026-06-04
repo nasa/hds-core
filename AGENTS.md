@@ -203,12 +203,12 @@ These prevent silent parser failures:
 - **Form error hover:** Red error border lost on hover due to specificity mismatch (hover 0,3,0 vs error 0,1,0).
 - **Table sort focus:** Focus ring clipped by `mask-image`. Needs surface-inverse treatment per Figma.
 
-### Focus rings — partially stabilized
+### Focus rings
 
-- Issue #40 (in progress): Width and offset standardized to 1px, hardcoded in `hds-focus-ring` mixin. Focus width/offset tokens removed from `tokens.json`. Remaining open question: whether `focus.*` color tokens stabilize or stay internal.
-- Issue #20: Form input focus uses separate solid blue highlight, not the dashed outline system.
-- Icon buttons hardcode Carbon 40 dashed ring, exempt from palette system. This is intentional.
-- Do not modify focus ring behavior without explicit permission — remaining inconsistencies are under CD review.
+- Implementation: `_hds-mixins.scss` (mixins), `base/_focus.scss` (global baseline). See ARCHITECTURE.md for signatures and application methods, DESIGN.md for treatment rationale.
+- When adding focus rings to a new component, use the existing mixin infrastructure (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). If you cannot match the Figma spec with the existing mixins, flag to the user for a strategic call — do not hardcode focus styles at the component level or silently modify the mixin.
+- Form text inputs, textareas, and selects use a solid blue 2px border highlight, not the dashed system. Intentional, tracked in Issue #20.
+- `.hds-btn-icon--interactive` uses the same `hds-focus-ring($shape: 'circle')` as all other icon button roles but overrides `::before { background-color }` with a hardcoded `$hds-color-carbon-40`. These buttons live over images, video, and 3D content where palette containers don't apply.
 
 ## Verification rules
 

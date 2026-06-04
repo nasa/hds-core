@@ -18,15 +18,15 @@
 //   --lg          Hero CTAs
 //
 // Focus treatments:
-//   Utility       — default (Pattern A: C60 light / C30 dark)
-//   CTA/Sec/Out/Social — bold (Pattern B: C30 universal)
-//   Interactive   — fixed (C40, 1px offset, exempt from palette)
+//   Utility       — default (C60 light / C30 dark)
+//   CTA/Sec/Out/Social — bold (C30 universal)
+//   Interactive   — fixed (C40, exempt from palette)
 //
 // States:
-//   All roles except --interactive support hover, active,
-//   focus-visible, and disabled. Active matches hover (no
-//   distinct active state, consistent with Apple HIG).
-//   Disabled is color-based, not opacity-based.
+//   All roles support hover, active, and focus-visible.
+//   Every role except --interactive supports disabled.
+//   Active matches hover (no distinct active state, consistent
+//   with Apple HIG). Disabled is color-based, not opacity-based.
 // ============================================================
 
 @use 'uswds-core' as *;
@@ -39,6 +39,7 @@
   align-items: center;
   background: none;
   border: 1px solid transparent;
+  box-sizing: border-box;
   border-radius: 50%;
   cursor: pointer;
   display: inline-flex;
@@ -46,6 +47,7 @@
   justify-content: center;
   padding: 0;
   width: 24px;
+  position: relative;
 
   &[disabled],
   &:disabled {
@@ -61,13 +63,13 @@
 }
 
 // ── Focus — Per-Role ──────────────────────────────────────────
-// Split by Figma treatment. Utility uses default (Pattern A).
-// CTA, Secondary, Outline, Social use bold (Pattern B).
+// Split by Figma treatment. Utility uses default.
+// CTA, Secondary, Outline, Social use bold.
 // Interactive is exempt — fixed colors for dynamic backgrounds.
 
 .hds-btn-icon--utility {
   &:focus-visible {
-    @include hds-focus-ring;
+    @include hds-focus-ring($shape: 'circle');
   }
 }
 
@@ -76,7 +78,7 @@
 .hds-btn-icon--outline,
 .hds-btn-icon--social {
   &:focus-visible {
-    @include hds-focus-ring($color: 'bold');
+    @include hds-focus-ring($color: 'bold', $shape: 'circle');
   }
 }
 
@@ -207,11 +209,14 @@
     color: #{$hds-color-carbon-black};
   }
 
-  // Fixed focus ring — exempt from palette system.
-  // C40 at 1px offset for high contrast on dynamic backgrounds.
+  // Fixed focus ring — C40 hardcoded because this button lives over
+  // images, video, and WebGL where palette containers don't apply.
   &:focus-visible {
-    outline: 1px dashed #{$hds-color-carbon-40};
-    outline-offset: 1px;
+    @include hds-focus-ring($shape: 'circle');
+
+    &::before {
+      background-color: #{$hds-color-carbon-40};
+    }
   }
 }
 
@@ -234,18 +239,30 @@
 .hds-btn-icon--2xs {
   height: 12px;
   width: 12px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(12);
+  }
 }
 
 // 16px — header, footer, compact UI
 .hds-btn-icon--xs {
   height: 16px;
   width: 16px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(16);
+  }
 }
 
 // 20px — inline with text, cards
 .hds-btn-icon--sm {
   height: 20px;
   width: 20px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(20);
+  }
 }
 
 // 24px — default (no class needed)
@@ -254,24 +271,40 @@
 .hds-btn-icon--lg {
   height: 28px;
   width: 28px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(28);
+  }
 }
 
 // 32px — social buttons, standalone actions
 .hds-btn-icon--xl {
   height: 32px;
   width: 32px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(32);
+  }
 }
 
 // 36px — hero, prominent controls
 .hds-btn-icon--2xl {
   height: 36px;
   width: 36px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(36);
+  }
 }
 
 // 40px — pagination arrows, carousel controls
 .hds-btn-icon--3xl {
   height: 40px;
   width: 40px;
+
+  &:focus-visible {
+    @include hds-focus-ring-size(40);
+  }
 }
 
 // ── Inline glyph ──────────────────────────────────────────────

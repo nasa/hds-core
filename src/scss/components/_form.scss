@@ -33,7 +33,7 @@
 //   --hds-palette-control-stroke  → checkbox/radio selected border
 //   --hds-palette-control-border  → checkbox/radio default border
 //   --hds-palette-focus-minimal   → checkbox/radio outer focus box
-//                                   (Pattern D: C30 light / C80 dark)
+//                                   (minimal: C30 light / C80 dark)
 //
 // Tokens inferred from Figma (NOT in Proposal — flagged for
 // creative director review):
@@ -66,6 +66,26 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   background-color: transparent;
 }
 
+// Kill any USWDS phantom outlines, pseudo-elements, or focus rings
+// on the hidden native inputs that cause layout shifting.
+.usa-checkbox__input,
+.usa-radio__input {
+  // Force the input to stay visually hidden and completely out of the
+  // document flow even on focus, preventing it from pushing siblings.
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  outline: none;
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
 .usa-checkbox__input--tile + .usa-checkbox__label,
 .usa-radio__input--tile + .usa-radio__label {
   background-color: transparent;
@@ -74,7 +94,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 .usa-checkbox__label-description,
-.usa-checkbox__label-description {
+.usa-radio__label-description {
   color: var(--hds-palette-muted);
 }
 
@@ -187,17 +207,35 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   background-color: var(--hds-palette-input-bg);
   border: 0;
   box-shadow: 0 0 0 1px var(--hds-palette-control-border);
+
+  // Override USWDS absolute positioning
+  position: static;
+  flex-shrink: 0; // prevent squeezing when text is long
+  margin-top: 0;
+
+  // Re-apply exact Figma 18px sizing!
   height: 18px;
   width: 18px;
 }
 
 // Label text — Figma: Inter 400 14px, -0.25px ls
 .usa-checkbox__label {
+  // Modern Flexbox Layout
+  display: inline-flex;
+  align-items: flex-start; // Align to top if text wraps
+  gap: 8px; // Exact Figma gap!
+  padding-left: 0; // Nuke the USWDS indent hack
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-weight: font-weight('normal');
   font-size: size('body', '2xs');
   letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
+
+// Focus — Dashed outer ring on the label row
+.usa-checkbox__input:focus-visible + .usa-checkbox__label {
+  outline: 1px dashed var(--hds-palette-focus-minimal, #{$hds-color-carbon-30});
+  outline-offset: 4px;
 }
 
 // Hover — border darkens, label darkens
@@ -209,15 +247,14 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   color: var(--hds-palette-heading);
 }
 
-// Focus — dashed ring around entire label + blue border on box.
-// Outer box: Pattern D (Minimal) — C30 light / C80 dark.
-// Inner box: Solid blue element highlight (separate system).
-.usa-checkbox__input:focus-visible + .usa-checkbox__label {
-  @include hds-focus-ring($color: 'minimal');
-
-  border-radius: 0;
+// Kill USWDS hover/focus layout shifts
+.usa-checkbox__label::after,
+.usa-radio__label::after {
+  display: none;
 }
 
+// Focus — solid blue element highlight on the box itself.
+// The outer dashed ring is handled by the wrapper rule above.
 .usa-checkbox__input:focus-visible + .usa-checkbox__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
@@ -277,17 +314,35 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   background-color: var(--hds-palette-input-bg);
   border: 0;
   box-shadow: 0 0 0 1px var(--hds-palette-control-border);
+
+  // Override USWDS absolute positioning
+  position: static;
+  flex-shrink: 0;
+  margin-top: 0;
+
+  // Re-apply exact Figma 18px sizing!
   height: 18px;
   width: 18px;
 }
 
 // Label text — same as checkbox
 .usa-radio__label {
+  // Modern Flexbox Layout
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-left: 0;
   color: var(--hds-palette-control-text);
   font-family: family('heading');
   font-weight: font-weight('normal');
   font-size: size('body', '2xs');
   letter-spacing: map.get($hds-letterspacing, 'neg-1');
+}
+
+// Focus — Dashed outer ring on the label row
+.usa-radio__input:focus-visible + .usa-radio__label {
+  outline: 1px dashed var(--hds-palette-focus-minimal, #{$hds-color-carbon-30});
+  outline-offset: 4px;
 }
 
 // Hover — unchecked: border darkens
@@ -302,15 +357,8 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
     0 0 0 1px var(--hds-palette-muted);
 }
 
-// Focus — dashed ring around entire label + blue border on circle.
-// Outer box: Pattern D (Minimal) — C30 light / C80 dark.
-// Inner circle: Solid blue element highlight (separate system).
-.usa-radio__input:focus-visible + .usa-radio__label {
-  @include hds-focus-ring($color: 'minimal');
-
-  border-radius: 0;
-}
-
+// Focus — solid blue element highlight on the circle itself.
+// The outer dashed ring is handled by the wrapper rule above.
 .usa-radio__input:focus-visible + .usa-radio__label::before {
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);

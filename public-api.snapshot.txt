@@ -277,7 +277,6 @@ $hds-enable-auto-dark-mode
 $hds-enable-dataviz-tokens
 $hds-enable-experimental-palettes
 $hds-extended-palette
-$hds-focus-widths
 $hds-letterspacing
 $hds-line-heights
 $hds-radius-settings
@@ -289,6 +288,8 @@ $hds-width-settings
 
 ## Sass Mixins (_hds-mixins.scss)
 hds-focus-ring
+hds-focus-ring-inline
+hds-focus-ring-size
 hds-link-appearance
 hds-link-hover
 hds-metadata-type
@@ -420,6 +421,7 @@ hds-vertical-nav-links
 .usa-radio__input
 .usa-radio__input--tile
 .usa-radio__label
+.usa-radio__label-description
 .usa-section
 .usa-select
 .usa-sidenav

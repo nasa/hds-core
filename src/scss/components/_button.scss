@@ -31,7 +31,7 @@
 //   Filled secondary  — palette-aware (Blue → Blue Tint on dark)
 //   Outline           — palette-aware (border + text adapt)
 //   Focus ring        — palette-aware via --hds-palette-focus-bold
-//                       (Pattern B: C30 universal — known WCAG
+//                       (bold: C30 universal — known WCAG
 //                       1.4.11 failure on light, tracked in #40)
 //   Hover shades      — universal (TODO: creative director review
 //                       for dark-palette hover values)
@@ -45,43 +45,29 @@
 @use 'hds-mixins' as *;
 
 // ------------------------------------------------------------
-// Focus — Filled + Outline Buttons
+// Interactive states — hover, active, focus
 // ------------------------------------------------------------
-// Pattern B (Bold): C30 on all palettes per Figma.
-// Known WCAG 1.4.11 failure on light backgrounds — tracked
-// in Issue #40.
-// ------------------------------------------------------------
-
-.usa-button:focus-visible:not(:disabled, [aria-disabled='true']) {
-  @include hds-focus-ring($color: 'bold', $width: 'thick');
-}
-
-// ------------------------------------------------------------
-// Focus — Unstyled Button
-// ------------------------------------------------------------
-// Unstyled button looks identical to a link (via
-// hds-link-appearance mixin) so its focus ring must also
-// match .usa-link: thin width, default color (Pattern A).
+// Shared with the base stock-button reset in base/_elements.scss
+// via button-interactive-states mixin so the two cannot drift.
+// Hover/active: NASA Red Shade (universal — no palette swap).
+// Focus: Bold treatment, C30 on all palettes per Figma.
+// Known WCAG 1.4.11 failure on light backgrounds — tracked in
+// Issue #40.
 // ------------------------------------------------------------
 
-.usa-button--unstyled:focus-visible:not(:disabled, [aria-disabled='true']) {
-  @include hds-focus-ring;
+.usa-button {
+  @include button-interactive-states;
 }
 
 // ------------------------------------------------------------
 // CTA — Filled Red (.usa-button)
 // ------------------------------------------------------------
 // Base color handled by USWDS via primary/secondary swap.
-// Hover/active override USWDS auto-darkening with exact
-// HDS value (NASA Red Shade).
-// TODO: Confirm NASA Red Shade works on dark palettes
-// during creative director review.
+// Hover/active background override comes from
+// button-interactive-states mixin (NASA Red Shade, universal).
+// TODO: Confirm NASA Red Shade works on dark palettes during
+// creative director review.
 // ------------------------------------------------------------
-
-.usa-button:hover:not(:disabled, [aria-disabled='true']),
-.usa-button:active:not(:disabled, [aria-disabled='true']) {
-  background-color: $hds-color-nasa-red-shade;
-}
 
 // ------------------------------------------------------------
 // Secondary Filled — Blue (.usa-button--secondary)
@@ -221,6 +207,8 @@
   @include hds-link-appearance;
 
   background-color: transparent;
+  padding: 2px 4px; // re-assert over USWDS reset
+  margin: -2px -4px; // cancel padding's flow contribution
 
   &:visited {
     color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
@@ -231,6 +219,16 @@
     @include hds-link-hover;
 
     background-color: transparent;
+  }
+
+  &:focus-visible:not(:disabled, [aria-disabled='true']) {
+    @include hds-focus-ring-inline;
+
+    // Kill the ::before pseudo-element from the base .usa-button rule
+    // to prevent double focus rings (outline + pseudo-element mask).
+    &::before {
+      display: none;
+    }
   }
 
   &:disabled,

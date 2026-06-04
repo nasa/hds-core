@@ -35,7 +35,7 @@
   }
 
   &:focus-visible {
-    @include hds-focus-ring;
+    @include hds-focus-ring-inline;
   }
 }
 
@@ -61,6 +61,14 @@
   background-color: var(--hds-palette-link-arrow, #{$hds-color-carbon-60});
   content: '\a0';
   display: inline;
+
+  // Reset USWDS external-link() mixin's margin-top: 0.7ex which
+  // visually shifts the arrow downward off the text baseline.
+  // Keep USWDS's padding-left: 1.75ex — it gives the inline
+  // `\a0`-only ::after horizontal room for the centered mask
+  // icon to render. Composing components that don't want the
+  // padding-left (e.g. primary arrow button) defend locally.
+  margin: 0;
   mask-image: url('../assets/img/hds-icons/arrow-line-diagonal.svg'), linear-gradient(transparent, transparent);
   mask-size: 0.75em;
   mask-position: center;

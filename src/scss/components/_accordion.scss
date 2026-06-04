@@ -27,6 +27,7 @@
 
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use 'hds-mixins' as *;
 
 // ── Container ─────────────────────────────────────────────────
 // Remove USWDS left border
@@ -61,6 +62,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &:focus-visible {
+    @include hds-focus-ring;
+  }
 
   &:hover {
     background-color: transparent;

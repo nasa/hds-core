@@ -738,7 +738,7 @@ export const PaletteA11yHover = {
 
 // --- Focus tests (Chromatic modes + play function) ---
 // Sort button currently inherits the global focus ring from
-// base/_focus.scss (Pattern A, thin, outline). Surface-inverse
+// base/_focus.scss (default treatment, 1px dashed). Surface-inverse
 // focus treatment not yet implemented — see DESIGN.md Table
 // section and _table.scss header comment. This story captures
 // the baseline so Chromatic diffs will show the change when

@@ -22,6 +22,20 @@ Open an [Issue](https://github.com/nasa/hds-core/issues). Include what you expec
 
 Start a [Discussion](https://github.com/nasa/hds-core/discussions). This is the right place for open-ended questions, design proposals, integration challenges, and "has anyone tried..." conversations.
 
+### Edit documentation
+
+The Storybook documentation site has an **Edit this page on GitHub ↗** link at the bottom of every page. Clicking it opens the file in GitHub's browser editor — no local development environment needed.
+
+**Safe to edit:** paragraph text, headings, list items, and table cell content.
+
+**Leave alone:** any line starting with `import`, the `<Meta title="..." />` line near the top of each file, and anything inside `< >` angle brackets. These are code, not prose — editing them can break the page silently.
+
+To submit your changes:
+
+1. Make your edits in the GitHub browser editor.
+2. Click **Commit changes…**, write a short description, and choose **Create a new branch** using the `docs/` prefix (e.g. `docs/fix-button-copy`).
+3. Open a pull request to `main`. A formatting bot runs automatically and may commit small whitespace fixes on your behalf. A maintainer will review and merge.
+
 ### Submit a code change
 
 Open a pull request. See the sections below for setup instructions, conventions, and what we look for in review.
@@ -178,10 +192,14 @@ When filing, note in the issue title or description that the root cause is upstr
 
 ## Storybook documentation
 
-Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms). When changing or adding a component:
+Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms).
+
+For prose-only edits — rewording guidance, fixing typos, updating copy — see [Edit documentation](#edit-documentation) above. No development setup needed.
+
+When changing or adding a component:
 
 - Update or create the `.mdx` file for documentation and the `.stories.js` file for interactive examples in `stories/components/`.
-- A complete component requires both a **Guidance** tab (how and when to use, accessibility notes) and a **Playground** tab (interactive `.stories.js` embed).
+- A complete component requires a **Guidance** page (how and when to use, accessibility notes), key variants as standalone interactive stories (with exposed controls for users to change their content and settings), and an "All Variants" story (if more than one variant).
 
 ## Design proposals
 
