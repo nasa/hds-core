@@ -421,6 +421,7 @@ hds-vertical-nav-links
 .usa-radio__input
 .usa-radio__input--tile
 .usa-radio__label
+.usa-radio__label-description
 .usa-section
 .usa-select
 .usa-sidenav

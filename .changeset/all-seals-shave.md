@@ -2,9 +2,9 @@
 '@nasa/hds-core': minor
 ---
 
-form error style updates
+form style updates
 
-**Added:** `.usa-legend--large` selector is now part of the HDS authored surface.
+**Added:** `.usa-legend--large` and `.usa-radio__label-description` selectors are now part of the HDS authored surface.
 
 **Renamed:** `--hds-palette-error-border` is now `--hds-palette-error-indicator`. If you were referencing this property directly, update to the new name.
 
