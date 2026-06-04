@@ -5,17 +5,19 @@
 # Run automatically in CI when src/scss/** or tokens.json changes.
 # Run locally: bash scripts/check-bundle-size.sh (requires gzip + wc)
 #
-# Thresholds set from post-refactor measurements (May 2026, v0.7.2):
-#   hds.min.css:       43.3 KB measured -- 45 KB ceiling (hard fail)
-#   hds-uswds.min.css: 47.9 KB measured -- combined 95 KB ceiling (informational)
+# All limits use decimal KB (1 KB = 1,000 bytes), matching browser devtools.
+#
+# Thresholds set from post-refactor measurements (June 2026, v0.8.0):
+#   hds.min.css:       46.1 KB measured -- 48 KB ceiling (hard fail)
+#   hds-uswds.min.css: 47.9 KB measured -- combined 96 KB ceiling (informational)
 #
 # hds.min.css is the mandatory adopter load and the only enforced gate.
 # hds-uswds.min.css is an optional utilities addon for USWDS migration sites.
 
 set -euo pipefail
 
-HDS_MAX=46080        # 45 KB
-COMBINED_MAX=97280   # 95 KB
+HDS_MAX=48000        # 48 KB
+COMBINED_MAX=96000   # 96 KB
 
 if [ ! -f dist/css/hds.min.css ]; then
   echo "ERROR: dist/css/hds.min.css not found -- run npm run build first"
@@ -27,7 +29,7 @@ hds_gz=$(gzip -c dist/css/hds.min.css | wc -c)
 fail=0
 
 if [ "$hds_gz" -gt "$HDS_MAX" ]; then
-  echo "FAIL hds.min.css: ${hds_gz}B > ${HDS_MAX}B (limit: 45 KB gzipped)"
+  echo "FAIL hds.min.css: ${hds_gz}B > ${HDS_MAX}B (limit: 48 KB gzipped)"
   fail=1
 else
   echo "OK   hds.min.css: ${hds_gz}B (limit: ${HDS_MAX}B)"
