@@ -30,6 +30,13 @@
   background-color: transparent;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   font-size: size('body', '2xs');
+  line-height: lh('body', 3);
+}
+
+// USWDS clips the list to hide overflow for truncation. Override
+// overflow only so focus ring gradients can paint outside list bounds.
+.usa-breadcrumb:not(.usa-breadcrumb--wrap) .usa-breadcrumb__list {
+  overflow: visible;
 }
 
 // ------------------------------------------------------------
@@ -41,7 +48,6 @@
 .usa-breadcrumb__link:active {
   color: inherit;
   text-decoration: none;
-  padding: 0 4px;
   background-image: none;
 }
 
@@ -56,14 +62,20 @@
     transparent 2px,
     transparent 5px
   );
-  background-size: calc(100% - 8px) 1px;
-  background-position: center 100%;
+
+  // Prose links use calc(100% - 8px) / center because they carry always-on
+  // padding: 0 4px. Breadcrumb scopes padding to :focus-visible only, so the
+  // underline spans full content width instead.
+  background-size: 100% 1px;
+  background-position: 0 100%;
   background-repeat: no-repeat;
 }
 
-.usa-breadcrumb__link:focus-visible,
-.usa-breadcrumb__link:hover:focus-visible {
+.usa-breadcrumb__link:focus-visible {
   @include hds-focus-ring-inline;
+
+  padding: 0 4px;
+  margin: 0 -4px;
 }
 
 // ------------------------------------------------------------
