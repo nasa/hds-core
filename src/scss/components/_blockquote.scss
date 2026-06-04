@@ -153,7 +153,13 @@
 // ------------------------------------------------------------
 // Inter Bold 12px uppercase. Similar to .hds-metadata but
 // with component-specific line-height (19px per Figma).
-// Can be <span> (person) or wrapped in <a> for bio link.
+// Always a <span> for grid placement. When the name is a
+// bio link, the <a> lives inside the span — not the other
+// way around — so the link is a true inline element and
+// hds-link-appearance works correctly:
+//
+//   <span class="hds-blockquote__name">Scott Kelly</span>
+//   <span class="hds-blockquote__name"><a href="...">Scott Kelly</a></span>
 // ------------------------------------------------------------
 
 .hds-blockquote__name {
@@ -187,10 +193,19 @@
   @include hds-link-appearance;
 
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-  text-decoration-color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  outline: none; // suppress USWDS [href]:focus outline in all focus states
 
   &:hover {
     @include hds-link-hover;
+
+    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  }
+
+  // Focus ring replaces the dashed underline — same pattern as
+  // bare <a>. Mixin sets outline: none and paints four-sided
+  // repeating-linear-gradient ring via background-image.
+  &:focus-visible {
+    @include hds-focus-ring-inline;
 
     color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   }

@@ -7,7 +7,9 @@
 //   Stories     — Default, Author, Source, All Variants (visible in sidebar)
 // ============================================================
 
-import { paletteA11yParams, paletteRender } from '../helpers/paletteTests';
+import { expect } from 'storybook/test';
+import { paletteModes } from '../../.storybook/modes';
+import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
   title: 'Components/Blockquote',
@@ -36,8 +38,13 @@ const quoteArg = {
   quote: { control: 'text', description: 'Quote text content' },
 };
 
+// <span> always owns the class and grid placement. When linked, <a> nests
+// inside the span so it remains a true inline element — hds-link-appearance
+// requires inline context; a grid item cannot provide it.
 const nameEl = (name, linked) =>
-  linked ? `<a href="#" class="hds-blockquote__name">${name}</a>` : `<span class="hds-blockquote__name">${name}</span>`;
+  linked
+    ? `<span class="hds-blockquote__name"><a href="#">${name}</a></span>`
+    : `<span class="hds-blockquote__name">${name}</span>`;
 
 const avatarEl = (name) => `<img class="hds-blockquote__avatar" src="blockquote-avatar-kelly.png" alt="${name}" />`;
 
@@ -52,9 +59,11 @@ const personAttribution = ({ linked = false } = {}) => `
     <span class="hds-blockquote__description">${defaults.description}</span>
   </div>`;
 
+// <cite> owns the class and grid placement. When linked, <a> nests inside
+// the cite — same pattern as nameEl above.
 const sourceAttribution = ({ linked = false } = {}) => {
   const desc = linked
-    ? `<a href="#"><cite class="hds-blockquote__description">${defaults.source}</cite></a>`
+    ? `<cite class="hds-blockquote__description"><a href="#">${defaults.source}</a></cite>`
     : `<cite class="hds-blockquote__description">${defaults.source}</cite>`;
   return `<div class="hds-blockquote__attribution">${desc}</div>`;
 };
@@ -110,7 +119,7 @@ export const Source = {
   },
   render: ({ quote, source, linked }) => {
     const desc = linked
-      ? `<a href="#"><cite class="hds-blockquote__description">${source}</cite></a>`
+      ? `<cite class="hds-blockquote__description"><a href="#">${source}</a></cite>`
       : `<cite class="hds-blockquote__description">${source}</cite>`;
 
     return blockquote(
@@ -166,4 +175,44 @@ export const PaletteA11y = {
   tags: ['!dev'],
   parameters: paletteA11yParams,
   render: paletteRender(() => `<div style="padding-left: 3rem;">${AllVariants.render()}</div>`),
+};
+
+export const PaletteA11yHover = {
+  name: 'Palette a11y [hover]',
+  tags: ['!dev'],
+  parameters: { ...paletteA11yParams, ...pseudoParams.hover },
+  render: paletteRender(() => `<div style="padding-left: 3rem;">${AllVariants.render()}</div>`),
+};
+
+// --- Focus tests (Chromatic modes + play function) ---
+
+const focusParams = {
+  chromatic: {
+    disableSnapshot: false,
+    modes: paletteModes,
+  },
+};
+
+export const FocusAuthorLinked = {
+  name: 'Focus [author linked]',
+  tags: ['!dev'],
+  parameters: focusParams,
+  render: () => blockquote(`<p>${defaults.quoteAuthor}</p>${personAttribution({ linked: true })}`),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const link = canvas.getByRole('link', { name: defaults.name });
+    await expect(link).toHaveFocus();
+  },
+};
+
+export const FocusSourceLinked = {
+  name: 'Focus [source linked]',
+  tags: ['!dev'],
+  parameters: focusParams,
+  render: () => blockquote(`<p>${defaults.quoteSource}</p>${sourceAttribution({ linked: true })}`),
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const link = canvas.getByRole('link', { name: defaults.source });
+    await expect(link).toHaveFocus();
+  },
 };
