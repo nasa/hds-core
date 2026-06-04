@@ -354,6 +354,7 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 @mixin hds-link-appearance {
   color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
   text-decoration: none;
+  display: inline;
   padding: 0 4px;
   margin: 0 -4px;
   box-decoration-break: clone;
