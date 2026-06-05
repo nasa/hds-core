@@ -385,4 +385,4 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Check public API snapshot
-        run: npm run check:public-api
+        run: npm run check:api-snapshot
