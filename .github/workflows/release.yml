@@ -78,9 +78,7 @@ jobs:
 
       - name: Generate SBOM
         if: steps.version-check.outputs.released == 'true'
-        run: |
-          npm install --no-save @cyclonedx/cyclonedx-npm
-          npx @cyclonedx/cyclonedx-npm --output-file sbom.json
+        run: npx @cyclonedx/cyclonedx-npm --output-file sbom.json
 
       - name: Get changelog entry
         if: steps.version-check.outputs.released == 'true'
