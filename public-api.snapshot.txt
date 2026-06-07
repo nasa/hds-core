@@ -11,6 +11,7 @@ src/scss/hds-uswds.scss
 @layer site (last)
 
 ## Custom Properties (hds.min.css)
+--hds-accordion-border-width
 --hds-border-radius-0
 --hds-border-radius-button
 --hds-border-radius-card
@@ -23,22 +24,10 @@ src/scss/hds-uswds.scss
 --hds-border-radius-sm
 --hds-border-radius-summary
 --hds-border-radius-xl
---hds-border-size-0
---hds-border-size-05
---hds-border-size-1
---hds-border-size-105
---hds-border-size-1px
---hds-border-size-2
---hds-border-size-2px
---hds-border-width-accordion
---hds-border-width-button
---hds-border-width-card
---hds-border-width-input-select
---hds-border-width-input-state
---hds-border-width-input-tile
---hds-border-width-pagination
---hds-border-width-summary
---hds-border-width-table
+--hds-border-width-thick
+--hds-border-width-thin
+--hds-button-border-width
+--hds-card-border-width
 --hds-color-active-green
 --hds-color-carbon-05
 --hds-color-carbon-10
@@ -69,6 +58,9 @@ src/scss/hds-uswds.scss
 --hds-font-weight-normal
 --hds-font-weight-semibold
 --hds-font-weight-thin
+--hds-input-select-border-width
+--hds-input-state-border-width
+--hds-input-tile-border-width
 --hds-line-height-body
 --hds-line-height-button
 --hds-line-height-caption
@@ -78,6 +70,7 @@ src/scss/hds-uswds.scss
 --hds-line-height-intro
 --hds-line-height-label
 --hds-line-height-table
+--hds-pagination-border-width
 --hds-palette-bg
 --hds-palette-blockquote-icon
 --hds-palette-border
@@ -119,6 +112,8 @@ src/scss/hds-uswds.scss
 --hds-palette-utility-hover-stroke
 --hds-palette-utility-icon
 --hds-palette-utility-stroke
+--hds-summary-border-width
+--hds-table-border-width
 
 ## Custom Properties (hds-dataviz.min.css)
 --hds-dataviz-color-cat-1
@@ -246,7 +241,6 @@ src/scss/hds-uswds.scss
 
 ## Sass Variables (_hds-tokens.scss)
 $hds-border-radii
-$hds-border-sizes
 $hds-color-active-green
 $hds-color-carbon-05
 $hds-color-carbon-10

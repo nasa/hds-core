@@ -251,7 +251,7 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 @mixin button-padding-border {
   border-radius: var(--hds-border-radius-button);
   border-style: solid;
-  border-width: var(--hds-border-width-button);
+  border-width: var(--hds-button-border-width);
   padding-block: units(1.5);
   padding-inline: units(2.5);
 }

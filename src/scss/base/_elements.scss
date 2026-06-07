@@ -267,7 +267,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
 
   pre {
     background: $hds-color-carbon-05;
-    border-left: 4px solid var(--hds-palette-border, #{$hds-color-carbon-60});
+    border-left: 4px solid var(--hds-palette-border, #{$hds-color-carbon-60}); // intentional accent; not tokenized
     overflow-x: auto;
     padding: units(2);
   }
@@ -454,7 +454,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   input[type='color'],
   textarea {
     background: $hds-color-spacesuit-white;
-    border: var(--hds-border-width-input-state) solid $hds-color-carbon-60;
+    border: var(--hds-input-state-border-width) solid $hds-color-carbon-60;
     border-radius: 0;
     color: $hds-color-carbon-black;
     font-family: inherit;
