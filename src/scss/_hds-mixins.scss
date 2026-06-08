@@ -249,9 +249,9 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 // ------------------------------------------------------------
 
 @mixin button-padding-border {
-  border-radius: var(--hds-button-border-radius);
+  border-radius: $hds-border-radius;
   border-style: solid;
-  border-width: var(--hds-button-border-width);
+  border-width: $hds-border-width-thick;
   padding-block: units(1.5);
   padding-inline: units(2.5);
 }
@@ -327,7 +327,7 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 @mixin hds-utility-circle {
   align-items: center;
   background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
-  border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+  border: $hds-border-width-thin solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
   border-radius: 50%;
   color: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
   cursor: pointer;
@@ -457,7 +457,7 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 
     &::after {
       background-color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
-      border-radius: 0; // Override USWDS pill
+      border-radius: #{$hds-border-radius}; // Override USWDS pill with HDS default 0px border radius
       width: 2px;
 
       // Note: components must handle top/bottom/left positioning

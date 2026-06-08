@@ -103,7 +103,7 @@
     flex-shrink: 0;
     width: 1.5em; // 24px at 16px base — Figma M size
     height: 1.5em;
-    border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+    border: $hds-border-width-thin solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
     border-radius: 50%;
     margin-left: units(2);
 

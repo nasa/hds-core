@@ -108,8 +108,8 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-textarea,
 .usa-select {
   background-color: var(--hds-palette-input-bg);
-  border: 1px solid var(--hds-palette-border);
-  border-radius: 2px;
+  border: $hds-border-width-thin solid var(--hds-palette-border);
+  border-radius: $hds-border-radius-control;
   color: var(--hds-palette-control-text);
   font-size: size('body', '2xs');
   letter-spacing: 0;
@@ -144,7 +144,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-textarea:focus-visible,
 .usa-select:focus-visible {
   border-color: var(--hds-palette-btn-secondary-bg);
-  border-width: 2px;
+  border-width: $hds-border-width-thick;
   outline: none !important;
 }
 
@@ -433,7 +433,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-input--error,
 .usa-input--error:focus-visible {
   border-color: var(--hds-palette-error-indicator);
-  border-width: 1px;
+  border-width: $hds-border-width-thin;
 }
 
 // HDS Figma shows no form group left border — USWDS default suppressed.
@@ -472,5 +472,5 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // See TextInput.mdx Success variant note for usage guidance.
 .usa-input--success {
   border-color: color('success');
-  border-width: 1px;
+  border-width: $hds-border-width-thin;
 }

@@ -30,7 +30,7 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
   align-items: center;
   background-color: transparent;
   border: 0;
-  border-radius: 0;
+  border-radius: $hds-border-radius;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   display: inline-flex;
   font-family: family('heading');

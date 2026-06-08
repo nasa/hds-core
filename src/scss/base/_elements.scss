@@ -452,8 +452,8 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   input[type='color'],
   textarea {
     background: $hds-color-spacesuit-white;
-    border: var(--hds-input-state-border-width) solid $hds-color-carbon-60;
-    border-radius: 0;
+    border: $hds-border-width-thin solid $hds-color-carbon-60;
+    border-radius: $hds-border-radius-control;
     color: $hds-color-carbon-black;
     font-family: inherit;
     font-size: size('body', 'xs');
