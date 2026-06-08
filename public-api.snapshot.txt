@@ -241,6 +241,8 @@ src/scss/hds-uswds.scss
 
 ## Sass Variables (_hds-tokens.scss)
 $hds-border-radii
+$hds-border-width-thick
+$hds-border-width-thin
 $hds-color-active-green
 $hds-color-carbon-05
 $hds-color-carbon-10
@@ -276,7 +278,6 @@ $hds-line-heights
 $hds-radius-settings
 $hds-type-scale
 $hds-weights
-$hds-width-settings
 
 ## Sass Variables (_hds-dataviz-palettes.scss)
 

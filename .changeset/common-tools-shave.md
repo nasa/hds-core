@@ -2,11 +2,15 @@
 '@nasa/hds-core': minor
 ---
 
-border width token refactor
+Border width token refactor
 
-**Breaking: `--hds-border-size-*` removed.** The seven value-named CSS custom properties (`--hds-border-size-0`, `--hds-border-size-1px`, `--hds-border-size-2px`, `--hds-border-size-05`, `--hds-border-size-1`, `--hds-border-size-105`, `--hds-border-size-2`) have been removed. These were vestigial value-scale tokens never consumed by HDS components. No replacement; remove from any CSS that references them.
+**New: `$hds-border-width-thin` (1px) and `$hds-border-width-thick` (2px).** Role-based Sass variables that feed USWDS theme settings directly and emit `--hds-border-width-thin` / `--hds-border-width-thick` CSS custom properties for consumers without a Sass pipeline. Added to `tokens.json` as `border.width.thin` / `border.width.thick`.
 
-**Breaking: `--hds-border-width-{component}` renamed to `--hds-{component}-border-width`.** All nine component border-width CSS custom properties have been renamed to follow component-first naming:
+**Breaking: `$hds-border-sizes` map and `--hds-border-size-*` CSS properties removed.** The value-named USWDS-style scale was never used by HDS components. Migrate: `--hds-border-size-1px` → `--hds-border-width-thin`; `--hds-border-size-2px` → `--hds-border-width-thick`; all other entries (`0`, `05`, `1`, `105`, `2`) have no replacement and were USWDS mirrors not present in the HDS spec. The corresponding `border.width.*` token keys in `tokens.json` are replaced by `border.width.thin` / `border.width.thick`.
+
+**Breaking: `$hds-width-settings` map removed.** The per-component map only existed to feed USWDS theme settings; `$hds-border-width-thin` / `$hds-border-width-thick` now do this directly.
+
+**Breaking: `--hds-border-width-{component}` renamed to `--hds-{component}-border-width`.** All nine component CSS custom properties now follow component-first naming:
 
 | Old                               | New                               |
 | --------------------------------- | --------------------------------- |
@@ -19,9 +23,3 @@ border width token refactor
 | `--hds-border-width-pagination`   | `--hds-pagination-border-width`   |
 | `--hds-border-width-summary`      | `--hds-summary-border-width`      |
 | `--hds-border-width-table`        | `--hds-table-border-width`        |
-
-**Breaking: `$hds-border-sizes` Sass map removed.** This value-named map was a vestigial USWDS-style scale never used by HDS components. Use `--hds-border-width-thin` or `--hds-border-width-thick` CSS custom properties instead.
-
-**Breaking: `border.width.*` entries in `tokens.json` replaced.** The seven value-named keys (`0`, `1`, `2`, `105`, `1px`, `2px`, `05`) are replaced by `border.width.thin` and `border.width.thick`.
-
-**New: `--hds-border-width-thin: 1px` and `--hds-border-width-thick: 2px`.** Role tokens replace the value-named `--hds-border-size-*` scale. Component border-width tokens (`--hds-{component}-border-width`) reference these via `var()`. Also added to `tokens.json` as `border.width.thin` and `border.width.thick`.

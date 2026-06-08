@@ -55,8 +55,8 @@
   }
 
   // Border role tokens — var(--hds-border-width-thin)
-  --hds-border-width-thin: 1px;
-  --hds-border-width-thick: 2px;
+  --hds-border-width-thin: #{$hds-border-width-thin};
+  --hds-border-width-thick: #{$hds-border-width-thick};
 
   // Border radii — var(--hds-border-radius-sm)
   @each $name, $radius in $hds-border-radii {
@@ -70,14 +70,14 @@
 
   // Component border widths — var(--hds-{component}-border-width)
   --hds-accordion-border-width: 0;
-  --hds-button-border-width: var(--hds-border-width-thick);
-  --hds-card-border-width: var(--hds-border-width-thin);
-  --hds-input-tile-border-width: var(--hds-border-width-thin);
-  --hds-input-select-border-width: var(--hds-border-width-thin);
-  --hds-input-state-border-width: var(--hds-border-width-thin);
-  --hds-pagination-border-width: var(--hds-border-width-thin);
-  --hds-summary-border-width: var(--hds-border-width-thin);
-  --hds-table-border-width: var(--hds-border-width-thin);
+  --hds-button-border-width: #{$hds-border-width-thick};
+  --hds-card-border-width: #{$hds-border-width-thin};
+  --hds-input-tile-border-width: #{$hds-border-width-thin};
+  --hds-input-select-border-width: #{$hds-border-width-thin};
+  --hds-input-state-border-width: #{$hds-border-width-thin};
+  --hds-pagination-border-width: #{$hds-border-width-thin};
+  --hds-summary-border-width: #{$hds-border-width-thin};
+  --hds-table-border-width: #{$hds-border-width-thin};
 }
 
 // ============================================================

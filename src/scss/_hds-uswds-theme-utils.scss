@@ -389,13 +389,14 @@
   $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, 'pagination'),
   $theme-summary-box-border-radius: map.get(hds.$hds-radius-settings, 'summary'),
   // Border / stroke width
-  $theme-button-stroke-width: map.get(hds.$hds-width-settings, 'button'),
-  $theme-card-border-width: map.get(hds.$hds-width-settings, 'card'),
-  $theme-input-select-border-width: map.get(hds.$hds-width-settings, 'input-select'),
-  $theme-input-tile-border-width: map.get(hds.$hds-width-settings, 'input-tile'),
-  $theme-input-state-border-width: map.get(hds.$hds-width-settings, 'input-state'),
-  $theme-pagination-button-border-width: map.get(hds.$hds-width-settings, 'pagination'),
-  $theme-summary-box-border-width: map.get(hds.$hds-width-settings, 'summary'),
+  $theme-button-stroke-width: hds.$hds-border-width-thick,
+  $theme-card-border-width: hds.$hds-border-width-thin,
+  $theme-input-select-border-width: hds.$hds-border-width-thin,
+  $theme-input-tile-border-width: hds.$hds-border-width-thin,
+  $theme-input-state-border-width: hds.$hds-border-width-thin,
+  $theme-pagination-button-border-width: hds.$hds-border-width-thin,
+  $theme-summary-box-border-width: hds.$hds-border-width-thin,
+
   // Button typography
   $theme-button-font-family: 'heading',
 

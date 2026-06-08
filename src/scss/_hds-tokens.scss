@@ -224,6 +224,13 @@ $hds-letterspacing: (
 );
 
 // ============================================================
+// § BORDER WIDTHS
+// ============================================================
+
+$hds-border-width-thin: 1px;
+$hds-border-width-thick: 2px;
+
+// ============================================================
 // § BORDER RADII
 // ============================================================
 
@@ -247,20 +254,4 @@ $hds-radius-settings: (
   'modal': 'sm',
   'pagination': 0,
   'summary': 'md',
-);
-
-// ============================================================
-// § COMPONENT BORDER WIDTH ASSIGNMENTS
-// ============================================================
-
-$hds-width-settings: (
-  'accordion': '0',
-  'button': '2px',
-  'card': '1px',
-  'input-tile': '1px',
-  'input-select': '1px',
-  'input-state': '1px',
-  'pagination': '1px',
-  'summary': '1px',
-  'table': '1px',
 );
