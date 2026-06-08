@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-06-02
+Last updated: 2026-06-07
 
 ## Package Overview
 
@@ -367,9 +367,7 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ### Components
 
-- [ ] Composed Forms review: USWDS `.usa-form-group--error` inserts a left border not present in HDS Figma. Error inline icon (red circle exclamation) present in HDS Figma but absent in USWDS — needs to be added.
 - [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
-- [ ] Wire `$hds-extended-palette` for USWDS utility class generation
 - [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
 
 ### Pre-1.0 Verification

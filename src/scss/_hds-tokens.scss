@@ -35,9 +35,6 @@ $hds-enable-dataviz-tokens: false !default;
 /// Automatically apply dark palette when OS prefers dark mode.
 $hds-enable-auto-dark-mode: false !default;
 
-/// Reserved for future experimental features.
-$hds-enable-experimental-palettes: false !default;
-
 // ============================================================
 // § BRAND COLORS
 // ============================================================
@@ -79,48 +76,17 @@ $hds-color-active-green: #47da84;
 //
 // Light mode: NASA Blue at 3%/6% opacity over White
 // Dark mode:  White at 4%/6% opacity over Carbon 90
-// ============================================================
-
-$hds-color-table-sorted-bg: #f8fafe;
-$hds-color-table-sorted-stripe-bg: #f2f6fe;
-$hds-color-table-sorted-bg-dark: #252528;
-$hds-color-table-sorted-stripe-bg-dark: #202024;
-$hds-color-table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
-$hds-color-table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
-
-// ============================================================
-// § EXTENDED COLOR PALETTE
-// ============================================================
-// Registered with USWDS via $global-color-palettes in
-// _hds-uswds-theme.scss. Makes all tokens below available
-// as standard USWDS color utilities:
-//   color("base-mid-darker") / .bg-base-mid-darker / .text-base-mid-darker
 //
-// base-dark and base-darker override USWDS theme token
-// approximations (gray-60, gray-70) with exact HDS hex values.
+// Internal-only — not on public Sass surface ($hds-* prefix omitted).
+// Consumed only by components/_table.scss and base/_elements.scss.
 // ============================================================
 
-$hds-extended-palette: (
-  // Carbon 20
-  'base-mid-lightest': #d1d1d1,
-  // Carbon 30
-  'base-mid-lighter': #b9b9bb,
-  // Carbon 40
-  'base-mid-light': #959599,
-  // Carbon 50
-  'base-mid-dark': #77777a,
-  // Carbon 60
-  'base-mid-darker': #58585b,
-  // Carbon 70
-  'base-mid-darkest': #444447,
-  // Carbon 80 — overrides USWDS approx
-  'base-dark': #2e2e32,
-  // Carbon 90 — overrides USWDS approx
-  'base-darker': #17171b,
-
-  'international-orange': #ea6f24,
-  'active-green': #47da84
-);
+$table-sorted-bg: #f8fafe;
+$table-sorted-stripe-bg: #f2f6fe;
+$table-sorted-bg-dark: #252528;
+$table-sorted-stripe-bg-dark: #202024;
+$table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
+$table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
 // ============================================================
 // § TYPE SCALE

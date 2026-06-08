@@ -261,16 +261,8 @@ $hds-color-nasa-red
 $hds-color-nasa-red-shade
 $hds-color-nasa-red-tint
 $hds-color-spacesuit-white
-$hds-color-table-border-dark
-$hds-color-table-border-light
-$hds-color-table-sorted-bg
-$hds-color-table-sorted-bg-dark
-$hds-color-table-sorted-stripe-bg
-$hds-color-table-sorted-stripe-bg-dark
 $hds-enable-auto-dark-mode
 $hds-enable-dataviz-tokens
-$hds-enable-experimental-palettes
-$hds-extended-palette
 $hds-letterspacing
 $hds-line-heights
 $hds-type-scale

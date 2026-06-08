@@ -421,7 +421,7 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   }
 
   td {
-    border-top: hds.$hds-border-width-thin solid var(--hds-palette-border, #{$hds-color-table-border-light});
+    border-top: hds.$hds-border-width-thin solid var(--hds-palette-border, #{$table-border-light});
     font-feature-settings:
       'tnum' on,
       'lnum' on;
