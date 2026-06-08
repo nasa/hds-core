@@ -234,24 +234,5 @@ $hds-border-width-thick: 2px;
 // § BORDER RADII
 // ============================================================
 
-$hds-border-radii: (
-  '0': 0,
-  'sm': '2px',
-  'md': '4px',
-  'lg': '8px',
-  'xl': '16px',
-);
-
-// ============================================================
-// § COMPONENT BORDER RADIUS ASSIGNMENTS
-// ============================================================
-
-$hds-radius-settings: (
-  'button': 0,
-  'card': 0,
-  'checkbox': 'sm',
-  'input-tile': 'sm',
-  'modal': 'sm',
-  'pagination': 0,
-  'summary': 'md',
-);
+$hds-border-radius: 0;
+$hds-border-radius-control: 2px;

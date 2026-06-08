@@ -381,13 +381,14 @@
   // Component Settings
   // ----------------------------------------------------------
   // Border radius
-  $theme-button-border-radius: map.get(hds.$hds-radius-settings, 'button'),
-  $theme-card-border-radius: map.get(hds.$hds-radius-settings, 'card'),
-  $theme-checkbox-border-radius: map.get(hds.$hds-radius-settings, 'checkbox'),
-  $theme-input-tile-border-radius: map.get(hds.$hds-radius-settings, 'input-tile'),
-  $theme-modal-border-radius: map.get(hds.$hds-radius-settings, 'modal'),
-  $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, 'pagination'),
-  $theme-summary-box-border-radius: map.get(hds.$hds-radius-settings, 'summary'),
+  $theme-button-border-radius: hds.$hds-border-radius,
+  $theme-card-border-radius: hds.$hds-border-radius,
+  $theme-checkbox-border-radius: hds.$hds-border-radius-control,
+  $theme-input-tile-border-radius: hds.$hds-border-radius-control,
+  $theme-modal-border-radius: hds.$hds-border-radius,
+  $theme-pagination-button-border-radius: hds.$hds-border-radius,
+  $theme-summary-box-border-radius: hds.$hds-border-radius,
+
   // Border / stroke width
   $theme-button-stroke-width: hds.$hds-border-width-thick,
   $theme-card-border-width: hds.$hds-border-width-thin,
