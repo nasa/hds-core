@@ -59,7 +59,9 @@ $_fluid-max-vw: 1200; // px — USWDS desktop-lg
 // § Type ramp
 // ============================================================
 // lh: raw unitless ratio
-// ls: key into $hds-letterspacing
+// ls: key into $hds-letterspacing, OR a raw length for bespoke
+//     tracking that lives outside the public scale (same pattern
+//     as the bespoke `lh` ratios 1.06 / 1.25)
 // clamp: (min-px, max-px) for fluid sizing, null for static
 
 $_type: (
@@ -168,7 +170,10 @@ $_type: (
     size: '3xs',
     weight: 500,
     lh: 1.75,
-    ls: '2',
+    // Bespoke tracking, kept internal/raw (not a public scale
+    // member): Figma-validated 3.5px ÷ 12px overline font-size
+    // (0.75rem) = 0.2917em, rounded up to 0.3em.
+    ls: 0.3em,
     clamp: null,
   ),
   'metadata': (
@@ -248,7 +253,14 @@ $_type: (
 
   font-weight: map.get($s, 'weight');
   line-height: map.get($s, 'lh');
-  letter-spacing: map.get($hds-letterspacing, map.get($s, 'ls'));
+
+  // `ls` is normally a key into the public $hds-letterspacing scale,
+  // but may be a raw length for bespoke tracking outside that scale
+  // (e.g. overline). Resolve a key via the map; pass a raw value
+  // through untouched.
+  $ls: map.get($s, 'ls');
+
+  letter-spacing: if(map.has-key($hds-letterspacing, $ls), map.get($hds-letterspacing, $ls), $ls);
 }
 
 // Metadata — Inter uppercase label. Internal (no hds- prefix).
