@@ -33,6 +33,18 @@
 @use 'hds-typography' as *;
 
 @mixin content-rules {
+  // ── Flush leading element ─────────────────────────────────────
+  // The first flow element hugs its container top — mirroring the
+  // USWDS prose template, whose owl-pattern spacing (`* + *`) never
+  // applies a top margin to the first child. Restores the opening
+  // H1's flush-top alignment with the side nav, which regressed when
+  // content spacing moved off the owl pattern onto direct element
+  // margins (h1/p/list margin-block-start). Specificity (0,1,0)
+  // beats the bare type rules, so position here is not load-bearing.
+  :first-child {
+    margin-block-start: 0;
+  }
+
   // ── Headings ────────────────────────────────────────────────
 
   h1 {
