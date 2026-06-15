@@ -6,11 +6,9 @@ import * as ProseStories from './Prose.stories';
 
 # Prose
 
-<Note type="code">**Known limitation:** Prose is a work in progress. Some bare-element styles (links, tables, blockquotes, code, horizontal rules, and ordered list typography) do not yet receive full HDS styling inside `.usa-prose`. Lists display correct marker colors and text sizing. A build pipeline update planned before v1.0 will resolve these gaps.</Note>
-
 Prose applies HDS styling to a block of bare HTML elements using the `.usa-prose` wrapper class. Use it for content where individual component classes can't be applied — blog posts, CMS output, markdown-rendered pages, or any long-form content.
 
-Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, code blocks, and horizontal rules all receive HDS typography, spacing, and color.
+Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, code blocks, and horizontal rules all receive HDS typography, spacing, and color. Reading line length is constrained to 68ch automatically.
 
 <Canvas of={ProseStories.Default} />
 
@@ -30,16 +28,16 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
 ## Usability guidance
 
 - **Apply `.usa-prose` to the content container**, not to `<body>` or a site-wide wrapper. Keep the scope tight to avoid unintended styling on UI elements.
-- **Prose styles only affect direct children.** Nested components inside a prose block that use their own USWDS classes (`.usa-table`, `.usa-list`) will use component styles, not bare-element styles.
-- **Lists inside prose use bare-element styling.** For ordered lists with precise DM Mono numeral alignment, use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list-guidance--docs) for details.
+- **Prose styles apply to all descendant elements.** Nested components that use their own USWDS or HDS classes (`.usa-table`, `.usa-list`) will still use their component styles — component layer specificity wins over the prose bare-element rules.
+- **Lists inside prose use native browser markers with HDS color.** Bullet and number markers use `--hds-palette-marker`. For the full HDS ordered-list treatment (DM Mono numerals, precise alignment), use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list-guidance--docs) for details.
 
-<Note type="uswds">**Differs from USWDS:** HDS prose styles include smaller list item text (14px vs body 16px), blue list markers, DM Mono ordered list numerals, and HDS-specific heading typography. Vanilla USWDS prose uses default browser markers and body-sized list text.</Note>
+<Note type="uswds">**Differs from USWDS:** HDS prose includes smaller list item text (14px vs body 16px), palette-aware blue list markers, a 68ch reading width constraint, and HDS-specific heading and blockquote typography. For DM Mono numerals in ordered lists, use `.usa-list`. Vanilla USWDS prose uses default browser markers and body-sized list text with no max-width.</Note>
 
 ## Accessibility
 
 - Prose content uses semantic HTML elements (`<h1>`–`<h6>`, `<p>`, `<ul>`, `<ol>`, `<table>`, `<blockquote>`). Screen readers interpret these natively — no ARIA attributes needed for basic prose.
 - Maintain a logical heading hierarchy. Don't skip heading levels (e.g., `<h2>` to `<h4>`).
-- Ordered lists inside prose retain native list markers for screen reader compatibility. If you need `role="list"` for accessibility (recommended by the HDS accessibility spec), use `.usa-list` markup instead.
+- Ordered and unordered lists use native browser markers (not overridden with custom content), which preserves screen reader announcement. If you need `role="list"` for accessibility (recommended by the HDS accessibility spec for styled lists), use `.usa-list` markup instead.
 - Links inside prose receive HDS dotted underline styling, which preserves link discoverability for users who don't perceive color.
 
 See [Accessibility](?path=/docs/foundations-accessibility--docs) for HDS-wide guidance and the [USWDS prose accessibility tests](https://designsystem.digital.gov/components/prose/accessibility-tests) for component-specific manual testing guidance.

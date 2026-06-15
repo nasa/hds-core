@@ -3,18 +3,14 @@
 // @nasa/hds-core
 // ============================================================
 // Load order:
-//   1. Text styles — small text treatments used across components
-//   2. Foundational — link and button, used/extended by others
-//   3. Form controls — inputs, selects, checkboxes, radios
-//   4. Content — tables, lists, intro text, accordion, blockquote
-//   5. Navigation — breadcrumb, pagination, in-page nav
-//   6. Notifications — site alert, alert
-//   7. Layout — grid utilities
-//   8. Phase 2 stubs — navigation, banner
+//   1. Foundational — link and button, used/extended by others
+//   2. Form controls — inputs, selects, checkboxes, radios
+//   3. Content — tables, lists, intro text, accordion, blockquote
+//   4. Navigation — breadcrumb, pagination, in-page nav
+//   5. Notifications — site alert, alert
+//   6. Layout — grid utilities
+//   7. Phase 2 stubs — navigation, banner
 // ============================================================
-
-// ── Text styles ──
-@forward 'text-styles';
 
 // ── Foundational ──
 @forward 'link';
@@ -27,6 +23,7 @@
 
 // ── Content ──
 @forward 'intro-text';
+@forward 'prose';
 @forward 'list';
 @forward 'table';
 @forward 'accordion';
