@@ -260,7 +260,7 @@ $_type: (
   // through untouched.
   $ls: map.get($s, 'ls');
 
-  letter-spacing: if(map.has-key($hds-letterspacing, $ls), map.get($hds-letterspacing, $ls), $ls);
+  letter-spacing: if(sass(map.has-key($hds-letterspacing, $ls)): map.get($hds-letterspacing, $ls) ; else: $ls);
 }
 
 // Metadata — Inter uppercase label. Internal (no hds- prefix).
