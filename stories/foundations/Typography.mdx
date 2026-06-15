@@ -29,7 +29,7 @@ H1–H3 use Inter Bold; H4–H6 use Inter SemiBold for a lighter hierarchy.
 <Canvas of={TypographyStories.HeadingScale} />
 
 <Note type="figma">
-  Rendered font sizes are smaller than the HDS Figma spec. This is a known limitation: USWDS applies cap-height normalization to all <code>size()</code> tokens, and HDS currently uses the same cap-height for all three font families. For example, H1 renders at ~36px instead of the Proposal's 48px, and H2 at ~24px instead of 36px. The proportional scale is correct — individual pixel values are not. This will be resolved when per-font cap-height normalization is addressed system-wide.
+  H1 and H2 use <code>fluid-size()</code> and render at Figma-spec pixel values (32–48px and 28–36px respectively, scaling with viewport). H3–H6 use USWDS <code>size()</code> tokens with cap-height normalization; HDS currently uses the same cap-height for all three font families, so rendered sizes match expected values (22/18/16/14px). Per-font cap-height tuning is planned before v1.0.
 </Note>
 
 ## Display sizes
@@ -76,7 +76,7 @@ Blockquotes use Inter Light at heading scale for a conversational look, with a d
 <Canvas of={TypographyStories.Blockquote} />
 
 <Note type="uswds">
-  USWDS does not include a blockquote component. Bare <code>&lt;blockquote&gt;</code> elements receive this treatment when <code>$theme-global-content-styles</code> is <code>true</code> or inside <code>.usa-prose</code> with the flag enabled. Otherwise, use the <code>.hds-blockquote</code> class shown here.
+  USWDS does not include a blockquote component. Bare <code>&lt;blockquote&gt;</code> elements receive this treatment automatically inside <code>.usa-prose</code> or when <code>$theme-global-content-styles</code> is <code>true</code>. Outside those contexts, use the <code>.hds-blockquote</code> class shown here.
 </Note>
 
 ## Numbers
