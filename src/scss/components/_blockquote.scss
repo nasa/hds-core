@@ -47,6 +47,7 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
+@use 'hds-typography' as *;
 
 // ------------------------------------------------------------
 // Blockquote container + quote icon
@@ -59,11 +60,14 @@
 
 .hds-blockquote {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-  font-family: var(--hds-font-family-heading);
-  font-size: size('heading', 'lg'); // 28px mobile
-  font-weight: font-weight('light');
-  letter-spacing: -1px;
-  line-height: 1.2;
+  font-family: family('heading');
+
+  // Bespoke fluid display size, single-sourced via fluid-size()
+  // so it tracks the viewport range instead of drifting.
+  font-size: fluid-size(28, 36);
+  font-weight: 300; // light
+  letter-spacing: map.get($hds-letterspacing, 'neg-3'); // -0.03em
+  line-height: 1.15; // tight
   margin: 0;
   padding: 0;
   position: relative;
@@ -84,10 +88,8 @@
     margin-block-end: units(1);
   }
 
-  // Desktop: icon hangs left of text column, quote text 36px
+  // Desktop: icon hangs left of text column
   @media (min-width: #{units('tablet')}) {
-    font-size: size('heading', 'xl'); // 36px desktop
-
     &::before {
       left: -37px;
       margin-block-end: 0;
@@ -128,7 +130,7 @@
   font-weight: font-weight('normal');
   grid-template-columns: auto 1fr;
   letter-spacing: normal; // Guard: prevent quote's -1px from inheriting
-  line-height: lh('body', 3);
+  line-height: 1.35; // scale 3 — snug
   margin-block-start: units(2.5); // 20px
   row-gap: 0;
 }
@@ -163,7 +165,7 @@
 // ------------------------------------------------------------
 
 .hds-blockquote__name {
-  @include hds-metadata-type;
+  @include metadata-type;
 
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   display: block;

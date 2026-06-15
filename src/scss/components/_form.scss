@@ -50,6 +50,7 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
+@use 'hds-typography' as *;
 
 // HDS check icon — replaces USWDS default checkmark glyph
 $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.7071 5.70712L7.99995 15.4142L2.29285 9.70712L3.70706 8.29291L7.99995 12.5858L16.2928 4.29291L17.7071 5.70712Z' fill='%23fff'/%3E%3C/svg%3E");
@@ -167,11 +168,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 
 .usa-label,
 .usa-legend {
+  @include hds-type('h6');
+
   color: var(--hds-palette-control-text);
-  font-family: family('heading');
-  font-size: size('body', '2xs');
-  font-weight: font-weight('semibold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
 }
 
 .usa-legend--large {
