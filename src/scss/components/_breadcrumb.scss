@@ -30,7 +30,7 @@
   background-color: transparent;
   color: var(--hds-palette-muted, #{$hds-color-carbon-60});
   font-size: size('body', '2xs');
-  line-height: lh('body', 3);
+  line-height: 1.35; // scale 3 — snug
 }
 
 // USWDS clips the list to hide overflow for truncation. Override

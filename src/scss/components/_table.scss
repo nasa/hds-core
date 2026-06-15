@@ -70,7 +70,7 @@
     font-weight: font-weight('semibold');
     font-size: size('body', '2xs');
     letter-spacing: -0.25px;
-    line-height: line-height('heading', 3);
+    line-height: 1.35; // scale 3 — snug
   }
 
   // --- Body cells ---
@@ -125,7 +125,7 @@
     font-weight: font-weight('bold');
     font-size: size('body', 'lg');
     letter-spacing: map.get($hds-letterspacing, 'neg-3');
-    line-height: line-height('heading', 2);
+    line-height: 1.15; // scale 2 — tight
     padding-bottom: units(2);
     text-align: left;
 
