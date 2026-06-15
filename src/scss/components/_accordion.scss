@@ -63,6 +63,10 @@
   align-items: center;
   justify-content: space-between;
 
+  // Header→body gap: zero the button's bottom contribution so the
+  // single 20px gap below is owned by the panel (see __content).
+  padding-bottom: 0;
+
   &:focus-visible {
     @include hds-focus-ring;
   }
@@ -131,4 +135,12 @@
   background-color: transparent;
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-top: 0;
+
+  // Total header→body gap = 20px (Figma). USWDS contributes
+  // button padding-bottom 16px + content margin-top 0 + content
+  // padding-top 16px (= 32px). Zero the others (margin-top here,
+  // button padding-bottom in the button rule) and own the gap with
+  // a single 20px intermediate token on the panel's top padding.
+  margin-top: 0;
+  padding-top: units(2.5);
 }
