@@ -89,33 +89,22 @@ $table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
 $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
 // ============================================================
-// § TYPE SCALE
+// § LINE HEIGHT SCALE
 // ============================================================
-// Maps HDS named sizes to USWDS system scale integers.
+// Raw ratio scale for type-system work. Emitted as
+// --hds-line-height-* CSS custom properties (one scalar per
+// entry — kept flat so the Style Dictionary generator can later
+// emit these with a clean no-diff against the API snapshot).
+//
+// Keys are the USWDS line-height scale numbers 1–6.
 // ============================================================
 
-$hds-type-scale: (
-  // ~12px
-  '3xs': 1,
-  // ~14px
-  '2xs': 3,
-  // ~16px
-  'xs': 5,
-  // ~18px
-  'sm': 7,
-  // ~22px
-  'md': 9,
-  // ~28px
-  'lg': 11,
-  // ~36px
-  'xl': 13,
-  // ~48px
-  '2xl': 15,
-  // ~80px
-  '3xl': 18,
-  // ~120px
-  '4xl': 19
-);
+$hds-line-height-1: 1; // 100% — h1, h2 display, numbers
+$hds-line-height-2: 1.15; // 115% — h3 tight
+$hds-line-height-3: 1.35; // 135% — h4, h6, caption, figcaption
+$hds-line-height-4: 1.5; // 150% — intro text
+$hds-line-height-5: 1.62; // 162% — body paragraph
+$hds-line-height-6: 1.75; // 175% — overline, metadata, label
 
 // ============================================================
 // § FONT WEIGHTS
@@ -134,9 +123,10 @@ $hds-weights: (
 // ============================================================
 // § LINE HEIGHTS
 // ============================================================
+// USWDS theme settings only; do not add to the HDS type system.
 // Values are USWDS line-height scale integers, resolved to
 // actual values via USWDS's line-height() function in
-// base/_custom-properties.scss
+// _hds-uswds-theme.scss.
 // ============================================================
 
 $hds-line-heights: (
@@ -147,17 +137,7 @@ $hds-line-heights: (
   // 1.52 ≈ Figma 150%
   'intro': 4,
   // 1.15
-  'input': 2,
-  // closest USWDS token; refined to 1.2 in _hds-mixins.scss
-  'button': 3,
-  // 1.35
-  'code': 3,
-  // 1.15
-  'table': 2,
-  // 1.75 ≈ proposal 180%
-  'label': 6,
-  // closest USWDS token; refined to 1.2 in components/_text-styles.scss
-  'caption': 3
+  'input': 2
 );
 
 // ============================================================
@@ -168,25 +148,27 @@ $hds-line-heights: (
 // ============================================================
 
 $hds-letterspacing: (
-  // H1-2xl (120px)
-  'neg-7': -5.5px,
-  // H1-xl (80px)
-  'neg-6': -4px,
-  // H1 (48px)
-  'neg-5': -3px,
+  // H1-2xl display
+  'neg-7': -0.07em,
+  // H1-xl display
+  'neg-6': -0.06em,
+  // H1, number-lg
+  'neg-5': -0.05em,
   // H1 alternate
-  'neg-4': -1.5px,
-  // H2 (36px)
-  'neg-3': -1px,
-  // H3, H4, H5 (22px, 18px, 16px)
-  'neg-2': -0.5px,
-  // H6 (14px)
-  'neg-1': -0.25px,
+  'neg-4': -0.04em,
+  // H2
+  'neg-3': -0.03em,
+  // H3, H4, H5
+  'neg-2': -0.02em,
+  // H6, intro, form-label
+  'neg-1': -0.01em,
   'auto': 0,
-  // Label, metadata, caption
-  '1': 0.25px,
-  // Label (div) uppercase wide
-  '2': 3.5px
+  // Caption, metadata, nav links
+  '1': 0.025em,
+  // Overline uppercase
+  '2': 0.1em,
+  // Reserve
+  '3': 0.15em
 );
 
 // ============================================================
