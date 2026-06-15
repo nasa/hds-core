@@ -19,7 +19,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
-@use 'hds-mixins' as *;
+@use 'content-rules' as *;
 
 // Selector shorthand for all palette containers
 $_p: '[data-hds-palette], [class*="hds-palette-"]';
@@ -45,67 +45,57 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     color: var(--hds-palette-text, #{$hds-color-carbon-90});
     font-family: family('body');
     font-size: size('body', 'xs');
-    line-height: var(--hds-line-height-body);
+    line-height: var(--hds-line-height-5);
     text-rendering: optimizelegibility;
   }
 }
 
 // ------------------------------------------------------------
-// Headings
+// Content rules
 // Gate: $theme-global-content-styles
 // ------------------------------------------------------------
-// Line-heights and letterspacing per HDS Core Proposal element
-// cards. USWDS heading-line-height token is too coarse (one
-// value for all headings), so raw values are used here.
+// Headings, paragraphs, links, blockquote, code, hr, lists,
+// media, tables, and forms via the content-rules mixin
+// (base/_content-rules.scss).
 // ------------------------------------------------------------
 
 @if $theme-global-content-styles {
-  h1 {
-    font-family: family('heading');
-    font-weight: font-weight('bold');
-    letter-spacing: -1.5px;
-    line-height: 1; // 100%
-    margin-block-start: units(4);
-    margin-block-end: units(2);
-  }
-
-  h2 {
-    font-family: family('heading');
-    font-weight: font-weight('bold');
-    letter-spacing: -1px;
-    line-height: 1.1; // 110%
-  }
-
-  h3 {
-    font-family: family('heading');
-    font-weight: font-weight('bold');
-    letter-spacing: -0.5px;
-    line-height: 1.2; // 120%
-  }
-
-  h4 {
-    font-family: family('heading');
-    font-weight: font-weight('semibold');
-    letter-spacing: -0.5px;
-    line-height: 1.3; // 130%
-  }
-
-  h5 {
-    font-family: family('heading');
-    font-weight: font-weight('semibold');
-    letter-spacing: -0.5px;
-    line-height: 1.2; // 120%
-  }
-
-  h6 {
-    font-family: family('heading');
-    font-weight: font-weight('semibold');
-    letter-spacing: -0.25px;
-    line-height: 1.3; // 130%
-  }
+  @include content-rules;
 }
 
-// end headings
+// ── Opt-in scope: .hds-global-styles ─────────────────────────
+// Applies the same content rules within .hds-global-styles
+// regardless of the USWDS global content flag. This is the
+// second live caller of content-rules and the supported way for
+// adopters to opt a subtree into HDS content styling.
+//
+// The donut scope stops at .hds-global-styles-reset, which uses
+// `all: revert-layer` to peel the subtree back to the cascade
+// layer below — letting consumers carve out unstyled islands.
+//
+// ⚠️ HUMAN BROWSER VERIFICATION REQUIRED before integration:
+//    confirm `all: revert-layer` actually halts inheritance of
+//    content-rules styling at the reset boundary in the target
+//    browsers. This cannot be verified without a live browser.
+//    @scope + revert-layer are in HDS scope; legacy fallback is
+//    explicitly NOT. See stories/components/Prose "Global styles
+//    scope + reset" for an in-browser A/B check.
+@scope (.hds-global-styles) to (.hds-global-styles-reset) {
+  @include content-rules;
+}
+
+.hds-global-styles-reset {
+  all: revert-layer;
+}
+
+// Palette list-marker color is set via a direct rule on li::marker
+// (not an inherited value), so all: revert-layer on an ancestor
+// cannot cancel it. Explicitly revert within palette reset zones.
+#{$_p} .hds-global-styles-reset {
+  li::marker {
+    color: revert-layer;
+  }
+}
 
 // Heading palette wiring (always active)
 #{$_p} {
@@ -120,403 +110,6 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
     color: var(--hds-palette-heading);
   }
 }
-
-// ------------------------------------------------------------
-// Paragraph
-// Gate: $theme-global-paragraph-styles OR $theme-global-content-styles
-// ------------------------------------------------------------
-
-@if $theme-global-paragraph-styles or $theme-global-content-styles {
-  p {
-    margin-block-start: units(2);
-    margin-block-end: units(2);
-  }
-}
-
-// ------------------------------------------------------------
-// Links
-// Gate: $theme-global-link-styles OR $theme-global-content-styles
-// ------------------------------------------------------------
-// When enabled, bare <a> tags receive HDS link treatment.
-// Uses shared hds-link-appearance mixin (_hds-mixins.scss)
-// for DRY consistency with .usa-link component.
-// ------------------------------------------------------------
-
-@if $theme-global-link-styles or $theme-global-content-styles {
-  a:not(:has(> img, > svg)) {
-    @include hds-link-appearance;
-
-    // Suppress USWDS [href]:focus outline in all focus states
-    outline: none;
-
-    &:hover {
-      @include hds-link-hover;
-    }
-
-    &:visited {
-      color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-    }
-
-    &:focus-visible {
-      @include hds-focus-ring-inline;
-    }
-  }
-}
-
-// ============================================================
-// Content Elements
-// Gate: $theme-global-content-styles
-// ============================================================
-
-@if $theme-global-content-styles {
-  // ------------------------------------------------------------
-  // Blockquote (bare element fallback)
-  // ------------------------------------------------------------
-  // Minimal treatment for CMS / .usa-prose content where
-  // developers can't add .hds-blockquote classes. Provides
-  // quote typography, decorative icon, and basic <cite>
-  // styling. For the full component with avatar and structured
-  // attribution, use .hds-blockquote (components/_blockquote.scss).
-  //
-  // Icon uses mask-image on ::before (same technique as
-  // accordion chevron and table sort icons). Responsive:
-  // mobile = icon above text, desktop = icon hangs left.
-  // ------------------------------------------------------------
-
-  blockquote {
-    margin: 0;
-    padding: 0;
-
-    // Quote icon
-    &::before {
-      background-color: var(--hds-palette-blockquote-icon, #{$hds-color-international-orange});
-      content: '';
-      display: block;
-      height: 24px;
-      width: 24px;
-      mask-image: url('../assets/img/hds-icons/quote.svg');
-      mask-position: center;
-      mask-repeat: no-repeat;
-      mask-size: 100%;
-      margin-block-end: units(1); // 8px — mobile
-    }
-
-    // Desktop: icon hangs left of text column
-    @media (min-width: #{units('tablet')}) {
-      position: relative;
-
-      &::before {
-        left: -37px;
-        margin-block-end: 0;
-        position: absolute;
-        top: 1px;
-      }
-    }
-
-    p {
-      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
-      font-family: family('heading');
-      font-size: size('heading', 'lg'); // 28px — mobile
-      font-weight: font-weight('light');
-      letter-spacing: -1px;
-      line-height: 1.2;
-      margin: 0;
-    }
-
-    @media (min-width: #{units('tablet')}) {
-      p {
-        font-size: size('heading', 'xl'); // 36px — desktop
-      }
-    }
-
-    // Basic cite styling (description treatment)
-    cite {
-      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-      display: block;
-      font-family: family('body');
-      font-size: size('body', '2xs'); // 14px
-      font-style: normal;
-      font-weight: font-weight('normal');
-      line-height: lh('body', 3);
-      margin-block-start: units(2.5); // 20px
-    }
-
-    // Also style <footer> for spec-correct markup:
-    //   <blockquote><p>...</p><footer>Name, <cite>Work</cite></footer></blockquote>
-    footer {
-      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-      display: block;
-      font-family: family('body');
-      font-size: size('body', '2xs');
-      font-style: normal;
-      font-weight: font-weight('normal');
-      line-height: lh('body', 3);
-      margin-block-start: units(2.5);
-    }
-  }
-
-  // ------------------------------------------------------------
-  // Code
-  // ------------------------------------------------------------
-
-  code,
-  pre {
-    font-family: family('mono');
-    font-size: size('body', '2xs');
-  }
-
-  pre {
-    background: $hds-color-carbon-05;
-    border-left: 4px solid var(--hds-palette-border, #{$hds-color-carbon-60}); // intentional accent; not tokenized
-    overflow-x: auto;
-    padding: units(2);
-  }
-
-  code {
-    background: $hds-color-carbon-05;
-    padding: 0.1em 0.3em;
-  }
-
-  pre code {
-    background: none;
-    padding: 0;
-  }
-
-  // ------------------------------------------------------------
-  // Horizontal Rule
-  // ------------------------------------------------------------
-
-  hr {
-    border: 0;
-    border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-10});
-    margin-block: units(4);
-  }
-
-  // ------------------------------------------------------------
-  // Lists
-  // ------------------------------------------------------------
-  // HDS list typography: list item text is one step below body
-  // (14px), ordered numerals two steps below (12px).
-  //
-  // Marker color uses --hds-palette-marker token (NASA Blue on
-  // light palettes, Blue Tint on dark and blue).
-  //
-  // APPROACH:
-  //   ul — native ::marker for disc color
-  //   ol — native ::marker with content: counter() to unlock
-  //     DM Mono font-family. Less precise spacing than the
-  //     .usa-list component's ::before + flex approach, but
-  //     fully accessible without role="list" — essential for
-  //     .usa-prose / CMS content where developers can't modify
-  //     element attributes.
-  //
-  // For pixel-perfect ordered numerals with right-aligned
-  // double digits, use ol.usa-list with role="list"
-  // (see components/_list.scss).
-  //
-  // :where() guard on ol keeps specificity at 0 so the
-  // .usa-list component can override cleanly.
-  // ------------------------------------------------------------
-
-  // --- Shared ---
-
-  ul,
-  ol {
-    margin-block: 0;
-  }
-
-  li {
-    font-size: size('body', '2xs'); // 14px — one step below body
-    line-height: line-height('body', 3); // ≈1.35; Figma 1.43 (within 10%)
-    margin-block-end: units(2.5); // 20px — matches Figma item spacing
-  }
-
-  // --- Unordered: native ::marker ---
-
-  ul {
-    padding-inline-start: units(2); // 16px — disc + 11px gap
-  }
-
-  ul > li::marker {
-    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
-  }
-
-  // --- Ordered: native ::marker with DM Mono ---
-  // :where() excludes .usa-list, breadcrumbs, other components.
-  // Browser controls marker box spacing — less precise than
-  // the component but preserves native list semantics for
-  // CMS/prose content.
-
-  ol {
-    padding-inline-start: units(4); // 32px — room for double-digit numerals
-  }
-
-  ol:where(:not([class*='usa-'], [class*='hds-'])) > li::marker {
-    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
-    content: counter(list-item);
-    font-family: family('mono');
-    font-size: size('body', '3xs'); // 12px — two steps below body
-    font-weight: font-weight('medium'); // 500
-  }
-
-  // ------------------------------------------------------------
-  // Media
-  // ------------------------------------------------------------
-
-  img {
-    border: 0;
-    height: auto;
-    max-width: 100%;
-    vertical-align: middle;
-  }
-
-  figure {
-    margin: 0 0 units(3) 0;
-  }
-
-  figcaption {
-    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
-    display: block;
-    font-family: family('body'); // D7: Public Sans per proposal
-    font-size: size('body', '3xs');
-    font-weight: font-weight('normal');
-    line-height: var(--hds-line-height-label);
-    margin-block-start: units(1);
-  }
-
-  // TODO: figcaption and .hds-caption share most values but differ
-  // in letter-spacing (0 vs 0.25px) and line-height (label var vs 1.2).
-  // Determine if intentional or drift, then extract shared mixin.
-
-  // ------------------------------------------------------------
-  // Tables
-  // ------------------------------------------------------------
-  // Bare element styles for tables inside .usa-prose or when
-  // $theme-global-content-styles is true. Provides HDS baseline
-  // typography for tables that don't use .usa-table markup.
-  //
-  // For .usa-table component overrides (colors, sort icons,
-  // dark palette, caption), see components/_table.scss.
-  // ------------------------------------------------------------
-
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-  }
-
-  th,
-  td {
-    font-size: size('body', 'xs');
-    line-height: var(--hds-line-height-table);
-    padding: units(1.5) units(2);
-    text-align: left;
-    vertical-align: top;
-  }
-
-  th {
-    font-family: family('heading');
-    font-weight: font-weight('semibold');
-    letter-spacing: -0.25px;
-  }
-
-  td {
-    border-top: hds.$hds-border-width-thin solid var(--hds-palette-border, #{$table-border-light});
-    font-feature-settings:
-      'tnum' on,
-      'lnum' on;
-  }
-
-  // ------------------------------------------------------------
-  // Forms
-  // ------------------------------------------------------------
-  // Bare element styles for forms inside .usa-prose or when
-  // $theme-global-content-styles is true.
-  //
-  // For .usa-input, .usa-checkbox, .usa-radio, and other USWDS
-  // form component overrides, see components/_form.scss.
-  // ------------------------------------------------------------
-
-  input[type='text'],
-  input[type='email'],
-  input[type='url'],
-  input[type='password'],
-  input[type='search'],
-  input[type='number'],
-  input[type='tel'],
-  input[type='date'],
-  input[type='month'],
-  input[type='week'],
-  input[type='time'],
-  input[type='datetime-local'],
-  input[type='color'],
-  textarea {
-    background: $hds-color-spacesuit-white;
-    border: $hds-border-width-thin solid $hds-color-carbon-60;
-    border-radius: $hds-border-radius-control;
-    color: $hds-color-carbon-black;
-    font-family: inherit;
-    font-size: size('body', 'xs');
-    padding: units(1) units(1.5);
-
-    &:focus-visible {
-      border-color: $hds-color-nasa-blue;
-      outline: 2px solid $hds-color-nasa-blue;
-      outline-offset: 0;
-    }
-
-    &::placeholder {
-      color: $hds-color-carbon-60;
-      opacity: 0.66;
-    }
-  }
-
-  select {
-    font-family: inherit;
-    font-size: 100%;
-  }
-
-  textarea {
-    width: 100%;
-  }
-
-  label {
-    font-family: family('heading');
-    font-size: size('body', '2xs');
-    font-weight: font-weight('semibold');
-    letter-spacing: map.get($hds-letterspacing, 'neg-1');
-  }
-
-  input::file-selector-button {
-    background-color: $hds-color-nasa-red;
-    color: $hds-color-spacesuit-white;
-  }
-
-  input[type='search']:focus::-webkit-search-cancel-button {
-    background-color: $hds-color-carbon-60;
-    opacity: 0.5;
-    pointer-events: all;
-  }
-
-  // ------------------------------------------------------------
-  // Base Button Reset
-  // ------------------------------------------------------------
-
-  button:where(:not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])),
-  input[type='submit'] {
-    @include button-styles;
-    @include button-interactive-states;
-  }
-
-  a.button {
-    text-decoration-line: none;
-
-    @include button-styles;
-    @include button-interactive-states;
-  }
-}
-
-// end $theme-global-content-styles
 
 // ------------------------------------------------------------
 // Palette Muted Text (always active)
