@@ -59,6 +59,7 @@
   --hds-palette-border: #{$hds-color-carbon-20};
   --hds-palette-marker: #{$hds-color-nasa-blue};
   --hds-palette-blockquote-icon: #{$hds-color-international-orange};
+  --hds-palette-code: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-secondary-bg: #{$hds-color-nasa-blue};
   --hds-palette-btn-secondary-bg-hover: #{$hds-color-nasa-blue-shade};
   --hds-palette-btn-primary-bg-hover: #{$hds-color-nasa-red-shade};
@@ -106,6 +107,7 @@
   --hds-palette-border: #{$hds-color-carbon-60};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
+  --hds-palette-code: #{$hds-color-nasa-blue-tint};
 
   // Secondary filled uses NASA Blue on all palettes per creative
   // director review (2026-03-27). Passes AA everywhere. See
@@ -227,6 +229,7 @@
   --hds-palette-border: #{$hds-color-carbon-40};
   --hds-palette-marker: #{$hds-color-nasa-blue-tint};
   --hds-palette-blockquote-icon: #{$hds-color-spacesuit-white};
+  --hds-palette-code: #{$hds-color-spacesuit-white};
 
   // Blue palette uses Tint/Blue (not Blue/Blue Shade) because
   // secondary filled converts to outline here (components/_button.scss);
