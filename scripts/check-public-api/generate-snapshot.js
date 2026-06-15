@@ -19,6 +19,7 @@ const SASS_FILES = {
   tokens: resolve(ROOT, 'src/scss/_hds-tokens.scss'),
   datavizPalettes: resolve(ROOT, 'src/scss/_hds-dataviz-palettes.scss'),
   mixins: resolve(ROOT, 'src/scss/_hds-mixins.scss'),
+  typography: resolve(ROOT, 'src/scss/_hds-typography.scss'),
 };
 
 /**
@@ -54,6 +55,8 @@ export function generateSnapshot() {
   const tokenVars = extractSassVariables(SASS_FILES.tokens);
   const datavizVars = extractSassVariables(SASS_FILES.datavizPalettes);
   const mixins = extractSassMixins(SASS_FILES.mixins);
+  const typographyVars = extractSassVariables(SASS_FILES.typography);
+  const typographyMixins = extractSassMixins(SASS_FILES.typography); // Build snapshot
 
   // Build snapshot
   const lines = [
@@ -76,11 +79,17 @@ export function generateSnapshot() {
     '## Sass Variables (_hds-tokens.scss)',
     ...tokenVars,
     '',
+    '## Sass Variables (_hds-typography.scss)',
+    ...typographyVars,
+    '',
     '## Sass Variables (_hds-dataviz-palettes.scss)',
     ...datavizVars,
     '',
     '## Sass Mixins (_hds-mixins.scss)',
     ...mixins,
+    '',
+    '## Sass Mixins (_hds-typography.scss)',
+    ...typographyMixins,
     '',
     '## Selectors — HDS Authored',
     ...allSelectors,

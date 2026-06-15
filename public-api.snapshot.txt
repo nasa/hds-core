@@ -55,15 +55,23 @@ src/scss/hds-uswds.scss
 --hds-input-state-border-width
 --hds-input-tile-border-radius
 --hds-input-tile-border-width
---hds-line-height-body
---hds-line-height-button
---hds-line-height-caption
---hds-line-height-code
---hds-line-height-heading
---hds-line-height-input
---hds-line-height-intro
---hds-line-height-label
---hds-line-height-table
+--hds-letter-spacing-1
+--hds-letter-spacing-2
+--hds-letter-spacing-3
+--hds-letter-spacing-auto
+--hds-letter-spacing-neg-1
+--hds-letter-spacing-neg-2
+--hds-letter-spacing-neg-3
+--hds-letter-spacing-neg-4
+--hds-letter-spacing-neg-5
+--hds-letter-spacing-neg-6
+--hds-letter-spacing-neg-7
+--hds-line-height-1
+--hds-line-height-2
+--hds-line-height-3
+--hds-line-height-4
+--hds-line-height-5
+--hds-line-height-6
 --hds-modal-border-radius
 --hds-pagination-border-radius
 --hds-pagination-border-width
@@ -78,6 +86,7 @@ src/scss/hds-uswds.scss
 --hds-palette-btn-primary-bg-hover
 --hds-palette-btn-secondary-bg
 --hds-palette-btn-secondary-bg-hover
+--hds-palette-code
 --hds-palette-control-border
 --hds-palette-control-fill
 --hds-palette-control-stroke
@@ -264,9 +273,16 @@ $hds-color-spacesuit-white
 $hds-enable-auto-dark-mode
 $hds-enable-dataviz-tokens
 $hds-letterspacing
+$hds-line-height-1
+$hds-line-height-2
+$hds-line-height-3
+$hds-line-height-4
+$hds-line-height-5
+$hds-line-height-6
 $hds-line-heights
-$hds-type-scale
 $hds-weights
+
+## Sass Variables (_hds-typography.scss)
 
 ## Sass Variables (_hds-dataviz-palettes.scss)
 
@@ -276,11 +292,13 @@ hds-focus-ring-inline
 hds-focus-ring-size
 hds-link-appearance
 hds-link-hover
-hds-metadata-type
 hds-nav-hover-underline
-hds-overline-label
 hds-utility-circle
 hds-vertical-nav-links
+
+## Sass Mixins (_hds-typography.scss)
+hds-type
+hds-type-classes
 
 ## Selectors — HDS Authored
 .hds-blockquote
@@ -309,7 +327,16 @@ hds-vertical-nav-links
 .hds-btn-icon--xl
 .hds-btn-icon--xs
 .hds-caption
+.hds-display-2xl
+.hds-display-xl
+.hds-global-styles-reset
 .hds-glyph
+.hds-h1
+.hds-h2
+.hds-h3
+.hds-h4
+.hds-h5
+.hds-h6
 .hds-icon
 .hds-link--internal
 .hds-metadata
@@ -323,6 +350,11 @@ hds-vertical-nav-links
 .hds-palette-midtone
 .hds-palette-white
 .hds-print-visible
+.hds-prose-measure
+.hds-stat-lg
+.hds-stat-md
+.hds-stat-sm
+.hds-stat-xs
 .usa-accordion
 .usa-accordion__button
 .usa-accordion__content
