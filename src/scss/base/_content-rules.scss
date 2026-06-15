@@ -200,14 +200,27 @@
   li {
     font-size: size('body', '2xs');
     line-height: var(--hds-line-height-3);
-    margin-block-end: units(2.5); // matches .usa-list > li (_list.scss)
+    margin-block-end: units(2.5); // 20px — top-level inter-item gap
   }
 
-  // Nested lists: small offset under the parent item, no extra
-  // bottom gap. Not specified by .usa-list (it doesn't nest).
+  // Nesting model (best-guess; not specced in Figma). Intermediate
+  // scale: parent 20px / nested 12px, so sub-items group under
+  // their parent instead of floating free. Mirrors _list.scss.
+  li li {
+    margin-block-end: units(1.5); // 12px — nested items tighter
+  }
+
+  // Uniform nested rhythm: parent->sub1 must equal sub->sub (12px).
+  // The sub->sub gap is the nested li margin-block-end above; the
+  // parent->sub1 gap comes from the nested list's padding-block-start
+  // (NOT margin-block-start — the leading-element reset above zeroes
+  // a first-child nested list's top margin in this context). Padding
+  // survives that reset, and the first sub-li's own top margin stays
+  // zeroed, so the gap is exactly 12px and never doubles.
   li > ul,
   li > ol {
-    margin-block: units(1) 0;
+    margin-block: 0;
+    padding-block-start: units(1.5); // 12px — nested item gap
   }
 
   ul {
@@ -308,7 +321,7 @@
   input[type='color'],
   textarea {
     background: $hds-color-spacesuit-white;
-    border: var(--hds-border-width-input-state) solid $hds-color-carbon-60;
+    border: var(--hds-input-state-border-width) solid $hds-color-carbon-60;
     border-radius: 0;
     color: $hds-color-carbon-black;
     font-family: inherit;
