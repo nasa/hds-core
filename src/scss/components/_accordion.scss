@@ -41,6 +41,10 @@
 
 .usa-accordion__heading {
   border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
+
+  // Override USWDS margin-top: units(1) on :not(:first-child) so adjacent
+  // headings sit flush — the HR alone separates items (Figma spec).
+  margin: 0;
 }
 
 .usa-accordion > .usa-accordion__heading:first-child {
@@ -63,9 +67,11 @@
   align-items: center;
   justify-content: space-between;
 
-  // Header→body gap: zero the button's bottom contribution so the
-  // single 20px gap below is owned by the panel (see __content).
-  padding-bottom: 0;
+  // Figma spec: 15px from top HR to label, 14px from label to bottom HR
+  // (collapsed). Paired with content padding-top: 6px → 20px label-to-body
+  // gap on open accordions. Heading margin: 0 puts bottom HR flush.
+  padding-top: 15px;
+  padding-bottom: 14px;
 
   &:focus-visible {
     @include hds-focus-ring;
@@ -136,11 +142,7 @@
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-top: 0;
 
-  // Total header→body gap = 20px (Figma). USWDS contributes
-  // button padding-bottom 16px + content margin-top 0 + content
-  // padding-top 16px (= 32px). Zero the others (margin-top here,
-  // button padding-bottom in the button rule) and own the gap with
-  // a single 20px intermediate token on the panel's top padding.
+  // Header→body gap = button padding-bottom 14px + this 6px = 20px (Figma spec).
   margin-top: 0;
-  padding-top: units(2.5);
+  padding-top: 6px;
 }
