@@ -8,38 +8,22 @@ This guide covers advanced USWDS theme customization for projects using the Sass
 
 ## Customizing USWDS settings
 
-HDS Core configures USWDS with HDS values — colors, fonts, spacing, and component behavior. Many of these settings can be further customized in your project. Others are reserved by HDS Core and should not be overridden.
+HDS Core configures USWDS with HDS values: colors, fonts, spacing, and component behavior. Many of these settings can be further customized in your project. Others are reserved by HDS Core and should not be overridden.
+
+**USWDS Sass settings (`$theme-*` variables) cannot be overridden from consumer stylesheets.** HDS Core calls `@use 'uswds-core' with (...)` internally before your entry point runs. In Sass's module system, a module can only be configured the first time it loads. Attempting a second `@use 'uswds-core' with (...)` in your own Sass will throw a compile error. Do not add `@use 'uswds-core'` to your project stylesheets; see [Installation](?path=/docs/overview-installation--docs#common-mistakes) for why.
 
 ## Global element styles
 
-By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.). This prevents conflicts with existing styles in your project.
+By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.). This prevents conflicts with existing styles in your project. Because USWDS settings are locked by HDS Core (see above), this default cannot be changed via Sass.
 
-To enable bare element styling, set these USWDS flags in your theme configuration:
+Use USWDS classes to activate styling on the elements you control:
 
-```scss
-@use 'uswds-core' with (
-  // Style the <body> element
-  $theme-style-body-element: true,
-
-  // Style headings, lists, tables, blockquotes, code, forms, buttons
-  $theme-global-content-styles: true,
-
-  // Style bare <a> tags (also enabled by content styles)
-  $theme-global-link-styles: true,
-
-  // Style bare <p> tags (also enabled by content styles)
-  $theme-global-paragraph-styles: true
-);
-```
-
-When disabled (the default), use USWDS classes to activate styling:
-
-- `.usa-prose` wraps body content sections with full typography
+- `.usa-prose` wraps body content sections with full HDS typography (headings, paragraphs, lists, links)
 - `.usa-link` applies link styling to individual anchors
 - `.usa-button` applies button styling
 - `.usa-intro` applies lead/intro paragraph styling
 
-These class-based styles are always active regardless of the flags above.
+These class-based styles are always active and cover the same elements that global flags would affect.
 
 ## Settings you may need to adjust
 

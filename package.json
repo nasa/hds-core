@@ -10,6 +10,8 @@
     "./css/uswds": "./dist/css/hds-uswds.min.css",
     "./css/dataviz": "./dist/css/hds-dataviz.min.css",
     "./scss": "./src/scss/hds.scss",
+    "./scss/uswds": "./src/scss/hds-uswds.scss",
+    "./scss/dataviz": "./src/scss/hds-dataviz.scss",
     "./assets": "./dist/assets/"
   },
   "files": [
