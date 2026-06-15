@@ -436,9 +436,16 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 }
 
 // HDS Figma shows no form group left border — USWDS default suppressed.
+// USWDS also shifts the group left by units(-2.5) at desktop to compensate
+// for its 16px padding + 4px border; without those, the negative margin
+// pulls the input out of alignment with its non-error sibling.
 .usa-form-group--error {
   border-left: none;
   padding-left: 0;
+
+  @include at-media('desktop') {
+    margin-left: 0;
+  }
 }
 
 .usa-error-message {
