@@ -49,9 +49,17 @@
     --hds-font-weight-#{$name}: #{$weight};
   }
 
-  // Line heights — var(--hds-line-height-body)
-  @each $name, $height in $hds-line-heights {
-    --hds-line-height-#{$name}: #{line-height(body, $height)};
+  // Line-height scale (USWDS numeric 1–6) — var(--hds-line-height-5) etc.
+  --hds-line-height-1: #{$hds-line-height-1};
+  --hds-line-height-2: #{$hds-line-height-2};
+  --hds-line-height-3: #{$hds-line-height-3};
+  --hds-line-height-4: #{$hds-line-height-4};
+  --hds-line-height-5: #{$hds-line-height-5};
+  --hds-line-height-6: #{$hds-line-height-6};
+
+  // Letter-spacing scale — var(--hds-letter-spacing-neg-3) etc.
+  @each $name, $value in $hds-letterspacing {
+    --hds-letter-spacing-#{$name}: #{$value};
   }
 
   // Border widths — var(--hds-border-width-thin)
