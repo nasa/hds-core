@@ -32,7 +32,9 @@
 @forward 'uswds-core';
 @forward 'hds-tokens';
 @forward 'hds-mixins';
+@forward 'hds-typography';
 @forward 'hds-dataviz-palettes';
+@use 'hds-typography' as hds-typ;
 
 // ── DECLARE CASCADE LAYER ORDER ──
 // Priority: lowest to highest.
@@ -46,6 +48,7 @@
 }
 
 @layer hds-components {
+  @include hds-typ.hds-type-classes;
   @include meta.load-css('components');
 }
 

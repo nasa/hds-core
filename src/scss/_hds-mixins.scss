@@ -9,7 +9,6 @@
 //   Accessibility — visually-hidden
 //   Focus         — hds-focus-ring, hds-focus-ring-size,
 //                   hds-focus-ring-inline
-//   Typography    — hds-overline-label, hds-metadata-type, intro-text
 //   Buttons       — button-styles (bundles button-padding-border,
 //                   button-typography, and button-color),
 //                   button-interactive-states, button-round
@@ -22,6 +21,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use 'hds-typography' as *;
 
 // ------------------------------------------------------------
 // Accessibility
@@ -207,44 +207,6 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 }
 
 // ------------------------------------------------------------
-// Typography
-// ------------------------------------------------------------
-// Three distinct small-text styles per HDS Core Proposal:
-//   hds-overline-label — DM Mono, wide tracking, uppercase
-//   hds-metadata-type  — Inter, tight tracking, uppercase
-//   (caption has no mixin — defined directly on .hds-caption)
-// ------------------------------------------------------------
-
-// Overline — DM Mono uppercase label
-// Used by: .hds-overline
-@mixin hds-overline-label {
-  font-family: family('mono');
-  font-size: size('body', '3xs');
-  font-weight: font-weight('medium'); // 500 — creative director review
-  letter-spacing: map.get($hds-letterspacing, '2'); // 3.5px
-  line-height: var(--hds-line-height-label);
-  text-transform: uppercase;
-}
-
-// Metadata — Inter uppercase label
-// Used by: .hds-metadata, future card/filter metadata
-@mixin hds-metadata-type {
-  font-family: family('heading');
-  font-size: size('heading', '3xs');
-  font-weight: font-weight('bold');
-  letter-spacing: 0.25px;
-  line-height: var(--hds-line-height-label);
-  text-transform: uppercase;
-}
-
-@mixin intro-text {
-  font-size: size('body', 'sm');
-  font-weight: font-weight('normal');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
-  line-height: var(--hds-line-height-intro);
-}
-
-// ------------------------------------------------------------
 // Buttons
 // ------------------------------------------------------------
 
@@ -254,14 +216,6 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
   border-width: $hds-border-width-thick;
   padding-block: units(1.5);
   padding-inline: units(2.5);
-}
-
-@mixin button-typography {
-  font-family: family('heading');
-  font-size: size('heading', 'xs');
-  font-weight: font-weight('semibold');
-  line-height: 1.2; // Proposal 120%; USWDS token 3 (1.35) too coarse
-  text-decoration-line: none;
 }
 
 @mixin button-color {
@@ -276,8 +230,10 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 
 @mixin button-styles {
   @include button-padding-border;
-  @include button-typography;
+  @include hds-type('h5');
   @include button-color;
+
+  text-decoration-line: none;
 }
 
 // Hover/active/focus states shared by .usa-button and the base
