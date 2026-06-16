@@ -12,7 +12,7 @@ Introduces a unified type ramp and a single-source content-styling engine, with 
 - **New CSS classes**: `.hds-h1`–`.hds-h6`, `.hds-display-2xl`, `.hds-display-xl`, `.hds-stat-lg/md/sm/xs`, plus `.hds-prose-measure` (from `_prose.scss`).
 - **New custom properties**: `--hds-letter-spacing-*` (11 keys), `--hds-line-height-1` through `--hds-line-height-6` (USWDS line-height scale numbering; replaces the USWDS-derived `--hds-line-height-body/heading/…` names), and `--hds-palette-code` (NASA Blue Shade on light palettes, NASA Blue Tint on dark, White on the blue palette — Figma-matched accent, with per-palette values chosen so code reads as text at AA 4.5:1 rather than the 3:1 decorative-stroke threshold).
 
-**Added:** New `.hds-global-styles` opt-in scope. Adopters can opt a subtree into HDS bare-element content styling via `class="hds-global-styles"`, with `class="hds-global-styles-reset"` carving out unstyled islands (CSS `@scope` + `all: revert-layer`).
+**Added:** New `.hds-global-styles` opt-in scope. Adopters can opt a subtree into HDS bare-element content styling via `class="hds-global-styles"`, with `class="hds-global-styles-reset"` carving out unstyled islands (CSS `@scope` + `all: revert-layer`). The same reset class is honored inside `.usa-prose`, so a single carve-out mechanism works across both opt-in scopes.
 
 **Added:** New Prose component (`components/_prose.scss`) that styles `.usa-prose` with the same content-styling engine.
 

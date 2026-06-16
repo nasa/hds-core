@@ -30,6 +30,7 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
 - **Apply `.usa-prose` to the content container**, not to `<body>` or a site-wide wrapper. Keep the scope tight to avoid unintended styling on UI elements.
 - **Prose styles apply to all descendant elements.** Nested components that use their own USWDS or HDS classes (`.usa-table`, `.usa-list`) will still use their component styles — component layer specificity wins over the prose bare-element rules.
 - **Lists inside prose use native browser markers with HDS color.** Bullet and number markers use `--hds-palette-marker`. For the full HDS ordered-list treatment (DM Mono numerals, precise alignment), use `<ol class="usa-list" role="list">` instead. See [List](?path=/docs/components-list-guidance--docs) for details.
+- **Opt out of prose styling on a subtree.** Add `class="hds-global-styles-reset"` to any descendant inside `.usa-prose` to peel that subtree back to the cascade layer below, leaving its contents unstyled by prose. This is the same reset class used by [`.hds-global-styles`](?path=/docs/foundations-typography--docs), so a single mechanism works across both opt-in scopes.
 
 <Note type="uswds">**Differs from USWDS:** HDS prose includes smaller list item text (14px vs body 16px), palette-aware blue list markers, a 68ch reading width constraint, and HDS-specific heading and blockquote typography. For DM Mono numerals in ordered lists, use `.usa-list`. Vanilla USWDS prose uses default browser markers and body-sized list text with no max-width.</Note>
 

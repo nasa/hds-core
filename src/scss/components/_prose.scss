@@ -2,22 +2,16 @@
 // HDS Component — Prose
 // @nasa/hds-core
 // ============================================================
-// usa-prose reskin: applies HDS content rules to .usa-prose.
-// Single source: content-rules mixin from base/_content-rules.scss.
-//
-// Also exports .hds-prose-measure for reading line length.
+// usa-prose reskin: HDS content rules are applied to .usa-prose
+// via the merged @scope block in base/_elements.scss (which
+// lists both .hds-global-styles and .usa-prose as scope roots),
+// so the mixin body emits only once. This file owns only the
+// wrapper concerns: reading measure and the public class export.
 //
 // Restyles: https://designsystem.digital.gov/components/prose/
 // ============================================================
 
-@use 'base/content-rules' as *;
-
-.usa-prose {
-  @include content-rules;
-
-  max-inline-size: 68ch;
-}
-
+.usa-prose,
 .hds-prose-measure {
   max-inline-size: 68ch;
 }

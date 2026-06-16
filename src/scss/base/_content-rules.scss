@@ -11,10 +11,10 @@
 // not by calling this mixin. Promotable to public later if
 // adopter demand appears.
 //
-// Three live callers:
+// Two live callers:
 //   1. base/_elements.scss  @if $theme-global-content-styles
-//   2. base/_elements.scss  @scope (.hds-global-styles)
-//   3. components/_prose.scss  .usa-prose
+//   2. base/_elements.scss  @scope (.hds-global-styles, .usa-prose)
+//      to (.hds-global-styles-reset)
 //
 // SINGLE-SOURCE RULES (do not reintroduce normalized values):
 //   - Headings get type via hds-type() (the ramp).

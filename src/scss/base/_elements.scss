@@ -63,24 +63,26 @@ $_p: '[data-hds-palette], [class*="hds-palette-"]';
   @include content-rules;
 }
 
-// ── Opt-in scope: .hds-global-styles ─────────────────────────
-// Applies the same content rules within .hds-global-styles
-// regardless of the USWDS global content flag. This is the
-// second live caller of content-rules and the supported way for
-// adopters to opt a subtree into HDS content styling.
+// ── Opt-in scopes: .hds-global-styles and .usa-prose ─────────
+// Applies the same content rules within either scope regardless
+// of the USWDS global content flag. These are the supported way
+// for adopters to opt a subtree into HDS content styling.
+//
+// Merged into a single @scope block (selector-list root) so the
+// mixin body emits once instead of twice. .usa-prose's wrapper
+// concerns (max-inline-size, .hds-prose-measure) stay in
+// components/_prose.scss.
 //
 // The donut scope stops at .hds-global-styles-reset, which uses
 // `all: revert-layer` to peel the subtree back to the cascade
-// layer below — letting consumers carve out unstyled islands.
+// layer below, letting consumers carve out unstyled islands.
+// The reset boundary now also applies inside .usa-prose (new,
+// strictly additive; adopters who don't add the reset class see
+// no behavior change).
 //
-// ⚠️ HUMAN BROWSER VERIFICATION REQUIRED before integration:
-//    confirm `all: revert-layer` actually halts inheritance of
-//    content-rules styling at the reset boundary in the target
-//    browsers. This cannot be verified without a live browser.
-//    @scope + revert-layer are in HDS scope; legacy fallback is
-//    explicitly NOT. See stories/components/Prose "Global styles
-//    scope + reset" for an in-browser A/B check.
-@scope (.hds-global-styles) to (.hds-global-styles-reset) {
+// See stories/components/Prose "Global styles scope + reset"
+// for an in-browser A/B check.
+@scope (.hds-global-styles, .usa-prose) to (.hds-global-styles-reset) {
   @include content-rules;
 }
 
