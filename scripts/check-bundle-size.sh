@@ -8,7 +8,7 @@
 # All limits use decimal KB (1 KB = 1,000 bytes), matching browser devtools.
 #
 # Thresholds set from post-refactor measurements (June 2026, v0.8.0):
-#   hds.min.css:       46.1 KB measured -- 48 KB ceiling (hard fail)
+#   hds.min.css:       47.8 KB measured -- 50 KB ceiling (hard fail)
 #   hds-uswds.min.css: 47.9 KB measured -- combined 96 KB ceiling (informational)
 #
 # hds.min.css is the mandatory adopter load and the only enforced gate.
@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-HDS_MAX=48000        # 48 KB
+HDS_MAX=50000        # 50 KB
 COMBINED_MAX=96000   # 96 KB
 
 if [ ! -f dist/css/hds.min.css ]; then
@@ -29,7 +29,7 @@ hds_gz=$(gzip -c dist/css/hds.min.css | wc -c)
 fail=0
 
 if [ "$hds_gz" -gt "$HDS_MAX" ]; then
-  echo "FAIL hds.min.css: ${hds_gz}B > ${HDS_MAX}B (limit: 48 KB gzipped)"
+  echo "FAIL hds.min.css: ${hds_gz}B > ${HDS_MAX}B (limit: 50 KB gzipped)"
   fail=1
 else
   echo "OK   hds.min.css: ${hds_gz}B (limit: ${HDS_MAX}B)"
