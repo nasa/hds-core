@@ -13,7 +13,7 @@ const labels = {
 };
 
 export function Note({ type, children }) {
-  const icon = iconConfig[type];
+  const icon = iconConfig[type] ?? iconConfig.code;
   return (
     <div className="usa-alert usa-alert--info usa-alert--slim usa-alert--no-icon hds-note" role="note">
       <div className="usa-alert__body">
