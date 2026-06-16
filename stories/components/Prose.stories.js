@@ -19,9 +19,7 @@ export default {
 
 // --- Helpers ---
 
-const prose = () => `
-<div class="usa-prose">
-
+const proseContent = () => `
   <h1>The Apollo Program</h1>
 
   <p class="usa-intro">
@@ -166,12 +164,13 @@ EVA termination         111:39:13</code></pre>
     </tbody>
   </table>
 
-</div>
 `;
+
+const prose = () => `<div class="usa-prose">${proseContent()}</div>`;
 
 const paletteProse = (palette) => `
 <div class="hds-palette-${palette}" style="padding: 2rem;">
-  ${prose()}
+  <div class="usa-prose">${proseContent()}</div>
 </div>
 `;
 
@@ -179,6 +178,63 @@ const paletteProse = (palette) => `
 
 export const Default = {
   render: (args = {}) => prose(),
+};
+
+// --- Prose measure standalone ---
+// .usa-prose includes max-inline-size: 68ch by default.
+// .hds-prose-measure is for constraining reading width outside of .usa-prose —
+// e.g., on a blockquote, a modal body, or any container using component classes.
+
+export const ProseMeasure = {
+  name: 'Prose measure (.hds-prose-measure)',
+  tags: ['!dev'],
+  render: () => `
+    <div class="hds-prose-measure">
+      <p>Use <code>.hds-prose-measure</code> outside of <code>.usa-prose</code> to constrain reading width to 68ch — for example, a standalone blockquote, a modal body, or an article snippet that uses component classes directly.</p>
+      <p>Inside <code>.usa-prose</code>, the 68ch measure is applied automatically.</p>
+    </div>
+  `,
+};
+
+// --- Global styles scope + reset (A/B) ---
+// Exercises the @scope (.hds-global-styles) to (.hds-global-styles-reset)
+// block in base/_elements.scss. Content directly inside the wrapper
+// (A) is styled by content-rules; the nested .hds-global-styles-reset
+// island (B) uses `all: revert-layer` to opt back out.
+//
+// ⚠️ HUMAN BROWSER VERIFICATION: confirm that block B renders with
+// UA/below-layer defaults — i.e. that revert-layer actually halts
+// inheritance of content-rules at the reset boundary. @scope +
+// revert-layer require a recent Chromium/Firefox.
+
+const sampleContent = (label) => `
+  <h2>${label}</h2>
+  <p>
+    Mission control confirmed the burn. Read the
+    <a href="#">flight plan</a> for the full timeline.
+  </p>
+  <ul>
+    <li>Translunar injection</li>
+    <li>Mid-course correction</li>
+  </ul>
+`;
+
+const globalStylesScope = () => `
+<div class="hds-global-styles" style="display: grid; gap: 2rem; grid-template-columns: 1fr 1fr;">
+  <section>
+    <p style="font-family: monospace; margin: 0 0 .5rem;">A — inside .hds-global-styles (styled)</p>
+    ${sampleContent('Styled heading')}
+  </section>
+  <section class="hds-global-styles-reset">
+    <p style="font-family: monospace; margin: 0 0 .5rem;">B — inside .hds-global-styles-reset (reverted)</p>
+    ${sampleContent('Reverted heading')}
+  </section>
+</div>
+`;
+
+export const GlobalStylesScopeReset = {
+  name: 'Global styles scope + reset',
+  render: () => globalStylesScope(),
 };
 
 // --- Palette accessibility tests ---

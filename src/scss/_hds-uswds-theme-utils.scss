@@ -33,7 +33,9 @@
   $theme-color-base-lightest: 'white',
   // Spacesuit White — exact
   $theme-color-base-lighter: 'gray-5',
-  // Carbon 05 #F6F6F6 ≈ #f0f0f0  $theme-color-base-light:    "gray-10",  // Carbon 10 #E3E3E3 ≈ #e6e6e6
+  // Carbon 05 #F6F6F6 ≈ #f0f0f0
+  $theme-color-base-light: 'gray-10',
+  // Carbon 10 #E3E3E3 ≈ #e6e6e6
   $theme-color-base: 'gray-50',
   // Carbon 50 #77777A ≈ #757575
   $theme-color-base-dark: 'gray-80',
@@ -381,21 +383,23 @@
   // Component Settings
   // ----------------------------------------------------------
   // Border radius
-  $theme-button-border-radius: map.get(hds.$hds-radius-settings, 'button'),
-  $theme-card-border-radius: map.get(hds.$hds-radius-settings, 'card'),
-  $theme-checkbox-border-radius: map.get(hds.$hds-radius-settings, 'checkbox'),
-  $theme-input-tile-border-radius: map.get(hds.$hds-radius-settings, 'input-tile'),
-  $theme-modal-border-radius: map.get(hds.$hds-radius-settings, 'modal'),
-  $theme-pagination-button-border-radius: map.get(hds.$hds-radius-settings, 'pagination'),
-  $theme-summary-box-border-radius: map.get(hds.$hds-radius-settings, 'summary'),
+  $theme-button-border-radius: hds.$hds-border-radius,
+  $theme-card-border-radius: hds.$hds-border-radius,
+  $theme-checkbox-border-radius: hds.$hds-border-radius-control,
+  $theme-input-tile-border-radius: hds.$hds-border-radius-control,
+  $theme-modal-border-radius: hds.$hds-border-radius,
+  $theme-pagination-button-border-radius: hds.$hds-border-radius,
+  $theme-summary-box-border-radius: hds.$hds-border-radius,
+
   // Border / stroke width
-  $theme-button-stroke-width: map.get(hds.$hds-width-settings, 'button'),
-  $theme-card-border-width: map.get(hds.$hds-width-settings, 'card'),
-  $theme-input-select-border-width: map.get(hds.$hds-width-settings, 'input-select'),
-  $theme-input-tile-border-width: map.get(hds.$hds-width-settings, 'input-tile'),
-  $theme-input-state-border-width: map.get(hds.$hds-width-settings, 'input-state'),
-  $theme-pagination-button-border-width: map.get(hds.$hds-width-settings, 'pagination'),
-  $theme-summary-box-border-width: map.get(hds.$hds-width-settings, 'summary'),
+  $theme-button-stroke-width: hds.$hds-border-width-thick,
+  $theme-card-border-width: hds.$hds-border-width-thin,
+  $theme-input-select-border-width: hds.$hds-border-width-thin,
+  $theme-input-tile-border-width: hds.$hds-border-width-thin,
+  $theme-input-state-border-width: hds.$hds-border-width-thin,
+  $theme-pagination-button-border-width: hds.$hds-border-width-thin,
+  $theme-summary-box-border-width: hds.$hds-border-width-thin,
+
   // Button typography
   $theme-button-font-family: 'heading',
 

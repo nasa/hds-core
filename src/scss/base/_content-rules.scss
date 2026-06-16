@@ -1,0 +1,381 @@
+// ============================================================
+// HDS Base — Content Rules
+// @nasa/hds-core
+// ============================================================
+// Zero-CSS-output partial. Provides the `content-rules` mixin:
+// the single source of bare-element content styling shared by
+// every "style the raw HTML" context.
+//
+// Internal mixin (no hds- prefix): adopters get content styling
+// via .hds-global-styles / .usa-prose / the global content flag,
+// not by calling this mixin. Promotable to public later if
+// adopter demand appears.
+//
+// Two live callers:
+//   1. base/_elements.scss  @if $theme-global-content-styles
+//   2. base/_elements.scss  @scope (.hds-global-styles, .usa-prose)
+//      to (.hds-global-styles-reset)
+//
+// SINGLE-SOURCE RULES (do not reintroduce normalized values):
+//   - Headings get type via hds-type() (the ramp).
+//   - Every other line-height comes from the raw HDS scale via
+//     var(--hds-line-height-*). No USWDS lh()/line-height() here
+//     — those normalize per font family, which the type system
+//     explicitly rejects.
+//   - Bespoke fluid sizes use fluid-size() (hds-typography), never
+//     a hand-expanded clamp() literal.
+// ============================================================
+
+@use 'sass:map';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use 'hds-mixins' as *;
+@use 'hds-typography' as *;
+
+@mixin content-rules {
+  // ── Flush leading element ─────────────────────────────────────
+  // The first flow element hugs its container top — mirroring the
+  // USWDS prose template, whose owl-pattern spacing (`* + *`) never
+  // applies a top margin to the first child. Restores the opening
+  // H1's flush-top alignment with the side nav, which regressed when
+  // content spacing moved off the owl pattern onto direct element
+  // margins (h1/p/list margin-block-start). Specificity (0,1,0)
+  // beats the bare type rules, so position here is not load-bearing.
+  :first-child {
+    margin-block-start: 0;
+  }
+
+  // ── Headings ────────────────────────────────────────────────
+
+  h1 {
+    @include hds-type('h1');
+
+    margin-block-start: units(4);
+    margin-block-end: units(2);
+  }
+
+  h2 {
+    @include hds-type('h2');
+  }
+
+  h3 {
+    @include hds-type('h3');
+  }
+
+  h4 {
+    @include hds-type('h4');
+  }
+
+  h5 {
+    @include hds-type('h5');
+  }
+
+  h6 {
+    @include hds-type('h6');
+  }
+
+  // ── Paragraphs ───────────────────────────────────────────────
+
+  p {
+    margin-block-start: units(2);
+    margin-block-end: units(2);
+  }
+
+  // ── Links ────────────────────────────────────────────────────
+
+  a:not(:has(> img, > svg)) {
+    @include hds-link-appearance;
+
+    outline: none; // suppress USWDS [href]:focus outline
+
+    &:hover {
+      @include hds-link-hover;
+    }
+
+    &:visited {
+      color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
+    }
+
+    &:focus-visible {
+      @include hds-focus-ring-inline;
+    }
+  }
+
+  // ── Blockquote ───────────────────────────────────────────────
+  // Minimal treatment for CMS / .usa-prose content where
+  // developers can't add .hds-blockquote classes.
+
+  // .hds-blockquote sets margin: 0 and lets layout space it; bare
+  // prose has no layout wrapper, so separate it on the same rhythm
+  // as <hr> (units(4)). Inner spacing below mirrors the component:
+  // icon margin-block-end units(1), attribution units(2.5).
+  blockquote {
+    margin-block: units(4);
+    margin-inline: 0;
+    padding: 0;
+
+    &::before {
+      background-color: var(--hds-palette-blockquote-icon, #{$hds-color-international-orange});
+      content: '';
+      display: block;
+      height: 24px;
+      width: 24px;
+      mask-image: url('../assets/img/hds-icons/quote.svg');
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: 100%;
+      margin-block-end: units(1);
+    }
+
+    @media (min-width: #{units('tablet')}) {
+      position: relative;
+
+      &::before {
+        left: -37px;
+        margin-block-end: 0;
+        position: absolute;
+        top: 1px;
+      }
+    }
+
+    p {
+      color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+      font-family: family('heading');
+      font-size: fluid-size(28, 36); // bespoke display size, mirrors .hds-blockquote
+      font-weight: 300;
+      letter-spacing: map.get($hds-letterspacing, 'neg-3');
+      line-height: var(--hds-line-height-2);
+      margin: 0;
+    }
+
+    cite,
+    footer {
+      color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+      display: block;
+      font-family: family('body');
+      font-size: size('body', '2xs');
+      font-style: normal;
+      font-weight: font-weight('normal');
+      line-height: var(--hds-line-height-3);
+      margin-block-start: units(2.5);
+    }
+  }
+
+  // ── Code ─────────────────────────────────────────────────────
+  // NASA Blue accent (Figma-matched), text-safe per palette via
+  // --hds-palette-code: Blue Shade on light, Blue Tint on dark,
+  // White on blue. No background or border; color carries it.
+  // letter-spacing 0.1em ('2') ≈ Figma 1.3px@11px (0.118em). Figma's
+  // text-transform: lowercase is deliberately NOT applied — it would
+  // corrupt case-sensitive code (e.g. identifiers, env vars).
+
+  code,
+  pre {
+    color: var(--hds-palette-code, #{$hds-color-nasa-blue-shade});
+    font-family: family('mono');
+    font-size: size('body', '3xs'); // 12px — nearest scale token to Figma 11px
+    letter-spacing: map.get($hds-letterspacing, '2');
+  }
+
+  pre {
+    margin-block: units(2);
+    overflow-x: auto;
+  }
+
+  // ── Horizontal rule ───────────────────────────────────────────
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-10});
+    margin-block: units(4);
+  }
+
+  // ── Lists ────────────────────────────────────────────────────
+
+  ul,
+  ol {
+    margin-block: units(2); // matches paragraph rhythm in this file
+  }
+
+  li {
+    font-size: size('body', '2xs');
+    line-height: var(--hds-line-height-3);
+    margin-block-end: units(2.5); // 20px — top-level inter-item gap
+  }
+
+  // Nesting model (best-guess; not specced in Figma). Intermediate
+  // scale: parent 20px / nested 12px, so sub-items group under
+  // their parent instead of floating free. Mirrors _list.scss.
+  li li {
+    margin-block-end: units(1.5); // 12px — nested items tighter
+  }
+
+  // Uniform nested rhythm: parent->sub1 must equal sub->sub (12px).
+  // The sub->sub gap is the nested li margin-block-end above; the
+  // parent->sub1 gap comes from the nested list's padding-block-start
+  // (NOT margin-block-start — the leading-element reset above zeroes
+  // a first-child nested list's top margin in this context). Padding
+  // survives that reset, and the first sub-li's own top margin stays
+  // zeroed, so the gap is exactly 12px and never doubles.
+  li > ul,
+  li > ol {
+    margin-block: 0;
+    padding-block-start: units(1.5); // 12px — nested item gap
+  }
+
+  ul {
+    padding-inline-start: units(2); // matches ul.usa-list (_list.scss)
+  }
+
+  ul > li::marker {
+    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+  }
+
+  ol {
+    padding-inline-start: units(4);
+  }
+
+  ol:where(:not([class*='usa-'], [class*='hds-'])) > li::marker {
+    color: var(--hds-palette-marker, #{$hds-color-nasa-blue});
+    font-family: family('mono');
+    font-size: size('body', '3xs'); // 12px — matches .usa-list numeral size
+    font-weight: font-weight('medium'); // 500 — matches .usa-list numeral weight
+    // Note: content is NOT overridden. Browser renders "1." etc. with native
+    // spacing. Overriding content removes the period and gutter, causing the
+    // numerals to appear squished against list text (previous bug).
+    // Note: right-alignment is not achievable with ::marker alone (requires
+    // flex + ::before as .usa-list does). Safari <15.4 may fall back to
+    // default font-family; numerals remain legible at any weight.
+  }
+
+  // ── Media ────────────────────────────────────────────────────
+
+  img {
+    border: 0;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+
+  figure {
+    margin: 0 0 units(3) 0;
+  }
+
+  // figcaption single-sources its type through the caption ramp
+  // (1.35) so bare <figcaption> matches .hds-caption exactly.
+  // ⚠️ Color kept here (not de-duped to the palette-muted block):
+  // removing it would drop the muted carbon-60 default for bare
+  // <figcaption> outside a palette wrapper — see report.
+  figcaption {
+    @include hds-type('caption');
+
+    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+    display: block;
+    margin-block-start: units(1);
+  }
+
+  // ── Tables ───────────────────────────────────────────────────
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  th,
+  td {
+    font-size: size('body', 'xs');
+    line-height: var(--hds-line-height-2);
+    padding: units(1.5) units(2);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-family: family('heading');
+    font-weight: font-weight('semibold');
+    letter-spacing: map.get($hds-letterspacing, 'neg-1');
+  }
+
+  td {
+    border-top: $hds-border-width-thin solid var(--hds-palette-border, #{$table-border-light});
+    font-feature-settings:
+      'tnum' on,
+      'lnum' on;
+  }
+
+  // ── Forms ────────────────────────────────────────────────────
+
+  input[type='text'],
+  input[type='email'],
+  input[type='url'],
+  input[type='password'],
+  input[type='search'],
+  input[type='number'],
+  input[type='tel'],
+  input[type='date'],
+  input[type='month'],
+  input[type='week'],
+  input[type='time'],
+  input[type='datetime-local'],
+  input[type='color'],
+  textarea {
+    background: $hds-color-spacesuit-white;
+    border: var(--hds-input-state-border-width) solid $hds-color-carbon-60;
+    border-radius: 0;
+    color: $hds-color-carbon-black;
+    font-family: inherit;
+    font-size: size('body', 'xs');
+    padding: units(1) units(1.5);
+
+    &:focus-visible {
+      border-color: $hds-color-nasa-blue;
+      outline: 2px solid $hds-color-nasa-blue;
+      outline-offset: 0;
+    }
+
+    &::placeholder {
+      color: $hds-color-carbon-60;
+      opacity: 0.66;
+    }
+  }
+
+  select {
+    font-family: inherit;
+    font-size: 100%;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  label {
+    @include hds-type('h6');
+  }
+
+  input::file-selector-button {
+    background-color: $hds-color-nasa-red;
+    color: $hds-color-spacesuit-white;
+  }
+
+  input[type='search']:focus::-webkit-search-cancel-button {
+    background-color: $hds-color-carbon-60;
+    opacity: 0.5;
+    pointer-events: all;
+  }
+
+  // ── Base button reset ─────────────────────────────────────────
+
+  button:where(:not([role='presentation']) :not([class*='usa-']) :not([class*='hds-btn']) :not([disabled])),
+  input[type='submit'] {
+    @include button-styles;
+    @include button-interactive-states;
+  }
+
+  a.button {
+    text-decoration-line: none;
+
+    @include button-styles;
+    @include button-interactive-states;
+  }
+}

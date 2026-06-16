@@ -30,14 +30,14 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
   align-items: center;
   background-color: transparent;
   border: 0;
-  border-radius: 0;
+  border-radius: $hds-border-radius;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   display: inline-flex;
   font-family: family('heading');
   font-size: 18px;
   font-weight: font-weight('bold');
   gap: 4px;
-  line-height: var(--hds-line-height-button);
+  line-height: 1.25; // h5 bespoke value — not in the named scale
   padding: 0;
   text-decoration-line: none;
 

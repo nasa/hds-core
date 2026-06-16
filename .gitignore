@@ -4,6 +4,7 @@
 *.css.map
 *storybook.log
 storybook-static
+stories/docs-meta.json
 
 # Claude & Testing Artifacts
 /.claude/

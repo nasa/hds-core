@@ -57,8 +57,29 @@
 
 .usa-list > li {
   font-size: size('body', '2xs'); // 14px — one step below body
-  line-height: line-height('body', 3); // ≈1.35; Figma 1.43 (within 10%)
-  margin-block-end: units(2.5); // 20px — matches Figma item spacing
+  line-height: 1.35; // scale 3 — snug; Figma 1.43 (within 10%)
+  margin-block-end: units(2.5); // 20px — top-level inter-item gap
+}
+
+// ── Nesting model (best-guess; not specced in Figma) ──────────
+// Differentiated spacing so sub-items group under their parent
+// instead of floating free at the top-level gap. Intermediate
+// scale: parent 20px / nested 12px / nested-list offset 4px.
+
+// Nested items sit tighter than top-level items.
+.usa-list li li {
+  margin-block-end: units(1.5); // 12px
+}
+
+// Uniform nested rhythm: parent->sub1 equals sub->sub (12px). The
+// parent->sub1 gap is the nested list's padding-block-start, matched
+// to the nested li margin-block-end above; padding (vs margin) keeps
+// it consistent with the bare/prose context, where the leading-
+// element reset would otherwise zero a margin-block-start offset.
+.usa-list li > ul,
+.usa-list li > ol {
+  margin-block: 0;
+  padding-block-start: units(1.5); // 12px — nested item gap
 }
 
 // ── Unordered — native ::marker ───────────────────────────────

@@ -11,17 +11,17 @@ export default {
 // Heading Scale
 // ============================================================
 
-const headingSpec = (tag, size, weight, weightLabel, lineHeight, letterSpacing) => `
+const headingSpec = (tag, cls, sizeLabel, lhLabel, lsLabel) => `
   <tr>
     <td style="vertical-align: top; white-space: nowrap; padding-right: 1.5rem;">
-      <code>&lt;${tag}&gt;</code>
+      <code>.${cls}</code>
     </td>
     <td style="vertical-align: top; padding-bottom: 1.5rem;">
-      <${tag} style="margin: 0; font-family: var(--hds-font-family-heading);">
+      <${tag} class="${cls}" style="margin: 0;">
         National Aeronautics and Space Administration
       </${tag}>
       <p style="font-size: 0.75rem; opacity: 0.7; margin-block: 0.5rem 0;">
-        Inter ${weightLabel} · ${size} · line-height: ${lineHeight} · letter-spacing: ${letterSpacing}
+        Inter · ${sizeLabel} · line-height: ${lhLabel} · letter-spacing: ${lsLabel}
       </p>
     </td>
   </tr>
@@ -33,12 +33,12 @@ export const HeadingScale = {
     <div style="max-width: 64em;">
       <table style="width: 100%; border-collapse: collapse;">
         <tbody>
-          ${headingSpec('h1', '48px (2xl)', 700, 'Bold', '1 (100%)', '-1.5px')}
-          ${headingSpec('h2', '36px (xl)', 700, 'Bold', '1.1 (110%)', '-1px')}
-          ${headingSpec('h3', '22px (md)', 700, 'Bold', '1.2 (120%)', '-0.5px')}
-          ${headingSpec('h4', '18px (sm)', 600, 'SemiBold', '1.3 (130%)', '-0.5px')}
-          ${headingSpec('h5', '16px (xs)', 600, 'SemiBold', '1.2 (120%)', '-0.5px')}
-          ${headingSpec('h6', '14px (2xs)', 600, 'SemiBold', '1.3 (130%)', '-0.25px')}
+          ${headingSpec('h1', 'hds-h1', 'Bold · fluid 32→48px', '1.0', '-0.04em')}
+          ${headingSpec('h2', 'hds-h2', 'Bold · fluid 28→36px', '1.06', '-0.03em')}
+          ${headingSpec('h3', 'hds-h3', 'Bold · 22px (md)', '1.15', '-0.02em')}
+          ${headingSpec('h4', 'hds-h4', 'SemiBold · 18px (sm)', '1.35', '-0.02em')}
+          ${headingSpec('h5', 'hds-h5', 'SemiBold · 16px (xs)', '1.25', '-0.02em')}
+          ${headingSpec('h6', 'hds-h6', 'SemiBold · 14px (2xs)', '1.35', '-0.01em')}
         </tbody>
       </table>
     </div>
@@ -54,16 +54,12 @@ export const DisplaySizes = {
   render: () => `
     <div style="max-width: 64em; overflow-x: auto;" tabindex="0">
       <div style="margin-block-end: 2rem;">
-        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">H1-2xl · Inter Bold · 120px · line-height: 1</p>
-        <p style="font-family: var(--hds-font-family-heading); font-size: 120px; font-weight: 700; line-height: 1; letter-spacing: -5.5px; margin: 0;">
-          NASA
-        </p>
+        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-display-2xl · Inter Bold · fluid 100→120px · line-height: 1.0 · letter-spacing: -0.07em</p>
+        <p class="hds-display-2xl" style="margin: 0;">NASA</p>
       </div>
       <div>
-        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">H1-xl · Inter Bold · 80px · line-height: 1.1</p>
-        <p style="font-family: var(--hds-font-family-heading); font-size: 80px; font-weight: 700; line-height: 1.1; letter-spacing: -3px; margin: 0;">
-          NASA
-        </p>
+        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-display-xl · Inter Bold · fluid 60→80px · line-height: 1.0 · letter-spacing: -0.05em</p>
+        <p class="hds-display-xl" style="margin: 0;">NASA</p>
       </div>
     </div>
   `,
@@ -139,7 +135,7 @@ export const IntroText = {
         templates that support the best practices of user interface design.
       </p>
       <p style="font-size: 0.75rem; opacity: 0.7;">
-        <code>.usa-intro</code> · Public Sans Light · 22px (md) · line-height: 1.35
+        <code>.usa-intro</code> · Public Sans Regular · 18px (sm) · line-height: 1.5
       </p>
     </div>
   `,
@@ -176,33 +172,24 @@ export const Numbers = {
     <div style="max-width: 64em;">
       <div style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: baseline; margin-block: 1rem;">
         <div>
-          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-lg · 120px</p>
-          <span style="font-family: var(--hds-font-family-code); font-size: 120px; font-weight: 300; line-height: 1; letter-spacing: -3px;">
-            12
-          </span>
+          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-stat-lg · fluid 80→180px</p>
+          <span class="hds-stat-lg">12</span>
         </div>
         <div>
-          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-md · 48px</p>
-          <span style="font-family: var(--hds-font-family-code); font-size: 48px; font-weight: 300; line-height: 1; letter-spacing: 0;">
-            12
-          </span>
+          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-stat-md · fluid 32→48px</p>
+          <span class="hds-stat-md">12</span>
         </div>
         <div>
-          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-sm · 36px</p>
-          <span style="font-family: var(--hds-font-family-code); font-size: 36px; font-weight: 300; line-height: 1; letter-spacing: 0;">
-            12
-          </span>
+          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-stat-sm · fluid 28→36px</p>
+          <span class="hds-stat-sm">12</span>
         </div>
         <div>
-          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">Number-xs · 28px</p>
-          <span style="font-family: var(--hds-font-family-code); font-size: 28px; font-weight: 300; line-height: 1.1; letter-spacing: 0;">
-            12
-          </span>
+          <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-stat-xs · fluid 22→28px</p>
+          <span class="hds-stat-xs">12</span>
         </div>
       </div>
       <p style="font-size: 0.75rem; opacity: 0.7;">
-        DM Mono Light · line-height: 100% (lg/md/sm), 110% (xs) · letterspacing: -3px (lg), 0 (others)
-      </p>
+        DM Mono Light (300) · line-height: 1.0 (lg/md/sm), 1.15 (xs) · letter-spacing: -0.05em (lg), 0 (others)      </p>
     </div>
   `,
 };
@@ -218,7 +205,7 @@ export const Code = {
       <pre><code>const mission = 'Artemis';
 console.log(\`Next stop: \${mission}\`);</code></pre>
       <p style="font-size: 0.75rem; opacity: 0.7;">
-        <code>&lt;code&gt;</code> / <code>&lt;pre&gt;</code> · DM Mono Regular · 14px (2xs) · line-height: 1.35
+        <code>&lt;code&gt;</code> / <code>&lt;pre&gt;</code> · DM Mono Regular · 12px (3xs) · letter-spacing 0.1em · palette-aware blue
       </p>
     </div>
   `,
@@ -329,9 +316,7 @@ const allVariantsRender = () => `
       </blockquote>
     </div>
 
-    <p style="font-family: var(--hds-font-family-code); font-size: 48px; font-weight: 300; line-height: 1;">
-      12
-    </p>
+    <span class="hds-stat-md">12</span>
 
     <pre><code>const mission = 'Artemis';</code></pre>
   </div>

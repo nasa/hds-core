@@ -38,7 +38,7 @@
 .hds-btn-icon {
   align-items: center;
   background: none;
-  border: 1px solid transparent;
+  border: $hds-border-width-thin solid transparent;
   box-sizing: border-box;
   border-radius: 50%;
   cursor: pointer;
@@ -197,7 +197,7 @@
 // popover should display on focus per HDS Figma a11y guidance.
 .hds-btn-icon--interactive {
   background-color: #{$hds-color-nasa-blue-shade};
-  border: 1px solid #{$hds-color-spacesuit-white};
+  border: $hds-border-width-thin solid #{$hds-color-spacesuit-white};
   color: #{$hds-color-spacesuit-white};
 
   &:hover:not([disabled]),

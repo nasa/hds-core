@@ -167,6 +167,7 @@ Adding a new public symbol (variable or mixin) to a root-level file requires upd
 | ------------------------------ | ---------------------------------------------- |
 | Local dev                      | `npm run dev`                                  |
 | Production build               | `npm run build`                                |
+| Static Storybook build         | `npm run build-storybook`                      |
 | Tests (unit + a11y)            | `npm test`                                     |
 | Visual regression (Chromatic)  | `npm run test:visual`                          |
 | Verify USWDS unchanged         | `npm run check:uswds`                          |
@@ -176,7 +177,7 @@ Adding a new public symbol (variable or mixin) to a root-level file requires upd
 | Lint JS                        | `npm run lint:js` or `npm run lint:js:fix`     |
 | Lint Markdown                  | `npm run lint:md`                              |
 | Lint MDX                       | `npm run lint:mdx`                             |
-| Verify public API snapshot     | `npm run check:public-api`                     |
+| Verify public API snapshot     | `npm run check:api-snapshot`                   |
 | Regenerate API snapshot        | `npm run update:api-snapshot`                  |
 
 ## Code style

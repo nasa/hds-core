@@ -7,7 +7,7 @@
 // Use these custom properties in plain CSS or JavaScript:
 //   var(--hds-color-nasa-blue)
 //   var(--hds-font-weight-bold)
-//   var(--hds-border-radius-button)
+//   var(--hds-button-border-radius)
 // ============================================================
 
 @use 'sass:map';
@@ -49,30 +49,46 @@
     --hds-font-weight-#{$name}: #{$weight};
   }
 
-  // Line heights — var(--hds-line-height-body)
-  @each $name, $height in $hds-line-heights {
-    --hds-line-height-#{$name}: #{line-height(body, $height)};
+  // Line-height scale (USWDS numeric 1–6) — var(--hds-line-height-5) etc.
+  --hds-line-height-1: #{$hds-line-height-1};
+  --hds-line-height-2: #{$hds-line-height-2};
+  --hds-line-height-3: #{$hds-line-height-3};
+  --hds-line-height-4: #{$hds-line-height-4};
+  --hds-line-height-5: #{$hds-line-height-5};
+  --hds-line-height-6: #{$hds-line-height-6};
+
+  // Letter-spacing scale — var(--hds-letter-spacing-neg-3) etc.
+  @each $name, $value in $hds-letterspacing {
+    --hds-letter-spacing-#{$name}: #{$value};
   }
 
-  // Border widths — var(--hds-border-size-2px)
-  @each $name, $width in $hds-border-sizes {
-    --hds-border-size-#{$name}: #{$width};
-  }
+  // Border widths — var(--hds-border-width-thin)
+  --hds-border-width-thin: #{$hds-border-width-thin};
+  --hds-border-width-thick: #{$hds-border-width-thick};
 
-  // Border radii — var(--hds-border-radius-sm)
-  @each $name, $radius in $hds-border-radii {
-    --hds-border-radius-#{$name}: #{$radius};
-  }
+  // Border radius — var(--hds-border-radius)
+  --hds-border-radius: #{$hds-border-radius};
+  --hds-border-radius-control: #{$hds-border-radius-control};
 
-  // Component border radius — var(--hds-border-radius-button)
-  @each $name, $token in $hds-radius-settings {
-    --hds-border-radius-#{$name}: var(--hds-border-radius-#{$token});
-  }
+  // Component border radius — var(--hds-button-border-radius)
+  --hds-button-border-radius: #{$theme-button-border-radius};
+  --hds-card-border-radius: #{$theme-card-border-radius};
+  --hds-checkbox-border-radius: #{$theme-checkbox-border-radius};
+  --hds-input-tile-border-radius: #{$theme-input-tile-border-radius};
+  --hds-modal-border-radius: #{$theme-modal-border-radius};
+  --hds-pagination-border-radius: #{$theme-pagination-button-border-radius};
+  --hds-summary-border-radius: #{$theme-summary-box-border-radius};
 
-  // Component border width — var(--hds-border-width-button)
-  @each $name, $value in $hds-width-settings {
-    --hds-border-width-#{$name}: #{$value};
-  }
+  // Component border widths — var(--hds-{component}-border-width)
+  --hds-accordion-border-width: 0;
+  --hds-button-border-width: #{$theme-button-stroke-width};
+  --hds-card-border-width: #{$theme-card-border-width};
+  --hds-input-tile-border-width: #{$theme-input-tile-border-width};
+  --hds-input-select-border-width: #{$theme-input-select-border-width};
+  --hds-input-state-border-width: #{$theme-input-state-border-width};
+  --hds-pagination-border-width: #{$theme-pagination-button-border-width};
+  --hds-summary-border-width: #{$theme-summary-box-border-width};
+  --hds-table-border-width: #{$hds-border-width-thin};
 }
 
 // ============================================================

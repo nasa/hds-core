@@ -70,7 +70,7 @@
     font-weight: font-weight('semibold');
     font-size: size('body', '2xs');
     letter-spacing: -0.25px;
-    line-height: line-height('heading', 3);
+    line-height: 1.35; // scale 3 — snug
   }
 
   // --- Body cells ---
@@ -96,7 +96,7 @@
   th,
   td {
     border: 0;
-    border-top: 1px solid $hds-color-table-border-light;
+    border-top: 1px solid $table-border-light;
   }
 
   // --- Padding ---
@@ -125,7 +125,7 @@
     font-weight: font-weight('bold');
     font-size: size('body', 'lg');
     letter-spacing: map.get($hds-letterspacing, 'neg-3');
-    line-height: line-height('heading', 2);
+    line-height: 1.15; // scale 2 — tight
     padding-bottom: units(2);
     text-align: left;
 
@@ -174,7 +174,7 @@
 .usa-prose > table th,
 .usa-prose > table td {
   border: 0;
-  border-top: 1px solid $hds-color-table-border-light;
+  border-top: 1px solid $table-border-light;
 }
 
 .usa-prose > table thead th,
@@ -201,14 +201,14 @@
   // Even rows — lighter tint
   td[data-sort-active],
   th[data-sort-active] {
-    background-color: $hds-color-table-sorted-bg;
+    background-color: $table-sorted-bg;
   }
 
   // Odd rows — slightly darker tint
   tbody tr:nth-child(odd) {
     td[data-sort-active],
     th[data-sort-active] {
-      background-color: $hds-color-table-sorted-stripe-bg;
+      background-color: $table-sorted-stripe-bg;
     }
   }
 
@@ -371,7 +371,7 @@
     th,
     td {
       border: 0;
-      border-top: 1px solid $hds-color-table-border-dark;
+      border-top: 1px solid $table-border-dark;
     }
 
     caption {
@@ -387,20 +387,20 @@
   .usa-prose > table th,
   .usa-prose > table td {
     border: 0;
-    border-top: 1px solid $hds-color-table-border-dark;
+    border-top: 1px solid $table-border-dark;
   }
 
   // --- Sorted column (dark) ---
 
   .usa-table td[data-sort-active],
   .usa-table th[data-sort-active] {
-    background-color: $hds-color-table-sorted-bg-dark;
+    background-color: $table-sorted-bg-dark;
   }
 
   .usa-table tbody tr:nth-child(odd) {
     td[data-sort-active],
     th[data-sort-active] {
-      background-color: $hds-color-table-sorted-stripe-bg-dark;
+      background-color: $table-sorted-stripe-bg-dark;
     }
   }
 

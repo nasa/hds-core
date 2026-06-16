@@ -1,0 +1,353 @@
+// ============================================================
+// HDS Typography System
+// @nasa/hds-core
+// ============================================================
+// Root-level zero-CSS-output partial.
+// Provides the HDS type ramp, fluid-size helper, and utility
+// classes mixin. All output is deferred until a mixin is called.
+//
+// CONTENTS:
+//   $_type map           — 17-entry type ramp
+//   fluid-size()         — internal clamp() helper (importable)
+//   hds-type()           — public ramp mixin
+//   metadata-type        — internal delegate mixin
+//   hds-type-classes     — public utility-class emitter
+//
+// PUBLIC SURFACE: hds-type, hds-type-classes only. Everything
+// else (fluid-size, metadata-type, $_fluid-*-vw) is internal —
+// promotable later if adopter demand appears.
+// ============================================================
+
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+
+// ============================================================
+// § Fluid viewport range
+// ============================================================
+
+// Fluid type viewport range: mobile (320px) → desktop-lg (1200px).
+// Underscore-prefixed → not part of the public Sass surface.
+// (Becomes $hds-breakpoint-* refs when breakpoints are exposed.)
+$_fluid-min-vw: 320; // px — USWDS mobile
+$_fluid-max-vw: 1200; // px — USWDS desktop-lg
+
+// ============================================================
+// § Internal helpers
+// ============================================================
+
+// fluid-size() — build a fluid clamp() between two px sizes
+// across the mobile → desktop-lg viewport range. Importable
+// across HDS partials (no hds- prefix → stays internal).
+// Promotable to a public hds-fluid-size() later if adopter
+// demand appears.
+@function fluid-size($min-px, $max-px) {
+  $vw-range: $_fluid-max-vw - $_fluid-min-vw;
+  $slope: math.div($max-px - $min-px, $vw-range);
+  $intercept: $min-px - $slope * $_fluid-min-vw;
+
+  @return clamp(
+    #{math.div($min-px, 16)}rem,
+    #{math.div($intercept, 16)}rem + #{$slope * 100}vw,
+    #{math.div($max-px, 16)}rem
+  );
+}
+
+// ============================================================
+// § Type ramp
+// ============================================================
+// lh: raw unitless ratio
+// ls: key into $hds-letterspacing, OR a raw length for bespoke
+//     tracking that lives outside the public scale (same pattern
+//     as the bespoke `lh` ratios 1.06 / 1.25)
+// clamp: (min-px, max-px) for fluid sizing, null for static
+
+$_type: (
+  'h1-2xl': (
+    family: 'heading',
+    size: '4xl',
+    weight: 700,
+    lh: 1,
+    ls: 'neg-7',
+    clamp: (
+      100,
+      120,
+    ),
+  ),
+  'h1-xl': (
+    family: 'heading',
+    size: '3xl',
+    weight: 700,
+    lh: 1,
+    ls: 'neg-5',
+    clamp: (
+      60,
+      80,
+    ),
+  ),
+  'h1': (
+    family: 'heading',
+    size: '2xl',
+    weight: 700,
+    lh: 1,
+    ls: 'neg-4',
+    clamp: (
+      32,
+      48,
+    ),
+  ),
+  'h2': (
+    family: 'heading',
+    size: 'xl',
+    weight: 700,
+    lh: 1.06,
+    ls: 'neg-3',
+    clamp: (
+      28,
+      36,
+    ),
+  ),
+  'h3': (
+    family: 'heading',
+    size: 'md',
+    weight: 700,
+    lh: 1.15,
+    ls: 'neg-2',
+    clamp: null,
+  ),
+  'h4': (
+    family: 'heading',
+    size: 'sm',
+    weight: 600,
+    lh: 1.35,
+    ls: 'neg-2',
+    clamp: null,
+  ),
+  'h5': (
+    family: 'heading',
+    size: 'xs',
+    weight: 600,
+    lh: 1.25,
+    ls: 'neg-2',
+    clamp: null,
+  ),
+  'h6': (
+    family: 'heading',
+    size: '2xs',
+    weight: 600,
+    lh: 1.35,
+    ls: 'neg-1',
+    clamp: null,
+  ),
+  'intro': (
+    family: 'body',
+    size: 'sm',
+    weight: 400,
+    lh: 1.5,
+    ls: 'neg-1',
+    clamp: null,
+  ),
+  'p': (
+    family: 'body',
+    size: 'xs',
+    weight: 400,
+    lh: 1.62,
+    ls: 'auto',
+    clamp: null,
+  ),
+  'caption': (
+    family: 'body',
+    size: '3xs',
+    weight: 400,
+    lh: 1.35,
+    ls: '1',
+    clamp: null,
+  ),
+  'overline': (
+    family: 'mono',
+    size: '3xs',
+    weight: 500,
+    lh: 1.75,
+    // Bespoke tracking, kept internal/raw (not a public scale
+    // member): Figma-validated 3.5px ÷ 12px overline font-size
+    // (0.75rem) = 0.2917em, rounded up to 0.3em.
+    ls: 0.3em,
+    clamp: null,
+  ),
+  'metadata': (
+    family: 'heading',
+    size: '3xs',
+    weight: 700,
+    lh: 1.75,
+    ls: '1',
+    clamp: null,
+  ),
+  'number-lg': (
+    family: 'mono',
+    size: '4xl',
+    weight: 300,
+    lh: 1,
+    ls: 'neg-5',
+    clamp: (
+      80,
+      180,
+    ),
+  ),
+  'number-md': (
+    family: 'mono',
+    size: '2xl',
+    weight: 300,
+    lh: 1,
+    ls: 'auto',
+    clamp: (
+      32,
+      48,
+    ),
+  ),
+  'number-sm': (
+    family: 'mono',
+    size: 'xl',
+    weight: 300,
+    lh: 1,
+    ls: 'auto',
+    clamp: (
+      28,
+      36,
+    ),
+  ),
+  'number-xs': (
+    family: 'mono',
+    size: 'lg',
+    weight: 300,
+    lh: 1.15,
+    ls: 'auto',
+    clamp: (
+      22,
+      28,
+    ),
+  ),
+);
+
+// ============================================================
+// § Public mixins
+// ============================================================
+
+@mixin hds-type($style) {
+  $s: map.get($_type, $style);
+
+  @if not $s {
+    @error "hds-type(): unknown style '#{$style}'. Valid keys: #{map.keys($_type)}.";
+  }
+
+  $clamp-val: map.get($s, 'clamp');
+
+  font-family: family(map.get($s, 'family'));
+
+  @if $clamp-val {
+    font-size: fluid-size(list.nth($clamp-val, 1), list.nth($clamp-val, 2));
+  } @else {
+    font-size: size(map.get($s, 'family'), map.get($s, 'size'));
+  }
+
+  font-weight: map.get($s, 'weight');
+  line-height: map.get($s, 'lh');
+
+  // `ls` is normally a key into the public $hds-letterspacing scale,
+  // but may be a raw length for bespoke tracking outside that scale
+  // (e.g. overline). Resolve a key via the map; pass a raw value
+  // through untouched.
+  $ls: map.get($s, 'ls');
+
+  letter-spacing: if(sass(map.has-key($hds-letterspacing, $ls)): map.get($hds-letterspacing, $ls) ; else: $ls);
+}
+
+// Metadata — Inter uppercase label. Internal (no hds- prefix).
+// Used by: .hds-metadata, .hds-blockquote__name,
+// .usa-in-page-nav__heading. The uppercasing is the only thing
+// beyond the ramp, so it stays a tiny shared mixin rather than a
+// public symbol. Overline and intro have a single consumer each
+// and call hds-type() directly instead.
+@mixin metadata-type {
+  @include hds-type('metadata');
+
+  text-transform: uppercase;
+}
+
+// ============================================================
+// § Utility class emitter
+// ============================================================
+// Called inside @layer hds-components from hds.scss.
+// Emits heading, display, stat, overline, metadata, and caption
+// classes.
+// ============================================================
+
+@mixin hds-type-classes {
+  .hds-h1 {
+    @include hds-type('h1');
+  }
+
+  .hds-h2 {
+    @include hds-type('h2');
+  }
+
+  .hds-h3 {
+    @include hds-type('h3');
+  }
+
+  .hds-h4 {
+    @include hds-type('h4');
+  }
+
+  .hds-h5 {
+    @include hds-type('h5');
+  }
+
+  .hds-h6 {
+    @include hds-type('h6');
+  }
+
+  .hds-display-2xl {
+    @include hds-type('h1-2xl');
+  }
+
+  .hds-display-xl {
+    @include hds-type('h1-xl');
+  }
+
+  .hds-stat-lg {
+    @include hds-type('number-lg');
+  }
+
+  .hds-stat-md {
+    @include hds-type('number-md');
+  }
+
+  .hds-stat-sm {
+    @include hds-type('number-sm');
+  }
+
+  .hds-stat-xs {
+    @include hds-type('number-xs');
+  }
+
+  .hds-overline {
+    @include hds-type('overline');
+
+    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+    text-transform: uppercase;
+  }
+
+  .hds-metadata {
+    @include metadata-type;
+  }
+
+  .hds-caption {
+    @include hds-type('caption');
+
+    color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+    display: block;
+    margin-block-start: units(1);
+  }
+}

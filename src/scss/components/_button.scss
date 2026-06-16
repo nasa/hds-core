@@ -43,6 +43,16 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
+@use 'hds-typography' as *;
+
+// Local button typography — mirrors button-styles bundle.
+// Inlined in button-styles (hds-mixins) to avoid circular @use.
+// Kept here for reference and direct .usa-button overrides.
+@mixin button-typography {
+  @include hds-type('h5');
+
+  text-decoration-line: none;
+}
 
 // ------------------------------------------------------------
 // Interactive states — hover, active, focus

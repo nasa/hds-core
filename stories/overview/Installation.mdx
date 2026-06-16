@@ -110,23 +110,27 @@ Most build tools accept a `loadPaths` or `includePaths` array in their Sass conf
 
 ```scss
 // your-project.scss
-@forward '@nasa/hds-core/src/scss/hds';
+@forward '@nasa/hds-core/scss';
 @forward 'my-project-styles';
 ```
 
 To include USWDS utility classes:
 
 ```scss
-@forward '@nasa/hds-core/src/scss/hds-uswds';
-@forward '@nasa/hds-core/src/scss/hds';
+@forward '@nasa/hds-core/scss/uswds';
+@forward '@nasa/hds-core/scss';
 @forward 'my-project-styles';
 ```
 
 ### Data visualization
 
 ```scss
-@forward '@nasa/hds-core/src/scss/hds-dataviz';
+@forward '@nasa/hds-core/scss/dataviz';
 ```
+
+### Vite: copy fonts and icons
+
+HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Vite cannot resolve these at compile time — you must copy the assets to the expected output location using `vite-plugin-static-copy`. See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
 
 ### Using HDS tokens in Sass
 

@@ -35,9 +35,6 @@ $hds-enable-dataviz-tokens: false !default;
 /// Automatically apply dark palette when OS prefers dark mode.
 $hds-enable-auto-dark-mode: false !default;
 
-/// Reserved for future experimental features.
-$hds-enable-experimental-palettes: false !default;
-
 // ============================================================
 // § BRAND COLORS
 // ============================================================
@@ -79,77 +76,35 @@ $hds-color-active-green: #47da84;
 //
 // Light mode: NASA Blue at 3%/6% opacity over White
 // Dark mode:  White at 4%/6% opacity over Carbon 90
-// ============================================================
-
-$hds-color-table-sorted-bg: #f8fafe;
-$hds-color-table-sorted-stripe-bg: #f2f6fe;
-$hds-color-table-sorted-bg-dark: #252528;
-$hds-color-table-sorted-stripe-bg-dark: #202024;
-$hds-color-table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
-$hds-color-table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
-
-// ============================================================
-// § EXTENDED COLOR PALETTE
-// ============================================================
-// Registered with USWDS via $global-color-palettes in
-// _hds-uswds-theme.scss. Makes all tokens below available
-// as standard USWDS color utilities:
-//   color("base-mid-darker") / .bg-base-mid-darker / .text-base-mid-darker
 //
-// base-dark and base-darker override USWDS theme token
-// approximations (gray-60, gray-70) with exact HDS hex values.
+// Internal-only — not on public Sass surface ($hds-* prefix omitted).
+// Consumed only by components/_table.scss and base/_elements.scss.
 // ============================================================
 
-$hds-extended-palette: (
-  // Carbon 20
-  'base-mid-lightest': #d1d1d1,
-  // Carbon 30
-  'base-mid-lighter': #b9b9bb,
-  // Carbon 40
-  'base-mid-light': #959599,
-  // Carbon 50
-  'base-mid-dark': #77777a,
-  // Carbon 60
-  'base-mid-darker': #58585b,
-  // Carbon 70
-  'base-mid-darkest': #444447,
-  // Carbon 80 — overrides USWDS approx
-  'base-dark': #2e2e32,
-  // Carbon 90 — overrides USWDS approx
-  'base-darker': #17171b,
-
-  'international-orange': #ea6f24,
-  'active-green': #47da84
-);
+$table-sorted-bg: #f8fafe;
+$table-sorted-stripe-bg: #f2f6fe;
+$table-sorted-bg-dark: #252528;
+$table-sorted-stripe-bg-dark: #202024;
+$table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
+$table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
 // ============================================================
-// § TYPE SCALE
+// § LINE HEIGHT SCALE
 // ============================================================
-// Maps HDS named sizes to USWDS system scale integers.
+// Raw ratio scale for type-system work. Emitted as
+// --hds-line-height-* CSS custom properties (one scalar per
+// entry — kept flat so the Style Dictionary generator can later
+// emit these with a clean no-diff against the API snapshot).
+//
+// Keys are the USWDS line-height scale numbers 1–6.
 // ============================================================
 
-$hds-type-scale: (
-  // ~12px
-  '3xs': 1,
-  // ~14px
-  '2xs': 3,
-  // ~16px
-  'xs': 5,
-  // ~18px
-  'sm': 7,
-  // ~22px
-  'md': 9,
-  // ~28px
-  'lg': 11,
-  // ~36px
-  'xl': 13,
-  // ~48px
-  '2xl': 15,
-  // ~80px
-  '3xl': 18,
-  // ~120px
-  '4xl': 19
-);
+$hds-line-height-1: 1; // 100% — h1, h2 display, numbers
+$hds-line-height-2: 1.15; // 115% — h3 tight
+$hds-line-height-3: 1.35; // 135% — h4, h6, caption, figcaption
+$hds-line-height-4: 1.5; // 150% — intro text
+$hds-line-height-5: 1.62; // 162% — body paragraph
+$hds-line-height-6: 1.75; // 175% — overline, metadata, label
 
 // ============================================================
 // § FONT WEIGHTS
@@ -168,9 +123,10 @@ $hds-weights: (
 // ============================================================
 // § LINE HEIGHTS
 // ============================================================
+// USWDS theme settings only; do not add to the HDS type system.
 // Values are USWDS line-height scale integers, resolved to
 // actual values via USWDS's line-height() function in
-// base/_custom-properties.scss
+// _hds-uswds-theme.scss.
 // ============================================================
 
 $hds-line-heights: (
@@ -181,17 +137,7 @@ $hds-line-heights: (
   // 1.52 ≈ Figma 150%
   'intro': 4,
   // 1.15
-  'input': 2,
-  // closest USWDS token; refined to 1.2 in _hds-mixins.scss
-  'button': 3,
-  // 1.35
-  'code': 3,
-  // 1.15
-  'table': 2,
-  // 1.75 ≈ proposal 180%
-  'label': 6,
-  // closest USWDS token; refined to 1.2 in components/_text-styles.scss
-  'caption': 3
+  'input': 2
 );
 
 // ============================================================
@@ -202,79 +148,39 @@ $hds-line-heights: (
 // ============================================================
 
 $hds-letterspacing: (
-  // H1-2xl (120px)
-  'neg-7': -5.5px,
-  // H1-xl (80px)
-  'neg-6': -4px,
-  // H1 (48px)
-  'neg-5': -3px,
+  // H1-2xl display
+  'neg-7': -0.07em,
+  // H1-xl display
+  'neg-6': -0.06em,
+  // H1, number-lg
+  'neg-5': -0.05em,
   // H1 alternate
-  'neg-4': -1.5px,
-  // H2 (36px)
-  'neg-3': -1px,
-  // H3, H4, H5 (22px, 18px, 16px)
-  'neg-2': -0.5px,
-  // H6 (14px)
-  'neg-1': -0.25px,
+  'neg-4': -0.04em,
+  // H2
+  'neg-3': -0.03em,
+  // H3, H4, H5
+  'neg-2': -0.02em,
+  // H6, intro, form-label
+  'neg-1': -0.01em,
   'auto': 0,
-  // Label, metadata, caption
-  '1': 0.25px,
-  // Label (div) uppercase wide
-  '2': 3.5px
+  // Caption, metadata, nav links
+  '1': 0.025em,
+  // Overline uppercase
+  '2': 0.1em,
+  // Reserve
+  '3': 0.15em
 );
 
 // ============================================================
 // § BORDER WIDTHS
 // ============================================================
 
-$hds-border-sizes: (
-  '0': 0,
-  '1px': '1px',
-  '2px': '2px',
-  '05': '4px',
-  '1': '8px',
-  '105': '12px',
-  '2': '16px',
-);
+$hds-border-width-thin: 1px;
+$hds-border-width-thick: 2px;
 
 // ============================================================
 // § BORDER RADII
 // ============================================================
 
-$hds-border-radii: (
-  '0': 0,
-  'sm': '2px',
-  'md': '4px',
-  'lg': '8px',
-  'xl': '16px',
-);
-
-// ============================================================
-// § COMPONENT BORDER RADIUS ASSIGNMENTS
-// ============================================================
-
-$hds-radius-settings: (
-  'button': 0,
-  'card': 0,
-  'checkbox': 'sm',
-  'input-tile': 'sm',
-  'modal': 'sm',
-  'pagination': 0,
-  'summary': 'md',
-);
-
-// ============================================================
-// § COMPONENT BORDER WIDTH ASSIGNMENTS
-// ============================================================
-
-$hds-width-settings: (
-  'accordion': '0',
-  'button': '2px',
-  'card': '1px',
-  'input-tile': '1px',
-  'input-select': '1px',
-  'input-state': '1px',
-  'pagination': '1px',
-  'summary': '1px',
-  'table': '1px',
-);
+$hds-border-radius: 0;
+$hds-border-radius-control: 2px;

@@ -5,8 +5,6 @@ import { Note } from '../helpers/Note';
 
 # React Setup
 
-> **This guide has not been tested in production projects yet.** If you find something wrong or missing, please [open an issue](https://github.com/nasa/hds-core/issues) or submit a PR.
-
 This guide covers HDS Core integration for React projects. It assumes you've read [Installation](?path=/docs/overview-installation--docs) and understand the Sass vs. pre-compiled CSS approaches.
 
 ## With react-uswds (recommended)
@@ -25,7 +23,15 @@ react-uswds components render standard USWDS class names (`usa-button`, `usa-acc
 
 Use a single compiled stylesheet that includes USWDS base styles, HDS overrides, and your project styles. This avoids loading duplicate CSS and gives you full access to HDS tokens in your own Sass.
 
-Your Sass entry point:
+**1. Install the asset copy plugin:**
+
+```bash
+npm install -D vite-plugin-static-copy
+```
+
+HDS Core's Sass source references fonts and icons using relative paths (e.g. `url('../assets/fonts/...')`). The pre-compiled CSS path resolves these automatically, but Sass-from-source requires you to copy the assets to the expected location in your build output.
+
+**2. Your Sass entry point:**
 
 ```scss
 // src/styles/index.scss
@@ -33,10 +39,11 @@ Your Sass entry point:
 @forward './my-project-styles';
 ```
 
-Your React entry point — import the `.scss` directly and let your build tool compile it:
+**3. Your React entry point:**
 
 ```jsx
 // App.jsx
+import { Button, Accordion } from '@trussworks/react-uswds';
 import './styles/index.scss';
 ```
 
@@ -47,20 +54,41 @@ import './styles/index.scss';
 import '@trussworks/react-uswds/lib/index.css';
 ```
 
-Your build tool needs the same load paths described in [Installation](?path=/docs/overview-installation--docs#load-paths). For Vite:
+**4. Your `vite.config.js`:**
 
 ```js
-// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+
 export default defineConfig({
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        // HDS fonts (DM Mono, Inter) — lands at dist/assets/fonts/
+        { src: 'node_modules/@nasa/hds-core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
+        // HDS icon SVGs (accordion, table sort, external link, form error)
+        { src: 'node_modules/@nasa/hds-core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
+        // Public Sans — from USWDS — lands at dist/assets/fonts/public-sans/
+        { src: 'node_modules/@uswds/uswds/dist/fonts/public-sans', dest: 'assets/fonts', rename: { stripBase: 5 } },
+        // USWDS images (checkboxes, radio indicators, etc.)
+        { src: 'node_modules/@uswds/uswds/dist/img', dest: 'assets', rename: { stripBase: 4 } },
+      ],
+    }),
+  ],
   css: {
     preprocessorOptions: {
       scss: {
+        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa/hds-core/src/scss'],
         loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa/hds-core/src/scss'],
       },
     },
   },
 });
 ```
+
+The `stripBase` number strips leading path segments from each copied file so it lands at the path the compiled CSS expects. During the build you will see "didn't resolve at build time" warnings for font and image URLs; these are expected and safe. The files are placed by `viteStaticCopy` after Vite's CSS transform phase and will be served correctly at runtime.
 
 ### Pre-compiled CSS setup
 
@@ -107,15 +135,15 @@ Some USWDS components require JavaScript for interactive behavior (accordion, ba
 ```jsx
 import { useEffect, useRef } from 'react';
 import accordion from '@uswds/uswds/js/usa-accordion';
- 
+
 function MyAccordion({ items }) {
   const ref = useRef(null);
- 
+
   useEffect(() => {
     accordion.on(ref.current);
     return () => accordion.off(ref.current);
   }, []);
- 
+
   return (
     <div className="usa-accordion" ref={ref}>
       {/* accordion markup */}
@@ -141,7 +169,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. They ar
 <a href="/missions" className="hds-btn--primary">
   Explore Missions
 </a>;
- 
+
 {
   /* Icon button */
 }
@@ -151,7 +179,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. They ar
   </svg>
   <span className="usa-sr-only">Close</span>
 </button>;
- 
+
 {
   /* Overline label */
 }

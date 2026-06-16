@@ -6,6 +6,17 @@
 # Action tags will be converted to SHA pins automatically by Dependabot
 # on its first run. Do not manually replace tags with SHAs -- let
 # Dependabot maintain them so updates are tracked via PR.
+#
+# Artifact strategy: the build job uploads all of dist/ as a single
+# artifact. Jobs that need dist/ (bundle-size, css-hash, api-check,
+# test, chromatic) download it instead of rebuilding. build-storybook
+# is the exception -- it also triggers on mdx/storybook-config changes
+# where build doesn't run, so it always does its own full build.
+#
+# Chromatic story-only gap (intentional): Chromatic only runs when CSS
+# output changes. New stories added without CSS changes don't get
+# baselines set automatically. This is intentional cost management
+# given the 5k free tier. Revisit if budget expands.
 
 name: CI
 
@@ -32,6 +43,8 @@ jobs:
       md: ${{ steps.filter.outputs.md }}
       mdx: ${{ steps.filter.outputs.mdx }}
       stories: ${{ steps.filter.outputs.stories }}
+      pkg: ${{ steps.filter.outputs.pkg }}
+      storybook-config: ${{ steps.filter.outputs.storybook-config }}
     steps:
       - uses: actions/checkout@v6
 
@@ -53,6 +66,10 @@ jobs:
               - 'stories/**/*.mdx'
             stories:
               - '**/*.stories.js'
+            pkg:
+              - 'package.json'
+            storybook-config:
+              - '.storybook/**'
 
   # -----------------------------------------------------------------------
   # Lint: lockfile -- always runs (fast, supply chain check)
@@ -189,9 +206,10 @@ jobs:
         run: npm run format
 
   # -----------------------------------------------------------------------
-  # Build -- runs if SCSS, tokens, stories, or JS changed
-  # Uploads compiled CSS artifact for bundle-size and css-hash jobs only.
-  # Test job runs its own full build because it needs all of dist/.
+  # Build -- runs if SCSS, tokens, stories, or JS changed.
+  # Uploads all of dist/ as a shared artifact so downstream jobs
+  # (test, chromatic, bundle-size, css-hash, api-check) can download
+  # it instead of rebuilding. See artifact strategy note at top of file.
   # -----------------------------------------------------------------------
   build:
     name: Build
@@ -215,22 +233,23 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Upload compiled CSS
+      - name: Upload dist
         uses: actions/upload-artifact@v7
         with:
-          name: dist-css
-          path: dist/css/*.min.css
+          name: dist
+          path: dist/
           retention-days: 1
 
   # -----------------------------------------------------------------------
-  # Test -- runs its own full build because Storybook needs all of dist/
-  # (fonts, images, JS) via staticDirs, not just compiled CSS.
-  # Installs Playwright browsers explicitly -- npm ci does not include them.
+  # Test -- downloads the dist artifact instead of rebuilding.
+  # Needs build to complete first since it depends on the artifact.
+  # Wall time is similar to before (Playwright install takes ~30s either
+  # way) but eliminates a redundant full SCSS compilation.
   # -----------------------------------------------------------------------
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: filter
+    needs: [filter, build]
     if: |
       needs.filter.outputs.scss == 'true' ||
       needs.filter.outputs.stories == 'true' ||
@@ -249,18 +268,55 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Build
-        run: npm run build
+      - name: Download dist
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
 
       - name: Unit tests
         run: npx vitest run --project unit --reporter=dot
 
       - name: A11y tests
         run: npx vitest run --project storybook --reporter=dot
-        continue-on-error: true
 
   # -----------------------------------------------------------------------
-  # Bundle size -- runs after build if SCSS or tokens changed
+  # Build Storybook -- verifies the static Storybook build succeeds.
+  # Catches MDX parse errors, broken imports, and bad story configs before
+  # they reach the GitHub Pages deploy (roadmap §2).
+  #
+  # Does NOT use the dist artifact because it also triggers on mdx and
+  # storybook-config changes where the build job doesn't run. Always
+  # does its own full build to guarantee dist/ is available for staticDirs.
+  # -----------------------------------------------------------------------
+  build-storybook:
+    name: Build / Storybook
+    runs-on: ubuntu-latest
+    needs: filter
+    if: |
+      needs.filter.outputs.mdx == 'true' ||
+      needs.filter.outputs.stories == 'true' ||
+      needs.filter.outputs.scss == 'true' ||
+      needs.filter.outputs.storybook-config == 'true'
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CSS and assets
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+  # -----------------------------------------------------------------------
+  # Bundle size -- downloads dist artifact, checks CSS file sizes.
   # -----------------------------------------------------------------------
   bundle-size:
     name: Bundle size
@@ -270,19 +326,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Download compiled CSS
+      - name: Download dist
         uses: actions/download-artifact@v8
         with:
-          name: dist-css
-          path: dist/css/
+          name: dist
+          path: dist/
 
       - name: Check bundle size
         run: bash scripts/check-bundle-size.sh
 
   # -----------------------------------------------------------------------
-  # CSS hash -- compares compiled output vs. base branch
-  # Builds base branch independently to get a clean comparison point.
-  # Downloads PR CSS artifact for the PR side -- avoids building twice.
+  # CSS hash -- compares compiled output vs. base branch.
+  # Base branch is built independently (unavoidable -- no artifact exists
+  # for it). PR side downloads the shared dist artifact.
   # -----------------------------------------------------------------------
   css-hash:
     name: Compare CSS hash
@@ -312,11 +368,11 @@ jobs:
         run: |
           echo "hash=$(sha256sum dist/css/hds.min.css dist/css/hds-uswds.min.css dist/css/hds-dataviz.min.css | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
-      - name: Download PR compiled CSS
+      - name: Download PR dist
         uses: actions/download-artifact@v8
         with:
-          name: dist-css
-          path: dist/css/
+          name: dist
+          path: dist/
 
       - name: Hash PR CSS
         id: pr-hash
@@ -335,10 +391,10 @@ jobs:
           fi
 
   # -----------------------------------------------------------------------
-  # Chromatic -- runs only if CSS hash changed vs. base branch
-  # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection
-  # Runs its own full build -- needs all of dist/ for Storybook staticDirs
-  # (fonts, images, JS), not just compiled CSS.
+  # Chromatic -- runs only if CSS hash changed vs. base branch.
+  # Downloads the dist artifact instead of rebuilding. Already waits for
+  # build to complete via the css-hash → build dependency chain.
+  # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection.
   # -----------------------------------------------------------------------
   chromatic:
     name: Chromatic visual regression
@@ -358,8 +414,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Download dist
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
 
       - name: Run Chromatic
         uses: chromaui/action@v17
@@ -368,21 +427,58 @@ jobs:
           onlyChanged: true
 
   # -----------------------------------------------------------------------
-  # API contract check
-  # Runs after build to verify public-api.snapshot.txt is up to date.
+  # API contract check -- downloads dist artifact, verifies public API
+  # snapshot is up to date. check:api-snapshot reads from dist/css/.
   # -----------------------------------------------------------------------
   api-check:
     name: Public API contract check
     runs-on: ubuntu-latest
-    needs: filter
+    needs: [filter, build]
     if: needs.filter.outputs.scss == 'true'
     steps:
       - uses: actions/checkout@v6
+
       - uses: actions/setup-node@v6
         with:
           node-version: '24.15.0'
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download dist
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
       - name: Check public API snapshot
-        run: npm run check:public-api
+        run: npm run check:api-snapshot
+
+  # -----------------------------------------------------------------------
+  # USWDS integrity -- runs when package.json changes (potential USWDS bump)
+  # check:uswds-core  architectural gate: @use 'uswds-core' must emit no CSS
+  # check:uswds       component tracker: USWDS Sass source unchanged
+  # If either fails, do not merge until resolved per CONTRIBUTING.md.
+  # -----------------------------------------------------------------------
+  check-uswds:
+    name: USWDS integrity
+    runs-on: ubuntu-latest
+    needs: filter
+    if: needs.filter.outputs.pkg == 'true'
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24.15.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify uswds-core emits no CSS
+        run: npm run check:uswds-core
+
+      - name: Verify USWDS packages unchanged
+        run: npm run check:uswds

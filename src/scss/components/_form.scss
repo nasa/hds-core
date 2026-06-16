@@ -50,6 +50,7 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
+@use 'hds-typography' as *;
 
 // HDS check icon — replaces USWDS default checkmark glyph
 $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.7071 5.70712L7.99995 15.4142L2.29285 9.70712L3.70706 8.29291L7.99995 12.5858L16.2928 4.29291L17.7071 5.70712Z' fill='%23fff'/%3E%3C/svg%3E");
@@ -108,8 +109,8 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-textarea,
 .usa-select {
   background-color: var(--hds-palette-input-bg);
-  border: 1px solid var(--hds-palette-border);
-  border-radius: 2px;
+  border: $hds-border-width-thin solid var(--hds-palette-border);
+  border-radius: $hds-border-radius-control;
   color: var(--hds-palette-control-text);
   font-size: size('body', '2xs');
   letter-spacing: 0;
@@ -144,7 +145,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-textarea:focus-visible,
 .usa-select:focus-visible {
   border-color: var(--hds-palette-btn-secondary-bg);
-  border-width: 2px;
+  border-width: $hds-border-width-thick;
   outline: none !important;
 }
 
@@ -167,11 +168,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 
 .usa-label,
 .usa-legend {
+  @include hds-type('h6');
+
   color: var(--hds-palette-control-text);
-  font-family: family('heading');
-  font-size: size('body', '2xs');
-  font-weight: font-weight('semibold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
 }
 
 .usa-legend--large {
@@ -433,13 +432,20 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-input--error,
 .usa-input--error:focus-visible {
   border-color: var(--hds-palette-error-indicator);
-  border-width: 1px;
+  border-width: $hds-border-width-thin;
 }
 
 // HDS Figma shows no form group left border — USWDS default suppressed.
+// USWDS also shifts the group left by units(-2.5) at desktop to compensate
+// for its 16px padding + 4px border; without those, the negative margin
+// pulls the input out of alignment with its non-error sibling.
 .usa-form-group--error {
   border-left: none;
   padding-left: 0;
+
+  @include at-media('desktop') {
+    margin-left: 0;
+  }
 }
 
 .usa-error-message {
@@ -472,5 +478,5 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // See TextInput.mdx Success variant note for usage guidance.
 .usa-input--success {
   border-color: color('success');
-  border-width: 1px;
+  border-width: $hds-border-width-thin;
 }

@@ -41,6 +41,10 @@
 
 .usa-accordion__heading {
   border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
+
+  // Override USWDS margin-top: units(1) on :not(:first-child) so adjacent
+  // headings sit flush — the HR alone separates items (Figma spec).
+  margin: 0;
 }
 
 .usa-accordion > .usa-accordion__heading:first-child {
@@ -62,6 +66,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  // Figma spec: 15px from top HR to label, 14px from label to bottom HR
+  // (collapsed). Paired with content padding-top: 6px → 20px label-to-body
+  // gap on open accordions. Heading margin: 0 puts bottom HR flush.
+  padding-top: 15px;
+  padding-bottom: 14px;
 
   &:focus-visible {
     @include hds-focus-ring;
@@ -103,7 +113,7 @@
     flex-shrink: 0;
     width: 1.5em; // 24px at 16px base — Figma M size
     height: 1.5em;
-    border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+    border: $hds-border-width-thin solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
     border-radius: 50%;
     margin-left: units(2);
 
@@ -131,4 +141,8 @@
   background-color: transparent;
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-top: 0;
+
+  // Header→body gap = button padding-bottom 14px + this 6px = 20px (Figma spec).
+  margin-top: 0;
+  padding-top: 6px;
 }

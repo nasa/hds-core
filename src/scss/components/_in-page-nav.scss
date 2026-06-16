@@ -30,6 +30,7 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
+@use 'hds-typography' as *;
 
 // --- Container (aside) ---
 // Remove all USWDS visual treatment. The aside is a structural
@@ -55,7 +56,7 @@
 // Padding-left matches h2 link indent (units(1.5) = 12px).
 
 .usa-in-page-nav__heading {
-  @include hds-metadata-type;
+  @include metadata-type;
 
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-left: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});

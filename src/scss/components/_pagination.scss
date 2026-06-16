@@ -61,8 +61,8 @@
 
 .usa-pagination__button {
   align-items: center;
-  border: 1px solid transparent; // reserve for focus ring
-  border-radius: 0;
+  border: $hds-border-width-thin solid transparent; // reserve for focus ring
+  border-radius: $hds-border-radius;
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   display: inline-flex;
   font-size: size('body', 'xs');
@@ -215,8 +215,8 @@
 .hds-pagination__simplified-btn {
   align-items: center;
   background: none;
-  border: 1px solid transparent; // reserve for focus
-  border-radius: 0;
+  border: $hds-border-width-thin solid transparent; // reserve for focus
+  border-radius: $hds-border-radius;
   cursor: pointer;
   display: inline-flex;
   gap: 0.5rem;
@@ -228,7 +228,7 @@
   .hds-icon {
     align-items: center;
     background-color: var(--hds-palette-utility-fill, #{$hds-color-spacesuit-white});
-    border: 1px solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
+    border: $hds-border-width-thin solid var(--hds-palette-utility-stroke, #{$hds-color-carbon-20});
     border-radius: 50%;
     display: inline-flex;
     flex-shrink: 0;
