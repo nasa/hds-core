@@ -69,7 +69,7 @@
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/addon-vitest": "^10.4.6",
     "@storybook/html-vite": "^10.4.6",
-    "@vitest/browser-playwright": "^4.1.8",
+    "@vitest/browser-playwright": "^4.1.9",
     "@vitest/coverage-v8": "^4.1.0",
     "autoprefixer": "^10.5.0",
     "concurrently": "^10.0.3",
