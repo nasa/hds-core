@@ -46,7 +46,7 @@ jobs:
       pkg: ${{ steps.filter.outputs.pkg }}
       storybook-config: ${{ steps.filter.outputs.storybook-config }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: dorny/paths-filter@v4
         id: filter
@@ -78,7 +78,7 @@ jobs:
     name: Lint / lockfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -100,7 +100,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -122,7 +122,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -144,7 +144,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.md == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -166,7 +166,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.mdx == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -192,7 +192,7 @@ jobs:
       needs.filter.outputs.js == 'true' ||
       needs.filter.outputs.json == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -220,7 +220,7 @@ jobs:
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -255,7 +255,7 @@ jobs:
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -299,7 +299,7 @@ jobs:
       needs.filter.outputs.scss == 'true' ||
       needs.filter.outputs.storybook-config == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -324,7 +324,7 @@ jobs:
     needs: [filter, build]
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download dist
         uses: actions/download-artifact@v8
@@ -348,7 +348,7 @@ jobs:
     outputs:
       changed: ${{ steps.compare.outputs.changed }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.base_ref }}
 
@@ -402,7 +402,7 @@ jobs:
     needs: css-hash
     if: needs.css-hash.outputs.changed == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -436,7 +436,7 @@ jobs:
     needs: [filter, build]
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -467,7 +467,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.pkg == 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
