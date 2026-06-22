@@ -23,10 +23,6 @@ const SASS_FILES = {
   typography: resolve(ROOT, 'src/scss/_hds-typography.scss'),
 };
 
-const CSS_COMPONENT_FILES = {
-  componentProperties: resolve(ROOT, 'src/scss/base/_component-properties.scss'),
-};
-
 /**
  * Generate the full snapshot text from current build output and source files.
  * Emits warnings to stderr for rules outside @layer.
