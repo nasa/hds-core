@@ -69,12 +69,9 @@ $_type: (
   'h1-2xl': (
     family: 'heading',
     size: $hds-font-size-4xl,
-    // 100px
     weight: $hds-font-weight-bold,
-    // 700
     lh: $hds-line-height-1,
-    // 1
-    ls: $hds-letter-spacing-neg-7,
+    ls: $hds-letter-spacing-neg-5,
     clamp: (
       100,
       120,
@@ -83,11 +80,8 @@ $_type: (
   'h1-xl': (
     family: 'heading',
     size: $hds-font-size-3xl,
-    // 80px
     weight: $hds-font-weight-bold,
-    // 700
     lh: $hds-line-height-1,
-    // 1
     ls: $hds-letter-spacing-neg-5,
     clamp: (
       60,
@@ -96,13 +90,10 @@ $_type: (
   ),
   'h1': (
     family: 'heading',
-    size: $hds-font-size-xl,
-    // 32px
+    size: $hds-font-size-2xl,
     weight: $hds-font-weight-bold,
-    // 700
     lh: $hds-line-height-1,
-    // 1
-    ls: $hds-letter-spacing-neg-4,
+    ls: $hds-letter-spacing-neg-3,
     clamp: (
       32,
       48,
@@ -110,13 +101,11 @@ $_type: (
   ),
   'h2': (
     family: 'heading',
-    size: $hds-font-size-lg,
-    // 28px
+    size: $hds-font-size-xl,
     weight: $hds-font-weight-bold,
-    // 700
+    // Bespoke line-height ratio for tighter display text, validated against Figma designs. Not currently in tokens.
     lh: 1.06,
-    // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
-    ls: $hds-letter-spacing-neg-3,
+    ls: $hds-letter-spacing-neg-2,
     clamp: (
       28,
       36,
@@ -125,88 +114,67 @@ $_type: (
   'h3': (
     family: 'heading',
     size: $hds-font-size-md,
-    // 22px
     weight: $hds-font-weight-bold,
-    // 700
     lh: $hds-line-height-2,
-    // 1.15
     ls: $hds-letter-spacing-neg-2,
-    clamp: null,
+    clamp: (
+      18,
+      22,
+    ),
   ),
   'h4': (
     family: 'heading',
     size: $hds-font-size-sm,
-    // 20px
     weight: $hds-font-weight-semibold,
-    // 600
     lh: $hds-line-height-3,
-    // 1.35
     ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h5': (
     family: 'heading',
     size: $hds-font-size-xs,
-    // 18px
     weight: $hds-font-weight-semibold,
-    // 600
     lh: 1.25,
-    // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
     ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h6': (
     family: 'heading',
     size: $hds-font-size-2xs,
-    // 16px
     weight: $hds-font-weight-semibold,
-    // 600
     lh: $hds-line-height-3,
-    // 1.35
     ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'intro': (
     family: 'body',
     size: $hds-font-size-sm,
-    // 20px
     weight: $hds-font-weight-normal,
-    // 400
     lh: $hds-line-height-4,
-    // 1.5
     ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'p': (
     family: 'body',
     size: $hds-font-size-xs,
-    // 18px
     weight: $hds-font-weight-normal,
-    // 400
     lh: $hds-line-height-5,
-    // 1.62
     ls: $hds-letter-spacing-auto,
     clamp: null,
   ),
   'caption': (
     family: 'body',
-    size: $hds-font-size-4xs,
-    // 12px
+    size: $hds-font-size-3xs,
     weight: $hds-font-weight-normal,
-    // 400
     lh: $hds-line-height-3,
-    // 1.35
     ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'overline': (
     family: 'mono',
-    size: $hds-font-size-4xs,
-    // 12px
+    size: $hds-font-size-3xs,
     weight: $hds-font-weight-medium,
-    // 500
     lh: $hds-line-height-6,
-    // 1.75
     // Bespoke tracking, kept internal/raw (not a public scale
     // member): Figma-validated 3.5px ÷ 12px overline font-size
     // (0.75rem) = 0.2917em, rounded up to 0.3em.
@@ -216,23 +184,17 @@ $_type: (
   ),
   'metadata': (
     family: 'heading',
-    size: $hds-font-size-4xs,
-    // 12px
+    size: $hds-font-size-3xs,
     weight: $hds-font-weight-bold,
-    // 700
     lh: $hds-line-height-6,
-    // 1.75
     ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'number-lg': (
     family: 'mono',
     size: $hds-font-size-4xl,
-    // 100px
     weight: $hds-font-weight-light,
-    // 300
     lh: $hds-line-height-1,
-    // 1
     ls: $hds-letter-spacing-neg-5,
     clamp: (
       80,
@@ -241,12 +203,9 @@ $_type: (
   ),
   'number-md': (
     family: 'mono',
-    size: $hds-font-size-xl,
-    // 32px
+    size: $hds-font-size-2xl,
     weight: $hds-font-weight-light,
-    // 300
     lh: $hds-line-height-1,
-    // 1
     ls: $hds-letter-spacing-auto,
     clamp: (
       32,
@@ -255,12 +214,9 @@ $_type: (
   ),
   'number-sm': (
     family: 'mono',
-    size: $hds-font-size-lg,
-    // 28px
+    size: $hds-font-size-xl,
     weight: $hds-font-weight-light,
-    // 300
     lh: $hds-line-height-1,
-    // 1
     ls: $hds-letter-spacing-auto,
     clamp: (
       28,
@@ -269,12 +225,9 @@ $_type: (
   ),
   'number-xs': (
     family: 'mono',
-    size: $hds-font-size-md,
-    // 22px
+    size: $hds-font-size-lg,
     weight: $hds-font-weight-light,
-    // 300
     lh: $hds-line-height-2,
-    // 1.15
     ls: $hds-letter-spacing-auto,
     clamp: (
       22,
