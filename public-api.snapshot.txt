@@ -52,7 +52,6 @@ src/scss/hds-uswds.scss
 --hds-font-size-3xl
 --hds-font-size-3xs
 --hds-font-size-4xl
---hds-font-size-4xs
 --hds-font-size-lg
 --hds-font-size-md
 --hds-font-size-sm
@@ -325,7 +324,6 @@ $hds-font-size-2xs
 $hds-font-size-3xl
 $hds-font-size-3xs
 $hds-font-size-4xl
-$hds-font-size-4xs
 $hds-font-size-lg
 $hds-font-size-md
 $hds-font-size-sm
