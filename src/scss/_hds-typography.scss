@@ -59,9 +59,9 @@ $_fluid-max-vw: 1200; // px — USWDS desktop-lg
 // ============================================================
 // § Type ramp
 // ============================================================
-// lh: raw unitless ratio
-// ls: key into $hds-letterspacing, OR a raw length for bespoke
-//     tracking that lives outside the public scale (same pattern
+// lh: raw unitless ratio (generated token or bespoke)
+// ls: generated token ($hds-letter-spacing-*), OR a raw length
+//     for bespoke tracking outside the public scale (same pattern
 //     as the bespoke `lh` ratios 1.06 / 1.25)
 // clamp: (min-px, max-px) for fluid sizing, null for static
 
