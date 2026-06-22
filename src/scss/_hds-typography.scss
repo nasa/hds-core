@@ -68,9 +68,12 @@ $_fluid-max-vw: 1200; // px — USWDS desktop-lg
 $_type: (
   'h1-2xl': (
     family: 'heading',
-    size: $hds-font-size-4xl, // 100px
-    weight: $hds-font-weight-bold, // 700
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-4xl,
+    // 100px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-neg-7,
     clamp: (
       100,
@@ -79,9 +82,12 @@ $_type: (
   ),
   'h1-xl': (
     family: 'heading',
-    size: $hds-font-size-3xl, // 80px
-    weight: $hds-font-weight-bold, // 700
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-3xl,
+    // 80px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-neg-5,
     clamp: (
       60,
@@ -90,9 +96,12 @@ $_type: (
   ),
   'h1': (
     family: 'heading',
-    size: $hds-font-size-xl, // 32px
-    weight: $hds-font-weight-bold, // 700
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-xl,
+    // 32px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-neg-4,
     clamp: (
       32,
@@ -101,9 +110,12 @@ $_type: (
   ),
   'h2': (
     family: 'heading',
-    size: $hds-font-size-lg, // 28px
-    weight: $hds-font-weight-bold, // 700
-    lh: 1.06, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
+    size: $hds-font-size-lg,
+    // 28px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: 1.06,
+    // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
     ls: $hds-letter-spacing-neg-3,
     clamp: (
       28,
@@ -112,84 +124,115 @@ $_type: (
   ),
   'h3': (
     family: 'heading',
-    size: $hds-font-size-md, // 22px
-    weight: $hds-font-weight-bold, // 700
-    lh: $hds-line-height-2, // 1.15
+    size: $hds-font-size-md,
+    // 22px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: $hds-line-height-2,
+    // 1.15
     ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h4': (
     family: 'heading',
-    size: $hds-font-size-sm, // 20px
-    weight: $hds-font-weight-semibold, // 600
-    lh: $hds-line-height-3, // 1.35
+    size: $hds-font-size-sm,
+    // 20px
+    weight: $hds-font-weight-semibold,
+    // 600
+    lh: $hds-line-height-3,
+    // 1.35
     ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h5': (
     family: 'heading',
-    size: $hds-font-size-xs, // 18px
-    weight: $hds-font-weight-semibold, // 600
-    lh: 1.25, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
+    size: $hds-font-size-xs,
+    // 18px
+    weight: $hds-font-weight-semibold,
+    // 600
+    lh: 1.25,
+    // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
     ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h6': (
     family: 'heading',
-    size: $hds-font-size-2xs, // 16px
-    weight: $hds-font-weight-semibold, // 600
-    lh: $hds-line-height-3, // 1.35
+    size: $hds-font-size-2xs,
+    // 16px
+    weight: $hds-font-weight-semibold,
+    // 600
+    lh: $hds-line-height-3,
+    // 1.35
     ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'intro': (
     family: 'body',
-    size: $hds-font-size-sm, // 20px
-    weight: $hds-font-weight-normal, // 400
-    lh: $hds-line-height-4, // 1.5
+    size: $hds-font-size-sm,
+    // 20px
+    weight: $hds-font-weight-normal,
+    // 400
+    lh: $hds-line-height-4,
+    // 1.5
     ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'p': (
     family: 'body',
-    size: $hds-font-size-xs, // 18px
-    weight: $hds-font-weight-normal, // 400
-    lh: $hds-line-height-5, // 1.62
+    size: $hds-font-size-xs,
+    // 18px
+    weight: $hds-font-weight-normal,
+    // 400
+    lh: $hds-line-height-5,
+    // 1.62
     ls: $hds-letter-spacing-auto,
     clamp: null,
   ),
   'caption': (
     family: 'body',
-    size: $hds-font-size-4xs, // 12px
-    weight: $hds-font-weight-normal, // 400
-    lh: $hds-line-height-3, // 1.35
+    size: $hds-font-size-4xs,
+    // 12px
+    weight: $hds-font-weight-normal,
+    // 400
+    lh: $hds-line-height-3,
+    // 1.35
     ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'overline': (
     family: 'mono',
-    size: $hds-font-size-4xs, // 12px
-    weight: $hds-font-weight-medium, // 500
-    lh: $hds-line-height-6, // 1.75
+    size: $hds-font-size-4xs,
+    // 12px
+    weight: $hds-font-weight-medium,
+    // 500
+    lh: $hds-line-height-6,
+    // 1.75
     // Bespoke tracking, kept internal/raw (not a public scale
     // member): Figma-validated 3.5px ÷ 12px overline font-size
     // (0.75rem) = 0.2917em, rounded up to 0.3em.
-    ls: 0.3em, // TODO: review against HDS Core Proposal and HDS Figma (bespoke, not in scale)
+    ls: 0.3em,
+    // TODO: review against HDS Core Proposal and HDS Figma (bespoke, not in scale)
     clamp: null,
   ),
   'metadata': (
     family: 'heading',
-    size: $hds-font-size-4xs, // 12px
-    weight: $hds-font-weight-bold, // 700
-    lh: $hds-line-height-6, // 1.75
+    size: $hds-font-size-4xs,
+    // 12px
+    weight: $hds-font-weight-bold,
+    // 700
+    lh: $hds-line-height-6,
+    // 1.75
     ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'number-lg': (
     family: 'mono',
-    size: $hds-font-size-4xl, // 100px
-    weight: $hds-font-weight-light, // 300
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-4xl,
+    // 100px
+    weight: $hds-font-weight-light,
+    // 300
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-neg-5,
     clamp: (
       80,
@@ -198,9 +241,12 @@ $_type: (
   ),
   'number-md': (
     family: 'mono',
-    size: $hds-font-size-xl, // 32px
-    weight: $hds-font-weight-light, // 300
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-xl,
+    // 32px
+    weight: $hds-font-weight-light,
+    // 300
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-auto,
     clamp: (
       32,
@@ -209,9 +255,12 @@ $_type: (
   ),
   'number-sm': (
     family: 'mono',
-    size: $hds-font-size-lg, // 28px
-    weight: $hds-font-weight-light, // 300
-    lh: $hds-line-height-1, // 1
+    size: $hds-font-size-lg,
+    // 28px
+    weight: $hds-font-weight-light,
+    // 300
+    lh: $hds-line-height-1,
+    // 1
     ls: $hds-letter-spacing-auto,
     clamp: (
       28,
@@ -220,9 +269,12 @@ $_type: (
   ),
   'number-xs': (
     family: 'mono',
-    size: $hds-font-size-md, // 22px
-    weight: $hds-font-weight-light, // 300
-    lh: $hds-line-height-2, // 1.15
+    size: $hds-font-size-md,
+    // 22px
+    weight: $hds-font-weight-light,
+    // 300
+    lh: $hds-line-height-2,
+    // 1.15
     ls: $hds-letter-spacing-auto,
     clamp: (
       22,
@@ -249,7 +301,7 @@ $_type: (
   @if $clamp-val {
     font-size: fluid-size(list.nth($clamp-val, 1), list.nth($clamp-val, 2));
   } @else {
-    // Static size: use token value directly (no USWDS size() lookup)
+    // Static size: use token value directly (already in rem for accessibility)
     font-size: map.get($s, 'size');
   }
 

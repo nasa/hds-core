@@ -78,17 +78,17 @@ $hds-font-weight-normal: 400; // Normal/regular weight used for body text
 $hds-font-weight-medium: 500; // Medium weight used for overline
 $hds-font-weight-semibold: 600; // Semibold weight used for h4, h5, h6
 $hds-font-weight-bold: 700; // Bold weight used for h1, h2, h3, display, metadata
-$hds-font-size-4xl: 100px; // Display 2XL and number-lg base size
-$hds-font-size-3xl: 80px; // Number-lg alternate (80px from clamp 60-80)
-$hds-font-size-2xl: 60px; // Display XL base size
-$hds-font-size-xl: 32px; // H1 and number-md base size
-$hds-font-size-lg: 28px; // H2 and number-sm base size
-$hds-font-size-md: 22px; // Number-xs base size
-$hds-font-size-sm: 20px; // H3 base size
-$hds-font-size-xs: 18px; // H4 and intro base size
-$hds-font-size-2xs: 16px; // H5 and body paragraph base size
-$hds-font-size-3xs: 14px; // H6 base size
-$hds-font-size-4xs: 12px; // Caption and metadata base size
+$hds-font-size-4xl: 6.25rem; // Display 2XL and number-lg base size (100px at default settings)
+$hds-font-size-3xl: 5rem; // Display XL alternate base size (80px at default settings)
+$hds-font-size-2xl: 3.75rem; // Display XL base size (60px at default settings)
+$hds-font-size-xl: 2rem; // H1 and number-md base size (32px at default settings)
+$hds-font-size-lg: 1.75rem; // H2 and number-sm base size (28px at default settings)
+$hds-font-size-md: 1.375rem; // H3 and number-xs base size (22px at default settings)
+$hds-font-size-sm: 1.25rem; // H4 base size (20px at default settings)
+$hds-font-size-xs: 1.125rem; // H5 and intro base size (18px at default settings)
+$hds-font-size-2xs: 1rem; // H6 and body paragraph base size (16px at default settings)
+$hds-font-size-3xs: 0.875rem; // Small text base size (14px at default settings)
+$hds-font-size-4xs: 0.75rem; // Caption, metadata, and overline base size (12px at default settings)
 $hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; // Heading font family for h1-h6 and display text
 $hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; // Body text and default paragraph font
 $hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace; // Monospace font for code blocks and inline code
