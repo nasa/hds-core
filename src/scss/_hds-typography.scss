@@ -303,6 +303,14 @@ $_type: (
     @include hds-type('h6');
   }
 
+  .hds-intro {
+    @include hds-type('intro');
+  }
+
+  .hds-p {
+    @include hds-type('p');
+  }
+
   .hds-display-2xl {
     @include hds-type('h1-2xl');
   }
