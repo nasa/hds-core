@@ -11,10 +11,16 @@ src/scss/hds-uswds.scss
 @layer site (last)
 
 ## Custom Properties (hds.min.css)
+--hds-accordion-border-width
 --hds-border-radius
 --hds-border-radius-control
 --hds-border-width-thick
 --hds-border-width-thin
+--hds-button-border-radius
+--hds-button-border-width
+--hds-card-border-radius
+--hds-card-border-width
+--hds-checkbox-border-radius
 --hds-color-active-green
 --hds-color-carbon-05
 --hds-color-carbon-10
@@ -57,6 +63,10 @@ src/scss/hds-uswds.scss
 --hds-font-weight-medium
 --hds-font-weight-normal
 --hds-font-weight-semibold
+--hds-input-select-border-width
+--hds-input-state-border-width
+--hds-input-tile-border-radius
+--hds-input-tile-border-width
 --hds-layout-gutter-lg
 --hds-layout-gutter-md
 --hds-layout-gutter-sm
@@ -81,6 +91,9 @@ src/scss/hds-uswds.scss
 --hds-line-height-4
 --hds-line-height-5
 --hds-line-height-6
+--hds-modal-border-radius
+--hds-pagination-border-radius
+--hds-pagination-border-width
 --hds-palette-bg
 --hds-palette-blockquote-icon
 --hds-palette-border
@@ -136,6 +149,9 @@ src/scss/hds-uswds.scss
 --hds-spacing-6
 --hds-spacing-8
 --hds-spacing-9
+--hds-summary-border-radius
+--hds-summary-border-width
+--hds-table-border-width
 
 ## Custom Properties (hds-dataviz.min.css)
 --hds-dataviz-color-cat-1
@@ -414,9 +430,11 @@ hds-type-classes
 .hds-h5
 .hds-h6
 .hds-icon
+.hds-intro
 .hds-link--internal
 .hds-metadata
 .hds-overline
+.hds-p
 .hds-pagination__simplified-btn
 .hds-pagination__simplified-text
 .hds-palette-black
