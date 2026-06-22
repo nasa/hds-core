@@ -1,4 +1,5 @@
 @use 'uswds-core' as *;
+@use 'hds-config' as *;
 @use 'hds-tokens' as *;
 
 @if $hds-enable-dataviz-tokens {

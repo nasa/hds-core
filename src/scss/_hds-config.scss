@@ -1,0 +1,18 @@
+// ============================================================
+// HDS Configuration Flags
+// @nasa/hds-core
+// ============================================================
+// Shared configuration consumed by multiple modules.
+// Must load before consumers (palettes, dataviz, custom-properties).
+//
+// PUBLIC API: These flags are configurable by consumers via @use ... with (...).
+// Listed in public-api.snapshot.txt.
+// ============================================================
+
+/// Enable dataviz token emission in hds-dataviz.scss
+/// @type Boolean
+$hds-enable-dataviz-tokens: false !default;
+
+/// Enable automatic dark mode detection via prefers-color-scheme
+/// @type Boolean
+$hds-enable-auto-dark-mode: false !default;
