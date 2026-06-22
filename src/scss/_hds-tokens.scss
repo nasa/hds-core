@@ -77,8 +77,6 @@ $hds-font-weight-normal: 400; // Normal/regular weight used for body text
 $hds-font-weight-medium: 500; // Medium weight used for overline
 $hds-font-weight-semibold: 600; // Semibold weight used for h4, h5, h6
 $hds-font-weight-bold: 700; // Bold weight used for h1, h2, h3, display, metadata
-$hds-font-family-heading:
-  'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; // Heading font family for h1-h6 and display text
-$hds-font-family-body:
-  'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; // Body text and default paragraph font
+$hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; // Heading font family for h1-h6 and display text
+$hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; // Body text and default paragraph font
 $hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace; // Monospace font for code blocks and inline code

@@ -21,6 +21,7 @@
 @use 'sass:list';
 @use 'sass:map';
 @use 'sass:math';
+@use 'sass:meta';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 
@@ -68,9 +69,9 @@ $_type: (
   'h1-2xl': (
     family: 'heading',
     size: '4xl',
-    weight: 700,
-    lh: 1,
-    ls: 'neg-7',
+    weight: $hds-font-weight-bold, // 700
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-neg-7,
     clamp: (
       100,
       120,
@@ -79,9 +80,9 @@ $_type: (
   'h1-xl': (
     family: 'heading',
     size: '3xl',
-    weight: 700,
-    lh: 1,
-    ls: 'neg-5',
+    weight: $hds-font-weight-bold, // 700
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-neg-5,
     clamp: (
       60,
       80,
@@ -90,9 +91,9 @@ $_type: (
   'h1': (
     family: 'heading',
     size: '2xl',
-    weight: 700,
-    lh: 1,
-    ls: 'neg-4',
+    weight: $hds-font-weight-bold, // 700
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-neg-4,
     clamp: (
       32,
       48,
@@ -101,9 +102,9 @@ $_type: (
   'h2': (
     family: 'heading',
     size: 'xl',
-    weight: 700,
-    lh: 1.06,
-    ls: 'neg-3',
+    weight: $hds-font-weight-bold, // 700
+    lh: 1.06, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
+    ls: $hds-letter-spacing-neg-3,
     clamp: (
       28,
       36,
@@ -112,84 +113,84 @@ $_type: (
   'h3': (
     family: 'heading',
     size: 'md',
-    weight: 700,
-    lh: 1.15,
-    ls: 'neg-2',
+    weight: $hds-font-weight-bold, // 700
+    lh: $hds-line-height-2, // 1.15
+    ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h4': (
     family: 'heading',
     size: 'sm',
-    weight: 600,
-    lh: 1.35,
-    ls: 'neg-2',
+    weight: $hds-font-weight-semibold, // 600
+    lh: $hds-line-height-3, // 1.35
+    ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h5': (
     family: 'heading',
     size: 'xs',
-    weight: 600,
-    lh: 1.25,
-    ls: 'neg-2',
+    weight: $hds-font-weight-semibold, // 600
+    lh: 1.25, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
+    ls: $hds-letter-spacing-neg-2,
     clamp: null,
   ),
   'h6': (
     family: 'heading',
     size: '2xs',
-    weight: 600,
-    lh: 1.35,
-    ls: 'neg-1',
+    weight: $hds-font-weight-semibold, // 600
+    lh: $hds-line-height-3, // 1.35
+    ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'intro': (
     family: 'body',
     size: 'sm',
-    weight: 400,
-    lh: 1.5,
-    ls: 'neg-1',
+    weight: $hds-font-weight-normal, // 400
+    lh: $hds-line-height-4, // 1.5
+    ls: $hds-letter-spacing-neg-1,
     clamp: null,
   ),
   'p': (
     family: 'body',
     size: 'xs',
-    weight: 400,
-    lh: 1.62,
-    ls: 'auto',
+    weight: $hds-font-weight-normal, // 400
+    lh: $hds-line-height-5, // 1.62
+    ls: $hds-letter-spacing-auto,
     clamp: null,
   ),
   'caption': (
     family: 'body',
     size: '3xs',
-    weight: 400,
-    lh: 1.35,
-    ls: '1',
+    weight: $hds-font-weight-normal, // 400
+    lh: $hds-line-height-3, // 1.35
+    ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'overline': (
     family: 'mono',
     size: '3xs',
-    weight: 500,
-    lh: 1.75,
+    weight: $hds-font-weight-medium, // 500
+    lh: $hds-line-height-6, // 1.75
     // Bespoke tracking, kept internal/raw (not a public scale
     // member): Figma-validated 3.5px ÷ 12px overline font-size
     // (0.75rem) = 0.2917em, rounded up to 0.3em.
-    ls: 0.3em,
+    ls: 0.3em, // TODO: review against HDS Core Proposal and HDS Figma (bespoke, not in scale)
     clamp: null,
   ),
   'metadata': (
     family: 'heading',
     size: '3xs',
-    weight: 700,
-    lh: 1.75,
-    ls: '1',
+    weight: $hds-font-weight-bold, // 700
+    lh: $hds-line-height-6, // 1.75
+    ls: $hds-letter-spacing-1,
     clamp: null,
   ),
   'number-lg': (
     family: 'mono',
     size: '4xl',
-    weight: 300,
-    lh: 1,
-    ls: 'neg-5',
+    weight: $hds-font-weight-light, // 300
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-neg-5,
     clamp: (
       80,
       180,
@@ -198,9 +199,9 @@ $_type: (
   'number-md': (
     family: 'mono',
     size: '2xl',
-    weight: 300,
-    lh: 1,
-    ls: 'auto',
+    weight: $hds-font-weight-light, // 300
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-auto,
     clamp: (
       32,
       48,
@@ -209,9 +210,9 @@ $_type: (
   'number-sm': (
     family: 'mono',
     size: 'xl',
-    weight: 300,
-    lh: 1,
-    ls: 'auto',
+    weight: $hds-font-weight-light, // 300
+    lh: $hds-line-height-1, // 1
+    ls: $hds-letter-spacing-auto,
     clamp: (
       28,
       36,
@@ -220,9 +221,9 @@ $_type: (
   'number-xs': (
     family: 'mono',
     size: 'lg',
-    weight: 300,
-    lh: 1.15,
-    ls: 'auto',
+    weight: $hds-font-weight-light, // 300
+    lh: $hds-line-height-2, // 1.15
+    ls: $hds-letter-spacing-auto,
     clamp: (
       22,
       28,
@@ -253,14 +254,7 @@ $_type: (
 
   font-weight: map.get($s, 'weight');
   line-height: map.get($s, 'lh');
-
-  // `ls` is normally a key into the public $hds-letterspacing scale,
-  // but may be a raw length for bespoke tracking outside that scale
-  // (e.g. overline). Resolve a key via the map; pass a raw value
-  // through untouched.
-  $ls: map.get($s, 'ls');
-
-  letter-spacing: if(sass(map.has-key($hds-letterspacing, $ls)): map.get($hds-letterspacing, $ls) ; else: $ls);
+  letter-spacing: map.get($s, 'ls');
 }
 
 // Metadata — Inter uppercase label. Internal (no hds- prefix).
