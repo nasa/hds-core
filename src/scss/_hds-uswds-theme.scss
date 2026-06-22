@@ -48,6 +48,7 @@
 
 @use 'hds-tokens' as hds;
 @use 'sass:map';
+
 @use 'uswds-core' with (
   // ----------------------------------------------------------
   // Build Config
@@ -331,17 +332,18 @@
   // ----------------------------------------------------------
   // Line Heights & Weights
   // ----------------------------------------------------------
-  $theme-body-line-height: map.get(hds.$hds-line-heights, 'body'),
-  $theme-heading-line-height: map.get(hds.$hds-line-heights, 'heading'),
-  $theme-lead-line-height: map.get(hds.$hds-line-heights, 'intro'),
-  $theme-input-line-height: map.get(hds.$hds-line-heights, 'input'),
-  $theme-font-weight-thin: map.get(hds.$hds-weights, 'thin'),
-  $theme-font-weight-light: map.get(hds.$hds-weights, 'light'),
-  $theme-font-weight-normal: map.get(hds.$hds-weights, 'normal'),
-  $theme-font-weight-medium: map.get(hds.$hds-weights, 'medium'),
-  $theme-font-weight-semibold: map.get(hds.$hds-weights, 'semibold'),
-  $theme-font-weight-bold: map.get(hds.$hds-weights, 'bold'),
-  $theme-font-weight-heavy: map.get(hds.$hds-weights, 'heavy'),
+  // USWDS scale integers for unstyled elements (HDS overrides these).
+  $theme-body-line-height: 5, // → 1.62
+  $theme-heading-line-height: 1, // → 1.0
+  $theme-lead-line-height: 4, // → 1.5
+  $theme-input-line-height: 2, // → 1.15
+  $theme-font-weight-thin: false,
+  $theme-font-weight-light: hds.$hds-font-weight-light,
+  $theme-font-weight-normal: hds.$hds-font-weight-normal,
+  $theme-font-weight-medium: hds.$hds-font-weight-medium,
+  $theme-font-weight-semibold: hds.$hds-font-weight-semibold,
+  $theme-font-weight-bold: hds.$hds-font-weight-bold,
+  $theme-font-weight-heavy: false,
   // ----------------------------------------------------------
   // Grid & Layout
   // ----------------------------------------------------------
