@@ -69,7 +69,7 @@
   font-weight: font-weight('semibold');
   height: 2rem; // 32px
   justify-content: center;
-  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  letter-spacing: $hds-letter-spacing-neg-2;
   line-height: 1.25; // 20px / 16px
   padding: 0;
   position: relative;
@@ -298,6 +298,6 @@
   font-family: family('heading'); // Inter
   font-size: size('heading', 'md');
   font-weight: font-weight('bold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  letter-spacing: $hds-letter-spacing-neg-2;
   line-height: 1.18; // 26/22
 }
