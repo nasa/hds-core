@@ -1,186 +1,84 @@
-// ============================================================
-// HDS Token Values
-// @nasa/hds-core
-// ============================================================
-// Pure Sass variables and maps. NO USWDS dependency.
-//
-// This file is loaded across the system:
-//   - _hds-uswds-theme.scss — feeds values into USWDS config
-//   - base/_palettes.scss — palette definitions and feature flags
-//   - base/_custom-properties.scss — outputs CSS custom properties
-//   - _hds-mixins.scss, base/_elements.scss — shared infrastructure
-//   - components/*.scss — per-component token references
-//
-// WHY THIS FILE CAN'T USE USWDS:
-// Sass only allows `@use "module" with (...)` on the FIRST load.
-// This file loads before _hds-uswds-theme.scss configures USWDS,
-// so it must not trigger a `@use "uswds-core"` — otherwise USWDS
-// would load unconfigured and the theme settings would fail.
-// ============================================================
+// Do not edit directly, this file was auto-generated.
 
-@use 'sass:map';
-
-// ============================================================
-// § CONFIGURATION FLAGS
-// ============================================================
-// All HDS feature flags in one place. Override when loading:
-//   @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
-// ============================================================
-
-/// Emit --hds-dataviz-color-cat-* and --hds-dataviz-color-seq-* custom
-/// properties. Default false — no CSS bloat for sites that
-/// don't use data visualizations.
-$hds-enable-dataviz-tokens: false !default;
-
-/// Automatically apply dark palette when OS prefers dark mode.
-$hds-enable-auto-dark-mode: false !default;
-
-// ============================================================
-// § BRAND COLORS
-// ============================================================
-// In component Sass, prefer USWDS token functions instead:
-//   color("primary") → NASA Red
-//   color("secondary") → NASA Blue
-//   color("base-darker") → Carbon 90
-// These variables are used by base/_palettes.scss and to
-// output CSS custom properties (var(--hds-color-nasa-blue)).
-// ============================================================
-
-$hds-color-carbon-black: #000000;
-$hds-color-spacesuit-white: #ffffff;
-$hds-color-nasa-red: #f64137;
-$hds-color-nasa-blue: #1c67e3;
-$hds-color-carbon-90: #17171b;
-$hds-color-carbon-80: #2e2e32;
-$hds-color-carbon-70: #444447;
-$hds-color-carbon-60: #58585b;
-$hds-color-carbon-50: #77777a;
-$hds-color-carbon-40: #959599;
-$hds-color-carbon-30: #b9b9bb;
-$hds-color-carbon-20: #d1d1d1;
-$hds-color-carbon-10: #e3e3e3;
-$hds-color-carbon-05: #f6f6f6;
-$hds-color-nasa-red-tint: #ff5c52;
-$hds-color-nasa-red-shade: #b60109;
-$hds-color-nasa-blue-tint: #288bff;
-$hds-color-nasa-blue-shade: #0b3d91;
-$hds-color-international-orange: #ea6f24;
-$hds-color-active-green: #47da84;
-
-// ============================================================
-// § TABLE COLORS
-// ============================================================
-// Sorted column backgrounds use NASA Blue tints that don't
-// exist in the Carbon scale. These are the resolved hex values
-// of the Figma spec's semi-transparent overlays.
-//
-// Light mode: NASA Blue at 3%/6% opacity over White
-// Dark mode:  White at 4%/6% opacity over Carbon 90
-//
-// Internal-only — not on public Sass surface ($hds-* prefix omitted).
-// Consumed only by components/_table.scss and base/_elements.scss.
-// ============================================================
-
-$table-sorted-bg: #f8fafe;
-$table-sorted-stripe-bg: #f2f6fe;
-$table-sorted-bg-dark: #252528;
-$table-sorted-stripe-bg-dark: #202024;
-$table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
-$table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
-
-// ============================================================
-// § LINE HEIGHT SCALE
-// ============================================================
-// Raw ratio scale for type-system work. Emitted as
-// --hds-line-height-* CSS custom properties (one scalar per
-// entry — kept flat so the Style Dictionary generator can later
-// emit these with a clean no-diff against the API snapshot).
-//
-// Keys are the USWDS line-height scale numbers 1–6.
-// ============================================================
-
-$hds-line-height-1: 1; // 100% — h1, h2 display, numbers
-$hds-line-height-2: 1.15; // 115% — h3 tight
-$hds-line-height-3: 1.35; // 135% — h4, h6, caption, figcaption
-$hds-line-height-4: 1.5; // 150% — intro text
-$hds-line-height-5: 1.62; // 162% — body paragraph
-$hds-line-height-6: 1.75; // 175% — overline, metadata, label
-
-// ============================================================
-// § FONT WEIGHTS
-// ============================================================
-
-$hds-weights: (
-  'thin': false,
-  'light': 300,
-  'normal': 400,
-  'medium': 500,
-  'semibold': 600,
-  'bold': 700,
-  'heavy': false,
-);
-
-// ============================================================
-// § LINE HEIGHTS
-// ============================================================
-// USWDS theme settings only; do not add to the HDS type system.
-// Values are USWDS line-height scale integers, resolved to
-// actual values via USWDS's line-height() function in
-// _hds-uswds-theme.scss.
-// ============================================================
-
-$hds-line-heights: (
-  // 1.62 ≈ proposal 160%
-  'body': 5,
-  // 1.0  = proposal 100% (H1 default)
-  'heading': 1,
-  // 1.52 ≈ Figma 150%
-  'intro': 4,
-  // 1.15
-  'input': 2
-);
-
-// ============================================================
-// § LETTERSPACING
-// ============================================================
-// Custom HDS letterspacing values. Tokens neg-4 through neg-7
-// extend beyond USWDS's built-in range for tight display type.
-// ============================================================
-
-$hds-letterspacing: (
-  // H1-2xl display
-  'neg-7': -0.07em,
-  // H1-xl display
-  'neg-6': -0.06em,
-  // H1, number-lg
-  'neg-5': -0.05em,
-  // H1 alternate
-  'neg-4': -0.04em,
-  // H2
-  'neg-3': -0.03em,
-  // H3, H4, H5
-  'neg-2': -0.02em,
-  // H6, intro, form-label
-  'neg-1': -0.01em,
-  'auto': 0,
-  // Caption, metadata, nav links
-  '1': 0.025em,
-  // Overline uppercase
-  '2': 0.1em,
-  // Reserve
-  '3': 0.15em
-);
-
-// ============================================================
-// § BORDER WIDTHS
-// ============================================================
-
-$hds-border-width-thin: 1px;
-$hds-border-width-thick: 2px;
-
-// ============================================================
-// § BORDER RADII
-// ============================================================
-
-$hds-border-radius: 0;
-$hds-border-radius-control: 2px;
+$hds-color-nasa-red: #f64137; // Primary NASA brand red. Red means 'go somewhere.' For primary actions navigating to a new page (.usa-button, .hds-btn--primary) and error/emergency alerts. Never for on-page actions, decorative use, or dataviz.
+$hds-color-nasa-red-tint: #ff5c52; // Lighter tint of NASA red. Used for hover states and error highlights.
+$hds-color-nasa-red-shade: #b60109; // Darker shade of NASA red. Used for button hover and error dark.
+$hds-color-nasa-blue: #1c67e3; // Primary NASA brand blue. Blue means 'do something here.' For on-page interactions (.usa-button--secondary, .usa-button--outline), controls, list markers, table headers, info alerts. Never for navigation CTAs or dataviz.
+$hds-color-nasa-blue-tint: #288bff; // Lighter tint of NASA blue. Used for active elements and dark palette buttons.
+$hds-color-nasa-blue-shade: #0b3d91; // Darker shade of NASA blue. Used for blue palette background.
+$hds-color-international-orange: #ea6f24; // Secondary brand accent. For status emphasis or decorative markers (blockquote icons). Never for primary actions. Decorative uses exempt from 3:1 contrast minimum.
+$hds-color-active-green: #47da84; // Semantic brand green. For active mission status and confirmation states. Never for branding, decorative backgrounds, or dataviz.
+$hds-color-carbon-10: #e3e3e3; // Off-white carbon neutral.
+$hds-color-carbon-20: #d1d1d1; // Very light carbon neutral.
+$hds-color-carbon-30: #b9b9bb; // Light carbon neutral.
+$hds-color-carbon-40: #959599; // Medium-light carbon neutral.
+$hds-color-carbon-50: #77777a; // Medium carbon neutral.
+$hds-color-carbon-60: #58585b; // Medium-dark carbon neutral.
+$hds-color-carbon-70: #444447; // Dark carbon neutral.
+$hds-color-carbon-80: #2e2e32; // Very dark carbon neutral.
+$hds-color-carbon-90: #17171b; // Darkest carbon neutral. Default background for dark mode.
+$hds-color-carbon-black: #000000; // Pure black for maximum contrast text and outlines.
+$hds-color-carbon-05: #f6f6f6; // Lightest carbon neutral. Alternate background for light mode.
+$hds-color-spacesuit-white: #ffffff; // Pure white for maximum contrast text and default light backgrounds.
+$hds-border-width-thin: 1px; // Role token for single-pixel borders: card, inputs, table.
+$hds-border-width-thick: 2px; // Role token for emphasis borders: button outlines, tag/chip outlines.
+$hds-border-radius: 0px; // Default sharp (square) corners for most HDS components: text button, card, modal, header/footer, etc.
+$hds-border-radius-control: 2px; // Subtle border radius used only for small interactive controls: checkbox, radio/input tile, select, text field and textarea, tag/chip, etc.
+$hds-focus-width: 1px; // Dashed stroke width. Standardized across all dashed focus rings.
+$hds-focus-style: dashed; // All dashed focus rings use a 2,3 dasharray.
+$hds-focus-offset: 1px; // Visual gap between element and ring. May be achieved differently per mechanic (negative inset, outline-offset, etc.) but the visual result is consistent.
+$hds-layout-max-width: 1200px; // Maximum content width. Aligns with desktop-lg breakpoint.
+$hds-layout-margin-mobile: 16px; // Site margins below desktop.
+$hds-layout-margin-desktop: 32px; // Site margins at desktop+.
+$hds-layout-gutter-sm: 4px; // Used on mobile and mobile-lg breakpoints.
+$hds-layout-gutter-md: 16px; // Used on tablet through desktop-lg breakpoints.
+$hds-layout-gutter-lg: 24px; // Used on widescreen breakpoint.
+$hds-layout-gutter-xl: 32px; // Grid gutter at TV breakpoint. Not yet implemented in SCSS.
+$hds-spacing-0: 0px; // Zero spacing. Use to explicitly collapse gaps.
+$hds-spacing-1: 8px; // Tightest content relationship. Use for closely related elements within a single component.
+$hds-spacing-2: 16px; // Element stacking. Default for horizontal and vertical spacing between sibling elements.
+$hds-spacing-3: 24px; // Content section separation within the same component area.
+$hds-spacing-4: 32px; // Component separation at mobile and tablet breakpoints.
+$hds-spacing-6: 48px; // Component separation at desktop breakpoints.
+$hds-spacing-8: 64px; // Section-level vertical padding for major layout blocks (.usa-section).
+$hds-spacing-9: 72px; // Component separation at widescreen and TV breakpoints.
+$hds-spacing-15: 120px; // Layout section division at desktop-lg and below.
+$hds-spacing-30: 240px; // Layout section division at TV breakpoint.
+$hds-spacing-0-5: 4px; // Intermediate. Compact table cell padding, sub-link gaps in in-page nav. Not for layout spacing.
+$hds-spacing-1-5: 12px; // Intermediate. Table cell padding, button block padding, nav indentation, list marker gaps. Most common component-internal value.
+$hds-spacing-2-5: 20px; // Intermediate. List item separation, button inline padding, form label margins, blockquote attribution spacing.
+$hds-breakpoint-mobile: 320px; // Smallest supported viewport.
+$hds-breakpoint-mobile-lg: 480px; // Large mobile. Grid gutter: 4px.
+$hds-breakpoint-tablet: 640px; // Tablet. Grid gutter increases to 16px.
+$hds-breakpoint-tablet-lg: 880px; // Large tablet.
+$hds-breakpoint-desktop: 1024px; // Desktop. Primary content breakpoint.
+$hds-breakpoint-desktop-lg: 1200px; // Large desktop. Container max-width aligns here.
+$hds-breakpoint-widescreen: 1400px; // Widescreen. Grid gutter increases to 24px. Not yet implemented in SCSS.
+$hds-breakpoint-tv: 1920px; // TV/large display. Grid gutter increases to 32px. Not yet implemented in SCSS.
+$hds-line-height-1: 1; // 100% used for h1, h2 display, numbers
+$hds-line-height-2: 1.15; // 115% used for h3 tight
+$hds-line-height-3: 1.35; // 135% used for h4, h6, caption, figcaption
+$hds-line-height-4: 1.5; // 150% used for intro text
+$hds-line-height-5: 1.62; // 162% used for body paragraph
+$hds-line-height-6: 1.75; // 175% used for overline, metadata, label
+$hds-letter-spacing-1: 0.025em; // Caption, metadata, nav links
+$hds-letter-spacing-2: 0.1em; // Overline uppercase
+$hds-letter-spacing-3: 0.15em; // Reserve to maintain parity with USWDS scale; not currently used in HDS
+$hds-letter-spacing-neg-7: -0.07em; // H1-2xl display
+$hds-letter-spacing-neg-6: -0.06em; // H1-xl display
+$hds-letter-spacing-neg-5: -0.05em; // H1, number-lg
+$hds-letter-spacing-neg-4: -0.04em; // H1 alternate
+$hds-letter-spacing-neg-3: -0.03em; // H2
+$hds-letter-spacing-neg-2: -0.02em; // H3, H4, H5
+$hds-letter-spacing-neg-1: -0.01em; // H6, intro, form-label
+$hds-letter-spacing-auto: 0; // Normal letter spacing
+$hds-font-weight-light: 300; // Light weight used for number display styles
+$hds-font-weight-normal: 400; // Normal/regular weight used for body text
+$hds-font-weight-medium: 500; // Medium weight used for overline
+$hds-font-weight-semibold: 600; // Semibold weight used for h4, h5, h6
+$hds-font-weight-bold: 700; // Bold weight used for h1, h2, h3, display, metadata
+$hds-font-family-heading:
+  'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; // Heading font family for h1-h6 and display text
+$hds-font-family-body:
+  'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; // Body text and default paragraph font
+$hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace; // Monospace font for code blocks and inline code
