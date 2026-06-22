@@ -92,19 +92,3 @@ $hds-font-size-4xs: 12px; // Caption and metadata base size
 $hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; // Heading font family for h1-h6 and display text
 $hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; // Body text and default paragraph font
 $hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace; // Monospace font for code blocks and inline code
-$hds-typography-styles-h1-2xl: [object Object]; // Display heading 2XL (100px base, fluid 100-120px)
-$hds-typography-styles-h1-xl: [object Object]; // Display heading XL (60px base, fluid 60-80px)
-$hds-typography-styles-h1: [object Object]; // Heading 1 (32px base, fluid 32-48px)
-$hds-typography-styles-h2: [object Object]; // Heading 2 (28px base, fluid 28-36px). NOTE: lineHeight 1.06 is bespoke, not in scale.
-$hds-typography-styles-h3: [object Object]; // Heading 3 (20px static)
-$hds-typography-styles-h4: [object Object]; // Heading 4 (18px static)
-$hds-typography-styles-h5: [object Object]; // Heading 5 (16px static). NOTE: lineHeight 1.25 is bespoke, not in scale.
-$hds-typography-styles-h6: [object Object]; // Heading 6 (14px static)
-$hds-typography-styles-intro: [object Object]; // Intro/lead paragraph (18px static)
-$hds-typography-styles-p: [object Object]; // Body paragraph (16px static)
-$hds-typography-styles-caption: [object Object]; // Caption/figcaption (12px static)
-$hds-typography-styles-metadata: [object Object]; // Metadata label uppercase (12px static)
-$hds-typography-styles-number-lg: [object Object]; // Large stat number (80px base, fluid 80-180px)
-$hds-typography-styles-number-md: [object Object]; // Medium stat number (32px base, fluid 32-48px)
-$hds-typography-styles-number-sm: [object Object]; // Small stat number (28px base, fluid 28-36px)
-$hds-typography-styles-number-xs: [object Object]; // Extra small stat number (22px base, fluid 22-28px)
