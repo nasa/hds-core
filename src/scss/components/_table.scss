@@ -54,6 +54,24 @@
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
 
+// ── Internal table color tokens ───────────────────────────────
+// Sorted column backgrounds use NASA Blue tints that don't exist
+// in the Carbon scale. These are the resolved hex values of the
+// Figma spec's semi-transparent overlays.
+//
+// Light mode: NASA Blue at 3%/6% opacity over White
+// Dark mode:  White at 4%/6% opacity over Carbon 90
+//
+// NOTE: These will be redesigned in a post-v1.0 palette-aware
+// rework. Current values preserved for no-diff during SD v5
+// promotion.
+$table-sorted-bg: #f8fafe;
+$table-sorted-stripe-bg: #f2f6fe;
+$table-sorted-bg-dark: #252528;
+$table-sorted-stripe-bg-dark: #202024;
+$table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
+$table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
+
 // ── Base table ────────────────────────────────────────────────
 
 .usa-table {
@@ -124,7 +142,7 @@
     font-family: family('heading');
     font-weight: font-weight('bold');
     font-size: size('body', 'lg');
-    letter-spacing: map.get($hds-letterspacing, 'neg-3');
+    letter-spacing: $hds-letter-spacing-neg-3;
     line-height: 1.15; // scale 2 — tight
     padding-bottom: units(2);
     text-align: left;
