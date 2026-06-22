@@ -75,7 +75,10 @@ export default {
         {
           destination: '_hds-tokens.scss',
           format: 'scss/variables',
-          filter: (token) => token.path[0] !== 'dataviz',
+          filter: (token) => {
+            // Exclude dataviz and typography composites (source of truth only)
+            return token.path[0] !== 'dataviz' && token.$type !== 'typography';
+          },
         },
       ],
     },

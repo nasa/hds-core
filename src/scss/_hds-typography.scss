@@ -68,7 +68,7 @@ $_fluid-max-vw: 1200; // px — USWDS desktop-lg
 $_type: (
   'h1-2xl': (
     family: 'heading',
-    size: '4xl',
+    size: $hds-font-size-4xl, // 100px
     weight: $hds-font-weight-bold, // 700
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-neg-7,
@@ -79,7 +79,7 @@ $_type: (
   ),
   'h1-xl': (
     family: 'heading',
-    size: '3xl',
+    size: $hds-font-size-3xl, // 80px
     weight: $hds-font-weight-bold, // 700
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-neg-5,
@@ -90,7 +90,7 @@ $_type: (
   ),
   'h1': (
     family: 'heading',
-    size: '2xl',
+    size: $hds-font-size-xl, // 32px
     weight: $hds-font-weight-bold, // 700
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-neg-4,
@@ -101,7 +101,7 @@ $_type: (
   ),
   'h2': (
     family: 'heading',
-    size: 'xl',
+    size: $hds-font-size-lg, // 28px
     weight: $hds-font-weight-bold, // 700
     lh: 1.06, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
     ls: $hds-letter-spacing-neg-3,
@@ -112,7 +112,7 @@ $_type: (
   ),
   'h3': (
     family: 'heading',
-    size: 'md',
+    size: $hds-font-size-md, // 22px
     weight: $hds-font-weight-bold, // 700
     lh: $hds-line-height-2, // 1.15
     ls: $hds-letter-spacing-neg-2,
@@ -120,7 +120,7 @@ $_type: (
   ),
   'h4': (
     family: 'heading',
-    size: 'sm',
+    size: $hds-font-size-sm, // 20px
     weight: $hds-font-weight-semibold, // 600
     lh: $hds-line-height-3, // 1.35
     ls: $hds-letter-spacing-neg-2,
@@ -128,7 +128,7 @@ $_type: (
   ),
   'h5': (
     family: 'heading',
-    size: 'xs',
+    size: $hds-font-size-xs, // 18px
     weight: $hds-font-weight-semibold, // 600
     lh: 1.25, // TODO: review against HDS Core Proposal and HDS Figma (not in tokens.json scale)
     ls: $hds-letter-spacing-neg-2,
@@ -136,7 +136,7 @@ $_type: (
   ),
   'h6': (
     family: 'heading',
-    size: '2xs',
+    size: $hds-font-size-2xs, // 16px
     weight: $hds-font-weight-semibold, // 600
     lh: $hds-line-height-3, // 1.35
     ls: $hds-letter-spacing-neg-1,
@@ -144,7 +144,7 @@ $_type: (
   ),
   'intro': (
     family: 'body',
-    size: 'sm',
+    size: $hds-font-size-sm, // 20px
     weight: $hds-font-weight-normal, // 400
     lh: $hds-line-height-4, // 1.5
     ls: $hds-letter-spacing-neg-1,
@@ -152,7 +152,7 @@ $_type: (
   ),
   'p': (
     family: 'body',
-    size: 'xs',
+    size: $hds-font-size-xs, // 18px
     weight: $hds-font-weight-normal, // 400
     lh: $hds-line-height-5, // 1.62
     ls: $hds-letter-spacing-auto,
@@ -160,7 +160,7 @@ $_type: (
   ),
   'caption': (
     family: 'body',
-    size: '3xs',
+    size: $hds-font-size-4xs, // 12px
     weight: $hds-font-weight-normal, // 400
     lh: $hds-line-height-3, // 1.35
     ls: $hds-letter-spacing-1,
@@ -168,7 +168,7 @@ $_type: (
   ),
   'overline': (
     family: 'mono',
-    size: '3xs',
+    size: $hds-font-size-4xs, // 12px
     weight: $hds-font-weight-medium, // 500
     lh: $hds-line-height-6, // 1.75
     // Bespoke tracking, kept internal/raw (not a public scale
@@ -179,7 +179,7 @@ $_type: (
   ),
   'metadata': (
     family: 'heading',
-    size: '3xs',
+    size: $hds-font-size-4xs, // 12px
     weight: $hds-font-weight-bold, // 700
     lh: $hds-line-height-6, // 1.75
     ls: $hds-letter-spacing-1,
@@ -187,7 +187,7 @@ $_type: (
   ),
   'number-lg': (
     family: 'mono',
-    size: '4xl',
+    size: $hds-font-size-4xl, // 100px
     weight: $hds-font-weight-light, // 300
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-neg-5,
@@ -198,7 +198,7 @@ $_type: (
   ),
   'number-md': (
     family: 'mono',
-    size: '2xl',
+    size: $hds-font-size-xl, // 32px
     weight: $hds-font-weight-light, // 300
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-auto,
@@ -209,7 +209,7 @@ $_type: (
   ),
   'number-sm': (
     family: 'mono',
-    size: 'xl',
+    size: $hds-font-size-lg, // 28px
     weight: $hds-font-weight-light, // 300
     lh: $hds-line-height-1, // 1
     ls: $hds-letter-spacing-auto,
@@ -220,7 +220,7 @@ $_type: (
   ),
   'number-xs': (
     family: 'mono',
-    size: 'lg',
+    size: $hds-font-size-md, // 22px
     weight: $hds-font-weight-light, // 300
     lh: $hds-line-height-2, // 1.15
     ls: $hds-letter-spacing-auto,
@@ -249,7 +249,8 @@ $_type: (
   @if $clamp-val {
     font-size: fluid-size(list.nth($clamp-val, 1), list.nth($clamp-val, 2));
   } @else {
-    font-size: size(map.get($s, 'family'), map.get($s, 'size'));
+    // Static size: use token value directly (no USWDS size() lookup)
+    font-size: map.get($s, 'size');
   }
 
   font-weight: map.get($s, 'weight');
