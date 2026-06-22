@@ -92,8 +92,8 @@ export default {
           format: 'hds/css/custom-properties',
           filter: (token) => {
             const domain = token.path[0];
-            // Exclude dataviz and breakpoint (Sass-only)
-            return domain !== 'dataviz' && domain !== 'breakpoint';
+            // Exclude dataviz, breakpoint (Sass-only), and typography composites
+            return domain !== 'dataviz' && domain !== 'breakpoint' && token.$type !== 'typography';
           },
         },
       ],
