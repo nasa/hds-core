@@ -49,7 +49,7 @@ HTML load order does not affect cascade priority. Layers determine specificity, 
 _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 ```
 
-`_hds-tokens.scss` MUST NOT `@use "uswds-core"` — it loads before the theme file. Keep it pure Sass (hex values, maps, flags only).
+`_hds-tokens.scss` MUST NOT `@use "uswds-core"` — it loads before the theme file. It is **generated** from `tokens.json` (flat `$hds-*` scalars only — no maps, no `@use`); see Design Tokens → Token flow. Configuration flags live in `_hds-config.scss`, not here.
 
 `_hds-uswds-theme-utils.scss` is the theme variant used by `hds-uswds.scss`. It is identical to `_hds-uswds-theme.scss` except `$output-these-utilities` is unrestricted. If you change a theme setting, change it in both files.
 
@@ -61,15 +61,26 @@ _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 
 ## Design Tokens
 
-`tokens.json` (W3C DTCG format) is the canonical reference for design intent: colors, spacing, breakpoints, borders, layout. Until the Style Dictionary pipeline is wired, **compiled CSS outputs are the enforced contract** — the committed `public-api.snapshot.txt` tracks what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
+`tokens.json` (W3C DTCG format) is the canonical source for primitive design values: colors, spacing, breakpoints, borders, layout, and typography primitives (line-height, letter-spacing, font-weight, font-size, font-family). These are **generated into Sass** (see Token flow). The committed `public-api.snapshot.txt` plus compiled CSS remain the **enforced consumer contract** — what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
 
 ### Token flow
 
+`_hds-tokens.scss` and `base/_custom-properties.scss` are **generated** from `tokens.json` by Style Dictionary (`sd.config.js`). Both carry a "Do not edit directly" header — never hand-edit them.
+
 ```
-tokens.json → _hds-tokens.scss → _hds-uswds-theme.scss → CSS output
+tokens.json
+  └─ npm run build:tokens (Style Dictionary, sd.config.js)
+       ├─ _hds-tokens.scss             ($hds-* Sass scalars)
+       └─ base/_custom-properties.scss (CSS :root custom properties)
+
+_hds-tokens.scss → _hds-uswds-theme.scss → compiled CSS
 ```
 
-SCSS is hand-authored, not generated from `tokens.json`. The Style Dictionary pipeline (`tools/sd-example/`) is a prototype for eventual automation. When implementation differs from `tokens.json`, flag for reconciliation — but do not auto-correct either direction without checking the semver rubric in CONTRIBUTING.md, since the compiled output is the enforced contract.
+- **Regenerate:** `npm run build:tokens`. After any `tokens.json` or `sd.config.js` change, regenerate and commit the output.
+- **Drift gate:** `npm run check:tokens` (also in CI) regenerates and fails if the committed files don't match `tokens.json`. It complements `check:api-snapshot` (which guards compiled output) — different layers, not duplicates.
+- **Not generated** (filtered out in `sd.config.js`): palette CSS (hand-authored — see Palette system), dataviz tokens (parallel contract), breakpoints (Sass-only; can't drive media/container queries), and typography _composites_ (assembled in Sass from the generated primitives).
+
+See `sd.config.js` for name transforms, platforms, and filters. `tools/sd-example/` is a standalone adopter example for consuming `tokens.json` in your own pipeline — not HDS Core's build. When implementation differs from `tokens.json`, flag for reconciliation rather than auto-correcting either direction; check the semver rubric in CONTRIBUTING.md.
 
 ### Reading tokens.json
 
@@ -145,11 +156,12 @@ HDS Core offers two consumption paths: compiled CSS (`<link>` tag) and Sass (`@f
 
 Public Sass files (tracked in `public-api.snapshot.txt`):
 
-| File                         | What it exports                                                               |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| `_hds-tokens.scss`           | `$hds-*` variables (colors, spacing, font weights, breakpoints)               |
-| `_hds-mixins.scss`           | `@mixin hds-*` and `@function hds-*` (focus ring, typography, links, buttons) |
-| `_hds-dataviz-palettes.scss` | `$hds-dataviz-*` variables (CSS custom property values for dataviz scales)    |
+| File | What it exports |
+| --- | --- |
+| `_hds-tokens.scss` | `$hds-*` primitive variables (colors, spacing, borders, layout, typography primitives). **Generated** from `tokens.json` — regenerate, don't hand-edit. |
+| `_hds-config.scss` | `$hds-enable-*` configuration flags (dataviz emission, auto dark mode); set via `@use ... with (...)` |
+| `_hds-mixins.scss` | `@mixin hds-*` and `@function hds-*` (focus ring, typography, links, buttons) |
+| `_hds-dataviz-palettes.scss` | `$hds-dataviz-*` variables (CSS custom property values for dataviz scales) |
 
 Internal (NOT public, free to change without a changeset):
 
@@ -167,6 +179,7 @@ Adding a new public symbol (variable or mixin) to a root-level file requires upd
 | ------------------------------ | ---------------------------------------------- |
 | Local dev                      | `npm run dev`                                  |
 | Production build               | `npm run build`                                |
+| Regenerate design tokens       | `npm run build:tokens`                         |
 | Static Storybook build         | `npm run build-storybook`                      |
 | Tests (unit + a11y)            | `npm test`                                     |
 | Visual regression (Chromatic)  | `npm run test:visual`                          |
@@ -179,6 +192,7 @@ Adding a new public symbol (variable or mixin) to a root-level file requires upd
 | Lint MDX                       | `npm run lint:mdx`                             |
 | Verify public API snapshot     | `npm run check:api-snapshot`                   |
 | Regenerate API snapshot        | `npm run update:api-snapshot`                  |
+| Check token generation drift   | `npm run check:tokens`                         |
 
 ## Code style
 
