@@ -4,6 +4,10 @@
 
 @layer hds-base {
   :root {
+    /**
+     * @tokens Colors
+     * @presenter Color
+     */
     --hds-color-nasa-red: #f64137;
     --hds-color-nasa-red-tint: #ff5c52;
     --hds-color-nasa-red-shade: #b60109;
@@ -24,13 +28,33 @@
     --hds-color-carbon-black: #000000;
     --hds-color-carbon-05: #f6f6f6;
     --hds-color-spacesuit-white: #ffffff;
+
+    /**
+     * @tokens Border Widths
+     * @presenter Border
+     */
     --hds-border-width-thin: 1px;
     --hds-border-width-thick: 2px;
+
+    /**
+     * @tokens Border Radius
+     * @presenter BorderRadius
+     */
     --hds-border-radius: 0px;
     --hds-border-radius-control: 2px;
+
+    /**
+     * @tokens Focus
+     * @presenter Border
+     */
     --hds-focus-width: 1px;
     --hds-focus-style: dashed;
     --hds-focus-offset: 1px;
+
+    /**
+     * @tokens Layout
+     * @presenter Spacing
+     */
     --hds-layout-max-width: 1200px;
     --hds-layout-margin-mobile: 16px;
     --hds-layout-margin-desktop: 32px;
@@ -38,6 +62,11 @@
     --hds-layout-gutter-md: 16px;
     --hds-layout-gutter-lg: 24px;
     --hds-layout-gutter-xl: 32px;
+
+    /**
+     * @tokens Spacing
+     * @presenter Spacing
+     */
     --hds-spacing-0: 0px;
     --hds-spacing-1: 8px;
     --hds-spacing-2: 16px;
@@ -51,12 +80,22 @@
     --hds-spacing-0-5: 4px;
     --hds-spacing-1-5: 12px;
     --hds-spacing-2-5: 20px;
+
+    /**
+     * @tokens Line Heights
+     * @presenter LineHeight
+     */
     --hds-line-height-1: 1;
     --hds-line-height-2: 1.15;
     --hds-line-height-3: 1.35;
     --hds-line-height-4: 1.5;
     --hds-line-height-5: 1.62;
     --hds-line-height-6: 1.75;
+
+    /**
+     * @tokens Letter Spacing
+     * @presenter LetterSpacing
+     */
     --hds-letter-spacing-1: 0.025em;
     --hds-letter-spacing-2: 0.1em;
     --hds-letter-spacing-3: 0.15em;
@@ -68,11 +107,21 @@
     --hds-letter-spacing-neg-2: -0.02em;
     --hds-letter-spacing-neg-1: -0.01em;
     --hds-letter-spacing-auto: 0;
+
+    /**
+     * @tokens Font Weights
+     * @presenter FontWeight
+     */
     --hds-font-weight-light: 300;
     --hds-font-weight-normal: 400;
     --hds-font-weight-medium: 500;
     --hds-font-weight-semibold: 600;
     --hds-font-weight-bold: 700;
+
+    /**
+     * @tokens Font Sizes
+     * @presenter FontSize
+     */
     --hds-font-size-4xl: 7.5rem;
     --hds-font-size-3xl: 5rem;
     --hds-font-size-2xl: 3rem;
@@ -83,8 +132,16 @@
     --hds-font-size-xs: 1rem;
     --hds-font-size-2xs: 0.875rem;
     --hds-font-size-3xs: 0.75rem;
+
+    /**
+     * @tokens Font Families
+     * @presenter FontFamily
+     */
     --hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace;
+    /**
+     * @tokens-end
+     */
   }
 }

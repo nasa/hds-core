@@ -16,6 +16,10 @@ const config = {
     '@storybook/addon-a11y',
     'storybook-addon-pseudo-states',
     '@chromatic-com/storybook',
+    {
+      name: 'storybook-design-token',
+      options: { designTokenGlob: 'src/scss/base/_custom-properties.scss' },
+    },
   ],
   features: {
     disableSaveFromUI: true,
