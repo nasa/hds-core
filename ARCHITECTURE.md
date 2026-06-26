@@ -48,7 +48,8 @@ hds-core/
 │   │   ├── hds.scss                    ← Primary entry point (all USWDS + HDS)
 │   │   ├── hds-uswds.scss              ← Utilities add-on entry point
 │   │   ├── hds-dataviz.scss            ← Dataviz entry point
-│   │   ├── _hds-tokens.scss            ← Pure Sass variables (no uswds-core dependency)
+│   │   ├── _hds-tokens.scss            ← Generated $hds-* variables from tokens.json (no uswds-core dependency)
+│   │   ├── _hds-config.scss            ← Public configuration flags (dataviz emission, auto dark mode)
 │   │   ├── _hds-mixins.scss            ← Shared mixins (zero CSS output)
 │   │   ├── _hds-uswds-theme.scss       ← USWDS config (utilities suppressed)
 │   │   ├── _hds-uswds-theme-utils.scss ← Theme variant for utilities add-on
@@ -64,6 +65,7 @@ hds-core/
 ├── scripts/
 │   ├── check-uswds.sh                  ← USWDS package hash verification
 │   ├── check-uswds-core.sh             ← Verify uswds-core emits no CSS
+│   ├── check-tokens-drift.js           ← Verify generated token Sass matches tokens.json
 │   └── uswds-package-hashes.txt        ← Baseline for @uswds/uswds 3.13.0
 ├── dist/                               # Build output (gitignored)
 │   ├── css/                            ← See Build Output below
@@ -78,8 +80,7 @@ hds-core/
 │           ├── usa-icons/              ← Copied from USWDS
 │           ├── sprite.svg              ← USWDS icon sprite
 │           └── us_flag*.{png,svg}      ← USWDS banner assets
-├── tools/
-│   └── sd-example/                     ← Style Dictionary prototype (not wired into build)
+├── sd.config.js                        ← Style Dictionary config (generates token Sass)
 ├── postcss.config.mjs
 ├── svg-sprite.config.json
 ├── vitest.config.js
@@ -157,21 +158,23 @@ USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any U
 
 `_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
 
-Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is pure Sass: hex values, maps, and flags only.
+Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is generated from `tokens.json` as flat `$hds-*` scalars (no maps, no `@use`); configuration flags live in `_hds-config.scss`.
 
-### Token flow (future)
+### Token flow
 
-This is still notional, and exists only in the prototype `tools/sd-example/` today:
+`_hds-tokens.scss` and `base/_custom-properties.scss` are generated from `tokens.json` by Style Dictionary (`npm run build:tokens`, config in `sd.config.js`); `npm run check:tokens` fails CI if they drift from the source. The Sass module flow:
 
 ```
-tokens.json (Style Dictionary source)
-    ↓ build
-_hds-tokens.scss (pure Sass variables)
+tokens.json
+    ↓ npm run build:tokens (Style Dictionary)
+_hds-tokens.scss (generated $hds-* variables)
     ↓ @use
 _hds-uswds-theme.scss (feeds tokens into USWDS config)
     ↓ @use "uswds-core" with (...)
 Everything else (receives configured USWDS)
 ```
+
+Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation (see AGENTS.md → Token flow for why).
 
 Each component file can have its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
 

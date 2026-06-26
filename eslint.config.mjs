@@ -10,7 +10,6 @@ const config = [
       'node_modules/**',
       'dist/**',
       'storybook-static/**',
-      'tools/sd-example/**',
       // Sass/CSS: handled by Stylelint
       '**/*.scss',
       '**/*.css',

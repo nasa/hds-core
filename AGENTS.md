@@ -80,7 +80,7 @@ _hds-tokens.scss → _hds-uswds-theme.scss → compiled CSS
 - **Drift gate:** `npm run check:tokens` (also in CI) regenerates and fails if the committed files don't match `tokens.json`. It complements `check:api-snapshot` (which guards compiled output) — different layers, not duplicates.
 - **Not generated** (filtered out in `sd.config.js`): palette CSS (hand-authored — see Palette system), dataviz tokens (parallel contract), breakpoints (Sass-only; can't drive media/container queries), and typography _composites_ (assembled in Sass from the generated primitives).
 
-See `sd.config.js` for name transforms, platforms, and filters. `tools/sd-example/` is a standalone adopter example for consuming `tokens.json` in your own pipeline — not HDS Core's build. When implementation differs from `tokens.json`, flag for reconciliation rather than auto-correcting either direction; check the semver rubric in CONTRIBUTING.md.
+See `sd.config.js` for name transforms, platforms, and filters. When implementation differs from `tokens.json`, flag for reconciliation rather than auto-correcting either direction; check the semver rubric in CONTRIBUTING.md.
 
 ### Reading tokens.json
 
