@@ -63,6 +63,7 @@ const selectField = ({
           id="${id}"
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
+          ${error ? `aria-invalid="true"` : ''}
           ${describedBy ? `aria-describedby="${describedBy}"` : ''}
         >
           <option value>- Select -</option>

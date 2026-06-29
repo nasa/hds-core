@@ -75,6 +75,7 @@ const textInput = ({
         ${placeholder ? `placeholder="${placeholder}"` : ''}
         ${disabled ? 'disabled' : ''}
         ${required ? 'required' : ''}
+        ${error ? `aria-invalid="true"` : ''}
         ${describedBy ? `aria-describedby="${describedBy}"` : ''}
       />
       ${hint ? `<span class="usa-hint"${ariaHint ? ` id="${hintId}"` : ''}>${hint}</span>` : ''}
@@ -113,6 +114,7 @@ const textareaField = ({
         name="${id}"
         ${disabled ? 'disabled' : ''}
         ${required ? 'required' : ''}
+        ${error ? `aria-invalid="true"` : ''}
         ${describedBy ? `aria-describedby="${describedBy}"` : ''}
       ></textarea>
       ${hint ? `<span class="usa-hint" id="${hintId}">${hint}</span>` : ''}

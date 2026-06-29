@@ -241,6 +241,7 @@ export const AllVariants = {
                 type="radio"
                 name="av-err"
                 value="mars"
+                aria-invalid="true"
                 aria-describedby="av-err-group-error"
               />
               <label class="usa-radio__label" for="av-err-mars">Mars</label>
@@ -288,6 +289,7 @@ export const WithError = {
           type="radio"
           name="err"
           value="mars"
+          aria-invalid="true"
           aria-describedby="err-group-error"
         />
         <label class="usa-radio__label" for="err-mars">Mars</label>
