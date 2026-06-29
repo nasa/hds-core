@@ -217,10 +217,11 @@
   // applied via --hds-palette-muted in the :focus-visible
   // rule; these are fallbacks only.
   // ----------------------------------------------------------
+  // Carbon 60 #58585B ≈ gray-60 #565c65
   $theme-focus-color: 'gray-60',
-  // Carbon 60 #58585B ≈ #565c65
   $theme-focus-offset: 2px,
   $theme-focus-style: dashed,
+  // intentionally independent of border-width; may diverge for WCAG 2.2 focus-appearance (AAA)
   $theme-focus-width: 1px,
 
   // ----------------------------------------------------------
@@ -465,6 +466,6 @@
   $theme-in-page-nav-background-padding: 0,
   $theme-in-page-nav-background-radius: 0,
   $theme-in-page-nav-bar-color: 'secondary',
-  $theme-in-page-nav-bar-width: '2px',
+  $theme-in-page-nav-bar-width: hds.$hds-border-width-thick,
   $theme-in-page-nav-font-family: 'heading'
 );
