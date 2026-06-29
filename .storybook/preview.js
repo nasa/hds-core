@@ -35,7 +35,7 @@ const preview = {
         includeNames: true,
         order: [
           'Overview',
-          ['Introduction', 'Design Standards', 'Getting Started', 'Installation', 'Roadmap'],
+          ['Introduction', 'Design Standards', 'Getting Started', 'Installation', 'Design Tokens', 'Roadmap'],
           'Foundations',
           'Components',
           ['*', ['Guidance', '*']],
