@@ -17,7 +17,7 @@ HDS uses three open-source font families, each with a specific role. All are ava
 <Canvas of={TypographyStories.FontStack} />
 
 <Note type="uswds">
-  USWDS has four font slots. HDS maps Inter to the "serif" slot — so
+  USWDS has four font slots. HDS maps Inter to the "serif" slot, so
   <code>family("serif")</code> returns Inter (a sans-serif font). Always use role tokens like <code>family("heading")</code> rather than type tokens like
   <code>family("serif")</code> to avoid confusion.
 </Note>
@@ -55,16 +55,16 @@ Three visually similar but typographically distinct treatments for small support
 <Canvas of={TypographyStories.SmallText} />
 
 <Note type="figma">
-  HDS Figma calls all three of these styles <strong>"Labels"</strong> — but that term conflicts with HTML <code>&lt;label&gt;</code> elements and USWDS <code>.usa-label</code> form labels. HDS Core uses distinct class names to avoid confusion:
+  HDS Figma calls all three of these styles <strong>"Labels"</strong>, but that term conflicts with HTML <code>&lt;label&gt;</code> elements and USWDS <code>.usa-label</code> form labels. HDS Core uses distinct class names to avoid confusion:
   <ul style={{ marginBlockStart: '0.5rem', marginBlockEnd: '0' }}>
     <li>
-      <code>.hds-overline</code> — called "Label" in HDS Figma and "Label (div)" in the HDS Core Proposal.
+      <code>.hds-overline</code>: called "Label" in HDS Figma and "Label (div)" in the HDS Core Proposal.
     </li>
     <li>
-      <code>.hds-metadata</code> — derived from usage patterns (dates, counts, categories) with size standardized to 12px.
+      <code>.hds-metadata</code>: derived from usage patterns (dates, counts, categories) with size standardized to 12px.
     </li>
     <li>
-      <code>.hds-caption</code> — called "Figcaption" in the HDS Core Proposal.
+      <code>.hds-caption</code>: called "Figcaption" in the HDS Core Proposal.
     </li>
   </ul>
 </Note>
@@ -81,7 +81,7 @@ Blockquotes use Inter Light at heading scale for a conversational look, with a d
 
 ## Numbers
 
-The numbers typeface brings a technical feel to the system — from countdowns to statistical displays.
+The numbers typeface brings a technical feel to the system, from countdowns to statistical displays.
 
 <Canvas of={TypographyStories.Numbers} />
 
