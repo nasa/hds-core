@@ -133,9 +133,9 @@ Three distinct small-text utility classes with unique typography per the HDS Cor
 
 Form labels (`<label>`, `.usa-label`) use Inter 14px semibold — distinct from the typography classes above. See `components/_form.scss`.
 
-### Type Normalization (Known Tech Debt)
+### Type Normalization
 
-All three fonts use the same USWDS cap-height, which disables optical normalization. The Proposal acknowledges this needs future work.
+`$theme-respect-user-font-size: true` disables USWDS cap-height normalization, making `html { font-size: 100% }` the root — declared font sizes match rendered sizes and user browser font-size preferences are respected. All three fonts retain their `364px` cap-height values in `$theme-typeface-tokens` (required for USWDS schema compliance; inert when normalization is off). Measured cap-heights are documented in comments there.
 
 ### Composite Tokens (Deferred to Post-1.0)
 
@@ -428,7 +428,7 @@ All of these match the approved HDS Core Proposal exactly:
 | Line-height values | Exact percentages | Closest USWDS token or raw CSS when delta >10% | USWDS scale too coarse for exact mapping |
 | Overline weight | 400 (normal) | 500 (medium) | Figma consistently uses 500. Pending review. |
 | Overline class name | "Label" | `.hds-overline` | Avoids collision with USWDS `.usa-label`. Industry standard term. |
-| Type normalization | Normalize all three fonts | Deferred | Requires measurement work; noted as tech debt |
+| Type normalization | Normalize all three fonts | Disabled (`$theme-respect-user-font-size: true`) | Measured cap-height analysis found Inter (72.8%) and Public Sans (68.0%) differ by ~7%, producing a 0.76px cap-height delta at 16px. However, USWDS normalization operates on root font-size globally — it cannot equalize per-font rendering without distorting Proposal-specified absolute sizes. Disabling normalization makes declared sizes match rendered sizes, respects user browser font-size preferences (accessibility), and simplifies future responsive type work. Per-font optical adjustments can be targeted overrides if needed. Measured cap-heights retained in theme comments. |
 | TV breakpoint | 1920px | Deferred | USWDS doesn't support it |
 | Checkbox/radio size | 20px (USWDS default) | 18px forced via CSS | Figma specifies 18×18px. USWDS setting can't express 2.25 units. |
 | Checkbox icon | USWDS default glyph | HDS check icon via data URI | Visually distinct from USWDS checkmark |

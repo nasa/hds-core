@@ -55,6 +55,7 @@
   $output-these-utilities: (),
   $theme-show-compile-warnings: false,
   $theme-show-notifications: false,
+  $theme-respect-user-font-size: true,
 
   // ----------------------------------------------------------
   // Asset Paths
@@ -237,11 +238,17 @@
   $theme-typeface-tokens: (
     'inter': (
       'display-name': 'Inter',
+      // Normalization disabled — $theme-respect-user-font-size: true
+      // Measured cap-height: 1490/2048 UPM = 72.8%
+      // (0.76px taller caps than Public Sans at 16px)
       'cap-height': 364px,
       'stack': "'Helvetica Neue', Helvetica, Arial, sans-serif",
     ),
     'dm-mono': (
       'display-name': 'DM Mono',
+      // Normalization disabled — $theme-respect-user-font-size: true
+      // Measured cap-height: ~698/1000 UPM = 69.8%
+      // (0.22px taller caps than Public Sans at 16px)
       'cap-height': 364px,
       'stack': "'Consolas', 'Courier', monospace",
     )
