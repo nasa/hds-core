@@ -1,4 +1,5 @@
 import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { DesignTokenDocBlock } from 'storybook-design-token/doc-blocks';
 import * as GridStories from './Grid.stories';
 import { Note } from '../helpers/Note';
 
@@ -31,6 +32,12 @@ All breakpoints use 12 columns. Gutters increase at wider breakpoints to create 
 | `widescreen` | ≥1400px | 24px   | XL (Display)    |
 
 <Note type="figma">The HDS Figma spec defines a TV breakpoint at 1920px. This is deferred in HDS Core because USWDS does not have a built-in TV breakpoint. It will be revisited when TV-scale layouts are needed.</Note>
+
+## Layout tokens
+
+Site margins, column gutters, and the content max-width are exposed as `--hds-layout-*` custom properties (generated from `tokens.json`). Breakpoints themselves are Sass-only (they drive media queries, which custom properties cannot), so they are not in this table.
+
+<DesignTokenDocBlock categoryName="Layout" viewType="table" />
 
 ## Common layouts
 
@@ -74,28 +81,30 @@ For the full USWDS grid API, see the [USWDS Layout Grid documentation](https://d
 
 ## Glossary
 
-**Margin** — The outer whitespace around the grid container. HDS Core uses 16px margins on mobile and 32px on desktop+.
+**Margin**: The outer whitespace around the grid container. HDS Core uses 16px margins on mobile and 32px on desktop+.
 
-**Gutter** — The space between columns. Gutter widths are fixed values at each breakpoint range. Wider gutters create more whitespace between columns on larger screens.
+**Gutter**: The space between columns. Gutter widths are fixed values at each breakpoint range. Wider gutters create more whitespace between columns on larger screens.
 
-**Column** — Columns make up the content width of your design. All designs sit within the width of the columns. Columns change width depending on screen size.
+**Column**: Columns make up the content width of your design. All designs sit within the width of the columns. Columns change width depending on screen size.
 
-**Layout region** — Areas of the layout that contain content. Layout regions can span over any number of columns and resize with the grid.
+**Layout region**: Areas of the layout that contain content. Layout regions can span over any number of columns and resize with the grid.
 
-**Fixed grid** — Has a maximum width (1400px in HDS Core). Designed for content-focused pages where maximum readability matters.
+**Fixed grid**: Has a maximum width (1200px in HDS Core). Designed for content-focused pages where maximum readability matters.
 
-**Fluid grid** — Uses 100% of the screen's width. Designed for complex screens, dashboards, and web applications.
+**Fluid grid**: Uses 100% of the screen's width. Designed for complex screens, dashboards, and web applications.
 
 ## Grid settings
 
 These USWDS settings control grid behavior in HDS Core:
 
-| Setting                            | Value          | Description                                 |
-| ---------------------------------- | -------------- | ------------------------------------------- |
-| `$theme-grid-container-max-width`  | `"widescreen"` | Container max-width (1400px)                |
-| `$theme-site-margins-breakpoint`   | `"desktop"`    | Where margins switch from mobile to desktop |
-| `$theme-site-margins-mobile-width` | `2` (16px)     | Site margins below desktop                  |
-| `$theme-site-margins-width`        | `4` (32px)     | Site margins at desktop+                    |
-| `$theme-column-gap-sm`             | `2px`          | Small gutter                                |
-| `$theme-column-gap-md`             | `2` (16px)     | Medium gutter                               |
-| `$theme-column-gap-lg`             | `3` (24px)     | Large gutter                                |
+| Setting                            | Value          | Description                                                            |
+| ---------------------------------- | -------------- | ---------------------------------------------------------------------- |
+| `$theme-grid-container-max-width`  | `"desktop-lg"` | Container max-width (1200px). HDS defers the Proposal's `tv` (1920px). |
+| `$theme-site-margins-breakpoint`   | `"desktop"`    | Where margins switch from mobile to desktop                            |
+| `$theme-site-margins-mobile-width` | `2` (16px)     | Site margins below desktop                                             |
+| `$theme-site-margins-width`        | `4` (32px)     | Site margins at desktop+                                               |
+| `$theme-column-gap-mobile`         | `"05"` (4px)   | Responsive column gutter below desktop                                 |
+| `$theme-column-gap-desktop`        | `2` (16px)     | Responsive column gutter at desktop+                                   |
+| `$theme-column-gap-sm`             | `2px`          | `.grid-gap-sm` utility size                                            |
+| `$theme-column-gap-md`             | `2` (16px)     | `.grid-gap-md` utility size (USWDS default gap)                        |
+| `$theme-column-gap-lg`             | `3` (24px)     | `.grid-gap-lg` utility size                                            |
