@@ -446,7 +446,7 @@ See `components/_blockquote.scss` for implementation.
 
 ### OS Dark Mode Is Opt-In
 
-HDS Core does not automatically switch palettes based on OS dark mode. Enable with `$hds-enable-auto-dark-mode: true` in `_hds-tokens.scss`.
+HDS Core does not automatically switch palettes based on OS dark mode. Enable by setting `$hds-enable-auto-dark-mode: true` when you `@use` `_hds-config.scss` (where the HDS configuration flags now live).
 
 ### TV Breakpoint (Deferred)
 
