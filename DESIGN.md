@@ -217,9 +217,35 @@ HDS outline buttons on dark backgrounds keep the **NASA Blue** border (not monot
 
 **Original HDS:** Multi-color SVGs (e.g., blue circle with white icon baked in). **HDS Core:** Two layers: single-color SVG glyph (`currentColor`) + CSS-styled circle container. All roles — including interactive — use sprite glyphs with `currentColor`. CSS handles color changes for palettes, hover states, and `aria-expanded` toggling. No standalone SVG files are needed.
 
-### Utility Circle Stroke Contrast
+### Non-Text Contrast: Utility Circle (WCAG 2.1 § 1.4.11)
 
-Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component. See `base/_palettes.scss` for per-palette token values.
+**Glyph contrast** (`--hds-palette-utility-icon` vs `--hds-palette-utility-fill`):
+
+| Palette | Icon                   | Circle fill            | Ratio   |
+| ------- | ---------------------- | ---------------------- | ------- |
+| White   | Carbon Black `#000000` | White `#ffffff`        | 21:1 💎 |
+| Light   | Carbon Black `#000000` | White `#ffffff`        | 21:1 💎 |
+| Midtone | Carbon Black `#000000` | White `#ffffff`        | 21:1 💎 |
+| Dark    | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎 |
+| Blue    | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎 |
+| Black   | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎 |
+
+Hover state (`--hds-palette-utility-icon` vs `--hds-palette-utility-hover-fill`):
+
+| Palette | Icon                   | Hover fill             | Ratio     |
+| ------- | ---------------------- | ---------------------- | --------- |
+| White   | Carbon Black `#000000` | Carbon 05 `#f6f6f6`    | 19.4:1 💎 |
+| Light   | Carbon Black `#000000` | Carbon 05 `#f6f6f6`    | 19.4:1 💎 |
+| Midtone | Carbon Black `#000000` | Carbon 05 `#f6f6f6`    | 19.4:1 💎 |
+| Dark    | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎   |
+| Blue    | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎   |
+| Black   | White `#ffffff`        | Carbon Black `#000000` | 21:1 💎   |
+
+**Stroke contrast** (`--hds-palette-utility-stroke` vs palette background) — exempt as decorative:
+
+Utility circle strokes are decorative framing — the icon glyph and contextual placement (accordion chevron, pagination arrow, media control, toolbar action) provide the primary affordance for identifying the interactive element. Icon glyph contrast against its background must meet WCAG 1.4.11 (3:1). Circle stroke contrast is not required under 1.4.11 because the stroke is not the visual information "required to identify" the component.
+
+Default stroke fails on all 6 palettes (C-20 / C-40 / C-60 vs White / C-05 / C-20 / C-90 / Blue Shade / Black — 1.38:1 to 2.96:1). Hover stroke (`--hds-palette-utility-hover-stroke`): light palettes use C-40 (1.95:1–2.98:1, fail); dark/blue/black palettes use C-05 (9.29:1–19.4:1 💎). All exempt as decorative framing. See `base/_palettes.scss` for per-palette token values.
 
 ### Interactive Icon Button
 
@@ -278,12 +304,26 @@ HTML `<caption>` = HDS Figma "Title" + optional "Subtitle." It is the semantic a
 
 USWDS JS injects a `<button>` with inline SVG arrows into each `th[data-sortable]`. HDS replaces the arrows visually with filled triangle icons via CSS mask-image — same technique as the accordion chevron. The USWDS SVG stays in the DOM for High Contrast Mode fallback. See `components/_table.scss`.
 
+### Non-Text Contrast: Sort Icons (WCAG 2.1 § 1.4.11)
+
+Sort triangles use CSS `mask-image` on the injected USWDS `<button>`. The icon `background-color` is measured against the `<th>` header background at the moment the icon is visible.
+
+| State                                       | Icon                | Header background              | Ratio       |
+| ------------------------------------------- | ------------------- | ------------------------------ | ----------- |
+| Sorted ascending / descending — light table | NASA Blue `#1c67e3` | Carbon 10 `#e3e3e3`            | 3.99:1 ⚠️ ✓ |
+| Sorted ascending / descending — dark table  | Blue Tint `#288bff` | Carbon 80 `#2e2e32`            | 4.00:1 ⚠️ ✓ |
+| Unsorted hover / focus-within — light table | Carbon 40 `#959599` | Carbon 05 `#f6f6f6` (hover bg) | 2.76:1 ❌   |
+| Unsorted hover / focus-within — dark table  | Carbon 40 `#959599` | Carbon 70 `#444447` (hover bg) | 3.25:1 ⚠️ ✓ |
+
+The unsorted icon is transparent by default; it only becomes visible on hover/focus. The light-table unsorted-hover pair (2.76:1) fails WCAG 2.1 § 1.4.11 (3:1 non-text minimum). WCAG 2.1 is beyond the required WCAG 2.0 scope for this release. The sort affordance on unsorted columns is also communicated by pointer-cursor styling on the header. Deferred to Phase 2 for a colour fix.
+
 ### Deferred to Phase 2
 
 - Mobile text sizing, mobile stacked variants
 - Midtone palette sorted column colors
 - Advanced features (tabs, actions bar, filter panel, search, download, print, accordion mobile layout, fixed first column).
 - Surface-inverse focus ring (Figma specifies ring color inverse of component fill for table cells — not yet implemented, currently inherits global focus ring)
+- Unsorted-hover sort icon on light table: Carbon 40 on Carbon 05 = 2.76:1, fails WCAG 2.1 § 1.4.11
 
 ## List
 
@@ -363,6 +403,23 @@ See `components/_site-alert.scss` for implementation.
 - **Hover State:** Not specified in Figma. Currently unimplemented — pending research on full-row hover patterns.
 
 See `components/_accordion.scss` for implementation.
+
+### Non-Text Contrast: Chevron Icon (WCAG 2.1 § 1.4.11)
+
+The accordion's `::after` pseudo-element uses `mask-image` to render the chevron glyph: `background-color` is set to `--hds-palette-utility-icon` and masked to the chevron SVG shape (12px at 16px base). The circle stroke (`--hds-palette-utility-stroke`) is decorative framing — exempt from WCAG 1.4.11 on the same basis as icon button utility circle strokes. See Icon Button § Utility Circle Stroke Contrast.
+
+Chevron glyph (`--hds-palette-utility-icon`) vs palette background (`--hds-palette-bg`):
+
+| Palette | Glyph                  | Background                | Ratio     |
+| ------- | ---------------------- | ------------------------- | --------- |
+| White   | Carbon Black `#000000` | Spacesuit White `#ffffff` | 21:1 💎   |
+| Light   | Carbon Black `#000000` | Carbon 05 `#f6f6f6`       | 19.4:1 💎 |
+| Midtone | Carbon Black `#000000` | Carbon 20 `#d1d1d1`       | 13.7:1 💎 |
+| Dark    | White `#ffffff`        | Carbon 90 `#17171b`       | 17.8:1 💎 |
+| Blue    | White `#ffffff`        | Blue Shade `#0b3d91`      | 10.0:1 💎 |
+| Black   | White `#ffffff`        | Carbon Black `#000000`    | 21:1 💎   |
+
+Circle stroke (`--hds-palette-utility-stroke`) vs palette background: C-20 to C-60 vs White/C-05/C-20/C-90/Blue Shade/Black — all fail 3:1 (1.38:1 to 2.96:1). Exempt as decorative framing.
 
 ## Blockquote
 
