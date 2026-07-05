@@ -4,6 +4,8 @@ HDS Core is NASA's design system for public-facing websites on `*.nasa.gov` doma
 
 Whether you're fixing a typo, reporting a browser bug, proposing a new component pattern, or improving accessibility, your contribution helps make NASA's web presence better for the public. We want to make the contribution process as clear and low-friction as possible.
 
+All contributions are released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see [Licensing of contributions](#licensing-of-contributions) for details.
+
 ## Scope
 
 HDS Core covers the CSS/Sass implementation of NASA's Horizon Design System on USWDS. Some things fall outside this repo's scope:
@@ -228,6 +230,14 @@ Maintainers may:
 - Ask for additional context or testing
 
 Design changes that affect NASA's visual identity may involve additional review to ensure alignment with agency brand standards.
+
+## Licensing of contributions
+
+HDS Core is released into the worldwide public domain under the [CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).
+
+By submitting a contribution — code, documentation, or any other material — you agree that your contribution is released under CC0 1.0 alongside the rest of the project. You are dedicating it to the public domain and waiving all copyright and related rights, worldwide, to the fullest extent permitted by law.
+
+Only contribute work you have the right to dedicate this way. Don't submit code, fonts, images, or other assets that are owned by someone else or licensed under terms incompatible with CC0. Bundled third-party assets (such as the Inter and DM Mono fonts under the SIL Open Font License) are the exception and are tracked separately in [LICENSE.md](LICENSE.md).
 
 ## Code of Conduct
 
