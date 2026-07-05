@@ -1,6 +1,6 @@
 # @nasa/hds-core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.7.2](https://img.shields.io/badge/Release-v0.7.2-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.7.2-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
 > **Pre-1.0:** API and class names may change between minor versions. Not yet published to npm.
 
@@ -114,4 +114,4 @@ For architecture details and build pipeline documentation, see [ARCHITECTURE.md]
 
 ## License
 
-See [LICENSE.md](LICENSE.md) for draft. Will be finalized during NASA software release approval (in process).
+`@nasa/hds-core` is released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), except for bundled fonts (SIL OFL 1.1) and NASA trademarks/insignia. See [LICENSE.md](LICENSE.md) for full terms and attribution.
