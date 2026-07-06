@@ -70,7 +70,7 @@ $_type: (
     size: $hds-font-size-4xl,
     weight: $hds-font-weight-bold,
     lh: $hds-line-height-1,
-    ls: $hds-letter-spacing-neg-7,
+    ls: $hds-letter-spacing-neg-5,
     clamp: (
       100,
       120,
@@ -92,7 +92,7 @@ $_type: (
     size: $hds-font-size-2xl,
     weight: $hds-font-weight-bold,
     lh: $hds-line-height-1,
-    ls: $hds-letter-spacing-neg-4,
+    ls: $hds-letter-spacing-neg-3,
     clamp: (
       32,
       48,
@@ -104,7 +104,7 @@ $_type: (
     weight: $hds-font-weight-bold,
     // Bespoke line-height ratio for tighter display text, validated against Figma designs. Not currently in tokens.
     lh: 1.06,
-    ls: $hds-letter-spacing-neg-3,
+    ls: $hds-letter-spacing-neg-2,
     clamp: (
       28,
       36,
