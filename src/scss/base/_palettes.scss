@@ -8,7 +8,7 @@
 //
 // USWDS utility classes (!important) override palette values.
 //
-// Configuration flags are defined in _config.scss:
+// Configuration flags are defined in _hds-config.scss:
 //   $hds-enable-dataviz-tokens
 //   $hds-enable-auto-dark-mode
 //
@@ -295,7 +295,7 @@
 // ============================================================
 // AUTO DARK MODE
 // ============================================================
-// Opt-in: Set $hds-enable-auto-dark-mode: true in _hds-tokens.scss
+// Opt-in: Set $hds-enable-auto-dark-mode: true in _hds-config.scss
 // Automatically applies dark palette when OS is in dark mode.
 // ============================================================
 
