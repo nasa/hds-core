@@ -9,7 +9,7 @@
 //            var(--hds-dataviz-color-seq-{hue}-{step}) for sequential
 //   JS libs: Copy hex values from the Palettes docs page
 //
-// Enable: $hds-enable-dataviz-tokens: true in _hds-tokens.scss
+// Enable: $hds-enable-dataviz-tokens: true in _hds-config.scss
 //
 // Architecture:
 //   - Scoped <style> block per DOCUMENTATION.md demo-only pattern
