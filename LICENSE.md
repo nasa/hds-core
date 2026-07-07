@@ -1,46 +1,34 @@
-# License
+# HDS Core
 
-## HDS Core
+## Licenses and Attribution
 
-Copyright © 2024 United States Government as represented by the Administrator of the National Aeronautics and Space Administration. All Rights Reserved.
+A few parts of this project are not in the public domain. Attribution and licensing information for those parts are described in detail in the license details below.
 
-License determination pending — this software is undergoing the NASA software release process. The applicable open-source license will be added here upon completion of the release review.
+The rest of this project is in the worldwide public domain, released under the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/). You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission.
 
-## Third-Party Software
+## Contributing
 
-HDS Core includes the following third-party software, each subject to its own license terms. These licenses apply only to the specific components listed below, not to HDS Core as a whole.
+All [contributions](CONTRIBUTING.md) to this project will be released under the CC0 dedication alongside the public domain portions of this project.
 
-### Inter
+# LICENSE
 
-Inter is a typeface designed by Rasmus Andersson.
+As a work of the United States Government, the software is not subject to copyright protection within the United States. NASA waives copyright and related rights in this software worldwide through the CC0 1.0 Universal Public Domain Dedication (<https://creativecommons.org/publicdomain/zero/1.0/>).
 
-- License: SIL Open Font License 1.1
-- Source: <https://github.com/rsms/inter>
-- Full license: <https://github.com/rsms/inter/blob/master/LICENSE.txt>
+In no way are the patent or trademark rights of any person affected by CC0, nor are the rights that other persons may have in the work or in how the work is used, such as publicity or privacy rights.
 
-SIL Open Font License 1.1 — Summary of key terms:
+Unless expressly stated otherwise, the person who associated a work with this deed makes no warranties about the work, and disclaims liability for all uses of the work, to the fullest extent permitted by applicable law. When using or citing the work, you should not imply endorsement by the author.
 
-- The font may be used, modified, and redistributed freely.
-- The font may not be sold by itself — only as part of a larger software package (which applies to HDS Core).
-- Modified versions may not use the "Inter" reserved font name.
-- This license notice must be included in all copies or substantial portions of the font.
+The following third-party assets are included in the distributed package as font files and licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/):
 
-### DM Mono
+- Inter (typeface) version 3.019 - <https://rsms.me/inter>
+- DM Mono (typeface) version 1.000 - <https://github.com/googlefonts/dm-mono>
 
-DM Mono is a typeface designed by Colophon Foundry for Google.
+The SIL Open Font License requires that the license notice be included with any distribution and that the fonts not be sold by themselves (only as part of a larger software package).
 
-- License: SIL Open Font License 1.1
-- Source: <https://github.com/googlefonts/dm-mono>
-- Full license: <https://github.com/googlefonts/dm-mono/blob/main/OFL.txt>
+## Trademark, Logos, Identifiers
 
-The same SIL Open Font License 1.1 terms described above for Inter apply to DM Mono.
+NASA owns, reserves, and retains all rights, title, and interest in all trademarks owned by NASA. The User does not acquire any right or interest of any kind in any NASA trademark because of their use of this work.
 
-## Peer Dependencies (Not Included)
+The NASA Insignia, Logotype, identifiers, and imagery are not in the public domain. The use of the Insignia, Logotype and NASA identifiers is protected by law, and imagery is made available for use consistent with Media Usage Guidelines. The NASA Graphics Standards Manual was issued under the authority of [14 Code of Federal Regulations (CFR) 1221](https://www.ecfr.gov/current/title-14/chapter-V/part-1221).
 
-HDS Core is built on the U.S. Web Design System (USWDS), which is a peer dependency installed separately by consuming projects. USWDS is not included in the HDS Core distribution.
-
-- USWDS License: CC0 1.0 Universal (Public Domain Dedication)
-- Source: <https://github.com/uswds/uswds>
-- Full license: <https://github.com/uswds/uswds/blob/develop/LICENSE.md>
-
-USWDS includes the Public Sans typeface (CC0 1.0, Public Domain), which HDS Core uses as its body font. Public Sans is provided by USWDS, not by HDS Core.
+For more comprehensive guidelines, see <https://www.nasa.gov/nasa-brand-center/brand-guidelines>
