@@ -82,8 +82,6 @@ src/scss/hds-uswds.scss
 --hds-letter-spacing-neg-3
 --hds-letter-spacing-neg-4
 --hds-letter-spacing-neg-5
---hds-letter-spacing-neg-6
---hds-letter-spacing-neg-7
 --hds-line-height-1
 --hds-line-height-2
 --hds-line-height-3
@@ -350,8 +348,6 @@ $hds-letter-spacing-neg-2
 $hds-letter-spacing-neg-3
 $hds-letter-spacing-neg-4
 $hds-letter-spacing-neg-5
-$hds-letter-spacing-neg-6
-$hds-letter-spacing-neg-7
 $hds-line-height-1
 $hds-line-height-2
 $hds-line-height-3

@@ -65,13 +65,11 @@ $hds-line-height-6: 1.75; // 175% used for overline, metadata, label
 $hds-letter-spacing-1: 0.025em; // Caption, metadata, nav links
 $hds-letter-spacing-2: 0.1em; // Overline uppercase
 $hds-letter-spacing-3: 0.15em; // Reserve to maintain parity with USWDS scale; not currently used in HDS
-$hds-letter-spacing-neg-7: -0.07em; // H1-2xl display
-$hds-letter-spacing-neg-6: -0.06em; // H1-xl display
-$hds-letter-spacing-neg-5: -0.05em; // H1, number-lg
-$hds-letter-spacing-neg-4: -0.04em; // H1 alternate
-$hds-letter-spacing-neg-3: -0.03em; // H2
-$hds-letter-spacing-neg-2: -0.02em; // H3, H4, H5
-$hds-letter-spacing-neg-1: -0.01em; // H6, intro, form-label
+$hds-letter-spacing-neg-5: -0.05em; // H1-2xl, H1-xl, number-lg
+$hds-letter-spacing-neg-4: -0.04em; // Reserved; not currently used
+$hds-letter-spacing-neg-3: -0.03em; // H1
+$hds-letter-spacing-neg-2: -0.02em; // H2, H3, H4, H5
+$hds-letter-spacing-neg-1: -0.01em; // H6, intro
 $hds-letter-spacing-auto: 0; // Normal letter spacing
 $hds-font-weight-light: 300; // Light weight used for number display styles
 $hds-font-weight-normal: 400; // Normal/regular weight used for body text
