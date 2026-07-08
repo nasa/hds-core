@@ -40,7 +40,6 @@ Wire Style Dictionary v5 generator; promote typography, spacing, layout, focus, 
 **Corrected typography tokens (intentional visual shift, verified against Figma source):**
 
 - `.hds-display-2xl` letter-spacing: `-0.07em` → `-0.05em`
-- `.hds-display-xl` letter-spacing: `-0.06em` → `-0.05em`
 - `.hds-h1` letter-spacing: `-0.04em` → `-0.03em`
 - `.hds-h2` letter-spacing: `-0.03em` → `-0.02em`
 
