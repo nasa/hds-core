@@ -13,7 +13,7 @@ Wire Style Dictionary v5 generator; promote typography, spacing, layout, focus, 
 - `$hds-font-size-4xl` (7.5rem) through `$hds-font-size-3xs` (0.75rem): 10 font-size primitives
 - `$hds-font-family-heading`, `$hds-font-family-body`, `$hds-font-family-code`
 - `$hds-font-weight-*` (bold, semibold, medium, normal, light) as top-level scalars
-- `$hds-letter-spacing-1` through `-3`, `$hds-letter-spacing-neg-1` through `-neg-7`, `$hds-letter-spacing-auto`
+- `$hds-letter-spacing-1` through `-3`, `$hds-letter-spacing-neg-1` through `-neg-5`, `$hds-letter-spacing-auto`
 - `$hds-spacing-0` through `$hds-spacing-30` (full USWDS-aligned scale)
 - `$hds-layout-gutter-sm/md/lg/xl`, `$hds-layout-margin-mobile/desktop`, `$hds-layout-max-width`
 - `$hds-focus-width`, `$hds-focus-offset`, `$hds-focus-style`
@@ -35,6 +35,16 @@ Wire Style Dictionary v5 generator; promote typography, spacing, layout, focus, 
 
 - `--hds-font-weight-heavy` and `--hds-font-weight-thin` custom properties (only emitted `false` before)
 - `$hds-letterspacing`, `$hds-line-heights`, `$hds-weights` Sass maps: replaced by scalar variables above. Consumers doing `map.get($hds-line-heights, 3)` should switch to `$hds-line-height-3`.
+- `$hds-letter-spacing-neg-6` / `--hds-letter-spacing-neg-6` and `$hds-letter-spacing-neg-7` / `--hds-letter-spacing-neg-7`: never referenced by any HDS composite; scale trimmed to what NASA design actually uses.
+
+**Corrected typography tokens (intentional visual shift, verified against Figma source):**
+
+- `.hds-display-2xl` letter-spacing: `-0.07em` → `-0.05em`
+- `.hds-display-xl` letter-spacing: `-0.06em` → `-0.05em`
+- `.hds-h1` letter-spacing: `-0.04em` → `-0.03em`
+- `.hds-h2` letter-spacing: `-0.03em` → `-0.02em`
+
+Adopters using the `.hds-*` typography classes will see a very small visual shift on affected headings. Adopters composing from primitives are unaffected (primitive values unchanged).
 
 **For CSS-only consumers:**
 
