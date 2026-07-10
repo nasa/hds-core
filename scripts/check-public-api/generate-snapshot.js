@@ -16,6 +16,7 @@ const CSS_BUNDLES = {
 };
 
 const SASS_FILES = {
+  config: resolve(ROOT, 'src/scss/_hds-config.scss'),
   tokens: resolve(ROOT, 'src/scss/_hds-tokens.scss'),
   datavizPalettes: resolve(ROOT, 'src/scss/_hds-dataviz-palettes.scss'),
   mixins: resolve(ROOT, 'src/scss/_hds-mixins.scss'),
@@ -52,11 +53,12 @@ export function generateSnapshot() {
   }
 
   // Sass extraction
+  const configVars = extractSassVariables(SASS_FILES.config);
   const tokenVars = extractSassVariables(SASS_FILES.tokens);
   const datavizVars = extractSassVariables(SASS_FILES.datavizPalettes);
   const mixins = extractSassMixins(SASS_FILES.mixins);
   const typographyVars = extractSassVariables(SASS_FILES.typography);
-  const typographyMixins = extractSassMixins(SASS_FILES.typography); // Build snapshot
+  const typographyMixins = extractSassMixins(SASS_FILES.typography);
 
   // Build snapshot
   const lines = [
@@ -75,6 +77,9 @@ export function generateSnapshot() {
     '',
     '## Custom Properties (hds-dataviz.min.css)',
     ...datavizProps,
+    '',
+    '## Sass Variables (_hds-config.scss)',
+    ...configVars,
     '',
     '## Sass Variables (_hds-tokens.scss)',
     ...tokenVars,

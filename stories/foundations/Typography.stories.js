@@ -33,8 +33,8 @@ export const HeadingScale = {
     <div style="max-width: 64em;">
       <table style="width: 100%; border-collapse: collapse;">
         <tbody>
-          ${headingSpec('h1', 'hds-h1', 'Bold · fluid 32→48px', '1.0', '-0.04em')}
-          ${headingSpec('h2', 'hds-h2', 'Bold · fluid 28→36px', '1.06', '-0.03em')}
+          ${headingSpec('h1', 'hds-h1', 'Bold · fluid 32→48px', '1.0', '-0.03em')}
+          ${headingSpec('h2', 'hds-h2', 'Bold · fluid 28→36px', '1.06', '-0.02em')}
           ${headingSpec('h3', 'hds-h3', 'Bold · 22px (md)', '1.15', '-0.02em')}
           ${headingSpec('h4', 'hds-h4', 'SemiBold · 18px (sm)', '1.35', '-0.02em')}
           ${headingSpec('h5', 'hds-h5', 'SemiBold · 16px (xs)', '1.25', '-0.02em')}
@@ -54,7 +54,7 @@ export const DisplaySizes = {
   render: () => `
     <div style="max-width: 64em; overflow-x: auto;" tabindex="0">
       <div style="margin-block-end: 2rem;">
-        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-display-2xl · Inter Bold · fluid 100→120px · line-height: 1.0 · letter-spacing: -0.07em</p>
+        <p style="font-size: 0.75rem; opacity: 0.7; margin-block-end: 0.25rem;">.hds-display-2xl · Inter Bold · fluid 100→120px · line-height: 1.0 · letter-spacing: -0.05em</p>
         <p class="hds-display-2xl" style="margin: 0;">NASA</p>
       </div>
       <div>
@@ -104,17 +104,17 @@ export const SmallText = {
           <tr>
             <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-overline</code></td>
             <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-overline">Featured Mission</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">DM Mono Medium (500) · 12px · uppercase · 3.5px spacing</td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">DM Mono Medium (500) · 12px · uppercase · 0.3em spacing</td>
           </tr>
           <tr>
             <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-metadata</code></td>
             <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-metadata">March 14, 2026 · 5 min read</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Inter Bold (700) · 12px · uppercase · 0.25px spacing</td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Inter Bold (700) · 12px · uppercase · 0.025em spacing</td>
           </tr>
           <tr>
             <td style="padding-bottom: 1rem; vertical-align: top;"><code>.hds-caption</code></td>
             <td style="padding-bottom: 1rem; vertical-align: top;"><span class="hds-caption">Image credit: NASA/JPL-Caltech</span></td>
-            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Public Sans Regular (400) · 12px · 0.25px spacing</td>
+            <td style="padding-bottom: 1rem; vertical-align: top; font-size: 0.75rem; opacity: 0.7;">Public Sans Regular (400) · 12px · 0.025em spacing</td>
           </tr>
         </tbody>
       </table>
@@ -284,7 +284,7 @@ export const FontStack = {
 };
 
 // ============================================================
-// All Variants — combined render for PaletteA11y testing.
+// All Variants: combined render for PaletteA11y testing.
 // Includes every palette-aware typographic element to catch
 // unintended changes outside of built components.
 // ============================================================
@@ -298,9 +298,9 @@ const allVariantsRender = () => `
     <h5>Heading 5</h5>
     <h6>Heading 6</h6>
 
-    <p>Body text — Public Sans at 16px. The body typefaces are designed for large fields of text, from cards to articles.</p>
+    <p>Body text: Public Sans at 16px. The body typefaces are designed for large fields of text, from cards to articles.</p>
 
-    <p class="usa-intro">Intro text — Public Sans Light at 22px for opening paragraphs.</p>
+    <p class="usa-intro">Intro text: Public Sans Regular at 18px for opening paragraphs.</p>
 
     <p class="hds-overline">Overline Label</p>
     <p class="hds-metadata">Metadata · March 14, 2026</p>

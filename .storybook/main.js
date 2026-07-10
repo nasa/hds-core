@@ -16,6 +16,12 @@ const config = {
     '@storybook/addon-a11y',
     'storybook-addon-pseudo-states',
     '@chromatic-com/storybook',
+    {
+      // Searchable, typed token previews sourced from the generated
+      // custom properties (annotations emitted by sd.config.js).
+      name: 'storybook-design-token',
+      options: { designTokenGlob: 'src/scss/base/_custom-properties.scss' },
+    },
   ],
   features: {
     disableSaveFromUI: true,

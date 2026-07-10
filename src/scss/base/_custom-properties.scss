@@ -1,123 +1,142 @@
-// ============================================================
-// HDS Base — CSS Custom Properties
-// @nasa/hds-core
-// ============================================================
-// All HDS token values output to :root.
-// Use $hds-color-* variables in Sass.
-// Use these custom properties in plain CSS or JavaScript:
-//   var(--hds-color-nasa-blue)
-//   var(--hds-font-weight-bold)
-//   var(--hds-button-border-radius)
-// ============================================================
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
 
-@use 'sass:map';
-@use 'uswds-core' as *;
-@use 'hds-tokens' as *;
-@use 'dataviz-properties';
+@layer hds-base {
+  :root {
+    /**
+     * @tokens Colors
+     * @presenter Color
+     */
+    --hds-color-nasa-red: #f64137; /* Primary NASA brand red. Red means 'go somewhere.' For primary actions navigating to a new page (.usa-button, .hds-btn--primary) and error/emergency alerts. Never for on-page actions, decorative use, or dataviz. */
+    --hds-color-nasa-red-tint: #ff5c52; /* Lighter tint of NASA red. Used for hover states and error highlights. */
+    --hds-color-nasa-red-shade: #b60109; /* Darker shade of NASA red. Used for button hover and error dark. */
+    --hds-color-nasa-blue: #1c67e3; /* Primary NASA brand blue. Blue means 'do something here.' For on-page interactions (.usa-button--secondary, .usa-button--outline), controls, list markers, table headers, info alerts. Never for navigation CTAs or dataviz. */
+    --hds-color-nasa-blue-tint: #288bff; /* Lighter tint of NASA blue. Used for active elements and dark palette buttons. */
+    --hds-color-nasa-blue-shade: #0b3d91; /* Darker shade of NASA blue. Used for blue palette background. */
+    --hds-color-international-orange: #ea6f24; /* Secondary brand accent. For status emphasis or decorative markers (blockquote icons). Never for primary actions. Decorative uses exempt from 3:1 contrast minimum. */
+    --hds-color-active-green: #47da84; /* Semantic brand green. For active mission status and confirmation states. Never for branding, decorative backgrounds, or dataviz. */
+    --hds-color-carbon-10: #e3e3e3; /* Off-white carbon neutral. */
+    --hds-color-carbon-20: #d1d1d1; /* Very light carbon neutral. */
+    --hds-color-carbon-30: #b9b9bb; /* Light carbon neutral. */
+    --hds-color-carbon-40: #959599; /* Medium-light carbon neutral. */
+    --hds-color-carbon-50: #77777a; /* Medium carbon neutral. */
+    --hds-color-carbon-60: #58585b; /* Medium-dark carbon neutral. */
+    --hds-color-carbon-70: #444447; /* Dark carbon neutral. */
+    --hds-color-carbon-80: #2e2e32; /* Very dark carbon neutral. */
+    --hds-color-carbon-90: #17171b; /* Darkest carbon neutral. Default background for dark mode. */
+    --hds-color-carbon-black: #000000; /* Pure black for maximum contrast text and outlines. */
+    --hds-color-carbon-05: #f6f6f6; /* Lightest carbon neutral. Alternate background for light mode. */
+    --hds-color-spacesuit-white: #ffffff; /* Pure white for maximum contrast text and default light backgrounds. */
 
-:root {
-  // Brand colors — var(--hds-color-nasa-blue)
-  --hds-color-carbon-black: #{$hds-color-carbon-black};
-  --hds-color-spacesuit-white: #{$hds-color-spacesuit-white};
-  --hds-color-nasa-red: #{$hds-color-nasa-red};
-  --hds-color-nasa-blue: #{$hds-color-nasa-blue};
-  --hds-color-carbon-90: #{$hds-color-carbon-90};
-  --hds-color-carbon-80: #{$hds-color-carbon-80};
-  --hds-color-carbon-70: #{$hds-color-carbon-70};
-  --hds-color-carbon-60: #{$hds-color-carbon-60};
-  --hds-color-carbon-50: #{$hds-color-carbon-50};
-  --hds-color-carbon-40: #{$hds-color-carbon-40};
-  --hds-color-carbon-30: #{$hds-color-carbon-30};
-  --hds-color-carbon-20: #{$hds-color-carbon-20};
-  --hds-color-carbon-10: #{$hds-color-carbon-10};
-  --hds-color-carbon-05: #{$hds-color-carbon-05};
-  --hds-color-nasa-red-tint: #{$hds-color-nasa-red-tint};
-  --hds-color-nasa-red-shade: #{$hds-color-nasa-red-shade};
-  --hds-color-nasa-blue-tint: #{$hds-color-nasa-blue-tint};
-  --hds-color-nasa-blue-shade: #{$hds-color-nasa-blue-shade};
-  --hds-color-international-orange: #{$hds-color-international-orange};
-  --hds-color-active-green: #{$hds-color-active-green};
+    /**
+     * @tokens Border Widths
+     * @presenter Border
+     */
+    --hds-border-width-thin: 1px; /* Role token for single-pixel borders: card, inputs, table. */
+    --hds-border-width-thick: 2px; /* Role token for emphasis borders: button outlines, tag/chip outlines. */
 
-  // Font family custom properties
-  // Names must match @font-face declarations exactly
-  --hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace;
+    /**
+     * @tokens Border Radius
+     * @presenter BorderRadius
+     */
+    --hds-border-radius: 0px; /* Default sharp (square) corners for most HDS components: text button, card, modal, header/footer, etc. */
+    --hds-border-radius-control: 2px; /* Subtle border radius used only for small interactive controls: checkbox, radio/input tile, select, text field and textarea, tag/chip, etc. */
 
-  // Font weights — var(--hds-font-weight-bold)
-  @each $name, $weight in $hds-weights {
-    --hds-font-weight-#{$name}: #{$weight};
+    /**
+     * @tokens Focus
+     * @presenter Border
+     */
+    --hds-focus-width: 1px; /* Dashed stroke width. Standardized across all dashed focus rings. */
+    --hds-focus-style: dashed; /* All dashed focus rings use a 2,3 dasharray. */
+    --hds-focus-offset: 1px; /* Visual gap between element and ring. May be achieved differently per mechanic (negative inset, outline-offset, etc.) but the visual result is consistent. */
+
+    /**
+     * @tokens Layout
+     * @presenter Spacing
+     */
+    --hds-layout-max-width: 1200px; /* Maximum content width. Aligns with desktop-lg breakpoint. */
+    --hds-layout-margin-mobile: 16px; /* Site margins below desktop. */
+    --hds-layout-margin-desktop: 32px; /* Site margins at desktop+. */
+    --hds-layout-gutter-sm: 4px; /* Used on mobile and mobile-lg breakpoints. */
+    --hds-layout-gutter-md: 16px; /* Used on tablet through desktop-lg breakpoints. */
+    --hds-layout-gutter-lg: 24px; /* Used on widescreen breakpoint. */
+    --hds-layout-gutter-xl: 32px; /* Grid gutter at TV breakpoint. Not yet implemented in SCSS. */
+
+    /**
+     * @tokens Spacing
+     * @presenter Spacing
+     */
+    --hds-spacing-0: 0px; /* Zero spacing. Use to explicitly collapse gaps. */
+    --hds-spacing-1: 8px; /* Tightest content relationship. Use for closely related elements within a single component. */
+    --hds-spacing-2: 16px; /* Element stacking. Default for horizontal and vertical spacing between sibling elements. */
+    --hds-spacing-3: 24px; /* Content section separation within the same component area. */
+    --hds-spacing-4: 32px; /* Component separation at mobile and tablet breakpoints. */
+    --hds-spacing-6: 48px; /* Component separation at desktop breakpoints. */
+    --hds-spacing-8: 64px; /* Section-level vertical padding for major layout blocks (.usa-section). */
+    --hds-spacing-9: 72px; /* Component separation at widescreen and TV breakpoints. */
+    --hds-spacing-15: 120px; /* Layout section division at desktop-lg and below. */
+    --hds-spacing-30: 240px; /* Layout section division at TV breakpoint. */
+    --hds-spacing-0-5: 4px; /* Intermediate. Compact table cell padding, sub-link gaps in in-page nav. Not for layout spacing. */
+    --hds-spacing-1-5: 12px; /* Intermediate. Table cell padding, button block padding, nav indentation, list marker gaps. Most common component-internal value. */
+    --hds-spacing-2-5: 20px; /* Intermediate. List item separation, button inline padding, form label margins, blockquote attribution spacing. */
+
+    /**
+     * @tokens Line Heights
+     * @presenter LineHeight
+     */
+    --hds-line-height-1: 1; /* 100% used for h1, h2 display, numbers */
+    --hds-line-height-2: 1.15; /* 115% used for h3 tight */
+    --hds-line-height-3: 1.35; /* 135% used for h4, h6, caption, figcaption */
+    --hds-line-height-4: 1.5; /* 150% used for intro text */
+    --hds-line-height-5: 1.62; /* 162% used for body paragraph */
+    --hds-line-height-6: 1.75; /* 175% used for overline, metadata, label */
+
+    /**
+     * @tokens Letter Spacing
+     * @presenter LetterSpacing
+     */
+    --hds-letter-spacing-1: 0.025em; /* Caption, metadata, nav links */
+    --hds-letter-spacing-2: 0.1em; /* Code and pre blocks in prose */
+    --hds-letter-spacing-3: 0.15em; /* Reserve to maintain parity with USWDS scale; not currently used in HDS */
+    --hds-letter-spacing-neg-5: -0.05em; /* H1-2xl, H1-xl, number-lg */
+    --hds-letter-spacing-neg-4: -0.04em; /* Reserved; not currently used */
+    --hds-letter-spacing-neg-3: -0.03em; /* H1 */
+    --hds-letter-spacing-neg-2: -0.02em; /* H2, H3, H4, H5 */
+    --hds-letter-spacing-neg-1: -0.01em; /* H6, intro */
+    --hds-letter-spacing-auto: 0; /* Normal letter spacing */
+
+    /**
+     * @tokens Font Weights
+     * @presenter FontWeight
+     */
+    --hds-font-weight-light: 300; /* Light weight used for number display styles */
+    --hds-font-weight-normal: 400; /* Normal/regular weight used for body text */
+    --hds-font-weight-medium: 500; /* Medium weight used for overline */
+    --hds-font-weight-semibold: 600; /* Semibold weight used for h4, h5, h6 */
+    --hds-font-weight-bold: 700; /* Bold weight used for h1, h2, h3, display, metadata */
+
+    /**
+     * @tokens Font Sizes
+     * @presenter FontSize
+     */
+    --hds-font-size-4xl: 7.5rem; /* H1-2XL and Number-lg. Fluid target (clamp max); 120px at the 16px root. */
+    --hds-font-size-3xl: 5rem; /* H1-xl. Fluid target (clamp max); 80px at the 16px root. */
+    --hds-font-size-2xl: 3rem; /* H1 and Number-md. Fluid target (clamp max); 48px at the 16px root. */
+    --hds-font-size-xl: 2.25rem; /* H2, Blockquote, and Number-sm. Fluid target (clamp max); 36px at the 16px root. */
+    --hds-font-size-lg: 1.75rem; /* Number-xs. Fluid target (clamp max); 28px at the 16px root. */
+    --hds-font-size-md: 1.375rem; /* H3. Fluid target (clamp max); 22px at the 16px root. */
+    --hds-font-size-sm: 1.125rem; /* H4. Static; 18px at the 16px root. */
+    --hds-font-size-xs: 1rem; /* H5, P, and Button. Static; 16px at the 16px root. */
+    --hds-font-size-2xs: 0.875rem; /* H6 and Label (form). Static; 14px at the 16px root. */
+    --hds-font-size-3xs: 0.75rem; /* Label (div), Figcaption, Overline, Caption, and Metadata. Static; 12px at the 16px root. */
+
+    /**
+     * @tokens Font Families
+     * @presenter FontFamily
+     */
+    --hds-font-family-heading: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Heading font family for h1-h6 and display text */
+    --hds-font-family-body: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Body text and default paragraph font */
+    --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace; /* Monospace font for code blocks and inline code */
   }
-
-  // Line-height scale (USWDS numeric 1–6) — var(--hds-line-height-5) etc.
-  --hds-line-height-1: #{$hds-line-height-1};
-  --hds-line-height-2: #{$hds-line-height-2};
-  --hds-line-height-3: #{$hds-line-height-3};
-  --hds-line-height-4: #{$hds-line-height-4};
-  --hds-line-height-5: #{$hds-line-height-5};
-  --hds-line-height-6: #{$hds-line-height-6};
-
-  // Letter-spacing scale — var(--hds-letter-spacing-neg-3) etc.
-  @each $name, $value in $hds-letterspacing {
-    --hds-letter-spacing-#{$name}: #{$value};
-  }
-
-  // Border widths — var(--hds-border-width-thin)
-  --hds-border-width-thin: #{$hds-border-width-thin};
-  --hds-border-width-thick: #{$hds-border-width-thick};
-
-  // Border radius — var(--hds-border-radius)
-  --hds-border-radius: #{$hds-border-radius};
-  --hds-border-radius-control: #{$hds-border-radius-control};
-
-  // Component border radius — var(--hds-button-border-radius)
-  --hds-button-border-radius: #{$theme-button-border-radius};
-  --hds-card-border-radius: #{$theme-card-border-radius};
-  --hds-checkbox-border-radius: #{$theme-checkbox-border-radius};
-  --hds-input-tile-border-radius: #{$theme-input-tile-border-radius};
-  --hds-modal-border-radius: #{$theme-modal-border-radius};
-  --hds-pagination-border-radius: #{$theme-pagination-button-border-radius};
-  --hds-summary-border-radius: #{$theme-summary-box-border-radius};
-
-  // Component border widths — var(--hds-{component}-border-width)
-  --hds-accordion-border-width: 0;
-  --hds-button-border-width: #{$theme-button-stroke-width};
-  --hds-card-border-width: #{$theme-card-border-width};
-  --hds-input-tile-border-width: #{$theme-input-tile-border-width};
-  --hds-input-select-border-width: #{$theme-input-select-border-width};
-  --hds-input-state-border-width: #{$theme-input-state-border-width};
-  --hds-pagination-border-width: #{$theme-pagination-button-border-width};
-  --hds-summary-border-width: #{$theme-summary-box-border-width};
-  --hds-table-border-width: #{$hds-border-width-thin};
 }
-
-// ============================================================
-// Data visualization tokens
-// ============================================================
-// Gated behind $hds-enable-dataviz-tokens (default: false).
-// Enable: @use 'hds-tokens' with ($hds-enable-dataviz-tokens: true);
-//
-// Categorical: --hds-dataviz-color-cat-1 through cat-12
-//   Light defaults here; dark overrides in base/_palettes.scss.
-//
-// Sequential: --hds-dataviz-color-seq-{hue}-{step}
-//   11 hue families × 9 steps. Not palette-aware — used inside
-//   chart surfaces with controlled backgrounds.
-//
-// Mapping (HDS Figma name → USWDS token):
-//   CATEGORICAL LIGHT
-//   cat-1:  Blue 80   → blue-70v       cat-7:  Red 80    → red-70v
-//   cat-2:  Red 50    → red-40v        cat-8:  Slate 40  → blue-cool-30
-//   cat-3:  Orange 40 → orange-30v     cat-9:  Purple 80 → indigo-warm-70v
-//   cat-4:  Slate 70  → blue-cool-60   cat-10: Yellow 40 → gold-30v
-//   cat-5:  Gold 40   → gold-40        cat-11: Lime 70   → green-60v
-//   cat-6:  Blue 50   → blue-40v       cat-12: Aqua 40   → mint-cool-30v
-//
-//   SEQUENTIAL (all hue families use same step → token pattern)
-//   Red     → red-{vivid}      Orange  → orange-{vivid}
-//   Yellow  → gold-{vivid}     Gold    → gold-{non-vivid}
-//   Lime    → green-{vivid}    Green   → mint-{vivid}
-//   Aqua    → mint-cool-{vivid} Slate  → blue-cool-{non-vivid}
-//   Blue    → blue-{vivid}     Purple  → indigo-warm-{vivid}
-//   Magenta → violet-warm-{vivid}
-// ============================================================

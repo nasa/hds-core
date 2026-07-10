@@ -66,7 +66,7 @@
   // so it tracks the viewport range instead of drifting.
   font-size: fluid-size(28, 36);
   font-weight: 300; // light
-  letter-spacing: map.get($hds-letterspacing, 'neg-3'); // -0.03em
+  letter-spacing: $hds-letter-spacing-neg-3; // -0.03em
   line-height: 1.15; // tight
   margin: 0;
   padding: 0;

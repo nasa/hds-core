@@ -1,4 +1,5 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs/blocks';
+import { DesignTokenDocBlock } from 'storybook-design-token/doc-blocks';
 import { Note } from '../helpers/Note';
 
 <Meta title="Foundations/Color" />
@@ -11,16 +12,13 @@ Color is used in restrained and purposeful ways throughout HDS. With content at 
 
 This page covers UI colors. For chart and data visualization colors, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).
 
+The swatches below are generated from `tokens.json`. Click the info icon on any swatch for its usage guidance. For the full color reference in one place, see the [Design Tokens](?path=/docs/foundations-design-tokens--docs#colors) page.
+
 ## Brand colors
 
-The four primary brand colors carry the NASA visual identity across all HDS components:
+The primary brand colors carry the NASA visual identity across all HDS components.
 
-<ColorPalette>
-  <ColorItem title="Carbon Black" subtitle="Text, backgrounds, headings" colors={{ '$hds-color-carbon-black': '#000000' }} />
-  <ColorItem title="Spacesuit White" subtitle="Backgrounds, button text, icons" colors={{ '$hds-color-spacesuit-white': '#FFFFFF' }} />
-  <ColorItem title="NASA Red" subtitle="Navigation actions (.usa-button), error states, breaking news alerts" colors={{ '$hds-color-nasa-red': '#F64137' }} />
-  <ColorItem title="NASA Blue" subtitle="On-page interactions (.usa-button--secondary), active elements" colors={{ '$hds-color-nasa-blue': '#1C67E3' }} />
-</ColorPalette>
+<DesignTokenDocBlock categoryName="Colors" viewType="card" showSearch={false} filterNames={['--hds-color-nasa-red', '--hds-color-nasa-blue', '--hds-color-carbon-black', '--hds-color-spacesuit-white']} />
 
 <Note type="uswds">
   HDS Core swaps the USWDS primary and secondary color families. In standard USWDS, primary is blue and secondary is red. In HDS Core, <code>color("primary")</code> returns NASA Red and <code>color("secondary")</code> returns NASA Blue. This means <code>.usa-button</code> automatically renders NASA Red and <code>.usa-button--secondary</code> renders NASA Blue, matching the HDS wayfinding rule with no extra classes needed.
@@ -30,41 +28,13 @@ The four primary brand colors carry the NASA visual identity across all HDS comp
 
 Tints and shades of the primary brand colors provide accessible alternatives for hover states, dark backgrounds, and emphasis.
 
-<ColorPalette>
-  <ColorItem title="NASA Red / Tint" subtitle="Error highlights, action borders" colors={{ '$hds-color-nasa-red-tint': '#FF5C52' }} />
-  <ColorItem title="NASA Red / Shade" subtitle="Primary button hover, error states on dark backgrounds" colors={{ '$hds-color-nasa-red-shade': '#B60109' }} />
-  <ColorItem title="NASA Blue / Tint" subtitle="Active element highlights, buttons on dark palettes" colors={{ '$hds-color-nasa-blue-tint': '#288BFF' }} />
-  <ColorItem title="NASA Blue / Shade" subtitle="Secondary button hover, background color" colors={{ '$hds-color-nasa-blue-shade': '#0B3D91' }} />
-</ColorPalette>
+<DesignTokenDocBlock categoryName="Colors" viewType="card" showSearch={false} filterNames={['--hds-color-nasa-red-tint', '--hds-color-nasa-red-shade', '--hds-color-nasa-blue-tint', '--hds-color-nasa-blue-shade']} />
 
-## Neutrals — Carbon scale
+## Neutrals: Carbon scale
 
 The Carbon scale provides appropriate levels of contrast for text, borders, and subtle backgrounds.
 
-<ColorPalette>
-  <ColorItem
-    title="Carbon Scale (Dark)"
-    subtitle="Carbon 90 to 50"
-    colors={{
-      '$hds-color-carbon-90': '#17171B',
-      '$hds-color-carbon-80': '#2E2E32',
-      '$hds-color-carbon-70': '#444447',
-      '$hds-color-carbon-60': '#58585B',
-      '$hds-color-carbon-50': '#77777A',
-    }}
-  />
-  <ColorItem
-    title="Carbon Scale (Light)"
-    subtitle="Carbon 40 to 05"
-    colors={{
-      '$hds-color-carbon-40': '#959599',
-      '$hds-color-carbon-30': '#B9B9BB',
-      '$hds-color-carbon-20': '#D1D1D1',
-      '$hds-color-carbon-10': '#E3E3E3',
-      '$hds-color-carbon-05': '#F6F6F6',
-    }}
-  />
-</ColorPalette>
+<DesignTokenDocBlock categoryName="Colors" viewType="card" showSearch={false} filterNames={['--hds-color-carbon-90', '--hds-color-carbon-80', '--hds-color-carbon-70', '--hds-color-carbon-60', '--hds-color-carbon-50', '--hds-color-carbon-40', '--hds-color-carbon-30', '--hds-color-carbon-20', '--hds-color-carbon-10', '--hds-color-carbon-05']} />
 
 All neutrals use the token pattern `$hds-color-carbon-{step}` (Sass) or `var(--hds-color-carbon-{step})` (CSS).
 
@@ -72,10 +42,7 @@ All neutrals use the token pattern `$hds-color-carbon-{step}` (Sass) or `var(--h
 
 International Orange and Active Green are used sparingly and intentionally.
 
-<ColorPalette>
-  <ColorItem title="International Orange" subtitle="Blockquote icon, status indicator dot" colors={{ '$hds-color-international-orange': '#EA6F24' }} />
-  <ColorItem title="Active Green" subtitle="Confirmation/complete, active-status indicator dot" colors={{ '$hds-color-active-green': '#47DA84' }} />
-</ColorPalette>
+<DesignTokenDocBlock categoryName="Colors" viewType="card" showSearch={false} filterNames={['--hds-color-international-orange', '--hds-color-active-green']} />
 
 ## Accessibility
 
@@ -83,10 +50,10 @@ HDS colors meet **WCAG AA** contrast standards. Body text and headings target **
 
 Key text pairings for AAA contrast:
 
-- **Carbon 60** (`#58585B`, 7.09:1 AAA on White) — body text on white/light backgrounds
-- **Carbon 40** (`#959599`, 7.03:1 AAA on Black) — body text on dark/black backgrounds
+- **Carbon 60** (`#58585B`, 7.09:1 AAA on White): body text on white/light backgrounds
+- **Carbon 40** (`#959599`, 7.03:1 AAA on Black): body text on dark/black backgrounds
 
-<Note type="code">NASA Red (`#F64137`) passes **AA Large** (3.66:1) on light backgrounds. Valid for text ≥18 pt / ≥14 pt bold and non-text UI elements. For small body text on light backgrounds, use NASA Red Shade (`#B60109`, 7.00:1 AAA).</Note>
+<Note type="code">NASA Red (`#F64137`) passes **AA Large** (3.66:1) on light backgrounds. Valid for text at 18 pt and above, or 14 pt bold and above, and non-text UI elements. For small body text on light backgrounds, use NASA Red Shade (`#B60109`, 7.00:1 AAA).</Note>
 
 For verified contrast ratios, see the [Color Contrast Tool](?path=/docs/foundations-color-contrast-tool--docs). For general accessibility guidance, see [Accessibility](?path=/docs/foundations-accessibility--docs).
 
@@ -141,80 +108,8 @@ See the project README for full token consumption setup.
 
 HDS provides six palettes that automatically adapt all component colors to their background context. Inside a palette wrapper, use `--hds-palette-*` tokens to respond to the active palette. See [Color Palettes](?path=/docs/foundations-color-palettes--docs) for usage, available tokens, and examples.
 
-### CSS custom properties reference
+### Full color reference
 
-All `--hds-color-*` properties are output to `:root` and available globally:
-
-<div
-  style={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '0.5rem',
-    marginBlock: '1.5rem',
-    fontSize: '0.8rem',
-    fontFamily: 'var(--hds-font-family-code)',
-  }}
->
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#000', verticalAlign: 'middle', border: '1px solid #ccc' }} /> <code>--hds-color-carbon-black</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#17171B', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-90</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#2E2E32', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-80</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#444447', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-70</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#58585B', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-60</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#77777A', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-50</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#959599', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-40</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#B9B9BB', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-30</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#D1D1D1', verticalAlign: 'middle' }} /> <code>--hds-color-carbon-20</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#E3E3E3', verticalAlign: 'middle', border: '1px solid #ccc' }} /> <code>--hds-color-carbon-10</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#F6F6F6', verticalAlign: 'middle', border: '1px solid #ccc' }} /> <code>--hds-color-carbon-05</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#FFF', verticalAlign: 'middle', border: '1px solid #ccc' }} /> <code>--hds-color-spacesuit-white</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#F64137', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-red</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#FF5C52', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-red-tint</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#B60109', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-red-shade</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#1C67E3', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-blue</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#288BFF', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-blue-tint</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#0B3D91', verticalAlign: 'middle' }} /> <code>--hds-color-nasa-blue-shade</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#EA6F24', verticalAlign: 'middle' }} /> <code>--hds-color-international-orange</code>
-  </div>
-  <div>
-    <span style={{ display: 'inline-block', width: '0.8em', height: '0.8em', backgroundColor: '#47DA84', verticalAlign: 'middle' }} /> <code>--hds-color-active-green</code>
-  </div>
-</div>
+Every `--hds-color-*` property is output to `:root` and available globally. See the complete, searchable list with live values on the [Design Tokens](?path=/docs/foundations-design-tokens--docs#colors) page.
 
 For chart and data visualization colors, see [Data Visualization Palettes](?path=/docs/foundations-data-visualization-palettes--docs).

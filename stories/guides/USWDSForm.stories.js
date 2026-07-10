@@ -761,6 +761,7 @@ const step4 = `
           class="usa-file-input"
           type="file"
           name="file-error"
+          aria-invalid="true"
           aria-describedby="form-file-error-hint form-file-error-message"
         />
       </div>
@@ -861,6 +862,7 @@ const errorStates = `
           class="usa-input usa-input--error usa-input--xl"
           id="form-err-name"
           name="err-name"
+          aria-invalid="true"
           aria-describedby="form-err-name-hint form-err-name-message"
         />
       </div>
@@ -877,7 +879,7 @@ const errorStates = `
         <div class="usa-memorable-date">
           <div class="usa-form-group usa-form-group--month usa-form-group--select usa-form-group--error">
             <label class="usa-label usa-label--error" for="form-err-dob-month">Month</label>
-            <select class="usa-select usa-input--error" id="form-err-dob-month" name="err-dob-month" aria-describedby="form-err-dob-hint form-err-dob-message">
+            <select class="usa-select usa-input--error" id="form-err-dob-month" name="err-dob-month" aria-invalid="true" aria-describedby="form-err-dob-hint form-err-dob-message">
               <option value>- Select -</option>
               <option value="1">01 - January</option>
               <option value="2">02 - February</option>
@@ -935,6 +937,7 @@ const errorStates = `
           name="err-email"
           type="email"
           value="not-an-email"
+          aria-invalid="true"
           aria-describedby="form-err-email-message"
         />
       </div>

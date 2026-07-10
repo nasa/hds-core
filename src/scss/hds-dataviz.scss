@@ -7,9 +7,10 @@
 // ============================================================
 
 @use 'sass:meta';
-@use 'hds-tokens' as * with (
+@use 'hds-config' as * with (
   $hds-enable-dataviz-tokens: true
 );
+@use 'hds-tokens' as *;
 @use 'hds-dataviz-palettes' as *;
 
 // ── DECLARE CASCADE LAYER ORDER ──

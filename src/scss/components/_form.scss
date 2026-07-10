@@ -176,7 +176,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-legend--large {
   font-size: size('body', 'md');
   font-weight: font-weight('bold');
-  letter-spacing: map.get($hds-letterspacing, 'neg-2');
+  letter-spacing: $hds-letter-spacing-neg-2;
   margin-top: 2rem;
 }
 
@@ -188,7 +188,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   color: var(--hds-palette-muted);
   font-size: size('body', '3xs');
   font-weight: font-weight('normal');
-  letter-spacing: map.get($hds-letterspacing, '1');
+  letter-spacing: $hds-letter-spacing-1;
 }
 
 // ── Checkbox ──────────────────────────────────────────────────
@@ -228,7 +228,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   font-family: family('heading');
   font-weight: font-weight('normal');
   font-size: size('body', '2xs');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+  letter-spacing: $hds-letter-spacing-neg-1;
 }
 
 // Focus — Dashed outer ring on the label row
@@ -335,7 +335,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   font-family: family('heading');
   font-weight: font-weight('normal');
   font-size: size('body', '2xs');
-  letter-spacing: map.get($hds-letterspacing, 'neg-1');
+  letter-spacing: $hds-letter-spacing-neg-1;
 }
 
 // Focus — Dashed outer ring on the label row
@@ -456,7 +456,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   font-size: size('body', '3xs');
   font-weight: font-weight('normal');
   gap: units(1);
-  letter-spacing: map.get($hds-letterspacing, '1');
+  letter-spacing: $hds-letter-spacing-1;
   line-height: units(2); // Figma spec: 16px.
 
   &::before {

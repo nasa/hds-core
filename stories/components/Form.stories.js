@@ -266,7 +266,7 @@ export const ValidationFlow = {
             Full name <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
           </label>
           <input class="usa-input usa-input--error" id="val-name" name="val-name" type="text"
-            aria-describedby="val-name-error" required />
+            aria-invalid="true" aria-describedby="val-name-error" required />
           <span class="usa-error-message" id="val-name-error" role="alert">This field is required</span>
         </div>
 
@@ -275,7 +275,7 @@ export const ValidationFlow = {
             Email address <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
           </label>
           <input class="usa-input usa-input--error" id="val-email" name="val-email" type="email"
-            value="james.green.nasa.gov" aria-describedby="val-email-hint val-email-error" required />
+            value="james.green.nasa.gov" aria-invalid="true" aria-describedby="val-email-hint val-email-error" required />
           <span class="usa-hint" id="val-email-hint">e.g., mission-lead@nasa.gov</span>
           <span class="usa-error-message" id="val-email-error" role="alert">Incorrect email address format</span>
         </div>
@@ -332,14 +332,14 @@ export const ServerSideValidation = {
         <div class="usa-form-group usa-form-group--error">
           <label class="usa-label" for="srv-email">Email Address</label>
           <input class="usa-input usa-input--error" id="srv-email" name="srv-email" type="email"
-            value="james.green.nasa.gov" aria-describedby="srv-email-error" />
+            value="james.green.nasa.gov" aria-invalid="true" aria-describedby="srv-email-error" />
           <span class="usa-error-message" id="srv-email-error" role="alert">Incorrect email address format</span>
         </div>
 
         <div class="usa-form-group usa-form-group--error">
           <label class="usa-label" for="srv-terms">
             <input class="usa-checkbox__input" id="srv-terms" type="checkbox" name="srv-terms"
-              aria-describedby="srv-terms-error" />
+              aria-invalid="true" aria-describedby="srv-terms-error" />
             <span class="usa-checkbox__label" for="srv-terms">I agree to the terms and conditions</span>
           </label>
           <span class="usa-error-message" id="srv-terms-error" role="alert">This field is required</span>
@@ -371,7 +371,7 @@ export const ErrorLegacyMarkup = {
         <span class="usa-error-message" id="legacy-email-error" role="alert">Incorrect email address format</span>
         <span class="usa-hint" id="legacy-email-hint">e.g., mission-lead@nasa.gov</span>
         <input class="usa-input usa-input--error" id="legacy-email" name="legacy-email" type="email"
-          value="james.green.nasa.gov" aria-describedby="legacy-email-hint legacy-email-error" />
+          value="james.green.nasa.gov" aria-invalid="true" aria-describedby="legacy-email-hint legacy-email-error" />
       </div>
     </form>
   `,

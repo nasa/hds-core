@@ -1,0 +1,56 @@
+// ============================================================
+// HDS Component-Level Custom Properties
+// @nasa/hds-core
+// ============================================================
+// Component-specific CSS custom properties derived from USWDS
+// theme settings. These provide customization hooks for CSS-only
+// consumers who cannot access Sass variables or theme settings.
+//
+// These are semantic aliases, not primitives. They map from
+// USWDS theme token values to component-namespaced custom
+// properties for easier theming in @layer site.
+//
+// Generated custom properties from tokens.json live in
+// _custom-properties.scss. This file contains manual component
+// derivations that don't belong in the design token source.
+// ============================================================
+
+@use 'hds-tokens' as hds;
+@use 'hds-uswds-theme';
+@use 'uswds-core' as *;
+
+@layer hds-base {
+  :root {
+    // ========================================================
+    // Component Border Radius
+    // ========================================================
+    // Derived from USWDS $theme-*-border-radius settings,
+    // which pull from HDS primitives ($hds-border-radius,
+    // $hds-border-radius-control).
+
+    --hds-button-border-radius: #{$theme-button-border-radius};
+    --hds-card-border-radius: #{$theme-card-border-radius};
+    --hds-checkbox-border-radius: #{$theme-checkbox-border-radius};
+    --hds-input-tile-border-radius: #{$theme-input-tile-border-radius};
+    --hds-modal-border-radius: #{$theme-modal-border-radius};
+    --hds-pagination-border-radius: #{$theme-pagination-button-border-radius};
+    --hds-summary-border-radius: #{$theme-summary-box-border-radius};
+
+    // ========================================================
+    // Component Border Width
+    // ========================================================
+    // Derived from USWDS $theme-*-border-width / stroke-width
+    // settings, which pull from HDS primitives
+    // ($hds-border-width-thin, $hds-border-width-thick).
+
+    --hds-accordion-border-width: 0; // HDS design: no border
+    --hds-button-border-width: #{$theme-button-stroke-width};
+    --hds-card-border-width: #{$theme-card-border-width};
+    --hds-input-select-border-width: #{$theme-input-select-border-width};
+    --hds-input-state-border-width: #{$theme-input-state-border-width};
+    --hds-input-tile-border-width: #{$theme-input-tile-border-width};
+    --hds-pagination-border-width: #{$theme-pagination-button-border-width};
+    --hds-summary-border-width: #{$theme-summary-box-border-width};
+    --hds-table-border-width: #{hds.$hds-border-width-thin};
+  }
+}

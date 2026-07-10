@@ -13,7 +13,8 @@ const labels = {
 };
 
 export function Note({ type, children }) {
-  const icon = iconConfig[type] ?? iconConfig.code;
+  const resolvedType = iconConfig[type] ? type : 'code';
+  const icon = iconConfig[resolvedType];
   return (
     <div className="usa-alert usa-alert--info usa-alert--slim usa-alert--no-icon hds-note" role="note">
       <div className="usa-alert__body">
@@ -21,7 +22,7 @@ export function Note({ type, children }) {
           <svg className="hds-icon hds-note__icon" aria-hidden="true" focusable="false">
             <use xlinkHref={`/assets/img/${icon.sprite}.svg#${icon.id}`} />
           </svg>
-          <strong>{labels[type]}:</strong>
+          <strong>{labels[resolvedType]}:</strong>
           <p>{children}</p>
         </div>
       </div>

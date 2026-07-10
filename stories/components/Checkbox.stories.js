@@ -209,6 +209,7 @@ export const AllVariants = {
                 type="checkbox"
                 name="av-err"
                 value="planetary"
+                aria-invalid="true"
                 aria-describedby="av-err-group-error"
               />
               <label class="usa-checkbox__label" for="av-err-planetary">Planetary Science</label>
@@ -256,6 +257,7 @@ export const WithError = {
           type="checkbox"
           name="err"
           value="planetary"
+          aria-invalid="true"
           aria-describedby="err-group-error"
         />
         <label class="usa-checkbox__label" for="err-planetary">Planetary Science</label>

@@ -6,6 +6,9 @@
 storybook-static
 stories/docs-meta.json
 
+# Emitted by the storybook-design-token Vite plugin (dev publicDir)
+public/design-tokens.source.json
+
 # Claude & Testing Artifacts
 /.claude/
 /.playwright-mcp/

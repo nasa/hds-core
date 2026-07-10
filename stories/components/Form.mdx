@@ -141,7 +141,7 @@ The recommended HDS markup places error messages after the input in the DOM, mat
 ```html
 <!-- Recommended HDS markup -->
 <label> ... </label>
-<input aria-describedby="hint-id error-id" />
+<input aria-invalid="true" aria-describedby="hint-id error-id" />
 <span class="usa-hint" id="hint-id"> ... </span>
 <span class="usa-error-message" id="error-id" role="alert"> ... </span>
 ```
@@ -155,7 +155,7 @@ Standard USWDS markup places the error message before the input. HDS Core suppor
 <label> ... </label>
 <span class="usa-error-message" id="error-id" role="alert"> ... </span>
 <span class="usa-hint" id="hint-id"> ... </span>
-<input aria-describedby="hint-id error-id" />
+<input aria-invalid="true" aria-describedby="hint-id error-id" />
 ```
 
 <Note type="uswds">USWDS places the error message before the input for legacy screen reader compatibility. Modern screen readers handle `role="alert"` reliably regardless of DOM position. Update to the recommended markup when practical.</Note>
