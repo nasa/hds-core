@@ -63,7 +63,7 @@
     "@uswds/uswds": "^3.13.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
+    "@changesets/cli": "^2.31.1",
     "@chromatic-com/storybook": "^5.2.1",
     "@cyclonedx/cyclonedx-npm": "^6.0.0",
     "@storybook/addon-a11y": "^10.5.3",
