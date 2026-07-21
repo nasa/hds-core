@@ -452,7 +452,7 @@ const interactiveTable = ({
         <td>
           <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Artemis I Press Kit" type="button">
             <svg class="hds-icon" aria-hidden="true" focusable="false">
-              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+              <use xlink:href="assets/img/hds-sprite.svg#download"></use>
             </svg>
           </button>
         </td>
@@ -470,7 +470,7 @@ const interactiveTable = ({
         <td>
           <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Orion Heat Shield Analysis" type="button">
             <svg class="hds-icon" aria-hidden="true" focusable="false">
-              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+              <use xlink:href="assets/img/hds-sprite.svg#download"></use>
             </svg>
           </button>
         </td>
@@ -488,7 +488,7 @@ const interactiveTable = ({
         <td>
           <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download SLS Block 1 Fact Sheet" type="button">
             <svg class="hds-icon" aria-hidden="true" focusable="false">
-              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+              <use xlink:href="assets/img/hds-sprite.svg#download"></use>
             </svg>
           </button>
         </td>
@@ -518,7 +518,7 @@ const interactiveTable = ({
         <td>
           <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Lunar Surface Science Plan" type="button">
             <svg class="hds-icon" aria-hidden="true" focusable="false">
-              <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+              <use xlink:href="assets/img/hds-sprite.svg#download"></use>
             </svg>
           </button>
         </td>

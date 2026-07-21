@@ -133,7 +133,7 @@ const beforeYouStart = `
             <li class="usa-icon-list__item">
               <div class="usa-icon-list__icon text-green">
                 <svg class="usa-icon" aria-hidden="true" role="img">
-                  <use href="/assets/img/sprite.svg#check_circle"></use>
+                  <use href="assets/img/sprite.svg#check_circle"></use>
                 </svg>
               </div>
               <div class="usa-icon-list__content">
@@ -143,7 +143,7 @@ const beforeYouStart = `
             <li class="usa-icon-list__item">
               <div class="usa-icon-list__icon text-green">
                 <svg class="usa-icon" aria-hidden="true" role="img">
-                  <use href="/assets/img/sprite.svg#check_circle"></use>
+                  <use href="assets/img/sprite.svg#check_circle"></use>
                 </svg>
               </div>
               <div class="usa-icon-list__content">
@@ -154,7 +154,7 @@ const beforeYouStart = `
             <li class="usa-icon-list__item">
               <div class="usa-icon-list__icon text-green">
                 <svg class="usa-icon" aria-hidden="true" role="img">
-                  <use href="/assets/img/sprite.svg#check_circle"></use>
+                  <use href="assets/img/sprite.svg#check_circle"></use>
                 </svg>
               </div>
               <div class="usa-icon-list__content">
@@ -165,7 +165,7 @@ const beforeYouStart = `
             <li class="usa-icon-list__item">
               <div class="usa-icon-list__icon text-green">
                 <svg class="usa-icon" aria-hidden="true" role="img">
-                  <use href="/assets/img/sprite.svg#check_circle"></use>
+                  <use href="assets/img/sprite.svg#check_circle"></use>
                 </svg>
               </div>
               <div class="usa-icon-list__content">
@@ -374,7 +374,7 @@ const sexModal = `
         data-close-modal
       >
         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-          <use href="/assets/img/sprite.svg#close"></use>
+          <use href="assets/img/sprite.svg#close"></use>
         </svg>
       </button>
     </div>
@@ -616,7 +616,7 @@ const step3 = `
         <div class="usa-input-group">
           <div class="usa-input-prefix" aria-hidden="true">
             <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
-              <use href="/assets/img/sprite.svg#attach_money"></use>
+              <use href="assets/img/sprite.svg#attach_money"></use>
             </svg>
           </div>
           <input

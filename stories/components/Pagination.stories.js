@@ -32,12 +32,12 @@ const label = (text) => `<span class="hds-overline">${text}</span>`;
 
 const chevronLeft = `
   <svg class="hds-icon" aria-hidden="true" role="img">
-    <use href="/assets/img/hds-sprite.svg#arrow-chevron-left"></use>
+    <use href="assets/img/hds-sprite.svg#arrow-chevron-left"></use>
   </svg>`;
 
 const chevronRight = `
   <svg class="hds-icon" aria-hidden="true" role="img">
-    <use href="/assets/img/hds-sprite.svg#arrow-chevron-right"></use>
+    <use href="assets/img/hds-sprite.svg#arrow-chevron-right"></use>
   </svg>`;
 
 /**
