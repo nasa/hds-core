@@ -1,0 +1,31 @@
+# Single source of truth for the Storybook build, shared by the
+# build-storybook check in ci.yml and the deploy-storybook workflow.
+#
+# `npm run build` runs first: Storybook's staticDirs serves the compiled
+# CSS/assets from dist/ (preview-head.html links /css/*.min.css).
+#
+# Callers must check out the repo first; a local composite action isn't
+# available until then.
+
+name: 'Build Storybook'
+description: 'Install dependencies, build CSS/assets, and build the static Storybook into storybook-static/.'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: '24.15.0'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+      shell: bash
+
+    - name: Build CSS and assets
+      run: npm run build
+      shell: bash
+
+    - name: Build Storybook
+      run: npm run build-storybook
+      shell: bash
