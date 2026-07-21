@@ -75,7 +75,7 @@
     "autoprefixer": "^10.5.4",
     "concurrently": "^10.0.3",
     "cssnano": "^8.0.2",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "eslint-plugin-mdx": "^3.8.1",
     "eslint-plugin-storybook": "^10.5.3",
     "globals": "^17.7.0",
