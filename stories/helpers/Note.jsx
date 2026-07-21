@@ -20,7 +20,7 @@ export function Note({ type, children }) {
       <div className="usa-alert__body">
         <div className="usa-alert__text">
           <svg className="hds-icon hds-note__icon" aria-hidden="true" focusable="false">
-            <use xlinkHref={`/assets/img/${icon.sprite}.svg#${icon.id}`} />
+            <use xlinkHref={`assets/img/${icon.sprite}.svg#${icon.id}`} />
           </svg>
           <strong>{labels[resolvedType]}:</strong>
           <p>{children}</p>

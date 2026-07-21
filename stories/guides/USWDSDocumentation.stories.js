@@ -66,7 +66,7 @@ const page = `
             <img
               aria-hidden="true"
               class="usa-banner__header-flag"
-              src="/assets/img/us_flag_small.png"
+              src="assets/img/us_flag_small.png"
               alt=""
             />
           </div>
@@ -94,7 +94,7 @@ const page = `
           <div class="usa-banner__guidance tablet:grid-col-6">
             <img
               class="usa-banner__icon usa-media-block__img"
-              src="/assets/img/icon-dot-gov.svg"
+              src="assets/img/icon-dot-gov.svg"
               role="img"
               alt=""
               aria-hidden="true"
@@ -110,7 +110,7 @@ const page = `
           <div class="usa-banner__guidance tablet:grid-col-6">
             <img
               class="usa-banner__icon usa-media-block__img"
-              src="/assets/img/icon-https.svg"
+              src="assets/img/icon-https.svg"
               role="img"
               alt=""
               aria-hidden="true"
@@ -163,7 +163,7 @@ const page = `
       </div>
       <nav aria-label="Primary navigation," class="usa-nav">
         <button type="button" class="usa-nav__close">
-          <img src="/assets/img/usa-icons/close.svg" role="img" alt="Close" />
+          <img src="assets/img/usa-icons/close.svg" role="img" alt="Close" />
         </button>
         <ul class="usa-nav__primary usa-accordion">
           <li class="usa-nav__primary-item">
@@ -220,7 +220,7 @@ const page = `
             />
             <button class="usa-button" type="submit">
               <img
-                src="/assets/img/usa-icons-bg/search--white.svg"
+                src="assets/img/usa-icons-bg/search--white.svg"
                 class="usa-search__submit-icon"
                 alt="Search"
               />
@@ -406,7 +406,7 @@ const page = `
             <div class="mobile-lg:grid-col-auto">
               <img
                 class="usa-footer__logo-img"
-                src="/assets/img/logo-img.png"
+                src="assets/img/logo-img.png"
                 alt=""
               />
             </div>
@@ -420,7 +420,7 @@ const page = `
                 <a class="usa-social-link" href="javascript:void(0);"
                   ><img
                     class="usa-social-link__icon"
-                    src="/assets/img/usa-icons/facebook.svg"
+                    src="assets/img/usa-icons/facebook.svg"
                     alt="Facebook"
                 /></a>
               </div>
@@ -428,7 +428,7 @@ const page = `
                 <a class="usa-social-link" href="javascript:void(0);"
                   ><img
                     class="usa-social-link__icon"
-                    src="/assets/img/usa-icons/twitter.svg"
+                    src="assets/img/usa-icons/twitter.svg"
                     alt="Twitter"
                 /></a>
               </div>
@@ -436,7 +436,7 @@ const page = `
                 <a class="usa-social-link" href="javascript:void(0);"
                   ><img
                     class="usa-social-link__icon"
-                    src="/assets/img/usa-icons/youtube.svg"
+                    src="assets/img/usa-icons/youtube.svg"
                     alt="YouTube"
                 /></a>
               </div>
@@ -444,7 +444,7 @@ const page = `
                 <a class="usa-social-link" href="javascript:void(0);"
                   ><img
                     class="usa-social-link__icon"
-                    src="/assets/img/usa-icons/instagram.svg"
+                    src="assets/img/usa-icons/instagram.svg"
                     alt="Instagram"
                 /></a>
               </div>
@@ -452,7 +452,7 @@ const page = `
                 <a class="usa-social-link" href="javascript:void(0);"
                   ><img
                     class="usa-social-link__icon"
-                    src="/assets/img/usa-icons/rss_feed.svg"
+                    src="assets/img/usa-icons/rss_feed.svg"
                     alt="RSS"
                 /></a>
               </div>
@@ -485,7 +485,7 @@ const page = `
           <a href="javascript:void(0)" class="usa-identifier__logo"
             ><img
               class="usa-identifier__logo-img"
-              src="/assets/img/circle-gray-20.svg"
+              src="assets/img/circle-gray-20.svg"
               alt="&lt;Parent agency&gt; logo"
               role="img"
           /></a>

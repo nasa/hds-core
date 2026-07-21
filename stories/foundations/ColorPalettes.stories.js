@@ -7,7 +7,7 @@ export default {
 
 const icon = (name) => `
   <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#${name}"></use>
+    <use xlink:href="assets/img/hds-sprite.svg#${name}"></use>
   </svg>`;
 
 const paletteSample = () => `

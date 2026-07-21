@@ -33,7 +33,7 @@ const gridItem = (labelText, content) => `
   </div>`;
 
 const iconSvg = (name, sprite = 'hds') => {
-  const path = sprite === 'uswds' ? '/assets/img/sprite.svg' : '/assets/img/hds-sprite.svg';
+  const path = sprite === 'uswds' ? 'assets/img/sprite.svg' : 'assets/img/hds-sprite.svg';
   return `
     <svg class="hds-icon" aria-hidden="true" focusable="false">
       <use xlink:href="${path}#${name}"></use>

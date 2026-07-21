@@ -11,8 +11,8 @@ export default {
 // Helpers
 // ============================================================
 
-const SPRITE = '/assets/img/hds-sprite.svg';
-const USWDS_SPRITE = '/assets/img/sprite.svg';
+const SPRITE = 'assets/img/hds-sprite.svg';
+const USWDS_SPRITE = 'assets/img/sprite.svg';
 
 const icon = (name, size = '1.5rem', sprite = SPRITE) => `
   <svg class="hds-icon" aria-hidden="true" focusable="false"
