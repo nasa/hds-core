@@ -285,13 +285,13 @@ jobs:
         run: npx vitest run --project storybook --reporter=dot
 
   # -----------------------------------------------------------------------
-  # Build Storybook -- verifies the static Storybook build succeeds.
-  # Catches MDX parse errors, broken imports, and bad story configs before
-  # they reach the GitHub Pages deploy (roadmap §2).
+  # Build Storybook -- verifies the static build succeeds (catches MDX
+  # parse errors, broken imports, bad story configs) before it can reach
+  # the deploy-storybook workflow on main.
   #
-  # Does NOT use the dist artifact because it also triggers on mdx and
-  # storybook-config changes where the build job doesn't run. Always
-  # does its own full build to guarantee dist/ is available for staticDirs.
+  # Self-contained: unlike the jobs above it doesn't reuse the build
+  # artifact, since it also runs on mdx/storybook-config changes where the
+  # build job is skipped. The shared action runs the full build itself.
   # -----------------------------------------------------------------------
   build-storybook:
     name: Build / Storybook
@@ -305,19 +305,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build CSS and assets
-        run: npm run build
-
+      # Shared with the deploy-storybook workflow so the build sequence is
+      # defined once. See .github/actions/build-storybook.
       - name: Build Storybook
-        run: npm run build-storybook
+        uses: ./.github/actions/build-storybook
 
   # -----------------------------------------------------------------------
   # Bundle size -- downloads dist artifact, checks CSS file sizes.

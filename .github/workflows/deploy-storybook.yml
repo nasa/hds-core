@@ -1,0 +1,77 @@
+# Builds the static Storybook and deploys it to GitHub Pages. Runs on
+# pushes to main that touch a build input (see paths) and on manual
+# dispatch.
+#
+# Deploys via the "GitHub Actions" Pages source using GitHub's first-party
+# Pages actions -- no gh-pages branch, no deploy token. Auth is short-lived
+# OIDC, so only the deploy job elevates to pages/id-token: write.
+#
+# Served at https://nasa.github.io/hds-core/.
+
+name: Deploy Storybook
+
+on:
+  push:
+    branches:
+      - main
+    # Allowlist: only redeploy when an input to the static build changes.
+    # Unrelated churn (root *.md, configs, other workflows) is ignored;
+    # use workflow_dispatch to force a deploy if this ever misses one.
+    paths:
+      - 'stories/**'
+      - '.storybook/**'
+      - 'src/**' # compiled into dist/, loaded by the preview
+      - 'tokens.json' # feeds generated SCSS/CSS
+      - 'sd.config.js' # token generation
+      - 'scripts/**' # docs:meta + build helpers
+      - 'svg-sprite.config.json' # sprite -> dist/ assets
+      - 'postcss.config.mjs' # affects compiled CSS
+      - '.browserslistrc' # affects autoprefixer output
+      - 'package.json' # deps / build scripts
+      - 'package-lock.json'
+      - '.github/workflows/deploy-storybook.yml'
+      - '.github/actions/build-storybook/**'
+  workflow_dispatch:
+
+# Read-only by default; the deploy job elevates to what Pages needs.
+permissions:
+  contents: read
+
+# One Pages deploy at a time, and never cancel one mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Shared build; see .github/actions/build-storybook.
+      - name: Build Storybook
+        uses: ./.github/actions/build-storybook
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write # OIDC for deploy-pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
