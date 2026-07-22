@@ -1,16 +1,16 @@
 # @nasa/hds-core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.7.2-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.8.0-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
 > **Pre-1.0:** API and class names may change between minor versions. Not yet published to npm.
 
 ## What is HDS Core?
 
-NASA Horizon Design System (HDS) Core is a CSS design system built as a theme layer on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/). It applies NASA brand typography, color, spacing and component styling as required by NASA's web modernization policy [NID 2800.147](https://nodis3.gsfc.nasa.gov/OPD_Docs/NID_2800_147_.pdf) and [design standards](https://github.com/nasa/hds-core/blob/main/stories/overview/DesignStandards.mdx).
+NASA Horizon Design System (HDS) Core is a CSS design system built as a theme layer on top of the [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/). It applies NASA brand typography, color, spacing and component styling as required by NASA's web modernization policy [NID 2800.147](https://nodis3.gsfc.nasa.gov/OPD_Docs/NID_2800_147_.pdf) and [design standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs).
 
 HDS Core is intended for standalone NASA websites, applications and platforms approved to operate outside of the agency's flagship content management system (`www.nasa.gov` and `science.nasa.gov`), as well as microapps and embeds within the flagship that aren't styled by the CMS theme.
 
-Before adopting HDS Core, please read our [Getting Started guide](https://github.com/nasa/hds-core/blob/main/stories/overview/GettingStarted.mdx) to confirm your project aligns with NASA's web modernization and consolidation strategy. Interagency, non-.gov, and other non-NASA-branded sites should use [USWDS](https://designsystem.digital.gov/) instead.
+Before adopting HDS Core, please read our [Getting Started guide](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs) to confirm your project aligns with NASA's web modernization and consolidation strategy. Interagency, non-.gov, and other non-NASA-branded sites should use [USWDS](https://designsystem.digital.gov/) instead.
 
 ## Requirements
 
@@ -22,12 +22,11 @@ Before adopting HDS Core, please read our [Getting Started guide](https://github
 
 ## Documentation
 
-Full documentation, component examples, and integration guides are in Storybook, which will be available at <https://nasa.github.io/hds-core/> once repo is published. For now, you can build the Storybook locally or reference the `/stories/**/*.mdx` files directly. Key pages include:
+Full documentation, component examples, and integration guides are published in a Storybook at <https://nasa.github.io/hds-core/>. Key pages include:
 
-- [Getting Started](https://github.com/nasa/hds-core/blob/main/stories/overview/GettingStarted.mdx): Figure out whether HDS Core is the right tool for your project
-- [Installation](https://github.com/nasa/hds-core/blob/main/stories/overview/Installation.mdx): Technical setup for teams adopting HDS Core
-- Guides for [existing USWDS sites](https://github.com/nasa/hds-core/blob/main/stories/guides/USWDS.mdx), [React](https://github.com/nasa/hds-core/blob/main/stories/guides/ReactSetup.mdx), [no-build environments](https://github.com/nasa/hds-core/blob/main/stories/guides/NoBuildEnvironments.mdx) and [Sass configuration](https://github.com/nasa/hds-core/blob/main/stories/guides/SassConfiguration.mdx)
-- [Roadmap](https://github.com/nasa/hds-core/blob/main/stories/overview/Roadmap.mdx): Which HDS components are available now, what's coming before v1.0 and what's planned for future releases
+- [Getting Started](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs): Figure out whether HDS Core is the right tool for your project
+- [Installation](https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs): Technical setup for teams adopting HDS Core
+- Guides for [existing USWDS sites](https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs), [React](https://nasa.github.io/hds-core/?path=/docs/guides-react-guidance--docs), [no-build environments](https://nasa.github.io/hds-core/?path=/docs/guides-no-build-environments--docs) and [Sass configuration](https://nasa.github.io/hds-core/?path=/docs/guides-sass-configuration--docs)
 
 ## Installation
 
