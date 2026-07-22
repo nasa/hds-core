@@ -49,26 +49,26 @@ Component and foundation pages follow a predictable naming convention: `{Name}.m
 
 ### Non-obvious files
 
-| File                                      | Purpose                                                                                                       |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `helpers/Note.jsx`                        | Callout component (`uswds`, `figma`, `code` types) used in MDX guidance pages                                 |
-| `helpers/icons.js`                        | Single source of truth for icon ID arrays (HDS + USWDS). Used by Icons stories and any story embedding icons. |
-| `helpers/paletteTests.js`                 | Shared helpers for palette a11y stories (`paletteRender`, `paletteA11yParams`, `pseudoParams`)                |
-| `guides/existing-uswds-site/guidance.mdx` | Adopter migration guide for existing USWDS sites                                                              |
+| File | Purpose |
+| --- | --- |
+| `helpers/Note.jsx` | Callout component (`uswds`, `figma`, `code` types) used in MDX guidance pages |
+| `helpers/icons.js` | Single source of truth for icon ID arrays (HDS + USWDS). Used by Icons stories and any story embedding icons. |
+| `helpers/paletteTests.js` | Shared helpers for palette a11y stories (`paletteRender`, `paletteA11yParams`, `pseudoParams`) |
+| `guides/existing-uswds-site/guidance.mdx` | Adopter migration guide for existing USWDS sites |
 
 ## Storybook configuration
 
-| File                                   | Purpose                                                                                                                                                                                                 |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.storybook/main.js`                   | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI                                                                                                                             |
-| `.storybook/manager.js`                | Theme settings for Storybook with HDS colors, typography                                                                                                                                                |
-| `.storybook/manager-head.html`         | Fixes for Storybook sidebar and main templates                                                                                                                                                          |
-| `.storybook/modes.js`                  | Chromatic palette modes for FocusTest stories (imported by story files, not preview.js)                                                                                                                 |
-| `.storybook/preview.js`                | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out                                                                                                          |
-| `.storybook/preview-head.html`         | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`)                                                                                       |
+| File | Purpose |
+| --- | --- |
+| `.storybook/main.js` | Stories glob (MDX + CSF), addons, remark-gfm, staticDirs, disableSaveFromUI |
+| `.storybook/manager.js` | Theme settings for Storybook with HDS colors, typography |
+| `.storybook/manager-head.html` | Fixes for Storybook sidebar and main templates |
+| `.storybook/modes.js` | Chromatic palette modes for FocusTest stories (imported by story files, not preview.js) |
+| `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
+| `.storybook/preview-head.html` | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`) |
 | `.storybook/utils/in-page-nav-init.js` | Re-initializes USWDS in-page navigation per story render. Required because `DOMContentLoaded` has already fired when stories mount — USWDS JS does not auto-initialize dynamically rendered components. |
-| `chromatic.config.json`                | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`)                                                                                                                 |
-| `vitest.config.json`                   | Vitest                                                                                                                                                                                                  |
+| `chromatic.config.json` | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`) |
+| `vitest.config.json` | Vitest |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
@@ -527,10 +527,10 @@ Analyze the component's `:focus-visible` SCSS. One FocusTest per unique focus tr
 
 Example — Button has two distinct treatments:
 
-| Treatment                                   | SCSS                                                                | Visual               |
-| ------------------------------------------- | ------------------------------------------------------------------- | -------------------- |
-| `.usa-button` (all filled/outline variants) | `components/_button.scss`: `2px dashed Carbon-30` (fixed)           | Dashed gray ring     |
-| `.hds-btn--primary` (arrow button)          | `components/_primary-arrow-button.scss`: `2px dotted palette-aware` | Dotted, color adapts |
+| Treatment | SCSS | Visual |
+| --- | --- | --- |
+| `.usa-button` (all filled/outline variants) | `components/_button.scss`: `2px dashed Carbon-30` (fixed) | Dashed gray ring |
+| `.hds-btn--primary` (arrow button) | `components/_primary-arrow-button.scss`: `2px dotted palette-aware` | Dotted, color adapts |
 
 Result: 2 FocusTest stories for Button.
 
