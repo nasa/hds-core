@@ -292,6 +292,25 @@
   --hds-palette-bg: #{$hds-color-carbon-black};
 }
 
+// ── Government identifier — fixed black palette ───────────────
+// The USWDS identifier always renders on a near-black surface, so
+// it is pinned to the black palette regardless of the surrounding
+// site palette — it must look identical in light and dark
+// contexts. Setting the palette custom properties directly on
+// .usa-identifier overrides whatever an ancestor .hds-palette-*
+// wrapper would otherwise pass down to its links. Without this,
+// the identifier's HDS-styled links (.usa-link) inherit the outer
+// palette's near-black link color, failing contrast on the dark
+// identifier surface. Declared after all palette classes above so
+// it also wins over a palette class placed directly on the
+// element. See GitHub Issue #86.
+.usa-identifier {
+  @include _scheme-universal;
+  @include _scheme-dark;
+
+  --hds-palette-bg: #{$hds-color-carbon-black};
+}
+
 // ============================================================
 // AUTO DARK MODE
 // ============================================================

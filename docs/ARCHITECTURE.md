@@ -297,10 +297,10 @@ Components are organized by category in `components/_index.scss`:
 | **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
-| **Phase 2 stubs** | `_navigation.scss` | Header, footer, nav. Incomplete — inherited from prior work. |
-|  | `_banner.scss` | Government compliance bar. Incomplete. |
 
 Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
+
+Header, footer, nav, and the government compliance banner have **no HDS theming** and ship as bare USWDS defaults inside `@layer uswds`. Real HDS theming is Phase 2 (see [GitHub Issues](https://github.com/nasa/hds-core/issues)). The one exception is the USWDS identifier: `base/_palettes.scss` pins `.usa-identifier` to the black palette so its links stay legible on the dark identifier surface regardless of the surrounding site palette.
 
 ## Testing
 

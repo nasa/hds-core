@@ -55,9 +55,11 @@ _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 
 `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')` call inside `@layer uswds`. Do NOT revert to per-package `meta.load-css()` calls — this causes fonts to emit once per package (144 declarations vs. 6).
 
-### Stubs — do not modify
+### Header, footer, nav, banner — bare USWDS, no HDS theming
 
-`_navigation.scss` and `_banner.scss` are Phase 2 stubs. Do not modify without explicit permission.
+These components have no HDS theming and ship as bare USWDS defaults inside `@layer uswds`. There are no `_navigation.scss` / `_banner.scss` files — the earlier Phase 2 stubs were removed (Issue #86). Do not add HDS overrides for header, footer, nav, or the government compliance banner without explicit permission; real theming is Phase 2.
+
+The sole HDS treatment for these is in `base/_palettes.scss`: `.usa-identifier` is pinned to the black palette so its links stay legible regardless of the surrounding site palette.
 
 ## Design Tokens
 

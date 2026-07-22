@@ -9,7 +9,10 @@
 //   4. Navigation — breadcrumb, pagination, in-page nav
 //   5. Notifications — site alert, alert
 //   6. Layout — grid utilities
-//   7. Phase 2 stubs — navigation, banner
+//
+// Header, footer, nav, and the government compliance banner have
+// no HDS theming yet — they ship as bare USWDS defaults (see
+// docs/ARCHITECTURE.md → Component Files). Real theming is Phase 2.
 // ============================================================
 
 // ── Foundational ──
@@ -41,7 +44,3 @@
 
 // ── Layout ──
 @forward 'grid-utilities';
-
-// ── Phase 2 (stubs) ──
-@forward 'navigation';
-@forward 'banner';

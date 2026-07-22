@@ -6,8 +6,9 @@
 // .usa-site-alert--info.
 //
 // HDS Figma calls this "Banner" — renamed to match USWDS
-// component name. Not the same as the government compliance
-// banner (components/_banner.scss).
+// component name. Not the same as the USWDS government
+// compliance banner (.usa-banner), which ships unthemed —
+// HDS theming for it is Phase 2.
 //
 // Scoped --hds-palette-* vars on each variant so existing
 // link/heading/text wiring works automatically.
