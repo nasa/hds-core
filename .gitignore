@@ -1,6 +1,7 @@
 /node_modules/
 /dist/
 /assets/
+/.vscode/
 *.css.map
 *storybook.log
 storybook-static

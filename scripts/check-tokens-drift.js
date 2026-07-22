@@ -5,7 +5,7 @@ import { readFileSync, mkdirSync, rmSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import StyleDictionary from 'style-dictionary';
-import baseConfig from '../sd.config.js';
+import baseConfig from '../.config/sd.config.js';
 
 const ROOT = resolve(import.meta.dirname, '..');
 
