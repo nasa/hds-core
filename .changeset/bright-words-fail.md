@@ -1,5 +1,5 @@
 ---
-'@nasa/hds-core': minor
+'@nasa-hds/core': minor
 ---
 
 Wire Style Dictionary v5 generator; promote typography, spacing, layout, focus, and breakpoint tokens to first-class Sass variables and CSS custom properties
