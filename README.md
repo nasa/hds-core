@@ -109,7 +109,7 @@ npm test       # Unit tests + USWDS version checks
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting changes, the public API contract and the versioning policy.
 
-For architecture details and build pipeline documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+For architecture details and build pipeline documentation, see [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## License
 

@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-06-07
+Last updated: 2026-07-21
 
 ## Package Overview
 
@@ -90,11 +90,11 @@ hds-core/
 
 ## Build Output
 
-| Bundle | Contents | Gzipped | Who loads it |
-| --- | --- | --- | --- |
-| `hds.min.css` | All USWDS components + HDS base + HDS components | 43 KB | Everyone |
-| `hds-uswds.min.css` | USWDS utility classes (`.padding-*`, `.margin-*`, etc.) | 48 KB | Sites using USWDS utilities |
-| `hds-dataviz.min.css` | Data visualization color palettes | 1.2 KB | Sites rendering charts; standalone-capable |
+| Bundle                | Contents                                                | Gzipped | Who loads it                               |
+| --------------------- | ------------------------------------------------------- | ------- | ------------------------------------------ |
+| `hds.min.css`         | All USWDS components + HDS base + HDS components        | 43 KB   | Everyone                                   |
+| `hds-uswds.min.css`   | USWDS utility classes (`.padding-*`, `.margin-*`, etc.) | 48 KB   | Sites using USWDS utilities                |
+| `hds-dataviz.min.css` | Data visualization color palettes                       | 1.2 KB  | Sites rendering charts; standalone-capable |
 
 Vanilla USWDS reference: 73 KB (all components + utilities, no HDS theming).
 
@@ -123,14 +123,14 @@ All CSS output is organized into named cascade layers declared in every entry po
 
 First declaration wins. Subsequent declarations in other bundles are ignored.
 
-| Layer | Source | Contents | Empty if... |
-| --- | --- | --- | --- |
-| `uswds` | `hds.min.css` | All USWDS component defaults |  |
-| `uswds-utils` | `hds-uswds.min.css` | USWDS utility classes | `hds-uswds.min.css` not loaded |
-| `hds-base` | `hds.min.css` | Custom properties, element styles, palettes |  |
-| `hds-components` | `hds.min.css` | HDS component overrides |  |
-| `hds-dataviz` | `hds-dataviz.min.css` | Dataviz palettes | `hds-dataviz.min.css` not loaded |
-| `site` | Adopter | Reserved for adopter overrides — always wins |  |
+| Layer            | Source                | Contents                                     | Empty if...                      |
+| ---------------- | --------------------- | -------------------------------------------- | -------------------------------- |
+| `uswds`          | `hds.min.css`         | All USWDS component defaults                 |                                  |
+| `uswds-utils`    | `hds-uswds.min.css`   | USWDS utility classes                        | `hds-uswds.min.css` not loaded   |
+| `hds-base`       | `hds.min.css`         | Custom properties, element styles, palettes  |                                  |
+| `hds-components` | `hds.min.css`         | HDS component overrides                      |                                  |
+| `hds-dataviz`    | `hds-dataviz.min.css` | Dataviz palettes                             | `hds-dataviz.min.css` not loaded |
+| `site`           | Adopter               | Reserved for adopter overrides — always wins |                                  |
 
 **`hds.scss`** build order:
 
@@ -278,27 +278,27 @@ Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defi
 
 Components are organized by category in `components/_index.scss`:
 
-| Category | File | Notes |
-| --- | --- | --- |
-| **Text styles** | `_text-styles.scss` | `.hds-overline`, `.hds-metadata`, `.hds-caption` |
-| **Foundational** | `_link.scss` | Loaded before button (unstyled button depends on link appearance) |
-|  | `_button.scss` | CTA, secondary, outline, unstyled, blue palette override |
-|  | `_icon-button.scss` | 6 roles, 8 sizes, inline glyph |
-|  | `_primary-arrow-button.scss` | Text + red circle arrow, 6 sizes |
-| **Form controls** | `_form.scss` | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
-| **Content** | `_intro-text.scss` |  |
-|  | `_list.scss` | Unordered (::marker), ordered (::before counter + flex), unstyled reset |
-|  | `_table.scss` | Base, sorted columns, sort icons, borderless, dark palette, print |
-|  | `_accordion.scss` | Circled chevron replaces USWDS +/−. Uses USWDS JS. |
-|  | `_blockquote.scss` | `.hds-blockquote` - Quote icon, person vs. source attribution, palette token |
-| **Navigation** | `_breadcrumb.scss` | Forward-slash separators replace USWDS chevrons |
-|  | `_pagination.scss` | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled. |
-|  | `_in-page-nav.scss` | Scroll spy sidebar for long-form content. Uses USWDS JS. |
-| **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
-|  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
-| **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
-| **Phase 2 stubs** | `_navigation.scss` | Header, footer, nav. Incomplete — inherited from prior work. |
-|  | `_banner.scss` | Government compliance bar. Incomplete. |
+| Category          | File                         | Notes                                                                        |
+| ----------------- | ---------------------------- | ---------------------------------------------------------------------------- |
+| **Text styles**   | `_text-styles.scss`          | `.hds-overline`, `.hds-metadata`, `.hds-caption`                             |
+| **Foundational**  | `_link.scss`                 | Loaded before button (unstyled button depends on link appearance)            |
+|                   | `_button.scss`               | CTA, secondary, outline, unstyled, blue palette override                     |
+|                   | `_icon-button.scss`          | 6 roles, 8 sizes, inline glyph                                               |
+|                   | `_primary-arrow-button.scss` | Text + red circle arrow, 6 sizes                                             |
+| **Form controls** | `_form.scss`                 | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
+| **Content**       | `_intro-text.scss`           |                                                                              |
+|                   | `_list.scss`                 | Unordered (::marker), ordered (::before counter + flex), unstyled reset      |
+|                   | `_table.scss`                | Base, sorted columns, sort icons, borderless, dark palette, print            |
+|                   | `_accordion.scss`            | Circled chevron replaces USWDS +/−. Uses USWDS JS.                           |
+|                   | `_blockquote.scss`           | `.hds-blockquote` - Quote icon, person vs. source attribution, palette token |
+| **Navigation**    | `_breadcrumb.scss`           | Forward-slash separators replace USWDS chevrons                              |
+|                   | `_pagination.scss`           | Numbered + HDS simplified variant. Legacy USWDS arrows auto-restyled.        |
+|                   | `_in-page-nav.scss`          | Scroll spy sidebar for long-form content. Uses USWDS JS.                     |
+| **Notifications** | `_site-alert.scss`           | Emergency (red) and info (blue) variants with scoped palette vars            |
+|                   | `_alert.scss`                | Minimal override. Pure USWDS, not in HDS Figma.                              |
+| **Layout**        | `_grid-utilities.scss`       | Responsive reverse, horizontal lists, section spacing                        |
+| **Phase 2 stubs** | `_navigation.scss`           | Header, footer, nav. Incomplete — inherited from prior work.                 |
+|                   | `_banner.scss`               | Government compliance bar. Incomplete.                                       |
 
 Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
 
@@ -368,16 +368,6 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Form error: red outline on error fields lost on hover — hover state overrides error border color
 - [ ] Table: Sort button focus ring clipped by mask-image — invisible in all palettes (see FocusSortButton Chromatic baseline)
 
-### Components
-
-- [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
-- [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
-
-### Pre-1.0 Verification
-
-- [ ] Spec verification pass across all components against Figma
-- [ ] Screen reader testing (NVDA, VoiceOver)
-
 ### Post-1.0
 
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
@@ -388,4 +378,4 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ## Contributing
 
-This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](../CONTRIBUTING.md).

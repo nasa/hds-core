@@ -220,7 +220,7 @@ These prevent silent parser failures:
 
 ### Focus rings
 
-- Implementation: `_hds-mixins.scss` (mixins), `base/_focus.scss` (global baseline). See ARCHITECTURE.md for signatures and application methods, DESIGN.md for treatment rationale.
+- Implementation: `_hds-mixins.scss` (mixins), `base/_focus.scss` (global baseline). See docs/ARCHITECTURE.md for signatures and application methods, docs/DESIGN.md for treatment rationale.
 - When adding focus rings to a new component, use the existing mixin infrastructure (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). If you cannot match the Figma spec with the existing mixins, flag to the user for a strategic call — do not hardcode focus styles at the component level or silently modify the mixin.
 - Form text inputs, textareas, and selects use a solid blue 2px border highlight, not the dashed system. Intentional, tracked in Issue #20.
 - `.hds-btn-icon--interactive` uses the same `hds-focus-ring($shape: 'circle')` as all other icon button roles but overrides `::before { background-color }` with a hardcoded `$hds-color-carbon-40`. These buttons live over images, video, and 3D content where palette containers don't apply.
@@ -240,6 +240,6 @@ For deeper context beyond these instructions:
 
 - **CONTRIBUTING.md** — PR guidelines, code style conventions, steps for adding new components, semver rubric for deciding changeset bump levels.
 - **public-api.snapshot.txt** — The committed, machine-generated list of everything HDS promises adopters. If it changes in your PR, you need a changeset.
-- **ARCHITECTURE.md** — Build pipeline, cascade layer architecture, Chromatic setup, focus ring implementation details, icon architecture.
-- **DESIGN.md** — Visual and UX rationale. Explains intentional deviations from USWDS and Figma. Check here before "fixing" any apparent Figma discrepancy.
-- **DOCUMENTATION.md** — Full standards for authoring Storybook `.mdx` files and component stories. Read when creating or editing documentation pages.
+- **docs/ARCHITECTURE.md** — Build pipeline, cascade layer architecture, Chromatic setup, focus ring implementation details, icon architecture.
+- **docs/DESIGN.md** — Visual and UX rationale. Explains intentional deviations from USWDS and Figma. Check here before "fixing" any apparent Figma discrepancy.
+- **docs/DOCUMENTATION.md** — Full standards for authoring Storybook `.mdx` files and component stories. Read when creating or editing documentation pages.
