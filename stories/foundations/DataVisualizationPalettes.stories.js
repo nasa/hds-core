@@ -12,7 +12,7 @@
 // Enable: $hds-enable-dataviz-tokens: true in _hds-config.scss
 //
 // Architecture:
-//   - Scoped <style> block per DOCUMENTATION.md demo-only pattern
+//   - Scoped <style> block per docs/DOCUMENTATION.md demo-only pattern
 //   - USWDS hex values in one const map (single source of truth)
 //   - HDS colors via var(--hds-color-*) CSS custom properties
 //   - WCAG AA auto text color via JS luminance function

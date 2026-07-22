@@ -137,7 +137,7 @@ export const StackingDemo = {
 // Chromatic visual regression (hidden from sidebar)
 // Captures one composite story at all 7 HDS breakpoints to
 // catch gutter (4→16→24px), margin (16→32px), and container
-// max-width regressions. See ARCHITECTURE.md § Pending Work.
+// max-width regressions. See docs/ARCHITECTURE.md § Pending Work.
 // ============================================================
 
 const gridChromaticParams = {

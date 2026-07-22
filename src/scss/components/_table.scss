@@ -45,7 +45,7 @@
 //   - Advanced features (tabs, actions bar, filters,
 //     downloads, accordion mobile, fixed first column)
 //
-// See DESIGN.md for design rationale.
+// See docs/DESIGN.md for design rationale.
 //
 // Restyles: https://designsystem.digital.gov/components/table/
 // ============================================================
@@ -252,7 +252,7 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 // sort buttons (ring color inverse of the component's own fill).
 // Not yet implemented — sort buttons currently inherit the global
 // focus ring from base/_focus.scss (default treatment, 1px dashed).
-// See DESIGN.md Table section and FocusSortButton story.
+// See docs/DESIGN.md Table section and FocusSortButton story.
 //
 // ⚠️ mask-image clips the focus ring on this element — the sort
 // button has no visible :focus-visible indicator. Fix when
