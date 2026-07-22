@@ -36,8 +36,8 @@
     "check:api-snapshot": "node scripts/check-public-api/index.js",
     "check:tokens": "node scripts/check-tokens-drift.js",
     "update:api-snapshot": "node scripts/check-public-api/update-snapshot.js",
-    "sprite": "svg-sprite --config svg-sprite.config.json src/assets/img/hds-icons/*.svg",
-    "build:tokens": "style-dictionary build --config sd.config.js",
+    "sprite": "svg-sprite --config .config/svg-sprite.config.json src/assets/img/hds-icons/*.svg",
+    "build:tokens": "style-dictionary build --config .config/sd.config.js",
     "init": "node -e \"const fs=require('fs');['dist/css','dist/js','dist/assets/fonts','dist/assets/img'].forEach(d=>fs.mkdirSync(d,{recursive:true}))\" && npm run copy:all && npm run sprite",
     "build": "npm run build:tokens && npm run init && npm run sass:hds && npm run postcss:hds && npm run sass:uswds && npm run postcss:uswds && npm run sass:dataviz && npm run postcss:dataviz && npm run clean:intermediate",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
@@ -45,20 +45,25 @@
     "dev": "npm run docs:meta && concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
     "storybook": "storybook dev -p 6006 --no-open --ci",
     "build-storybook": "npm run docs:meta && storybook build",
-    "format": "prettier --check --cache \"**/*.{md,mdx,js,json}\"",
-    "format:fix": "prettier --write --list-different --cache \"**/*.{md,mdx,js,json}\"",
+    "format": "prettier --check --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,json}\"",
+    "format:fix": "prettier --write --list-different --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,json}\"",
     "lint": "npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx && npm run lint:lockfile",
-    "lint:scss": "stylelint \"src/scss/**/*.scss\"",
-    "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix",
+    "lint:scss": "stylelint \"src/scss/**/*.scss\" --config .config/stylelintrc.json --ignore-path .config/stylelintignore",
+    "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix --config .config/stylelintrc.json --ignore-path .config/stylelintignore",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
-    "lint:md": "remark --rc-path .remarkrc.mjs --quiet --frail *.md .github/**/*.md",
-    "lint:mdx": "remark --rc-path .remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
+    "lint:md": "remark --rc-path .config/remarkrc.mjs --quiet --frail *.md docs/**/*.md .github/**/*.md",
+    "lint:mdx": "remark --rc-path .config/remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
     "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm",
     "test": "vitest run --reporter=dot",
     "test:watch": "vitest watch",
-    "test:visual": "chromatic --log-level warn"
+    "test:visual": "chromatic --config-file .config/chromatic.config.json --log-level warn"
   },
+  "browserslist": [
+    "> 2%",
+    "last 2 versions",
+    "not dead"
+  ],
   "peerDependencies": {
     "@uswds/uswds": "^3.13.0"
   },
