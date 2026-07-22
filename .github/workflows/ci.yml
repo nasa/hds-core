@@ -73,7 +73,7 @@ jobs:
               - '.storybook/**'
             tokens:
               - 'tokens.json'
-              - 'sd.config.js'
+              - '.config/sd.config.js'
 
   # -----------------------------------------------------------------------
   # Lint: lockfile -- always runs (fast, supply chain check)
@@ -479,10 +479,10 @@ jobs:
         run: npm run check:uswds
 
   # -----------------------------------------------------------------------
-  # Tokens drift check -- runs when tokens.json, sd.config.js, or any file
+  # Tokens drift check -- runs when tokens.json, .config/sd.config.js, or any file
   # under src/scss/ changes. The scss filter is included (not just tokens)
   # so a hand-edit directly to a generated file (bypassing the generator)
-  # still gets caught, since it wouldn't otherwise touch tokens.json/sd.config.js.
+  # still gets caught, since it wouldn't otherwise touch tokens.json/.config/sd.config.js.
   # Ensures committed generated files stay in sync with token sources.
   # Regenerates tokens and compares to committed files. Fails if drift detected.
   # Runtime: ~1.6s for token generation + comparison overhead.

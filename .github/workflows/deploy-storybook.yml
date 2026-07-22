@@ -22,12 +22,11 @@ on:
       - '.storybook/**'
       - 'src/**' # compiled into dist/, loaded by the preview
       - 'tokens.json' # feeds generated SCSS/CSS
-      - 'sd.config.js' # token generation
+      - '.config/sd.config.js' # token generation
       - 'scripts/**' # docs:meta + build helpers
-      - 'svg-sprite.config.json' # sprite -> dist/ assets
+      - '.config/svg-sprite.config.json' # sprite -> dist/ assets
       - 'postcss.config.mjs' # affects compiled CSS
-      - '.browserslistrc' # affects autoprefixer output
-      - 'package.json' # deps / build scripts
+      - 'package.json' # deps / build scripts (incl. browserslist for autoprefixer)
       - 'package-lock.json'
       - '.github/workflows/deploy-storybook.yml'
       - '.github/actions/build-storybook/**'
