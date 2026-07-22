@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-06-07
+Last updated: 2026-07-21
 
 ## Package Overview
 
@@ -368,16 +368,6 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Form error: red outline on error fields lost on hover — hover state overrides error border color
 - [ ] Table: Sort button focus ring clipped by mask-image — invisible in all palettes (see FocusSortButton Chromatic baseline)
 
-### Components
-
-- [ ] 4xl type token (120px): custom classes for H1-2xl / Number-lg
-- [ ] Decide whether to keep or remove Navigation and Banner CSS stubs from v1.0 build
-
-### Pre-1.0 Verification
-
-- [ ] Spec verification pass across all components against Figma
-- [ ] Screen reader testing (NVDA, VoiceOver)
-
 ### Post-1.0
 
 - [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
@@ -388,4 +378,4 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 
 ## Contributing
 
-This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](../CONTRIBUTING.md).

@@ -13,10 +13,8 @@ import { Footer } from './Footer.jsx';
 
 const REPO = 'https://github.com/nasa/hds-core';
 
-// Temporary: points to docs/ocomm-review for OCOMM pre-v1.0 review.
-// Restore to 'main' when branch protection is in place.
 // Full footer rehaul can derive this from git context at build time.
-const EDIT_BRANCH = 'docs/ocomm-review';
+const EDIT_BRANCH = 'main';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

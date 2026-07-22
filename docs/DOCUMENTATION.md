@@ -147,6 +147,7 @@ Never inline live HDS component HTML directly in MDX. MDX renders in React conte
 
 Stories that need visual styling for demonstration purposes (e.g., Grid column backgrounds) should use a scoped `<style>` block with a wrapper class, not inline styles on every element. This keeps "Show code" output clean and avoids shipping demo artifacts.
 
+<!-- prettier-ignore -->
 ```js
 const demoStyles = `<style>
   .grid-demo [class*="grid-col"] {
@@ -190,6 +191,7 @@ Three types for contextual information that supplements guidance:
 | `figma` | Differs from Figma | Where HDS Core intentionally deviates from the HDS Figma spec      |
 | `code`  | How this works     | Technical detail useful for understanding, not essential for usage |
 
+<!-- prettier-ignore -->
 ```mdx
 import { Note } from '../helpers/Note';
 
@@ -266,6 +268,7 @@ Every component should have one `AllVariants` sidebar story that serves dual dut
 
 When `AllVariants` renders multiple instances of a component that shares a landmark role (e.g., multiple `<nav>` elements in Pagination), disable the `landmark-unique` axe rule on that story:
 
+<!-- prettier-ignore -->
 ```js
 const multiNavA11y = {
   a11y: {
@@ -308,6 +311,7 @@ render: (args = {}) => {
 
 Stories referenced only by `<Canvas of={} />` in MDX. Tagged `!dev` to hide from sidebar:
 
+<!-- prettier-ignore -->
 ```js
 export const PrimaryArrowSizes = {
   name: 'Primary arrow sizes',
@@ -318,6 +322,7 @@ export const PrimaryArrowSizes = {
 
 **Consolidate related states into labeled composed stories** rather than creating one story per state:
 
+<!-- prettier-ignore -->
 ```js
 export const BoundedStates = {
   name: 'Bounded states',
@@ -389,6 +394,7 @@ const gridItem = (labelText, content) => `
 
 For components with multiple roles or variants, consider shared arg types and render factories to reduce duplication:
 
+<!-- prettier-ignore -->
 ```js
 const disabledArgTypes = {
   label: { control: 'text' },
@@ -424,6 +430,7 @@ Icon ID arrays live in `stories/helpers/icons.js` — the single source of truth
 
 Every palette-aware component should include hidden stories that test contrast across all palettes. Use the shared helpers from `stories/helpers/paletteTests.js`:
 
+<!-- prettier-ignore -->
 ```js
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 ```
@@ -432,6 +439,7 @@ import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/palet
 
 Pseudo-states are applied via `pseudoParams` spread into parameters:
 
+<!-- prettier-ignore -->
 ```js
 // Default state — stacked paletteRender
 export const PaletteA11y = {
@@ -484,6 +492,7 @@ The `storybook-addon-pseudo-states` approach (still used for hover) has known ti
 
 ### Pattern
 
+<!-- prettier-ignore -->
 ```js
 import { expect } from 'storybook/test';
 import { paletteModes } from '../../.storybook/modes';
@@ -561,7 +570,7 @@ For play-function stories, the play function itself provides implicit delay — 
 
 USWDS accordion-based components (Banner, Header nav) also need initial DOM state correction. The accordion initial-state decorator in preview.js collapses panels whose trigger has aria-expanded="false" and hides mobile nav elements. This runs globally on all stories — no per-story configuration needed.
 
-USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See test-uswds-js.html for validation outside Storybook.
+USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See `test-uswds-js.html` for validation outside Storybook.
 
 ## Guide stories
 
@@ -570,14 +579,6 @@ Fullscreen USWDS baseline templates (layout: 'fullscreen', options: { showPanel:
 Use site alert component for inline context linking back to guidance MDX.
 
 ## Chromatic budget and configuration
-
-### Snapshot budget
-
-Target: ~100–120 snapshots per build at steady state
-
-Current: 153 tests (could be consolidated with smarter integration stories)
-
-At the 5,000 free snapshots/month tier: ~32 builds/month.
 
 ### Chromatic accessibility tests
 

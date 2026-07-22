@@ -4,7 +4,7 @@ HDS Core is NASA's design system for public-facing websites on `*.nasa.gov` doma
 
 Whether you're fixing a typo, reporting a browser bug, proposing a new component pattern, or improving accessibility, your contribution helps make NASA's web presence better for the public. We want to make the contribution process as clear and low-friction as possible.
 
-All contributions are released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see [Licensing of contributions](#licensing-of-contributions) for details.
+All contributions are released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see our [LICENSE](LICENSE.md) file for details.
 
 ## Scope
 
@@ -93,7 +93,7 @@ When you open a Pull Request, a template will populate automatically. Fill it ou
 
 ### Match the design standards
 
-HDS Core implements NASA's [Design Standards](?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](DESIGN.md) for how we map to USWDS, color precision, and link logic. If you're unsure whether a visual change fits, open a Discussion first and we'll work through it together before you write code.
+HDS Core implements NASA's [Design Standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](docs/DESIGN.md) for how we map to USWDS, color precision, and link logic. If you're unsure whether a visual change fits, open a Discussion first and we'll work through it together before you write code.
 
 ### Test across palettes
 
@@ -105,7 +105,7 @@ Components must be fully responsive. Test your work across mobile, tablet, and d
 
 ### Keep accessibility in scope
 
-Interactive elements need visible focus indicators. Color alone cannot convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](?path=/docs/foundations-accessibility--docs) for detailed guidance.
+Interactive elements need visible focus indicators. Color alone cannot convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](https://nasa.github.io/hds-core/?path=/docs/foundations-accessibility--docs) for detailed guidance.
 
 ### Automated checks
 
@@ -190,11 +190,11 @@ When filing, note in the issue title or description that the root cause is upstr
 
 - **Sass and PostCSS:** Write styles using Sass, processed with PostCSS. Keep code clean, modular, and lean.
 - **Naming conventions:** Follow BEM (Block Element Modifier) for custom CSS classes (`.hds-block`, `.hds-block__element`, `.hds-block--modifier`). For Sass variables and DTCG tokens, use lowercase kebab-case.
-- **File organization:** Place component styles in `src/scss/components/`. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
+- **File organization:** Place component styles in `src/scss/components/`. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
 
 ## Storybook documentation
 
-Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms).
+Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](docs/DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms).
 
 For prose-only edits — rewording guidance, fixing typos, updating copy — see [Edit documentation](#edit-documentation) above. No development setup needed.
 
@@ -238,10 +238,6 @@ HDS Core is released into the worldwide public domain under the [CC0 1.0 Univers
 By submitting a contribution — code, documentation, or any other material — you agree that your contribution is released under CC0 1.0 alongside the rest of the project. You are dedicating it to the public domain and waiving all copyright and related rights, worldwide, to the fullest extent permitted by law.
 
 Only contribute work you have the right to dedicate this way. Don't submit code, fonts, images, or other assets that are owned by someone else or licensed under terms incompatible with CC0. Bundled third-party assets (such as the Inter and DM Mono fonts under the SIL Open Font License) are the exception and are tracked separately in [LICENSE.md](LICENSE.md).
-
-## Code of Conduct
-
-{/_ TODO: NASA's standard open-source code of conduct. Confirm with OGC/open-source approval process what language to use here. Placeholder until then. _/}
 
 ## Questions?
 
