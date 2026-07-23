@@ -341,6 +341,14 @@ export const ErrorModern = {
       hint: 'e.g., mission-lead@nasa.gov',
       error: 'Incorrect email address format',
     }),
+  play: async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole('textbox', { name: 'Email address' });
+    const errorBorderColor = getComputedStyle(input).borderTopColor;
+
+    await userEvent.hover(input);
+
+    await expect(getComputedStyle(input).borderTopColor).toBe(errorBorderColor);
+  },
 };
 
 // Error with multiline message — confirms icon stays top-aligned
