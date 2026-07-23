@@ -1,7 +1,7 @@
 // .storybook/modes.js
 // ============================================================
 // Chromatic palette modes for HDS Core
-// @nasa/hds-core
+// @nasa-hds/core
 // ============================================================
 // Used by FocusTest stories to capture :focus-visible rings
 // on each palette background independently.

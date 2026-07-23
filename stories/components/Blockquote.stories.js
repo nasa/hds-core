@@ -1,5 +1,5 @@
 // ============================================================
-// Blockquote Stories — @nasa/hds-core
+// Blockquote Stories — @nasa-hds/core
 // CSS: components/_blockquote.scss, base/_elements.scss
 //
 // Sidebar structure:

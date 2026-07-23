@@ -1,5 +1,5 @@
 // ============================================================
-// Site Alert Stories — @nasa/hds-core
+// Site Alert Stories — @nasa-hds/core
 // CSS: components/_site-alert.scss
 //
 // NAMING: HDS Figma calls this "Banner." HDS Core uses

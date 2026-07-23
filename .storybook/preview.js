@@ -1,6 +1,6 @@
 // ============================================================
 // HDS Core Storybook Preview Configuration
-// @nasa/hds-core
+// @nasa-hds/core
 // ============================================================
 // Configures the story rendering environment: palette toolbar,
 // viewport presets, accessibility testing, story sort order,

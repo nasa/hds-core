@@ -1,5 +1,5 @@
 // ============================================================
-// List Stories — @nasa/hds-core
+// List Stories — @nasa-hds/core
 // CSS: components/_list.scss
 //
 // Sidebar structure:

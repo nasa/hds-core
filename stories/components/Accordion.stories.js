@@ -1,5 +1,5 @@
 // ============================================================
-// Accordion Stories — @nasa/hds-core
+// Accordion Stories — @nasa-hds/core
 // CSS: components/_accordion.scss
 //
 // Sidebar structure:
