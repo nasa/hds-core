@@ -1,5 +1,5 @@
 // ============================================================
-// Icon Button Stories — @nasa/hds-core
+// Icon Button Stories — @nasa-hds/core
 // CSS: components/_icon-button.scss
 //
 // Sidebar structure:

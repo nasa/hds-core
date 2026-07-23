@@ -1,5 +1,5 @@
 // ============================================================
-// Radio Button Stories — @nasa/hds-core
+// Radio Button Stories — @nasa-hds/core
 // CSS: components/_form.scss
 //
 // Sidebar structure:

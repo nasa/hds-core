@@ -1,5 +1,5 @@
 // ============================================================
-// Breadcrumb Stories — @nasa/hds-core
+// Breadcrumb Stories — @nasa-hds/core
 // CSS: components/_breadcrumb.scss
 //
 // Sidebar structure:

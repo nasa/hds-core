@@ -1,10 +1,14 @@
-# Runs on every push to main.
-# Two modes:
-#   1. Changeset files exist -- opens/updates "Version Packages" PR
-#   2. Version Packages PR was just merged (version bumped) --
-#      creates git tag, builds dist, generates SBOM, creates GitHub Release
+# Runs on every push to main, as two jobs:
+#   version  -- opens/updates the "Version Packages" PR while changesets exist,
+#               and detects when a version bump has just landed on main. When a
+#               bump lands it builds dist + SBOM once and uploads them.
+#   publish  -- runs ONLY when a bump landed (the Version Packages PR was merged):
+#               downloads the prebuilt dist + SBOM, publishes to npm, tags, and
+#               creates the GitHub Release. Gated on the `npm-publish` environment.
 #
-# npm publish is not yet wired, but should be set up once the repo is public.
+# npm publish uses OIDC trusted publishing -- no NPM_TOKEN secret is stored.
+# The id-token: write permission lets the runner mint an OIDC token that npm
+# (>= 11.5.1) exchanges for a short-lived publish credential.
 
 name: Release
 
@@ -16,12 +20,16 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
-  release:
-    name: Release
+  version:
+    name: Version
     runs-on: ubuntu-latest
     if: "github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/main'"
+    outputs:
+      released: ${{ steps.version-check.outputs.released }}
+      version: ${{ steps.version-check.outputs.version }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -52,24 +60,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Everything below runs only when a version bump landed on main
-      # (i.e., the Version Packages PR was just merged).
-      # Detection: check whether an exact tag for the committed version already
-      # exists. Using git tag -l rather than git describe avoids a false-positive
-      # on repos with no prior tags (git describe falls back to v0.0.0, which
-      # never matches any real version).
-
+      # A release should run only when a version bump just landed on main
+      # (i.e., the Version Packages PR was merged). Detection: check whether an
+      # exact tag for the committed version already exists. Using git tag -l
+      # rather than git describe avoids a false-positive on repos with no prior
+      # tags (git describe falls back to v0.0.0, which never matches a real
+      # version).
       - name: Check if version was bumped
         id: version-check
         run: |
           CURRENT="${{ steps.committed-version.outputs.version }}"
           if git tag -l "v${CURRENT}" | grep -q "v${CURRENT}"; then
             echo "released=false" >> $GITHUB_OUTPUT
-            echo "Tag v${CURRENT} already exists -- skipping release steps"
+            echo "Tag v${CURRENT} already exists -- no release"
           else
             echo "released=true" >> $GITHUB_OUTPUT
             echo "version=$CURRENT" >> $GITHUB_OUTPUT
-            echo "No tag for v${CURRENT} found -- release steps will run"
+            echo "No tag for v${CURRENT} found -- release will run"
           fi
 
       - name: Build
@@ -80,23 +87,69 @@ jobs:
         if: steps.version-check.outputs.released == 'true'
         run: npx @cyclonedx/cyclonedx-npm --output-file sbom.json
 
-      - name: Get changelog entry
+      - name: Upload release artifacts
         if: steps.version-check.outputs.released == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: |
+            dist
+            sbom.json
+          retention-days: 1
+          include-hidden-files: true
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: version
+    if: needs.version.outputs.released == 'true'
+    # Gates the release behind the npm-publish environment's required reviewers.
+    environment: npm-publish
+    steps:
+      # Checkout provides package.json, src/ (published Sass + assets), and
+      # CHANGELOG.md; dist/ and sbom.json come from the version job's artifact.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.15.0'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+
+      # Trusted publishing needs npm >= 11.5.1; the Node runtime above ships an
+      # older bundled npm, so upgrade before publishing.
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
+      # No NODE_AUTH_TOKEN: the OIDC token (id-token: write) authenticates the
+      # publish, and npm attaches provenance automatically. --provenance is kept
+      # explicit because npm has not always inferred it from the OIDC context.
+      # --ignore-scripts skips the prepack rebuild: dist/ is already present from
+      # the artifact, and node_modules was never installed in this job.
+      - name: Publish to npm
+        run: npm publish --provenance --access public --ignore-scripts
+
+      - name: Get changelog entry
         run: |
           awk '/^## /{found++} found==1{print} found==2{exit}' CHANGELOG.md > release-notes.md
 
       - name: Create dist zip
-        if: steps.version-check.outputs.released == 'true'
         run: |
-          cd dist && zip -r ../hds-core-v${{ steps.version-check.outputs.version }}-dist.zip . && cd ..
+          cd dist && zip -r ../hds-core-v${{ needs.version.outputs.version }}-dist.zip . && cd ..
 
       - name: Create GitHub Release
-        if: steps.version-check.outputs.released == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ steps.version-check.outputs.version }}" \
-            --title "v${{ steps.version-check.outputs.version }}" \
+          gh release create "v${{ needs.version.outputs.version }}" \
+            --title "v${{ needs.version.outputs.version }}" \
             --notes-file release-notes.md \
-            "hds-core-v${{ steps.version-check.outputs.version }}-dist.zip#dist artifacts" \
+            "hds-core-v${{ needs.version.outputs.version }}-dist.zip#dist artifacts" \
             "sbom.json#SBOM (CycloneDX)"

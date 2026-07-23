@@ -1,9 +1,21 @@
 {
-  "name": "@nasa/hds-core",
+  "name": "@nasa-hds/core",
   "version": "0.8.0",
   "description": "NASA Horizon Design System (HDS) Core — design tokens, base styles, and USWDS theme configuration.",
   "license": "CC0-1.0",
   "type": "module",
+  "homepage": "https://nasa.github.io/hds-core/",
+  "bugs": {
+    "url": "https://github.com/nasa/hds-core/issues"
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "exports": {
     "./css": "./dist/css/hds.min.css",
     "./css/uswds": "./dist/css/hds-uswds.min.css",
@@ -40,6 +52,7 @@
     "build:tokens": "style-dictionary build --config .config/sd.config.js",
     "init": "node -e \"const fs=require('fs');['dist/css','dist/js','dist/assets/fonts','dist/assets/img'].forEach(d=>fs.mkdirSync(d,{recursive:true}))\" && npm run copy:all && npm run sprite",
     "build": "npm run build:tokens && npm run init && npm run sass:hds && npm run postcss:hds && npm run sass:uswds && npm run postcss:uswds && npm run sass:dataviz && npm run postcss:dataviz && npm run clean:intermediate",
+    "prepack": "npm run build",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
     "docs:meta": "node scripts/generate-docs-meta.mjs",
     "dev": "npm run docs:meta && concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
@@ -78,7 +91,7 @@
     "@vitest/browser-playwright": "^4.1.10",
     "@vitest/coverage-v8": "^4.1.0",
     "autoprefixer": "^10.5.4",
-    "concurrently": "^10.0.3",
+    "concurrently": "^9.2.4",
     "cssnano": "^8.0.2",
     "eslint": "^10.7.0",
     "eslint-plugin-mdx": "^3.8.1",

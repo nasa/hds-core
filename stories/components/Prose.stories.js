@@ -1,5 +1,5 @@
 // ============================================================
-// Prose Stories — @nasa/hds-core
+// Prose Stories — @nasa-hds/core
 // CSS: base/_elements.scss (bare element styles inside .usa-prose)
 //
 // Sidebar structure:

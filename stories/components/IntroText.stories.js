@@ -1,5 +1,5 @@
 // ============================================================
-// Intro Text Stories — @nasa/hds-core
+// Intro Text Stories — @nasa-hds/core
 // CSS: components/_intro-text.scss
 //
 // Sidebar structure:
