@@ -1,4 +1,4 @@
-# @nasa/hds-core
+# @nasa-hds/core
 
 ## 0.8.0
 

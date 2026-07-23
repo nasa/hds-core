@@ -1,18 +1,18 @@
-title: "[Q&A] "
-labels: ["question"]
+title: '[Q&A] '
+labels: ['question']
 body:
   - type: markdown
     attributes:
       value: |
         ## ❓ HDS Core Question
 
-        Ask anything about using `@nasa/hds-core` in your project. We're here to help!
-        
+        Ask anything about using HDS Core in your project. We're here to help!
+
   - type: textarea
     id: question
     attributes:
-      label: "Your question"
-      description: "Be as specific as you can. Include code snippets, error messages, or config files if relevant."
+      label: 'Your question'
+      description: 'Be as specific as you can. Include code snippets, error messages, or config files if relevant.'
       placeholder: "I'm trying to use HDS Core with Vite in a Next.js project..."
     validations:
       required: true

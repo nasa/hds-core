@@ -8,7 +8,7 @@ Do not add features targeting non-NASA or non-.gov use cases. All example conten
 
 ## Architecture
 
-`@nasa/hds-core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
+`@nasa-hds/core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
 
 ### Three CSS bundles
 
