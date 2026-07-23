@@ -1,22 +1,40 @@
 # ci.yml
 # PR gate -- runs on every pull request to main.
 # Jobs are path-filtered so only relevant checks run for each PR.
-# Chromatic only runs if compiled CSS hash differs from base branch.
+#
+# Efficiency design (keeps runner contention low on the shared org pool):
+#   * Concurrency: a new push to a PR cancels that PR's previous in-flight
+#     run (concurrency block below), so superseded commits stop consuming
+#     runner slots.
+#   * Consolidation: every linter runs as a step in a single `lint` job, and
+#     the post-build checks (bundle size, public API snapshot) run as steps
+#     inside `build`. One runner + one dependency install each, instead of a
+#     separate runner per check. On a constrained pool, fewer concurrent
+#     runners matters more than per-check parallelism.
+#   * Shared setup: dependency install is centralized in the local
+#     ./.github/actions/setup composite, which caches node_modules on the
+#     package-lock.json hash so repeat installs across jobs are near-instant.
+#   * Draft gating: the heavy jobs (test, build-storybook, css-hash ->
+#     chromatic) skip draft PRs and run once the PR is marked ready.
 #
 # Action tags will be converted to SHA pins automatically by Dependabot
 # on its first run. Do not manually replace tags with SHAs -- let
 # Dependabot maintain them so updates are tracked via PR.
 #
-# Artifact strategy: the build job uploads all of dist/ as a single
-# artifact. Jobs that need dist/ (bundle-size, css-hash, api-check,
-# test, chromatic) download it instead of rebuilding. build-storybook
-# is the exception -- it also triggers on mdx/storybook-config changes
-# where build doesn't run, so it always does its own full build.
+# Artifact strategy: the build job uploads dist/ as a single artifact. Jobs
+# that need dist/ on their own runner (test, css-hash, chromatic) download it
+# instead of rebuilding. build-storybook is the exception -- it also triggers
+# on mdx/storybook-config changes where build doesn't run, so it always does
+# its own full build via the shared composite.
 #
 # Chromatic story-only gap (intentional): Chromatic only runs when CSS
 # output changes. New stories added without CSS changes don't get
 # baselines set automatically. This is intentional cost management
 # given the 5k free tier. Revisit if budget expands.
+#
+# Chromatic + forks: fork-triggered runs don't receive repository secrets,
+# so Chromatic is gated to same-repo PRs. Fork PRs skip it cleanly; the
+# css-hash job still flags the CSS delta for a maintainer to review.
 
 name: CI
 
@@ -25,13 +43,21 @@ on:
     branches:
       - main
 
+# Cancel a PR's previous in-flight run when a new commit is pushed. Keyed on
+# the PR number (falls back to ref for non-PR runs) so unrelated PRs don't
+# cancel each other. Frees runner slots instead of building superseded commits.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: read
 
 jobs:
   # -----------------------------------------------------------------------
-  # Filter -- determines which jobs run based on what changed
+  # Filter -- determines which jobs (and which lint/build steps) run based
+  # on what changed.
   # -----------------------------------------------------------------------
   filter:
     name: Detect changed paths
@@ -73,147 +99,67 @@ jobs:
               - '.storybook/**'
             tokens:
               - 'tokens.json'
-              - 'sd.config.js'
+              - '.config/sd.config.js'
 
   # -----------------------------------------------------------------------
-  # Lint: lockfile -- always runs (fast, supply chain check)
+  # Lint -- one runner for every linter. The lockfile check always runs
+  # (fast supply-chain gate); the rest run only when their file types
+  # changed. Each conditional step is guarded with !cancelled() so one
+  # linter failing doesn't hide the others -- you still get every linter's
+  # result in a single pass. Token drift lives here too: it needs
+  # node_modules (Style Dictionary), not the compiled dist/.
+  #
+  # The token drift step keeps the scss filter (not just tokens) so a
+  # hand-edit directly to a generated file -- which wouldn't touch
+  # tokens.json/.config/sd.config.js -- still gets caught.
   # -----------------------------------------------------------------------
-  lint-lockfile:
-    name: Lint / lockfile
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    needs: filter
     steps:
       - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/actions/setup
 
       - name: Lockfile lint
         run: npm run lint:lockfile
 
-  # -----------------------------------------------------------------------
-  # Lint: SCSS -- runs if src/scss or tokens.json changed
-  # -----------------------------------------------------------------------
-  lint-scss:
-    name: Lint / SCSS
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.scss == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Stylelint
+        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
         run: npm run lint:scss
 
-  # -----------------------------------------------------------------------
-  # Lint: JS -- runs if any JS changed (including stories)
-  # -----------------------------------------------------------------------
-  lint-js:
-    name: Lint / JS and JSON
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: ESLint
+        if: ${{ !cancelled() && (needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true') }}
         run: npm run lint:js
 
-  # -----------------------------------------------------------------------
-  # Lint: Markdown -- runs if .md files changed
-  # -----------------------------------------------------------------------
-  lint-md:
-    name: Lint / Markdown
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.md == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: remark-lint
+      - name: remark-lint (Markdown)
+        if: ${{ !cancelled() && needs.filter.outputs.md == 'true' }}
         run: npm run lint:md
 
-  # -----------------------------------------------------------------------
-  # Lint: MDX -- runs if stories MDX files changed
-  # -----------------------------------------------------------------------
-  lint-mdx:
-    name: Lint / MDX
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.mdx == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: remark-lint MDX
+      - name: remark-lint (MDX)
+        if: ${{ !cancelled() && needs.filter.outputs.mdx == 'true' }}
         run: npm run lint:mdx
 
-  # -----------------------------------------------------------------------
-  # Lint: Prettier -- runs if any Prettier-covered file type changed
-  # -----------------------------------------------------------------------
-  lint-format:
-    name: Lint / Prettier
-    runs-on: ubuntu-latest
-    needs: filter
-    if: |
-      needs.filter.outputs.md == 'true' ||
-      needs.filter.outputs.mdx == 'true' ||
-      needs.filter.outputs.js == 'true' ||
-      needs.filter.outputs.json == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Prettier format check
+        if: ${{ !cancelled() && (needs.filter.outputs.md == 'true' || needs.filter.outputs.mdx == 'true' || needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true') }}
         run: npm run format
 
+      - name: Token generation drift
+        if: ${{ !cancelled() && (needs.filter.outputs.tokens == 'true' || needs.filter.outputs.scss == 'true') }}
+        run: npm run check:tokens
+
   # -----------------------------------------------------------------------
-  # Build -- runs if SCSS, tokens, stories, or JS changed.
-  # Uploads all of dist/ as a shared artifact so downstream jobs
-  # (test, chromatic, bundle-size, css-hash, api-check) can download
-  # it instead of rebuilding. See artifact strategy note at top of file.
+  # Build -- compiles CSS/assets, then runs the checks that only need the
+  # freshly built dist/ (bundle size, public API snapshot) as in-job steps,
+  # so they don't each spin a separate runner and re-download an artifact.
+  # Uploads dist/ for the jobs that genuinely run on their own runner
+  # (test, css-hash, chromatic).
+  #
+  # Coupling note: because the bundle-size and api-snapshot checks run here,
+  # a failure in either fails this job and skips the downstream jobs that
+  # need dist/. That is intentional -- a public-API or bundle regression is
+  # merge-blocking anyway -- but it is the one behavioral change from the
+  # previous per-check-job layout.
   # -----------------------------------------------------------------------
   build:
     name: Build
@@ -225,17 +171,18 @@ jobs:
       needs.filter.outputs.js == 'true'
     steps:
       - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/actions/setup
 
       - name: Build
         run: npm run build
+
+      - name: Check bundle size
+        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        run: bash scripts/check-bundle-size.sh
+
+      - name: Check public API snapshot
+        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        run: npm run check:api-snapshot
 
       - name: Upload dist
         uses: actions/upload-artifact@v7
@@ -245,29 +192,21 @@ jobs:
           retention-days: 1
 
   # -----------------------------------------------------------------------
-  # Test -- downloads the dist artifact instead of rebuilding.
-  # Needs build to complete first since it depends on the artifact.
-  # Wall time is similar to before (Playwright install takes ~30s either
-  # way) but eliminates a redundant full SCSS compilation.
+  # Test -- downloads the dist artifact instead of rebuilding. Skips draft
+  # PRs (heavy: Playwright browser install + browser-mode a11y run).
   # -----------------------------------------------------------------------
   test:
     name: Test
     runs-on: ubuntu-latest
     needs: [filter, build]
     if: |
-      needs.filter.outputs.scss == 'true' ||
+      github.event.pull_request.draft == false &&
+      (needs.filter.outputs.scss == 'true' ||
       needs.filter.outputs.stories == 'true' ||
-      needs.filter.outputs.js == 'true'
+      needs.filter.outputs.js == 'true')
     steps:
       - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/actions/setup
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
@@ -287,21 +226,22 @@ jobs:
   # -----------------------------------------------------------------------
   # Build Storybook -- verifies the static build succeeds (catches MDX
   # parse errors, broken imports, bad story configs) before it can reach
-  # the deploy-storybook workflow on main.
+  # the deploy-storybook workflow on main. Skips draft PRs.
   #
   # Self-contained: unlike the jobs above it doesn't reuse the build
   # artifact, since it also runs on mdx/storybook-config changes where the
-  # build job is skipped. The shared action runs the full build itself.
+  # build job is skipped. The shared composite runs the full build itself.
   # -----------------------------------------------------------------------
   build-storybook:
     name: Build / Storybook
     runs-on: ubuntu-latest
     needs: filter
     if: |
-      needs.filter.outputs.mdx == 'true' ||
+      github.event.pull_request.draft == false &&
+      (needs.filter.outputs.mdx == 'true' ||
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.scss == 'true' ||
-      needs.filter.outputs.storybook-config == 'true'
+      needs.filter.outputs.storybook-config == 'true')
     steps:
       - uses: actions/checkout@v7
 
@@ -311,35 +251,18 @@ jobs:
         uses: ./.github/actions/build-storybook
 
   # -----------------------------------------------------------------------
-  # Bundle size -- downloads dist artifact, checks CSS file sizes.
-  # -----------------------------------------------------------------------
-  bundle-size:
-    name: Bundle size
-    runs-on: ubuntu-latest
-    needs: [filter, build]
-    if: needs.filter.outputs.scss == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Download dist
-        uses: actions/download-artifact@v8
-        with:
-          name: dist
-          path: dist/
-
-      - name: Check bundle size
-        run: bash scripts/check-bundle-size.sh
-
-  # -----------------------------------------------------------------------
-  # CSS hash -- compares compiled output vs. base branch.
-  # Base branch is built independently (unavoidable -- no artifact exists
-  # for it). PR side downloads the shared dist artifact.
+  # CSS hash -- compares compiled output vs. base branch, gating Chromatic.
+  # Skips draft PRs. Base branch is built independently (unavoidable -- no
+  # artifact exists for it, and it may predate the local composite actions,
+  # so its setup stays inline). PR side downloads the shared dist artifact.
   # -----------------------------------------------------------------------
   css-hash:
     name: Compare CSS hash
     runs-on: ubuntu-latest
     needs: [filter, build]
-    if: needs.filter.outputs.scss == 'true'
+    if: |
+      github.event.pull_request.draft == false &&
+      needs.filter.outputs.scss == 'true'
     outputs:
       changed: ${{ steps.compare.outputs.changed }}
     steps:
@@ -382,32 +305,31 @@ jobs:
             echo "CSS output identical to base branch -- skipping Chromatic"
           else
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "CSS output changed -- Chromatic will run"
+            echo "CSS output changed -- Chromatic runs on same-repo PRs; fork PRs need a maintainer's visual review"
           fi
 
   # -----------------------------------------------------------------------
-  # Chromatic -- runs only if CSS hash changed vs. base branch.
-  # Downloads the dist artifact instead of rebuilding. Already waits for
-  # build to complete via the css-hash → build dependency chain.
+  # Chromatic -- runs only when CSS output changed AND the PR is from a
+  # branch on this repo, not a fork. Fork-triggered pull_request runs don't
+  # receive repository secrets, so CHROMATIC_PROJECT_TOKEN is empty and the
+  # job fails with "Missing project token" instead of running. Gating it to
+  # same-repo PRs lets fork PRs skip cleanly; the css-hash job still flags
+  # the CSS delta. Draft PRs are excluded transitively (css-hash is skipped).
   # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection.
   # -----------------------------------------------------------------------
   chromatic:
     name: Chromatic visual regression
     runs-on: ubuntu-latest
     needs: css-hash
-    if: needs.css-hash.outputs.changed == 'true'
+    if: |
+      needs.css-hash.outputs.changed == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/actions/setup
 
       - name: Download dist
         uses: actions/download-artifact@v8
@@ -422,35 +344,6 @@ jobs:
           onlyChanged: true
 
   # -----------------------------------------------------------------------
-  # API contract check -- downloads dist artifact, verifies public API
-  # snapshot is up to date. check:api-snapshot reads from dist/css/.
-  # -----------------------------------------------------------------------
-  api-check:
-    name: Public API contract check
-    runs-on: ubuntu-latest
-    needs: [filter, build]
-    if: needs.filter.outputs.scss == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Download dist
-        uses: actions/download-artifact@v8
-        with:
-          name: dist
-          path: dist/
-
-      - name: Check public API snapshot
-        run: npm run check:api-snapshot
-
-  # -----------------------------------------------------------------------
   # USWDS integrity -- runs when package.json changes (potential USWDS bump)
   # check:uswds-core  architectural gate: @use 'uswds-core' must emit no CSS
   # check:uswds       component tracker: USWDS Sass source unchanged
@@ -463,45 +356,10 @@ jobs:
     if: needs.filter.outputs.pkg == 'true'
     steps:
       - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: ./.github/actions/setup
 
       - name: Verify uswds-core emits no CSS
         run: npm run check:uswds-core
 
       - name: Verify USWDS packages unchanged
         run: npm run check:uswds
-
-  # -----------------------------------------------------------------------
-  # Tokens drift check -- runs when tokens.json, sd.config.js, or any file
-  # under src/scss/ changes. The scss filter is included (not just tokens)
-  # so a hand-edit directly to a generated file (bypassing the generator)
-  # still gets caught, since it wouldn't otherwise touch tokens.json/sd.config.js.
-  # Ensures committed generated files stay in sync with token sources.
-  # Regenerates tokens and compares to committed files. Fails if drift detected.
-  # Runtime: ~1.6s for token generation + comparison overhead.
-  # -----------------------------------------------------------------------
-  check-tokens:
-    name: Token generation drift
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.tokens == 'true' || needs.filter.outputs.scss == 'true'
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.15.0'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Check token generation is up to date
-        run: npm run check:tokens

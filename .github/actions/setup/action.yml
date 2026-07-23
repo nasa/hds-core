@@ -1,0 +1,32 @@
+# Shared Node setup: pins the Node version and installs dependencies with a
+# cached node_modules so repeat installs across jobs are near-instant.
+#
+# The cache is keyed on the OS, Node version, and package-lock.json hash, so
+# it only reinstalls when the lockfile changes. setup-node's own 'npm' cache
+# (~/.npm) still speeds up the reinstall on the miss path.
+#
+# Callers must check out the repo first; a local composite action isn't
+# available until then.
+
+name: 'Setup'
+description: 'Set up Node and install dependencies with a cached node_modules.'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: '24.15.0'
+        cache: 'npm'
+
+    - name: Restore node_modules
+      id: cache-node-modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ runner.os }}-node-24.15.0-${{ hashFiles('package-lock.json') }}
+
+    - name: Install dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      run: npm ci
+      shell: bash
