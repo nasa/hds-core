@@ -75,6 +75,10 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 // ── Base table ────────────────────────────────────────────────
 
 .usa-table {
+  --hds-palette-link-text: #{$hds-color-carbon-90};
+  --hds-palette-link-underline: #{$hds-color-carbon-60};
+  --hds-palette-link-arrow: #{$hds-color-carbon-60};
+
   background-color: $hds-color-spacesuit-white;
   color: $hds-color-carbon-90;
 
@@ -366,6 +370,10 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
   // --- Base (dark) ---
 
   .usa-table {
+    --hds-palette-link-text: #{$hds-color-spacesuit-white};
+    --hds-palette-link-underline: #{$hds-color-carbon-30};
+    --hds-palette-link-arrow: #{$hds-color-carbon-30};
+
     background-color: $hds-color-carbon-90;
     color: $hds-color-spacesuit-white;
 

@@ -720,6 +720,22 @@ export const Interactive = {
   render: () => interactiveTable({ prefix: 'interact' }),
 };
 
+export const BluePaletteLinks = {
+  name: 'Links on blue palette',
+  tags: ['!dev'],
+  render: () => `
+    <div class="hds-palette-blue" style="padding: 2rem;">
+      ${interactiveTable({ prefix: 'blue-links' })}
+    </div>
+  `,
+  play: async ({ canvas }) => {
+    const link = canvas.getByRole('link', { name: 'Artemis I Press Kit' });
+    const cell = link.closest('th');
+
+    await expect(getComputedStyle(link).color).toBe(getComputedStyle(cell).color);
+  },
+};
+
 // --- Palette accessibility tests ---
 
 export const PaletteA11y = {
