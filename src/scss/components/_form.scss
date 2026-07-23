@@ -154,9 +154,9 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // Light: C20 → C40 (= --hds-palette-control-border).
 // Dark: C80 → inferred C60 (= --hds-palette-border on dark).
 
-.usa-input:hover:not(:disabled, :focus-visible),
-.usa-textarea:hover:not(:disabled, :focus-visible),
-.usa-select:hover:not(:disabled, :focus-visible) {
+.usa-input:hover:not(:disabled, :focus-visible, .usa-input--error),
+.usa-textarea:hover:not(:disabled, :focus-visible, .usa-input--error),
+.usa-select:hover:not(:disabled, :focus-visible, .usa-input--error) {
   border-color: var(--hds-palette-control-border);
 }
 
