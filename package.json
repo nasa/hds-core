@@ -103,7 +103,7 @@
     "storybook-addon-pseudo-states": "^10.5.3",
     "storybook-design-token": "^5.0.0",
     "style-dictionary": "^5.5.0",
-    "stylelint": "^17.14.0",
+    "stylelint": "^17.14.1",
     "stylelint-config-standard-scss": "^17.0.0",
     "svg-sprite": "^2.0.4",
     "vitest": "^4.1.0"
