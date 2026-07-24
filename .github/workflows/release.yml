@@ -17,10 +17,11 @@ on:
     branches:
       - main
 
+# Default token scope for the version job. The publish job narrows this and
+# adds id-token: write for OIDC, so only that job can mint an OIDC credential.
 permissions:
   contents: write
   pull-requests: write
-  id-token: write
 
 jobs:
   version:
@@ -105,6 +106,11 @@ jobs:
     if: needs.version.outputs.released == 'true'
     # Gates the release behind the npm-publish environment's required reviewers.
     environment: npm-publish
+    # id-token: write (OIDC) is scoped to this job only -- the version job has no
+    # need to mint a publish credential.
+    permissions:
+      contents: write
+      id-token: write
     steps:
       # Checkout provides package.json, src/ (published Sass + assets), and
       # CHANGELOG.md; dist/ and sbom.json come from the version job's artifact.
@@ -124,17 +130,32 @@ jobs:
           name: release-artifacts
 
       # Trusted publishing needs npm >= 11.5.1; the Node runtime above ships an
-      # older bundled npm, so upgrade before publishing.
+      # older bundled npm, so upgrade before publishing. Pinned to a known-good
+      # floor rather than @latest to keep publishes deterministic and guard
+      # against a future npm release changing publish behavior.
       - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@^11.5.1
 
       # No NODE_AUTH_TOKEN: the OIDC token (id-token: write) authenticates the
       # publish, and npm attaches provenance automatically. --provenance is kept
       # explicit because npm has not always inferred it from the OIDC context.
       # --ignore-scripts skips the prepack rebuild: dist/ is already present from
       # the artifact, and node_modules was never installed in this job.
+      #
+      # The version-exists guard makes this job safe to re-run. Publishing to npm
+      # and creating the git tag (in the Release step below) are not atomic: if a
+      # later step fails after a successful publish, no tag is written, so the
+      # next push to main re-detects the version as unreleased and re-enters this
+      # job. Skipping when the version is already on npm lets that re-run finish
+      # tagging and creating the Release instead of dying on a duplicate publish.
       - name: Publish to npm
-        run: npm publish --provenance --access public --ignore-scripts
+        run: |
+          VERSION="${{ needs.version.outputs.version }}"
+          if npm view "@nasa-hds/core@${VERSION}" version > /dev/null 2>&1; then
+            echo "@nasa-hds/core@${VERSION} is already on npm -- skipping publish"
+          else
+            npm publish --provenance --access public --ignore-scripts
+          fi
 
       - name: Get changelog entry
         run: |
