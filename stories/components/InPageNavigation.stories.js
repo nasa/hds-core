@@ -1,5 +1,5 @@
 // ============================================================
-// In-Page Navigation Stories — @nasa/hds-core
+// In-Page Navigation Stories — @nasa-hds/core
 // CSS: components/_in-page-nav.scss
 //
 // Sidebar structure:

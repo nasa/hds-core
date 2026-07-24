@@ -2,13 +2,13 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-07-21
+Last updated: 2026-07-23
 
 ## Package Overview
 
 | Key         | Value                                                                                   |
 | ----------- | --------------------------------------------------------------------------------------- |
-| Name        | `@nasa/hds-core`                                                                        |
+| Name        | `@nasa-hds/core`                                                                        |
 | Foundation  | Sass theme layer on `@uswds/uswds ^3.13.0`                                              |
 | Build tools | `sass`, `postcss` (`autoprefixer`, `postcss-discard-comments`, `cssnano`), `svg-sprite` |
 | Storybook   | v10, Vite, HTML template literals                                                       |

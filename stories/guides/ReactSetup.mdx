@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import { Note } from '../helpers/Note';
 
-<Meta title="Guides/React/Guidance" />
+<Meta title="Guides/React Setup" />
 
 # React Setup
 
@@ -11,10 +11,8 @@ This guide covers HDS Core integration for React projects. It assumes you've rea
 
 [react-uswds](https://github.com/trussworks/react-uswds) (`@trussworks/react-uswds`) is a widely adopted React component library that wraps USWDS markup in typed React components. HDS Core styles should apply automatically to react-uswds components with no extra configuration.
 
-<Note>**HDS Core is not yet published to npm.** Public release is pending. Until it is, install `@trussworks/react-uswds` and `@uswds/uswds` from npm as usual, and obtain `@nasa/hds-core` from a versioned [release tarball](https://github.com/nasa/hds-core/releases) or a local checkout (e.g. `npm install file:../hds-core`). The `@nasa/hds-core` entry in the command below applies once the package is published.</Note>
-
 ```bash
-npm install @trussworks/react-uswds @nasa/hds-core @uswds/uswds
+npm install @trussworks/react-uswds @nasa-hds/core @uswds/uswds
 ```
 
 react-uswds components render standard USWDS class names (`usa-button`, `usa-accordion`, etc.), and HDS Core overrides those styles with NASA colors, typography, and spacing. Components like `<Button>`, `<Accordion>`, and `<Pagination>` render in the HDS visual identity immediately.
@@ -35,7 +33,7 @@ HDS Core's Sass source references fonts and icons using relative paths (e.g. `ur
 
 ```scss
 // src/styles/index.scss
-@forward '@nasa/hds-core/scss';
+@forward '@nasa-hds/core/scss';
 @forward './my-project-styles';
 ```
 
@@ -67,9 +65,9 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         // HDS fonts (DM Mono, Inter) — lands at dist/assets/fonts/
-        { src: 'node_modules/@nasa/hds-core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
+        { src: 'node_modules/@nasa-hds/core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
         // HDS icon SVGs (accordion, table sort, external link, form error)
-        { src: 'node_modules/@nasa/hds-core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
+        { src: 'node_modules/@nasa-hds/core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
         // Public Sans — from USWDS — lands at dist/assets/fonts/public-sans/
         { src: 'node_modules/@uswds/uswds/dist/fonts/public-sans', dest: 'assets/fonts', rename: { stripBase: 5 } },
         // USWDS images (checkboxes, radio indicators, etc.)
@@ -80,8 +78,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa/hds-core/src/scss'],
-        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa/hds-core/src/scss'],
+        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
+        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
       },
     },
   },
@@ -96,11 +94,11 @@ If your project does not use Sass, import the compiled `hds.min.css` stylesheet 
 
 ```jsx
 // App.jsx
-import '@nasa/hds-core/css';
+import '@nasa-hds/core/css';
 import { Button, Accordion } from '@trussworks/react-uswds';
 ```
 
-The import specifier is `@nasa/hds-core/css` — the key exposed in the package's `exports` map. A deep path like `@nasa/hds-core/dist/css/hds.min.css` is an internal file reference and will fail to resolve in any bundler that enforces the `exports` map (Vite, webpack 5, Next.js, Rollup).
+The import specifier is `@nasa-hds/core/css` — the key exposed in the package's `exports` map. A deep path like `@nasa-hds/core/dist/css/hds.min.css` is an internal file reference and will fail to resolve in any bundler that enforces the `exports` map (Vite, webpack 5, Next.js, Rollup).
 
 Do not also import react-uswds CSS. `hds.min.css` already includes everything react-uswds CSS provides, plus HDS overrides on top.
 
@@ -186,7 +184,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. They ar
 <p className="hds-overline">Mission Status</p>;
 ```
 
-<Note>**Icon sprite:** HDS icon buttons reference an SVG sprite (`hds-sprite.svg#id`). Copy the sprite from `@nasa/hds-core` into your app's static/public directory (or import it as a URL through your bundler) and point the `<use href>` at that path. The `/assets/...` path above is illustrative.</Note>
+<Note>**Icon sprite:** HDS icon buttons reference an SVG sprite (`hds-sprite.svg#id`). Copy the sprite from `@nasa-hds/core` into your app's static/public directory (or import it as a URL through your bundler) and point the `<use href>` at that path. The `/assets/...` path above is illustrative.</Note>
 
 Check each component's Guidance page in Storybook for the correct markup.
 

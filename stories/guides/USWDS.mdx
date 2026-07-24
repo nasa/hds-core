@@ -145,7 +145,7 @@ If your site already customizes USWDS via `@use "uswds-core" with (...)`, you wi
 Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins. Subsequent calls with different settings will error. When you adopt HDS Core:
 
 - **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
-- **Sass path:** `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+- **Sass path:** `@forward '@nasa-hds/core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
 
 Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings. Use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
 

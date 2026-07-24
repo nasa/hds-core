@@ -1,5 +1,5 @@
 // ============================================================
-// Checkbox Stories — @nasa/hds-core
+// Checkbox Stories — @nasa-hds/core
 // CSS: components/_form.scss
 //
 // Sidebar structure:

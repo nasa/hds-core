@@ -231,6 +231,10 @@ Maintainers may:
 
 Design changes that affect NASA's visual identity may involve additional review to ensure alignment with agency brand standards.
 
+## Releasing
+
+All contributors need to do is add a changeset and open a PR. Releases are cut by maintainers, who merge the accumulated changesets via the Version Packages PR and publish to npm. See [docs/RELEASING.md](docs/RELEASING.md) for the release process.
+
 ## Licensing of contributions
 
 HDS Core is released into the worldwide public domain under the [CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).

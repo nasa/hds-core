@@ -8,7 +8,7 @@ Do not add features targeting non-NASA or non-.gov use cases. All example conten
 
 ## Architecture
 
-`@nasa/hds-core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
+`@nasa-hds/core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
 
 ### Three CSS bundles
 
@@ -243,3 +243,4 @@ For deeper context beyond these instructions:
 - **docs/ARCHITECTURE.md** — Build pipeline, cascade layer architecture, Chromatic setup, focus ring implementation details, icon architecture.
 - **docs/DESIGN.md** — Visual and UX rationale. Explains intentional deviations from USWDS and Figma. Check here before "fixing" any apparent Figma discrepancy.
 - **docs/DOCUMENTATION.md** — Full standards for authoring Storybook `.mdx` files and component stories. Read when creating or editing documentation pages.
+- **docs/RELEASING.md** — Maintainer runbook for cutting a release: the changesets → Version Packages PR → environment-approved OIDC npm publish flow, standing configuration, and troubleshooting.

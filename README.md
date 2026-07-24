@@ -1,8 +1,8 @@
-# @nasa/hds-core
+# @nasa-hds/core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.8.0-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.8.0-blue.svg)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
-> **Pre-1.0:** API and class names may change between minor versions. Not yet published to npm.
+> **Pre-1.0:** API and class names may change between minor versions.
 
 ## What is HDS Core?
 
@@ -30,11 +30,11 @@ Full documentation, component examples, and integration guides are published in 
 
 ## Installation
 
-HDS Core is not yet published to npm. Install directly from GitHub:
-
 ```bash
-npm install github:nasa/hds-core @uswds/uswds
+npm install @nasa-hds/core @uswds/uswds
 ```
+
+`@uswds/uswds` is a peer dependency and must be installed alongside HDS Core.
 
 ## What Ships
 
@@ -61,7 +61,7 @@ src/
 ### Required (all sites)
 
 ```html
-<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds.min.css" />
+<link rel="stylesheet" href="node_modules/@nasa-hds/core/dist/css/hds.min.css" />
 ```
 
 ### Optional: USWDS utility classes
@@ -69,8 +69,8 @@ src/
 For sites that rely on USWDS [utility classes](https://designsystem.digital.gov/utilities/) (`.padding-2`, `.margin-top-3`, etc.):
 
 ```html
-<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds-uswds.min.css" />
-<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds.min.css" />
+<link rel="stylesheet" href="node_modules/@nasa-hds/core/dist/css/hds-uswds.min.css" />
+<link rel="stylesheet" href="node_modules/@nasa-hds/core/dist/css/hds.min.css" />
 ```
 
 Load order does not matter. All styles use CSS cascade layers.
@@ -78,7 +78,7 @@ Load order does not matter. All styles use CSS cascade layers.
 ### Optional: Data visualization
 
 ```html
-<link rel="stylesheet" href="node_modules/@nasa/hds-core/dist/css/hds-dataviz.min.css" />
+<link rel="stylesheet" href="node_modules/@nasa-hds/core/dist/css/hds-dataviz.min.css" />
 ```
 
 Can be loaded standalone without `hds.min.css` for embedded chart contexts.
@@ -86,7 +86,7 @@ Can be loaded standalone without `hds.min.css` for embedded chart contexts.
 ### Sass API
 
 ```scss
-@use '@nasa/hds-core/scss' as hds;
+@use '@nasa-hds/core/scss' as hds;
 ```
 
 Exposes HDS tokens, mixins, and USWDS core utilities for use in your own Sass pipeline.
@@ -113,4 +113,4 @@ For architecture details and build pipeline documentation, see [ARCHITECTURE.md]
 
 ## License
 
-`@nasa/hds-core` is released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), except for bundled fonts (SIL OFL 1.1) and NASA trademarks/insignia. See [LICENSE.md](LICENSE.md) for full terms and attribution.
+HDS Core is released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), except for bundled fonts (SIL OFL 1.1) and NASA trademarks/insignia. See [LICENSE.md](LICENSE.md) for full terms and attribution.

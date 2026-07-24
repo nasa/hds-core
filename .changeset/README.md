@@ -1,6 +1,6 @@
 # Changesets
 
-This directory tracks unreleased changes to `@nasa/hds-core`. You can find the full documentation for the Changesets tool [in their repository](https://github.com/changesets/changesets).
+This directory tracks unreleased changes to `@nasa-hds/core`. You can find the full documentation for the Changesets tool [in their repository](https://github.com/changesets/changesets).
 
 ## Adding a changeset
 

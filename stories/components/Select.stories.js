@@ -1,5 +1,5 @@
 // ============================================================
-// Select Stories — @nasa/hds-core
+// Select Stories — @nasa-hds/core
 // CSS: components/_form.scss
 //
 // Sidebar structure:

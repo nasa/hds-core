@@ -1,5 +1,5 @@
 // ============================================================
-// Text Input Stories — @nasa/hds-core
+// Text Input Stories — @nasa-hds/core
 // CSS: components/_form.scss
 //
 // Sidebar structure:
