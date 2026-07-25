@@ -33,4 +33,11 @@ Note that the sprite now arrives at `assets/img/hds-sprite.svg`, not `assets/hds
 
 Setting `$hds-asset-path` retargets every `url()` HDS emits — webfonts, USWDS imagery, and HDS icons alike. Compiled CSS output is unchanged at the default value.
 
-**New: `./js/uswds` export** for the USWDS JavaScript pass-through: `import '@nasa-hds/core/js/uswds'`. This was already shipping in `dist/js/`, just not addressable through the `exports` map.
+**New: `./js/uswds` and `./js/uswds-init` exports** for the USWDS JavaScript pass-through. Both were already shipping in `dist/js/`, just not addressable through the `exports` map:
+
+```js
+import '@nasa-hds/core/js/uswds-init'; // synchronous, in <head>
+import '@nasa-hds/core/js/uswds'; // deferred, end of <body>
+```
+
+They are separate entry points because they load differently. `uswds-init` is tiny and must run before first paint — it marks the page as still-loading so `hds.min.css` can hide JavaScript-dependent content until `uswds` initializes it. Without it, navigation submenus, banner content, and modal wrappers flash open on load. `./js` itself is deliberately not claimed; it is reserved for possible future HDS JavaScript.

@@ -24,6 +24,7 @@
     "./scss/uswds": "./src/scss/hds-uswds.scss",
     "./scss/dataviz": "./src/scss/hds-dataviz.scss",
     "./js/uswds": "./dist/js/uswds.min.js",
+    "./js/uswds-init": "./dist/js/uswds-init.min.js",
     "./assets/*": "./dist/assets/*"
   },
   "files": [
