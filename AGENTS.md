@@ -55,10 +55,6 @@ _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 
 `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')` call inside `@layer uswds`. Do NOT revert to per-package `meta.load-css()` calls — this causes fonts to emit once per package (144 declarations vs. 6).
 
-### Stubs — do not modify
-
-`_navigation.scss` and `_banner.scss` are Phase 2 stubs. Do not modify without explicit permission.
-
 ## Design Tokens
 
 `tokens.json` (W3C DTCG format) is the canonical source for primitive design values: colors, spacing, breakpoints, borders, layout, and typography primitives (line-height, letter-spacing, font-weight, font-size, font-family). These are **generated into Sass** (see Token flow). The committed `public-api.snapshot.txt` plus compiled CSS remain the **enforced consumer contract** — what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
@@ -129,6 +125,14 @@ Always include fallbacks to the default (white palette) values:
 color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 ```
 
+### USWDS surface bridges — do NOT flatten
+
+`base/_palettes.scss` pins `.usa-banner`, `.usa-header`, and `.usa-footer` to the white palette and `.usa-identifier` to the black palette. These components have no HDS theme, so without the bridge their text and link colors resolve against the surrounding palette instead of the surface USWDS paints.
+
+- Keep the selectors inside `:where()`. Zero specificity is what lets an adopter override with `.hds-palette-*`.
+- Do not remove the explicit `background-color` — `.usa-header` and `.usa-footer` have none of their own.
+- Remove the bridges only when the components get real HDS theming.
+
 ### Class naming
 
 - `usa-*` for components that map to a USWDS component (even if they have HDS-only variants).
@@ -138,7 +142,7 @@ NEVER mix prefixes on a single component.
 
 ### Components without HDS theming
 
-Card, modal, footer, banner, header, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission.
+Card, modal, footer, banner, header, identifier, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission — the surface bridges above are the one sanctioned exception, and they exist only to prevent contrast failures.
 
 ### Spacing usage
 

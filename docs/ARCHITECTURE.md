@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-07-23
+Last updated: 2026-07-25
 
 ## Package Overview
 
@@ -297,10 +297,27 @@ Components are organized by category in `components/_index.scss`:
 | **Notifications** | `_site-alert.scss` | Emergency (red) and info (blue) variants with scoped palette vars |
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
-| **Phase 2 stubs** | `_navigation.scss` | Header, footer, nav. Incomplete — inherited from prior work. |
-|  | `_banner.scss` | Government compliance bar. Incomplete. |
 
 Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
+
+### USWDS surface bridges
+
+The government banner, header, footer, and identifier have no HDS theme (see [Issue #86](https://github.com/nasa/hds-core/issues/86)), so they are not palette containers. USWDS decides their surfaces — white for the banner, header, and footer sections, black for the identifier — but the text and links inside them resolve HDS colors from whatever palette wraps the page. Where the two disagree the result is unreadable: Carbon 90 identifier links on black in every light palette, and white header and footer links on white inside a dark one.
+
+`base/_palettes.scss` closes that gap by pinning each of these components to the palette that matches the surface USWDS paints:
+
+| Selector          | Palette pinned | Why                                              |
+| ----------------- | -------------- | ------------------------------------------------ |
+| `.usa-banner`     | White          | USWDS paints the banner `base-lightest`          |
+| `.usa-header`     | White          | No background of its own; assumes a white body   |
+| `.usa-footer`     | White          | Section backgrounds are white and `base-lighter` |
+| `.usa-identifier` | Black          | USWDS paints the identifier `base-darkest`       |
+
+The bridges set `background-color` as well as the palette custom properties, because USWDS gives `.usa-header` and `.usa-footer` no background of their own — they assume the body behind them is white, which stops being true inside a palette wrapper.
+
+Selectors are wrapped in `:where()` so their specificity is zero. An adopter who wants a different surface adds a `.hds-palette-*` class to the same element and wins without `!important`. A palette wrapper on an _ancestor_ does not win: a declaration on the element always beats an inherited value, which is what keeps the bridge in force.
+
+These are a stopgap. Remove them when the components get real HDS theming.
 
 ## Testing
 

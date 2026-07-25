@@ -70,6 +70,22 @@ To activate the full HDS dark palette, add `.hds-palette-dark` to the same eleme
 
 Review every page for dark-mode markup and add palette classes accordingly. This is the most common source of visual issues during adoption.
 
+### Header, footer, banner, and identifier
+
+HDS Core does not theme the government banner, site header, footer, or identifier yet. They render as stock USWDS with HDS typography and color settings applied. Your markup keeps working, and there is nothing to change.
+
+These four components pick their own background — white for the banner, header, and footer, black for the identifier — so HDS pins each one to the palette that matches. A `.hds-palette-dark` wrapper further up the page will not push white link text onto a white footer, and the identifier's required links stay white on its black bar.
+
+To give one of them a different surface, put the palette class on the element itself:
+
+```html
+<footer class="usa-footer hds-palette-dark">...</footer>
+```
+
+A palette class on the element wins. A palette wrapper around it does not.
+
+Dedicated HDS header and footer components are the top priority for the first post-v1.0 release. See the [Roadmap](?path=/docs/overview-roadmap--docs).
+
 ### Custom CSS and the cascade layer contract
 
 HDS Core uses CSS `@layer` to establish a predictable cascade:
