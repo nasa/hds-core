@@ -12,8 +12,9 @@
 //   Sidenav (nested), Prose content (h1–h4), Footer (slim),
 //   Identifier, Search form, Skip nav
 //
-// Phase 2 stub components (header, footer, nav, banner) render
-// with default or partially-styled USWDS appearance.
+// Header, footer, nav, and banner are rendered as-is from USWDS.
+// USWDS identifier is pinned to the HDS black palette so its links
+// stay legible on the dark identifier surface.
 // ============================================================
 
 import { paletteModes } from '../../.storybook/modes';

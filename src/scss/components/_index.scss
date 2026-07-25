@@ -9,39 +9,34 @@
 //   4. Navigation — breadcrumb, pagination, in-page nav
 //   5. Notifications — site alert, alert
 //   6. Layout — grid utilities
-//   7. Phase 2 stubs — navigation, banner
 // ============================================================
 
 // ── Foundational ──
-@forward 'link';
-@forward 'button';
-@forward 'icon-button';
-@forward 'primary-arrow-button';
+@forward "link";
+@forward "button";
+@forward "icon-button";
+@forward "primary-arrow-button";
 
 // ── Form controls ──
-@forward 'form';
+@forward "form";
 
 // ── Content ──
-@forward 'intro-text';
-@forward 'prose';
-@forward 'list';
-@forward 'table';
-@forward 'accordion';
-@forward 'blockquote';
+@forward "intro-text";
+@forward "prose";
+@forward "list";
+@forward "table";
+@forward "accordion";
+@forward "blockquote";
 
 // ── Navigation ──
-@forward 'breadcrumb';
-@forward 'pagination';
-@forward 'in-page-nav';
-@forward 'sidenav';
+@forward "breadcrumb";
+@forward "pagination";
+@forward "in-page-nav";
+@forward "sidenav";
 
 // ── Notifications ──
-@forward 'site-alert';
-@forward 'alert';
+@forward "site-alert";
+@forward "alert";
 
 // ── Layout ──
-@forward 'grid-utilities';
-
-// ── Phase 2 (stubs) ──
-@forward 'navigation';
-@forward 'banner';
+@forward "grid-utilities";

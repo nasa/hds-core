@@ -18,10 +18,10 @@
 //   Auto Dark Mode
 // ============================================================
 
-@use 'uswds-core' as *;
-@use 'hds-config' as *;
-@use 'hds-tokens' as *;
-@use 'hds-dataviz-palettes' as *;
+@use "uswds-core" as *;
+@use "hds-config" as *;
+@use "hds-tokens" as *;
+@use "hds-dataviz-palettes" as *;
 
 // ============================================================
 // SHARED COLOR SCHEMES
@@ -29,7 +29,7 @@
 
 // --- Palette selector mixin ---
 @mixin palette($name) {
-  [data-hds-palette='#{$name}'],
+  [data-hds-palette="#{$name}"],
   .hds-palette-#{$name} {
     @content;
   }
@@ -160,7 +160,7 @@
 
 // Palette 1 — White (Spacesuit White, default)
 :root,
-[data-hds-palette='white'],
+[data-hds-palette="white"],
 .hds-palette-white {
   @include _scheme-universal;
   @include _scheme-light;
@@ -169,7 +169,7 @@
 }
 
 // Palette 2 — Light (Carbon 05)
-@include palette('light') {
+@include palette("light") {
   @include _scheme-universal;
   @include _scheme-light;
 
@@ -179,7 +179,7 @@
 // Palette 3 — Midtone (Carbon 20)
 // Overrides _scheme-light values for higher contrast on
 // midtone background. See HDS Core Proposal palette tables.
-@include palette('midtone') {
+@include palette("midtone") {
   @include _scheme-universal;
   @include _scheme-light;
 
@@ -208,7 +208,7 @@
 }
 
 // Palette 4 — Dark (Carbon 90)
-@include palette('dark') {
+@include palette("dark") {
   @include _scheme-universal;
   @include _scheme-dark;
 
@@ -217,7 +217,7 @@
 
 // Palette 5 — Blue (NASA Blue Shade)
 // Unique values differ from standard dark scheme
-@include palette('blue') {
+@include palette("blue") {
   @include _scheme-universal;
 
   --hds-palette-bg: #{$hds-color-nasa-blue-shade};
@@ -285,7 +285,23 @@
 }
 
 // Palette 6 — Black (Carbon Black, header/footer only)
-@include palette('black') {
+@include palette("black") {
+  @include _scheme-universal;
+  @include _scheme-dark;
+
+  --hds-palette-bg: #{$hds-color-carbon-black};
+}
+
+// ── Government identifier — fixed black palette ───────────────
+// The USWDS identifier always renders on a near-black surface, so
+// it is pinned to the black palette regardless of the surrounding
+// site palette. Setting the palette custom properties directly on
+// .usa-identifier overrides whatever an ancestor .hds-palette-*
+// wrapper would otherwise pass down to its links. Without this,
+// the identifier's HDS-styled links (.usa-link) inherit the outer
+// palette's near-black link color, failing contrast on the dark
+// identifier surface. See GitHub Issue #86.
+.usa-identifier {
   @include _scheme-universal;
   @include _scheme-dark;
 

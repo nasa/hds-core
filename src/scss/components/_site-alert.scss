@@ -5,9 +5,9 @@
 // Tier 1 override — .usa-site-alert--emergency and
 // .usa-site-alert--info.
 //
-// HDS Figma calls this "Banner" — renamed to match USWDS
+// HDS Figma calls this "Banner"; renamed to match USWDS
 // component name. Not the same as the government compliance
-// banner (components/_banner.scss).
+// Banner that USWDS provides.
 //
 // Scoped --hds-palette-* vars on each variant so existing
 // link/heading/text wiring works automatically.
@@ -19,8 +19,8 @@
 // Restyles: https://designsystem.digital.gov/components/site-alert/
 // ============================================================
 
-@use 'uswds-core' as *;
-@use 'hds-tokens' as *;
+@use "uswds-core" as *;
+@use "hds-tokens" as *;
 
 // ── Shared site alert override ────────────────────────────────
 // Matches USWDS specificity for set-text-from-bg output and
