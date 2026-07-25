@@ -47,11 +47,12 @@ dist/
     hds-uswds.min.css.map
     hds-dataviz.min.css # Optional: data visualization color palettes
     hds-dataviz.min.css.map
-  assets/
+  assets/               # The complete HDS asset tree — copy this one directory
     fonts/              # Inter, DM Mono, Public Sans (woff2)
-    img/                # USWDS images and HDS icons
+    img/                # USWDS images, HDS icons, NASA branding, hds-sprite.svg
   js/
-    uswds.js            # USWDS JavaScript (unmodified)
+    uswds.min.js        # USWDS JavaScript (unmodified)
+    uswds-init.min.js
 src/
   scss/                 # Public Sass API: tokens, mixins, theme config
 ```

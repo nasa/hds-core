@@ -47,6 +47,7 @@
 // ============================================================
 
 @use 'hds-tokens' as hds;
+@use 'hds-config' as *;
 @use 'sass:map';
 @use 'uswds-core' with (
   // ----------------------------------------------------------
@@ -60,8 +61,8 @@
   // ----------------------------------------------------------
   // Asset Paths
   // ----------------------------------------------------------
-  $theme-image-path: '../assets/img',
-  $theme-font-path: '../assets/fonts',
+  $theme-image-path: $hds-image-path,
+  $theme-font-path: $hds-font-path,
 
   // ----------------------------------------------------------
   // Base Color Family — Carbon Scale

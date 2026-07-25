@@ -24,6 +24,11 @@
 //   - CSS @layer blocks       — Base, Components, USWDS
 // ============================================================
 
+// Expose HDS configuration flags (asset paths, feature flags) so adopters
+// can set them via `@use '@nasa-hds/core/scss' with (...)`. Must be forwarded
+// before the theme, which reads $hds-image-path / $hds-font-path.
+@forward 'hds-config';
+
 // Configure USWDS with HDS values (must be first USWDS load)
 @forward 'hds-uswds-theme';
 @use 'sass:meta';

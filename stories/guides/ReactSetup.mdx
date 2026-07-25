@@ -27,7 +27,7 @@ Use a single compiled stylesheet that includes USWDS base styles, HDS overrides,
 npm install -D vite-plugin-static-copy
 ```
 
-HDS Core's Sass source references fonts and icons using relative paths (e.g. `url('../assets/fonts/...')`). The pre-compiled CSS path resolves these automatically, but Sass-from-source requires you to copy the assets to the expected location in your build output.
+HDS Core's Sass source references fonts and icons using relative paths (e.g. `url('../assets/fonts/...')`). Sass never rewrites `url()`, so these strings are emitted verbatim into your compiled CSS. The pre-compiled CSS path resolves them automatically, but Sass-from-source requires you to copy the published asset tree to the location your compiled CSS expects — or to point HDS at wherever you already serve assets from with `$hds-asset-path` (see step 5).
 
 **2. Your Sass entry point:**
 
@@ -64,14 +64,10 @@ export default defineConfig({
     react(),
     viteStaticCopy({
       targets: [
-        // HDS fonts (DM Mono, Inter) — lands at dist/assets/fonts/
-        { src: 'node_modules/@nasa-hds/core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
-        // HDS icon SVGs (accordion, table sort, external link, form error)
-        { src: 'node_modules/@nasa-hds/core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
-        // Public Sans — from USWDS — lands at dist/assets/fonts/public-sans/
-        { src: 'node_modules/@uswds/uswds/dist/fonts/public-sans', dest: 'assets/fonts', rename: { stripBase: 5 } },
-        // USWDS images (checkboxes, radio indicators, etc.)
-        { src: 'node_modules/@uswds/uswds/dist/img', dest: 'assets', rename: { stripBase: 4 } },
+        // The whole published HDS asset tree — fonts (DM Mono, Inter,
+        // Public Sans), USWDS images, HDS icon SVGs, and hds-sprite.svg.
+        // Lands at dist/assets/{fonts,img}/.
+        { src: 'node_modules/@nasa-hds/core/dist/assets', dest: '', rename: 'assets' },
       ],
     }),
   ],
@@ -79,14 +75,27 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
-        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
       },
     },
   },
 });
 ```
 
-The `stripBase` number strips leading path segments from each copied file so it lands at the path the compiled CSS expects. During the build you will see "didn't resolve at build time" warnings for font and image URLs; these are expected and safe. The files are placed by `viteStaticCopy` after Vite's CSS transform phase and will be served correctly at runtime.
+`dist/assets/` in the published package is one complete tree — you no longer need separate targets for HDS fonts, HDS icons, Public Sans, and the USWDS image tree. During the build you will see "didn't resolve at build time" warnings for font and image URLs; these are expected and safe. The files are placed by `viteStaticCopy` after Vite's CSS transform phase and will be served correctly at runtime.
+
+**5. Alternative: point HDS at your existing asset location.**
+
+If you already serve static assets from a fixed URL and would rather not copy the tree next to your CSS, skip `vite-plugin-static-copy` and configure the asset path instead:
+
+```scss
+// src/styles/index.scss
+@use '@nasa-hds/core/scss' with (
+  $hds-asset-path: '/static/hds-assets'
+);
+@forward './my-project-styles';
+```
+
+Every emitted `url()` — webfonts, USWDS imagery, and HDS icons alike — is then written relative to that base. Copy `node_modules/@nasa-hds/core/dist/assets` to whatever location you chose. `$hds-image-path` and `$hds-font-path` are also configurable individually if the two trees live apart.
 
 ### Pre-compiled CSS setup
 
@@ -173,7 +182,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. They ar
 }
 <button type="button" className="hds-btn-icon hds-btn-icon--utility">
   <svg className="hds-glyph" role="img" aria-hidden="true">
-    <use href="/assets/hds-sprite.svg#close" />
+    <use href="/assets/img/hds-sprite.svg#close" />
   </svg>
   <span className="usa-sr-only">Close</span>
 </button>;
@@ -184,7 +193,7 @@ Some HDS components have no USWDS equivalent and no react-uswds wrapper. They ar
 <p className="hds-overline">Mission Status</p>;
 ```
 
-<Note>**Icon sprite:** HDS icon buttons reference an SVG sprite (`hds-sprite.svg#id`). Copy the sprite from `@nasa-hds/core` into your app's static/public directory (or import it as a URL through your bundler) and point the `<use href>` at that path. The `/assets/...` path above is illustrative.</Note>
+<Note>**Icon sprite:** HDS icon buttons reference an SVG sprite (`hds-sprite.svg#id`). The sprite ships at `dist/assets/img/hds-sprite.svg`, so the asset copy in step 4 already places it at `/assets/img/hds-sprite.svg` — no separate target needed. Point the `<use href>` at wherever the tree lands in your build (or import the sprite as a URL through your bundler). The `/assets/...` path above is illustrative.</Note>
 
 Check each component's Guidance page in Storybook for the correct markup.
 

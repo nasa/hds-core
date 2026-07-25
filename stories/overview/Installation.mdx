@@ -130,7 +130,18 @@ To include USWDS utility classes:
 
 ### Vite: copy fonts and icons
 
-HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Vite cannot resolve these at compile time — you must copy the assets to the expected output location using `vite-plugin-static-copy`. See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
+HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Sass never rewrites `url()`, so those strings land verbatim in your compiled CSS and Vite cannot resolve them at compile time. You have two options:
+
+- **Copy the assets** next to your compiled CSS with `vite-plugin-static-copy`. One target covers everything: `node_modules/@nasa-hds/core/dist/assets` is a single complete tree (Inter, DM Mono, Public Sans, USWDS imagery, HDS icons, and `img/hds-sprite.svg`). See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
+- **Point HDS at your assets** by overriding `$hds-asset-path`, if you already serve static files from a fixed location:
+
+```scss
+@use '@nasa-hds/core/scss' with (
+  $hds-asset-path: '/static/hds-assets'
+);
+```
+
+Every emitted `url()` — webfonts, USWDS imagery, and HDS icons — is written relative to that base. `$hds-image-path` and `$hds-font-path` can be set individually if the two trees are served from different places.
 
 ### Using HDS tokens in Sass
 

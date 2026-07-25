@@ -52,6 +52,7 @@
 
 @use 'sass:map';
 @use 'uswds-core' as *;
+@use 'hds-config' as *;
 @use 'hds-tokens' as *;
 
 // ── Internal table color tokens ───────────────────────────────
@@ -273,7 +274,7 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
   // --- Base sort button as icon container ---
   th[data-sortable] .usa-table__header__button {
-    mask-image: url('../assets/img/hds-icons/arrow-filled-down.svg');
+    mask-image: url('#{$hds-image-path}/hds-icons/arrow-filled-down.svg');
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: 1.25rem;
@@ -301,7 +302,7 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
   // --- Sorted ascending: filled arrow up, NASA Blue ---
   th[data-sortable][aria-sort='ascending'] .usa-table__header__button {
     background-color: $hds-color-nasa-blue;
-    mask-image: url('../assets/img/hds-icons/arrow-filled-up.svg');
+    mask-image: url('#{$hds-image-path}/hds-icons/arrow-filled-up.svg');
   }
 
   // --- Sorted icon persists on hover ---

@@ -12,6 +12,7 @@
 // ============================================================
 
 @use 'uswds-core' as *;
+@use 'hds-config' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 
@@ -89,12 +90,12 @@
 
   &[aria-expanded='true'] span::after {
     mask-image:
-      url('../assets/img/hds-icons/arrow-chevron-up.svg'), linear-gradient(transparent, transparent) !important;
+      url('#{$hds-image-path}/hds-icons/arrow-chevron-up.svg'), linear-gradient(transparent, transparent) !important;
   }
 
   &[aria-expanded='false'] span::after {
     mask-image:
-      url('../assets/img/hds-icons/arrow-chevron-down.svg'), linear-gradient(transparent, transparent) !important;
+      url('#{$hds-image-path}/hds-icons/arrow-chevron-down.svg'), linear-gradient(transparent, transparent) !important;
   }
 }
 
@@ -105,7 +106,7 @@
   &[aria-expanded='false'] {
     background-color: currentcolor;
     background-image: none;
-    mask-image: url('../assets/img/hds-icons/arrow-chevron-down.svg');
+    mask-image: url('#{$hds-image-path}/hds-icons/arrow-chevron-down.svg');
     mask-position: right center;
     mask-repeat: no-repeat;
     mask-size: 1.2rem;
@@ -114,7 +115,7 @@
   &[aria-expanded='true'] {
     background-color: currentcolor;
     background-image: none;
-    mask-image: url('../assets/img/hds-icons/arrow-chevron-up.svg');
+    mask-image: url('#{$hds-image-path}/hds-icons/arrow-chevron-up.svg');
     mask-position: right center;
     mask-repeat: no-repeat;
     mask-size: 1.2rem;
