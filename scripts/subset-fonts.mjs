@@ -85,6 +85,80 @@ function coverage(file, subset) {
   return codepoints(subset).filter((c) => set.has(c)).length;
 }
 
+/**
+ * Which @font-face rules the generated Sass should contain.
+ *
+ * Depends only on the source fonts — which files exist, the weight/style
+ * their names encode, and how much of each range they really cover. It does
+ * NOT depend on the subset output, which is what lets `--check` verify the
+ * committed Sass without producing a single woff2 or touching dist/.
+ */
+function plan() {
+  const declarations = [];
+  for (const [dir, { display, source }] of Object.entries(SPLIT_FAMILIES)) {
+    if (!fs.existsSync(source)) {
+      console.error(`✗ ${source} not found — cannot plan ${dir}.`);
+      process.exit(1);
+    }
+    const files = fs
+      .readdirSync(source)
+      .filter((f) => f.endsWith('.woff2'))
+      .sort();
+
+    for (const file of files) {
+      const stem = file.replace(/\.woff2$/, '');
+      const face = parseFace(stem);
+      if (!face) {
+        console.error(`✗ ${dir}/${file}: cannot derive weight/style from filename.`);
+        process.exit(1);
+      }
+      const src = path.join(source, file);
+      for (const subset of EXTRA) {
+        if (coverage(src, subset) < MIN_COVERAGE) continue;
+        declarations.push({
+          family: display,
+          dir,
+          file: `${stem}.${subset.id}.woff2`,
+          weight: face.weight,
+          style: face.style,
+          subset,
+        });
+      }
+    }
+  }
+  return declarations;
+}
+
+/** `--check`: fail if the committed Sass doesn't match what we'd generate. */
+function check() {
+  const expected = renderSass(plan());
+  if (!fs.existsSync(SASS_OUT)) {
+    console.error(`✗ ${SASS_OUT} is missing. Run \`npm run subset:fonts\` and commit the result.`);
+    process.exit(1);
+  }
+  const actual = fs.readFileSync(SASS_OUT, 'utf8');
+  if (actual === expected) {
+    console.log(`✓ ${SASS_OUT} is up to date with .config/font-subsets.js`);
+    return;
+  }
+  console.error(
+    `✗ ${SASS_OUT} is out of date with .config/font-subsets.js and the fonts in src/assets/fonts.\n` +
+      `  It is generated — do not hand-edit it.\n` +
+      `  Run \`npm run subset:fonts\` and commit the result.\n`
+  );
+  const a = actual.split('\n');
+  const e = expected.split('\n');
+  for (let i = 0; i < Math.max(a.length, e.length); i += 1) {
+    if (a[i] !== e[i]) {
+      console.error(`  first difference at line ${i + 1}:`);
+      console.error(`    committed: ${a[i] ?? '(end of file)'}`);
+      console.error(`    expected:  ${e[i] ?? '(end of file)'}`);
+      break;
+    }
+  }
+  process.exit(1);
+}
+
 async function main() {
   if (!fs.existsSync(FONTS_DIR)) {
     console.error(`✗ ${FONTS_DIR} not found — run \`npm run init\` first.`);
@@ -173,6 +247,13 @@ async function main() {
 }
 
 function writeSass(declarations) {
+  fs.mkdirSync(path.dirname(SASS_OUT), { recursive: true });
+  fs.writeFileSync(SASS_OUT, renderSass(declarations));
+  console.log(`✓ wrote ${SASS_OUT}`);
+}
+
+/** Pure: declarations in, Sass source out. Shared by the write and check paths. */
+function renderSass(declarations) {
   const lines = [
     '// ============================================================',
     '// HDS Webfonts — Extended Unicode Ranges',
@@ -222,12 +303,14 @@ function writeSass(declarations) {
     }
   }
 
-  fs.mkdirSync(path.dirname(SASS_OUT), { recursive: true });
-  fs.writeFileSync(SASS_OUT, `${lines.join('\n').trimEnd()}\n`);
-  console.log(`✓ wrote ${SASS_OUT}`);
+  return `${lines.join('\n').trimEnd()}\n`;
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv.includes('--check')) {
+  check();
+} else {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

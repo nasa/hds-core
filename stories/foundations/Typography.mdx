@@ -89,6 +89,50 @@ The numbers typeface brings a technical feel to the system, from countdowns to s
 
 <Canvas of={TypographyStories.Code} />
 
+## Scientific and technical characters
+
+Technical content is common on NASA sites, and the three HDS typefaces do not cover it equally. Greek letters, subscripts, arrows, and primes exist only in Inter — the heading and UI font. In body copy and code they fall back to whatever font the reader's operating system supplies, which mismatches the surrounding text mid-sentence.
+
+| Characters                  | Inter (heading, ui) | Public Sans (body) | DM Mono (code, alt) |
+| --------------------------- | ------------------- | ------------------ | ------------------- |
+| `± × ÷ ° ² ³ ½ µ Å`         | yes                 | yes                | yes                 |
+| `≈ ≤ ≥ ≠ ∞ √ ∑ ∫ ∂`         | yes                 | yes                | **no**              |
+| `Δ Ω θ λ μ α β σ` (Greek)   | yes                 | **no**             | **no**              |
+| `₂ ₄` (subscripts)          | yes                 | **no**             | **no**              |
+| `⁻` (superscript minus)     | yes                 | **no**             | **no**              |
+| `→ ⇒` (arrows)              | yes                 | **no**             | **no**              |
+| `′ ″` (prime, double prime) | yes                 | **no**             | **no**              |
+
+<Note>
+  **Watch for split expressions.** Public Sans has the superscript nine but not the superscript minus, so
+  <code>10⁻⁹</code> renders one character in a fallback font and the next in Public Sans — a single expression in two typefaces. In DM Mono the failure is worse: fallback glyphs are not monospaced, so a line containing
+  <code>∑</code> or <code>≤</code> loses its character-cell alignment and the code block stops lining up.
+</Note>
+
+### Prefer the Latin-1 unit characters
+
+Where a unit has both a dedicated character and a Greek equivalent, the dedicated one is both more widely supported and more semantically correct. Reach for the left column:
+
+| Unit       | Use        | Not        | Why                                              |
+| ---------- | ---------- | ---------- | ------------------------------------------------ |
+| micro / µm | `µ` U+00B5 | `μ` U+03BC | All three fonts. It is the unit-prefix character |
+| ohm        | `Ω` U+2126 | `Ω` U+03A9 | Inter and Public Sans, not DM Mono               |
+| angstrom   | `Å` U+00C5 | `Å` U+212B | All three fonts                                  |
+| minus      | `−` U+2212 | `-` U+002D | All three; correct width for a math minus        |
+
+### When you need the rest
+
+- **In headings and UI text**, everything above is safe — that text is already Inter.
+- **In body copy**, either accept the fallback or set the specific expression in the heading font with `font-family: family('heading')`. Mixing typefaces mid-sentence is a judgment call; a matched Inter glyph usually reads better than an unmatched system one.
+- **In code blocks**, keep to ASCII where you can. The monospace grid is the reason to use DM Mono, and fallback glyphs break it.
+- **For real formulas**, use MathML or a math typesetting library with a dedicated math font. Inter is a UI typeface, not a math one — it has no `∇`, `∝`, `∴`, or `⊙`, so those already fall back everywhere.
+
+## Non-Latin scripts
+
+HDS ships Inter split by Unicode range. Latin-1, Greek, math, arrows, sub/superscripts, and fractions are in the file every page loads. Latin Extended (Polish, Czech, Turkish, Romanian), Cyrillic, and Vietnamese live in separate files that the browser fetches **only when a page contains that script** — automatically, with no configuration, on both the compiled-CSS and Sass paths. Spanish needs nothing extra; it is entirely within Latin-1.
+
+<Note>**Body text in Cyrillic falls back today.** Public Sans, the body font, contains no Cyrillic letters at all, so the range split covers headings and UI text but not body copy. Sites publishing in Russian, Ukrainian, Bulgarian, or Serbian should expect body text in a system font. Tracked as a typeface-selection question, not a packaging one.</Note>
+
 ## Using typography in Sass
 
 ```scss
