@@ -3,9 +3,14 @@
 # Jobs are path-filtered so only relevant checks run for each PR.
 # Chromatic only runs if compiled CSS hash differs from base branch.
 #
-# Action tags will be converted to SHA pins automatically by Dependabot
-# on its first run. Do not manually replace tags with SHAs -- let
-# Dependabot maintain them so updates are tracked via PR.
+# Every external action is pinned to a full commit SHA; the trailing
+# comment records the human-readable version that SHA corresponds to.
+# Dependabot (.github/dependabot.yml, github-actions ecosystem, weekly)
+# maintains both -- it bumps the SHA and rewrites the comment, so updates
+# still arrive as reviewable PRs. Dependabot does NOT convert tags to
+# SHAs; it preserves whichever reference style it finds. Keep new actions
+# SHA-pinned when you add them, or they stay on a mutable tag forever.
+# Local composite actions (uses: ./.github/actions/*) have no SHA to pin.
 #
 # Artifact strategy: the build job uploads all of dist/ as a single
 # artifact. Jobs that need dist/ (bundle-size, css-hash, api-check,
@@ -47,9 +52,9 @@ jobs:
       storybook-config: ${{ steps.filter.outputs.storybook-config }}
       tokens: ${{ steps.filter.outputs.tokens }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: dorny/paths-filter@v4
+      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4
         id: filter
         with:
           filters: |
@@ -82,9 +87,9 @@ jobs:
     name: Lint / lockfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -104,9 +109,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -126,9 +131,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -148,9 +153,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.md == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -170,9 +175,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.mdx == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -196,9 +201,9 @@ jobs:
       needs.filter.outputs.js == 'true' ||
       needs.filter.outputs.json == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -224,9 +229,9 @@ jobs:
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -238,7 +243,7 @@ jobs:
         run: npm run build
 
       - name: Upload dist
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: dist
           path: dist/
@@ -259,9 +264,9 @@ jobs:
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -273,7 +278,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Download dist
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
@@ -303,7 +308,7 @@ jobs:
       needs.filter.outputs.scss == 'true' ||
       needs.filter.outputs.storybook-config == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # Shared with the deploy-storybook workflow so the build sequence is
       # defined once. See .github/actions/build-storybook.
@@ -319,10 +324,10 @@ jobs:
     needs: [filter, build]
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Download dist
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
@@ -343,11 +348,11 @@ jobs:
     outputs:
       changed: ${{ steps.compare.outputs.changed }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.base_ref }}
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -364,7 +369,7 @@ jobs:
           echo "hash=$(sha256sum dist/css/hds.min.css dist/css/hds-uswds.min.css dist/css/hds-dataviz.min.css | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
       - name: Download PR dist
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
@@ -397,11 +402,11 @@ jobs:
     needs: css-hash
     if: needs.css-hash.outputs.changed == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -410,13 +415,13 @@ jobs:
         run: npm ci
 
       - name: Download dist
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
 
       - name: Run Chromatic
-        uses: chromaui/action@v18
+        uses: chromaui/action@14cfaef73576e69f95f47f60058063f46ca38719 # v18
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
@@ -431,9 +436,9 @@ jobs:
     needs: [filter, build]
     if: needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -442,7 +447,7 @@ jobs:
         run: npm ci
 
       - name: Download dist
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
@@ -462,9 +467,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.pkg == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -493,9 +498,9 @@ jobs:
     needs: filter
     if: needs.filter.outputs.tokens == 'true' || needs.filter.outputs.scss == 'true'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
