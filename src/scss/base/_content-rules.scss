@@ -82,6 +82,26 @@
     margin-block-end: units(2);
   }
 
+  // Body copy gets the ramp's 'p' style, like every heading above gets
+  // its own. Without this, a paragraph inside .hds-global-styles keeps
+  // the browser's ~1.15 default line-height while its headings, lists,
+  // and links are all HDS — the one-class adoption path's weakest point.
+  // Inside .usa-prose this replaces USWDS's normalized 1.6 with the raw
+  // HDS scale (1.62), which is the same single-source rule the rest of
+  // this file follows.
+  //
+  // The :where() guard excludes component paragraphs — .usa-alert__text,
+  // .usa-intro, .usa-hint and friends set their own size and line-height
+  // in @layer uswds, and layer order would otherwise let this bare rule
+  // win over them. Zero added specificity, mirroring the ol marker rule
+  // below. Adopters' own classes are still typed: only usa-/hds- opt out.
+  //
+  // No max-width here: measure stays an explicit choice via .usa-prose
+  // or .hds-prose-measure, since .hds-global-styles wraps whole pages.
+  p:where(:not([class*='usa-'], [class*='hds-'])) {
+    @include hds-type('p');
+  }
+
   // ── Links ────────────────────────────────────────────────────
 
   a:not(:has(> img, > svg)) {
