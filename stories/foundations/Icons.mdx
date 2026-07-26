@@ -50,7 +50,7 @@ HDS separates icon glyphs from their containers. A single SVG works across all p
 
 ## Using icons in code
 
-Both sprites ship in the package at `dist/assets/img/`: `hds-sprite.svg` for HDS icons, and USWDS's own `sprite.svg` for USWDS and Material icons. Copy the `assets/` tree to your site and point `<use href>` at your copy — the `/hds/…` paths below are an example, not a fixed location. Sass and bundler setups are covered in [Installation](?path=/docs/overview-installation--docs); copy-paste setups in the [No-Build Environments guide](?path=/docs/guides-no-build-environments--docs).
+Both sprites ship in the package at `dist/assets/img/`: `hds-sprite.svg` for HDS icons, and USWDS's own `sprite.svg` for USWDS and Material icons. Copy the `assets/` tree to your site and point `<use href>` at your copy. The `/hds/…` paths below are an example, not a fixed location. Sass and bundler setups are covered in [Installation](?path=/docs/overview-installation--docs); copy-paste setups in the [No-Build Environments guide](?path=/docs/guides-no-build-environments--docs).
 
 ### Two classes, two jobs
 
@@ -58,7 +58,7 @@ Both sprites ship in the package at `dist/assets/img/`: `hds-sprite.svg` for HDS
 
 | Class        | Size                                 | Use for                                                              |
 | ------------ | ------------------------------------ | -------------------------------------------------------------------- |
-| `.hds-glyph` | `1em` — scales with surrounding text | Inline icons in a sentence, a label, or a link                       |
+| `.hds-glyph` | `1em`, scaling with surrounding text | Inline icons in a sentence, a label, or a link                       |
 | `.hds-icon`  | Sized by its container               | Icons inside `.hds-btn-icon` and other HDS components that size them |
 
 <Note type="code">
