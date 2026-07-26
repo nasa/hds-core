@@ -19,6 +19,11 @@
 // moves from this file's layer block into hds.scss.
 // ============================================================
 
+// Expose HDS configuration flags (asset paths, feature flags) so adopters
+// can set them via `@use '@nasa-hds/core/scss/uswds' with (...)`. Must be
+// forwarded before the theme, which reads $hds-image-path / $hds-font-path.
+@forward 'hds-config';
+
 // Configure USWDS with the tweaked HDS theme settings that include USWDS utilities (must be first USWDS load)
 @forward 'hds-uswds-theme-utils';
 @use 'sass:meta';

@@ -31,12 +31,23 @@ Most projects won't need to change anything — HDS Core configures USWDS with t
 
 ### Asset paths
 
-Adjust these if your build pipeline outputs assets to a different location than the HDS Core default.
+Adjust these if your build pipeline serves assets from a different location than the HDS Core default. Unlike the `$theme-*` settings above, these are HDS variables and **are** configurable from your own stylesheet:
 
-| Setting             | HDS Default         | When to change                                                           |
-| ------------------- | ------------------- | ------------------------------------------------------------------------ |
-| `$theme-image-path` | `'../assets/img'`   | Your compiled CSS is not one directory above your `assets/img/` folder   |
-| `$theme-font-path`  | `'../assets/fonts'` | Your compiled CSS is not one directory above your `assets/fonts/` folder |
+```scss
+@use '@nasa-hds/core/scss' with (
+  $hds-asset-path: '/static/hds-assets'
+);
+```
+
+| Setting           | HDS Default                  | When to change                                                         |
+| ----------------- | ---------------------------- | ---------------------------------------------------------------------- |
+| `$hds-asset-path` | `'../assets'`                | Your compiled CSS is not one directory above the copied `assets/` tree |
+| `$hds-image-path` | `'#{$hds-asset-path}/img'`   | Images are served from somewhere other than `<asset path>/img`         |
+| `$hds-font-path`  | `'#{$hds-asset-path}/fonts'` | Webfonts are served from somewhere other than `<asset path>/fonts`     |
+
+Setting `$hds-asset-path` retargets every `url()` HDS emits — webfonts, USWDS imagery, and HDS icons — because HDS feeds these values into USWDS's `$theme-image-path` and `$theme-font-path` for you. Sass does not rewrite `url()`, so the value is written verbatim into your compiled CSS: it must resolve relative to the final stylesheet, or be root-relative or absolute.
+
+Do not set USWDS's `$theme-image-path` / `$theme-font-path` yourself — as with all `$theme-*` settings, HDS Core has already configured `uswds-core` by the time your stylesheet runs.
 
 ### Fixed header offsets
 

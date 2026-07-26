@@ -23,12 +23,13 @@
     "./scss": "./src/scss/hds.scss",
     "./scss/uswds": "./src/scss/hds-uswds.scss",
     "./scss/dataviz": "./src/scss/hds-dataviz.scss",
-    "./assets": "./dist/assets/"
+    "./js/uswds": "./dist/js/uswds.min.js",
+    "./js/uswds-init": "./dist/js/uswds-init.min.js",
+    "./assets/*": "./dist/assets/*"
   },
   "files": [
     "dist/",
-    "src/scss/",
-    "src/assets/"
+    "src/scss/"
   ],
   "scripts": {
     "sass:hds": "sass src/scss/hds.scss dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",

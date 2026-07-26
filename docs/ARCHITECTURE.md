@@ -213,7 +213,11 @@ Always set **both** `color` and `fill` on icon containers. `<path fill="currentC
 
 ### Asset paths
 
-Always use `../assets/img/` in component styles. Configured in `_hds-uswds-theme.scss` via `$theme-image-path` and `$theme-font-path`.
+Never hardcode `../assets/...` in component styles — always interpolate the public config variable: `url('#{$hds-image-path}/hds-icons/name.svg')`, with `@use 'hds-config' as *;` in the file header.
+
+`$hds-asset-path`, `$hds-image-path`, and `$hds-font-path` are declared in `_hds-config.scss` (public Sass surface, adopter-configurable via `@use ... with (...)`). Both `_hds-uswds-theme.scss` and `_hds-uswds-theme-utils.scss` feed them into USWDS's `$theme-image-path` / `$theme-font-path`, which is what emits the `@font-face` and USWDS image `url()`s. `hds.scss` and `hds-uswds.scss` `@forward 'hds-config'` before the theme so adopter configuration reaches it.
+
+Sass does not rewrite `url()`. These strings are emitted verbatim into compiled CSS, so the default `'../assets'` is what makes `dist/css/*.min.css` resolve against its sibling `dist/assets/`.
 
 ## Focus Ring Architecture
 

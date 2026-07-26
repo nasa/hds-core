@@ -48,6 +48,7 @@
 
 @use 'sass:map';
 @use 'uswds-core' as *;
+@use 'hds-config' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 @use 'hds-typography' as *;
@@ -465,7 +466,7 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
     display: block;
     flex-shrink: 0;
     height: 18px;
-    mask-image: url('../assets/img/hds-icons/error.svg');
+    mask-image: url('#{$hds-image-path}/hds-icons/error.svg');
     mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 21.6px 21.6px;

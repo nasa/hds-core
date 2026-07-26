@@ -16,3 +16,26 @@ $hds-enable-dataviz-tokens: false !default;
 /// Enable automatic dark mode detection via prefers-color-scheme
 /// @type Boolean
 $hds-enable-auto-dark-mode: false !default;
+
+/// Base path to the HDS asset tree, as emitted into compiled CSS url()
+/// strings. Sass does NOT rewrite url() — this value is written verbatim
+/// into the output, so it must resolve relative to the final CSS file (or
+/// be root-relative / absolute).
+///
+/// The default assumes the published layout, where the stylesheet sits in
+/// `dist/css/` alongside `dist/assets/`. Override it when assets are
+/// served from a fixed location instead of copied next to the CSS.
+/// @type String
+/// @example scss
+///   @use '@nasa-hds/core/scss' with ($hds-asset-path: '/static/hds-assets');
+$hds-asset-path: '../assets' !default;
+
+/// Path to the image tree (USWDS imagery, HDS icons, NASA branding, and
+/// the generated `hds-sprite.svg`). Derived from $hds-asset-path.
+/// @type String
+$hds-image-path: '#{$hds-asset-path}/img' !default;
+
+/// Path to the webfont tree (Inter, DM Mono, Public Sans). Derived from
+/// $hds-asset-path. USWDS emits its @font-face url()s from this value.
+/// @type String
+$hds-font-path: '#{$hds-asset-path}/fonts' !default;

@@ -275,8 +275,11 @@ src/scss/hds-uswds.scss
 --hds-dataviz-color-seq-yellow-90
 
 ## Sass Variables (_hds-config.scss)
+$hds-asset-path
 $hds-enable-auto-dark-mode
 $hds-enable-dataviz-tokens
+$hds-font-path
+$hds-image-path
 
 ## Sass Variables (_hds-tokens.scss)
 $hds-border-radius

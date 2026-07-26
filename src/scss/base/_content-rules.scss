@@ -28,6 +28,7 @@
 
 @use 'sass:map';
 @use 'uswds-core' as *;
+@use 'hds-config' as *;
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 @use 'hds-typography' as *;
@@ -120,7 +121,7 @@
       display: block;
       height: 24px;
       width: 24px;
-      mask-image: url('../assets/img/hds-icons/quote.svg');
+      mask-image: url('#{$hds-image-path}/hds-icons/quote.svg');
       mask-position: center;
       mask-repeat: no-repeat;
       mask-size: 100%;

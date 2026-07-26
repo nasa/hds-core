@@ -24,11 +24,22 @@ No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-
 ### New HDS site
 
 ```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+<head>
+  <!-- Prevents a flash of expanded nav, banner, and modal content -->
+  <script src="path/to/hds-core/dist/js/uswds-init.min.js"></script>
+  <link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
+</head>
+<body>
+  <!-- your content -->
+  <script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+</body>
 ```
 
 `hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles (typography, grid, layout). No other CSS file is required.
+
+The two scripts are separate because they load differently. `uswds-init.min.js` is tiny and must run **synchronously in `<head>`, before first paint** — it marks the page as still-loading so `hds.min.css` can hide JavaScript-dependent content until `uswds.min.js` initializes it. Without it, navigation submenus, banner content, and modal wrappers flash open on load. `uswds.min.js` carries the component behavior and is deferred at the end of `<body>`.
+
+Through the package's `exports` map these are `@nasa-hds/core/js/uswds-init` and `@nasa-hds/core/js/uswds`.
 
 ### Existing USWDS site
 
@@ -130,7 +141,18 @@ To include USWDS utility classes:
 
 ### Vite: copy fonts and icons
 
-HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Vite cannot resolve these at compile time — you must copy the assets to the expected output location using `vite-plugin-static-copy`. See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
+HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Sass never rewrites `url()`, so those strings land verbatim in your compiled CSS and Vite cannot resolve them at compile time. You have two options:
+
+- **Copy the assets** next to your compiled CSS with `vite-plugin-static-copy`. One target covers everything: `node_modules/@nasa-hds/core/dist/assets` is a single complete tree (Inter, DM Mono, Public Sans, USWDS imagery, HDS icons, and `img/hds-sprite.svg`). See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
+- **Point HDS at your assets** by overriding `$hds-asset-path`, if you already serve static files from a fixed location:
+
+```scss
+@use '@nasa-hds/core/scss' with (
+  $hds-asset-path: '/static/hds-assets'
+);
+```
+
+Every emitted `url()` — webfonts, USWDS imagery, and HDS icons — is written relative to that base. `$hds-image-path` and `$hds-font-path` can be set individually if the two trees are served from different places.
 
 ### Using HDS tokens in Sass
 
