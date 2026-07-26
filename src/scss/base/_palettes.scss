@@ -15,6 +15,7 @@
 // SECTIONS:
 //   Shared Color Schemes
 //   Palettes
+//   USWDS Surface Bridges
 //   Auto Dark Mode
 // ============================================================
 
@@ -290,6 +291,51 @@
   @include _scheme-dark;
 
   --hds-palette-bg: #{$hds-color-carbon-black};
+}
+
+// ============================================================
+// USWDS SURFACE BRIDGES
+// ============================================================
+// The government banner, header, footer, and identifier have no
+// HDS theme yet (Issue #86), so they are not palette containers.
+// Their surfaces are decided by USWDS — white for the banner,
+// header, and footer sections, black for the identifier — while
+// the text and links inside them pick up HDS colors from whatever
+// palette happens to wrap the page. When the two disagree the
+// result is unreadable: Carbon 90 identifier links on black in
+// every light palette, and white header/footer links on white
+// inside a dark one.
+//
+// Each bridge pins the palette that matches the surface USWDS
+// paints, which leaves the default appearance untouched and only
+// corrects the mismatch. The background is set explicitly because
+// USWDS gives .usa-header and .usa-footer no background of their
+// own — they assume the body behind them is white, which stops
+// being true inside a palette wrapper.
+//
+// :where() holds specificity at zero, so an adopter who wants a
+// different surface adds a .hds-palette-* class to the same
+// element and wins without !important.
+//
+// Remove these once the components get real HDS theming.
+// ============================================================
+
+:where(.usa-banner, .usa-header, .usa-footer) {
+  @include _scheme-universal;
+  @include _scheme-light;
+
+  --hds-palette-bg: #{$hds-color-spacesuit-white};
+
+  background-color: var(--hds-palette-bg);
+}
+
+:where(.usa-identifier) {
+  @include _scheme-universal;
+  @include _scheme-dark;
+
+  --hds-palette-bg: #{$hds-color-carbon-black};
+
+  background-color: var(--hds-palette-bg);
 }
 
 // ============================================================
