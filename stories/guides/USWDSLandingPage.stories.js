@@ -13,8 +13,10 @@
 //   blocks), Section (default + dark variant), Button (big),
 //   Prose content, Footer (slim), Identifier, Skip nav
 //
-// Phase 2 stub components (header, footer, banner) render
-// with default or partially-styled USWDS appearance.
+// Header, footer, banner, and identifier are not themed by HDS
+// yet. They render as stock USWDS, pinned to the palette that
+// matches the surface USWDS paints (see base/_palettes.scss) so
+// they stay readable in every palette mode.
 // ============================================================
 
 import { paletteModes } from '../../.storybook/modes';

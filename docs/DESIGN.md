@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-06-02
+Last updated: 2026-07-25
 
 ## Class Naming Convention
 
@@ -21,11 +21,19 @@ HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. 
 
 | HDS Figma | What it is | USWDS Equiv | HDS Core CSS | Status |
 | --- | --- | --- | --- | --- |
-| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | `components/_navigation.scss` | Phase 2 (top priority) |
-| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | `components/_navigation.scss` | Phase 2 (ships with Header/Footer) |
+| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | — | Phase 2 (top priority) |
+| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | — | Phase 2 (ships with Header/Footer) |
 | Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | `components/_in-page-nav.scss` | Complete |
 | Table of Contents | Non-sticky multi-column link grid at the top of the page (2-col or 3-col). Links can be anchor (↓), internal (→), or external (↗). Collapses to dropdown on small/medium screens. Minimum 5 rows. Should not duplicate Secondary Navigation. | No equivalent | — | Phase 2 |
 | _(none)_ | Vertical sidebar for navigating between pages in a section (docs left rail pattern). Not defined in HDS Figma. | `usa-sidenav` | — | Phase 2 (low — use USWDS default) |
+
+### Header, Footer, and Banner: untouched until Phase 2
+
+Early versions of HDS Core carried partial header, footer, nav, and government-banner styling inherited from a WordPress theme. It was never reviewed against Figma and rendered visibly broken on the USWDS templates, so it was removed rather than shipped in v1.0. These components now render as stock USWDS, themed only by the shared token settings every USWDS component receives.
+
+Stock USWDS is a defensible interim state, but it assumes a white page. The banner, header, footer, and identifier decide their own surfaces and are not palette containers, so HDS text and link colors inside them resolved against the surrounding palette instead — Carbon 90 identifier links on the identifier's black background in every light palette, white header and footer links inside a dark one.
+
+Each is therefore pinned to the palette that matches the surface USWDS already paints (white for the banner, header, and footer; black for the identifier). This keeps the default appearance unchanged and corrects only the mismatch. It is a readability guardrail, not a design decision — the real treatment comes with Phase 2 theming. Implementation lives in `base/_palettes.scss`; see ARCHITECTURE.md for the specificity contract.
 
 ## Color
 
@@ -383,7 +391,7 @@ See `components/_pagination.scss` for implementation.
 
 ### Naming
 
-**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar (see `components/_banner.scss`).
+**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar, which HDS does not theme — see "Header, Footer, and Banner: untouched until Phase 2" under Navigation Component Mapping.
 
 ### Color Variants
 
