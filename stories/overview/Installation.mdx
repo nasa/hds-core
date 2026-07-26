@@ -17,7 +17,7 @@ Technical setup for integrating HDS Core into your project. If you're evaluating
 
 If you're evaluating HDS Core, working on a content site, or don't have a build pipeline, start with pre-compiled CSS. You can switch to Sass later without changing your markup.
 
-No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-build-environments--docs) guide for CDN-based setup.
+No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-build-environments--docs) guide for a copy-paste setup. HDS Core is self-hosted — there is no CDN, and third-party mirrors are not supported.
 
 ## Pre-compiled CSS
 
@@ -36,6 +36,8 @@ No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-
 ```
 
 `hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles (typography, grid, layout). No other CSS file is required.
+
+It is not, however, the only file to deploy. The stylesheet resolves webfonts and icons as `../assets/…`, so copy `dist/css/`, `dist/js/`, and `dist/assets/` together and keep `css/` and `assets/` as siblings on your server. Copy `assets/` whole: Inter is split by Unicode range, and copying only the font files the CSS visibly references drops the extra range files, which makes non-Latin-1 pages fall back to a system font silently. To serve assets from an unrelated location, override [`$hds-asset-path`](?path=/docs/guides-sass-configuration--docs), which requires Sass.
 
 The two scripts are separate because they load differently. `uswds-init.min.js` is tiny and must run **synchronously in `<head>`, before first paint** — it marks the page as still-loading so `hds.min.css` can hide JavaScript-dependent content until `uswds.min.js` initializes it. Without it, navigation submenus, banner content, and modal wrappers flash open on load. `uswds.min.js` carries the component behavior and is deferred at the end of `<body>`.
 
@@ -180,7 +182,7 @@ For USWDS theme customization, global element style flags, and advanced configur
 
 **Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself loads it without HDS configuration and breaks the theme. HDS Sass variables and USWDS functions are available automatically after forwarding HDS Core.
 
-**Bare HTML elements are not styled by default.** If your headings, paragraphs, or links are not picking up HDS styles, add USWDS classes like `.usa-prose`, `.usa-link`, and `.usa-button`. Sass users can enable global element styling in the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
+**Bare HTML elements are not styled by default.** Loading `hds.min.css` on an existing page changes nothing you can see until you opt content in — that is expected, not a failed install. Add `class="hds-global-styles hds-palette-white"` to `<body>` to style plain markup in one step, or add USWDS classes element by element (`.usa-prose`, `.usa-link`, `.usa-button`) where you want finer control. See [content styling scopes](?path=/docs/foundations-typography--docs). Sass users can instead enable it globally with `$theme-global-content-styles` in the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
 
 ## Framework-specific guides
 

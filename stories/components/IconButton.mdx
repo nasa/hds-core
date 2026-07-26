@@ -53,7 +53,7 @@ Per HDS Figma accessibility guidance, popovers should **automatically display wh
 ```html
 <button class="hds-btn-icon hds-btn-icon--interactive" type="button" aria-label="Sample Handling" aria-expanded="false" aria-controls="popover-sample">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#plus"></use>
+    <use href="/hds/assets/img/hds-sprite.svg#plus"></use>
   </svg>
 </button>
 
@@ -129,14 +129,14 @@ Eight sizes are available. Size and role classes are independent — combine any
 <!-- ✅ Correct -->
 <button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Download report">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+    <use href="/hds/assets/img/hds-sprite.svg#download"></use>
   </svg>
 </button>
 
 <!-- ❌ Missing aria-label -->
 <button class="hds-btn-icon hds-btn-icon--secondary" type="button">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+    <use href="/hds/assets/img/hds-sprite.svg#download"></use>
   </svg>
 </button>
 ```
