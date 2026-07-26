@@ -1,5 +1,5 @@
 ---
-'@nasa-hds/core': minor
+'@nasa-hds/core': patch
 ---
 
 Give body copy the ramp's `p` style inside `.hds-global-styles` and `.usa-prose`
@@ -8,10 +8,10 @@ Bare paragraphs were the one content element the shared content-styling engine d
 
 `p` now takes `hds-type('p')`, the same ramp entry `.hds-p` emits: Public Sans, 1rem, weight 400, `--hds-line-height-5` (1.62).
 
-**Visual change, `visual-breaking-change`.** Two effects:
+**Visual change, not a visual breaking change.** Measured against the definition in CONTRIBUTING.md: line count is unchanged (2 line boxes before and after on the reference paragraph), inline width is unchanged at 562px, and no contrast, target size, or override contract moves. Block height grows in normal flow, which the definition excludes. Two effects:
 
-- **Inside `.hds-global-styles`**, paragraph line-height goes from ~1.15 to 1.62. Pages get taller. This is the intended fix.
-- **Inside `.usa-prose`**, line-height goes from USWDS's normalized 1.6 to the raw HDS 1.62 — 25.6px to 25.92px at 16px. Sub-pixel per line, consistent with the single-source rule the rest of the content engine already follows (no USWDS `lh()` normalization in the content layer).
+- **Inside `.hds-global-styles`**, paragraph line-height goes from about 1.15 to 1.62, so body copy that was cramped now matches the type ramp. Paragraph blocks grow taller in flow. This is the intended fix.
+- **Inside `.usa-prose`**, line-height goes from USWDS's normalized 1.6 to the raw HDS 1.62, which is 25.6px to 25.92px at 16px. A third of a pixel per line, and consistent with the single-source rule the rest of the content engine already follows (no USWDS `lh()` normalization in the content layer).
 
 Component paragraphs are untouched. The rule carries a `:where(:not([class*='usa-'], [class*='hds-']))` guard, so `.usa-intro`, `.usa-alert__text`, `.usa-hint`, `.usa-radio__label-description` and the rest keep the size and line-height they set in `@layer uswds` — without the guard, layer order would let a bare `p` rule in `hds-base` override them. Verified unchanged: `.usa-intro` 18px/27px, `.usa-alert__text` 15.84px/25.344px, `.usa-hint` 12px/14.4px, table captions and cells. Adopters' own classed paragraphs are still typed; only `usa-` and `hds-` prefixes opt out.
 
