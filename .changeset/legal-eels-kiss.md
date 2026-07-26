@@ -2,11 +2,11 @@
 '@nasa-hds/core': minor
 ---
 
-Remove the incomplete `_navigation.scss` and `_banner.scss` component stubs; pin the USWDS identifier to the black palette (Issue #86)
+Remove the incomplete `_navigation.scss` and `_banner.scss` stubs; keep bare USWDS header, nav, banner, and identifier legible under HDS (Issue #86)
 
-Header, footer, nav, and the government compliance banner had partial, inherited stub styling that was never finished or documented. Those stubs are removed; these components now ship as bare USWDS defaults inside `@layer uswds`. Real HDS theming is a top priority for post-v1.0.
+Header, footer, nav, and the government compliance banner had partial, inherited stub styling that was never finished or documented. Those stubs are removed; these components now ship as bare USWDS defaults inside `@layer uswds`. Real HDS theming is a post-v1.0 priority.
 
-**Removed: Nav/banner stub selectors (components revert to USWDS defaults)**
+**Removed: Nav/banner stub selectors (revert to USWDS defaults)**
 
 - `.usa-header`, `.usa-header--basic`
 - `.usa-navbar`, `.usa-nav-container`, `.usa-nav__primary`, `.usa-nav__primary-item`, `.usa-nav__submenu`, `.usa-nav__global-nav-trigger`, `.usa-nav__mobile-menu`, `.usa-nav__mobile-menu-trigger`, `.usa-megamenu`
@@ -16,6 +16,10 @@ Header, footer, nav, and the government compliance banner had partial, inherited
 
 Adopters relying on any of this stub styling should move those rules into their own `@layer site`.
 
-**Added: Government identifier legibility fix**
+**Added: Legibility guards for bare USWDS components**
 
-`base/_palettes.scss` now pins `.usa-identifier` to the black palette. The USWDS identifier always renders on a near-black surface; without this, its HDS-styled links inherited the surrounding site palette's near-black link color and failed contrast (invisible links on the dark identifier). The identifier now renders identically in light or dark site contexts.
+These keep the unthemed components readable under any site palette:
+
+- `.usa-identifier` is pinned to the black palette (`base/_palettes.scss`) so its links stay legible on the dark identifier surface.
+- `.usa-header` and `.usa-nav` (including the mobile drawer) are pinned to the white palette (`base/_palettes.scss`) so a page-level `.hds-palette-*` wrapper can't cascade a dark palette into the header and hide its links.
+- HDS accordion overrides (`components/_accordion.scss`) are now guarded with `:not(.usa-banner *):not(.usa-nav *)`. USWDS reuses the `.usa-accordion*` classes for the banner toggle and primary nav, where the HDS restyle was misplacing the toggle icon.

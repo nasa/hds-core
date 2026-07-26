@@ -300,7 +300,11 @@ Components are organized by category in `components/_index.scss`:
 
 Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
 
-Header, footer, nav, and the government compliance banner have **no HDS theming yet** and ship as bare USWDS defaults inside `@layer uswds`. The one exception is the USWDS identifier: `base/_palettes.scss` pins `.usa-identifier` to the black palette so its links stay legible on the dark identifier surface regardless of the surrounding site palette.
+Header, footer, nav, and the government compliance banner have **no HDS theming yet** and ship as bare USWDS defaults inside `@layer uswds`. Three legibility guards in `base/_palettes.scss` and `components/_accordion.scss` keep these bare components usable under HDS regardless of the surrounding site palette:
+
+- `.usa-identifier` is pinned to the black palette so its links stay legible on the dark identifier surface.
+- `.usa-header` and `.usa-nav` (including the mobile drawer) are pinned to the white palette so a page-level `.hds-palette-*` wrapper cannot cascade a dark palette into the header and make it unreadable.
+- The HDS accordion overrides are guarded with `:not(.usa-banner *):not(.usa-nav *)` because USWDS reuses the `.usa-accordion*` classes for the banner toggle and primary nav; without the guard, the HDS chevron/heading restyle leaked into those components.
 
 ## Testing
 

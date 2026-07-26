@@ -473,6 +473,7 @@ hds-type-classes
 .usa-footer
 .usa-form-group--disabled
 .usa-form-group--error
+.usa-header
 .usa-hint
 .usa-icon
 .usa-identifier
