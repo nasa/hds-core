@@ -1,36 +1,92 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
 
 <Meta title="Guides/No-Build Environments" />
 
 # No-Build Environments
 
-HDS Core works without a build step. If your site runs on a CMS, static HTML, or a legacy framework, you can adopt NASA's visual identity and accessible components by linking a CSS file and adding two script tags. No Node.js, no framework rewrite required.
+HDS Core works without a build step. If your site is static HTML, a CMS theme, or a legacy framework, you can adopt NASA's typography, color, links, and components by copying three directories onto your server and adding four lines to your pages. No Node.js, no bundler, no framework rewrite.
 
 Before using this guide, confirm your site is approved to remain standalone. See [Getting Started](?path=/docs/overview-getting-started--docs) if you haven't already.
 
-## Add the stylesheet and scripts
+## Quickstart
 
-Download the HDS Core distribution from GitHub or install via npm, then add these to your HTML:
+### 1. Get the files
+
+Download `hds-core-v<version>-dist.zip` from the [latest release](https://github.com/nasa/hds-core/releases). It unpacks to three directories:
+
+{/* prettier-ignore */}
+```
+css/      hds.min.css and the two optional bundles
+js/       uswds.min.js and uswds-init.min.js
+assets/   fonts/ and img/ — webfonts, icons, and the SVG sprites
+```
+
+If you have npm available, `npm install @nasa-hds/core @uswds/uswds` puts the same three directories in `node_modules/@nasa-hds/core/dist/`. Either way, copy them somewhere your web server serves — `/hds/` in the examples below.
+
+<Note type="code">**Keep the three directories together, and copy `assets/` whole.** `hds.min.css` resolves its webfonts and icons as `../assets/…`, so `css/` and `assets/` must stay siblings. Fonts are also split by Unicode range: copy only the font files you see referenced in the CSS and you drop the extra range files, so a Polish, Russian, or Vietnamese page silently falls back to a system font — invisible if you test in English. Copy directories, not individual files. To serve assets from somewhere else entirely, you need the [Sass path override](?path=/docs/guides-sass-configuration--docs).</Note>
+
+### 2. Add four lines to your HTML
 
 ```html
-<head>
-  <!-- Prevents flash of unstyled content on interactive components -->
-  <script src="path/to/hds-core/dist/js/uswds-init.min.js"></script>
-  <link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-</head>
-<body>
-  <!-- your content -->
-  <script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Required for a responsive layout on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your page title</title>
+
+    <!-- Prevents a flash of expanded nav, banner, and modal content -->
+    <script src="/hds/js/uswds-init.min.js"></script>
+    <link rel="stylesheet" href="/hds/css/hds.min.css" />
+  </head>
+
+  <body class="hds-global-styles hds-palette-white">
+    <!-- your existing content, unchanged -->
+
+    <script src="/hds/js/uswds.min.js" defer></script>
+  </body>
+</html>
+```
+
+`hds.min.css` is self-contained. It includes all USWDS components, HDS overrides, and every foundation style including the grid. No other CSS file is required.
+
+<Note type="code">**If your pages predate responsive design, the viewport tag is step zero.** Without it a mobile browser renders the page at desktop width and scales it down, so no amount of grid or layout work produces a usable mobile page — and "functional and readable on mobile devices" is one of the [design standards](?path=/docs/overview-design-standards--docs).</Note>
+
+### 3. What the two classes on `<body>` do
+
+They are what turns your existing markup into HDS.
+
+| Class               | What it does                                                                                                                      |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `hds-global-styles` | Applies HDS content styling to plain HTML in that subtree: headings, paragraphs, links, lists, tables, blockquotes, code, figures |
+| `hds-palette-white` | Sets text and link colors from the White palette. Without a palette class, body text stays the browser's default black            |
+
+Put them on `<body>` to style a whole page, or on a wrapper to style one region. To carve out a subtree HDS should leave alone — a third-party widget, an embedded map, a legacy component you are not ready to touch — add `hds-global-styles-reset` to it.
+
+```html
+<body class="hds-global-styles hds-palette-white">
+  <h1>Goddard Instrument Data Archive</h1>
+  <p>Body copy, links, and lists pick up HDS styling with no classes of their own.</p>
+
+  <div class="hds-global-styles-reset">
+    <!-- untouched: renders exactly as it did before HDS -->
+  </div>
 </body>
 ```
 
-`hds.min.css` is self-contained. It includes all USWDS components, HDS overrides, and all foundation styles. No other CSS file is required.
+<Note type="code">
+  **Without `hds-global-styles`, linking the stylesheet changes nothing you can see.** That is by design, not a failed install: HDS does not restyle every element on a page it does not own, so `hds.min.css` waits to be asked. Bare `<h1>`, `<p>`, and `<a>` render exactly as before until you either add the class above or add USWDS classes element by element — `.usa-prose` on a content block, `.usa-link` on links, `.usa-button` on buttons. The class is the fast path; per-element classes give you finer control. [Typography](?path=/docs/foundations-typography--docs) compares the two.
+</Note>
 
-USWDS 3.x is written in vanilla JavaScript and does not conflict with jQuery. If your legacy site depends on older versions of jQuery, the USWDS scripts run safely alongside it.
+## Self-hosting: there is no CDN
+
+HDS Core is distributed as files you host yourself. There is no NASA-hosted CDN, and third-party mirrors such as jsDelivr or unpkg are not supported — a `.gov` page should not depend on a third-party origin for its styling. Copy the files onto your server and serve them from your own domain, as in step 1.
 
 ## Use HDS tokens in your existing CSS
 
-Once `hds.min.css` is loaded, HDS design tokens are available as CSS custom properties anywhere in your stylesheets:
+Once `hds.min.css` is loaded, HDS design tokens are available as CSS custom properties anywhere in your stylesheets. The full searchable list — colors, spacing, layout, typography, borders, focus — is on the [Design Tokens](?path=/docs/overview-design-tokens--docs) page.
 
 ### Typography
 
@@ -123,7 +179,7 @@ Fixed-width containers break on mobile and fail responsive layout requirements. 
 </div>
 ```
 
-> These grid and layout classes require loading `hds-uswds.min.css` alongside `hds.min.css`. This is a temporary migration step — as you modernize your markup, the goal is to move toward CSS Grid and Flexbox natively, which removes the need for utility classes entirely.
+> The grid ships inside `hds.min.css` — there is nothing extra to load. Spacing and color _utility_ classes are the exception: `.padding-2`, `.margin-top-3`, and `.text-primary` live in the optional `hds-uswds.min.css` bundle. Grid classes are a useful migration step; as you modernize, the goal is to move toward CSS Grid and Flexbox natively.
 
 ### Semantics: fix inaccessible markup
 
@@ -140,12 +196,44 @@ After fixing your markup, press `Tab` to navigate your site. Every interactive e
 
 ### USWDS component markup
 
-For components that require specific HTML structure (accordion, banner, navigation, modal), use the markup from the [USWDS component documentation](https://designsystem.digital.gov/components/overview/). HDS Core styles these components automatically when the correct markup is present.
+For components that require specific HTML structure (accordion, modal, navigation), use the markup from the [USWDS component documentation](https://designsystem.digital.gov/components/overview/). HDS Core styles these components automatically when the correct markup is present, and `uswds.min.js` from step 1 supplies their behavior — you do not need to install USWDS separately.
+
+### Icons
+
+Both sprites ship in the `assets/img/` directory you copied. Point `<use href>` at your own path:
+
+```html
+<!-- HDS icons -->
+<svg class="hds-glyph" aria-hidden="true" focusable="false">
+  <use href="/hds/assets/img/hds-sprite.svg#download"></use>
+</svg>
+
+<!-- USWDS and Material icons -->
+<svg class="usa-icon" aria-hidden="true" focusable="false">
+  <use href="/hds/assets/img/sprite.svg#search"></use>
+</svg>
+```
+
+Both classes size themselves to the surrounding text (`1em`) and take its color. `.hds-icon` is the third class you will see in component markup — it is sized by the component around it, so it needs a container such as `.hds-btn-icon` rather than standing alone. See [Icons](?path=/docs/foundations-icons--docs) for the full inventory.
+
+## What HDS Core does not give you yet
+
+The [design standards](?path=/docs/overview-design-standards--docs) require an agency header — federal government banner, NASA logo linking to nasa.gov, and the Explore navigation — and an agency footer carrying required links, the Responsible NASA Official, a contact, and a "Last Updated" date. **HDS Core does not style these yet.** Dedicated HDS versions arrive with the navigation work planned for the first post-v1.0 release; see the [Roadmap](?path=/docs/overview-roadmap--docs).
+
+Until then, build them from the [USWDS banner](https://designsystem.digital.gov/components/banner/), [header](https://designsystem.digital.gov/components/header/), [footer](https://designsystem.digital.gov/components/footer/), and [identifier](https://designsystem.digital.gov/components/identifier/) markup. They render as stock USWDS with HDS typography and color settings applied, and are readable in every palette. Expect their appearance to change when the HDS versions land, and keep any local adjustments in `@layer site` so they are easy to find and remove later.
+
+## Updating to a new version
+
+1. Read the [release notes](https://github.com/nasa/hds-core/releases) first. Pre-v1.0 minor releases can rename or remove CSS custom properties and change component styling, and a renamed `--hds-*` property fails silently in your own CSS.
+2. Replace `css/`, `js/`, and `assets/` wholesale. Do not merge them file by file — releases add and remove font and icon files, and a partial update leaves you with a mix.
+3. Record which version you installed somewhere you will find it again. The stylesheet does not yet carry a version stamp.
+4. Re-check your pages at mobile and desktop widths, and tab through them once.
 
 ## What requires a build step
 
 Some HDS features require a Sass compiler:
 
+- Serving `assets/` from a location that is not a sibling of your CSS
 - Customizing USWDS theme settings (colors, fonts, spacing scale)
 - Using `$hds-color-*` Sass variables in your own component styles
 - Using USWDS design token functions (`family()`, `size()`, `units()`)

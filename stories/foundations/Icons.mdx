@@ -50,21 +50,28 @@ HDS separates icon glyphs from their containers. A single SVG works across all p
 
 ## Using icons in code
 
-### SVG sprite (recommended)
+Both sprites ship in the package at `dist/assets/img/`: `hds-sprite.svg` for HDS icons, and USWDS's own `sprite.svg` for USWDS and Material icons. Copy the `assets/` tree to your site and point `<use href>` at your copy — the `/hds/…` paths below are an example, not a fixed location. Sass and bundler setups are covered in [Installation](?path=/docs/overview-installation--docs); copy-paste setups in the [No-Build Environments guide](?path=/docs/guides-no-build-environments--docs).
 
-```html
-<svg class="hds-icon" aria-hidden="true" focusable="false">
-  <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
-</svg>
-```
+### Two classes, two jobs
 
-### Inline glyph (no container)
+`.hds-glyph` and `.hds-icon` both draw from the sprite and both inherit their color from `currentColor`. They differ in how they are sized, which decides which one you want:
+
+| Class        | Size                                 | Use for                                                              |
+| ------------ | ------------------------------------ | -------------------------------------------------------------------- |
+| `.hds-glyph` | `1em` — scales with surrounding text | Inline icons in a sentence, a label, or a link                       |
+| `.hds-icon`  | Sized by its container               | Icons inside `.hds-btn-icon` and other HDS components that size them |
+
+<Note type="code">
+  **`.hds-icon` sets no dimensions of its own.** It takes them from the component around it, so a bare `<svg class="hds-icon">` with nothing to size it renders at the SVG default of 300×150. For a standalone inline icon use `.hds-glyph`, or set an explicit `width` and `height`.
+</Note>
+
+### Inline glyph
 
 ```html
 <span>
   Download file
   <svg class="hds-glyph" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+    <use href="/hds/assets/img/hds-sprite.svg#download"></use>
   </svg>
 </span>
 ```
@@ -74,7 +81,7 @@ HDS separates icon glyphs from their containers. A single SVG works across all p
 ```html
 <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+    <use href="/hds/assets/img/hds-sprite.svg#download"></use>
   </svg>
 </button>
 ```
@@ -90,12 +97,12 @@ USWDS ships with its own icon sprite (`sprite.svg`) which includes both USWDS an
 ```html
 <!-- HDS icon -->
 <svg class="hds-icon" aria-hidden="true" focusable="false">
-  <use xlink:href="/assets/img/hds-sprite.svg#download"></use>
+  <use href="/hds/assets/img/hds-sprite.svg#download"></use>
 </svg>
 
 <!-- USWDS / Material icon -->
 <svg class="usa-icon" aria-hidden="true" focusable="false">
-  <use xlink:href="/assets/img/sprite.svg#thumb_up_alt"></use>
+  <use href="/hds/assets/img/sprite.svg#thumb_up_alt"></use>
 </svg>
 ```
 
@@ -117,7 +124,7 @@ For detailed ARIA requirements, see each component's Accessibility section and t
 
 When the HDS icon set above doesn't include what you need:
 
-1. **Check USWDS icons** — the USWDS sprite (`dist/assets/img/sprint.svg`) includes hundreds of icons, which are also included as individual .svg files (`dist/assets/img/usa-icons/`)
+1. **Check USWDS icons** — the USWDS sprite (`dist/assets/img/sprite.svg`) includes hundreds of icons, which are also included as individual .svg files (`dist/assets/img/usa-icons/`)
 2. **Check Material icons** — included as individual .svg files in the USWDS package (`dist/assets/img/material-icons/`)
 3. **Custom icons** should follow HDS design guidelines: 20x20px icon centered on a 24×24px grid, 2px stroke (1px for fine details), geometric forms, optimized for small sizes. New icons go through the HDS design review process.
 

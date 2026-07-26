@@ -133,6 +133,36 @@ HDS ships Inter as two files per weight. Latin-1, Greek, math, arrows, sub/super
 
 <Note>**Body text in Cyrillic falls back today.** Public Sans, the body font, contains no Cyrillic letters at all, so the range split covers headings and UI text but not body copy. Sites publishing in Russian, Ukrainian, Bulgarian, or Serbian should expect body text in a system font. Tracked as a typeface-selection question, not a packaging one.</Note>
 
+## Content styling scopes
+
+HDS can style plain HTML — headings, paragraphs, links, lists, tables, blockquotes, code, figures — without a class on every element. Three scopes opt content in, and one opts a subtree back out.
+
+| Scope                          | Where it applies                      | Use for                                                                |
+| ------------------------------ | ------------------------------------- | ---------------------------------------------------------------------- |
+| `.hds-global-styles`           | Any element and its descendants       | Whole pages or regions of unclassed markup, including a whole `<body>` |
+| `.usa-prose`                   | Any element and its descendants       | A single block of editorial content inside an otherwise classed page   |
+| `$theme-global-content-styles` | Every element on the page (Sass flag) | Sites compiling from Sass that want content styling on by default      |
+| `.hds-global-styles-reset`     | A descendant of either scope above    | Carving an unstyled island out of a styled scope                       |
+
+`.hds-global-styles` and `.usa-prose` deliver identical typography; they differ only in intent and in one detail — `.usa-prose` also constrains paragraph width to a comfortable measure, which `.hds-global-styles` deliberately does not, since it commonly wraps a whole page. Apply `.hds-prose-measure` where you want that constraint explicitly.
+
+```html
+<body class="hds-global-styles hds-palette-white">
+  <h1>Styled by HDS with no classes of its own</h1>
+  <p>So is this paragraph, and any link, list, or table in this subtree.</p>
+
+  <div class="hds-global-styles-reset">
+    <!-- Left alone: renders as it did before HDS was loaded -->
+  </div>
+</body>
+```
+
+A palette class belongs alongside the scope. HDS text and link colors come from the palette system, so `class="hds-global-styles hds-palette-white"` gives content the White palette's Carbon 90 text; without a palette class, body text stays the browser's default black. See [Color Palettes](?path=/docs/foundations-color-palettes--docs).
+
+<Note type="code">
+  **Nothing is styled until you opt in.** Loading `hds.min.css` alone leaves bare `<h1>`, `<p>`, and `<a>` at browser defaults — HDS does not restyle every element on a page it does not own. Adopters without a build step usually want `.hds-global-styles` on `<body>`; see the [No-Build Environments guide](?path=/docs/guides-no-build-environments--docs). Per-element USWDS classes (`.usa-prose`, `.usa-link`, `.usa-button`) remain available where you want finer control.
+</Note>
+
 ## Using typography in Sass
 
 ```scss

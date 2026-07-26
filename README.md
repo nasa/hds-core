@@ -1,6 +1,6 @@
 # @nasa-hds/core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.8.0-blue.svg)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![Releases](https://img.shields.io/badge/Releases-changelog-blue.svg)](https://github.com/nasa/hds-core/releases) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
 > **Pre-1.0:** API and class names may change between minor versions.
 
