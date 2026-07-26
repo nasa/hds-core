@@ -72,7 +72,7 @@
 
   The `@nasa-hds` scope leaves room for sibling packages (e.g. dataviz, framework bindings) without renaming core again. Subpath exports and class names are unchanged.
 
-- d278036: Remove the navigation and banner stubs; pin USWDS header, footer, banner, and identifier to a readable palette
+- d278036: Remove the navigation and banner stubs; pin USWDS header, footer, banner, and identifier to a readable palette (thanks [@suthat](https://github.com/suthat)!)
 
   The partial header, footer, nav, and government-banner styling inherited from an earlier WordPress theme has been removed. It was never reviewed against Figma and rendered visibly broken on the USWDS templates, so it does not ship in v1.0. These components now render as stock USWDS, themed by the shared token settings every USWDS component receives. Real HDS versions arrive with the navigation work planned for the first post-v1.0 release.
 
@@ -84,7 +84,7 @@
 
 ### Patch Changes
 
-- 429aac4: Preserve the error indicator border when hovering text inputs, textareas, and selects.
+- 429aac4: Preserve the error indicator border when hovering text inputs, textareas, and selects. (thanks [@sean-camara](https://github.com/sean-camara)!)
 - 555a162: Stop the HDS accordion restyle from leaking into the USWDS banner and nav
 
   USWDS reuses the `.usa-accordion*` classes outside real accordions: the government banner's "Here's how you know" toggle and the primary nav's dropdown behavior (including the mobile drawer) are both built on them. The HDS accordion restyle (borderless container, flush headings, circled chevron) was reaching those toggles and misplacing their icons. The overrides in `components/_accordion.scss` are now guarded with `:not(.usa-banner *):not(.usa-nav *)`, so the HDS treatment applies only to genuine accordions and the banner and nav toggles render as stock USWDS.
