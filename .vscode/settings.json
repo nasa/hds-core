@@ -1,0 +1,27 @@
+{
+  "prettier.configPath": ".config/prettierrc.json",
+  "prettier.ignorePath": ".config/prettierignore",
+
+  "stylelint.configFile": ".config/stylelintrc.json",
+  "stylelint.ignorePath": ".config/stylelintignore",
+  "stylelint.validate": ["css", "scss"],
+
+  "[mdx]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
