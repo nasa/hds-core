@@ -151,10 +151,39 @@ While the major version is 0, SemVer permits breaking changes in minor releases.
 
 ### Additional guidance
 
-- If your PR is a visual restyling that does not change the snapshot but will meaningfully affect adopter layouts, apply the `visual-breaking-change` label and bump one notch above what the rubric otherwise suggests.
+- If your PR is a visual breaking change, apply the `visual-breaking-change` label and bump one notch above what the rubric otherwise suggests. See the definition below.
 - The snapshot tracks the promise, and the bump tracks what an adopter can now build. A line that adds something to build with is a minor; a line that only reports on what is already there (for example `--hds-version`) is a patch. Either way, once it is documented, renaming or removing it later counts as a removal in the table above.
 - When in doubt, bump more severely. A minor that could have been a patch is fine; a patch that should have been a minor can break someone.
 - Removals that lack a prior deprecation: still allowed pre-v1.0 (minor bump), but flag in your changeset summary so adopters scanning the changelog can prepare.
+
+### Visual breaking change
+
+A visual change is breaking when it can break an adopter's layout, override, or accessibility, not when it is merely visible. Rendered values change in most releases, which is what a theme layer is for. [GOV.UK Frontend takes the same position](https://github.com/alphagov/govuk-frontend/blob/main/docs/contributing/versioning.md): it follows SemVer while treating visual spacing changes as subjective, and reserves breaking changes for barriers to users, accessibility, security, and performance.
+
+Any one of these makes a change breaking. Each has a check that confirms it, so the call does not rest on taste.
+
+| Trigger | Threshold | How to confirm |
+| --- | --- | --- |
+| Reflow | Text wraps onto an additional line, truncates, clips, or overlaps at a viewport where it previously fit | Chromatic diff |
+| Inline geometry | Inline size, inline padding, inline margin, or border width moves more than 4px or 5% | Computed styles, before or after |
+| Constrained block geometry | Block size changes on anything carrying a fixed `height`, `min-height`, `max-height`, `aspect-ratio`, or a constrained grid or flex track | Computed styles, before or after |
+| Contrast | Text falls below 4.5:1, or large text and non-text below 3:1, in any palette | `npm test` (axe) |
+| Target size | An interactive target falls below 24x24px | `npm test` (axe) |
+| Focus visibility | A focus indicator loses area, or contrast against the colors adjacent to it | Chromatic focus stories |
+| Stacking | `z-index`, `position`, or scroll containment changes such that content can be occluded | Chromatic, plus a manual pass |
+| Override contract | A selector adopters target changes layer or specificity, or a documented custom property is renamed or removed | `npm run check:api-snapshot` |
+| Palette semantics | A role token changes hue family, or crosses a light or dark surface boundary | Palette a11y stories |
+
+None of the following is breaking on its own:
+
+- **Vertical growth in normal document flow.** A taller page scrolls. Adopters' layouts absorb it, and treating it as breaking would make every type refinement a major.
+- **Shifts that cause no reflow**, such as a paragraph line-height moving from 25.6px to 25.92px.
+- **`box-shadow`, `border-radius`, `transition`, or `opacity`** changes that leave geometry and contrast intact.
+- **A new opt-in class or variant** that no existing markup selects.
+
+The two thresholds come from the system itself. 4px is the smallest step on the [spacing scale](https://nasa.github.io/hds-core/?path=/docs/foundations-spacing--docs), so a change below it cannot disturb the grid a layout is built on. 5% covers components sized proportionally, where a fixed pixel figure means nothing.
+
+When a trigger fires, say which one in the changeset and give the measured before and after. "Pages get taller" is not actionable; "`.usa-card` inline padding goes from 16px to 24px, so three-column card rows reflow to two at tablet" is.
 
 ## Adding new components
 
