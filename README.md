@@ -48,8 +48,9 @@ dist/
     hds-dataviz.min.css # Optional: data visualization color palettes
     hds-dataviz.min.css.map
   assets/               # The complete HDS asset tree — copy this one directory
-    fonts/              # Inter, DM Mono, Public Sans (woff2). Inter is split
-                        # by Unicode range; browsers fetch only what a page needs
+    fonts/              # Inter, DM Mono, Public Sans (woff2). Inter ships as two
+                        # files per weight: a base file plus an `ext` file browsers
+                        # fetch only for Latin Extended, Cyrillic, or Vietnamese
     img/                # USWDS images, HDS icons, NASA branding, hds-sprite.svg
   js/
     uswds.min.js        # USWDS JavaScript (unmodified)

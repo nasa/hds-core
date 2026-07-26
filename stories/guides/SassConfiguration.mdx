@@ -47,7 +47,7 @@ Adjust these if your build pipeline serves assets from a different location than
 
 Setting `$hds-asset-path` retargets every `url()` HDS emits — webfonts, USWDS imagery, and HDS icons — because HDS feeds these values into USWDS's `$theme-image-path` and `$theme-font-path` for you. Sass does not rewrite `url()`, so the value is written verbatim into your compiled CSS: it must resolve relative to the final stylesheet, or be root-relative or absolute.
 
-This includes the Unicode-range font files. Inter ships split into a base file plus separate Latin Extended, Cyrillic, and Vietnamese files, and the browser fetches the extra ones only when a page contains that script. Those `@font-face` rules interpolate the same `$hds-font-path`, so the override applies to them too — but it does mean **copying the whole `fonts/` directory, not just the files you see referenced**. If you copy selectively, a Russian or Polish page will silently lose its webfont.
+This includes the Unicode-range font files. Inter ships as two files per weight — a base file every page loads, and an `ext` file carrying Latin Extended, Cyrillic, and Vietnamese that the browser fetches only when a page contains one of those scripts. Those `@font-face` rules interpolate the same `$hds-font-path`, so the override applies to them too — but it does mean **copying the whole `fonts/` directory, not just the files you see referenced**. If you copy selectively, a Russian, Polish, or Vietnamese page silently loses its webfont, and you will not see it while testing in English.
 
 Do not set USWDS's `$theme-image-path` / `$theme-font-path` yourself — as with all `$theme-*` settings, HDS Core has already configured `uswds-core` by the time your stylesheet runs.
 

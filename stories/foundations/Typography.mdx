@@ -129,7 +129,7 @@ Where a unit has both a dedicated character and a Greek equivalent, the dedicate
 
 ## Non-Latin scripts
 
-HDS ships Inter split by Unicode range. Latin-1, Greek, math, arrows, sub/superscripts, and fractions are in the file every page loads. Latin Extended (Polish, Czech, Turkish, Romanian), Cyrillic, and Vietnamese live in separate files that the browser fetches **only when a page contains that script** — automatically, with no configuration, on both the compiled-CSS and Sass paths. Spanish needs nothing extra; it is entirely within Latin-1.
+HDS ships Inter as two files per weight. Latin-1, Greek, math, arrows, sub/superscripts, and fractions are in the base file every page loads. Latin Extended (Polish, Czech, Turkish, Romanian), Cyrillic, and Vietnamese share a second `ext` file that the browser fetches **only when a page contains one of those scripts** — automatically, with no configuration, on both the compiled-CSS and Sass paths. Spanish needs nothing extra; it is entirely within Latin-1.
 
 <Note>**Body text in Cyrillic falls back today.** Public Sans, the body font, contains no Cyrillic letters at all, so the range split covers headings and UI text but not body copy. Sites publishing in Russian, Ukrainian, Bulgarian, or Serbian should expect body text in a system font. Tracked as a typeface-selection question, not a packaging one.</Note>
 

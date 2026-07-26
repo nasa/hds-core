@@ -18,10 +18,32 @@
  *
  * Splitting on `unicode-range` lets the browser fetch only the
  * files a page's text actually needs. It is fully automatic: a
- * page with Cyrillic text pulls the Cyrillic file with no work
+ * page with Cyrillic text pulls the extended file with no work
  * from the site, and an English page never sees it. That matters
  * because HDS's largest consumer segment has no build pipeline
  * and therefore no way to optimize this themselves.
+ *
+ * TWO FILES PER WEIGHT, NOT FOUR
+ * ------------------------------
+ * Latin Extended, Cyrillic, and Vietnamese ship as ONE `ext` file
+ * rather than three. woff2 per-file table overhead is large enough
+ * that three separate cuts cost 5.4–6.0 KB per weight MORE than one
+ * combined cut — so merging shrinks the package (911.3 KB → 854.3 KB
+ * across ten weights) while halving the file count from 40 to 20.
+ *
+ * The trade is over-fetch on pages that use one of those scripts:
+ * per weight, a Polish page pays 82.6 KB instead of 70.7 KB and a
+ * Russian page 82.6 KB instead of 52.0 KB. English and Spanish pages
+ * — effectively all NASA traffic — are byte-identical and still
+ * fetch exactly one file per weight.
+ *
+ * Fewer files also matters for correctness downstream: adopters
+ * copying assets by hand lose whole scripts when they copy
+ * selectively, and 20 files are easier to keep whole than 40.
+ * Merging additionally removes an overlap — `U+0301` was declared by
+ * both the Cyrillic and Vietnamese ranges, and `U+0304` / `U+0308` /
+ * `U+0329` by both Latin Extended and Vietnamese, so which file a
+ * combining mark pulled depended on declaration order.
  *
  * THE BASE RANGE IS NOT THE USUAL "latin"
  * ---------------------------------------
@@ -38,7 +60,7 @@
  * Latin-Extended (Polish, Czech, Turkish, Romanian) is NOT in the
  * base range: Spanish — by far the most common non-English case
  * on NASA sites — lives entirely in Latin-1, which is in the base.
- * Central and Eastern European pages pick up `latin-ext` on demand
+ * Central and Eastern European pages pick up `ext` on demand
  * exactly like Cyrillic.
  *
  * ORDER MATTERS
@@ -140,14 +162,16 @@ export const SPLIT_FAMILIES = {
  */
 export const MIN_COVERAGE = 24;
 
-export const FONT_SUBSETS = [
-  {
-    id: 'base',
-    label: 'Latin-1 + punctuation + Greek, math, sub/superscripts, arrows, fractions',
-    ranges: [...LATIN, ...SCIENTIFIC],
-    // Keeps the original filename so existing asset URLs keep working.
-    keepsOriginalFilename: true,
-  },
+/**
+ * The scripts that make up the merged `ext` subset.
+ *
+ * Kept as separate entries even though they ship as one file, because
+ * MIN_COVERAGE is evaluated per script: a font that has Latin Extended
+ * but no Cyrillic must not end up declaring a range that covers Cyrillic.
+ * `resolveSubset()` drops the scripts a given font cannot serve and
+ * unions only what survives.
+ */
+const EXT_SCRIPTS = [
   {
     id: 'latin-ext',
     label: 'Latin Extended — Polish, Czech, Turkish, Romanian, Croatian',
@@ -201,6 +225,22 @@ export const FONT_SUBSETS = [
   },
 ];
 
+export const FONT_SUBSETS = [
+  {
+    id: 'base',
+    label: 'Latin-1 + punctuation + Greek, math, sub/superscripts, arrows, fractions',
+    ranges: [...LATIN, ...SCIENTIFIC],
+    // Keeps the original filename so existing asset URLs keep working.
+    keepsOriginalFilename: true,
+  },
+  {
+    id: 'ext',
+    label: 'Latin Extended, Cyrillic, and Vietnamese — fetched only when a page uses one',
+    scripts: EXT_SCRIPTS,
+    ranges: EXT_SCRIPTS.flatMap((s) => s.ranges),
+  },
+];
+
 /** The CSS `unicode-range` value for a subset. */
 export function unicodeRange(subset) {
   return subset.ranges.join(', ');
@@ -219,4 +259,39 @@ export function codepoints(subset) {
     }
   }
   return out;
+}
+
+/**
+ * Narrow a subset to what one font can actually serve.
+ *
+ * Applies MIN_COVERAGE per script rather than to the merged range — see
+ * that constant for why declaring a script a font lacks is worse than
+ * declaring nothing.
+ *
+ * Returns a subset with `ranges` unioned from the scripts that clear
+ * MIN_COVERAGE, plus the `kept` / `dropped` split for reporting. Returns
+ * null when nothing survives, meaning the font gets no extra @font-face.
+ *
+ * @param subset  an entry from FONT_SUBSETS
+ * @param has     predicate: does this font contain the given codepoint?
+ */
+export function resolveSubset(subset, has) {
+  const covered = (s) => codepoints(s).filter((c) => has(c)).length;
+  const scripts = subset.scripts ?? [subset];
+
+  const kept = [];
+  const dropped = [];
+  for (const script of scripts) {
+    const n = covered(script);
+    (n >= MIN_COVERAGE ? kept : dropped).push({ id: script.id, codepoints: n });
+  }
+  if (!kept.length) return null;
+
+  const keptIds = new Set(kept.map((k) => k.id));
+  return {
+    ...subset,
+    ranges: scripts.filter((s) => keptIds.has(s.id)).flatMap((s) => s.ranges),
+    kept,
+    dropped,
+  };
 }

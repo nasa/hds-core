@@ -10,10 +10,11 @@
  * Runs inside `npm run init`, after `copy:all` and before Sass.
  *
  * WHAT IT DOES TO dist/ (Inter only — see SPLIT_FAMILIES)
- *   Inter-Regular.woff2             rewritten, base range only
- *   Inter-Regular.latin-ext.woff2   new
- *   Inter-Regular.cyrillic.woff2    new
- *   Inter-Regular.vietnamese.woff2  new
+ *   Inter-Regular.woff2      rewritten, base range only
+ *   Inter-Regular.ext.woff2  new — Latin Extended + Cyrillic + Vietnamese
+ *
+ * Two files per weight, not four: see TWO FILES PER WEIGHT in
+ * .config/font-subsets.js for the measurements behind that.
  *
  * The base file keeps its original name, so USWDS's own @font-face
  * output — which carries no unicode-range and therefore covers every
@@ -38,13 +39,7 @@ import process from 'node:process';
 import * as fontkit from 'fontkit';
 import subsetFont from 'subset-font';
 
-import {
-  FONT_SUBSETS,
-  MIN_COVERAGE,
-  SPLIT_FAMILIES,
-  codepoints,
-  unicodeRange,
-} from '../.config/font-subsets.js';
+import { FONT_SUBSETS, SPLIT_FAMILIES, codepoints, resolveSubset, unicodeRange } from '../.config/font-subsets.js';
 
 const FONTS_DIR = 'dist/assets/fonts';
 const SASS_OUT = 'src/scss/base/_webfonts.scss';
@@ -79,10 +74,14 @@ async function subsetTo(buffer, subset) {
   });
 }
 
-/** How many codepoints of `subset` this font actually contains. */
-function coverage(file, subset) {
+/**
+ * The subset a given font can actually serve, or null if it serves none of
+ * it. Narrowed per script, so a merged range never promises glyphs the font
+ * does not have — see resolveSubset in .config/font-subsets.js.
+ */
+function resolveFor(file, subset) {
   const set = new Set(fontkit.openSync(file).characterSet);
-  return codepoints(subset).filter((c) => set.has(c)).length;
+  return resolveSubset(subset, (c) => set.has(c));
 }
 
 /**
@@ -114,14 +113,15 @@ function plan() {
       }
       const src = path.join(source, file);
       for (const subset of EXTRA) {
-        if (coverage(src, subset) < MIN_COVERAGE) continue;
+        const resolved = resolveFor(src, subset);
+        if (!resolved) continue;
         declarations.push({
           family: display,
           dir,
           file: `${stem}.${subset.id}.woff2`,
           weight: face.weight,
           style: face.style,
-          subset,
+          subset: resolved,
         });
       }
     }
@@ -144,7 +144,7 @@ function check() {
   console.error(
     `✗ ${SASS_OUT} is out of date with .config/font-subsets.js and the fonts in src/assets/fonts.\n` +
       `  It is generated — do not hand-edit it.\n` +
-      `  Run \`npm run subset:fonts\` and commit the result.\n`
+      `  Run \`npm run subset:fonts\` and commit the result.\n`,
   );
   const a = actual.split('\n');
   const e = expected.split('\n');
@@ -199,7 +199,7 @@ async function main() {
       const original = fs.readFileSync(src);
       before += original.length;
 
-      const covered = Object.fromEntries(EXTRA.map((s) => [s.id, coverage(src, s)]));
+      const resolved = Object.fromEntries(EXTRA.map((s) => [s.id, resolveFor(src, s)]));
 
       // Base range overwrites the copy in dist, keeping the original name.
       const baseBuf = await subsetTo(original, BASE);
@@ -208,8 +208,9 @@ async function main() {
       const sizes = { base: baseBuf.length };
 
       for (const subset of EXTRA) {
-        if (covered[subset.id] < MIN_COVERAGE) continue;
-        const buf = await subsetTo(original, subset);
+        const active = resolved[subset.id];
+        if (!active) continue;
+        const buf = await subsetTo(original, active);
         fs.writeFileSync(path.join(outDir, `${stem}.${subset.id}.woff2`), buf);
         after += buf.length;
         sizes[subset.id] = buf.length;
@@ -219,10 +220,10 @@ async function main() {
           file: `${stem}.${subset.id}.woff2`,
           weight: face.weight,
           style: face.style,
-          subset,
+          subset: active,
         });
       }
-      report.push({ name: `${dir}/${stem}`, original: original.length, sizes, covered });
+      report.push({ name: `${dir}/${stem}`, original: original.length, sizes, resolved });
     }
   }
 
@@ -232,16 +233,18 @@ async function main() {
   console.log(
     `✓ ${report.length} faces subset: ${before.toLocaleString()} B → ${after.toLocaleString()} B ` +
       `on disk (${pct >= 0 ? '−' : '+'}${Math.abs(pct)}%), ` +
-      `${declarations.length} extra-range @font-face rules generated`
+      `${declarations.length} extra-range @font-face rules generated`,
   );
   for (const r of report) {
     const parts = Object.entries(r.sizes).map(([k, v]) => `${k} ${v.toLocaleString()}`);
-    const dropped = EXTRA.filter((s) => r.covered[s.id] < MIN_COVERAGE).map(
-      (s) => `${s.id}: ${r.covered[s.id]} cp < ${MIN_COVERAGE}`
+    const dropped = EXTRA.flatMap((s) =>
+      (r.resolved[s.id]?.dropped ?? s.scripts ?? [s]).map(
+        (d) => `${d.id}${d.codepoints === undefined ? '' : `: ${d.codepoints} cp`}`,
+      ),
     );
     console.log(
       `    ${r.name.padEnd(30)} ${r.original.toLocaleString().padStart(9)} B → ${parts.join(', ')}` +
-        (dropped.length ? `   [skipped ${dropped.join('; ')}]` : '')
+        (dropped.length ? `   [skipped ${dropped.join('; ')}]` : ''),
     );
   }
 }
@@ -265,14 +268,14 @@ function renderSass(declarations) {
     '// USWDS emits the base @font-face rules from $theme-font-path.',
     '// Those carry no unicode-range, so they apply to every page. The',
     '// rules below add back the scripts that were subset OUT of those',
-    '// base files — Latin Extended, Cyrillic, Vietnamese — each scoped',
-    '// to its own unicode-range.',
+    '// base files — Latin Extended, Cyrillic, and Vietnamese, together',
+    '// in one file per weight, scoped to their combined unicode-range.',
     '//',
     '// The browser resolves @font-face per codepoint against the',
     '// narrowest matching range, so these win for their scripts and the',
     '// base files serve everything else. A page with no Cyrillic text',
-    '// never requests a Cyrillic file, and a site needs no',
-    '// configuration to get one when it does.',
+    '// never requests the extended file, and a site needs no',
+    '// configuration to get it when it does.',
     '//',
     '// Paths interpolate $hds-font-path, so the $hds-asset-path',
     '// override applies to these faces exactly as to the base ones.',
@@ -297,7 +300,7 @@ function renderSass(declarations) {
       lines.push(`  font-weight: ${d.weight};`);
       lines.push('  font-display: fallback;');
       lines.push(`  src: url('#{$hds-font-path}/${d.dir}/${d.file}') format('woff2');`);
-      lines.push(`  unicode-range: ${unicodeRange(subset)};`);
+      lines.push(`  unicode-range: ${unicodeRange(d.subset)};`);
       lines.push('}');
       lines.push('');
     }
