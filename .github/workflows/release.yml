@@ -165,6 +165,36 @@ jobs:
         run: |
           cd dist && zip -r ../hds-core-v${{ needs.version.outputs.version }}-dist.zip . && cd ..
 
+      # Adopters who can't use npm self-host the zip -- the docs rule out
+      # CDNs -- so without a published digest they have no way to tell a
+      # tampered or truncated download from a good one. Emit it twice: a
+      # .sha256 file in `sha256sum -c` format for scripted verification, and
+      # the bare hash in the release body so it can be eyeballed without
+      # downloading a second file. See the No-Build Environments guide.
+      - name: Checksum dist zip
+        id: checksum
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          ZIP="hds-core-v${VERSION}-dist.zip"
+          sha256sum "$ZIP" > "$ZIP.sha256"
+          echo "sha256=$(cut -d ' ' -f 1 "$ZIP.sha256")" >> "$GITHUB_OUTPUT"
+          cat "$ZIP.sha256"
+
+      - name: Append checksum to release notes
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+          SHA256: ${{ steps.checksum.outputs.sha256 }}
+        run: |
+          ZIP="hds-core-v${VERSION}-dist.zip"
+          {
+            printf '\n## Verify your download\n\n'
+            printf 'SHA-256 of `%s`:\n\n' "$ZIP"
+            printf '```\n%s\n```\n\n' "$SHA256"
+            printf 'Or download `%s.sha256` alongside the zip and run:\n\n' "$ZIP"
+            printf '```sh\nsha256sum -c %s.sha256\n```\n' "$ZIP"
+          } >> release-notes.md
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -173,4 +203,5 @@ jobs:
             --title "v${{ needs.version.outputs.version }}" \
             --notes-file release-notes.md \
             "hds-core-v${{ needs.version.outputs.version }}-dist.zip#dist artifacts" \
+            "hds-core-v${{ needs.version.outputs.version }}-dist.zip.sha256#SHA-256 checksum" \
             "sbom.json#SBOM (CycloneDX)"
