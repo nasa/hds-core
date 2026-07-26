@@ -95,8 +95,8 @@ Exposes HDS tokens, mixins, and USWDS core utilities for use in your own Sass pi
 
 | File                  | Size   | Notes                                     |
 | --------------------- | ------ | ----------------------------------------- |
-| `hds.min.css`         | 43 KB  | Required; HDS/USWDS styles and components |
-| `hds-uswds.min.css`   | 48 KB  | Optional; USWDS utility classes           |
+| `hds.min.css`         | 48 KB  | Required; HDS/USWDS styles and components |
+| `hds-uswds.min.css`   | 49 KB  | Optional; USWDS utility classes           |
 | `hds-dataviz.min.css` | 1.2 KB | Optional; HDS data visualization styles   |
 
 ## Contributing to HDS Core

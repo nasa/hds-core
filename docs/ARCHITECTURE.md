@@ -92,8 +92,8 @@ hds-core/
 
 | Bundle | Contents | Gzipped | Who loads it |
 | --- | --- | --- | --- |
-| `hds.min.css` | All USWDS components + HDS base + HDS components | 43 KB | Everyone |
-| `hds-uswds.min.css` | USWDS utility classes (`.padding-*`, `.margin-*`, etc.) | 48 KB | Sites using USWDS utilities |
+| `hds.min.css` | All USWDS components + HDS base + HDS components | 48 KB | Everyone |
+| `hds-uswds.min.css` | USWDS utility classes (`.padding-*`, `.margin-*`, etc.) | 49 KB | Sites using USWDS utilities |
 | `hds-dataviz.min.css` | Data visualization color palettes | 1.2 KB | Sites rendering charts; standalone-capable |
 
 Vanilla USWDS reference: 73 KB (all components + utilities, no HDS theming).
