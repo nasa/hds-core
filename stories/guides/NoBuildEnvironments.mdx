@@ -22,7 +22,7 @@ js/       uswds.min.js and uswds-init.min.js
 assets/   fonts/ and img/ — webfonts, icons, and the SVG sprites
 ```
 
-If you have npm available, `npm install @nasa-hds/core @uswds/uswds` puts the same three directories in `node_modules/@nasa-hds/core/dist/`. Either way, copy them somewhere your web server serves — `/hds/` in the examples below.
+If you have npm available, `npm install --save-exact @nasa-hds/core @uswds/uswds` puts the same three directories in `node_modules/@nasa-hds/core/dist/`. Either way, copy them somewhere your web server serves — `/hds/` in the examples below. Pinning the exact version is worth doing while HDS is pre-v1.0: minor releases can rename custom properties and change component styling, so you want upgrades to happen when you choose.
 
 <Note type="code">**Keep the three directories together, and copy `assets/` whole.** `hds.min.css` resolves its webfonts and icons as `../assets/…`, so `css/` and `assets/` must stay siblings. Fonts are also split by Unicode range: copy only the font files you see referenced in the CSS and you drop the extra range files, so a Polish, Russian, or Vietnamese page silently falls back to a system font — invisible if you test in English. Copy directories, not individual files. To serve assets from somewhere else entirely, you need the [Sass path override](?path=/docs/guides-sass-configuration--docs).</Note>
 
@@ -226,7 +226,13 @@ Until then, build them from the [USWDS banner](https://designsystem.digital.gov/
 
 1. Read the [release notes](https://github.com/nasa/hds-core/releases) first. Pre-v1.0 minor releases can rename or remove CSS custom properties and change component styling, and a renamed `--hds-*` property fails silently in your own CSS.
 2. Replace `css/`, `js/`, and `assets/` wholesale. Do not merge them file by file — releases add and remove font and icon files, and a partial update leaves you with a mix.
-3. Record which version you installed somewhere you will find it again. The stylesheet does not yet carry a version stamp.
+3. Confirm what you are running. Every bundle opens with a banner comment naming its version, and `hds.min.css` exposes it at runtime:
+
+   ```js
+   getComputedStyle(document.documentElement).getPropertyValue('--hds-version').trim(); // 0.9.0
+   getComputedStyle(document.documentElement).getPropertyValue('--hds-uswds-version').trim(); // 3.13.0
+   ```
+
 4. Re-check your pages at mobile and desktop widths, and tab through them once.
 
 ## What requires a build step
