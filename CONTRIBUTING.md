@@ -134,15 +134,16 @@ To resolve:
 
 Use this table to decide the bump level for your changeset when the snapshot changes.
 
-| What changed in the snapshot                                      | Bump (post-v1.0) | Bump (pre-v1.0) |
-| ----------------------------------------------------------------- | ---------------- | --------------- |
-| Line removed (custom property, Sass variable, mixin, or selector) | major            | minor           |
-| Entry point removed                                               | major            | minor           |
-| `@layer site` no longer last or missing                           | major            | minor           |
-| `.usa-*` selector removed (HDS dropped its override)              | major            | minor           |
-| Line added (new custom property, variable, mixin, or selector)    | minor            | minor           |
-| New `.usa-*` selector appears (HDS adopted a USWDS component)     | minor            | minor           |
-| Only change is sort-order fix from a stale snapshot               | none             | none            |
+| What changed in the snapshot                                       | Bump (post-v1.0) | Bump (pre-v1.0) |
+| ------------------------------------------------------------------ | ---------------- | --------------- |
+| Line removed (custom property, Sass variable, mixin, or selector)  | major            | minor           |
+| Entry point removed                                                | major            | minor           |
+| `@layer site` no longer last or missing                            | major            | minor           |
+| `.usa-*` selector removed (HDS dropped its override)               | major            | minor           |
+| Line added for a new capability (component, variant, mixin, token) | minor            | minor           |
+| Line added for diagnostics or metadata only                        | patch            | patch           |
+| New `.usa-*` selector appears (HDS adopted a USWDS component)      | minor            | minor           |
+| Only change is sort-order fix from a stale snapshot                | none             | none            |
 
 ### Pre-v1.0 semantics
 
@@ -151,6 +152,7 @@ While the major version is 0, SemVer permits breaking changes in minor releases.
 ### Additional guidance
 
 - If your PR is a visual restyling that does not change the snapshot but will meaningfully affect adopter layouts, apply the `visual-breaking-change` label and bump one notch above what the rubric otherwise suggests.
+- The snapshot tracks the promise, and the bump tracks what an adopter can now build. A line that adds something to build with is a minor; a line that only reports on what is already there (for example `--hds-version`) is a patch. Either way, once it is documented, renaming or removing it later counts as a removal in the table above.
 - When in doubt, bump more severely. A minor that could have been a patch is fine; a patch that should have been a minor can break someone.
 - Removals that lack a prior deprecation: still allowed pre-v1.0 (minor bump), but flag in your changeset summary so adopters scanning the changelog can prepare.
 

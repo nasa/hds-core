@@ -1,5 +1,5 @@
 ---
-'@nasa-hds/core': minor
+'@nasa-hds/core': patch
 ---
 
 Give body copy the ramp's `p` style inside `.hds-global-styles` and `.usa-prose`
@@ -8,7 +8,7 @@ Bare paragraphs were the one content element the shared content-styling engine d
 
 `p` now takes `hds-type('p')`, the same ramp entry `.hds-p` emits: Public Sans, 1rem, weight 400, `--hds-line-height-5` (1.62).
 
-**Visual change, `visual-breaking-change`.** Two effects:
+**Visual change.** No new API, so this is a patch, but it is worth the `visual-breaking-change` label because pages get taller. Two effects:
 
 - **Inside `.hds-global-styles`**, paragraph line-height goes from ~1.15 to 1.62. Pages get taller. This is the intended fix.
 - **Inside `.usa-prose`**, line-height goes from USWDS's normalized 1.6 to the raw HDS 1.62 — 25.6px to 25.92px at 16px. Sub-pixel per line, consistent with the single-source rule the rest of the content engine already follows (no USWDS `lh()` normalization in the content layer).

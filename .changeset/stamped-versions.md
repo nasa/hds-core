@@ -1,5 +1,5 @@
 ---
-'@nasa-hds/core': minor
+'@nasa-hds/core': patch
 ---
 
 Stamp the HDS and USWDS versions into the compiled CSS
