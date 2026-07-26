@@ -56,12 +56,14 @@ Both sprites ship in the package at `dist/assets/img/`: `hds-sprite.svg` for HDS
 
 `.hds-glyph` and `.hds-icon` both draw from the sprite and both inherit their color from `currentColor`. They differ in how they are sized, which decides which one you want:
 
-| Class        | Size                                    | Use for                                                              |
-| ------------ | --------------------------------------- | -------------------------------------------------------------------- |
-| `.hds-glyph` | `1em`, scaling with surrounding text    | Inline icons in a sentence, a label, or a link                       |
-| `.hds-icon`  | Sized by its container, `1em` with none | Icons inside `.hds-btn-icon` and other HDS components that size them |
+| Class        | Size                                 | Use for                                                              |
+| ------------ | ------------------------------------ | -------------------------------------------------------------------- |
+| `.hds-glyph` | `1em`, scaling with surrounding text | Inline icons in a sentence, a label, or a link                       |
+| `.hds-icon`  | Sized by its container               | Icons inside `.hds-btn-icon` and other HDS components that size them |
 
-<Note type="code">**`.hds-icon` takes its size from the component around it**, such as 60% of the button inside `.hds-btn-icon`. On its own it falls back to `1em`, matching `.hds-glyph` and `.usa-icon`. Reach for `.hds-glyph` when the icon sits inline with text, since that is what it is for, and `.hds-icon` when a component is doing the sizing.</Note>
+<Note type="code">
+  **`.hds-icon` sets no dimensions of its own.** It takes them from the component around it, so a bare `<svg class="hds-icon">` with nothing to size it renders at the SVG default of 300×150. For a standalone inline icon use `.hds-glyph`, or set an explicit `width` and `height`.
+</Note>
 
 ### Inline glyph
 
