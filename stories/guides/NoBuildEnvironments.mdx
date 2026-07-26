@@ -27,6 +27,25 @@ your-site/
 
 With npm available, `npm install --save-exact @nasa-hds/core @uswds/uswds` puts the same three directories in `node_modules/@nasa-hds/core/dist/`. Copy them out to your web root, since `node_modules` is not something to serve. Pinning the exact version is worth doing before v1.0, while minor releases can still rename custom properties and change component styling.
 
+### Verify the download
+
+npm checks package integrity for you. Downloading the zip from the [Releases page](https://github.com/nasa/hds-core/releases) puts that check in your hands. Every release publishes the SHA-256 of its dist zip twice: in the release notes, and as a `hds-core-vX.Y.Z-dist.zip.sha256` asset beside the zip.
+
+Download both, then confirm the hash before extracting:
+
+```sh
+sha256sum -c hds-core-vX.Y.Z-dist.zip.sha256
+# hds-core-vX.Y.Z-dist.zip: OK
+```
+
+On macOS, where `sha256sum` is absent, compare the digest against the release notes by hand:
+
+```sh
+shasum -a 256 hds-core-vX.Y.Z-dist.zip
+```
+
+A mismatch means the file was corrupted or tampered with in transit, so do not deploy it. Re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
+
 <Note type="code">**Copy whole directories.** `hds.min.css` resolves webfonts and icons as `../assets/…`, so `css/` and `assets/` have to stay siblings. Inter is also split by Unicode range, so copying only the font files the CSS visibly references drops the extra range files and leaves Polish, Russian, and Vietnamese pages in a system font. That failure is invisible if you test in English. To serve assets from an unrelated location, see [Sass Configuration](?path=/docs/guides-sass-configuration--docs).</Note>
 
 ## Reference the three files
@@ -90,25 +109,6 @@ Put them on `<body>` for a whole page, or on a wrapper for one region. Add `hds-
 ## Self-hosting: there is no CDN
 
 HDS Core is distributed as files you host yourself. There is no NASA-hosted CDN, and third-party mirrors such as jsDelivr and unpkg are not supported, since a `.gov` page should not depend on a third-party origin for its styling. Serve the files from your own domain as described above.
-
-### Verify the download before you copy it onto your server
-
-npm verifies package integrity for you. If you are downloading the zip from the [Releases page](https://github.com/nasa/hds-core/releases) instead, that check is yours to run. Every release publishes the SHA-256 of its dist zip in two places: in the release notes, and as a `hds-core-vX.Y.Z-dist.zip.sha256` asset next to the zip.
-
-Download both files, then confirm the hash matches before extracting:
-
-```sh
-sha256sum -c hds-core-vX.Y.Z-dist.zip.sha256
-# hds-core-vX.Y.Z-dist.zip: OK
-```
-
-On macOS without `sha256sum`, compare the digest against the release notes by hand:
-
-```sh
-shasum -a 256 hds-core-vX.Y.Z-dist.zip
-```
-
-A mismatch means the file was corrupted or tampered with in transit — do not deploy it. Re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
 
 ## Use HDS tokens in your existing CSS
 
