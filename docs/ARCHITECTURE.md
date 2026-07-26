@@ -319,6 +319,10 @@ Selectors are wrapped in `:where()` so their specificity is zero. An adopter who
 
 These are a stopgap. Remove them when the components get real HDS theming.
 
+### USWDS accordion-class guard
+
+USWDS reuses the `.usa-accordion*` classes outside real accordions — for the banner's "Here's how you know" toggle and the primary nav's dropdown behavior. The HDS accordion restyle (circled chevron, heading treatment) leaked into both, misplacing the toggle icon. The overrides in `components/_accordion.scss` are therefore guarded with `:not(.usa-banner *):not(.usa-nav *)` so the HDS treatment applies only to genuine accordions and leaves the banner and nav toggles as bare USWDS. Remove the guard once those components get real HDS theming.
+
 ## Testing
 
 | Script                | Purpose                                     |
