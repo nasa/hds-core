@@ -317,3 +317,20 @@
   width: 1em;
   vertical-align: baseline;
 }
+
+// ── Icon fallback size ────────────────────────────────────────
+// .hds-icon is sized by the component that contains it: 60% inside
+// .hds-btn-icon, 2rem inside the pagination buttons. With no
+// container it had no dimensions at all, so a bare
+// `<svg class="hds-icon">` rendered at the SVG default of 300×150.
+//
+// This is the floor, not the sizing system. Every container rule is
+// a descendant selector, so all of them still win on specificity,
+// and 1em matches what .usa-icon and .hds-glyph already do.
+
+.hds-icon {
+  display: inline-block;
+  fill: currentcolor;
+  height: 1em;
+  width: 1em;
+}
