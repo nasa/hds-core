@@ -6,10 +6,16 @@
 // ============================================================
 
 @media print {
-  // Reset all palettes to high-contrast light
+  // Reset all palettes to high-contrast light.
+  // The USWDS dark contexts (base/_palettes.scss) are listed here
+  // too: they carry the dark scheme without being palette
+  // containers, and browsers drop background colors when printing,
+  // so their white text would come out as blank paper.
   :root,
   [data-hds-palette],
-  [class*='hds-palette-'] {
+  [class*='hds-palette-'],
+  .usa-hero__callout,
+  .usa-section--dark {
     --hds-palette-bg: #ffffff !important;
     --hds-palette-heading: #000000 !important;
     --hds-palette-text: #000000 !important;
@@ -20,6 +26,13 @@
     --hds-palette-icon: #000000 !important;
 
     background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  // USWDS pins paragraphs and links inside .usa-section--dark to
+  // white on the elements themselves, so the reset above only
+  // reaches them by inheritance and loses.
+  .usa-section--dark :is(p, a) {
     color: #000000 !important;
   }
 

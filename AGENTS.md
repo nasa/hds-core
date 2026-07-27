@@ -133,6 +133,14 @@ color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 - Do not remove the explicit `background-color` — `.usa-header` and `.usa-footer` have none of their own.
 - Remove the bridges only when the components get real HDS theming.
 
+### USWDS dark contexts — do NOT flatten
+
+`base/_palettes.scss` also maps `.usa-hero__callout` and `.usa-section--dark` onto the dark palette. USWDS fills both with `primary-darker` (NASA Red under the HDS theme) and colors their headings `accent-cool` (cyan), neither of which a palette wrapper can reach.
+
+- Apply the full `_scheme-dark`, not just a background. Components inside read `--hds-palette-*`; a background-only fix leaves them on light-palette values.
+- Keep `:where()` here too, for the same override contract.
+- These are not a stopgap. Change them only on a design call — see Issue #148 and docs/DESIGN.md → USWDS Dark Contexts.
+
 ### Class naming
 
 - `usa-*` for components that map to a USWDS component (even if they have HDS-only variants).
