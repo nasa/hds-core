@@ -67,7 +67,7 @@
     "lint:js:fix": "eslint . --fix",
     "lint:md": "remark --rc-path .config/remarkrc.mjs --quiet --frail *.md docs/**/*.md .github/**/*.md",
     "lint:mdx": "remark --rc-path .config/remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
-    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm",
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm --validate-integrity",
     "test": "vitest run --reporter=dot",
     "test:watch": "vitest watch",
     "test:visual": "chromatic --config-file .config/chromatic.config.json --log-level warn"
