@@ -28,6 +28,18 @@ Download the HDS Core distribution from GitHub or install via npm, then add thes
 
 USWDS 3.x is written in vanilla JavaScript and does not conflict with jQuery. If your legacy site depends on older versions of jQuery, the USWDS scripts run safely alongside it.
 
+### Verify the download before you copy it onto your server
+
+npm verifies package integrity for you. If you download the dist zip from the [Releases page](https://github.com/nasa/hds-core/releases) instead, that check is yours to run. GitHub displays a SHA-256 digest under the zip asset on the release, and the release notes repeat the same digest under "Verify your download".
+
+Hash your download and confirm it matches the digest on the release before extracting:
+
+```sh
+sha256sum hds-core-*-dist.zip
+```
+
+On macOS, use `shasum -a 256` instead. If the two digests differ, the file was corrupted or tampered with in transit. Do not deploy it: re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
+
 ## Use HDS tokens in your existing CSS
 
 Once `hds.min.css` is loaded, HDS design tokens are available as CSS custom properties anywhere in your stylesheets:

@@ -165,6 +165,24 @@ jobs:
         run: |
           cd dist && zip -r ../hds-core-v${{ needs.version.outputs.version }}-dist.zip . && cd ..
 
+      # Adopters who self-host the zip verify it against this digest. GitHub
+      # also shows a SHA-256 under each release asset, so this repeats the
+      # same value inline in the notes where it reads alongside the verify
+      # command. See the No-Build Environments guide.
+      - name: Append checksum to release notes
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          ZIP="hds-core-v${VERSION}-dist.zip"
+          SHA256="$(sha256sum "$ZIP" | cut -d ' ' -f 1)"
+          {
+            printf '\n## Verify your download\n\n'
+            printf 'SHA-256 of `%s`:\n\n' "$ZIP"
+            printf '```\n%s\n```\n\n' "$SHA256"
+            printf 'Compare it against your download:\n\n'
+            printf '```sh\nsha256sum %s\n```\n' "$ZIP"
+          } >> release-notes.md
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
