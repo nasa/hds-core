@@ -1,0 +1,2643 @@
+{
+  "$generated": {
+    "warning": "GENERATED FILE — DO NOT EDIT. Regenerate with: npx style-dictionary build --config .config/sd.config.salesforce.js",
+    "generator": ".config/sd.config.salesforce.js",
+    "source": "tokens.json",
+    "status": "DISCOVERY SPIKE — not a shipping artifact, not consumed by any HDS build"
+  },
+  "$legend": {
+    "derived": "Traceable to tokens.json (or a cited src/scss line) with no judgment call. Safe to enter in the panel.",
+    "open-question": "value is null on purpose. More than one HDS token could fill this slot, or HDS has no concept for it. A maintainer must choose from `candidates`. See the mapping analysis for Q1-Q15."
+  },
+  "$coverage": {
+    "totalSlots": 144,
+    "derived": 25,
+    "openQuestions": 119,
+    "derivedPercent": "17.4%"
+  },
+  "fields": {
+    "--dxp-g-root": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q5",
+      "summary": "Is --dxp-g-root the page background, or the root of the neutral ramp?",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "default light background; :root palette bg (base/_palettes.scss:163-170)"
+        },
+        {
+          "value": "#f6f6f6",
+          "source": "tokens.json → color.carbon-05",
+          "note": "alternate background for light mode"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "default background for dark mode"
+        }
+      ]
+    },
+    "--dxp-g-root-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-root-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-root-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-root-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-root-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-root-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-root-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-neutral": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q6",
+      "summary": "Nothing in tokens.json designates one carbon step as THE neutral. base/_palettes.scss uses different steps per role.",
+      "candidates": [
+        {
+          "value": "#77777a",
+          "source": "tokens.json → color.carbon-50",
+          "note": "numeric midpoint of the carbon ramp"
+        },
+        {
+          "value": "#58585b",
+          "source": "tokens.json → color.carbon-60",
+          "note": "the muted-text / link-underline role"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "the body-text role"
+        }
+      ]
+    },
+    "--dxp-g-neutral-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-neutral-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-neutral-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-neutral-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-neutral-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-neutral-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-neutral-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-brand": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q1",
+      "summary": "HDS has two brand colors separated by meaning (red = go somewhere, blue = do something here). The panel has one slot. Either choice violates the other token’s $description prohibition.",
+      "candidates": [
+        {
+          "value": "#f64137",
+          "source": "tokens.json → color.nasa-red",
+          "note": "'go somewhere' — navigation CTAs. Never for on-page actions. Collides with --dxp-g-destructive."
+        },
+        {
+          "value": "#1c67e3",
+          "source": "tokens.json → color.nasa-blue",
+          "note": "'do something here' — on-page interactions. Never for navigation CTAs. Collides with --dxp-g-info."
+        }
+      ]
+    },
+    "--dxp-g-brand-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-brand-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-brand-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-brand-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-brand-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-brand-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-brand-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-success": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q7",
+      "summary": "HDS does not theme the USWDS state colors — _hds-uswds-theme.scss:169-173 leaves success at green-cool-*, which is not an HDS token. Match shipped output, or match design intent?",
+      "candidates": [
+        {
+          "value": "#47da84",
+          "source": "tokens.json → color.active-green",
+          "note": "design intent — $description: 'active mission status and confirmation states'. See Q3: #47da84 is light; verify the -contrast pair."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "shipped output — USWDS green-cool-30v (src/scss/_hds-uswds-theme.scss:171). Not an HDS token."
+        }
+      ]
+    },
+    "--dxp-g-success-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-success-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-success-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-success-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-success-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-success-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-success-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-destructive": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q7",
+      "summary": "Same shipped-vs-intent choice as success. Also collides with brand if Q1 picks NASA Red.",
+      "candidates": [
+        {
+          "value": "#f64137",
+          "source": "tokens.json → color.nasa-red",
+          "note": "design intent — $description: 'and error/emergency alerts'"
+        },
+        {
+          "value": "#b60109",
+          "source": "tokens.json → color.nasa-red-shade",
+          "note": "darker variant; base/_palettes.scss uses it for --hds-palette-error-text on light schemes"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "shipped output — USWDS red-warm-50v (src/scss/_hds-uswds-theme.scss:153). Not an HDS token."
+        }
+      ]
+    },
+    "--dxp-g-destructive-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-destructive-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-destructive-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-destructive-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-destructive-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-destructive-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-destructive-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-warning": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q7",
+      "summary": "HDS has NO token that means warning. international-orange is a brand accent — its $description says \"status emphasis or decorative markers\" and never says warning.",
+      "candidates": [
+        {
+          "value": "#ea6f24",
+          "source": "tokens.json → color.international-orange",
+          "note": "weakest evidence of the four state slots. Pressing a brand accent into a state role is a design decision."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "shipped output — USWDS gold-20v (src/scss/_hds-uswds-theme.scss:162). Not an HDS token."
+        }
+      ]
+    },
+    "--dxp-g-warning-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-warning-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-warning-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-warning-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-warning-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-warning-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-warning-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-info": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q7",
+      "summary": "Same shipped-vs-intent choice. Also collides with brand if Q1 picks NASA Blue.",
+      "candidates": [
+        {
+          "value": "#1c67e3",
+          "source": "tokens.json → color.nasa-blue",
+          "note": "design intent — $description names 'info alerts' explicitly"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "shipped output — USWDS cyan-30v (src/scss/_hds-uswds-theme.scss:144). Not an HDS token."
+        }
+      ]
+    },
+    "--dxp-g-info-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-info-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-info-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-info-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-info-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-info-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-info-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-offline": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q8",
+      "summary": "HDS has no offline / inactive concept. grep for \"offline\" across src/scss returns nothing. Nearest analogues are palette disabled roles, which AGENTS.md forbids flattening into static values.",
+      "candidates": [
+        {
+          "value": "#959599",
+          "source": "tokens.json → color.carbon-40",
+          "note": "--hds-palette-disabled on light schemes (base/_palettes.scss:95)"
+        },
+        {
+          "value": "#77777a",
+          "source": "tokens.json → color.carbon-50",
+          "note": "one step darker"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default"
+        }
+      ]
+    },
+    "--dxp-g-offline-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-offline-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-offline-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q2",
+      "summary": "Salesforce appears to expect progressively darker variants. HDS ships tint/base/shade (one darker step), not a three-step darker ramp — except the carbon neutrals, which have ten steps. Generating intermediate darks is forbidden by AGENTS.md (\"NEVER introduce colors outside the color group\").",
+      "candidates": [
+        {
+          "value": "#444447",
+          "source": "tokens.json → color.carbon-70",
+          "note": "available only if the family is mapped onto the carbon ramp"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default — no HDS token exists for this step"
+        }
+      ]
+    },
+    "--dxp-g-offline-contrast": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-offline-contrast-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-offline-contrast-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-offline-contrast-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q3",
+      "summary": "HDS has no contrast-pair concept in tokens.json. Unresolved: whether -contrast means foreground-on-base or a contrasting surface, and whether each pair must be verified for WCAG 1.4.3 / 1.4.11. base/_palettes.scss:194-208 shows HDS treating this as mandatory by hand; base/_palettes.scss:47-50 shows HDS also shipping a known accepted failure (Issue #40).",
+      "candidates": [
+        {
+          "value": "#ffffff",
+          "source": "tokens.json → color.spacesuit-white",
+          "note": "HDS foreground on dark schemes (base/_palettes.scss:103-105)"
+        },
+        {
+          "value": "#17171b",
+          "source": "tokens.json → color.carbon-90",
+          "note": "HDS body-text foreground on light schemes (base/_palettes.scss:56)"
+        },
+        {
+          "value": "#000000",
+          "source": "tokens.json → color.carbon-black",
+          "note": "HDS heading foreground on light schemes (base/_palettes.scss:55)"
+        }
+      ]
+    },
+    "--dxp-g-spacing-none": {
+      "status": "derived",
+      "value": "0px",
+      "source": "tokens.json → spacing.0",
+      "note": "HDS primary spacing scale, step 0"
+    },
+    "--dxp-g-spacing-xsmall": {
+      "status": "derived",
+      "value": "8px",
+      "source": "tokens.json → spacing.1",
+      "note": "HDS primary spacing scale, step 1"
+    },
+    "--dxp-g-spacing-small": {
+      "status": "derived",
+      "value": "16px",
+      "source": "tokens.json → spacing.2",
+      "note": "HDS primary spacing scale, step 2"
+    },
+    "--dxp-g-spacing-medium": {
+      "status": "derived",
+      "value": "24px",
+      "source": "tokens.json → spacing.3",
+      "note": "HDS primary spacing scale, step 3"
+    },
+    "--dxp-g-spacing-large": {
+      "status": "derived",
+      "value": "32px",
+      "source": "tokens.json → spacing.4",
+      "note": "HDS primary spacing scale, step 4"
+    },
+    "--dxp-g-spacing-xlarge": {
+      "status": "derived",
+      "value": "48px",
+      "source": "tokens.json → spacing.6",
+      "note": "HDS primary spacing scale, step 6"
+    },
+    "--dxp-g-spacing-xxlarge": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q9",
+      "summary": "Observed panel ceiling is 3rem/48px, already taken by -xlarge. Four HDS primary values sit above it (64/72/120/240px) with nowhere to go.",
+      "candidates": [
+        {
+          "value": "64px",
+          "source": "tokens.json → spacing.8",
+          "note": "continues the HDS scale but exceeds the observed ceiling — unknown whether the panel validates a max"
+        },
+        {
+          "value": "48px",
+          "source": "tokens.json → spacing.6",
+          "note": "safe, but duplicates -xlarge; the ladder loses a step"
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "leave at the Salesforce default"
+        }
+      ]
+    },
+    "--dxp-g-font-size-1": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "0.75rem",
+          "source": "tokens.json → font-size.3xs",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-2": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "0.875rem",
+          "source": "tokens.json → font-size.2xs",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-3": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "1rem",
+          "source": "tokens.json → font-size.xs",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-4": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "1.125rem",
+          "source": "tokens.json → font-size.sm",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-5": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "1.375rem",
+          "source": "tokens.json → font-size.md",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-6": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "1.75rem",
+          "source": "tokens.json → font-size.lg",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-7": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "2.25rem",
+          "source": "tokens.json → font-size.xl",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-8": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "3rem",
+          "source": "tokens.json → font-size.2xl",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-9": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "5rem",
+          "source": "tokens.json → font-size.3xl",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-10": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": "7.5rem",
+          "source": "tokens.json → font-size.4xl",
+          "note": "position under an ASCENDING reading of the ramp (slot 1 = smallest)"
+        }
+      ]
+    },
+    "--dxp-g-font-size-11": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q10",
+      "summary": "Two unknowns: (a) whether --dxp-g-font-size-1 is the smallest or the largest — unverifiable from source, and it flips the whole mapping; (b) what fills the 11th slot, since HDS has only ten font-size tokens and none exist below 0.75rem or above 7.5rem.",
+      "candidates": [
+        {
+          "value": null,
+          "source": null,
+          "note": "no HDS token — eleventh slot has no source under either reading"
+        }
+      ]
+    },
+    "--dxp-g-root-font-family": {
+      "status": "derived",
+      "value": "'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      "source": "tokens.json → font-family.body",
+      "note": "body { font-family: family('body') } — src/scss/base/_elements.scss:46"
+    },
+    "--dxp-g-heading-font-family": {
+      "status": "derived",
+      "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "source": "tokens.json → font-family.heading",
+      "note": "every h* entry in the $_type ramp uses family: 'heading' — src/scss/_hds-typography.scss:67-147"
+    },
+    "--dxp-s-html-font-size": {
+      "status": "derived",
+      "value": "100%",
+      "source": "src/scss/_hds-uswds-theme.scss:58",
+      "note": "HDS sets $theme-respect-user-font-size: true, so it deliberately does not pin the root font size. Enter 100% if the panel accepts a percentage. See Q13 before entering 16px — a hard px root defeats the browser's font-size preference and is an accessibility regression vs. hds.min.css."
+    },
+    "--dxp-s-text-heading-extra-large-font-family": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-font-size": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "3rem",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "2.25rem",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "5rem",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-font-weight": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-font-style": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-line-height": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 1,
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 1.06,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 1,
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-letter-spacing": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "-0.03em",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "-0.05em",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-extra-large-text-transform": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1-xl",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-font-family": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-font-size": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "2.25rem",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "1.375rem",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "3rem",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-font-weight": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-font-style": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-line-height": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 1.06,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 1.15,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 1,
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-letter-spacing": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "-0.03em",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-large-text-transform": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h1",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-font-family": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-font-size": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "1.375rem",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "1.125rem",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "2.25rem",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-font-weight": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 600,
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-font-style": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-line-height": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 1.15,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 1.35,
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 1.06,
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-letter-spacing": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-medium-text-transform": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h2",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-font-family": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-font-size": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "1.125rem",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "1rem",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "1.375rem",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-font-weight": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 600,
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 600,
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 700,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-font-style": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-line-height": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": 1.35,
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": 1.25,
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": 1.15,
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-letter-spacing": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "-0.02em",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-text-heading-small-text-transform": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q4",
+      "summary": "The HDS ramp has ten heading-family styles (h1-2xl, h1-xl, h1-h6, intro) for four panel slots. The ramp is not evenly spaced, so the perceived rhythm changes with whichever four are picked.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h4",
+          "note": "option A — semantic h1-h4"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h5",
+          "note": "option B — mid ramp h2-h5"
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.h3",
+          "note": "option C — display-led"
+        }
+      ]
+    },
+    "--dxp-s-body-font-family": {
+      "status": "derived",
+      "value": "'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+      "source": "tokens.json → typography.styles.p.fontFamily",
+      "note": "HDS paragraph style"
+    },
+    "--dxp-s-body-font-size": {
+      "status": "derived",
+      "value": "1rem",
+      "source": "tokens.json → typography.styles.p.fontSize",
+      "note": "HDS paragraph style"
+    },
+    "--dxp-s-body-font-weight": {
+      "status": "derived",
+      "value": 400,
+      "source": "tokens.json → typography.styles.p.fontWeight",
+      "note": "HDS paragraph style"
+    },
+    "--dxp-s-body-font-style": {
+      "status": "derived",
+      "value": "normal",
+      "source": null,
+      "note": "Derived by absence: tokens.json has no token for this axis and HDS does not set it, so the CSS initial value is what hds.min.css produces."
+    },
+    "--dxp-s-body-line-height": {
+      "status": "derived",
+      "value": 1.62,
+      "source": "tokens.json → typography.styles.p.lineHeight",
+      "note": "HDS paragraph style"
+    },
+    "--dxp-s-body-letter-spacing": {
+      "status": "derived",
+      "value": "0",
+      "source": "tokens.json → typography.styles.p.letterSpacing",
+      "note": "HDS paragraph style"
+    },
+    "--dxp-s-body-text-decoration": {
+      "status": "derived",
+      "value": "none",
+      "source": null,
+      "note": "Derived by absence: tokens.json has no token for this axis and HDS does not set it, so the CSS initial value is what hds.min.css produces."
+    },
+    "--dxp-s-body-text-transform": {
+      "status": "derived",
+      "value": "none",
+      "source": null,
+      "note": "Derived by absence: tokens.json has no token for this axis and HDS does not set it, so the CSS initial value is what hds.min.css produces."
+    },
+    "--dxp-s-button-font-family": {
+      "status": "derived",
+      "value": "'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+      "source": "tokens.json → typography.styles.h5.fontFamily",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-font-size": {
+      "status": "derived",
+      "value": "1rem",
+      "source": "tokens.json → typography.styles.h5.fontSize",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-font-weight": {
+      "status": "derived",
+      "value": 600,
+      "source": "tokens.json → typography.styles.h5.fontWeight",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-font-style": {
+      "status": "derived",
+      "value": "normal",
+      "source": null,
+      "note": "Derived by absence: tokens.json has no token for this axis and HDS does not set it, so the CSS initial value is what hds.min.css produces."
+    },
+    "--dxp-s-button-line-height": {
+      "status": "derived",
+      "value": 1.25,
+      "source": "tokens.json → typography.styles.h5.lineHeight",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-letter-spacing": {
+      "status": "derived",
+      "value": "-0.02em",
+      "source": "tokens.json → typography.styles.h5.letterSpacing",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-text-decoration": {
+      "status": "derived",
+      "value": "none",
+      "source": "src/scss/components/_button.scss:54",
+      "note": "HDS button typography is hds-type('h5') — src/scss/components/_button.scss:51-55"
+    },
+    "--dxp-s-button-text-transform": {
+      "status": "derived",
+      "value": "none",
+      "source": null,
+      "note": "Derived by absence: tokens.json has no token for this axis and HDS does not set it, so the CSS initial value is what hds.min.css produces."
+    },
+    "--dxp-s-body-small-font-family": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-font-size": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "0.75rem",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "1.125rem",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-font-weight": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": 400,
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": 400,
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-font-style": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "normal",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-line-height": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": 1.35,
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": 1.5,
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-letter-spacing": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "0.025em",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "-0.01em",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-body-small-text-transform": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q11",
+      "summary": "HDS has no style named \"body small\".",
+      "candidates": [
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.caption",
+          "note": "strongest evidence — _hds-uswds-theme.scss:336 sets $theme-small-font-size: '3xs', HDS's own answer to 'what is small text'. But caption is scoped to figcaptions in HDS and also carries a palette-muted color."
+        },
+        {
+          "value": null,
+          "source": null,
+          "note": "a 0.875rem (font-size.2xs) body variant. No such composite exists — line-height and letter-spacing would have to be invented. font-size.2xs $description says \"H6 and Label (form)\", a label, not body copy."
+        },
+        {
+          "value": "none",
+          "source": "tokens.json → typography.styles.intro",
+          "note": "wrong direction — intro (1.125rem) is larger than body"
+        }
+      ]
+    },
+    "--dxp-s-link-text-decoration": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q12",
+      "summary": "HDS links set text-decoration: none and draw a dashed 2,3 underline with a repeating-linear-gradient background-image (_hds-mixins.scss:310-331). The panel has no way to express that.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": null,
+          "note": "property-faithful. Drops the underline entirely. Likely WCAG 1.4.1 (Use of Color) failure: HDS link text and body text are the SAME color (base/_palettes.scss:56-57, both carbon-90) — the underline is the only cue."
+        },
+        {
+          "value": "underline",
+          "source": null,
+          "note": "affordance-faithful. Solid, not dashed — wrong HDS look, but accessible."
+        }
+      ]
+    },
+    "--dxp-s-link-text-decoration-hover": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q12",
+      "summary": "hds-link-hover (_hds-mixins.scss:333-344) swaps the dashed underline for a solid one, also via background-image.",
+      "candidates": [
+        {
+          "value": "underline",
+          "source": null,
+          "note": "close match to the HDS solid hover underline — but produces no state change if the default is also underline"
+        },
+        {
+          "value": "none",
+          "source": null,
+          "note": "matches the CSS property HDS actually sets; no visible hover feedback"
+        }
+      ]
+    },
+    "--dxp-s-link-text-decoration-focus": {
+      "status": "open-question",
+      "value": null,
+      "question": "Q12",
+      "summary": "HDS focus is a four-sided dashed ring drawn with background gradients and outline: none (hds-focus-ring-inline, _hds-mixins.scss:154-180). It is not a text-decoration. Neither panel value reproduces it.",
+      "candidates": [
+        {
+          "value": "none",
+          "source": null,
+          "note": "faithful to the property; leaves focus with no affordance from this slot"
+        },
+        {
+          "value": "underline",
+          "source": null,
+          "note": "gives focus a visible cue but is not the HDS treatment"
+        }
+      ],
+      "hdsSource": "none"
+    }
+  }
+}

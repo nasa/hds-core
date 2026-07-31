@@ -1,0 +1,351 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+/* ------------------------------------------------------------
+ * HDS Core — Salesforce Experience Cloud supplement (SPIKE)
+ *
+ * Upload as a static resource. Covers only what the Branding
+ * Set panel has no slot for. Everything the panel CAN set lives
+ * in branding-set-values.json instead.
+ *
+ * Intentionally unlayered: a Salesforce org declares no cascade
+ * layers, and unlayered rules beat layered ones.
+ *
+ * KNOWN DIVERGENCE FROM hds.min.css:
+ *   - The type classes below emit STATIC font sizes (the token
+ *     target). hds.min.css wraps 9 of these in clamp() for fluid
+ *     sizing (src/scss/_hds-typography.scss:46-56, and the nine
+ *     `clamp: (min, max)` entries in the $_type ramp). tokens.json
+ *     carries only the clamp maximum, so mobile renders LARGER
+ *     here than on an HDS site.
+ *   - .hds-overline is absent. The Sass $_type ramp has 17 styles;
+ *     tokens.json carries 16 — `overline` exists only in
+ *     src/scss/_hds-typography.scss:172-183 and cannot be reached
+ *     from a tokens.json-sourced generator.
+ *   - No palette system. AGENTS.md forbids flattening the six
+ *     --hds-palette-* scopes into static values, so palette-aware
+ *     colors (.hds-caption muted text, link/focus colors) are
+ *     absent rather than wrong.
+ *   - No dashed link underline and no dashed focus ring: both are
+ *     drawn with background-image gradients on the element itself
+ *     and cannot be reached from an external stylesheet.
+ *
+ * !important is used on the single-property utilities only,
+ * following the USWDS convention noted at
+ * src/scss/base/_palettes.scss:9. Multi-property type classes are
+ * left unflagged. Whether either wins against SLDS specificity is
+ * NOT verified.
+ * ------------------------------------------------------------ */
+
+:root {
+  /* Color — full HDS ramp (panel exposes 8 semantic families, not these 20 primitives) */
+  --hds-color-nasa-red: #f64137;
+  --hds-color-nasa-red-tint: #ff5c52;
+  --hds-color-nasa-red-shade: #b60109;
+  --hds-color-nasa-blue: #1c67e3;
+  --hds-color-nasa-blue-tint: #288bff;
+  --hds-color-nasa-blue-shade: #0b3d91;
+  --hds-color-international-orange: #ea6f24;
+  --hds-color-active-green: #47da84;
+  --hds-color-carbon-10: #e3e3e3;
+  --hds-color-carbon-20: #d1d1d1;
+  --hds-color-carbon-30: #b9b9bb;
+  --hds-color-carbon-40: #959599;
+  --hds-color-carbon-50: #77777a;
+  --hds-color-carbon-60: #58585b;
+  --hds-color-carbon-70: #444447;
+  --hds-color-carbon-80: #2e2e32;
+  --hds-color-carbon-90: #17171b;
+  --hds-color-carbon-black: #000000;
+  --hds-color-carbon-05: #f6f6f6;
+  --hds-color-spacesuit-white: #ffffff;
+
+  /* Border — no --dxp-* radius or width token exists */
+  --hds-border-width-thin: 1px;
+  --hds-border-width-thick: 2px;
+  --hds-border-radius: 0px;
+  --hds-border-radius-control: 2px;
+
+  /* Focus — no --dxp-* focus token exists */
+  --hds-focus-width: 1px;
+  --hds-focus-style: dashed;
+  --hds-focus-offset: 1px;
+
+  /* Layout — no --dxp-* layout slots exist */
+  --hds-layout-max-width: 1200px;
+  --hds-layout-margin-mobile: 16px;
+  --hds-layout-margin-desktop: 32px;
+  --hds-layout-gutter-sm: 4px;
+  --hds-layout-gutter-md: 16px;
+  --hds-layout-gutter-lg: 24px;
+  --hds-layout-gutter-xl: 32px;
+
+  /* Spacing — full HDS scale, incl. intermediates and the four values above the panel ceiling */
+  --hds-spacing-0: 0px;
+  --hds-spacing-1: 8px;
+  --hds-spacing-2: 16px;
+  --hds-spacing-3: 24px;
+  --hds-spacing-4: 32px;
+  --hds-spacing-6: 48px;
+  --hds-spacing-8: 64px;
+  --hds-spacing-9: 72px;
+  --hds-spacing-15: 120px;
+  --hds-spacing-30: 240px;
+  --hds-spacing-0-5: 4px;
+  --hds-spacing-1-5: 12px;
+  --hds-spacing-2-5: 20px;
+
+  /* Font family — mono only; root and heading are set in the panel */
+  --hds-font-family-code: 'DM Mono', 'Consolas', 'Courier', monospace;
+}
+
+/* Color utilities — the panel emits no classes, only custom properties. */
+.hds-bg-nasa-red {
+  background-color: var(--hds-color-nasa-red) !important;
+}
+.hds-bg-nasa-red-tint {
+  background-color: var(--hds-color-nasa-red-tint) !important;
+}
+.hds-bg-nasa-red-shade {
+  background-color: var(--hds-color-nasa-red-shade) !important;
+}
+.hds-bg-nasa-blue {
+  background-color: var(--hds-color-nasa-blue) !important;
+}
+.hds-bg-nasa-blue-tint {
+  background-color: var(--hds-color-nasa-blue-tint) !important;
+}
+.hds-bg-nasa-blue-shade {
+  background-color: var(--hds-color-nasa-blue-shade) !important;
+}
+.hds-bg-international-orange {
+  background-color: var(--hds-color-international-orange) !important;
+}
+.hds-bg-active-green {
+  background-color: var(--hds-color-active-green) !important;
+}
+.hds-bg-carbon-10 {
+  background-color: var(--hds-color-carbon-10) !important;
+}
+.hds-bg-carbon-20 {
+  background-color: var(--hds-color-carbon-20) !important;
+}
+.hds-bg-carbon-30 {
+  background-color: var(--hds-color-carbon-30) !important;
+}
+.hds-bg-carbon-40 {
+  background-color: var(--hds-color-carbon-40) !important;
+}
+.hds-bg-carbon-50 {
+  background-color: var(--hds-color-carbon-50) !important;
+}
+.hds-bg-carbon-60 {
+  background-color: var(--hds-color-carbon-60) !important;
+}
+.hds-bg-carbon-70 {
+  background-color: var(--hds-color-carbon-70) !important;
+}
+.hds-bg-carbon-80 {
+  background-color: var(--hds-color-carbon-80) !important;
+}
+.hds-bg-carbon-90 {
+  background-color: var(--hds-color-carbon-90) !important;
+}
+.hds-bg-carbon-black {
+  background-color: var(--hds-color-carbon-black) !important;
+}
+.hds-bg-carbon-05 {
+  background-color: var(--hds-color-carbon-05) !important;
+}
+.hds-bg-spacesuit-white {
+  background-color: var(--hds-color-spacesuit-white) !important;
+}
+
+.hds-text-nasa-red {
+  color: var(--hds-color-nasa-red) !important;
+}
+.hds-text-nasa-red-tint {
+  color: var(--hds-color-nasa-red-tint) !important;
+}
+.hds-text-nasa-red-shade {
+  color: var(--hds-color-nasa-red-shade) !important;
+}
+.hds-text-nasa-blue {
+  color: var(--hds-color-nasa-blue) !important;
+}
+.hds-text-nasa-blue-tint {
+  color: var(--hds-color-nasa-blue-tint) !important;
+}
+.hds-text-nasa-blue-shade {
+  color: var(--hds-color-nasa-blue-shade) !important;
+}
+.hds-text-international-orange {
+  color: var(--hds-color-international-orange) !important;
+}
+.hds-text-active-green {
+  color: var(--hds-color-active-green) !important;
+}
+.hds-text-carbon-10 {
+  color: var(--hds-color-carbon-10) !important;
+}
+.hds-text-carbon-20 {
+  color: var(--hds-color-carbon-20) !important;
+}
+.hds-text-carbon-30 {
+  color: var(--hds-color-carbon-30) !important;
+}
+.hds-text-carbon-40 {
+  color: var(--hds-color-carbon-40) !important;
+}
+.hds-text-carbon-50 {
+  color: var(--hds-color-carbon-50) !important;
+}
+.hds-text-carbon-60 {
+  color: var(--hds-color-carbon-60) !important;
+}
+.hds-text-carbon-70 {
+  color: var(--hds-color-carbon-70) !important;
+}
+.hds-text-carbon-80 {
+  color: var(--hds-color-carbon-80) !important;
+}
+.hds-text-carbon-90 {
+  color: var(--hds-color-carbon-90) !important;
+}
+.hds-text-carbon-black {
+  color: var(--hds-color-carbon-black) !important;
+}
+.hds-text-carbon-05 {
+  color: var(--hds-color-carbon-05) !important;
+}
+.hds-text-spacesuit-white {
+  color: var(--hds-color-spacesuit-white) !important;
+}
+
+/* Radius — no --dxp-* radius token exists at any level of the panel. */
+.hds-radius-none {
+  border-radius: var(--hds-border-radius) !important;
+}
+.hds-radius-control {
+  border-radius: var(--hds-border-radius-control) !important;
+}
+
+/* Type styles with no Branding Set slot. Class names match
+ * src/scss/_hds-typography.scss:285-360 so markup ports back to
+ * hds.min.css unchanged. All 16 tokens.json composites are emitted
+ * because Q4 (which four heading styles the panel takes) is
+ * unresolved. */
+.hds-display-2xl {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 7.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.hds-display-xl {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.hds-h1 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.hds-h2 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.hds-h3 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.hds-h4 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.hds-h5 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.hds-h6 {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+.hds-intro {
+  font-family: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.hds-p {
+  font-family: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.62;
+  letter-spacing: 0;
+}
+.hds-caption {
+  font-family: 'Public Sans Web', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.025em;
+}
+.hds-metadata {
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.75;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+.hds-stat-lg {
+  font-family: 'DM Mono', 'Consolas', 'Courier', monospace;
+  font-size: 7.5rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.hds-stat-md {
+  font-family: 'DM Mono', 'Consolas', 'Courier', monospace;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.hds-stat-sm {
+  font-family: 'DM Mono', 'Consolas', 'Courier', monospace;
+  font-size: 2.25rem;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.hds-stat-xs {
+  font-family: 'DM Mono', 'Consolas', 'Courier', monospace;
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
