@@ -68,6 +68,23 @@ For sites rendering charts or graphs, an optional bundle provides CSS custom pro
 
 This bundle can be loaded standalone without `hds.min.css`, making it suitable for embedded chart contexts (such as an iframe or a visualization-only page that inherits other styles from a CMS theme).
 
+### Which version am I running?
+
+Every compiled bundle opens with a banner comment naming its own version and the USWDS version it was built against:
+
+```css
+/*! @nasa-hds/core v0.9.0 — hds.min.css | uswds v3.13.0 | CC0 1.0 | https://github.com/nasa/hds-core */
+```
+
+`hds.min.css` also exposes both as custom properties, so a deployed page can report them without anyone opening the file:
+
+```js
+getComputedStyle(document.documentElement).getPropertyValue('--hds-version').trim(); // 0.9.0
+getComputedStyle(document.documentElement).getPropertyValue('--hds-uswds-version').trim(); // 3.13.0
+```
+
+Include both in any bug report. They are the fastest way to tell a styling problem from a version mismatch, particularly for copied-file deployments, where nothing else on the server records what was installed.
+
 ### Overriding HDS styles
 
 HDS Core reserves a `site` cascade layer for your own overrides. Wrapping your styles in this layer guarantees they always win over HDS defaults, without needing `!important`:

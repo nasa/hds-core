@@ -149,6 +149,8 @@ src/scss/hds-uswds.scss
 --hds-summary-border-radius
 --hds-summary-border-width
 --hds-table-border-width
+--hds-uswds-version
+--hds-version
 
 ## Custom Properties (hds-dataviz.min.css)
 --hds-dataviz-color-cat-1
