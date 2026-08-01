@@ -40,7 +40,7 @@ Swap the stylesheet reference. USWDS JavaScript is unmodified.
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-Load order does not matter. HDS Core uses CSS cascade layers, so priority is determined by layer order, not file order. Not sure if your site uses utility classes? Search your templates for classes not prefixed with `usa-` or `hds-`. Classes like `.padding-2` or `.margin-top-3` are utilities.
+The order you link these stylesheets does not matter. HDS Core uses CSS cascade layers, so priority is determined by layer order, not link order. Not sure if your site uses utility classes? Search your templates for classes not prefixed with `usa-` or `hds-`. Classes like `.padding-2` or `.margin-top-3` are utilities.
 
 For full setup options (Sass integration, load paths, tokens), see [Installation](?path=/docs/overview-installation--docs).
 
@@ -161,7 +161,7 @@ If your site already customizes USWDS via `@use "uswds-core" with (...)`, you wi
 Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins. Subsequent calls with different settings will error. When you adopt HDS Core:
 
 - **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
-- **Sass path:** `@forward '@nasa-hds/core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+- **Sass path:** `@forward '@nasa-hds/core/scss'` loads HDS Core's configuration first. Any `@use 'uswds-core' with (...)` in your own files throws a compile error, because a Sass module can only be configured once.
 
 Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings. Use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
 
@@ -179,9 +179,9 @@ Review these against your current theme file. HDS Core overrides all of them:
 
 If any of these are intentional deviations for your project, discuss with the HDS team. Some can be accommodated. Others are core to the HDS visual identity.
 
-### What you can still customize
+### Customizing beyond the HDS theme
 
-Settings not reserved by HDS Core continue to work. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs) for the full list of adjustable vs. reserved settings.
+Because HDS Core configures `uswds-core` first, you cannot change any `$theme-*` setting from your own Sass, including the ones USWDS docs present as project-level knobs. For project-specific styling, write CSS in the `site` cascade layer or use your own Sass variables and CSS custom properties. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs) for what HDS Core seals and what you can build with.
 
 ## Live preview
 
