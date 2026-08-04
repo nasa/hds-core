@@ -6,29 +6,92 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Technical setup for integrating HDS Core into your project. If you're evaluating whether HDS Core is the right fit for your site, start with [Getting Started](?path=/docs/overview-getting-started--docs). For visual requirements, see [Design Standards](?path=/docs/overview-design-standards--docs).
 
+## Get the package
+
+Get HDS Core one of two ways. Use npm if your project uses it; otherwise download the release zip. Both give you the same files.
+
+### Option 1: Install via npm
+
+```sh
+npm install --save-exact @nasa-hds/core
+```
+
+That is all the pre-compiled path needs: the CSS is self-contained and the USWDS scripts ship inside the package (`dist/js/`). npm verifies package integrity for you. Pin the exact version while HDS is pre-v1.0: minor releases can rename custom properties and change component styling, so you want upgrades to happen when you choose.
+
+`@uswds/uswds` is a peer dependency, which npm 7 and later installs for you automatically. The [Sass path](#sass-setup) compiles against it from source, so install it explicitly (`npm install --save-exact @nasa-hds/core @uswds/uswds`) when you want to pin its version yourself, or when your tooling does not auto-install peers (monorepos, `--legacy-peer-deps`, and some package managers).
+
+### Option 2: Download the dist zip
+
+Download from the [Releases page](https://github.com/nasa/hds-core/releases). You get the same `dist/` directory to copy onto your server. Because npm's integrity check does not apply, verify the download yourself before extracting:
+
+```sh
+sha256sum hds-core-*-dist.zip
+```
+
+On macOS, use `shasum -a 256`. Confirm the result matches the SHA-256 digest shown under the zip asset on the release (the release notes repeat it under "Verify your download"). If the two differ, the file was corrupted or tampered with in transit. Do not deploy it: re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
+
+### What's in the package
+
+```
+dist/
+  css/
+    hds.min.css         # Required: all USWDS components + HDS theme
+    hds-uswds.min.css   # Optional: USWDS utility classes (.padding-*, .text-*)
+    hds-dataviz.min.css # Optional: data visualization color palettes
+  js/
+    uswds-init.min.js   # Runs early in <head>; readies interactive components
+    uswds.min.js        # Component behavior; loaded deferred (unmodified USWDS)
+  assets/               # fonts and images referenced by the CSS
+src/
+  scss/                 # Sass source: tokens, mixins, theme config
+```
+
 ## Choose your approach
 
-|                   | Pre-compiled CSS                                 | Sass (recommended)                                                     |
-| ----------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
-| **Setup**         | One `<link>` tag                                 | Requires a Sass compiler and load path configuration                   |
-| **Customization** | CSS custom properties only                       | Full access to USWDS settings, HDS Sass variables, and USWDS functions |
-| **Custom code**   | `var(--hds-color-*)`, `var(--hds-font-weight-*)` | `$hds-color-*`, `family()`, `size()`, `units()`, `color()`             |
-| **Upgrade path**  | May need to switch to Sass later                 | Easiest to evolve as HDS Core adds features                            |
+|                   | Pre-compiled CSS                                 | Sass (recommended)                                   |
+| ----------------- | ------------------------------------------------ | ---------------------------------------------------- |
+| **Setup**         | One `<link>` tag                                 | Requires a Sass compiler and load path configuration |
+| **Customization** | CSS custom properties only                       | HDS Sass variables, USWDS functions, and HDS mixins  |
+| **Custom code**   | `var(--hds-color-*)`, `var(--hds-font-weight-*)` | `$hds-color-*`, `family()`, `size()`, `units()`      |
+| **Upgrade path**  | May need to switch to Sass later                 | Easiest to evolve as HDS Core adds features          |
 
-If you're evaluating HDS Core, working on a content site, or don't have a build pipeline, start with pre-compiled CSS. You can switch to Sass later without changing your markup.
+If you're evaluating HDS Core, working on a content site, or don't have a build pipeline, use [pre-compiled CSS](#pre-compiled-css). You can switch to [Sass](#sass-setup) later without changing your markup.
 
-No build pipeline at all? See the [No-Build Environments](?path=/docs/guides-no-build-environments--docs) guide for CDN-based setup.
+### Assets
+
+Both approaches end up the same way: every HDS stylesheet resolves its fonts and icons with relative paths (`url('../assets/...')`), so the deployed `assets/` directory must sit one directory up from the stylesheet, as a sibling of the `css/` folder:
+
+```
+public/
+├── css/
+│   └── hds.min.css
+└── assets/
+    ├── fonts/
+    └── img/
+```
+
+If the stylesheet cannot find `assets/` one directory up, fonts and icons will 404. Copy `assets/` whole rather than picking out individual files. The two approaches differ only in how the files get there: with pre-compiled CSS you copy them yourself; with Sass your build tool copies them (see each section below).
 
 ## Pre-compiled CSS
+
+Adopting HDS on an existing CMS, static HTML, or legacy site? The [No-Build Environments](?path=/docs/guides-no-build-environments--docs) guide covers migrating existing markup and styles onto HDS incrementally.
 
 ### New HDS site
 
 ```html
-<link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
-<script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+<head>
+  <script src="path/to/hds-core/dist/js/uswds-init.min.js"></script>
+  <link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
+</head>
+<body>
+  <!-- your content -->
+  <script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+</body>
 ```
 
-`hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles (typography, grid, layout). No other CSS file is required.
+Two scripts, loaded differently. `uswds-init.min.js` runs early in `<head>`, before the page paints, so interactive components (accordions, modals, the mobile menu) do not flash in an un-initialized state. `uswds.min.js` carries the component behavior and loads `defer` at the end of `<body>`. Both are the unmodified USWDS scripts. If your site has no interactive USWDS components, you can omit them.
+
+`hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles (typography, grid, layout). No other CSS file is required. Copy the `assets/` directory to sit beside your CSS (see [Assets](#assets)).
 
 ### Existing USWDS site
 
@@ -44,7 +107,7 @@ Replace your current USWDS stylesheet with `hds.min.css`:
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-Your site renders in the HDS visual identity with no markup changes. See the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs) for what to review after switching.
+This diff shows only the stylesheet change; your existing USWDS script setup, including `uswds-init.min.js`, stays as-is. Your site renders in the HDS visual identity with no markup changes. See the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs) for what to review after switching.
 
 If your site uses [USWDS utility classes](https://designsystem.digital.gov/utilities/) (`.padding-2`, `.margin-top-3`, `.text-primary`, etc.), also load the optional utilities bundle:
 
@@ -54,7 +117,7 @@ If your site uses [USWDS utility classes](https://designsystem.digital.gov/utili
 <script src="/js/uswds.min.js" defer></script>
 ```
 
-Load order does not matter. HDS Core uses CSS cascade layers to manage specificity, so priority is determined by layer order, not file order.
+The order you link these stylesheets does not matter. HDS Core uses CSS cascade layers to manage specificity, so priority is determined by layer order, not link order. (This is about linking compiled CSS. On the Sass path, `@use` and `@forward` order does matter, because it governs configuration; see the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs#uswds-settings).)
 
 Not sure if your site uses utility classes? Search your templates for classes that are not prefixed with `usa-` or `hds-`. If you find classes like `.padding-2` or `.margin-top-3`, load the utilities bundle. See the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs) for a full migration checklist.
 
@@ -68,32 +131,22 @@ For sites rendering charts or graphs, an optional bundle provides CSS custom pro
 
 This bundle can be loaded standalone without `hds.min.css`, making it suitable for embedded chart contexts (such as an iframe or a visualization-only page that inherits other styles from a CMS theme).
 
-### Overriding HDS styles
+### Which version am I running?
 
-HDS Core reserves a `site` cascade layer for your own overrides. Wrapping your styles in this layer guarantees they always win over HDS defaults, without needing `!important`:
-
-```css
-@layer site {
-  .usa-button {
-    border-radius: 0;
-  }
-}
-```
-
-Any CSS you write outside a named layer also wins over `@layer site` by default.
-
-### Using HDS tokens in your CSS
-
-HDS design tokens are available as CSS custom properties:
+Every compiled bundle opens with a banner comment naming its own version and the USWDS version it was built against:
 
 ```css
-.my-element {
-  color: var(--hds-color-nasa-blue);
-  font-weight: var(--hds-font-weight-bold);
-}
+/*! @nasa-hds/core v0.9.0 — hds.min.css | uswds v3.13.0 | CC0 1.0 | https://github.com/nasa/hds-core */
 ```
 
-All `$hds-color-*` Sass variables are mirrored as `var(--hds-color-*)` custom properties on `:root`.
+`hds.min.css` also exposes both as custom properties, so a deployed page can report them without anyone opening the file:
+
+```js
+getComputedStyle(document.documentElement).getPropertyValue('--hds-version').trim(); // 0.9.0
+getComputedStyle(document.documentElement).getPropertyValue('--hds-uswds-version').trim(); // 3.13.0
+```
+
+Include both in any bug report. They are the fastest way to tell a styling problem from a version mismatch, particularly for copied-file deployments, where nothing else on the server records what was installed.
 
 ## Sass setup
 
@@ -104,7 +157,7 @@ Configure your Sass compiler with these load paths:
 - `node_modules/@uswds/uswds/packages`
 - `node_modules/@nasa-hds/core/src/scss`
 
-Most build tools accept a `loadPaths` or `includePaths` array in their Sass configuration.
+Most build tools accept a `loadPaths` or `includePaths` array in their Sass configuration. These are resolution roots for the compiler, not the thing you import: you forward the package export `@nasa-hds/core/scss` (see below), and the load paths let it and USWDS resolve.
 
 ### Entry point
 
@@ -113,6 +166,8 @@ Most build tools accept a `loadPaths` or `includePaths` array in their Sass conf
 @forward '@nasa-hds/core/scss';
 @forward 'my-project-styles';
 ```
+
+`@forward` order matters: forward HDS Core before your own Sass that touches USWDS, so HDS configures `uswds-core` first. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs#uswds-settings) for why.
 
 To include USWDS utility classes:
 
@@ -128,37 +183,11 @@ To include USWDS utility classes:
 @forward '@nasa-hds/core/scss/dataviz';
 ```
 
-### Vite: copy fonts and icons
+### Copy the assets
 
-HDS Core's Sass source references fonts and icons with relative paths (`url('../assets/fonts/...')`). Vite cannot resolve these at compile time — you must copy the assets to the expected output location using `vite-plugin-static-copy`. See the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) for the full `vite.config.js` example. The same configuration applies to non-React Vite projects.
+A Sass compiler does not copy fonts and icons, so your build tool must place the `assets/` directory beside your compiled CSS (see [Assets](#assets)). How you do that depends on your toolchain. For Vite, the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) shows a `vite-plugin-static-copy` configuration that applies to any Vite project; other bundlers have their own asset-copy step.
 
-### Using HDS tokens in Sass
-
-With HDS Core loaded, HDS Sass variables and USWDS functions are available in your own stylesheets:
-
-```scss
-.my-component {
-  background-color: $hds-color-carbon-05;
-  color: $hds-color-carbon-90;
-  font-family: family('heading');
-  font-size: size('heading', 'md');
-  padding: units(3);
-}
-```
-
-All HDS brand and Carbon colors are available as `$hds-color-*` Sass variables returning exact HDS hex values.
-
-USWDS functions (`family()`, `size()`, `units()`, `color()`) work as documented in the [USWDS documentation](https://designsystem.digital.gov/design-tokens/).
-
-Note: `color()` returns USWDS system token values, which are close approximations of HDS Carbon colors but not exact matches. For example, USWDS `gray-90` is `#1b1b1b`, while HDS Carbon 90 is `#17171B`. For exact HDS values, use `$hds-color-*` variables or `var(--hds-color-*)` custom properties.
-
-For USWDS theme customization, global element style flags, and advanced configuration, see the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
-
-## Common mistakes
-
-**Don't `@use "uswds-core"` directly in your project stylesheets.** HDS Core configures USWDS before anything else loads it. Importing `uswds-core` yourself loads it without HDS configuration and breaks the theme. HDS Sass variables and USWDS functions are available automatically after forwarding HDS Core.
-
-**Bare HTML elements are not styled by default.** If your headings, paragraphs, or links are not picking up HDS styles, add USWDS classes like `.usa-prose`, `.usa-link`, and `.usa-button`. Sass users can enable global element styling in the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs).
+Once HDS Core is compiling, see the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs) for what you can build with HDS tokens, functions, and mixins, and what the theme seals.
 
 ## Framework-specific guides
 

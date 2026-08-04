@@ -65,9 +65,9 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         // HDS fonts (DM Mono, Inter) — lands at dist/assets/fonts/
-        { src: 'node_modules/@nasa-hds/core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
+        { src: 'node_modules/@nasa-hds/core/dist/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
         // HDS icon SVGs (accordion, table sort, external link, form error)
-        { src: 'node_modules/@nasa-hds/core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
+        { src: 'node_modules/@nasa-hds/core/dist/assets/img', dest: 'assets', rename: { stripBase: 5 } },
         // Public Sans — from USWDS — lands at dist/assets/fonts/public-sans/
         { src: 'node_modules/@uswds/uswds/dist/fonts/public-sans', dest: 'assets/fonts', rename: { stripBase: 5 } },
         // USWDS images (checkboxes, radio indicators, etc.)
@@ -78,7 +78,6 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
         loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
       },
     },

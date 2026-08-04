@@ -4,159 +4,80 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Sass Configuration
 
-This guide covers advanced USWDS theme customization for projects using the Sass integration path. For basic Sass setup, see [Installation](?path=/docs/overview-installation--docs).
+The Sass path lets you build your own components in the HDS design language. You get HDS design tokens, USWDS functions, and HDS mixins as compile-time values, so custom styles you write match HDS exactly.
 
-## Customizing USWDS settings
+The entry point is a single forward:
 
-HDS Core configures USWDS with HDS values: colors, fonts, spacing, and component behavior. Many of these settings can be further customized in your project. Others are reserved by HDS Core and should not be overridden.
+```scss
+@forward '@nasa-hds/core/scss';
+```
 
-**USWDS Sass settings (`$theme-*` variables) cannot be overridden from consumer stylesheets.** HDS Core calls `@use 'uswds-core' with (...)` internally before your entry point runs. In Sass's module system, a module can only be configured the first time it loads. Attempting a second `@use 'uswds-core' with (...)` in your own Sass will throw a compile error. Do not add `@use 'uswds-core'` to your project stylesheets; see [Installation](?path=/docs/overview-installation--docs#common-mistakes) for why.
+`@nasa-hds/core/scss` is a package export that resolves to HDS Core's Sass entry. It is the one string to use; do not reach into internal paths like `@nasa-hds/core/src/scss/hds`. You also configure two Sass load paths so the compiler can find HDS and USWDS: see [Installation](?path=/docs/overview-installation--docs#sass-setup) for the load-path setup and the full entry-point examples (utilities, dataviz).
 
-## Global element styles
+You do not reconfigure the HDS theme from Sass. The NASA visual identity is fixed on purpose (see [USWDS settings](#uswds-settings)), the same way the VA and CMS design systems fix theirs. What you customize is your own code, using the surface below.
 
-By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.). This prevents conflicts with existing styles in your project. Because USWDS settings are locked by HDS Core (see above), this default cannot be changed via Sass.
+## What you can use
 
-Use USWDS classes to activate styling on the elements you control:
+With HDS Core forwarded, HDS variables, USWDS functions, and HDS mixins are available in your own stylesheets:
 
-- `.usa-prose` wraps body content sections with full HDS typography (headings, paragraphs, lists, links)
-- `.usa-link` applies link styling to individual anchors
-- `.usa-button` applies button styling
-- `.usa-intro` applies lead/intro paragraph styling
+```scss
+.my-component {
+  background-color: $hds-color-carbon-05;
+  color: $hds-color-carbon-90;
+  font-family: family('heading');
+  font-size: size('heading', 'md');
+  padding: units(3);
 
-These class-based styles are always active and cover the same elements that global flags would affect.
+  &:focus-visible {
+    @include hds-focus-ring;
+  }
+}
+```
 
-## Settings you may need to adjust
+- **HDS Sass variables** (`$hds-color-*`, `$hds-spacing-*`, `$hds-font-*`, and the rest) return exact HDS values.
+- **USWDS functions** (`family()`, `size()`, `units()`, `color()`) work as documented in the [USWDS documentation](https://designsystem.digital.gov/design-tokens/).
+- **HDS mixins** apply HDS patterns: `hds-focus-ring` (and `hds-focus-ring-inline`, `hds-focus-ring-size`), `hds-link-appearance`, `hds-link-hover`, `visually-hidden`, and `hds-type` (applies a type-ramp step to any element).
+- **Two configuration flags** are yours to set at import time: `$hds-enable-dataviz-tokens` and `$hds-enable-auto-dark-mode`.
 
-Most projects won't need to change anything — HDS Core configures USWDS with the correct values. These are the few settings that depend on your specific project setup.
+`color()` returns USWDS system token values, which are close approximations of HDS Carbon colors but not exact matches. For example, USWDS `gray-90` is `#1b1b1b`, while HDS Carbon 90 is `#17171B`. For exact HDS values, use `$hds-color-*` variables or `var(--hds-color-*)` custom properties.
 
-### Asset paths
+Because your components are built on the shared HDS token surface rather than a private fork, they stay compatible with HDS and can be [contributed back](?path=/docs/overview-getting-started--docs) into HDS Core.
 
-Adjust these if your build pipeline outputs assets to a different location than the HDS Core default.
+## HDS utility classes
 
-| Setting             | HDS Default         | When to change                                                           |
-| ------------------- | ------------------- | ------------------------------------------------------------------------ |
-| `$theme-image-path` | `'../assets/img'`   | Your compiled CSS is not one directory above your `assets/img/` folder   |
-| `$theme-font-path`  | `'../assets/fonts'` | Your compiled CSS is not one directory above your `assets/fonts/` folder |
+HDS ships a few utility classes beyond USWDS:
 
-### Fixed header offsets
+| Class                      | Purpose                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `.hds-print-visible`       | Show an element in print that is hidden on screen (expanded URLs, critical alerts).                               |
+| `.hds-global-styles`       | Opt-in wrapper that styles bare HTML elements inside it. See [Content element styling](#content-element-styling). |
+| `.hds-global-styles-reset` | Reset boundary inside a `.hds-global-styles` or `.usa-prose` scope, returning descendants to unstyled markup.     |
 
-If your site has a fixed or sticky header, these prevent content from being hidden behind it.
+The `visually-hidden` mixin provides screen-reader-only text from your own Sass.
 
-| Setting                          | Default    | What it controls                                                                                                            |
-| -------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `$theme-in-page-nav-top`         | `4` (32px) | Distance from the top of the viewport when the in-page navigation sidebar becomes sticky. Increase to clear a fixed header. |
-| `$theme-table-sticky-top-offset` | `0px`      | Offset for sticky table headers. Increase to clear a fixed header.                                                          |
+All [USWDS utility classes](https://designsystem.digital.gov/utilities/) for layout, spacing, and typography work with HDS Core. USWDS color utilities (`.bg-*`, `.text-*`, `.border-*`) also work, but resolve to USWDS system token values, which approximate HDS colors rather than matching them exactly. For exact HDS colors, use `$hds-color-*` Sass variables or `var(--hds-color-*)` custom properties.
 
-### Form input width
+HDS also ships typography classes (`.hds-h1`–`.hds-h6`, `.hds-display-*`, `.hds-stat-*`, and more) and palette wrappers (`.hds-palette-*`). Those are documented where they are designed: see [Typography](?path=/docs/foundations-typography--docs) and [Color](?path=/docs/foundations-color--docs).
 
-| Setting                  | Default       | What it controls                                                                       |
-| ------------------------ | ------------- | -------------------------------------------------------------------------------------- |
-| `$theme-input-max-width` | `"mobile-lg"` | Max width of text inputs and selects. Increase if your layout needs wider form fields. |
+## Content element styling
 
-### Compile output
+By default, HDS Core does not style bare HTML elements (`<h1>`, `<p>`, `<a>`, `<table>`, etc.), so it never conflicts with existing styles in your project. Opt in where you want it by wrapping content in one of these scopes:
 
-| Setting                        | HDS Default | What it controls                                                                                         |
-| ------------------------------ | ----------- | -------------------------------------------------------------------------------------------------------- |
-| `$utilities-use-important`     | `false`     | Whether utility classes use `!important`. Set to `true` if utilities conflict with your existing styles. |
-| `$theme-show-compile-warnings` | `false`     | Show Sass warnings from USWDS. Enable for debugging.                                                     |
-| `$theme-show-notifications`    | `false`     | Show USWDS build notifications. Enable for debugging.                                                    |
+- `.hds-global-styles` is the HDS-native wrapper. Bare elements inside it (headings, paragraphs, links, lists, blockquotes, code, figures, and tables) take HDS styling.
+- `.usa-prose` is the USWDS-standard equivalent and applies the same styling.
 
-## Reserved settings
+Inside either scope, add `.hds-global-styles-reset` to an element to return it and its descendants to unstyled markup, for a region you want to control yourself.
 
-HDS Core relies on these settings to implement the HDS visual language correctly. Overriding them will break the design system's intended appearance and behavior.
+`.usa-link`, `.usa-button`, and `.usa-intro` style individual elements without a wrapper.
 
-### Primary and secondary color families
+## USWDS settings
 
-HDS intentionally swaps the USWDS color assignments (NASA Red = primary, NASA Blue = secondary) to support the [wayfinding rule](?path=/docs/foundations-color--docs): red navigates away, blue stays on page. Changing any primary or secondary setting breaks button colors, link treatments, and the entire wayfinding system.
+USWDS Sass settings (`$theme-*` variables) cannot be overridden from consumer stylesheets. HDS Core calls `@use 'uswds-core' with (...)` internally before your entry point runs, and in Sass's module system a module can only be configured the first time it loads. A second `@use 'uswds-core' with (...)` in your own Sass throws a compile error, so do not add `@use 'uswds-core'` to your project stylesheets.
 
-- `$theme-color-primary-family`, `$theme-color-primary`, and all `primary-*` variants
-- `$theme-color-secondary-family`, `$theme-color-secondary`, and all `secondary-*` variants
+This is why `@use` and `@forward` order matters on the Sass path: forward HDS Core before any of your own Sass that touches USWDS, so HDS configures `uswds-core` first. (Compiled-CSS link order is separate and does not matter; HDS manages that with cascade layers.)
 
-### Base color family
+This seals the NASA visual identity: colors, fonts, the type scale, the grid, focus treatment, and component shapes are all set by HDS and are not consumer knobs.
 
-These map the HDS Carbon scale to the closest USWDS gray tokens. USWDS components use these for backgrounds, borders, and text. Changing them shifts the entire neutral palette away from the Carbon scale.
+You may be tempted to copy HDS Core's theme file into your project and edit it there. It compiles, but you then own a fork of every HDS setting: each release that changes a token, adds a component, or bumps USWDS drifts away from your copy silently, and you are no longer on HDS Core. If you need HDS itself to be different, [raise it with the HDS team](?path=/docs/overview-getting-started--docs): either it is a gap HDS should fill for everyone, or an intentional deviation that needs design sign-off.
 
-- `$theme-color-base-family` and all `base-*` variants
-- `$theme-color-base-ink`
-
-### Link color scheme
-
-HDS links use body text color (not brand color) for the text itself. The dotted underline and external arrow provide the visual affordance. These settings prevent bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
-
-- `$theme-link-color`, `$theme-link-hover-color`, `$theme-link-active-color`, `$theme-link-visited-color`
-- `$theme-link-reverse-color`, `$theme-link-reverse-hover-color`, `$theme-link-reverse-active-color`
-- `$theme-body-background-color`, `$theme-text-color`, `$theme-text-reverse-color`
-
-### Focus ring
-
-HDS uses a palette-aware focus ring (1px dashed, adapts to each palette background). These base settings are overridden per-palette in CSS — changing them creates inconsistent focus indicators.
-
-- `$theme-focus-color`, `$theme-focus-offset`, `$theme-focus-style`, `$theme-focus-width`
-
-### Font families and roles
-
-HDS maps three specific fonts to USWDS family slots (Inter → `serif`, Public Sans → `sans`, DM Mono → `mono`) and assigns them to roles (heading, body, ui, code, alt). Changing any of these breaks the HDS type system.
-
-- `$theme-font-type-sans`, `$theme-font-type-serif`, `$theme-font-type-mono`
-- `$theme-font-role-heading`, `$theme-font-role-body`, `$theme-font-role-ui`, `$theme-font-role-code`, `$theme-font-role-alt`
-- `$theme-typeface-tokens`, `$theme-font-serif-custom-src`, `$theme-font-mono-custom-src`
-
-### Type scale and element sizing
-
-These map the HDS Core Proposal type scale to USWDS size tokens. Changing them misaligns heading sizes, body text, and display typography from the HDS spec.
-
-- `$theme-type-scale-3xs` through `$theme-type-scale-3xl`
-- `$theme-h1-font-size` through `$theme-h6-font-size`
-- `$theme-body-font-size`, `$theme-body-font-family`, `$theme-small-font-size`, `$theme-display-font-size`
-
-### Line heights and font weights
-
-These pull values directly from HDS design tokens.
-
-- `$theme-body-line-height`, `$theme-heading-line-height`, `$theme-lead-line-height`, `$theme-input-line-height`
-- All `$theme-font-weight-*` settings
-
-### Grid, layout, and breakpoints
-
-HDS Core configures the grid system, breakpoints, column gaps, site margins, and container max widths to match the HDS spec.
-
-- `$theme-grid-container-max-width`, `$theme-header-max-width`, `$theme-footer-max-width`, `$theme-header-min-width`
-- `$theme-site-margins-width`, `$theme-site-margins-mobile-width`, `$theme-site-margins-breakpoint`
-- `$theme-column-gap-sm`, `$theme-column-gap-md`, `$theme-column-gap-lg`, `$theme-column-gap-mobile`, `$theme-column-gap-desktop`
-- `$theme-utility-breakpoints`
-
-### Component border radii, stroke widths, and typography
-
-These are set from HDS design tokens and ensure consistent component appearance.
-
-- `$theme-button-border-radius`, `$theme-button-stroke-width`, `$theme-button-font-family`
-- `$theme-card-border-radius`, `$theme-card-border-width`
-- `$theme-checkbox-border-radius`, `$theme-input-tile-border-radius`, `$theme-input-tile-border-width`
-- `$theme-input-select-border-width`, `$theme-input-state-border-width`
-- `$theme-modal-border-radius`
-- `$theme-pagination-button-border-radius`, `$theme-pagination-button-border-width`, `$theme-pagination-font-family`
-- `$theme-summary-box-border-radius`, `$theme-summary-box-border-width`
-- `$theme-form-font-family`
-- `$theme-input-background-color`
-
-### State, accent, and table colors
-
-The state colors (error, warning, success, info, disabled, emergency), accent colors (cool, warm), and table theme tokens are set to reasonable values. Changing them may produce unexpected results in alerts, form validation, and data tables.
-
-- All `$theme-color-error-*`, `$theme-color-warning-*`, `$theme-color-success-*`, `$theme-color-info-*`, `$theme-color-disabled-*`, `$theme-color-emergency-*`
-- All `$theme-color-accent-warm-*`, `$theme-color-accent-cool-*`
-- All `$theme-table-*` (except `$theme-table-sticky-top-offset`, listed above as adjustable)
-
-### Everything else
-
-USWDS has [hundreds of settings](https://designsystem.digital.gov/documentation/settings/) for individual components. Settings not listed above are not configured by HDS Core. They use USWDS defaults, which generally work fine with HDS theming. If you need to fine-tune a specific USWDS component, consult the USWDS documentation and test thoroughly.
-
-## Utility classes
-
-HDS Core provides a small number of utility classes beyond what USWDS offers.
-
-| Class                | Purpose                                                                                                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.hds-print-visible` | Makes an element visible in print that is hidden on screen. Use for content that should only appear in printed output (e.g., expanded URLs, critical alerts). |
-
-All [USWDS utility classes](https://designsystem.digital.gov/utilities/) for layout, spacing, and typography work as expected with HDS Core. USWDS color utilities (`.bg-*`, `.text-*`, `.border-*`) also work, but use USWDS system token values which are close approximations of HDS colors — not exact matches. For exact HDS colors in custom styles, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties.
+For project-specific results, write your own CSS in the `site` cascade layer, which always wins over HDS defaults without `!important`, or use your own Sass variables.
