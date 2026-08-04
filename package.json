@@ -67,7 +67,7 @@
     "lint:js:fix": "eslint . --fix",
     "lint:md": "remark --rc-path .config/remarkrc.mjs --quiet --frail *.md docs/**/*.md .github/**/*.md",
     "lint:mdx": "remark --rc-path .config/remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
-    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm",
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm --validate-integrity",
     "test": "vitest run --reporter=dot",
     "test:watch": "vitest watch",
     "test:visual": "chromatic --config-file .config/chromatic.config.json --log-level warn"
@@ -91,7 +91,7 @@
     "@vitest/browser-playwright": "^4.1.10",
     "@vitest/coverage-v8": "^4.1.0",
     "autoprefixer": "^10.5.4",
-    "concurrently": "^9.2.4",
+    "concurrently": "^10.0.4",
     "cssnano": "^8.0.2",
     "eslint": "^10.7.0",
     "eslint-plugin-mdx": "^3.8.1",

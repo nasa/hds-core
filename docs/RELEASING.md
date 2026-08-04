@@ -9,7 +9,9 @@ Releases are [Changesets](https://github.com/changesets/changesets)-driven and p
 The workflow runs on every push to `main` as two jobs:
 
 - **`version`** — while unreleased changesets exist, opens/updates a **Version Packages** PR that bumps the version and rewrites `CHANGELOG.md`. It also detects when a bump has just landed (the committed version has no matching `vX.Y.Z` tag yet).
-- **`publish`** — runs **only** when a bump just landed. It builds, publishes to npm over OIDC, tags `vX.Y.Z`, and creates a GitHub Release with the dist zip and SBOM attached. This job runs in the **`npm-publish`** environment.
+- **`publish`** — runs **only** when a bump just landed. It builds, publishes to npm over OIDC, tags `vX.Y.Z`, and creates a GitHub Release with the dist zip and the SBOM attached. This job runs in the **`npm-publish`** environment.
+
+Each release carries two workflow assets, `hds-core-vX.Y.Z-dist.zip` and `sbom.json`. GitHub displays a SHA-256 digest under each asset automatically; the publish job also writes the zip's digest into the release body under **Verify your download**, so adopters who self-host the zip have a verification path. See the [No-Build Environments](https://nasa.github.io/hds-core/?path=/docs/guides-no-build-environments--docs) guide.
 
 ## Who can cut a release
 

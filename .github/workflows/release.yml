@@ -32,12 +32,12 @@ jobs:
       released: ${{ steps.version-check.outputs.released }}
       version: ${{ steps.version-check.outputs.version }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           cache: 'npm'
@@ -54,7 +54,7 @@ jobs:
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Changesets -- manage Version Packages PR
-        uses: changesets/action@v1
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
         with:
           commit: 'chore: version packages'
           title: 'Version Packages'
@@ -90,7 +90,7 @@ jobs:
 
       - name: Upload release artifacts
         if: steps.version-check.outputs.released == 'true'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: release-artifacts
           path: |
@@ -114,18 +114,18 @@ jobs:
     steps:
       # Checkout provides package.json, src/ (published Sass + assets), and
       # CHANGELOG.md; dist/ and sbom.json come from the version job's artifact.
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24.15.0'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download release artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: release-artifacts
 
@@ -164,6 +164,24 @@ jobs:
       - name: Create dist zip
         run: |
           cd dist && zip -r ../hds-core-v${{ needs.version.outputs.version }}-dist.zip . && cd ..
+
+      # Adopters who self-host the zip verify it against this digest. GitHub
+      # also shows a SHA-256 under each release asset, so this repeats the
+      # same value inline in the notes where it reads alongside the verify
+      # command. See the No-Build Environments guide.
+      - name: Append checksum to release notes
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          ZIP="hds-core-v${VERSION}-dist.zip"
+          SHA256="$(sha256sum "$ZIP" | cut -d ' ' -f 1)"
+          {
+            printf '\n## Verify your download\n\n'
+            printf 'SHA-256 of `%s`:\n\n' "$ZIP"
+            printf '```\n%s\n```\n\n' "$SHA256"
+            printf 'Compare it against your download:\n\n'
+            printf '```sh\nsha256sum %s\n```\n' "$ZIP"
+          } >> release-notes.md
 
       - name: Create GitHub Release
         env:
