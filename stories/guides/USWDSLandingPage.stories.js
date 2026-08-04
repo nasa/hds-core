@@ -36,9 +36,6 @@ export default {
       delay: 300,
       modes: paletteModes,
     },
-    a11y: {
-      test: 'todo',
-    },
   },
 };
 

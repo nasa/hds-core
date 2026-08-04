@@ -80,6 +80,7 @@ const graphicList = `
 
 export const DarkSections = {
   name: 'Hero and dark section',
+  tags: ['!dev'],
   render: () => `${hero}${graphicList}`,
 };
 
