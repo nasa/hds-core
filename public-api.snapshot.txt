@@ -476,6 +476,8 @@ hds-type-classes
 .usa-form-group--disabled
 .usa-form-group--error
 .usa-header
+.usa-hero__callout
+.usa-hero__heading--alt
 .usa-hint
 .usa-icon
 .usa-identifier
@@ -515,6 +517,7 @@ hds-type-classes
 .usa-radio__label
 .usa-radio__label-description
 .usa-section
+.usa-section--dark
 .usa-select
 .usa-sidenav
 .usa-sidenav__item
