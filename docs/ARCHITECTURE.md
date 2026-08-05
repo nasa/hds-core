@@ -321,21 +321,22 @@ These are a stopgap. Remove them when the components get real HDS theming.
 
 ### USWDS dark context surfaces
 
-USWDS paints two layout contexts dark on their own: the hero callout and `.usa-section--dark` (the surface the graphic list sits on in the landing page template). Both use `color("primary-darker")`, which the HDS theme maps to NASA Red, and both color their headings `color("accent-cool")`, a family HDS never themes. A palette wrapper cannot reach either value — the red is a `background-color` on the component, not a custom property.
+USWDS paints three contexts dark on their own: the hero callout, `.usa-section--dark` (the surface the graphic list sits on in the landing page template), and the `.usa-dark-background` typography wrapper. The first two use `color("primary-darker")`, which the HDS theme maps to NASA Red, and color their headings `color("accent-cool")`, a family HDS never themes. `.usa-dark-background` uses `color("base-darker")` (`gray-90`), which is close enough to Carbon 90 to look correct, but it only reverses `<p>`, `<span>`, and `<a>`. A palette wrapper cannot reach any of it — the background is a `background-color` on the component, not a custom property.
 
-`base/_palettes.scss` maps both onto palette 4 (dark, Carbon 90):
+`base/_palettes.scss` maps all three onto palette 4 (dark, Carbon 90):
 
 | Selector | Palette applied | What it corrects |
 | --- | --- | --- |
 | `.usa-hero__callout` | Dark | Red callout box, cyan heading, red CTA on red |
 | `.usa-section--dark` | Dark | Red section band, cyan headings, light-palette components inside |
+| `.usa-dark-background` | Dark | Carbon Black headings and Carbon 90 links on a `#1b1b1b` surface (1.2:1 and 1.0:1 on light palettes) |
 | `.usa-hero__heading--alt` | — | Takes `--hds-palette-muted` so the eyebrow stays distinct from the heading |
 
 Applying the full dark scheme, not just a background, is what makes components inside the section correct: `.usa-link`, `.usa-button--outline`, and focus rings all read `--hds-palette-*` values, which previously resolved against whatever palette wrapped the page.
 
 Selectors use `:where()`, so specificity stays at zero and `.hds-palette-*` on the same element still wins — the same contract as the surface bridges above. These rules override USWDS by cascade layer, not specificity: `hds-base` outranks `uswds` regardless of how the two selectors compare.
 
-`base/_print.scss` lists both selectors alongside the palette containers. Browsers drop background colors when printing, so a dark surface that keeps its white text prints as blank paper. The print reset also has to override USWDS's white `<p>` and `<a>` inside `.usa-section--dark` directly, because those are set on the children and only reached by inheritance otherwise.
+`base/_print.scss` lists all three selectors alongside the palette containers. Browsers drop background colors when printing, so a dark surface that keeps its white text prints as blank paper. The print reset also has to override USWDS's white `<p>`, `<span>`, and `<a>` inside `.usa-section--dark` and `.usa-dark-background` directly, because those are set on the children and only reached by inheritance otherwise.
 
 Unlike the surface bridges, these are not a stopgap for missing theming. They stay in place unless the design direction for dark sections changes. See DESIGN.md for the color decisions and contrast figures.
 
