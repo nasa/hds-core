@@ -12,6 +12,20 @@ updates:
     labels:
       - 'dependencies'
     groups:
+      # One weekly PR for every non-breaking (minor + patch) bump across all
+      # packages -- the single thing to review each Friday. Listed first so
+      # it claims minor/patch updates before the family groups below; majors
+      # are excluded here and fall through to those groups (or their own PR).
+      non-breaking:
+        update-types:
+          - 'minor'
+          - 'patch'
+        patterns:
+          - '*'
+      # Major bumps fall through to these family groups so a multi-package
+      # release (e.g. Storybook) still lands as one cohesive PR instead of
+      # fragmenting into many. A standalone major with no family match here
+      # gets its own individual PR, as before.
       storybook:
         patterns:
           - '@storybook/*'
