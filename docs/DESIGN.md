@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-07-27
+Last updated: 2026-08-07
 
 ## Class Naming Convention
 
@@ -99,7 +99,9 @@ This pattern is documented in the `dataviz.color` `$description` in `tokens.json
 
 ### Domain-First Naming Architecture
 
-Dataviz tokens are grouped by domain first, then category, to support future non-color dataviz tokens (typography, spacing, motion).
+Dataviz tokens are grouped by domain first, then category, to leave room for future non-color dataviz tokens (typography, spacing).
+
+Motion is not one of them. Charts animate on the same `motion.*` tokens as the rest of the system, applied to chart scenarios — see Motion below. The dataviz contract stays additive: it holds values that exist nowhere else, never a second copy of a value the main scale already defines.
 
 ### Categorical color independence
 
@@ -472,6 +474,63 @@ Circle stroke (`--hds-palette-utility-stroke`) vs palette background: C-20 to C-
 | Dark attribution name color | White (desktop) vs. Carbon 40 (mobile) | `--hds-palette-muted` | Figma inconsistent across breakpoints. 3 of 4 variants use muted. |
 
 See `components/_blockquote.scss` for implementation.
+
+## Motion
+
+### Static by Default
+
+HDS moves only when the movement does a job. Two jobs qualify: confirming that the site received an input (Feedback), and orienting someone between two layout states (Transition). A third category from the guidance, Attraction — subtle looping cues that draw the eye — is deliberately not implemented in this pass. Anything outside those categories is treated as decoration and does not ship.
+
+### The Scale and Why It Pairs
+
+Two curves and four durations, in `tokens.json` under `motion`:
+
+| Token                                     | Value                          | Pairs with         |
+| ----------------------------------------- | ------------------------------ | ------------------ |
+| `motion.easing.default` (the 30/80 curve) | `cubic-bezier(0.3, 0, 0.2, 1)` | fast, medium, slow |
+| `motion.easing.snap` (the 10/100 curve)   | `cubic-bezier(0.1, 0, 0, 1)`   | blink              |
+| `motion.duration.blink`                   | 350ms                          | snap               |
+| `motion.duration.fast`                    | 500ms                          | default            |
+| `motion.duration.medium`                  | 1000ms                         | default            |
+| `motion.duration.slow`                    | 1500ms                         | default            |
+
+The pairings are rules, not defaults. They encode object inertia: a small thing responding directly to your pointer should feel light and immediate, so it takes the snap curve at the shortest duration; a large thing moving on its own should feel weighty, so it takes the default curve at a longer one. Mixing them breaks the illusion — a full-screen panel that snaps looks glitchy, and a button that eases in over a second looks broken.
+
+Component feedback lives entirely on blink and fast. Medium and slow are reserved for choreographed motion at content scale (chart entrances, full-screen transitions, large layout blocks). That reservation is enforced in the token descriptions, because the failure mode it prevents — a one-second fade on a dropdown — is the single most common way a motion scale goes wrong.
+
+### Feedback Is Asymmetric
+
+A control lights up faster than it settles: hover-enter runs at blink on the snap curve, hover-exit at fast on the default curve. Arriving should feel like the interface answering you; leaving should feel like it letting go. In the Sass this is the `motion-enter` / `motion-exit` pair in `_hds-mixins.scss` — enter on the `:hover` / `:active` rule, exit on the base rule the element returns to.
+
+### What Never Animates
+
+| Not animated | Why |
+| --- | --- |
+| Focus rings and every other focus indicator | A keyboard user needs to know where they are the instant they arrive. Grounded in WCAG 2.4.7 practice. Includes the table sort arrow, which doubles as that column's focus indicator because the ring is clipped by `mask-image`. |
+| Form validation and error state changes | An error is information, not feedback. It should be there, not arrive. |
+| Form control focus borders | Same immediacy rule; see the solid-border treatment in Issue #20. |
+| Disabled state toggles | A control turning off should read as already-off. |
+| Checkbox and radio check marks | USWDS swaps a background image, which has nothing to interpolate. A future Delight candidate, not a v1 gap. |
+| Current-page and selected indicators | These report state. A state that fades in reads as ambiguous while it fades. |
+| Static content | Nothing to confirm and nothing to orient. |
+
+### Reduced Motion Removes, It Does Not Shorten
+
+Every HDS transition is feedback or orientation; none of it carries information. So when someone asks for reduced motion, the honest response is to take it away rather than to speed it up. `base/_reduced-motion.scss` zeroes the four `--hds-motion-duration-*` properties in one `prefers-reduced-motion: reduce` block, and because components read their durations through those properties, that single block reaches all of them.
+
+No `!important`, deliberately. An adopter who genuinely needs motion back can restore it from `@layer site`, which always wins. We do not recommend it: overriding a stated accessibility preference should be a decision someone makes on purpose, with a reason.
+
+### Motion in Data Visualization
+
+Charts use these same tokens; dataviz does not get its own motion contract. Entrances run at medium on the default curve, staggered. State changes inside a chart already on screen run at fast on the default curve — a chart responding to a filter is feedback, not an entrance. Nothing flashes more than three times per second.
+
+### USWDS-Owned Motion Is Untouched
+
+Modal, overlay, mobile nav, skipnav, and tooltip animate on USWDS's own timings, and each guards itself for reduced motion. HDS has not retimed them, because HDS does not theme those components (see Components without HDS theming in AGENTS.md). When any of them gets real HDS theming, retiming it onto this scale is part of that work.
+
+### Deferred
+
+Attraction and looping animation, page transitions, delay and stagger tokens, `transition` composite tokens, and component-level motion custom properties in `base/_component-properties.scss` are all out of scope for now. The component hooks in particular wait on adopter demand — the tokens are the contract until someone needs finer control.
 
 ## System Behavior
 

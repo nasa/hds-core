@@ -89,6 +89,12 @@ src/scss/hds-uswds.scss
 --hds-line-height-5
 --hds-line-height-6
 --hds-modal-border-radius
+--hds-motion-duration-blink
+--hds-motion-duration-fast
+--hds-motion-duration-medium
+--hds-motion-duration-slow
+--hds-motion-easing
+--hds-motion-easing-snap
 --hds-pagination-border-radius
 --hds-pagination-border-width
 --hds-palette-bg
@@ -354,6 +360,12 @@ $hds-line-height-3
 $hds-line-height-4
 $hds-line-height-5
 $hds-line-height-6
+$hds-motion-duration-blink
+$hds-motion-duration-fast
+$hds-motion-duration-medium
+$hds-motion-duration-slow
+$hds-motion-easing
+$hds-motion-easing-snap
 $hds-spacing-0
 $hds-spacing-0-5
 $hds-spacing-1

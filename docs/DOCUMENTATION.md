@@ -2,7 +2,7 @@
 
 Standards for Storybook documentation pages.
 
-Last updated: 2026-05-20
+Last updated: 2026-08-07
 
 ## Audience
 
@@ -436,6 +436,8 @@ import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/palet
 ```
 
 `paletteRender(renderFn)` stacks all 6 palettes in one DOM, each wrapped in a `<div class="hds-palette-{name}" style="padding: 2rem;">`. This mirrors production usage where HDS palettes coexist on pages and produces one snapshot per story — budget-efficient. Padding matches the toolbar palette decorator so Chromatic snapshots match what developers see in Storybook.
+
+`pseudoParams.hover` carries a Chromatic `delay`. Hover states transition in rather than appearing instantly, and without the delay Chromatic can snapshot a half-finished color. It also repeats `disableSnapshot: false`, because story files spread it after `paletteA11yParams` and a shallow spread replaces the whole `chromatic` object.
 
 Pseudo-states are applied via `pseudoParams` spread into parameters:
 

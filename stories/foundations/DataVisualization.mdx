@@ -170,7 +170,10 @@ Charts should be responsive across screen sizes, following the same rules as the
 
 Motion can reinforce actions on interactive visualizations and help users understand data changes.
 
-- Use the Medium speed (1000ms) and the 30/80 curve defined in HDS motion guidelines for data appearance animations
+Charts use the same tokens as the rest of the system — there is no separate motion scale for data. See [Motion](?path=/docs/foundations-motion--docs) for the curves, the speeds, and the reduced-motion behavior you get for free.
+
+- Data appearing runs at Medium (1000ms) on the Default curve, staggered so a viewer can follow the sequence
+- A chart already on screen responding to a filter or selection runs at Fast (500ms) on the Default curve — that is feedback, not an entrance
 - Motion should be efficient and informative, not decorative
 - Nothing should flash more than three times per second
 - Use loaders (centered in the chart footprint) when visualizations require loading time. Prefer determinate loaders when technically possible.
@@ -204,7 +207,7 @@ Generous white space between chart elements increases legibility for all users a
 
 ### Animation
 
-Allow users to view and interact with content at their own pace. Nothing should flash more than three times per second (WCAG 2.3.1).
+Allow users to view and interact with content at their own pace. Nothing should flash more than three times per second (WCAG 2.3.1). Build chart animation on the HDS motion custom properties rather than writing durations by hand, so it stops for people who have asked for reduced motion — see [Motion](?path=/docs/foundations-motion--docs).
 
 ### Testing tools
 

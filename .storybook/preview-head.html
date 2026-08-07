@@ -23,4 +23,17 @@
   .hds-note.usa-alert--info .usa-alert__body::before {
     display: none; /* hide default info icon (we use --no-icon but just in case) */
   }
+
+  /* Docs-only: the design-token addon previews easing curves on a bar that
+     loops forever with no pause control and no reduced-motion guard of its
+     own. Nothing HDS ships uses a keyframe animation, so stopping all of
+     them here only affects addon chrome. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
 </style>

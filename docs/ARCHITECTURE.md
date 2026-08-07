@@ -176,6 +176,12 @@ Everything else (receives configured USWDS)
 
 Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation (see AGENTS.md → Token flow for why).
 
+### Motion and reduced motion
+
+Components never write a duration or an easing curve literally. They read `var(--hds-motion-duration-*, #{$hds-motion-duration-*})`, usually through the `motion-enter` / `motion-exit` mixins in `_hds-mixins.scss` — enter (blink + snap) on the `:hover` / `:active` rule, exit (fast + default) on the base rule.
+
+That indirection exists so `base/_reduced-motion.scss` can hold the entire `prefers-reduced-motion` story in one block: it sets the four duration properties to `0ms`, which neutralizes every HDS transition at once. It loads immediately after the generated custom properties in `base/_index.scss`, so it wins on source order without `!important` — leaving `@layer site` free to override. No component file may contain its own `prefers-reduced-motion` query. See DESIGN.md § Motion for the design rationale.
+
 Each component file can have its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
 
 ## Conventions

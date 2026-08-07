@@ -1,0 +1,129 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { DesignTokenDocBlock } from 'storybook-design-token/doc-blocks';
+import { Note } from '../helpers/Note';
+import * as MotionStories from './Motion.stories';
+
+<Meta title="Foundations/Motion" />
+
+# Motion
+
+NASA interfaces are still by default. Something moves only when the movement is doing a job — telling you the site received your input, or showing you how one layout state became another. Everything else stays where it is.
+
+Hover or tab through the swatches below to compare the four speeds.
+
+<Canvas of={MotionStories.SpeedComparison} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+## Two jobs motion is allowed to do
+
+**Feedback.** A control answers you the moment you touch it. A button darkens under the pointer, a chevron turns, a sort header lights up. This is the only kind of motion most pages need.
+
+**Transition.** A layout state becomes another one and the movement shows you how. A chart draws in, a section arrives, a full-screen view takes over.
+
+There is a third category in the wider NASA motion guidance — **Attraction**, small looping cues that pull the eye toward something. HDS Core does not ship it yet, and nothing in the current token set is meant for a loop.
+
+Motion that isn't doing one of those jobs is decoration. It doesn't ship.
+
+## The curves
+
+<DesignTokenDocBlock categoryName="Motion Easing" viewType="table" />
+
+**Default**, the 30/80 curve, leaves quickly and arrives gently. It's what most things use, and it's what makes a moving object read as having some weight.
+
+**Snap**, the 10/100 curve, is at full speed almost immediately. Use it for the instant a control reacts to you, and nowhere else.
+
+## The durations
+
+<DesignTokenDocBlock categoryName="Motion Duration" viewType="table" />
+
+<Note type="code">If you've used other design systems, check these numbers before you assume them. "Fast" often means 70–250ms elsewhere. In HDS, Fast is 500ms, and the shortest speed in the system is Blink at 350ms.</Note>
+
+## Pair them the way the table says
+
+Each duration goes with one curve. These are rules, not defaults.
+
+| Speed           | Curve   | Use it for                                                                                  |
+| --------------- | ------- | ------------------------------------------------------------------------------------------- |
+| Blink (350ms)   | Snap    | A control reacting the moment you arrive on it                                              |
+| Fast (500ms)    | Default | A control settling back after you leave, and state changes inside a chart already on screen |
+| Medium (1000ms) | Default | Content arriving at page scale: chart entrances, full-screen transitions, large blocks      |
+| Slow (1500ms)   | Default | Content-scale motion that covers real distance, or a staggered sequence                     |
+
+The pairings encode how physical objects behave. A small thing you're pushing directly should feel light and immediate. A large thing moving on its own should feel like it has mass. Mix them and the illusion breaks: a full-screen panel that snaps looks like a glitch, and a button that takes a second to answer looks broken.
+
+Which leads to the one rule worth memorizing:
+
+- **Blink and Fast are for controls.** Buttons, links, icons, rows, headers.
+- **Medium and Slow are for content.** Never put them on interaction feedback.
+
+## Interaction feedback is asymmetric
+
+A control lights up faster than it settles. Arriving uses Blink on the Snap curve; leaving uses Fast on the Default curve.
+
+That difference is deliberate. Arriving should feel like the interface answering you. Leaving should feel like it letting go. Every HDS component that responds to hover follows this pattern, so if you're extending the system, follow it too.
+
+## What HDS animates
+
+Buttons and icon buttons, the primary arrow button, links in navigation (side navigation, in-page navigation, breadcrumb), pagination, the accordion chevron, and sortable table headers. All of it is a color, a shadow, or a filter changing under the pointer.
+
+## What HDS never animates
+
+These are rules. If you're adding motion to your own components, keep them.
+
+| Never animated                              | Why                                                                                                  |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Focus rings and every other focus indicator | Someone navigating by keyboard needs to know where they are the instant they arrive, not 350ms later |
+| Form validation and error states            | An error is information. It should be there, not arrive                                              |
+| The focus border on text inputs and selects | Same reason as focus rings                                                                           |
+| Turning a control on or off                 | A disabled control should read as already-off, not as fading out                                     |
+| Checkbox and radio marks                    | A check either applies or it doesn't                                                                 |
+| Current-page and selected indicators        | These report state, and a state that fades in is ambiguous while it fades                            |
+| Anything that changes layout                | Moving text under someone's pointer makes a page harder to use, not livelier                         |
+| Static content                              | Nothing to confirm, nothing to orient                                                                |
+
+## Reduced motion
+
+Some people get motion sickness, migraines, or vertigo from on-screen movement, and set a system preference asking for less of it. HDS honors that preference by removing its motion entirely, not by speeding it up. Nothing is lost: every HDS transition is feedback or orientation, and none of it carries information you can only get by watching it move.
+
+You don't need to do anything to get this. Components read their speeds from four CSS custom properties, and one rule sets all four to zero when the preference is on. To see it, turn on "Reduce motion" in your operating system's accessibility settings and hover a button.
+
+Motion you build yourself gets the same treatment for free, as long as you use the custom properties rather than writing durations by hand:
+
+```css
+.my-thing {
+  transition: background-color var(--hds-motion-duration-fast) var(--hds-motion-easing);
+}
+```
+
+If you write `500ms` directly, your motion will keep running for people who asked it to stop.
+
+### Turning it back on
+
+HDS Core reserves a cascade layer named `site` that always wins, so you can restore the durations if you have to:
+
+```css
+@layer site {
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --hds-motion-duration-fast: 500ms;
+    }
+  }
+}
+```
+
+We don't recommend it. Overriding an accessibility preference someone deliberately set should be a decision you make on purpose, for a reason you can explain.
+
+## Using motion outside HDS Core
+
+HDS Core ships CSS for a specific set of components. NASA products build plenty of things it doesn't cover — 3D scenes, page transitions, animated data. The tokens and the reasoning carry over.
+
+**Charts and data.** Use the same tokens; there is no separate motion scale for data visualization. Data appearing runs at Medium on the Default curve, staggered so a viewer can follow the sequence. A chart already on screen responding to a filter or a selection runs at Fast on the Default curve, because that's feedback, not an entrance. Nothing flashes more than three times a second. See [Data Visualization](?path=/docs/foundations-data-visualization--docs) for the full guidance.
+
+**Page and view transitions.** Treat the whole view as one large object: Medium or Slow, Default curve. Move one thing, not fifteen. If a person can't tell what moved where, the transition failed at the only job it had.
+
+**Rotation, 3D, and camera moves.** The inertia rule still decides the speed. A model turning in response to a drag is direct manipulation and should track the input with no easing at all. A camera moving on its own between two viewpoints is a large autonomous object: Slow, Default curve. Continuous auto-rotation is a loop, which is Attraction, which HDS doesn't currently sanction — and if you ship one anyway, it needs a visible pause control and it must not run for people who asked for reduced motion.
+
+**Loading states.** A spinner is a loop, and it's the one loop that earns its place, because it's reporting that something is still happening. Prefer a determinate loader when you know the progress. Center it in the space the content will occupy so nothing jumps when the content arrives.
+
+**Anything else.** Ask what job the movement is doing. If the answer is "it looks nice," don't ship it.

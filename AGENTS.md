@@ -57,7 +57,7 @@ _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 
 ## Design Tokens
 
-`tokens.json` (W3C DTCG format) is the canonical source for primitive design values: colors, spacing, breakpoints, borders, layout, and typography primitives (line-height, letter-spacing, font-weight, font-size, font-family). These are **generated into Sass** (see Token flow). The committed `public-api.snapshot.txt` plus compiled CSS remain the **enforced consumer contract** — what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
+`tokens.json` (W3C DTCG format) is the canonical source for primitive design values: colors, spacing, breakpoints, borders, layout, motion, and typography primitives (line-height, letter-spacing, font-weight, font-size, font-family). These are **generated into Sass** (see Token flow). The committed `public-api.snapshot.txt` plus compiled CSS remain the **enforced consumer contract** — what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
 
 ### Token flow
 
@@ -88,7 +88,7 @@ See `sd.config.js` for name transforms, platforms, and filters. When implementat
 
 - NEVER introduce colors outside the `color` group.
 - NEVER introduce spacing values outside the `spacing` group.
-- NEVER hardcode values that exist in the token scale.
+- NEVER hardcode a value that a token scale already covers. This holds for every scale — a hex color, a spacing step, a border width, a transition duration, an easing curve. If a scale exists, use it; if the value you need isn't on the scale, that's a token proposal, not a local literal.
 - Intermediate spacing (fractional keys: 0.5, 1.5, 2.5) is for component-internal use ONLY. Layout spacing MUST use whole-number primary values.
 - Dataviz tokens (`dataviz.color.*`) are for charts ONLY. NEVER use for UI components.
 
@@ -141,6 +141,15 @@ color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 - Keep `:where()` here too, for the same override contract.
 - These are not a stopgap. Change them only on a design call — see Issue #148 and docs/DESIGN.md → USWDS Dark Contexts.
 
+### Reduced motion — one switch, not many
+
+`base/_reduced-motion.scss` is the only `prefers-reduced-motion` block HDS owns. It zeroes the four `--hds-motion-duration-*` properties, which switches off every HDS transition at once.
+
+- Components MUST read durations through `var(--hds-motion-duration-*, #{$hds-motion-duration-*})`. A bare Sass variable bypasses the switch.
+- NEVER add a `prefers-reduced-motion` query to a component file. If a component needs different reduced-motion behavior, that is a design call — flag it.
+- Do not add `!important` to the zeroing block. `@layer site` is how adopters override it.
+- USWDS ships its own reduced-motion guards for its own transitions. Leave them alone.
+
 ### Class naming
 
 - `usa-*` for components that map to a USWDS component (even if they have HDS-only variants).
@@ -170,7 +179,7 @@ Public Sass files (tracked in `public-api.snapshot.txt`):
 
 | File | What it exports |
 | --- | --- |
-| `_hds-tokens.scss` | `$hds-*` primitive variables (colors, spacing, borders, layout, typography primitives). **Generated** from `tokens.json` — regenerate, don't hand-edit. |
+| `_hds-tokens.scss` | `$hds-*` primitive variables (colors, spacing, borders, layout, motion, typography primitives). **Generated** from `tokens.json` — regenerate, don't hand-edit. |
 | `_hds-config.scss` | `$hds-enable-*` configuration flags (dataviz emission, auto dark mode); set via `@use ... with (...)` |
 | `_hds-mixins.scss` | `@mixin hds-*` and `@function hds-*` (focus ring, typography, links, buttons) |
 | `_hds-dataviz-palettes.scss` | `$hds-dataviz-*` variables (CSS custom property values for dataviz scales) |
