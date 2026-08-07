@@ -1,0 +1,29 @@
+// ============================================================
+// HDS Base — Reduced Motion
+// @nasa-hds/core
+// ============================================================
+// The whole reduced-motion mechanism for HDS. Components read
+// their durations through var(--hds-motion-duration-*), so
+// zeroing those four properties here switches off every HDS
+// transition at once — components carry no media query of their
+// own.
+//
+// HDS motion only ever confirms an input or orients between
+// layout states; it never carries information. Nothing is lost
+// by removing it, so "reduce" means zero, not "shorten".
+//
+// Loaded after the generated custom properties (base/_index.scss)
+// so it wins on source order alone. Deliberately no !important:
+// @layer site stays able to reinstate motion. See docs/DESIGN.md.
+// ============================================================
+
+@layer hds-base {
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --hds-motion-duration-blink: 0ms;
+      --hds-motion-duration-fast: 0ms;
+      --hds-motion-duration-medium: 0ms;
+      --hds-motion-duration-slow: 0ms;
+    }
+  }
+}

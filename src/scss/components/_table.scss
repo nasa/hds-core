@@ -53,6 +53,7 @@
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
+@use 'hds-mixins' as *;
 
 // ── Internal table color tokens ───────────────────────────────
 // Sorted column backgrounds use NASA Blue tints that don't exist
@@ -262,6 +263,8 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
 .usa-table {
   th[data-sortable] {
+    @include motion-exit(background-color);
+
     // Reserve space for absolutely-positioned sort button.
     padding-right: units(5);
   }
@@ -291,6 +294,17 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
     &:focus-within .usa-table__header__button {
       background-color: $hds-color-carbon-40;
     }
+
+    // The same arrow reveal is this button's only focus indicator — the ring
+    // is clipped by mask-image (see note above) — so it must stay instant for
+    // keyboard users. :not(:focus-within) limits the fade to pointer hover.
+    &:not(:focus-within) .usa-table__header__button {
+      @include motion-exit(background-color);
+    }
+
+    &:hover:not(:focus-within) .usa-table__header__button {
+      @include motion-enter(background-color);
+    }
   }
 
   // --- Sorted descending: filled arrow down, NASA Blue ---
@@ -315,6 +329,8 @@ $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
   // --- Header hover ---
   th[data-sortable]:hover {
+    @include motion-enter(background-color);
+
     background-color: $hds-color-carbon-05;
   }
 

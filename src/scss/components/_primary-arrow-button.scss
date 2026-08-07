@@ -42,6 +42,8 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
   text-decoration-line: none;
 
   &::after {
+    @include motion-exit(filter);
+
     background-color: var(--hds-palette-btn-primary-bg, #{$hds-color-nasa-red});
     background-image: #{$_arrow-right};
     background-position: center;
@@ -72,8 +74,9 @@ $_arrow-diagonal: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='ht
     text-decoration-line: none;
 
     &::after {
+      @include motion-enter(filter);
+
       filter: brightness(0.85);
-      transition: filter 0.2s;
     }
   }
 

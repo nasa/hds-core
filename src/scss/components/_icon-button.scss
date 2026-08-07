@@ -54,6 +54,17 @@
     cursor: not-allowed;
   }
 
+  // Declared on the base class so every role inherits the same feel.
+  // Excluded from disabled buttons so switching a control off is instant.
+  &:not([disabled], :disabled) {
+    @include motion-exit(background-color, border-color, box-shadow, color);
+  }
+
+  &:hover:not([disabled], :disabled),
+  &:active:not([disabled], :disabled) {
+    @include motion-enter(background-color, border-color, box-shadow, color);
+  }
+
   .hds-icon {
     fill: currentcolor;
     height: 60%;

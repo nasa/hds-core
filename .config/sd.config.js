@@ -49,6 +49,12 @@ const tokenCategory = (token) => {
       return { label: 'Focus', presenter: 'Border' };
     case 'layout':
       return { label: 'Layout', presenter: 'Spacing' };
+    case 'motion':
+      // Durations have no presenter in the addon's enum; Animation renders a
+      // bare bar because a duration alone names no keyframes. Value column only.
+      return sub === 'easing'
+        ? { label: 'Motion Easing', presenter: 'Easing' }
+        : { label: 'Motion Duration', presenter: null };
     case 'spacing':
       return { label: 'Spacing', presenter: 'Spacing' };
     case 'line-height':
@@ -111,6 +117,9 @@ const hdsTransforms = [
   'name/hds/drop-default',
   'color/css',
   'value/hds/ls-normalize-zero',
+  // Serializes cubicBezier arrays as cubic-bezier(...). Without it the raw
+  // array reaches the output and neither Sass nor CSS can use it.
+  'cubicBezier/css',
 ];
 
 StyleDictionary.registerTransformGroup({

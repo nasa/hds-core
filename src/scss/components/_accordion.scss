@@ -133,8 +133,9 @@ $_accordion-guard: ':not(.usa-banner *):not(.usa-nav *)';
     mask-position: center;
     mask-size: 0.75em;
 
-    // Collapsed = chevron down (default)
-    transition: transform 0.2s ease;
+    // Collapsed = chevron down (default). The rotation answers a click, so it
+    // takes the enter timing in both directions rather than easing back out.
+    @include motion-enter(transform);
   }
 
   // Expanded = chevron up (rotate)

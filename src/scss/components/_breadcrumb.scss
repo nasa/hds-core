@@ -51,7 +51,16 @@
   background-image: none;
 }
 
+// Only the color fades. The underline is a background-image swapped in from
+// `none`, and font-weight is left alone deliberately — animating it would
+// reflow the crumb trail under the pointer.
+.usa-breadcrumb__link {
+  @include motion-exit(color);
+}
+
 .usa-breadcrumb__link:hover {
+  @include motion-enter(color);
+
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
   font-weight: font-weight('semibold');
   text-decoration: none;

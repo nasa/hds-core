@@ -80,6 +80,15 @@
   // Figma: 2px solid bar at bottom of 32px container.
   // Uses ::after so it coexists with focus ring (which uses
   // border on the element itself).
+  @include motion-exit(color);
+
+  // The bar is a hover affordance on other pages and a current-page indicator
+  // on this one. Only the hover affordance animates; the indicator must read
+  // as state, not as something arriving.
+  &:not(.usa-current)::after {
+    @include motion-exit(background-color);
+  }
+
   &::after {
     background-color: transparent;
     bottom: 0;
@@ -88,7 +97,6 @@
     left: 0;
     position: absolute;
     right: 0;
-    transition: background-color 0.15s ease;
   }
 
   // Current page — heading color text + bottom bar, no fill.
@@ -118,12 +126,16 @@
 
   // Hover — bottom bar slides in (non-current pages)
   &:hover:not(.usa-current) {
+    @include motion-enter(color);
+
     background-color: transparent;
     border-color: transparent;
     color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     text-decoration: none;
 
     &::after {
+      @include motion-enter(background-color);
+
       background-color: var(--hds-palette-heading, #{$hds-color-carbon-black});
     }
   }
@@ -158,6 +170,10 @@
   height: 32px;
   width: 32px;
 
+  &:not([aria-disabled='true']) {
+    @include motion-exit(background-color, border-color, color);
+  }
+
   .usa-icon {
     fill: currentcolor;
     height: 60%;
@@ -167,6 +183,8 @@
 
   // Hover
   &:hover {
+    @include motion-enter(background-color, border-color, color);
+
     background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
     border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
   }
@@ -240,9 +258,15 @@
     fill: var(--hds-palette-utility-icon, #{$hds-color-carbon-black});
   }
 
+  &:not([disabled], :disabled) .hds-icon {
+    @include motion-exit(background-color, border-color, color);
+  }
+
   // Hover — circle gets hover treatment
   &:hover:not([disabled]) {
     .hds-icon {
+      @include motion-enter(background-color, border-color, color);
+
       background-color: var(--hds-palette-utility-hover-fill, #{$hds-color-carbon-05});
       border-color: var(--hds-palette-utility-hover-stroke, #{$hds-color-carbon-40});
     }

@@ -7,14 +7,16 @@
 //
 // Load order:
 //   1. Custom properties — :root token output (primitives from tokens.json)
-//   2. Component properties — :root component-level aliases
-//   3. Elements — bare HTML styles + palette wiring
-//   4. Focus — always active, after elements so it can layer on top
-//   5. Palettes — explicit palette classes
-//   6. Print — @media print, last so it overrides everything above
+//   2. Reduced motion — zeroes the motion durations, so it must follow (1)
+//   3. Component properties — :root component-level aliases
+//   4. Elements — bare HTML styles + palette wiring
+//   5. Focus — always active, after elements so it can layer on top
+//   6. Palettes — explicit palette classes
+//   7. Print — @media print, last so it overrides everything above
 // ============================================================
 
 @forward 'custom-properties';
+@forward 'reduced-motion';
 @forward 'component-properties';
 @forward 'elements';
 @forward 'focus';

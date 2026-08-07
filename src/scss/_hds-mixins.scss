@@ -7,6 +7,7 @@
 //
 // CONTENTS:
 //   Accessibility — visually-hidden
+//   Motion        — motion-enter, motion-exit
 //   Focus         — hds-focus-ring, hds-focus-ring-size,
 //                   hds-focus-ring-inline
 //   Buttons       — button-styles (bundles button-padding-border,
@@ -18,6 +19,7 @@
 //                   side nav), hds-vertical-nav-links
 // ============================================================
 
+@use 'sass:list';
 @use 'sass:map';
 @use 'uswds-core' as *;
 @use 'hds-tokens' as *;
@@ -37,6 +39,48 @@
   position: absolute;
   width: 1px;
   overflow-wrap: normal;
+}
+
+// ------------------------------------------------------------
+// Motion
+// ------------------------------------------------------------
+// Internal (unprefixed) — the public motion contract is the
+// tokens themselves, not a mixin. See docs/DESIGN.md § Motion.
+//
+// Interaction feedback is asymmetric by design: a control lights
+// up on the snap curve at blink speed, and settles back on the
+// default curve at fast speed. So motion-enter belongs on the
+// :hover / :active rule and motion-exit on the base rule, which
+// is what the element returns to.
+//
+// Durations come through the custom property, never the Sass
+// variable alone — that indirection is what lets the single
+// reduced-motion block (base/_reduced-motion.scss) switch all
+// HDS motion off. The Sass value is the no-custom-properties
+// fallback, matching the palette idiom.
+// ------------------------------------------------------------
+
+$_motion-enter: var(--hds-motion-duration-blink, #{$hds-motion-duration-blink})
+  var(--hds-motion-easing-snap, #{$hds-motion-easing-snap});
+$_motion-exit: var(--hds-motion-duration-fast, #{$hds-motion-duration-fast})
+  var(--hds-motion-easing, #{$hds-motion-easing});
+
+@function motion-transition($properties, $timing) {
+  $value: ();
+
+  @each $property in $properties {
+    $value: list.append($value, #{$property} #{$timing}, $separator: comma);
+  }
+
+  @return $value;
+}
+
+@mixin motion-enter($properties...) {
+  transition: motion-transition($properties, $_motion-enter);
+}
+
+@mixin motion-exit($properties...) {
+  transition: motion-transition($properties, $_motion-exit);
 }
 
 // ------------------------------------------------------------
@@ -241,8 +285,17 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 // qualifiers prevent disabled buttons from picking up these states
 // regardless of source order.
 @mixin button-interactive-states {
+  // Excluded from disabled buttons so switching a control off reads as
+  // already-off rather than as a fade. box-shadow covers the outline variant,
+  // whose border is drawn with an inset shadow.
+  &:not(:disabled, [aria-disabled='true']) {
+    @include motion-exit(background-color, border-color, box-shadow, color);
+  }
+
   &:hover:not(:disabled, [aria-disabled='true']),
   &:active:not(:disabled, [aria-disabled='true']) {
+    @include motion-enter(background-color, border-color, box-shadow, color);
+
     background-color: $hds-color-nasa-red-shade;
     text-decoration-line: none;
   }
@@ -379,11 +432,18 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 // ------------------------------------------------------------
 
 @mixin hds-vertical-nav-links {
+  @include motion-exit(color);
+
   font-weight: font-weight('normal');
   letter-spacing: $hds-letter-spacing-1;
   text-decoration: none;
 
   &:hover {
+    // Only the color fades. The underline switches text-decoration-line from
+    // none to underline, which CSS cannot interpolate, so the rule appears at
+    // once — that is the intended feedback anyway.
+    @include motion-enter(color);
+
     background-color: transparent; // override USWDS solid fills
 
     @include hds-nav-hover-underline;

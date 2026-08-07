@@ -82,6 +82,21 @@
     --hds-spacing-2-5: 20px; /* Intermediate. List item separation, button inline padding, form label margins, blockquote attribution spacing. */
 
     /**
+     * @tokens Motion Easing
+     * @presenter Easing
+     */
+    --hds-motion-easing: cubic-bezier(0.3, 0, 0.2, 1); /* The 30/80 curve. Leaves quickly and arrives gently, which reads as a heavier object coming to rest. Use with the Fast, Medium, and Slow durations, and for the exit half of any interaction state. Never with Blink. */
+    --hds-motion-easing-snap: cubic-bezier(0.1, 0, 0, 1); /* The 10/100 curve. Reaches full speed almost at once, so a change registers as an immediate answer to the pointer or key. Use only with Blink, for the moment an interaction starts. Never for exits, and never for content-scale motion. */
+
+    /**
+     * @tokens Motion Duration
+     */
+    --hds-motion-duration-blink: 350ms; /* The shortest duration. For the enter half of an interaction state, such as a button, link, or nav item reacting the moment a pointer arrives. Pair with the Snap curve. Never for exits, and never for anything larger than a single control. */
+    --hds-motion-duration-fast: 500ms; /* For the exit half of an interaction state, so a control settles more slowly than it lit up, and for state changes inside an existing chart. Pair with the Default curve. Never for the arrival of a full block of content. */
+    --hds-motion-duration-medium: 1000ms; /* For content arriving or leaving at page scale: chart and data entrances, full-screen transitions, large blocks of layout. Pair with the Default curve. Never for interaction feedback — a control that takes a full second to answer reads as broken. */
+    --hds-motion-duration-slow: 1500ms; /* For content-scale motion that covers real distance or runs as a staggered sequence. Pair with the Default curve. Never for interaction feedback, and never as a way to make a single element more noticeable. */
+
+    /**
      * @tokens Line Heights
      * @presenter LineHeight
      */
