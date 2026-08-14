@@ -12,20 +12,15 @@ updates:
     labels:
       - 'dependencies'
     groups:
-      # One weekly PR for every non-breaking (minor + patch) bump across all
-      # packages -- the single thing to review each Friday. Listed first so
-      # it claims minor/patch updates before the family groups below; majors
-      # are excluded here and fall through to those groups (or their own PR).
-      non-breaking:
-        update-types:
-          - 'minor'
-          - 'patch'
-        patterns:
-          - '*'
-      # Major bumps fall through to these family groups so a multi-package
-      # release (e.g. Storybook) still lands as one cohesive PR instead of
-      # fragmenting into many. A standalone major with no family match here
-      # gets its own individual PR, as before.
+      # Output-affecting packages get their own group at EVERY update level
+      # (minor + major) because a bad bump can change what ships to adopters
+      # or break the deployed docs site -- things CI does not fully catch, so
+      # each needs a human look. Dependabot assigns a package to its most
+      # specific matching group, so these claim their packages ahead of the
+      # catch-all `non-breaking` group below.
+      #
+      # Storybook: powers the published documentation site. `build-storybook`
+      # succeeding proves it compiled, not that the site renders correctly.
       storybook:
         patterns:
           - '@storybook/*'
@@ -33,28 +28,30 @@ updates:
           - 'storybook'
           - 'storybook-addon-*'
           - 'eslint-plugin-storybook'
-      vitest:
+      # style-dictionary generates the tokens -- a bump can silently change
+      # generated output.
+      style-dictionary:
         patterns:
-          - '@vitest/*'
-          - 'vitest'
+          - 'style-dictionary'
+      # postcss/cssnano/autoprefixer transform the CSS on the way to the
+      # published artifact.
       postcss:
         patterns:
           - 'postcss'
           - 'postcss-*'
           - 'cssnano'
           - 'autoprefixer'
-      remark:
+      # Everything else is pure dev tooling fully guarded by CI (linters,
+      # vitest, playwright, prettier, remark, etc). One weekly PR for all of
+      # their minor + patch bumps -- the single thing to skim-and-merge on
+      # green each Friday. Majors are excluded so they surface as their own
+      # PR for a deliberate look.
+      non-breaking:
+        update-types:
+          - 'minor'
+          - 'patch'
         patterns:
-          - 'remark-*'
-      eslint:
-        patterns:
-          - 'eslint'
-          - 'eslint-plugin-*'
-          - 'globals'
-      stylelint:
-        patterns:
-          - 'stylelint'
-          - 'stylelint-*'
+          - '*'
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'

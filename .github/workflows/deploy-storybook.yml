@@ -52,6 +52,20 @@ jobs:
       - name: Build Storybook
         uses: ./.github/actions/build-storybook
 
+      # Backstop: a broken MDX page fails the build job, so deploy (needs:
+      # build) never publishes it. The PR gate in ci.yml is the primary catch.
+      - name: Cache Playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Check docs render
+        run: npm run check:docs-render
+
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 
