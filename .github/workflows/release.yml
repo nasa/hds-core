@@ -54,7 +54,7 @@ jobs:
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Changesets -- manage Version Packages PR
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
+        uses: changesets/action@22ccf9aa43179fe9e27dc62e575971d28cce197c # v1
         with:
           commit: 'chore: version packages'
           title: 'Version Packages'
