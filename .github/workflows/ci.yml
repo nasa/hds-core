@@ -261,13 +261,14 @@ jobs:
         run: npx vitest run --project storybook --reporter=dot
 
   # -----------------------------------------------------------------------
-  # Build Storybook -- verifies the static build succeeds (catches MDX
-  # parse errors, broken imports, bad story configs) before it can reach
-  # the deploy-storybook workflow on main. Skips draft PRs.
+  # Build Storybook -- the build proves it compiles; the docs-render crawl
+  # proves MDX pages don't throw at runtime (a page can compile but throw,
+  # e.g. a <Canvas> referencing a deleted story). The crawl skips scss: a
+  # style change can't throw a render error (that's Chromatic's lane), and
+  # stories are already rendered by the vitest `storybook` project.
   #
-  # Self-contained: unlike the jobs above it doesn't reuse the build
-  # artifact, since it also runs on mdx/storybook-config changes where the
-  # build job is skipped. The shared composite runs the full build itself.
+  # Self-contained: doesn't reuse the build artifact, since it also runs on
+  # mdx/storybook-config changes where the build job is skipped.
   # -----------------------------------------------------------------------
   build-storybook:
     name: Build / Storybook
@@ -289,6 +290,21 @@ jobs:
       # defined once. See .github/actions/build-storybook.
       - name: Build Storybook
         uses: ./.github/actions/build-storybook
+
+      - name: Cache Playwright browsers
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browser
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Check docs render
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
+        run: npm run check:docs-render
 
   # -----------------------------------------------------------------------
   # Chromatic -- runs only when the committed CSS baseline changed (i.e.
