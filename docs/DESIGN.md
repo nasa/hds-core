@@ -4,7 +4,7 @@ Visual and UX decisions for the HDS creative director, designers, and design-min
 
 For implementation architecture, see ARCHITECTURE.md. For Storybook documentation conventions, see DOCUMENTATION.md. For implementation details (token values, contrast ratios, typography specs), see the SCSS source files — code comments are the single source of truth for "what values does this use."
 
-Last updated: 2026-06-02
+Last updated: 2026-07-27
 
 ## Class Naming Convention
 
@@ -21,11 +21,19 @@ HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. 
 
 | HDS Figma | What it is | USWDS Equiv | HDS Core CSS | Status |
 | --- | --- | --- | --- | --- |
-| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | `components/_navigation.scss` | Phase 2 (top priority) |
-| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | `components/_navigation.scss` | Phase 2 (ships with Header/Footer) |
+| Global Navigation | Murphy Bed menu, dropdown menus, NASA logo link, NASA TV link — the full site header and footer | `usa-header`, `usa-footer` | — | Phase 2 (top priority) |
+| Secondary Navigation | Horizontal bar beneath the header on topic/subtopic pages. Section links with optional dropdown menus. Breadcrumb on left swaps to page title on scroll. Light and dark themes. | No clean equivalent — composed pattern | — | Phase 2 (ships with Header/Footer) |
 | Tertiary / Local Navigation | Fixed sidebar on long-form articles and encyclopedic reference pages. Scroll spy highlights current section. Optional 2nd-level links for subsections. HDS Figma notes this should be used sparingly — it inhibits full-width modules. | `usa-in-page-nav` | `components/_in-page-nav.scss` | Complete |
 | Table of Contents | Non-sticky multi-column link grid at the top of the page (2-col or 3-col). Links can be anchor (↓), internal (→), or external (↗). Collapses to dropdown on small/medium screens. Minimum 5 rows. Should not duplicate Secondary Navigation. | No equivalent | — | Phase 2 |
 | _(none)_ | Vertical sidebar for navigating between pages in a section (docs left rail pattern). Not defined in HDS Figma. | `usa-sidenav` | — | Phase 2 (low — use USWDS default) |
+
+### Header, Footer, and Banner: untouched until Phase 2
+
+Early versions of HDS Core carried partial header, footer, nav, and government-banner styling inherited from a WordPress theme. It was never reviewed against Figma and rendered visibly broken on the USWDS templates, so it was removed rather than shipped in v1.0. These components now render as stock USWDS, themed only by the shared token settings every USWDS component receives.
+
+Stock USWDS is a defensible interim state, but it assumes a white page. The banner, header, footer, and identifier decide their own surfaces and are not palette containers, so HDS text and link colors inside them resolved against the surrounding palette instead — Carbon 90 identifier links on the identifier's black background in every light palette, white header and footer links inside a dark one.
+
+Each is therefore pinned to the palette that matches the surface USWDS already paints (white for the banner, header, and footer; black for the identifier). This keeps the default appearance unchanged and corrects only the mismatch. It is a readability guardrail, not a design decision — the real treatment comes with Phase 2 theming. Implementation lives in `base/_palettes.scss`; see ARCHITECTURE.md for the specificity contract.
 
 ## Color
 
@@ -42,6 +50,29 @@ HDS Core uses exact HDS hex values for all component styles. USWDS utility class
 ### Link Colors
 
 HDS links use body text color — not brand color — for the text itself. The dashed underline and external arrow provide the visual affordance. This prevents bare `<a>` tags from rendering in NASA Red after the primary/secondary swap.
+
+### USWDS Dark Contexts
+
+USWDS fills its two dark layout contexts — the hero callout (`.usa-hero__callout`) and `.usa-section--dark`, which the graphic list sits on — with `color("primary-darker")`, and colors the headings inside them with `color("accent-cool")`. HDS themes the primary family to NASA Red and never themes accent-cool, so both surfaces rendered as a dark red block with cyan headings, with a red `.usa-button` on the red hero callout.
+
+A `.hds-palette-*` wrapper could not correct this. The red is a `background-color` on the component itself, not a palette custom property, and a wrapper actually made the headings worse: inside `.hds-palette-white` they resolved to Carbon Black on the red block.
+
+Both surfaces are now mapped onto palette 4 (dark, Carbon 90) in `base/_palettes.scss`. That reuses a surface HDS already designed rather than inventing a new one, and everything inside — headings, body text, links, buttons, focus rings — resolves against the surface it is actually sitting on.
+
+| What | Before | After |
+| --- | --- | --- |
+| Hero callout and dark section background | USWDS `primary-darker` `#8b0a03` | Carbon 90 `#17171b` |
+| Headings on those surfaces | USWDS `accent-cool` `#00bde3` (4.38:1) | `--hds-palette-heading` white (17.9:1) |
+| Hero `--alt` eyebrow | White, indistinguishable from the heading once the cyan is dropped | `--hds-palette-muted` Carbon 30 (9.1:1) |
+| `.usa-link` inside a dark section | Carbon 90 on the red block (1.8:1) | White (17.9:1) |
+| `.usa-button--outline` label inside a dark section | Carbon Black on the red block (2.1:1) | White (17.9:1) |
+| `.usa-button` on the hero callout | `#d83933` on `#8b0a03` (2.1:1 against its container) | `#d83933` on Carbon 90 (3.9:1) |
+
+USWDS also pins `<p>` and `<a>` inside `.usa-section--dark` to white. Those declarations are left alone: white is what the dark scheme resolves to, and the blue palette — the other surface an adopter would plausibly swap in on a section marked dark — is also a dark surface with white body text.
+
+`.usa-section--light` is untouched. USWDS paints it `base-lightest`, which the HDS theme maps to white, so it already agrees with the default palette.
+
+Tracked in [Issue #148](https://github.com/nasa/hds-core/issues/148). See ARCHITECTURE.md for the cascade contract.
 
 ### Data Visualization Color Alignment
 
@@ -383,7 +414,7 @@ See `components/_pagination.scss` for implementation.
 
 ### Naming
 
-**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar (see `components/_banner.scss`).
+**HDS Figma:** "Banner". **HDS Core:** "Site Alert" — renamed to match the USWDS component it maps to (`.usa-site-alert`). The USWDS "Banner" is the government compliance bar, which HDS does not theme — see "Header, Footer, and Banner: untouched until Phase 2" under Navigation Component Mapping.
 
 ### Color Variants
 
@@ -458,6 +489,7 @@ Pending visual sign-offs:
 
 | Item | Question | Context |
 | --- | --- | --- |
+| USWDS dark contexts | Is the HDS dark palette (Carbon 90) the right surface for the USWDS hero callout and `.usa-section--dark`, or should a red hero be a deliberate NASA treatment? And should the hero's `--alt` eyebrow stay muted Carbon 30 rather than matching the heading white? | Issue #148. Shipping the dark palette mapping; every value is an existing palette token, so a different call is a one-line change in `base/_palettes.scss`. |
 | Focus bold on light backgrounds | C30 on white/light/midtone fails WCAG 1.4.11 (3:1 non-text contrast). Should bold focus treatment use a darker value on light backgrounds? | Tracked in Issue #40. Ships as Figma spec for now. |
 | Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal says "normal" (400). Figma uses Medium (500). Currently shipping 500. |
 | Blue palette utility | Blue palette utility now uses Proposal palette 5 values (Carbon Black fill, Carbon 60 stroke — matching dark scheme). Figma shows NASA Blue fill + Blue Tint stroke. | Currently shipping Proposal values. Flagged in case CD prefers Figma treatment. |

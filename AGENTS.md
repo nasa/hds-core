@@ -8,7 +8,7 @@ Do not add features targeting non-NASA or non-.gov use cases. All example conten
 
 ## Architecture
 
-`@nasa/hds-core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
+`@nasa-hds/core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
 
 ### Three CSS bundles
 
@@ -54,10 +54,6 @@ _hds-tokens.scss → _hds-uswds-theme.scss → everything else
 `_hds-uswds-theme-utils.scss` is the theme variant used by `hds-uswds.scss`. It is identical to `_hds-uswds-theme.scss` except `$output-these-utilities` is unrestricted. If you change a theme setting, change it in both files.
 
 `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')` call inside `@layer uswds`. Do NOT revert to per-package `meta.load-css()` calls — this causes fonts to emit once per package (144 declarations vs. 6).
-
-### Stubs — do not modify
-
-`_navigation.scss` and `_banner.scss` are Phase 2 stubs. Do not modify without explicit permission.
 
 ## Design Tokens
 
@@ -129,6 +125,22 @@ Always include fallbacks to the default (white palette) values:
 color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 ```
 
+### USWDS surface bridges — do NOT flatten
+
+`base/_palettes.scss` pins `.usa-banner`, `.usa-header`, and `.usa-footer` to the white palette and `.usa-identifier` to the black palette. These components have no HDS theme, so without the bridge their text and link colors resolve against the surrounding palette instead of the surface USWDS paints.
+
+- Keep the selectors inside `:where()`. Zero specificity is what lets an adopter override with `.hds-palette-*`.
+- Do not remove the explicit `background-color` — `.usa-header` and `.usa-footer` have none of their own.
+- Remove the bridges only when the components get real HDS theming.
+
+### USWDS dark contexts — do NOT flatten
+
+`base/_palettes.scss` also maps `.usa-hero__callout` and `.usa-section--dark` onto the dark palette. USWDS fills both with `primary-darker` (NASA Red under the HDS theme) and colors their headings `accent-cool` (cyan), neither of which a palette wrapper can reach.
+
+- Apply the full `_scheme-dark`, not just a background. Components inside read `--hds-palette-*`; a background-only fix leaves them on light-palette values.
+- Keep `:where()` here too, for the same override contract.
+- These are not a stopgap. Change them only on a design call — see Issue #148 and docs/DESIGN.md → USWDS Dark Contexts.
+
 ### Class naming
 
 - `usa-*` for components that map to a USWDS component (even if they have HDS-only variants).
@@ -138,7 +150,7 @@ NEVER mix prefixes on a single component.
 
 ### Components without HDS theming
 
-Card, modal, footer, banner, header, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission.
+Card, modal, footer, banner, header, identifier, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission — the surface bridges above are the one sanctioned exception, and they exist only to prevent contrast failures.
 
 ### Spacing usage
 
@@ -243,3 +255,4 @@ For deeper context beyond these instructions:
 - **docs/ARCHITECTURE.md** — Build pipeline, cascade layer architecture, Chromatic setup, focus ring implementation details, icon architecture.
 - **docs/DESIGN.md** — Visual and UX rationale. Explains intentional deviations from USWDS and Figma. Check here before "fixing" any apparent Figma discrepancy.
 - **docs/DOCUMENTATION.md** — Full standards for authoring Storybook `.mdx` files and component stories. Read when creating or editing documentation pages.
+- **docs/RELEASING.md** — Maintainer runbook for cutting a release: the changesets → Version Packages PR → environment-approved OIDC npm publish flow, standing configuration, and troubleshooting.

@@ -1,6 +1,6 @@
 // ============================================================
 // HDS Component — Accordion
-// @nasa/hds-core
+// @nasa-hds/core
 // ============================================================
 // Tier 1 override of .usa-accordion. Palette-aware, borderless,
 // transparent backgrounds, circled chevron replaces USWDS chevron.
@@ -29,17 +29,26 @@
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 
+// ── Scope guard ───────────────────────────────────────────────
+// USWDS reuses the .usa-accordion / .usa-accordion__button /
+// .usa-accordion__content classes inside its Banner ("Here's how
+// you know" toggle) and Nav (.usa-nav__primary.usa-accordion,
+// including the mobile drawer submenus). Our HDS Accordion style
+// (borderless, flush headings, circled chevron) must not reach
+// them; it misplaced the banner/nav toggle icon. See Issue #86.
+$_accordion-guard: ':not(.usa-banner *):not(.usa-nav *)';
+
 // ── Container ─────────────────────────────────────────────────
 // Remove USWDS left border
 
-.usa-accordion {
+.usa-accordion#{$_accordion-guard} {
   border-left: 0;
 }
 
 // ── Separator line ────────────────────────────────────────────
 // Between items only, not first or last
 
-.usa-accordion__heading {
+.usa-accordion__heading#{$_accordion-guard} {
   border-top: 1px solid var(--hds-palette-border, #{$hds-color-carbon-20});
 
   // Override USWDS margin-top: units(1) on :not(:first-child) so adjacent
@@ -47,14 +56,14 @@
   margin: 0;
 }
 
-.usa-accordion > .usa-accordion__heading:first-child {
+.usa-accordion#{$_accordion-guard} > .usa-accordion__heading:first-child {
   border-top: 0;
 }
 
 // ── Heading button ────────────────────────────────────────────
 // Transparent, palette-aware, circled chevron
 
-.usa-accordion__button {
+.usa-accordion__button#{$_accordion-guard} {
   // Override USWDS set-text-and-bg mixin
   background-color: transparent;
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
@@ -137,7 +146,7 @@
 // ── Content area ──────────────────────────────────────────────
 // Transparent, palette-aware text, no top border
 
-.usa-accordion__content {
+.usa-accordion__content#{$_accordion-guard} {
   background-color: transparent;
   color: var(--hds-palette-text, #{$hds-color-carbon-90});
   border-top: 0;

@@ -102,7 +102,7 @@ All `$hds-color-*` Sass variables are mirrored as `var(--hds-color-*)` custom pr
 Configure your Sass compiler with these load paths:
 
 - `node_modules/@uswds/uswds/packages`
-- `node_modules/@nasa/hds-core/src/scss`
+- `node_modules/@nasa-hds/core/src/scss`
 
 Most build tools accept a `loadPaths` or `includePaths` array in their Sass configuration.
 
@@ -110,22 +110,22 @@ Most build tools accept a `loadPaths` or `includePaths` array in their Sass conf
 
 ```scss
 // your-project.scss
-@forward '@nasa/hds-core/scss';
+@forward '@nasa-hds/core/scss';
 @forward 'my-project-styles';
 ```
 
 To include USWDS utility classes:
 
 ```scss
-@forward '@nasa/hds-core/scss/uswds';
-@forward '@nasa/hds-core/scss';
+@forward '@nasa-hds/core/scss/uswds';
+@forward '@nasa-hds/core/scss';
 @forward 'my-project-styles';
 ```
 
 ### Data visualization
 
 ```scss
-@forward '@nasa/hds-core/scss/dataviz';
+@forward '@nasa-hds/core/scss/dataviz';
 ```
 
 ### Vite: copy fonts and icons

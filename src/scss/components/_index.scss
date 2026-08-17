@@ -1,6 +1,6 @@
 // ============================================================
 // HDS Components — Index
-// @nasa/hds-core
+// @nasa-hds/core
 // ============================================================
 // Load order:
 //   1. Foundational — link and button, used/extended by others
@@ -9,7 +9,6 @@
 //   4. Navigation — breadcrumb, pagination, in-page nav
 //   5. Notifications — site alert, alert
 //   6. Layout — grid utilities
-//   7. Phase 2 stubs — navigation, banner
 // ============================================================
 
 // ── Foundational ──
@@ -41,7 +40,3 @@
 
 // ── Layout ──
 @forward 'grid-utilities';
-
-// ── Phase 2 (stubs) ──
-@forward 'navigation';
-@forward 'banner';

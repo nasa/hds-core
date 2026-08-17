@@ -85,7 +85,10 @@ Most HDS components fully adapt to all six palettes through the `--hds-palette-*
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [**Table**](?path=/docs/components-table--docs) | Supports White, Light, Dark, and Black. On Midtone and Blue, falls back to light theme. Full palette support planned. |
 | **Site Alert**                                  | Creates its own palette context (emergency = red, info = blue). Ignores parent palette by design.                     |
-| **Banner**                                      | Always renders with a light background by design.                                                                     |
+| **Banner, Header, Footer**                      | Pinned to White. Not themed by HDS yet, so they hold the surface USWDS gives them.                                    |
+| **Identifier**                                  | Pinned to Black, matching the background USWDS gives it.                                                              |
+
+A pinned component ignores the palette of the section around it, which is what keeps its text readable on the background it draws for itself. To change one, put the palette class on the component element rather than on a wrapper: `<footer class="usa-footer hds-palette-dark">`.
 
 ## Using palette tokens
 

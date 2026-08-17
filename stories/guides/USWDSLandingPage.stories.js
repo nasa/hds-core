@@ -13,8 +13,15 @@
 //   blocks), Section (default + dark variant), Button (big),
 //   Prose content, Footer (slim), Identifier, Skip nav
 //
-// Phase 2 stub components (header, footer, banner) render
-// with default or partially-styled USWDS appearance.
+// Header, footer, banner, and identifier are not themed by HDS
+// yet. They render as stock USWDS, pinned to the palette that
+// matches the surface USWDS paints (see base/_palettes.scss) so
+// they stay readable in every palette mode.
+//
+// The hero callout and the graphic list's dark section paint
+// their own surface in USWDS and land on the HDS dark palette
+// instead of USWDS primary-darker (Issue #148). The Dark
+// Sections story covers those two on their own.
 // ============================================================
 
 import { paletteModes } from '../../.storybook/modes';
@@ -28,9 +35,6 @@ export default {
       disableSnapshot: false,
       delay: 300,
       modes: paletteModes,
-    },
-    a11y: {
-      test: 'todo',
     },
   },
 };

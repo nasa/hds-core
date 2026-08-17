@@ -1,5 +1,5 @@
 // ============================================================
-// Table Stories — @nasa/hds-core
+// Table Stories — @nasa-hds/core
 // CSS: components/_table.scss
 //
 // Sidebar structure:

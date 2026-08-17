@@ -1,5 +1,5 @@
 // ============================================================
-// Pagination Stories — @nasa/hds-core
+// Pagination Stories — @nasa-hds/core
 // CSS: components/_pagination.scss
 //
 // Sidebar structure:

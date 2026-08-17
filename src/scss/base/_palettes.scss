@@ -1,6 +1,6 @@
 // ============================================================
 // HDS Color Palettes
-// @nasa/hds-core
+// @nasa-hds/core
 // ============================================================
 // Apply via class or data attribute:
 //   <section class="hds-palette-dark">
@@ -15,6 +15,8 @@
 // SECTIONS:
 //   Shared Color Schemes
 //   Palettes
+//   USWDS Surface Bridges
+//   USWDS Dark Context Surfaces
 //   Auto Dark Mode
 // ============================================================
 
@@ -290,6 +292,117 @@
   @include _scheme-dark;
 
   --hds-palette-bg: #{$hds-color-carbon-black};
+}
+
+// ============================================================
+// USWDS SURFACE BRIDGES
+// ============================================================
+// The government banner, header, footer, and identifier have no
+// HDS theme yet (Issue #86), so they are not palette containers.
+// Their surfaces are decided by USWDS — white for the banner,
+// header, and footer sections, black for the identifier — while
+// the text and links inside them pick up HDS colors from whatever
+// palette happens to wrap the page. When the two disagree the
+// result is unreadable: Carbon 90 identifier links on black in
+// every light palette, and white header/footer links on white
+// inside a dark one.
+//
+// Each bridge pins the palette that matches the surface USWDS
+// paints, which leaves the default appearance untouched and only
+// corrects the mismatch. The background is set explicitly because
+// USWDS gives .usa-header and .usa-footer no background of their
+// own — they assume the body behind them is white, which stops
+// being true inside a palette wrapper.
+//
+// :where() holds specificity at zero, so an adopter who wants a
+// different surface adds a .hds-palette-* class to the same
+// element and wins without !important.
+//
+// Remove these once the components get real HDS theming.
+// ============================================================
+
+:where(.usa-banner, .usa-header, .usa-footer) {
+  @include _scheme-universal;
+  @include _scheme-light;
+
+  --hds-palette-bg: #{$hds-color-spacesuit-white};
+
+  background-color: var(--hds-palette-bg);
+}
+
+:where(.usa-identifier) {
+  @include _scheme-universal;
+  @include _scheme-dark;
+
+  --hds-palette-bg: #{$hds-color-carbon-black};
+
+  background-color: var(--hds-palette-bg);
+}
+
+// ============================================================
+// USWDS DARK CONTEXT SURFACES
+// ============================================================
+// USWDS paints its two dark layout contexts — the hero callout
+// and .usa-section--dark (which the graphic list sits on in the
+// USWDS landing page template) — with color("primary-darker"),
+// and colors the headings inside them with color("accent-cool").
+//
+// HDS themes the primary family to NASA Red, so both surfaces
+// come out as a dark red block, and accent-cool is a family HDS
+// never themes, so the headings come out USWDS cyan. Neither
+// color is in the HDS palette. The red block also puts a red
+// .usa-button on a red background, roughly 2.1:1 apart.
+//
+// A .hds-palette-* wrapper cannot correct this: the red is a
+// background-color on the component itself, not a palette
+// custom property, so it survives any wrapper (Issue #148).
+//
+// HDS already has a designed dark surface — palette 4, Carbon
+// 90 — so each USWDS dark context is mapped onto it. Text,
+// headings, links, buttons, and focus rings inside resolve
+// against the surface they actually sit on, which is the same
+// guarantee .hds-palette-dark gives, without asking adopters to
+// add a class to markup they already have.
+//
+// USWDS also pins <p> and <a> inside .usa-section--dark to
+// white. Those are left as they are: white is what the dark
+// scheme resolves to, and the blue palette — the other surface
+// an adopter would plausibly swap in here — is also a dark
+// surface with white body text.
+//
+// :where() holds specificity at zero, so an adopter who wants a
+// different surface adds .hds-palette-* to the same element and
+// wins without !important — same contract as the surface
+// bridges above.
+// ============================================================
+
+:where(.usa-hero__callout, .usa-section--dark) {
+  @include _scheme-universal;
+  @include _scheme-dark;
+
+  --hds-palette-bg: #{$hds-color-carbon-90};
+
+  background-color: var(--hds-palette-bg);
+  color: var(--hds-palette-text);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--hds-palette-heading);
+  }
+}
+
+// The USWDS hero heading is two-tone: an --alt eyebrow set above
+// the statement itself. Painting both with the heading color
+// would flatten that, so the eyebrow takes the muted token HDS
+// already uses for overlines and metadata (Carbon 30, 9.1:1 on
+// Carbon 90). Flagged for creative director review in
+// docs/DESIGN.md.
+:where(.usa-hero__callout) .usa-hero__heading--alt {
+  color: var(--hds-palette-muted);
 }
 
 // ============================================================

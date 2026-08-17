@@ -52,23 +52,47 @@ After installing, review the following to bring your site into HDS's intended vi
 
 HDS Core uses a palette system activated through `.hds-palette-*` wrapper classes. When no palette class is set, HDS applies its default white palette.
 
-**USWDS's `.usa-section--dark` does not activate the HDS dark palette.** A section marked `.usa-section--dark` will render with a dark background and white base text, but HDS components placed inside will still inherit white-palette custom properties. This can produce contrast failures, such as light-mode buttons on a dark background.
+**Two USWDS dark contexts are handled for you.** A hero callout (`.usa-hero__callout`) and a section marked `.usa-section--dark` render on the HDS dark surface, and the headings, text, links, and buttons inside them follow. Your markup does not change. In vanilla USWDS these two contexts paint themselves with the primary color, which under HDS would put them in NASA red.
 
-To activate the full HDS dark palette, add `.hds-palette-dark` to the same element or a parent wrapper:
+To put one of them on a different surface, add a palette class to the same element:
 
 ```html
-<!-- Before -->
-<section class="usa-section usa-section--dark">
-  <!-- components render with white-palette values -->
-</section>
-
-<!-- After -->
-<section class="usa-section hds-palette-dark">
-  <!-- components render with dark-palette values -->
+<section class="usa-section usa-section--dark hds-palette-blue">
+  <!-- renders on the blue surface instead of the dark one -->
 </section>
 ```
 
+**Every other dark context still needs a palette class.** `.usa-dark-background`, background utility classes, and your own dark wrappers give you a dark background, but HDS components inside them still use white-palette colors. This can produce contrast failures, such as light-mode buttons on a dark background. Add `.hds-palette-dark` to the element or a parent wrapper:
+
+```html
+<!-- Before -->
+<div class="usa-dark-background">
+  <!-- components render with white-palette values -->
+</div>
+
+<!-- After -->
+<div class="usa-dark-background hds-palette-dark">
+  <!-- components render with dark-palette values -->
+</div>
+```
+
 Review every page for dark-mode markup and add palette classes accordingly. This is the most common source of visual issues during adoption.
+
+### Header, footer, banner, and identifier
+
+HDS Core does not theme the government banner, site header, footer, or identifier yet. They render as stock USWDS with HDS typography and color settings applied. Your markup keeps working, and there is nothing to change.
+
+These four components pick their own background — white for the banner, header, and footer, black for the identifier — so HDS pins each one to the palette that matches. A `.hds-palette-dark` wrapper further up the page will not push white link text onto a white footer, and the identifier's required links stay white on its black bar.
+
+To give one of them a different surface, put the palette class on the element itself:
+
+```html
+<footer class="usa-footer hds-palette-dark">...</footer>
+```
+
+A palette class on the element wins. A palette wrapper around it does not.
+
+Dedicated HDS header and footer components are the top priority for the first post-v1.0 release. See the [Roadmap](?path=/docs/overview-roadmap--docs).
 
 ### Custom CSS and the cascade layer contract
 
@@ -145,7 +169,7 @@ If your site already customizes USWDS via `@use "uswds-core" with (...)`, you wi
 Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins. Subsequent calls with different settings will error. When you adopt HDS Core:
 
 - **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
-- **Sass path:** `@forward '@nasa/hds-core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+- **Sass path:** `@forward '@nasa-hds/core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
 
 Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings. Use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
 
@@ -169,4 +193,4 @@ Settings not reserved by HDS Core continue to work. See the [Sass Configuration 
 
 ## Live preview
 
-Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme.
+Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme. [**Dark Sections**](?path=/story/guides-existing-uswds-site-dark-sections--dark-sections) shows the hero callout and dark section on their own, which is the quickest way to check how your own dark markup will land.

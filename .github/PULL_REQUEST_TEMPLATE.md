@@ -1,42 +1,45 @@
 ## What this PR does
 
-<!-- Describe the change in 1-3 sentences. Link to related issues or discussions. -->
+<!-- 1–3 sentences: what changed and why. -->
 
 Closes #
 
 ## Type of change
 
-<!-- Check one. -->
+<!-- Check one. Must match the changeset bump below. -->
 
 - [ ] Bug fix (patch)
 - [ ] New feature or component (minor)
-- [ ] Breaking change (see Public API section below)
+- [ ] Breaking change (see Public API note below)
 - [ ] Documentation only
-- [ ] Tooling or CI (no effect on published output)
+- [ ] Tooling or CI (no effect on published CSS)
 
-## Checklist
+## How to review
 
-<!-- Check all that apply before requesting review. -->
+<!-- Point reviewers at what to look at: screenshots, or the Storybook
+stories to open and the palettes / viewports that actually matter here.
+Flag anything that needs a design or accessibility eye. For docs-only or
+tooling PRs, write "N/A". -->
 
-- [ ] `npm run format:fix` and `npm run lint:scss:fix` pass
-- [ ] `npm run lint:js` and `npm run lint:md` pass
-- [ ] Tested across all 6 palettes in Storybook
-- [ ] Tested across mobile, tablet, and desktop viewports
-- [ ] Automated a11y checks pass (`npm test`)
-- [ ] Storybook documentation updated (if component changed)
+## Before requesting review
 
-## Public API and changesets
+<!-- Running the automated checks locally saves a failed-check round-trip:
+CI hard-fails on them. The rest need a human; CI can't verify them.
+Full command list: CONTRIBUTING.md. -->
 
-<!-- If CI fails the snapshot check, complete these steps. If your PR does not touch `src/scss/**`, skip this section. -->
+- [ ] `npm run lint`, `npm run format`, and `npm test` pass locally
 
-- [ ] Ran `npm run update:api-snapshot` and reviewed the diff
-- [ ] Changeset added (`npx changeset`) with appropriate bump level
-- [ ] Bump level matches the [semver rubric](../CONTRIBUTING.md#semver-rubric)
+**If your change affects how anything renders (styles, tokens, story markup, icons, or fonts):**
 
-## Visual review
+- [ ] Checked across all 6 palettes in Storybook
+- [ ] Checked across mobile, tablet, and desktop viewports
+- [ ] Did a manual a11y pass (keyboard, focus, screen-reader labels)
 
-<!-- Paste before/after screenshots or note which Storybook stories to check. For documentation-only PRs, write "N/A". -->
+**If your change ships in the package (styles, tokens, or `src/assets/**`):**
+
+- [ ] Added a changeset (`npx changeset`) at the [semver rubric](../CONTRIBUTING.md#semver-rubric) level
+- [ ] Ran `npm run check:api-snapshot` and `npm run check:css-hash`; if either flags drift, ran the matching `update:*` and committed the result
 
 ## Notes for reviewers
 
-<!-- Anything unusual, known limitations, or follow-up work planned. -->
+<!-- Anything unusual, known limitations, or planned follow-ups. Optional. -->

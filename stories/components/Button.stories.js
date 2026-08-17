@@ -1,5 +1,5 @@
 // ============================================================
-// Button Stories — @nasa/hds-core
+// Button Stories — @nasa-hds/core
 // CSS: components/_button.scss, components/_primary-arrow-button.scss
 //
 // Sidebar structure:

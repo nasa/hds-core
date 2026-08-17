@@ -1,4 +1,95 @@
-# @nasa/hds-core
+# @nasa-hds/core
+
+## 0.9.0
+
+### Minor Changes
+
+- e4c5395: Wire Style Dictionary v5 generator; promote typography, spacing, layout, focus, and breakpoint tokens to first-class Sass variables and CSS custom properties
+
+  **Font-size accessibility fix:**
+
+  - Font sizes now use clean rem values (1rem, 1.25rem, 1.375rem) instead of USWDS-normalized values (0.87rem, 1.12rem, 1.37rem), respecting user browser font-size preferences. Visible change across the whole system.
+
+  **New Sass variables:**
+
+  - `$hds-font-size-4xl` (7.5rem) through `$hds-font-size-3xs` (0.75rem): 10 font-size primitives
+  - `$hds-font-family-heading`, `$hds-font-family-body`, `$hds-font-family-code`
+  - `$hds-font-weight-*` (bold, semibold, medium, normal, light) as top-level scalars
+  - `$hds-letter-spacing-1` through `-3`, `$hds-letter-spacing-neg-1` through `-neg-5`, `$hds-letter-spacing-auto`
+  - `$hds-spacing-0` through `$hds-spacing-30` (full USWDS-aligned scale)
+  - `$hds-layout-gutter-sm/md/lg/xl`, `$hds-layout-margin-mobile/desktop`, `$hds-layout-max-width`
+  - `$hds-focus-width`, `$hds-focus-offset`, `$hds-focus-style`
+  - `$hds-breakpoint-mobile` through `$hds-breakpoint-widescreen` (8 breakpoints)
+
+  **New CSS custom properties:**
+
+  - `--hds-font-size-*` (10): available for custom compositions
+  - `--hds-font-family-heading/body/code`
+  - `--hds-spacing-*` (13): full scale exposed for CSS-only consumers
+  - `--hds-layout-*` (7): gutters, margins, max-width
+  - `--hds-focus-width/offset/style`
+
+  **New utility classes:**
+
+  - `.hds-intro` and `.hds-p` for direct typography access
+
+  **Removed:**
+
+  - `--hds-font-weight-heavy` and `--hds-font-weight-thin` custom properties (only emitted `false` before)
+  - `$hds-letterspacing`, `$hds-line-heights`, `$hds-weights` Sass maps: replaced by scalar variables above. Consumers doing `map.get($hds-line-heights, 3)` should switch to `$hds-line-height-3`.
+  - `$hds-letter-spacing-neg-6` / `--hds-letter-spacing-neg-6` and `$hds-letter-spacing-neg-7` / `--hds-letter-spacing-neg-7`: never referenced by any HDS composite; scale trimmed to what NASA design actually uses.
+
+  **Corrected typography tokens (intentional visual shift, verified against Figma source):**
+
+  - `.hds-display-2xl` letter-spacing: `-0.07em` → `-0.05em`
+  - `.hds-h1` letter-spacing: `-0.04em` → `-0.03em`
+  - `.hds-h2` letter-spacing: `-0.03em` → `-0.02em`
+
+  Adopters using the `.hds-*` typography classes will see a very small visual shift on affected headings. Adopters composing from primitives are unaffected (primitive values unchanged).
+
+  **For CSS-only consumers:**
+
+  - Continue using `.hds-h1` through `.hds-h6`, `.hds-display-*`, `.hds-stat-*` classes
+  - Or compose custom styles using `var(--hds-font-size-xl)`, `var(--hds-spacing-4)`, `var(--hds-layout-gutter-md)`, etc.
+
+  **Internal improvements:**
+
+  - Style Dictionary v5 with DTCG support wired into build (`tools/sd-example/` removed)
+  - Typography ramp, spacing scale, layout tokens, and breakpoints all generated from `tokens.json` (single source of truth)
+  - Docs updated with new Design Tokens reference page and embedded token references
+  - Token drift check added to CI to keep generated files in sync
+  - New `_hds-config.scss` partial houses HDS configuration flags (dataviz tokens, auto dark mode)
+
+- 580a267: First npm publish and package rename: `@nasa/hds-core` → `@nasa-hds/core`
+
+  HDS Core is now published to npm under the `@nasa-hds` organization. Install with `npm install @nasa-hds/core @uswds/uswds`.
+
+  **Breaking for early adopters installing from GitHub:** the package name changed from `@nasa/hds-core` to `@nasa-hds/core`. Update your imports and Sass load paths accordingly:
+
+  - CSS: `@nasa-hds/core/css`, `@nasa-hds/core/css/uswds`, `@nasa-hds/core/css/dataviz`
+  - Sass: `@use '@nasa-hds/core/scss'` (plus `/scss/uswds`, `/scss/dataviz`)
+  - Sass load path: `node_modules/@nasa-hds/core/src/scss`
+
+  The `@nasa-hds` scope leaves room for sibling packages (e.g. dataviz, framework bindings) without renaming core again. Subpath exports and class names are unchanged.
+
+- d278036: Remove the navigation and banner stubs; pin USWDS header, footer, banner, and identifier to a readable palette (thanks [@suthat](https://github.com/suthat)!)
+
+  The partial header, footer, nav, and government-banner styling inherited from an earlier WordPress theme has been removed. It was never reviewed against Figma and rendered visibly broken on the USWDS templates, so it does not ship in v1.0. These components now render as stock USWDS, themed by the shared token settings every USWDS component receives. Real HDS versions arrive with the navigation work planned for the first post-v1.0 release.
+
+  **Visual change for sites using the USWDS header, footer, or government banner.** Overrides dropped with the stubs: underline suppression on header and footer links, the border resets on `.usa-footer__nav` and `.usa-footer__primary-content`, mobile menu trigger chevrons, agency navbar spacing, and the banner's Carbon 05 background and reduced type size. Each of these reverts to the USWDS default. If your site depended on one, reapply it in `@layer site`.
+
+  Alongside the removal, `.usa-banner`, `.usa-header`, and `.usa-footer` are now pinned to the White palette and `.usa-identifier` to Black. These four decide their own background but were not palette containers, so HDS text and link colors inside them resolved against whatever palette wrapped the page. That put Carbon 90 identifier links on the identifier's black bar at 1.17:1 in every light palette, and white header and footer links on white inside a dark one. Each is now pinned to the palette matching the surface USWDS paints, which leaves the default appearance unchanged and corrects only the mismatch.
+
+  The pins use `:where()`, so a `.hds-palette-*` class on the component element still wins: `<footer class="usa-footer hds-palette-dark">`. A palette wrapper around the component does not.
+
+### Patch Changes
+
+- 429aac4: Preserve the error indicator border when hovering text inputs, textareas, and selects. (thanks [@sean-camara](https://github.com/sean-camara)!)
+- 555a162: Stop the HDS accordion restyle from leaking into the USWDS banner and nav
+
+  USWDS reuses the `.usa-accordion*` classes outside real accordions: the government banner's "Here's how you know" toggle and the primary nav's dropdown behavior (including the mobile drawer) are both built on them. The HDS accordion restyle (borderless container, flush headings, circled chevron) was reaching those toggles and misplacing their icons. The overrides in `components/_accordion.scss` are now guarded with `:not(.usa-banner *):not(.usa-nav *)`, so the HDS treatment applies only to genuine accordions and the banner and nav toggles render as stock USWDS.
+
+  This is a stopgap until the nav and banner get real HDS theming (Issue #86).
 
 ## 0.8.0
 
