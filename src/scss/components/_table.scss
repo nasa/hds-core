@@ -73,6 +73,7 @@ $table-border-light: #e6e6e6; // rgba(0,0,0,0.1) over white
 $table-border-dark: #2e2e31; // rgba(255,255,255,0.1) over Carbon 90
 
 // ── Base table ────────────────────────────────────────────────
+// TEMP: debug/ci-css-hash-investigation trigger — revert before merge
 
 .usa-table {
   --hds-palette-link-text: #{$hds-color-carbon-90};
