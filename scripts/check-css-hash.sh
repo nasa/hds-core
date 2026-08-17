@@ -31,7 +31,9 @@ for f in "${BUNDLES[@]}"; do
 done
 
 # shasum -a 256 (not sha256sum) so `npm run update:css-hash` works on macOS too.
-current=$(shasum -a 256 "${BUNDLES[@]}" | shasum -a 256 | cut -d' ' -f1)
+# awk '{print $1}' drops shasum's filename column, whose mode marker differs
+# by OS ('*' on Windows, space on Linux/macOS) and would leak into the hash.
+current=$(shasum -a 256 "${BUNDLES[@]}" | awk '{print $1}' | shasum -a 256 | cut -d' ' -f1)
 
 # --update: (re)write the baseline and exit (used by update:css-hash).
 if [ "$1" = "--update" ]; then
