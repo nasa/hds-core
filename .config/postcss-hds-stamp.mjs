@@ -9,17 +9,45 @@
  * Runs last in the postcss chain so the banner survives comment-discarding
  * and minification. Versions are read at build time, so the stamp tracks the
  * changesets bump with nothing to regenerate.
+ *
+ * Scoped to the HDS bundles by output filename -- see STAMPABLE. The version
+ * string is deliberately excluded from the CSS-output hash baseline; see
+ * scripts/check-css-hash.sh.
  */
 
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-const read = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
+// Resolve from this file, not the working directory: postcss is not always
+// invoked from the repo root (editor integrations, Vite, a nested build), and
+// a cwd-relative read throws when it isn't.
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const HDS_VERSION = read('./package.json').version;
-const USWDS_VERSION = read('./node_modules/@uswds/uswds/package.json').version;
+const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
+
+// Read USWDS's manifest by path rather than `require('@uswds/uswds/package.json')`:
+// USWDS does not list `./package.json` in its own exports map, so the specifier
+// form throws ERR_PACKAGE_PATH_NOT_EXPORTED.
+const HDS_VERSION = read(path.join(REPO_ROOT, 'package.json')).version;
+const USWDS_VERSION = read(path.join(REPO_ROOT, 'node_modules/@uswds/uswds/package.json')).version;
 
 /** Bundles that carry the custom properties, keyed by output filename. */
 const STAMPS_PROPERTIES = new Set(['hds.min.css', 'hds.css']);
+
+/**
+ * Only our own published bundles get stamped. The root postcss config is
+ * picked up by Vite too (Storybook runs `@storybook/html-vite` with no
+ * `css.postcss` override), and without this guard every CSS chunk Storybook
+ * processes gets an HDS banner naming an unrelated file.
+ */
+const STAMPABLE = new Set([
+  ...STAMPS_PROPERTIES,
+  'hds-uswds.min.css',
+  'hds-uswds.css',
+  'hds-dataviz.min.css',
+  'hds-dataviz.css',
+]);
 
 export default function hdsStamp() {
   return {
@@ -27,6 +55,7 @@ export default function hdsStamp() {
 
     OnceExit(root, { result, Comment, Rule, Declaration, AtRule }) {
       const file = result.opts.to ? result.opts.to.split(/[\\/]/).pop() : '';
+      if (!STAMPABLE.has(file)) return;
 
       // We compile USWDS from source, so its banner ships the literal
       // `uswds @version` placeholder that USWDS substitutes in its own build.
