@@ -30,10 +30,24 @@ for f in "${BUNDLES[@]}"; do
   fi
 done
 
-# shasum -a 256 (not sha256sum) so `npm run update:css-hash` works on macOS too.
-# awk '{print $1}' drops shasum's filename column, whose mode marker differs
-# by OS ('*' on Windows, space on Linux/macOS) and would leak into the hash.
-current=$(shasum -a 256 "${BUNDLES[@]}" | awk '{print $1}' | shasum -a 256 | cut -d' ' -f1)
+# Strip the version stamp before hashing: it embeds the release version, so a
+# bump moves the bytes without changing any style, and this baseline answers
+# "did the CSS change?". These patterns match the stamp plugin's own output
+# (.config/postcss-hds-stamp.mjs) -- if its format changes, change these too.
+strip_stamp() {
+  sed -e 's#/\*![^*]*\*/##g' \
+    -e 's#@layer hds-base[{]:root[{]--hds-version:[^}]*[}][}]##g' "$1"
+}
+
+# shasum (not sha256sum) for macOS. Piping each file on stdin keeps shasum
+# from emitting a filename column, whose mode-marker ('*' vs ' ') differs by
+# OS and would leak into the hash; the filename is added back portably via
+# printf so bundles can't cancel out.
+current=$(
+  for f in "${BUNDLES[@]}"; do
+    printf '%s  %s\n' "$(strip_stamp "$f" | shasum -a 256 | cut -d' ' -f1)" "$f"
+  done | shasum -a 256 | cut -d' ' -f1
+)
 
 # --update: (re)write the baseline and exit (used by update:css-hash).
 if [ "$1" = "--update" ]; then
