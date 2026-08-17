@@ -197,7 +197,7 @@
 
   // Hide USWDS "Previous"/"Next" text labels
   .usa-pagination__link-text {
-    @include visually-hidden;
+    @include hds-visually-hidden;
   }
 }
 

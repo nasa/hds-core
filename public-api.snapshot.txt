@@ -383,6 +383,7 @@ hds-link-hover
 hds-nav-hover-underline
 hds-utility-circle
 hds-vertical-nav-links
+hds-visually-hidden
 
 ## Sass Mixins (_hds-typography.scss)
 hds-type
