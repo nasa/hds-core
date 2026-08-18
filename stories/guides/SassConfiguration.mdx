@@ -12,15 +12,18 @@ The entry point is a single forward:
 @forward '@nasa-hds/core/scss';
 ```
 
-`@nasa-hds/core/scss` is a package export that resolves to HDS Core's Sass entry. It is the one string to use; do not reach into internal paths like `@nasa-hds/core/src/scss/hds`. You also configure two Sass load paths so the compiler can find HDS and USWDS: see [Installation](?path=/docs/overview-installation--docs#sass-setup) for the load-path setup and the full entry-point examples (utilities, dataviz).
+`@nasa-hds/core/scss` is a package export that resolves to HDS Core's Sass entry. It is the one string to use; do not reach into internal paths like `@nasa-hds/core/src/scss/hds`. On the Dart Sass CLI, write it as `pkg:@nasa-hds/core/scss` and pass `--pkg-importer=node`. You also configure two Sass load paths so the compiler can find HDS and USWDS: see [Installation](?path=/docs/overview-installation--docs#sass-setup) for the load-path setup and the full entry-point examples (utilities, dataviz).
 
-You do not reconfigure the HDS theme from Sass. The NASA visual identity is fixed on purpose (see [USWDS settings](#uswds-settings)), the same way the VA and CMS design systems fix theirs. What you customize is your own code, using the surface below.
+You do not reconfigure the HDS theme from Sass. The NASA visual identity is sealed on purpose (see [USWDS settings](#uswds-settings)): the primitives are fixed, and the sanctioned variation happens at the semantic layer through the six [palettes](?path=/docs/foundations-color--docs), not by resetting tokens. What you customize is your own code, using the surface below.
 
 ## What you can use
 
-With HDS Core forwarded, HDS variables, USWDS functions, and HDS mixins are available in your own stylesheets:
+Each of your own Sass files needs its own `@use`; `@forward` in your entry point re-exports HDS to files that load _that_ file, but it does not put HDS variables in scope for the partials the entry point forwards:
 
 ```scss
+// _my-component.scss
+@use '@nasa-hds/core/scss' as *;
+
 .my-component {
   background-color: $hds-color-carbon-05;
   color: $hds-color-carbon-90;
@@ -36,12 +39,34 @@ With HDS Core forwarded, HDS variables, USWDS functions, and HDS mixins are avai
 
 - **HDS Sass variables** (`$hds-color-*`, `$hds-spacing-*`, `$hds-font-*`, and the rest) return exact HDS values.
 - **USWDS functions** (`family()`, `size()`, `units()`, `color()`) work as documented in the [USWDS documentation](https://designsystem.digital.gov/design-tokens/).
-- **HDS mixins** apply HDS patterns: `hds-focus-ring` (and `hds-focus-ring-inline`, `hds-focus-ring-size`), `hds-link-appearance`, `hds-link-hover`, `visually-hidden`, and `hds-type` (applies a type-ramp step to any element).
-- **Two configuration flags** are yours to set at import time: `$hds-enable-dataviz-tokens` and `$hds-enable-auto-dark-mode`.
+- **HDS mixins** apply HDS patterns: `hds-focus-ring` (and `hds-focus-ring-inline`, `hds-focus-ring-size`), `hds-link-appearance`, `hds-link-hover`, `hds-visually-hidden`, and `hds-type` (applies a type-ramp step to any element).
+- **HDS configuration flags** let you turn on optional behavior at import time. See [Configuration flags](#configuration-flags) below.
 
 `color()` returns USWDS system token values, which are close approximations of HDS Carbon colors but not exact matches. For example, USWDS `gray-90` is `#1b1b1b`, while HDS Carbon 90 is `#17171B`. For exact HDS values, use `$hds-color-*` variables or `var(--hds-color-*)` custom properties.
 
-Because your components are built on the shared HDS token surface rather than a private fork, they stay compatible with HDS and can be [contributed back](?path=/docs/overview-getting-started--docs) into HDS Core.
+Because your components are built on the shared HDS token surface rather than a private fork, they stay compatible with HDS and can be [contributed back](https://github.com/nasa/hds-core/blob/main/CONTRIBUTING.md) into HDS Core.
+
+## Configuration flags
+
+Two public flags are set when you load HDS Core, in the `with (...)` of your `@use`:
+
+```scss
+@use '@nasa-hds/core/scss' as * with (
+  $hds-enable-auto-dark-mode: true
+);
+```
+
+`$hds-enable-auto-dark-mode` (default `false`) applies the dark palette to the page automatically when the visitor's operating system is set to dark mode, via `@media (prefers-color-scheme: dark)`. It affects only the default surface; sections you place in an explicit palette (`.hds-palette-*`) keep that palette. Leave it `false` if you want the palette to change only where you set it in markup.
+
+`$hds-enable-dataviz-tokens` (default `false`) controls whether the dataviz custom properties (`--hds-dataviz-color-*`) are emitted into `:root`. Set it to `true` if you compile from Sass and want those tokens in your main bundle:
+
+```scss
+@use '@nasa-hds/core/scss' as * with (
+  $hds-enable-dataviz-tokens: true
+);
+```
+
+If you instead load the dataviz bundle (`@nasa-hds/core/scss/dataviz`), it sets the flag for you, so you do not configure it yourself. Do not do both: Sass allows a module to be configured only once, so setting the flag with `with` after the bundle has already loaded it will throw an error.
 
 ## HDS utility classes
 
@@ -53,7 +78,7 @@ HDS ships a few utility classes beyond USWDS:
 | `.hds-global-styles`       | Opt-in wrapper that styles bare HTML elements inside it. See [Content element styling](#content-element-styling). |
 | `.hds-global-styles-reset` | Reset boundary inside a `.hds-global-styles` or `.usa-prose` scope, returning descendants to unstyled markup.     |
 
-The `visually-hidden` mixin provides screen-reader-only text from your own Sass.
+The `hds-visually-hidden` mixin provides screen-reader-only text from your own Sass.
 
 All [USWDS utility classes](https://designsystem.digital.gov/utilities/) for layout, spacing, and typography work with HDS Core. USWDS color utilities (`.bg-*`, `.text-*`, `.border-*`) also work, but resolve to USWDS system token values, which approximate HDS colors rather than matching them exactly. For exact HDS colors, use `$hds-color-*` Sass variables or `var(--hds-color-*)` custom properties.
 

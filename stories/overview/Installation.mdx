@@ -131,6 +131,33 @@ For sites rendering charts or graphs, an optional bundle provides CSS custom pro
 
 This bundle can be loaded standalone without `hds.min.css`, making it suitable for embedded chart contexts (such as an iframe or a visualization-only page that inherits other styles from a CMS theme).
 
+### Using HDS tokens in your CSS
+
+Every `$hds-*` design token is mirrored as a CSS custom property on `:root`, so the pre-compiled path gets the full token set with no build step:
+
+```css
+.my-element {
+  color: var(--hds-color-nasa-blue);
+  font-weight: var(--hds-font-weight-bold);
+}
+```
+
+See available tokens and their values on the [Design Tokens](?path=/docs/overview-design-tokens--docs) page.
+
+### Overriding HDS styles
+
+HDS Core reserves a `site` cascade layer for your own CSS. Styles written inside it always win over HDS defaults, without needing `!important`:
+
+```css
+@layer site {
+  .usa-button {
+    border-radius: 0;
+  }
+}
+```
+
+Any CSS you write outside a named layer also beats `@layer site`, as unlayered rules outrank layered ones regardless of specificity. That is worth knowing before you debug a stubborn override; see the [Existing USWDS Site guide](?path=/docs/guides-existing-uswds-site-guidance--docs#the-unlayered-css-trap) for more details.
+
 ### Which version am I running?
 
 Every compiled bundle opens with a banner comment naming its own version and the USWDS version it was built against:
@@ -157,7 +184,7 @@ Configure your Sass compiler with these load paths:
 - `node_modules/@uswds/uswds/packages`
 - `node_modules/@nasa-hds/core/src/scss`
 
-Most build tools accept a `loadPaths` or `includePaths` array in their Sass configuration. These are resolution roots for the compiler, not the thing you import: you forward the package export `@nasa-hds/core/scss` (see below), and the load paths let it and USWDS resolve.
+Most build tools accept a `loadPaths` or `includePaths` array in their Sass configuration. These are resolution roots for the compiler, not the thing you import: you forward the package export `@nasa-hds/core/scss` (see below), and the load paths let it and USWDS resolve. Both load paths are required either way, as HDS Core resolves its own internals and USWDS through them.
 
 ### Entry point
 
@@ -169,6 +196,14 @@ Most build tools accept a `loadPaths` or `includePaths` array in their Sass conf
 
 `@forward` order matters: forward HDS Core before your own Sass that touches USWDS, so HDS configures `uswds-core` first. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs#uswds-settings) for why.
 
+Bundlers (Vite, webpack via `sass-loader`, Parcel) resolve the bare `@nasa-hds/core/scss` specifier for you. **The Dart Sass CLI does not**; it has no package resolution of its own, so the import above fails with `Can't find stylesheet to import`. Use the `pkg:` URL scheme instead, and run `sass` with `--pkg-importer=node`:
+
+```scss
+@forward 'pkg:@nasa-hds/core/scss';
+```
+
+The `pkg:` form works in bundlers too, so it is the safer choice if you are unsure which resolution your toolchain uses.
+
 To include USWDS utility classes:
 
 ```scss
@@ -176,6 +211,22 @@ To include USWDS utility classes:
 @forward '@nasa-hds/core/scss';
 @forward 'my-project-styles';
 ```
+
+### Using HDS tokens in your own Sass
+
+`@forward` re-exports HDS to files that load _your entry point_; it does not put HDS variables in scope for the files your entry point forwards. Each of your own partials needs its own `@use`:
+
+```scss
+// _my-project-styles.scss
+@use '@nasa-hds/core/scss' as *;
+
+.my-component {
+  background-color: $hds-color-carbon-05;
+  padding: units(3);
+}
+```
+
+Without that `@use`, `$hds-color-carbon-05` raises `Error: Undefined variable`. See the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs#what-you-can-use) for the full surface.
 
 ### Data visualization
 
@@ -191,6 +242,6 @@ Once HDS Core is compiling, see the [Sass Configuration guide](?path=/docs/guide
 
 ## Framework-specific guides
 
-- [React](?path=/docs/guides-react-guidance--docs) — integration with and without [react-uswds](https://github.com/trussworks/react-uswds)
+- [React](?path=/docs/guides-react-guidance--docs): integration with and without [react-uswds](https://github.com/trussworks/react-uswds)
 
 {/* Additional framework guides will be added as they become available. */}
