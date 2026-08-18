@@ -40,6 +40,75 @@ Social media sharing and follow links. Use `<a>` tags since these navigate to ex
 
 <Canvas of={IconButtonStories.Social} />
 
+HDS Core ships marks for the platforms NASA maintains an official presence on, the share targets used on nasa.gov and plus.nasa.gov, and GitHub. See [Icons](?path=/docs/foundations-icons--docs) for the full set. All use the `logo-` prefix in the sprite.
+
+#### Black and white (default)
+
+The default social button is a neutral circle with a light glyph, identical on every palette. This is the lower-emphasis option and the one to reach for in footers and dense rows.
+
+```html
+<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="https://www.facebook.com/NASA" aria-label="NASA on Facebook">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#logo-facebook"></use>
+  </svg>
+</a>
+```
+
+#### Brand color
+
+Add `.hds-btn-icon--social-color` and a `data-hds-social` attribute naming the platform. The attribute supplies the brand color; the class turns it on.
+
+```html
+<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="facebook" href="https://www.facebook.com/NASA" aria-label="NASA on Facebook">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#logo-facebook"></use>
+  </svg>
+</a>
+```
+
+Because the platform hook only sets inherited custom properties, the color class works **on the button or on any ancestor** — put it on a wrapper to color a whole row at once:
+
+```html
+<ul class="usa-button-group hds-btn-icon--social-color">
+  <li class="usa-button-group__item">
+    <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" data-hds-social="x" href="https://x.com/NASA" aria-label="NASA on X">…</a>
+  </li>
+</ul>
+```
+
+<Canvas of={IconButtonStories.SocialColor} />
+
+Buttons with **no** `data-hds-social` keep the standard HDS social colors even with the color class applied. That is intentional: `rss` and `mail` are share targets rather than brands, so they stay on the palette.
+
+<Canvas of={IconButtonStories.SocialAllPlatforms} />
+
+#### Social row
+
+A complete follow row, built on the USWDS button group. Copy this wholesale if you need a standard set.
+
+<Canvas of={IconButtonStories.SocialButtonGroup} />
+
+#### Extending to a platform HDS does not ship
+
+Set `--hds-social-brand` (and optionally `--hds-social-on-brand`) yourself. No HDS change required:
+
+```css
+@layer site {
+  [data-hds-social='mastodon'] {
+    --hds-social-brand: #6364ff;
+    --hds-social-on-brand: #fff;
+  }
+}
+```
+
+<Note type="figma">
+  The HDS Figma social spec dates from 2020 and predates several platform rebrands — it shows the retired Twitter bird, and its brand hexes are desaturated relative to today's official lockups. HDS Core follows Figma for <em>structure</em> (32px circle, BW/Color pairing, glyph proportions) and each platform's <em>current official lockup</em> for marks and colors. The Figma B&W fill is Carbon 80; HDS Core ships Carbon 60, which is deliberate — see Accessibility below. Flagged for creative director review.
+</Note>
+
+<Note type="uswds">
+  The USWDS footer renders social links as <code>&lt;img&gt;</code>, which CSS cannot recolor. HDS Core ships replacement assets under the same USWDS filenames, so a stock <code>.usa-social-link</code> footer picks up HDS social marks and the HDS circle with no markup change. Note that <code>twitter.svg</code> resolves to the current X mark, since USWDS still ships the retired bird under that name. The footer bridge is black and white only — for brand color, move to the button group above.
+</Note>
+
 ### Interactive
 
 Disclosure triggers designed for use **over images, video, and 3D content** — not on plain palette backgrounds. Interactive buttons use fixed colors (not palette-aware) for high contrast on dynamic backgrounds.
@@ -124,6 +193,9 @@ Eight sizes are available. Size and role classes are independent — combine any
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
 - **Touch target size.** The default size and above all meet the 24×24px minimum recommended by WCAG 2.5.8. The 2xs and xs sizes are below this threshold — use them only in desktop/mouse contexts.
 - **Interactive disclosure buttons** require `aria-expanded` and `aria-controls` linking the button to its popover. The icon glyph must have at least 3:1 contrast against its background. The circle stroke is decorative framing — accessibility does not depend on it being visible.
+- **Social brand colors and the logotype exception.** The color variant uses each platform's official lockup colors. Most clear the 3:1 non-text contrast threshold, but SoundCloud (2.94:1), Telegram (2.54:1), and WhatsApp (1.82:1) do not. These rely on WCAG 2.2 [SC 1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), which exempts logotypes: "Part of a logo or brand name has no minimum contrast requirement." Altering a mark's colors to pass would conflict with the platform's brand guidelines. **The black-and-white variant is the higher-contrast option** — prefer it wherever brand color is not specifically required.
+- **Name the platform in the label, not the glyph.** A brand mark carries no accessible name. Write `aria-label="NASA on Facebook"`, not `aria-label="Facebook icon"`.
+- **The social fill is Carbon 60 on every palette, not the Carbon 80 in Figma.** Carbon 80 measures 1.32:1 against the dark palette background, so the circle would effectively disappear there; Carbon 60 holds 2.52:1 on dark and 7.09:1 on white. The circle is decorative framing, so this affects perceived affordance rather than conformance. Flagged for creative director review.
 
 ```html
 <!-- ✅ Correct -->

@@ -1,0 +1,243 @@
+// ============================================================
+// HDS Component — Social Brand Colors
+// @nasa-hds/core
+// ============================================================
+// Optional brand-colored treatment for `.hds-btn-icon--social`.
+// The B&W circle in `_icon-button.scss` remains the default;
+// this file only adds the opt-in color layer.
+//
+// TRADEMARK NOTICE
+// The platform names and marks referenced here are trademarks of
+// their respective owners. Their inclusion does not indicate
+// endorsement of NASA by the trademark holder, or of the
+// trademark holder by NASA. Use these marks only to refer to the
+// platform they identify, and follow each platform's own brand
+// guidelines. Glyphs are sourced from nasa.gov, USWDS (CC0), and
+// Simple Icons (CC0-1.0) — see docs/DESIGN.md → Social Icons.
+//
+// ── How it works ────────────────────────────────────────────
+// Two concerns are kept separate, so neither has to know about
+// the other:
+//
+//   1. The platform hook `[data-hds-social="…"]` DECLARES which
+//      platform a button represents. It paints nothing on its
+//      own — it only sets two custom properties.
+//   2. `.hds-btn-icon--social-color` CONSUMES those properties.
+//
+// Because the hook only sets inherited custom properties, the
+// color modifier works on the button itself OR on any ancestor
+// (a row, a footer, a share bar) with no extra selectors.
+//
+// Platforms with no brand entry (rss, mail) resolve through the
+// `var()` fallback to the standard HDS social palette colors.
+// That is the intended behavior, not an oversight — non-brand
+// share targets stay on HDS colors.
+//
+//   --hds-social-brand        flat fill (a <color>)
+//   --hds-social-brand-image  optional gradient (an <image>)
+//   --hds-social-on-brand     glyph color on that fill
+//
+// Adopters linking to a platform HDS does not ship can set
+// `--hds-social-brand` themselves in `@layer site`.
+//
+// ── Accessibility ───────────────────────────────────────────
+// Brand fills use each platform's official lockup colors. Most
+// clear the 3:1 non-text contrast threshold, but SoundCloud
+// (2.94:1), Telegram (2.54:1), and WhatsApp (1.82:1) do not.
+// These rely on the WCAG 2.2 SC 1.4.11 logotype exception
+// ("Part of a logo or brand name has no minimum contrast
+// requirement"), because the official lockups are what the
+// platforms' brand guidelines require. The B&W default remains
+// the higher-contrast option for any context that needs it.
+// ============================================================
+
+@use 'sass:list';
+@use 'hds-tokens' as *;
+@use 'hds-mixins' as *;
+
+// ── Brand fills ───────────────────────────────────────────────
+// Hand-authored, deliberately NOT in tokens.json: these are
+// third-party trademark values, not NASA brand primitives, and
+// tokens.json's color group is scoped to NASA-branded UI.
+// Figma leaves them as raw fills (not variables) for the same
+// reason. Values are the platforms' current official colors —
+// the 2020 HDS Figma spec predates several rebrands.
+
+$_social-brands: (
+  'facebook': (#1877f2, $hds-color-spacesuit-white),
+  'flickr': (#0063dc, $hds-color-spacesuit-white),
+  'github': (#181717, $hds-color-spacesuit-white),
+  'giphy': (#000, $hds-color-spacesuit-white),
+  'instagram': (#c13584, $hds-color-spacesuit-white),
+  'linkedin': (#0a66c2, $hds-color-spacesuit-white),
+  'pinterest': (#bd081c, $hds-color-spacesuit-white),
+  'reddit': (#ff4500, $hds-color-spacesuit-white),
+  'snapchat': (#fffc00, $hds-color-carbon-black),
+  'soundcloud': (#ff5500, $hds-color-spacesuit-white),
+  'spotify': (#1db954, $hds-color-carbon-black),
+  'telegram': (#26a5e4, $hds-color-spacesuit-white),
+  'threads': (#000, $hds-color-spacesuit-white),
+  'tiktok': (#000, $hds-color-spacesuit-white),
+  'tumblr': (#001935, $hds-color-spacesuit-white),
+  'twitch': (#9146ff, $hds-color-spacesuit-white),
+  'whatsapp': (#25d366, $hds-color-spacesuit-white),
+  'x': (#000, $hds-color-spacesuit-white),
+  'youtube': (#f00, $hds-color-spacesuit-white),
+);
+
+// ── Platform hooks ────────────────────────────────────────────
+// Declaration only — these rules paint nothing themselves.
+
+@each $name, $pair in $_social-brands {
+  [data-hds-social='#{$name}'] {
+    --hds-social-brand: #{list.nth($pair, 1)};
+    --hds-social-on-brand: #{list.nth($pair, 2)};
+  }
+}
+
+// Instagram is a gradient in both the HDS Figma spec and the
+// platform's own guidelines. Gradients are <image> values, so
+// they cannot ride in `background-color` — they need their own
+// property applied via `background-image`. The flat fill above
+// stays as the fallback and shows through if the image is
+// unsupported or overridden.
+[data-hds-social='instagram'] {
+  --hds-social-brand-image: linear-gradient(
+    45deg,
+    #f28a4a 0%,
+    #e04762 35%,
+    #a838a8 70%,
+    #9e59be 100%
+  );
+}
+
+// ── Color variant ─────────────────────────────────────────────
+// Consumes whatever the hook declared. Every value falls back to
+// the standard HDS social palette, so a button with no platform
+// hook renders exactly as the B&W default.
+
+.hds-btn-icon--social-color {
+  background-color: var(--hds-social-brand, var(--hds-palette-social-fill));
+  background-image: var(--hds-social-brand-image, none);
+  border-color: var(--hds-social-brand, var(--hds-palette-social-fill));
+  color: var(--hds-social-on-brand, var(--hds-palette-social-icon));
+
+  // Hover darkens the flat fill. `color-mix()` operates on
+  // colors, not images, so gradient platforms get their own
+  // hover gradient below rather than a computed shade.
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-color: color-mix(
+      in srgb,
+      var(--hds-social-brand, var(--hds-palette-social-fill)) 85%,
+      #{$hds-color-carbon-black}
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--hds-social-brand, var(--hds-palette-social-fill)) 85%,
+      #{$hds-color-carbon-black}
+    );
+  }
+
+  // Disabled drops the brand entirely — a grayed-out brand color
+  // reads as a rendering bug rather than a disabled state.
+  &[disabled],
+  &:disabled {
+    background-color: var(--hds-palette-btn-disabled-bg);
+    background-image: none;
+    border-color: var(--hds-palette-btn-disabled-bg);
+    color: var(--hds-palette-btn-filled-text);
+  }
+}
+
+.hds-btn-icon--social-color[data-hds-social='instagram'] {
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background-image: linear-gradient(
+      45deg,
+      #d9773c 0%,
+      #c33b53 35%,
+      #8f2f8f 70%,
+      #854ba1 100%
+    );
+  }
+}
+
+// ── USWDS footer social link bridge ───────────────────────────
+// The government footer has no HDS theme (see Issue #86), so
+// AGENTS.md normally forbids overriding it. This is a sanctioned
+// exception: the footer is the one place USWDS renders social
+// icons, and left alone it paints black USWDS glyphs on a 10%
+// black square that matches nothing else in HDS.
+//
+// USWDS markup, unchanged:
+//   <a class="usa-social-link">
+//     <img class="usa-social-link__icon" src="…/usa-icons/facebook.svg">
+//   </a>
+//
+// The glyph itself is fixed by shipping replacement assets under
+// the same filenames (see src/assets/img/usa-icons/README.md) —
+// CSS cannot reach inside an <img>. This block only supplies the
+// circle, which CSS *can* own, so hover stays palette-aware.
+//
+// B&W only, by design. Brand color needs a per-platform hook the
+// USWDS markup has no place to put; adopters who want color
+// should move to `.hds-btn-icon--social` in a `.usa-button-group`
+// — see the Icon Button docs for copy-paste markup.
+//
+// `color` and `fill` are both set so that adopters who have
+// migrated to an inline `<svg class="usa-social-link__icon">`
+// referencing hds-sprite.svg get the correct glyph color too.
+
+.usa-social-link {
+  align-items: center;
+  background-color: var(--hds-palette-social-fill);
+  border-radius: 50%;
+  color: var(--hds-palette-social-icon);
+  display: inline-flex;
+  fill: var(--hds-palette-social-icon);
+  height: 32px;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  width: 32px;
+
+  &:hover,
+  &:active {
+    background-color: var(--hds-palette-social-hover-fill);
+  }
+
+  // Match `.hds-btn-icon--social`. Without this the link falls back
+  // to the USWDS rectangular outline, which reads as a square ring
+  // around a circular button. `::before` is free here — the hit-area
+  // extension below uses `::after`.
+  &:focus-visible {
+    @include hds-focus-ring($color: 'bold', $shape: 'circle', $circle-size-px: 32);
+  }
+
+  // The visible circle is the 32px HDS social size, but USWDS
+  // sizes this element to a 48px touch target on purpose. The
+  // pseudo-element restores that hit area so shrinking the circle
+  // does not regress WCAG 2.5.5.
+  &::after {
+    content: '';
+    inset: -8px;
+    position: absolute;
+  }
+
+  // USWDS pins a light background here and disables color
+  // adjustment. Keep a forced-colors treatment, but let the
+  // system paint it rather than hardcoding grey.
+  @media (forced-colors: active) {
+    background-color: buttonface;
+    forced-color-adjust: auto;
+  }
+}
+
+// USWDS sets this to width: 100%, which would fill the circle
+// edge to edge. 60% matches the glyph-to-circle ratio used by
+// `.hds-btn-icon`.
+.usa-social-link__icon {
+  height: 60%;
+  width: 60%;
+}

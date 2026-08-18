@@ -65,6 +65,7 @@ export const hdsUiIcons = [
   'info',
   'list',
   'location',
+  'mail',
   'map',
   'menu',
   'minus',
@@ -96,6 +97,40 @@ export const hdsUiIcons = [
 
 /** Logo/brand icons — third-party platform marks. */
 export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
+
+/**
+ * Social platform marks — the platforms NASA maintains an official presence on
+ * (nasa.gov/social-media), the share targets used on nasa.gov and plus.nasa.gov,
+ * plus GitHub for open-source projects.
+ *
+ * These are third-party trademarks. See src/assets/img/hds-icons/README.md for
+ * provenance and the trademark notice. Pair with `.hds-btn-icon--social`, and
+ * optionally `.hds-btn-icon--social-color` + `data-hds-social` for brand color.
+ *
+ * `rss` and `mail` are deliberately NOT here — they are share targets, not
+ * brands, and stay on HDS palette colors in the color variant.
+ */
+export const hdsSocialIcons = [
+  'logo-facebook',
+  'logo-flickr',
+  'logo-giphy',
+  'logo-github',
+  'logo-instagram',
+  'logo-linkedin',
+  'logo-pinterest',
+  'logo-reddit',
+  'logo-snapchat',
+  'logo-soundcloud',
+  'logo-spotify',
+  'logo-telegram',
+  'logo-threads',
+  'logo-tiktok',
+  'logo-tumblr',
+  'logo-twitch',
+  'logo-whatsapp',
+  'logo-x',
+  'logo-youtube',
+];
 
 /** Tag/category icons — used in chips, filters, content type indicators. */
 export const hdsTagIcons = [
@@ -129,8 +164,8 @@ export const hdsTagIcons = [
   'tag-topic',
 ];
 
-/** All HDS icons (UI + Tag + Logo combined). */
-export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons];
+/** All HDS icons (UI + Tag + Logo + Social combined). */
+export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons, ...hdsSocialIcons];
 
 // ---------------------------------------------------------------------------
 // USWDS Icons (sprite.svg)

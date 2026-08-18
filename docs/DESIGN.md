@@ -211,6 +211,33 @@ Red = navigates away. Blue = stays on page.
 | `--social`      | Gray                    | Social media                                   |
 | `--interactive` | NASA Blue Shade (fixed) | Disclosure triggers over images and 3D content |
 
+### Social Icons
+
+HDS Core ships marks for the platforms NASA maintains an official presence on ([nasa.gov/social-media](https://www.nasa.gov/social-media/)), the share targets used on nasa.gov and plus.nasa.gov, and GitHub for open-source projects. They use the `logo-` prefix, consistent with `logo-figma` and `logo-uswds`.
+
+**Two variants.** `.hds-btn-icon--social` is the black-and-white default. `.hds-btn-icon--social-color` opts into brand color. The platform is declared separately, with `data-hds-social="facebook"`, which sets `--hds-social-brand` and `--hds-social-on-brand` but paints nothing on its own. Keeping declaration and consumption apart is what lets the color class sit on the button _or_ on any ancestor without extra selectors, and it means platforms with no brand entry (`rss`, `mail`) resolve through the `var()` fallback to HDS palette colors — the intended behavior for non-brand share targets.
+
+**Brand colors are not tokens.** They live hand-authored in `components/_social.scss`, not in `tokens.json`. They are third-party trademark values, not NASA brand primitives, and the `tokens.json` color group is explicitly scoped to NASA-branded UI. The HDS Figma library treats them the same way — brand fills there are raw values, not variables. No peer USWDS-based system (USWDS, VADS, NYSDS, CMSDS) tokenizes brand colors either; NYSDS ships social marks monochrome and lets consumers pass any color.
+
+**Instagram is a gradient**, in both the Figma spec and Instagram's own guidelines. Gradients are `<image>` values and cannot ride in `background-color`, so the color variant applies `--hds-social-brand-image` via `background-image`, layered over the flat fill which remains the fallback. Hover needs its own gradient because `color-mix()` operates on colors, not images.
+
+#### Deliberate deviations from the 2020 Figma spec
+
+The Figma social spec predates several platform rebrands. Structure follows Figma; marks and colors follow each platform's current official lockup.
+
+| Item | Figma (2020) | HDS Core | Why |
+| --- | --- | --- | --- |
+| Twitter | Blue bird | X mark, `#000` | Brand retired; nasa.gov and plus.nasa.gov both use X |
+| Facebook fill | `#5D77AC` | `#1877F2` | Figma value is desaturated relative to the official color |
+| LinkedIn fill | `#308CBC` | `#0A66C2` | Same |
+| Pinterest fill | `#D22E35` | `#BD081C` | Same |
+| B&W circle fill | Carbon 80 `#2E2E32` | Carbon 60 `#58585B` | See below |
+| Glyph | White/03 `#F6F5F4` | `--hds-palette-social-icon` (Carbon 05) | Existing universal palette token. nasa.gov bakes `#F7F5F4`, a third value — all three are within one step of each other |
+
+**Why Carbon 60 and not Carbon 80.** `--hds-palette-social-fill` sits in `_scheme-universal` — one value across all six palettes — while `--hds-palette-social-hover-fill` varies, moving _darker_ on light schemes (Carbon 70) and _lighter_ on dark ones (Carbon 50). That opposing split only works with a midtone anchor. Carbon 80 measures 13.52:1 on white but **1.32:1 on the dark palette**, where the circle effectively vanishes; Carbon 60 gives 7.09:1 and 2.52:1. The 2020 Figma spec only ever drew these on white, so it never had to solve for dark palettes. Retained deliberately and flagged for creative director review — see Discussion #6.
+
+**Trademark.** Platform names and marks are trademarks of their respective owners. Inclusion indicates no endorsement in either direction. Note that an SVG license and a trademark license are independent: CC0 covers the transcription of a mark, never the mark itself. USWDS ships social marks with no brand-specific notice in its `LICENSE.md`; HDS Core documents them in `src/assets/img/hds-icons/README.md` and in the Storybook Icons page.
+
 ### USWDS ↔ HDS Button Mapping
 
 | USWDS Term | USWDS Meaning | HDS Equivalent |

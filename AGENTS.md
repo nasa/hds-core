@@ -150,7 +150,9 @@ NEVER mix prefixes on a single component.
 
 ### Components without HDS theming
 
-Card, modal, footer, banner, header, identifier, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission — the surface bridges above are the one sanctioned exception, and they exist only to prevent contrast failures.
+Card, modal, footer, banner, header, identifier, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission — the surface bridges above are one sanctioned exception, and they exist only to prevent contrast failures.
+
+The second sanctioned exception is `.usa-social-link` / `.usa-social-link__icon` in `components/_social.scss`. The footer is the only place USWDS renders social icons, and left unstyled they are black USWDS glyphs on a 10%-black square that matches nothing in HDS. The glyphs themselves are fixed by asset replacement rather than CSS (see ARCHITECTURE.md → USWDS asset overrides), because an `<img>` cannot be recolored from the page. This does not license further footer overrides.
 
 ### Spacing usage
 

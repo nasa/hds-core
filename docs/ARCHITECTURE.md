@@ -268,11 +268,27 @@ Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defi
 
 **Interactive icon buttons** use the same sprite glyphs as all other roles. CSS handles the color inversion on hover and `aria-expanded` — no standalone SVGs needed. See `components/_icon-button.scss`.
 
-**Naming prefixes:** `arrow-*` (directional), `tag-*` (category markers), `logo-*` (third-party marks).
+**Naming prefixes:** `arrow-*` (directional), `tag-*` (category markers), `logo-*` (third-party marks, including social platform marks).
+
+**Social marks:** Sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), then normalized to the HDS geometry convention. Provenance and the trademark notice live in `src/assets/img/hds-icons/README.md`. Brand colors for the optional color variant are hand-authored in `components/_social.scss`, deliberately not in `tokens.json` — see DESIGN.md → Social Icons.
 
 **Inline glyphs:** `.hds-glyph` renders icons inline with text. Uses `vertical-align: baseline` — do not change to `middle`.
 
 **USWDS icons:** USWDS's icon sprite (`sprite.svg`) and individual icons (`usa-icons/`) are copied to `dist/assets/img/` for components that reference them. See the UswdsIconDemo story under Foundations/Icons.
+
+### USWDS asset overrides
+
+`src/assets/img/usa-icons/` contains files that intentionally **replace** USWDS icons of the same name. This works because of copy order in `copy:all`:
+
+```
+copy:uswds-fonts → copy:uswds-img → copy:uswds-js → copy:hds
+```
+
+HDS copies last and `fs.cpSync` defaults to `force: true`, so anything under `src/assets/` overwrites the USWDS file at the same `dist/assets/` path. No build step opts in — presence in the directory is the opt-in.
+
+This exists because the USWDS footer renders social links as `<img class="usa-social-link__icon">`. An `<img>` is a replaced element: the SVG loads in its own document, page CSS does not cascade in, and `currentColor` resolves against that document. CSS cannot recolor these icons at all, so replacing the asset is the only way to give a stock footer HDS-consistent marks without adopters changing markup. Fills in these files are therefore baked to `#f6f6f6` — the value `--hds-palette-social-icon` resolves to on every palette, so nothing palette-aware is lost. The circle behind the glyph is drawn in CSS by `components/_social.scss` and stays palette-aware.
+
+`twitter.svg` resolves to the current X mark; USWDS still ships the retired bird under that name. See `src/assets/img/usa-icons/README.md`.
 
 ## Component Files
 
@@ -284,6 +300,7 @@ Components are organized by category in `components/_index.scss`:
 | **Foundational** | `_link.scss` | Loaded before button (unstyled button depends on link appearance) |
 |  | `_button.scss` | CTA, secondary, outline, unstyled, blue palette override |
 |  | `_icon-button.scss` | 6 roles, 8 sizes, inline glyph |
+|  | `_social.scss` | Brand-color variant for the social icon button role + USWDS footer social link bridge |
 |  | `_primary-arrow-button.scss` | Text + red circle arrow, 6 sizes |
 | **Form controls** | `_form.scss` | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
 | **Content** | `_intro-text.scss` |  |

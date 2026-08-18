@@ -10,7 +10,7 @@
 
 import { expect } from 'storybook/test';
 import { paletteModes } from '../../.storybook/modes';
-import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
+import { hdsUiIcons, uswdsUniqueIcons, hdsSocialIcons } from '../helpers/icons';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -190,6 +190,94 @@ export const Social = {
   },
   argTypes: sharedArgTypes,
   render: roleRender('social'),
+};
+
+const SOCIAL_PLATFORMS = hdsSocialIcons.map((n) => n.replace('logo-', ''));
+
+// Social buttons carry a platform hook. The hook only declares which platform
+// the button represents — it paints nothing until the color modifier is added.
+const socialBtn = (platform, { color = false, size = 'xl' } = {}) => {
+  const sizeClass = size && size !== 'default' ? ` hds-btn-icon--${size}` : '';
+  const colorClass = color ? ' hds-btn-icon--social-color' : '';
+  const hook = color ? ` data-hds-social="${platform}"` : '';
+  const title = platform.charAt(0).toUpperCase() + platform.slice(1);
+  return `<a class="hds-btn-icon hds-btn-icon--social${colorClass}${sizeClass}"${hook}
+   href="#" aria-label="NASA on ${title}">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="assets/img/hds-sprite.svg#logo-${platform}"></use>
+  </svg>
+</a>`;
+};
+
+export const SocialColor = {
+  name: 'Social — Color',
+  args: { platform: 'facebook', size: 'xl', color: true },
+  argTypes: {
+    platform: {
+      control: 'select',
+      options: SOCIAL_PLATFORMS,
+      description: 'Sets data-hds-social, which supplies the brand color',
+    },
+    color: {
+      control: 'boolean',
+      name: 'Brand color',
+      description: 'Toggles .hds-btn-icon--social-color',
+    },
+    size: {
+      control: 'select',
+      options: ['2xs', 'xs', 'sm', 'default', 'lg', 'xl', '2xl', '3xl'],
+    },
+  },
+  render: (args) => socialBtn(args.platform, { color: args.color, size: args.size }),
+};
+
+export const SocialAllPlatforms = {
+  name: 'Social — All Platforms',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div>
+        ${label('Black & white (default)')}
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+          ${SOCIAL_PLATFORMS.map((p) => socialBtn(p)).join('')}
+        </div>
+      </div>
+      <div>
+        ${label('Brand color')}
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+          ${SOCIAL_PLATFORMS.map((p) => socialBtn(p, { color: true })).join('')}
+        </div>
+      </div>
+      <div>
+        ${label('No brand hook — falls back to HDS palette')}
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+          ${['rss', 'mail']
+            .map(
+              (n) =>
+                `<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl"
+                    href="#" aria-label="${n}"><svg class="hds-icon" aria-hidden="true" focusable="false">
+                    <use xlink:href="assets/img/hds-sprite.svg#${n}"></use></svg></a>`,
+            )
+            .join('')}
+        </div>
+      </div>
+    </div>
+  `,
+};
+
+// Copy-paste starting point: a standard follow/share row built on the USWDS
+// button group, so adopters needing a simple social row can lift it wholesale.
+export const SocialButtonGroup = {
+  name: 'Social — Button Group',
+  tags: ['!dev'],
+  render: () => `
+    <h3 class="hds-overline">Follow NASA</h3>
+    <ul class="usa-button-group">
+      ${['facebook', 'instagram', 'x', 'youtube', 'linkedin']
+        .map((p) => `<li class="usa-button-group__item">${socialBtn(p)}</li>`)
+        .join('')}
+    </ul>
+  `,
 };
 
 export const Interactive = {
