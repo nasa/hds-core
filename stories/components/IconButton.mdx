@@ -88,9 +88,11 @@ A complete follow row, built on the USWDS button group. Copy this wholesale if y
 
 <Canvas of={IconButtonStories.SocialButtonGroup} />
 
-#### Extending to a platform HDS does not ship
+#### Bring your own logo
 
-Set `--hds-social-brand` (and optionally `--hds-social-on-brand`) yourself. No HDS change required:
+HDS Core cannot ship every platform. Two cases need your own artwork, and both work without an HDS change.
+
+**A platform we ship a glyph for, but no brand colour.** Set the custom properties in `@layer site`:
 
 ```css
 @layer site {
@@ -100,6 +102,26 @@ Set `--hds-social-brand` (and optionally `--hds-social-on-brand`) yourself. No H
   }
 }
 ```
+
+**A platform we ship no glyph for at all.** Add the mark to your own sprite and point `<use>` at it — the button, sizing, focus ring, and hover all still come from HDS:
+
+```html
+<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="mastodon" href="https://example.social/@nasa" aria-label="NASA on Mastodon">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/my-sprite.svg#logo-mastodon"></use>
+  </svg>
+</a>
+```
+
+Draw your glyph on the HDS convention so it matches the rest of the row: `viewBox="-2 -2 24 24"`, `fill="currentColor"`, no baked-in fill colour, and the mark's bounding box scaled to about 20 units centred at (10, 10).
+
+**Use the platform's own published mark.** Don't redraw a logo by hand and don't recolour one — most brand guidelines forbid both. Check the platform's brand page for a monochrome or single-colour asset, which is what the sprite needs.
+
+#### Platforms without a brand colour
+
+Spotify, LinkedIn, and Apple Podcasts ship a glyph but **no brand colour**, so the colour variant leaves them on HDS palette colours. Each publishes a mark that already contains its own container with the glyph knocked out of it; filling that with one colour and placing it on a coloured circle inverts the lockup and doubles the container. Their guidelines also forbid separating the mark from its container, so this is not fixable by redrawing the glyph.
+
+The black-and-white variant renders each of these correctly — it is that platform's official monochrome logo on a neutral circle. Use it, or supply your own full-colour artwork per **Bring your own logo** above.
 
 <Note type="figma">
   The HDS Figma social spec dates from 2020 and predates several platform rebrands — it shows the retired Twitter bird, and its brand hexes are desaturated relative to today's official lockups. HDS Core follows Figma for <em>structure</em> (32px circle, BW/Color pairing, glyph proportions) and each platform's <em>current official lockup</em> for marks and colors. The Figma B&W fill is Carbon 80; HDS Core ships Carbon 60, which is deliberate — see Accessibility below. Flagged for creative director review.

@@ -42,8 +42,9 @@
 //
 // ── Accessibility ───────────────────────────────────────────
 // Brand fills use each platform's official lockup colors. Most
-// clear the 3:1 non-text contrast threshold, but SoundCloud
-// (2.94:1), Telegram (2.54:1), and WhatsApp (1.82:1) do not.
+// clear the 3:1 non-text contrast threshold, but Spotify
+// (1.92:1), WhatsApp (1.98:1), Telegram (2.77:1), and GIPHY
+// (2.86:1) do not.
 // These rely on the WCAG 2.2 SC 1.4.11 logotype exception
 // ("Part of a logo or brand name has no minimum contrast
 // requirement"), because the official lockups are what the
@@ -60,25 +61,85 @@
 // third-party trademark values, not NASA brand primitives, and
 // tokens.json's color group is scoped to NASA-branded UI.
 // Figma leaves them as raw fills (not variables) for the same
-// reason. Values are the platforms' current official colors —
+// reason. Values are each platform's current official color —
 // the 2020 HDS Figma spec predates several rebrands.
+//
+// SOURCES — for both the hex values and the glyph artwork.
+// Re-check these when a platform rebrands; the hex and the mark
+// usually change together.
+//
+//   android         https://developer.android.com/distribute/marketing-tools/brand-guidelines
+//   apple           https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html
+//   apple-podcasts  https://www.apple.com/itunes/marketing-on-podcasts/identity-guidelines.html
+//   facebook        https://about.meta.com/brand/resources/facebook/logo
+//   flickr          https://www.flickr.com/help/brand
+//   giphy           https://support.giphy.com/hc/en-us/articles/360022283772-GIPHY-Brand-Guidelines
+//   github          https://github.com/logos
+//   google-play     https://partnermarketinghub.withgoogle.com/brands/google-play/visual-identity/
+//   instagram       https://about.meta.com/brand/resources/instagram
+//   linkedin        https://brand.linkedin.com/in-logo
+//   pinterest       https://business.pinterest.com/brand-guidelines/
+//   reddit          https://redditbrand.lingoapp.com/s/Social-PXzmWE
+//   snapchat        https://www.snapchat.com/brand-guidelines
+//   soundcloud      https://community.soundcloud.com/company/media-kit
+//   spotify         https://newsroom.spotify.com/media-kit/logo-and-brand-assets/
+//   telegram        https://telegram.org/press
+//   threads         https://www.meta.com/brand/resources/instagram/threads
+//   tiktok          https://www.tiktok.com/about/brand-guidelines
+//   tumblr          https://www.tumblr.com/logo
+//   twitch          https://brand.twitch.tv
+//   whatsapp        https://about.meta.com/brand/resources/whatsapp/whatsapp-brand
+//   x               https://about.x.com/en/who-we-are/brand-toolkit
+//   youtube         https://www.youtube.com/howyoutubeworks/resources/brand-resources/
+//
+// Hex values are cross-checked against the Simple Icons brand
+// dataset, which tracks each platform's published brand color.
+// Two are unresolved and flagged for review:
+//   - pinterest: Simple Icons still lists the pre-rebrand #BD081C;
+//     the live brand page shows the current red used here.
+//   - linkedin: absent from Simple Icons; #0A66C2 is LinkedIn's
+//     current blue, taken from their [in] logo page.
+
+// EXCLUDED from the brand-colour map, deliberately: Spotify,
+// LinkedIn, and Apple Podcasts each publish a mark that already
+// contains its own container (a disc or rounded square) with the
+// glyph knocked out of it. Filling that shape with one colour and
+// placing it on a coloured circle inverts the lockup — Spotify
+// renders as a white disc with green waves, the opposite of
+// Spotify_Primary_Logo_RGB_Green — and doubles the container.
+//
+// Separating the mark from its container would fix the compositing
+// but is forbidden by each platform:
+//   Spotify   "the circle and waves cannot be separated"
+//   LinkedIn  "the 'in' part should always be in the blue square"
+//   Pinterest "do not remove the P from the circle" (bare P is
+//             unnecessary here — their P glyph composites correctly)
+//
+// Bare marks do exist under CC BY 4.0 (Font Awesome's pinterest-p,
+// linkedin-in, reddit-alien), but that licence carries an
+// attribution obligation this CC0 package does not have. Pending
+// a licensing decision, these three fall through the `var()`
+// fallback to HDS palette colours, exactly like rss and mail.
+// Their glyphs still ship, and the black-and-white variant renders
+// each platform's official monochrome logo correctly.
 
 $_social-brands: (
-  'facebook': (#1877f2, $hds-color-spacesuit-white),
+  'android': (#3ddc84, $hds-color-carbon-black),
+  'apple': (#000, $hds-color-spacesuit-white),
+  'facebook': (#0866ff, $hds-color-spacesuit-white),
   'flickr': (#0063dc, $hds-color-spacesuit-white),
+  'giphy': (#f66, $hds-color-spacesuit-white),
   'github': (#181717, $hds-color-spacesuit-white),
-  'giphy': (#000, $hds-color-spacesuit-white),
-  'instagram': (#c13584, $hds-color-spacesuit-white),
-  'linkedin': (#0a66c2, $hds-color-spacesuit-white),
-  'pinterest': (#bd081c, $hds-color-spacesuit-white),
+  'google-play': (#414141, $hds-color-spacesuit-white),
+  'instagram': (#ff0069, $hds-color-spacesuit-white),
+  'pinterest': (#e60023, $hds-color-spacesuit-white),
   'reddit': (#ff4500, $hds-color-spacesuit-white),
   'snapchat': (#fffc00, $hds-color-carbon-black),
-  'soundcloud': (#ff5500, $hds-color-spacesuit-white),
-  'spotify': (#1db954, $hds-color-carbon-black),
+  'soundcloud': (#f50, $hds-color-spacesuit-white),
   'telegram': (#26a5e4, $hds-color-spacesuit-white),
   'threads': (#000, $hds-color-spacesuit-white),
   'tiktok': (#000, $hds-color-spacesuit-white),
-  'tumblr': (#001935, $hds-color-spacesuit-white),
+  'tumblr': (#36465d, $hds-color-spacesuit-white),
   'twitch': (#9146ff, $hds-color-spacesuit-white),
   'whatsapp': (#25d366, $hds-color-spacesuit-white),
   'x': (#000, $hds-color-spacesuit-white),

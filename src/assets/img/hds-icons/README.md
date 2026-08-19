@@ -12,7 +12,7 @@ Bounding boxes are measured from the rendered path, not taken from the source vi
 
 Bounding-box normalization alone leaves marks looking unevenly sized, because a solid mark (Telegram's plane) carries far more ink than an outline mark (SoundCloud's waves) at the same bounding box. Each glyph therefore gets a scale correction of `sqrt(target_ink / measured_ink)`, where `target_ink` is the median ink coverage across the set, clamped to `[0.92, 1.18]` and hard-capped so no glyph exceeds the 24-unit frame. This narrows the ink spread from 2.99x to 1.86x without distorting any individual mark.
 
-Marks whose official lockup includes its own container (Spotify, LinkedIn, Pinterest, Apple Podcasts) sit at the top of the remaining range. That is a known open item — see docs/DESIGN.md.
+Marks whose official lockup includes its own container (Spotify, LinkedIn, Pinterest, Apple Podcasts) sit at the top of the remaining range, because the container is ink. That is inherent to those marks, not a normalization error.
 
 ## Social and brand mark provenance
 
@@ -28,6 +28,10 @@ Brand marks are third-party trademarks. They are included so NASA sites can link
 **An SVG license is not a trademark license.** CC0 covers the SVG transcription of a mark; it grants no rights in the mark itself. Use of each mark is governed by that platform's own brand guidelines. Their inclusion here does not indicate endorsement of NASA by the trademark holder, or of the trademark holder by NASA. Use a mark only to refer to the platform it identifies.
 
 Brand colors for the optional color variant are **not** in `tokens.json` — see `src/scss/components/_social.scss` for why, and for the values.
+
+## Platforms with a glyph but no brand colour
+
+Spotify, LinkedIn, and Apple Podcasts ship a glyph but are excluded from the brand-colour map in `components/_social.scss`. Their published marks contain their own container with the glyph knocked out, so filling with one colour on a coloured circle inverts the lockup and doubles the container, and their guidelines forbid separating mark from container. Bare marks exist under CC BY 4.0 (Font Awesome's `pinterest-p`, `linkedin-in`, `reddit-alien`) but that licence adds an attribution obligation this CC0 package does not carry. Their black-and-white rendering is correct — it is each platform's official monochrome logo.
 
 ## Not included, and why
 
