@@ -18,7 +18,7 @@
 
   Every bundle now opens with a banner naming its version and the USWDS version it was built against, and `hds.min.css` exposes `--hds-version` and `--hds-uswds-version` for runtime reads. These are diagnostics for copied-`dist/` deployments that keep no other record of what is installed; both values belong in any bug report. See [Installation](https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs) for how to read them.
 
-- 54b05c7: USWDS hero callouts and dark sections now render on the HDS dark surface instead of a NASA-red block.
+- 54b05c7: USWDS hero callouts and dark sections now render on the HDS dark surface instead of a NASA-red block (thanks [@suthat](https://github.com/suthat)!)
 
   `.usa-hero__callout` and `.usa-section--dark` paint their own background in USWDS, using the primary color and cyan headings. Under the HDS theme that produced a dark red block with cyan headings, a red call-to-action sitting on the red hero box, and HDS components inside the section still using white-palette colors — white text was fine, but links and outline buttons came out near-black on red. A `.hds-palette-*` wrapper could not correct any of it, because the red is a background on the component itself.
 
@@ -28,7 +28,7 @@
 
 ### Patch Changes
 
-- 9a186f8: Keep table links legible when a light table is displayed on the blue palette.
+- 9a186f8: Keep table links legible when a light table is displayed on the blue palette (thanks [@sean-camara](https://github.com/sean-camara)!)
 
 ## 0.9.0
 
