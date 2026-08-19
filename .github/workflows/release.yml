@@ -96,7 +96,12 @@ jobs:
           path: |
             dist
             sbom.json
-          retention-days: 1
+          # The publish job is gated on the npm-publish environment's
+          # required reviewers and cannot rebuild (npm publish runs with
+          # --ignore-scripts and no install step). Retention must outlast
+          # a slow approval, or the release is only recoverable by pushing
+          # another commit to main to re-run this job.
+          retention-days: 14
           include-hidden-files: true
 
   publish:

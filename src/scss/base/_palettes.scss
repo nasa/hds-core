@@ -153,7 +153,9 @@
   --hds-palette-error-indicator: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
 
-  @include scheme-dataviz-dark;
+  @if $hds-enable-dataviz-tokens {
+    @include scheme-dataviz-dark;
+  }
 }
 
 // ============================================================

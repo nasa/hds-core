@@ -70,7 +70,7 @@ hds-core/
 ├── dist/                               # Build output (gitignored)
 │   ├── css/                            ← See Build Output below
 │   ├── js/
-│   │   └── uswds.min.js                ← Copied from @uswds/uswds for convenience
+│   │   └── uswds*.min.js               ← uswds.min.js + uswds-init.min.js, copied from @uswds/uswds
 │   └── assets/
 │       ├── fonts/                      ← Inter, DM Mono, Public Sans (woff2 only)
 │       └── img/
@@ -80,13 +80,17 @@ hds-core/
 │           ├── usa-icons/              ← Copied from USWDS
 │           ├── sprite.svg              ← USWDS icon sprite
 │           └── us_flag*.{png,svg}      ← USWDS banner assets
-├── sd.config.js                        ← Style Dictionary config (generates token Sass)
-├── postcss.config.mjs
-├── svg-sprite.config.json
+├── postcss.config.mjs                  ← PostCSS pipeline (imports .config/postcss-hds-stamp.mjs)
 ├── vitest.config.js
-├── chromatic.config.json
-└── .browserslistrc
+└── .config/                            # Tool configs not required at the repo root
+    ├── sd.config.js                    ← Style Dictionary config (generates token Sass)
+    ├── svg-sprite.config.json
+    ├── chromatic.config.json
+    ├── postcss-hds-stamp.mjs           ← Stamps HDS/USWDS versions into compiled bundles
+    └── ...                             ← Prettier, remark, and stylelint configs
 ```
+
+The browserslist targets live in `package.json` (`browserslist` key), not a `.browserslistrc` file.
 
 ## Build Output
 
@@ -162,7 +166,7 @@ Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the the
 
 ### Token flow
 
-`_hds-tokens.scss` and `base/_custom-properties.scss` are generated from `tokens.json` by Style Dictionary (`npm run build:tokens`, config in `sd.config.js`); `npm run check:tokens` fails CI if they drift from the source. The Sass module flow:
+`_hds-tokens.scss` and `base/_custom-properties.scss` are generated from `tokens.json` by Style Dictionary (`npm run build:tokens`, config in `.config/sd.config.js`); `npm run check:tokens` fails CI if they drift from the source. The Sass module flow:
 
 ```
 tokens.json
@@ -264,7 +268,7 @@ Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defi
 
 ## Icon Architecture
 
-**Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg` via `svg-sprite` (config in `svg-sprite.config.json`). Color controlled by CSS. 15 icons renamed in v0.6.0 for USWDS naming consistency — see release notes for the full mapping.
+**Themeable icons** (`hds-icons/`): Use `currentColor`, compiled into `hds-sprite.svg` via `svg-sprite` (config in `.config/svg-sprite.config.json`). Color controlled by CSS. 15 icons renamed in v0.6.0 for USWDS naming consistency — see release notes for the full mapping.
 
 **Interactive icon buttons** use the same sprite glyphs as all other roles. CSS handles the color inversion on hover and `aria-expanded` — no standalone SVGs needed. See `components/_icon-button.scss`.
 
@@ -368,7 +372,7 @@ Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (di
 
 3. **SpriteRegression story** — renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
 
-Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
 
 ## Storybook
 

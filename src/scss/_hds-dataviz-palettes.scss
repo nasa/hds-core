@@ -1,7 +1,3 @@
-@use 'uswds-core' as *;
-@use 'hds-config' as *;
-@use 'hds-tokens' as *;
-
 @mixin scheme-dataviz-dark {
   // ==========================================================
   // Data visualization — categorical (dark backgrounds)
@@ -23,19 +19,21 @@
   //   cat-10: Yellow 30 → gold-20v
   //   cat-11: Lime 60   → green-50v
   //   cat-12: Aqua 40   → mint-cool-30v  (unchanged from light)
+  //
+  // Unconditional: callers gate on $hds-enable-dataviz-tokens where
+  // the tokens are optional (base/_palettes.scss); the dataviz bundle
+  // (hds-dataviz.scss) always emits.
   // ==========================================================
-  @if $hds-enable-dataviz-tokens {
-    --hds-dataviz-color-cat-1: #256ee4;
-    --hds-dataviz-color-cat-2: #ef483f;
-    --hds-dataviz-color-cat-3: #f29d49;
-    --hds-dataviz-color-cat-4: #487682;
-    --hds-dataviz-color-cat-5: #c2b47c;
-    --hds-dataviz-color-cat-6: #609af6;
-    --hds-dataviz-color-cat-7: #fa8c87;
-    --hds-dataviz-color-cat-8: #79a3ad;
-    --hds-dataviz-color-cat-9: #794be4;
-    --hds-dataviz-color-cat-10: #f5af0c;
-    --hds-dataviz-color-cat-11: #4b9609;
-    --hds-dataviz-color-cat-12: #0cc9ac;
-  }
+  --hds-dataviz-color-cat-1: #256ee4;
+  --hds-dataviz-color-cat-2: #ef483f;
+  --hds-dataviz-color-cat-3: #f29d49;
+  --hds-dataviz-color-cat-4: #487682;
+  --hds-dataviz-color-cat-5: #c2b47c;
+  --hds-dataviz-color-cat-6: #609af6;
+  --hds-dataviz-color-cat-7: #fa8c87;
+  --hds-dataviz-color-cat-8: #79a3ad;
+  --hds-dataviz-color-cat-9: #794be4;
+  --hds-dataviz-color-cat-10: #f5af0c;
+  --hds-dataviz-color-cat-11: #4b9609;
+  --hds-dataviz-color-cat-12: #0cc9ac;
 }
