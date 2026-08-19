@@ -66,7 +66,7 @@ Two public flags are set when you load HDS Core, in the `with (...)` of your `@u
 );
 ```
 
-If you instead load the dataviz bundle (`@nasa-hds/core/scss/dataviz`), it sets the flag for you, so you do not configure it yourself. Do not do both: Sass allows a module to be configured only once, so setting the flag with `with` after the bundle has already loaded it will throw an error.
+If you instead load the dataviz entry point (`@nasa-hds/core/scss/dataviz`), it always emits the tokens (into the `hds-dataviz` cascade layer), so the flag is not involved. Both entry points can be loaded from one stylesheet, but pick one route for the tokens: enabling the flag while also loading the dataviz entry point emits the same custom properties twice.
 
 ## HDS utility classes
 
