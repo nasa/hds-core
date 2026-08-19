@@ -88,6 +88,37 @@ A complete follow row, built on the USWDS button group. Copy this wholesale if y
 
 <Canvas of={IconButtonStories.SocialButtonGroup} />
 
+#### Generic share targets
+
+Not every button in a share row is a platform. Four glyphs cover the non-platform cases, and all four already exist in the sprite:
+
+| Glyph          | Use                                                                |
+| -------------- | ------------------------------------------------------------------ |
+| `share`        | Generic "share this" affordance, for a share sheet or native share |
+| `notification` | Subscribe to updates / notification bell                           |
+| `rss`          | Feed subscription                                                  |
+| `mail`         | Share by email                                                     |
+
+The HDS Figma spec places all of these on the **NASA Blue secondary circle** (`.hds-btn-icon--secondary`), not the social circle — they are on-page actions rather than links to an external platform, which is what the wayfinding rule predicts:
+
+```html
+<button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xl" type="button" aria-label="Share this page">
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="/assets/img/hds-sprite.svg#share"></use>
+  </svg>
+</button>
+```
+
+`rss` is the one exception with a colour of its own. The feed icon's orange is a de-facto web standard with no trademark owner, so `data-hds-social="rss"` supplies it for rows that want the familiar orange instead of the Figma blue:
+
+```html
+<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="rss" href="/feed.xml" aria-label="Subscribe to the RSS feed">…</a>
+```
+
+`share`, `notification`, and `mail` have no brand colour and stay on HDS palette colours in the colour variant, by design.
+
+<Canvas of={IconButtonStories.GenericShareTargets} />
+
 #### Bring your own logo
 
 HDS Core cannot ship every platform. Two cases need your own artwork, and both work without an HDS change.

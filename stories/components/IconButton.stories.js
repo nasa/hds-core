@@ -265,6 +265,40 @@ export const SocialAllPlatforms = {
   `,
 };
 
+// Non-platform share targets. Figma puts these on the secondary (NASA Blue)
+// circle rather than the social circle, since they are on-page actions rather
+// than links out to a platform. RSS is the exception that carries its own color.
+export const GenericShareTargets = {
+  name: 'Social — Generic Share Targets',
+  tags: ['!dev'],
+  render: () => `
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div>
+        ${label('Figma treatment \u2014 secondary circle')}
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+          ${['share', 'notification', 'rss', 'mail']
+            .map(
+              (n) =>
+                `<button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xl" type="button" aria-label="${n}">
+                   <svg class="hds-icon" aria-hidden="true" focusable="false">
+                     <use xlink:href="assets/img/hds-sprite.svg#${n}"></use></svg></button>`,
+            )
+            .join('')}
+        </div>
+      </div>
+      <div>
+        ${label('RSS in the feed orange')}
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+          <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl"
+             data-hds-social="rss" href="#" aria-label="Subscribe to the RSS feed">
+            <svg class="hds-icon" aria-hidden="true" focusable="false">
+              <use xlink:href="assets/img/hds-sprite.svg#rss"></use></svg></a>
+        </div>
+      </div>
+    </div>
+  `,
+};
+
 // Copy-paste starting point: a standard follow/share row built on the USWDS
 // button group, so adopters needing a simple social row can lift it wholesale.
 export const SocialButtonGroup = {
