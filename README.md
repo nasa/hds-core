@@ -1,6 +1,6 @@
 # @nasa-hds/core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release: v0.8.0](https://img.shields.io/badge/Release-v0.8.0-blue.svg)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release](https://img.shields.io/github/v/release/nasa/hds-core?label=Release&color=blue)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
 
 > **Pre-1.0:** API and class names may change between minor versions.
 
@@ -31,10 +31,12 @@ Full documentation, component examples, and integration guides are published in 
 ## Installation
 
 ```bash
-npm install @nasa-hds/core @uswds/uswds
+npm install --save-exact @nasa-hds/core
 ```
 
-`@uswds/uswds` is a peer dependency and must be installed alongside HDS Core.
+Pin the exact version while HDS is pre-v1.0: minor releases can rename custom properties and change component styling, so you want upgrades to happen when you choose.
+
+`@uswds/uswds` is a peer dependency that npm 7 and later installs for you automatically. Install it explicitly (`npm install --save-exact @nasa-hds/core @uswds/uswds`) only when you want to pin its version yourself, or when your tooling does not auto-install peers. See [Installation](https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs) for the full setup.
 
 ## What Ships
 
@@ -42,16 +44,14 @@ npm install @nasa-hds/core @uswds/uswds
 dist/
   css/
     hds.min.css         # Required: all USWDS components + HDS theme
-    hds.min.css.map
     hds-uswds.min.css   # Optional: USWDS utility classes (.padding-*, etc.)
-    hds-uswds.min.css.map
     hds-dataviz.min.css # Optional: data visualization color palettes
-    hds-dataviz.min.css.map
   assets/
     fonts/              # Inter, DM Mono, Public Sans (woff2)
     img/                # USWDS images and HDS icons
   js/
-    uswds.js            # USWDS JavaScript (unmodified)
+    uswds-init.min.js   # Runs early in <head>; readies interactive components (unmodified USWDS)
+    uswds.min.js        # Component behavior; loaded deferred (unmodified USWDS)
 src/
   scss/                 # Public Sass API: tokens, mixins, theme config
 ```
@@ -85,18 +85,20 @@ Can be loaded standalone without `hds.min.css` for embedded chart contexts.
 
 ### Sass API
 
+Forward HDS Core once in your entry point:
+
 ```scss
-@use '@nasa-hds/core/scss' as hds;
+@forward '@nasa-hds/core/scss';
 ```
 
-Exposes HDS tokens, mixins, and USWDS core utilities for use in your own Sass pipeline.
+Then `@use '@nasa-hds/core/scss' as *;` in each of your own Sass files to reach HDS tokens, USWDS functions, and HDS mixins. Configure the two Sass load paths and forward before your own USWDS-touching Sass. See the [Sass Configuration guide](https://nasa.github.io/hds-core/?path=/docs/guides-sass-configuration--docs) for the full setup.
 
 ## Bundle Sizes (gzipped)
 
 | File                  | Size   | Notes                                     |
 | --------------------- | ------ | ----------------------------------------- |
-| `hds.min.css`         | 48 KB  | Required; HDS/USWDS styles and components |
-| `hds-uswds.min.css`   | 49 KB  | Optional; USWDS utility classes           |
+| `hds.min.css`         | 46 KB  | Required; HDS/USWDS styles and components |
+| `hds-uswds.min.css`   | 47 KB  | Optional; USWDS utility classes           |
 | `hds-dataviz.min.css` | 1.2 KB | Optional; HDS data visualization styles   |
 
 ## Contributing to HDS Core
