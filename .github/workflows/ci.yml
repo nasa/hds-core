@@ -121,14 +121,21 @@ jobs:
             # `scss`: the build pipeline itself (postcss config and plugins,
             # Style Dictionary config, the sprite config) moves output without
             # a single .scss file changing, and package.json `files`/`exports`
-            # move what ships without moving CSS at all. False positives here
-            # cost one build; a false negative ships an unverified artifact.
+            # move what ships without moving CSS at all. src/assets feeds
+            # dist/ (copy:hds + sprite) without touching .scss, and scripts/
+            # holds both the check gates themselves and the committed
+            # css-output-hash.txt baseline -- an edit to any of those must
+            # run the build and contract checks it controls. False positives
+            # here cost one build; a false negative ships an unverified
+            # artifact.
             output_affecting:
               - 'src/scss/**'
+              - 'src/assets/**'
               - 'tokens.json'
               - 'package.json'
               - 'postcss.config.*'
               - '.config/**'
+              - 'scripts/**'
 
   # -----------------------------------------------------------------------
   # Lint -- one runner for every linter. The lockfile check always runs
@@ -366,6 +373,11 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
+          # The CLI only auto-detects chromatic.config.json at the repo
+          # root; without this input the .config/ file is silently ignored
+          # and the externals (src/scss/**, src/assets/**) are lost, so
+          # TurboSnap skips every story on a CSS-only change.
+          configFile: .config/chromatic.config.json
 
   # -----------------------------------------------------------------------
   # USWDS integrity -- runs when package.json changes (potential USWDS bump)
