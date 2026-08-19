@@ -1,5 +1,35 @@
 # @nasa-hds/core
 
+## 0.10.0
+
+### Minor Changes
+
+- 38bdac4: Consolidate the published package so that assets ship from `dist/` only, and add subpath patterns to the exports map
+
+  **Action required if you copy assets out of `node_modules`.** The package no longer ships `src/assets/` as it only duplicated what `dist/assets/` already contained. `dist/assets/` is a strict superset (all HDS fonts and icons, plus the USWDS assets and the generated sprite), so update any copy step that pointed at the source tree. The [React guide](https://nasa.github.io/hds-core/?path=/docs/guides-react-guidance--docs#sass-setup) shows the updated configuration.
+
+  **Exports map.** `./assets` (which mapped to a directory and could never resolve a file) is replaced by the `./assets/*` subpath pattern, so `@nasa-hds/core/assets/img/hds-sprite.svg` now resolves. Added `./js/uswds` and `./js/uswds-init` for the two USWDS scripts the install guide loads together, a root export and `./package.json` so the package can be resolved and version-detected by tooling the way other design systems allow, and a `style` field for bundlers that look for one.
+
+  **Sass.** `hds.scss` now forwards `_hds-config.scss`, so `$hds-enable-auto-dark-mode` can be set through the package entry point as documented. It was listed as public API but was unreachable without importing an internal module. The dataviz entry point forwards the same flags instead of configuring the shared module internally, which fixes two defects: loading both Sass entry points in one stylesheet no longer fails to compile, and `$hds-enable-auto-dark-mode` can now be set through the dataviz entry point too.
+
+  **New public mixin.** The `visually-hidden` mixin is renamed `hds-visually-hidden`, matching the rule that only `hds-*` symbols are public. The old internal name still works and is scheduled for removal in the next minor release.
+
+- aec4977: Stamp the HDS and USWDS versions into the compiled CSS
+
+  Every bundle now opens with a banner naming its version and the USWDS version it was built against, and `hds.min.css` exposes `--hds-version` and `--hds-uswds-version` for runtime reads. These are diagnostics for copied-`dist/` deployments that keep no other record of what is installed; both values belong in any bug report. See [Installation](https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs) for how to read them.
+
+- 54b05c7: USWDS hero callouts and dark sections now render on the HDS dark surface instead of a NASA-red block.
+
+  `.usa-hero__callout` and `.usa-section--dark` paint their own background in USWDS, using the primary color and cyan headings. Under the HDS theme that produced a dark red block with cyan headings, a red call-to-action sitting on the red hero box, and HDS components inside the section still using white-palette colors — white text was fine, but links and outline buttons came out near-black on red. A `.hds-palette-*` wrapper could not correct any of it, because the red is a background on the component itself.
+
+  Both surfaces now use the HDS dark palette, so headings, text, links, buttons, and focus rings inside them match the surface they sit on. No markup changes are needed. To put one of these sections on a different surface, add a palette class to the same element (`class="usa-section usa-section--dark hds-palette-blue"`).
+
+  If your site relied on the red hero callout or red dark section, this is a visible change — review those pages after upgrading.
+
+### Patch Changes
+
+- 9a186f8: Keep table links legible when a light table is displayed on the blue palette.
+
 ## 0.9.0
 
 ### Minor Changes
