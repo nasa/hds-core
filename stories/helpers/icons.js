@@ -99,9 +99,15 @@ export const hdsUiIcons = [
 export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
 
 /**
- * Social platform marks — the platforms NASA maintains an official presence on
+ * Social and platform marks — the platforms NASA maintains an official presence on
  * (nasa.gov/social-media), the share targets used on nasa.gov and plus.nasa.gov,
- * plus GitHub for open-source projects.
+ * GitHub for open-source projects, and the app/podcast platforms NASA distributes
+ * on (Apple, Android, Google Play, Apple Podcasts).
+ *
+ * App-store BADGES ("Download on the App Store", "Get it on Google Play") are
+ * deliberately absent: Apple and Google both require their badge artwork be used
+ * unmodified, so a recolorable currentColor glyph cannot be a compliant badge.
+ * Amazon marks are absent because no CC0-licensed source ships them.
  *
  * These are third-party trademarks. See src/assets/img/hds-icons/README.md for
  * provenance and the trademark notice. Pair with `.hds-btn-icon--social`, and
@@ -111,10 +117,14 @@ export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
  * brands, and stay on HDS palette colors in the color variant.
  */
 export const hdsSocialIcons = [
+  'logo-android',
+  'logo-apple',
+  'logo-apple-podcasts',
   'logo-facebook',
   'logo-flickr',
   'logo-giphy',
   'logo-github',
+  'logo-google-play',
   'logo-instagram',
   'logo-linkedin',
   'logo-pinterest',

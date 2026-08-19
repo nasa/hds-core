@@ -4,7 +4,9 @@
 
 Add social platform icons and an optional brand-color variant for social icon buttons.
 
-**Added: 19 social platform marks** in the HDS sprite, plus a plain `mail` glyph. Covers the platforms NASA maintains an official presence on, the share targets used on nasa.gov and plus.nasa.gov, and GitHub. All use the existing `logo-` prefix. Sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), normalized to the HDS geometry convention. Provenance and trademark notice: `src/assets/img/hds-icons/README.md`.
+**Added: 23 social and platform marks** in the HDS sprite, plus a plain `mail` glyph. Covers the platforms NASA maintains an official presence on, the share targets used on nasa.gov and plus.nasa.gov, GitHub, and the app/podcast platforms NASA distributes on (Apple, Android, Google Play, Apple Podcasts). All use the existing `logo-` prefix. Sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), normalized to the HDS geometry convention. Bounding boxes are measured from the rendered path rather than read from the donor viewBox, so baked-in padding does not leak into apparent size, and each glyph then gets a clamped optical-size correction toward the set's median ink coverage — narrowing the visual size spread from 2.99x to 1.86x.
+
+App-store badges ("Download on the App Store", "Get it on Google Play", Amazon Appstore, Roku Channel Store) are deliberately **not** included: Apple and Google both require their badge artwork be used unmodified and un-recolored, so a `currentColor` glyph cannot be a compliant badge. Amazon marks are absent because no CC0 source ships them. Provenance and trademark notice: `src/assets/img/hds-icons/README.md`.
 
 **Added: `.hds-btn-icon--social-color`.** Declare the platform with `data-hds-social="facebook"` and add the class to turn brand color on. The attribute sets custom properties but paints nothing on its own, so the class works on the button or on any ancestor — put it on a wrapper to color a whole row. Buttons with no platform hook (`rss`, `mail`) keep HDS palette colors by design.
 
