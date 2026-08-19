@@ -28,9 +28,9 @@
 // color modifier works on the button itself OR on any ancestor
 // (a row, a footer, a share bar) with no extra selectors.
 //
-// Marks with no brand entry (mail, share, notification, and the
-// three container-locked platforms below) resolve through the
-// `var()` fallback to the standard HDS social palette colors.
+// Marks with no brand entry (mail, share, notification, plus
+// LinkedIn and Apple Podcasts) resolve through the `var()`
+// fallback to the standard HDS social palette colors.
 // That is the intended behavior, not an oversight.
 //
 //   --hds-social-brand        flat fill (a <color>)
@@ -42,9 +42,9 @@
 //
 // ── Accessibility ───────────────────────────────────────────
 // Brand fills use each platform's official lockup colors. Most
-// clear the 3:1 non-text contrast threshold, but WhatsApp
-// (1.98:1), Telegram (2.77:1), GIPHY (2.86:1), and the RSS feed
-// orange (2.94:1) do not.
+// clear the 3:1 non-text contrast threshold, but Spotify
+// (1.92:1), WhatsApp (1.98:1), Telegram (2.77:1), and GIPHY
+// (2.86:1) do not.
 // These rely on the WCAG 2.2 SC 1.4.11 logotype exception
 // ("Part of a logo or brand name has no minimum contrast
 // requirement"), because the official lockups are what the
@@ -100,26 +100,21 @@
 //   - linkedin: absent from Simple Icons; #0A66C2 is LinkedIn's
 //     current blue, taken from their [in] logo page.
 
-// EXCLUDED from the brand-colour map, deliberately: Spotify,
-// LinkedIn, and Apple Podcasts each publish a mark that already
-// contains its own container (a disc or rounded square) with the
-// glyph knocked out of it. Filling that shape with one colour and
-// placing it on a coloured circle inverts the lockup — Spotify
-// renders as a white disc with green waves, the opposite of
-// Spotify_Primary_Logo_RGB_Green — and doubles the container.
+// CONTAINER-LOCKED MARKS. Spotify, LinkedIn, and Apple Podcasts
+// each publish a mark that already contains its own container (a
+// disc or rounded square) with the glyph knocked out of it, so on
+// a coloured circle the container reads twice. Separating mark
+// from container would fix that but is forbidden by each platform
+// ("the circle and waves cannot be separated"; "the 'in' part
+// should always be in the blue square"). Bare marks exist under
+// CC BY 4.0 (Font Awesome), a licence this CC0 package does not
+// carry.
 //
-// Separating the mark from its container would fix the compositing
-// but is forbidden by each platform:
-//   Spotify   "the circle and waves cannot be separated"
-//   LinkedIn  "the 'in' part should always be in the blue square"
-//   Pinterest "do not remove the P from the circle" (bare P is
-//             unnecessary here — their P glyph composites correctly)
-//
-// Bare marks do exist under CC BY 4.0 (Font Awesome's pinterest-p,
-// linkedin-in, reddit-alien), but that licence carries an
-// attribution obligation this CC0 package does not have. Pending
-// a licensing decision, these three fall through the `var()`
-// fallback to HDS palette colours, like `mail` and `share`.
+// Spotify keeps its brand green regardless — the doubling is
+// accepted as the lesser cost against losing the brand colour
+// entirely (maintainer decision). LinkedIn and Apple Podcasts stay
+// out of the map pending a brand review, and fall through the
+// `var()` fallback to HDS palette colours like `mail` and `share`.
 // Their glyphs still ship, and the black-and-white variant renders
 // each platform's official monochrome logo correctly.
 
@@ -134,16 +129,9 @@ $_social-brands: (
   'instagram': (#ff0069, $hds-color-spacesuit-white),
   'pinterest': (#e60023, $hds-color-spacesuit-white),
   'reddit': (#ff4500, $hds-color-spacesuit-white),
-  // Not a platform brand: the feed icon and its orange are the
-  // de-facto web standard originating with the Mozilla/Microsoft
-  // feed mark, with no trademark owner to answer to. Included so
-  // `rss` can be coloured like the platform buttons beside it.
-  // The HDS Figma spec puts the RSS button on the NASA Blue
-  // secondary circle instead — use `.hds-btn-icon--secondary`
-  // for the Figma treatment and this for the orange one.
-  'rss': (#f60, $hds-color-spacesuit-white),
   'snapchat': (#fffc00, $hds-color-carbon-black),
   'soundcloud': (#f50, $hds-color-spacesuit-white),
+  'spotify': (#1ed760, $hds-color-spacesuit-white),
   'telegram': (#26a5e4, $hds-color-spacesuit-white),
   'threads': (#000, $hds-color-spacesuit-white),
   'tiktok': (#000, $hds-color-spacesuit-white),
@@ -162,6 +150,18 @@ $_social-brands: (
     --hds-social-brand: #{list.nth($pair, 1)};
     --hds-social-on-brand: #{list.nth($pair, 2)};
   }
+}
+
+// RSS is not a platform brand — the feed mark has no trademark
+// owner — so it takes an HDS colour rather than a brand one. The
+// value is palette-aware via `--hds-palette-marker`: NASA Blue on
+// light palettes, NASA Blue Tint on dark. A white glyph clears
+// 3:1 on both (4.74:1 and 3.12:1). Because these are palette
+// tokens rather than literals, the hook is declared here instead
+// of in the map above.
+[data-hds-social='rss'] {
+  --hds-social-brand: var(--hds-palette-marker);
+  --hds-social-on-brand: var(--hds-palette-btn-filled-text);
 }
 
 // Instagram is a gradient in both the HDS Figma spec and the

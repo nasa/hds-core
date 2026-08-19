@@ -8,6 +8,8 @@ Every file here is compiled into `dist/assets/img/hds-sprite.svg` by `npm run sp
 
 Bounding boxes are measured from the rendered path, not taken from the source viewBox, so padding baked into a donor asset does not leak into the glyph's apparent size.
 
+`mail` is derived from the HDS original `tag-mail` by dropping its enclosing circle and letting the normalizer scale the envelope up to the standard envelope. That keeps HDS's own angular envelope rather than substituting USWDS's rounded one — extrapolate from HDS iconography wherever the shape already exists.
+
 ### Optical size correction
 
 Bounding-box normalization alone leaves marks looking unevenly sized, because a solid mark (Telegram's plane) carries far more ink than an outline mark (SoundCloud's waves) at the same bounding box. Each glyph therefore gets a scale correction of `sqrt(target_ink / measured_ink)`, where `target_ink` is the median ink coverage across the set, clamped to `[0.92, 1.18]` and hard-capped so no glyph exceeds the 24-unit frame. This narrows the ink spread from 2.99x to 1.86x without distorting any individual mark.
@@ -21,17 +23,19 @@ Brand marks are third-party trademarks. They are included so NASA sites can link
 | Glyph | Source | License |
 | --- | --- | --- |
 | `logo-facebook`, `logo-instagram`, `logo-x`, `logo-youtube` | nasa.gov footer (`.hds-footer-socials`) | Work of the U.S. government — public domain |
-| `logo-linkedin`, `logo-flickr`, `logo-github`, `mail` | `@uswds/uswds` 3.13 `usa-icons` | CC0 1.0 (GSA) |
+| `logo-linkedin`, `logo-flickr`, `logo-github` | `@uswds/uswds` 3.13 `usa-icons` | CC0 1.0 (GSA) |
 | `logo-android`, `logo-apple`, `logo-apple-podcasts`, `logo-giphy`, `logo-google-play`, `logo-pinterest`, `logo-reddit`, `logo-snapchat`, `logo-soundcloud`, `logo-spotify`, `logo-telegram`, `logo-threads`, `logo-tiktok`, `logo-tumblr`, `logo-twitch`, `logo-whatsapp` | [Simple Icons](https://simpleicons.org) 16.28 | CC0 1.0 |
-| `rss` | HDS original | — |
+| `mail`, `rss` | HDS original | — |
 
 **An SVG license is not a trademark license.** CC0 covers the SVG transcription of a mark; it grants no rights in the mark itself. Use of each mark is governed by that platform's own brand guidelines. Their inclusion here does not indicate endorsement of NASA by the trademark holder, or of the trademark holder by NASA. Use a mark only to refer to the platform it identifies.
 
 Brand colors for the optional color variant are **not** in `tokens.json` — see `src/scss/components/_social.scss` for why, and for the values.
 
-## Platforms with a glyph but no brand colour
+## Container-locked marks
 
-Spotify, LinkedIn, and Apple Podcasts ship a glyph but are excluded from the brand-colour map in `components/_social.scss`. Their published marks contain their own container with the glyph knocked out, so filling with one colour on a coloured circle inverts the lockup and doubles the container, and their guidelines forbid separating mark from container. Bare marks exist under CC BY 4.0 (Font Awesome's `pinterest-p`, `linkedin-in`, `reddit-alien`) but that licence adds an attribution obligation this CC0 package does not carry. Their black-and-white rendering is correct — it is each platform's official monochrome logo.
+Spotify, LinkedIn, and Apple Podcasts publish marks that already contain their own container (a disc or rounded square) with the glyph knocked out, so on a coloured circle the container reads twice. Separating mark from container would fix it but each platform forbids it, and bare marks exist only under CC BY 4.0 (Font Awesome), a licence this CC0 package does not carry.
+
+Spotify keeps its brand green anyway — the doubling is accepted as the lesser cost against losing the brand colour. LinkedIn and Apple Podcasts stay out of the brand-colour map pending a brand review and fall back to HDS palette colours. All three ship their glyph, and the black-and-white variant renders each platform's official monochrome logo correctly.
 
 ## Not included, and why
 

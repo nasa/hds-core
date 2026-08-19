@@ -109,13 +109,15 @@ The HDS Figma spec places all of these on the **NASA Blue secondary circle** (`.
 </button>
 ```
 
-`rss` is the one exception with a colour of its own. The feed icon's orange is a de-facto web standard with no trademark owner, so `data-hds-social="rss"` supplies it for rows that want the familiar orange instead of the Figma blue:
+`rss` is the one exception with a colour of its own. It is not a platform brand — the feed mark has no trademark owner — so it takes an HDS colour rather than a brand one. `data-hds-social="rss"` supplies a palette-aware blue (NASA Blue on light palettes, NASA Blue Tint on dark), matching the other buttons in the row rather than standing out in orange:
 
 ```html
 <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="rss" href="/feed.xml" aria-label="Subscribe to the RSS feed">…</a>
 ```
 
 `share`, `notification`, and `mail` have no brand colour and stay on HDS palette colours in the colour variant, by design.
+
+`mail` is the HDS envelope from `tag-mail` with its enclosing circle removed and scaled up — not USWDS's envelope, which is a different shape.
 
 <Canvas of={IconButtonStories.GenericShareTargets} />
 
@@ -148,11 +150,13 @@ Draw your glyph on the HDS convention so it matches the rest of the row: `viewBo
 
 **Use the platform's own published mark.** Don't redraw a logo by hand and don't recolour one — most brand guidelines forbid both. Check the platform's brand page for a monochrome or single-colour asset, which is what the sprite needs.
 
-#### Platforms without a brand colour
+#### Container-locked marks
 
-Spotify, LinkedIn, and Apple Podcasts ship a glyph but **no brand colour**, so the colour variant leaves them on HDS palette colours. Each publishes a mark that already contains its own container with the glyph knocked out of it; filling that with one colour and placing it on a coloured circle inverts the lockup and doubles the container. Their guidelines also forbid separating the mark from its container, so this is not fixable by redrawing the glyph.
+LinkedIn and Apple Podcasts ship a glyph but **no brand colour**, so the colour variant leaves them on HDS palette colours. Each publishes a mark that already contains its own container with the glyph knocked out of it; on a coloured circle the container reads twice. Their guidelines also forbid separating mark from container, so this is not fixable by redrawing the glyph.
 
-The black-and-white variant renders each of these correctly — it is that platform's official monochrome logo on a neutral circle. Use it, or supply your own full-colour artwork per **Bring your own logo** above.
+Spotify has the same container, but keeps its brand green — the doubled container is accepted as the lesser cost against losing the brand colour entirely.
+
+The black-and-white variant renders all three correctly, since it is that platform's official monochrome logo on a neutral circle. Use it, or supply your own full-colour artwork per **Bring your own logo** above.
 
 <Note type="figma">
   The HDS Figma social spec dates from 2020 and predates several platform rebrands — it shows the retired Twitter bird, and its brand hexes are desaturated relative to today's official lockups. HDS Core follows Figma for <em>structure</em> (32px circle, BW/Color pairing, glyph proportions) and each platform's <em>current official lockup</em> for marks and colors. The Figma B&W fill is Carbon 80; HDS Core ships Carbon 60, which is deliberate — see Accessibility below. Flagged for creative director review.
