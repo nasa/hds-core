@@ -67,9 +67,12 @@ const tokenCategory = (token) => {
 };
 
 // -------------------------------------------------------
-// CSS format: @layer hds-base { :root { … } }
-// Matches the cascade layer in hds.min.css. Emits a design-token
-// annotation block before each domain group (see tokenCategory).
+// CSS format: :root { … } with no @layer wrapper. hds.scss loads
+// the base tree inside `@layer hds-base` already; a wrapper here
+// would nest an hds-base sublayer whose declarations lose to any
+// direct hds-base rule, silently reversing source-order semantics.
+// Emits a design-token annotation block before each domain group
+// (see tokenCategory).
 // -------------------------------------------------------
 StyleDictionary.registerFormat({
   name: 'hds/css/custom-properties',
@@ -81,10 +84,10 @@ StyleDictionary.registerFormat({
       const { label, presenter } = tokenCategory(token);
       if (label !== currentLabel) {
         if (lines.length) lines.push('');
-        lines.push('    /**');
-        lines.push(`     * @tokens ${label}`);
-        if (presenter) lines.push(`     * @presenter ${presenter}`);
-        lines.push('     */');
+        lines.push('  /**');
+        lines.push(`   * @tokens ${label}`);
+        if (presenter) lines.push(`   * @presenter ${presenter}`);
+        lines.push('   */');
         currentLabel = label;
       }
       const value = token.$value ?? token.value;
@@ -94,9 +97,9 @@ StyleDictionary.registerFormat({
       // minified CSS, so the public contract is unaffected.
       const rawDesc = token.$description ?? token.description ?? '';
       const desc = rawDesc.replace(/\s+/g, ' ').replace(/\*\//g, '* /').trim();
-      lines.push(`    --${token.name}: ${value};` + (desc ? ` /* ${desc} */` : ''));
+      lines.push(`  --${token.name}: ${value};` + (desc ? ` /* ${desc} */` : ''));
     }
-    return `${header}@layer hds-base {\n  :root {\n${lines.join('\n')}\n  }\n}\n`;
+    return `${header}:root {\n${lines.join('\n')}\n}\n`;
   },
 });
 
