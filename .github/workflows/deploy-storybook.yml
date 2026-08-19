@@ -26,6 +26,7 @@ on:
       - 'scripts/**' # docs:meta + build helpers
       - '.config/svg-sprite.config.json' # sprite -> dist/ assets
       - 'postcss.config.mjs' # affects compiled CSS
+      - '.config/postcss-hds-stamp.mjs' # imported by postcss.config.mjs
       - 'package.json' # deps / build scripts (incl. browserslist for autoprefixer)
       - 'package-lock.json'
       - '.github/workflows/deploy-storybook.yml'

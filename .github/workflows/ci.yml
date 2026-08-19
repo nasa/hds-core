@@ -57,6 +57,13 @@ jobs:
   # Filter -- determines which jobs (and which lint/build steps) run based
   # on what changed. `css_output` fires when the committed CSS hash baseline
   # changes, which is how Chromatic is gated (see file header).
+  #
+  # `output_affecting` gates the build job and the contract checks inside it.
+  # Use it -- not `scss` -- for anything that validates the published
+  # artifact. A build-pipeline change (postcss plugin, Style Dictionary
+  # config) or a package.json `files`/`exports` change moves what ships
+  # without touching a .scss file, and gating those checks on `scss` alone
+  # let PR #175 through with every output check reported as skipped.
   # -----------------------------------------------------------------------
   filter:
     name: Detect changed paths
@@ -73,6 +80,7 @@ jobs:
       storybook_config: ${{ steps.filter.outputs.storybook_config }}
       tokens: ${{ steps.filter.outputs.tokens }}
       css_output: ${{ steps.filter.outputs.css_output }}
+      output_affecting: ${{ steps.filter.outputs.output_affecting }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -87,6 +95,8 @@ jobs:
               - 'tokens.json'
             js:
               - '**/*.js'
+              - '**/*.mjs'
+              - '**/*.cjs'
             json:
               - '**/*.json'
               - '!package-lock.json'
@@ -105,6 +115,27 @@ jobs:
               - '.config/sd.config.js'
             css_output:
               - 'scripts/css-output-hash.txt'
+            # Anything that can change the published artifact -- compiled CSS,
+            # the asset tree, or the packed tarball. Gates the build job and
+            # the three contract checks inside it. Deliberately wider than
+            # `scss`: the build pipeline itself (postcss config and plugins,
+            # Style Dictionary config, the sprite config) moves output without
+            # a single .scss file changing, and package.json `files`/`exports`
+            # move what ships without moving CSS at all. src/assets feeds
+            # dist/ (copy:hds + sprite) without touching .scss, and scripts/
+            # holds both the check gates themselves and the committed
+            # css-output-hash.txt baseline -- an edit to any of those must
+            # run the build and contract checks it controls. False positives
+            # here cost one build; a false negative ships an unverified
+            # artifact.
+            output_affecting:
+              - 'src/scss/**'
+              - 'src/assets/**'
+              - 'tokens.json'
+              - 'package.json'
+              - 'postcss.config.*'
+              - '.config/**'
+              - 'scripts/**'
 
   # -----------------------------------------------------------------------
   # Lint -- one runner for every linter. The lockfile check always runs
@@ -175,7 +206,7 @@ jobs:
     needs: filter
     timeout-minutes: 15
     if: |
-      needs.filter.outputs.scss == 'true' ||
+      needs.filter.outputs.output_affecting == 'true' ||
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true'
     steps:
@@ -188,15 +219,15 @@ jobs:
         run: npm run build
 
       - name: Check bundle size
-        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
         run: bash scripts/check-bundle-size.sh
 
       - name: Check public API snapshot
-        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
         run: npm run check:api-snapshot
 
       - name: Check CSS output hash
-        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
         run: npm run check:css-hash
 
       - name: Flag CSS output change
@@ -230,7 +261,7 @@ jobs:
     timeout-minutes: 20
     if: |
       github.event.pull_request.draft == false &&
-      (needs.filter.outputs.scss == 'true' ||
+      (needs.filter.outputs.output_affecting == 'true' ||
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.js == 'true')
     steps:
@@ -342,6 +373,11 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
+          # The CLI only auto-detects chromatic.config.json at the repo
+          # root; without this input the .config/ file is silently ignored
+          # and the externals (src/scss/**, src/assets/**) are lost, so
+          # TurboSnap skips every story on a CSS-only change.
+          configFile: .config/chromatic.config.json
 
   # -----------------------------------------------------------------------
   # USWDS integrity -- runs when package.json changes (potential USWDS bump)

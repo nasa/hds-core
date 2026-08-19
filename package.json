@@ -17,18 +17,22 @@
     "registry": "https://registry.npmjs.org/"
   },
   "exports": {
+    ".": "./dist/css/hds.min.css",
+    "./package.json": "./package.json",
     "./css": "./dist/css/hds.min.css",
     "./css/uswds": "./dist/css/hds-uswds.min.css",
     "./css/dataviz": "./dist/css/hds-dataviz.min.css",
     "./scss": "./src/scss/hds.scss",
     "./scss/uswds": "./src/scss/hds-uswds.scss",
     "./scss/dataviz": "./src/scss/hds-dataviz.scss",
-    "./assets": "./dist/assets/"
+    "./js/uswds": "./dist/js/uswds.min.js",
+    "./js/uswds-init": "./dist/js/uswds-init.min.js",
+    "./assets/*": "./dist/assets/*"
   },
+  "style": "./dist/css/hds.min.css",
   "files": [
     "dist/",
-    "src/scss/",
-    "src/assets/"
+    "src/scss/"
   ],
   "scripts": {
     "sass:hds": "sass src/scss/hds.scss dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
@@ -61,8 +65,8 @@
     "dev": "npm run docs:meta && concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
     "storybook": "storybook dev -p 6006 --no-open --ci",
     "build-storybook": "npm run docs:meta && storybook build",
-    "format": "prettier --check --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,json}\"",
-    "format:fix": "prettier --write --list-different --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,json}\"",
+    "format": "prettier --check --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,mjs,cjs,json}\"",
+    "format:fix": "prettier --write --list-different --cache --config .config/prettierrc.json --ignore-path .gitignore --ignore-path .config/prettierignore \"**/*.{md,mdx,js,mjs,cjs,json}\"",
     "lint": "npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx && npm run lint:lockfile",
     "lint:scss": "stylelint \"src/scss/**/*.scss\" --config .config/stylelintrc.json --ignore-path .config/stylelintignore",
     "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix --config .config/stylelintrc.json --ignore-path .config/stylelintignore",

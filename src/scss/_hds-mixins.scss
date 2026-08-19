@@ -6,7 +6,7 @@
 // and components.
 //
 // CONTENTS:
-//   Accessibility — visually-hidden
+//   Accessibility — hds-visually-hidden
 //   Focus         — hds-focus-ring, hds-focus-ring-size,
 //                   hds-focus-ring-inline
 //   Buttons       — button-styles (bundles button-padding-border,
@@ -27,7 +27,7 @@
 // Accessibility
 // ------------------------------------------------------------
 
-@mixin visually-hidden {
+@mixin hds-visually-hidden {
   border: 0;
   clip-path: inset(50%);
   height: 1px;
@@ -37,6 +37,13 @@
   position: absolute;
   width: 1px;
   overflow-wrap: normal;
+}
+
+// Deprecated: unprefixed name. Only `hds-*` mixins are public surface
+// (see AGENTS.md). Kept for one minor cycle (v0.10.x) per the deprecation
+// policy in CONTRIBUTING.md; remove after the next minor release (v0.11.x).
+@mixin visually-hidden {
+  @include hds-visually-hidden;
 }
 
 // ------------------------------------------------------------
