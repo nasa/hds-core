@@ -34,6 +34,8 @@ For pages deeper than 3 levels, Home and all intermediate levels are replaced wi
 
 <Note type="uswds">HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of chevrons, a strict 3-element maximum with ellipsis truncation, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.</Note>
 
+<Note type="uswds">USWDS 3.14.0 made breadcrumb wrapping the default and moved single-line truncation behind a new `usa-breadcrumb--truncate` class (`usa-breadcrumb--wrap` is now an inert no-op upstream). HDS does not use either: the 3-element ellipsis pattern above is authored in the markup, not produced by a modifier. Avoid `usa-breadcrumb--truncate` — it clips the trail with `overflow: hidden`, which also clips the HDS focus ring.</Note>
+
 ## When to use
 
 - **Multi-level site hierarchies** — any page that is 2+ levels deep in the site structure

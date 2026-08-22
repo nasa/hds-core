@@ -407,6 +407,15 @@
   $theme-pagination-button-border-width: hds.$hds-border-width-thin,
   $theme-summary-box-border-width: hds.$hds-border-width-thin,
 
+  // Accordion
+  // USWDS 3.14.0 moved the expand/collapse icon to the start (left) side by
+  // default. HDS renders its own circled chevron as an ::after on a flex row,
+  // so the upstream default only relocates the padding it reserves -- the
+  // label would indent 56px for an icon we do not draw there, and our chevron
+  // would sit 20px from the trailing edge instead of 56px. Pinning to "end"
+  // keeps the Figma treatment. See docs/DESIGN.md.
+  $theme-accordion-icon-position: 'end',
+
   // Button typography
   $theme-button-font-family: 'heading',
 

@@ -430,10 +430,31 @@ See `components/_site-alert.scss` for implementation.
 ### Key Decisions
 
 - **Chevron Icon:** Circled chevron (down/up) replaces USWDS +/− icons, using utility circle tokens. 24px, matching icon button default.
+- **Icon Position:** Trailing edge (right in LTR). USWDS 3.14.0 changed its own default to the leading edge and framed it as an accessibility improvement; HDS pins `$theme-accordion-icon-position: 'end'` in both theme files to keep the Figma treatment. See § Icon Position Deviation below.
 - **Bordered Variant:** Figma shows only borderless. Bordered renders with USWDS default treatment. Pending creative director review.
 - **Hover State:** Not specified in Figma. Currently unimplemented — pending research on full-row hover patterns.
 
 See `components/_accordion.scss` for implementation.
+
+### Icon Position Deviation (USWDS 3.14.0)
+
+USWDS 3.14.0 added `$theme-accordion-icon-position`, defaulting to `"start"`, so the expand/collapse icon sits at the leading edge of the button. Upstream's rationale is that at high zoom a trailing icon can drift visually far from the label it belongs to.
+
+HDS sets it to `"end"`. The upstream rationale addresses USWDS's own control: a full-width button with the icon painted as a `background-image` at the far edge and nothing tying it to the label. The HDS accordion is a flex row whose chevron is a sized, circled element participating in that row, so label and control read as a single unit at any width or zoom level.
+
+Adopting `"start"` would mean moving the chevron to the leading edge — a Figma change requiring creative director sign-off, not a configuration change. Revisit if the accordion is redesigned.
+
+The `usa-accordion--icon-start` and `usa-accordion--icon-end` modifier classes are **not supported**. They set `padding-inline-*` to reserve room for the USWDS background icon; HDS never sets those properties, so cascade layers do not neutralise them. Applying `--icon-start` indents the heading label by 56px while leaving the HDS chevron on the right.
+
+### Breadcrumb Truncation (USWDS 3.14.0)
+
+USWDS 3.14.0 made breadcrumb wrapping the default and moved the single-line ellipsis bar behind `usa-breadcrumb--truncate`; the former `usa-breadcrumb--wrap` is now an inert no-op upstream.
+
+HDS uses neither modifier. The 3-element maximum with a leading `…` is authored directly in the markup (see the Breadcrumb guidance page), which keeps the trail readable at any width without clipping.
+
+`usa-breadcrumb--truncate` is **not supported**: it applies `overflow: hidden` to the list, which clips the HDS focus ring — `hds-focus-ring-inline` paints a gradient outside the inline box. `components/_breadcrumb.scss` scopes its `overflow: visible` override to `:not(.usa-breadcrumb--truncate)` so an adopter who opts in still gets the upstream ellipsis rather than a half-applied hybrid.
+
+HDS also keeps `line-height: 1.35` on `.usa-breadcrumb` where USWDS 3.14.0 raised its default to 1.5 to give wrapped rows room. Because HDS breadcrumbs do not wrap by design, the tighter value stands; if the authored ellipsis pattern is ever dropped in favour of wrapping, revisit this together.
 
 ### Non-Text Contrast: Chevron Icon (WCAG 2.1 § 1.4.11)
 

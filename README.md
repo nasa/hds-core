@@ -1,6 +1,6 @@
 # @nasa-hds/core
 
-[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release](https://img.shields.io/github/v/release/nasa/hds-core?label=Release&color=blue)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.13+](https://img.shields.io/badge/USWDS-3.13+-005ea2.svg)](https://github.com/uswds/uswds)
+[![Status: Pre-1.0](https://img.shields.io/badge/Status-Pre--1.0-orange.svg)](#) [![Release](https://img.shields.io/github/v/release/nasa/hds-core?label=Release&color=blue)](https://github.com/nasa/hds-core/releases) [![npm](https://img.shields.io/npm/v/@nasa-hds/core.svg)](https://www.npmjs.com/package/@nasa-hds/core) [![USWDS: 3.14+](https://img.shields.io/badge/USWDS-3.14+-005ea2.svg)](https://github.com/uswds/uswds)
 
 > **Pre-1.0:** API and class names may change between minor versions.
 
@@ -16,7 +16,7 @@ Before adopting HDS Core, please read our [Getting Started guide](https://nasa.g
 
 - Node.js 20+
 - npm 10+
-- Peer dependency: `@uswds/uswds` 3.13+
+- Peer dependency: `@uswds/uswds` 3.14+
 
 **Browser support:** `> 2%, last 2 versions, not dead` (matches USWDS targets; IE not supported)
 

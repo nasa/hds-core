@@ -2,7 +2,32 @@
 
 Analysis of [USWDS v3.14.0](https://github.com/uswds/uswds/releases/tag/v3.14.0) (published 2026-08-18) against HDS Core at `@uswds/uswds` 3.13.0.
 
-Status: **analysis only — no upgrade performed.** `package.json` still declares `"@uswds/uswds": "^3.13.0"` and `package-lock.json` still resolves 3.13.0.
+Status: **upgrade applied.** `package.json` declares `"@uswds/uswds": "^3.14.0"` and the lockfile resolves 3.14.0. The analysis below is kept as the record of what was checked and why each decision was made; see [Outcome](#outcome) for what actually shipped.
+
+## Outcome
+
+Every predicted breaking change was confirmed and handled. The measured result:
+
+| Check | Result |
+| --- | --- |
+| Visual regression (220 stories, 1024px) | 219 unchanged, **1 changed** |
+| axe suite (`npm test`) | 242 passed |
+| Docs render (39 MDX pages) | all rendered |
+| `check:uswds` / `check:uswds-core` / `check:tokens` / `check:css-hash` | pass (USWDS and CSS baselines regenerated) |
+| `check:api-snapshot` | one line changed: `.usa-breadcrumb--wrap` → `.usa-breadcrumb--truncate` |
+
+The single changed story is the Multi-Step Form guide, from two causes: the range slider border (1px `#757575` → 2px `#1b1b1b`) and the updated memorable-date hint markup. Accordion, breadcrumb, table, and every form control render pixel-identically after the fixes in section 1.
+
+Changes made:
+
+- `$theme-accordion-icon-position: 'end'` in both theme files (section 1.1), with the deviation recorded in `docs/DESIGN.md`.
+- Breadcrumb override retargeted to `:not(.usa-breadcrumb--truncate)` (section 1.3).
+- Memorable-date markup in `stories/guides/USWDSForm.stories.js` updated to per-field hints.
+- `docs/508.md` remarks updated, including the two pre-existing inconsistencies in section 5.3.
+- Accordion and Breadcrumb MDX guidance note the unsupported USWDS modifier classes.
+- Version references updated across `README.md`, `AGENTS.md`, `docs/ARCHITECTURE.md`, `stories/overview/Installation.mdx`, `stories/guides/ReactSetup.mdx`, and both Sass entry-point headers.
+
+**One finding the analysis did not predict.** The file input is never enhanced in Storybook: USWDS builds `.usa-file-input__target` in JavaScript on page load, and unlike accordion, table sort, and in-page navigation there is no preview decorator that re-initialises it after Storybook renders. Every file input story therefore renders as a bare `<input type="file">`, and neither axe nor Chromatic can see the file input's error border, focus ring, or drag instructions — including the blue-to-red fix that is the most consequential accessibility change in this release for HDS. That fix was verified by rendering the component outside Storybook against both USWDS versions (`#0b4778` → `#b50909`). The gap is recorded in `docs/508.md` under Testing Methodology → Known coverage gaps. Closing it needs a file input init decorator in `.storybook/preview.js`, which is out of scope for a version bump and should be its own change.
 
 ## How this was verified
 

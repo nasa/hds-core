@@ -9,7 +9,7 @@ Last updated: 2026-07-27
 | Key         | Value                                                                                   |
 | ----------- | --------------------------------------------------------------------------------------- |
 | Name        | `@nasa-hds/core`                                                                        |
-| Foundation  | Sass theme layer on `@uswds/uswds ^3.13.0`                                              |
+| Foundation  | Sass theme layer on `@uswds/uswds ^3.14.0`                                              |
 | Build tools | `sass`, `postcss` (`autoprefixer`, `postcss-discard-comments`, `cssnano`), `svg-sprite` |
 | Storybook   | v10, Vite, HTML template literals                                                       |
 | Testing     | Vitest 4.x, Playwright (Chromium), Chromatic                                            |
@@ -66,7 +66,7 @@ hds-core/
 │   ├── check-uswds.sh                  ← USWDS package hash verification
 │   ├── check-uswds-core.sh             ← Verify uswds-core emits no CSS
 │   ├── check-tokens-drift.js           ← Verify generated token Sass matches tokens.json
-│   └── uswds-package-hashes.txt        ← Baseline for @uswds/uswds 3.13.0
+│   └── uswds-package-hashes.txt        ← Baseline for @uswds/uswds 3.14.0
 ├── dist/                               # Build output (gitignored)
 │   ├── css/                            ← See Build Output below
 │   ├── js/

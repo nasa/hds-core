@@ -16,3 +16,6 @@ public/design-tokens.source.json
 /.claude/
 /.playwright-mcp/
 /temp/
+
+# Homegrown visual regression captures (scripts/shoot-stories.js)
+/.visual/

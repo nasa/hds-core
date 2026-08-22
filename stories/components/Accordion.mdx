@@ -26,6 +26,8 @@ Multiple sections can be open at the same time. Add `data-allow-multiple` and th
 
 <Note type="uswds">USWDS accordions display +/− icons with a filled background on the heading row. HDS replaces these with a circled chevron that adapts to palettes — no markup changes needed.</Note>
 
+<Note type="uswds">USWDS 3.14.0 moved the expand/collapse icon to the leading (left) edge by default. HDS keeps the chevron on the trailing edge, per the Figma spec, by setting `$theme-accordion-icon-position: 'end'` in the theme. The USWDS `usa-accordion--icon-start` and `usa-accordion--icon-end` modifier classes are **not supported** in HDS — they reserve padding for an icon HDS does not draw, which leaves the heading label indented with the chevron still on the right.</Note>
+
 ## When to use
 
 - Users only need a few specific pieces of content on a page — like an FAQ where each question is its own section.

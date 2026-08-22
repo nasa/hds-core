@@ -35,7 +35,13 @@
 
 // USWDS clips the list to hide overflow for truncation. Override
 // overflow only so focus ring gradients can paint outside list bounds.
-.usa-breadcrumb:not(.usa-breadcrumb--wrap) .usa-breadcrumb__list {
+//
+// USWDS 3.14.0 inverted the variant: wrapping is the default and truncation
+// is opt-in via .usa-breadcrumb--truncate (.usa-breadcrumb--wrap is now an
+// inert no-op upstream). Scoped to :not(--truncate) so an adopter who asks
+// for the truncated bar still gets the ellipsis. Focus rings are clipped on
+// that variant -- see docs/DESIGN.md.
+.usa-breadcrumb:not(.usa-breadcrumb--truncate) .usa-breadcrumb__list {
   overflow: visible;
 }
 
