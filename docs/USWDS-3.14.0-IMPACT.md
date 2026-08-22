@@ -12,7 +12,7 @@ Claims below are derived from a source-level diff of the two published npm tarba
 - `src/scss/hds.scss` compiled with Dart Sass 1.101.0 against `packages/` from each version, then diffed. Every "compiled CSS delta" in this document is a line from that diff.
 - Sass version floor established by bisecting Dart Sass releases against `@use "uswds-core"`.
 
-Two release-note items did not survive verification and are corrected in this document: the range slider focus ring, and the `ink` token reassignment. See [Release-note claims that do not apply to us](#release-note-claims-that-do-not-apply-to-us).
+Two release-note items did not survive verification and are corrected in this document: the range slider focus ring, and the `ink` token reassignment. See section 4, "Release-note claims that do not apply to us".
 
 ## Executive summary
 
@@ -59,7 +59,12 @@ The forced-colors `::before` that we deliberately keep visible also relocates to
 
 **Fix:** set `$theme-accordion-icon-position: 'end'` in **both** `src/scss/_hds-uswds-theme.scss` and `src/scss/_hds-uswds-theme-utils.scss` (per AGENTS.md, theme settings must be changed in both). That restores 3.13.0 geometry exactly in LTR and improves RTL, since the padding is now logical.
 
-**Open decision:** opting out of `"end"` is opting out of an upstream accessibility default. USWDS's stated rationale is keeping the control's icon adjacent to its label at high zoom. If we keep the chevron on the right, that deviation belongs in `docs/DESIGN.md` alongside the other intentional USWDS deviations, and it is a fair thing for a 508 reviewer to ask about.
+**Open decision — to be clear about what is and is not being proposed.** Nothing here requires redesigning our accordion. The question is only which of two things we do about a default that changed underneath us:
+
+- **Option A (recommended): keep our design.** Set `$theme-accordion-icon-position: 'end'` in both theme files. Our chevron stays a circled caret on the right, exactly as it is in Figma today. Cost: two lines. This is a configuration change, not a design change.
+- **Option B: follow upstream.** Adopt `"start"` and move our chevron to the left of the label. That _is_ a redesign, needs Figma and creative director sign-off, and is not something to do as a side effect of a version bump.
+
+The only reason Option A is a decision rather than a formality is that upstream framed `"start"` as an accessibility improvement — their rationale is that at high zoom a trailing icon can end up visually far from the label it belongs to. That rationale is about USWDS's own full-width text-plus-background-icon button. Our button is a flex row with the chevron as a sized, circled element, so the label and the control read as one unit at any width. Option A is defensible; it just needs to be recorded in `docs/DESIGN.md` as an intentional deviation rather than left as an undocumented pin, because a 508 reviewer comparing us to upstream may reasonably ask why we opted out.
 
 ### 1.2 Accordion icon modifier classes are unstyled by HDS
 
@@ -114,11 +119,23 @@ Wrapped breadcrumb rows will therefore be tighter in HDS than upstream intends. 
 | 1.99.0    | compiles                                       |
 | 1.101.0   | compiles                                       |
 
-Our own build is safe: `devDependencies.sass` is `^1.101.0`. The exposure is on the **Sass consumption path** — `./scss`, `./scss/uswds`, `./scss/dataviz` in `package.json` `exports`. An adopter on Dart Sass < 1.99.0 who consumes HDS via Sass will get a parse error out of `uswds-core`, with nothing in our docs explaining why.
+The two failure modes are different, and the second is the one that sets the floor. Dart Sass below 1.95.0 cannot parse the new `if()` at all. 1.95.0 and 1.97.0 parse it but evaluate **both** branches eagerly, so a branch that is never taken still runs and throws:
+
+```text
+Error: $string: 2px is not a string.
+19 │     sass(meta.type-of($value) == "string"): string.quote($value);
+   │                                             ^^^^^^^^^^^^^^^^^^^^
+```
+
+Lazy branch evaluation lands by 1.99.0, which is why that is the floor.
+
+Our own build is safe: `devDependencies.sass` is `^1.101.0`. The exposure is on the **Sass consumption path** — `./scss`, `./scss/uswds`, `./scss/dataviz` in `package.json` `exports`. An adopter on Dart Sass < 1.99.0 who consumes HDS via Sass will get an error out of `uswds-core`, with nothing in our docs explaining why.
 
 **Action:** document a `sass >= 1.99.0` floor for the Sass consumption path when the bump lands. The compiled-CSS path (`./css`) is unaffected.
 
 One upside: the same migration clears the `map-has-key` / `map-keys` / `map-merge` global-function deprecation warnings that `--quiet-deps` is currently suppressing.
+
+**Do not read this as a strategic move by USWDS.** Dart Sass deprecated the three-argument `if()` in 1.95.0 to clear the way for native CSS `if()`, so every Sass-based design system is making the same edit — Bootstrap and GOV.UK Frontend among them. See section 8, "Direction signals", for what in this release does and does not indicate where USWDS is going.
 
 ## 2. Compiled CSS deltas that land in `hds.min.css`
 
@@ -351,6 +368,72 @@ This one story exercises most of the release: memorable date, modal, character c
 8. Update `docs/508.md` per section 5, including the two pre-existing inconsistencies.
 9. Document the Dart Sass >= 1.99.0 floor for the Sass consumption path.
 10. Changeset: this is a minor bump at minimum. The accordion and breadcrumb behaviour changes are visible to adopters even though no public Sass symbol changes, so the changeset description matters more than the bump level here. Check the semver rubric in CONTRIBUTING.md.
+
+## 8. Direction signals — where USWDS appears to be heading
+
+The 3.14.0 release notes contain **no** roadmap, "what's next", deprecation, or component-retirement section. Everything below is inferred from the shipped code, cross-checked against maintainer statements on the USWDS repo. Kept separate from the rest of this document because it is read-the-tea-leaves work, not verified impact.
+
+### 8.1 What maintainers have actually said about Sass
+
+The clearest public statement is from a USWDS maintainer in the [April 2024 monthly call Q&A](https://github.com/uswds/uswds/discussions/5922) (finekatie, 2024-05-10):
+
+> "Yes, in the short term we will continue to use Sass to style our traditional HTML components."
+
+> "Long-term, we'll be looking at ways to use more native CSS to reduce dependence on custom processors."
+
+> "We see Web Components existing at the same time as the current Version 3 of USWDS."
+
+> "JSON design tokens are an important part of the shift to Web Components."
+
+Earlier, in [Modern CSS and standards compliance](https://github.com/uswds/uswds/discussions/4312) (mejiaj, 2021-09-29):
+
+> "The re-work of dropping SCSS in favor of PostCSS or plain CSS isn't justifiable right now."
+
+So the direction is real but explicitly long-term, parallel rather than replacing, and no version number has ever been attached to it. Nothing in 3.14.0 changes that posture.
+
+### 8.2 Signals that are real in 3.14.0
+
+- **Logical properties.** Occurrences of `padding-inline-*` / `inset-inline-*` / equivalents across all package Sass go from **1 in 3.13.0 to 25 in 3.14.0**, concentrated in the accordion rewrite, along with `text-align: start` and explicit `[dir="rtl"]` handling. This is the most substantive modern-CSS movement in the release and it points at internationalisation as much as at CSS modernisation. Relevant to us: our own components are still written in physical properties.
+- **Dependency reduction.** `receptor` is dropped entirely and its `keymap` reimplemented first-party in `uswds-core/src/js/utils/keymap.js`; `lit` moves from `^3.2.1` to a pinned `3.3.3`. Fewer, tighter runtime dependencies.
+- **Toolchain modernisation.** Storybook 6.5 to 9, gulp 4 to 5, ESLint 8 to 10, `engines.node` from `>= 4` to `>= 20`, and `_functionsOLD.scss` deleted. A maintenance-debt sweep, which usually precedes larger work.
+
+### 8.3 Signals that look like direction but are not
+
+- **The `if(sass(...))` migration is forced, not chosen.** Dart Sass deprecated three-argument `if()` in 1.95.0. This is compliance work, not a step toward native CSS.
+- **`map-merge` to `map.merge` is also forced** — Sass global functions have been deprecated for years.
+- **Web components did not advance.** `dist/components/` still contains `usa-banner` and nothing else, and `vite.config.components.js` is byte-identical between 3.13.0 and 3.14.0. The banner bundle changed only because the underlying banner JS changed. Whatever the web component plan is, 3.14.0 does not move it.
+- **USWDS still does not use cascade layers.** No `@layer` anywhere in the package Sass. Our layer architecture remains entirely ours, which is good news for override stability but means we get no help from upstream on it.
+- **They are still investing in the Sass settings API.** 3.14.0 _adds_ a setting (`$theme-accordion-icon-position`). Systems preparing to abandon a configuration surface do not keep extending it.
+
+### 8.4 Components with known accessibility issues are being repaired, not retired
+
+This is the most directly useful finding for us, and it runs opposite to the concern. Of the ten components `docs/508.md` currently flags as "Partially Supports" on the strength of USWDS ACR issues, **seven were modified in 3.14.0**:
+
+| Component         | Touched in 3.14.0            |
+| ----------------- | ---------------------------- |
+| Range slider      | yes — styles, JS, and markup |
+| Combo box         | yes — styles and JS          |
+| Time picker       | yes — styles and JS          |
+| File input        | yes — styles and JS          |
+| Character count   | yes — JS                     |
+| Language selector | yes — JS                     |
+| Tooltip           | yes — JS                     |
+| Step indicator    | no                           |
+| Input mask        | no                           |
+| Button group      | no                           |
+
+No package was added or removed in this release, and no component was marked deprecated. The one deprecation that did happen — `usa-breadcrumb--wrap` — was handled by keeping the class as an inert no-op with a source comment.
+
+That deprecation is worth noting for a different reason: **it was not announced through the `_notifications.scss` channel**, which is the mechanism that prints upgrade guidance during our Sass build. The 3.14.0 notification block describes the breadcrumb change as breaking and tells teams to add `--truncate`, but never says the word "deprecated" about `--wrap`. We cannot treat that build-time channel as a complete deprecation feed; source diffing stays necessary at each bump.
+
+One older signal, unchanged in this release and therefore not a 3.14.0 finding: `packages/_usa-password/` ships in the tarball but is referenced by no index and emits zero bytes into the compiled CSS. That appears to be how USWDS shelves a component — leave it in the tree, unwired.
+
+### 8.5 What this means for us
+
+- No action from this section. Nothing here needs to change in HDS today.
+- The thing to watch is **JSON design tokens**, not Sass removal. If USWDS ships a token layer, our `tokens.json` and Style Dictionary pipeline is the part of HDS most likely to want to interoperate with it, and we would want to be in that conversation early rather than reconciling two token contracts later.
+- Our exposure to any eventual Sass exit is bounded by which consumption path adopters use. The compiled-CSS path (`./css`) is insulated; the Sass path (`./scss`) is not. Knowing the split across our adopters would make that future decision much cheaper, and we do not currently track it.
+- Practically, revisit this section at each USWDS minor. The signal in 3.14.0 is "steady maintenance and accessibility repair", not "imminent architectural change".
 
 ## References
 
