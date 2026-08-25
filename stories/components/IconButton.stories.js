@@ -194,14 +194,12 @@ export const Social = {
 
 const SOCIAL_PLATFORMS = hdsSocialIcons.map((n) => n.replace('logo-', ''));
 
-// Social buttons carry a platform hook. The hook only declares which platform
-// the button represents — it paints nothing until the color modifier is added.
-const socialBtn = (platform, { color = false, size = 'xl' } = {}) => {
+// HDS ships social marks in a single grayscale treatment — there is no brand
+// color variant (creative director decision).
+const socialBtn = (platform, { size = 'xl' } = {}) => {
   const sizeClass = size && size !== 'default' ? ` hds-btn-icon--${size}` : '';
-  const colorClass = color ? ' hds-btn-icon--social-color' : '';
-  const hook = color ? ` data-hds-social="${platform}"` : '';
   const title = platform.charAt(0).toUpperCase() + platform.slice(1);
-  return `<a class="hds-btn-icon hds-btn-icon--social${colorClass}${sizeClass}"${hook}
+  return `<a class="hds-btn-icon hds-btn-icon--social${sizeClass}"
    href="#" aria-label="NASA on ${title}">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
     <use xlink:href="assets/img/hds-sprite.svg#logo-${platform}"></use>
@@ -209,58 +207,12 @@ const socialBtn = (platform, { color = false, size = 'xl' } = {}) => {
 </a>`;
 };
 
-export const SocialColor = {
-  name: 'Social — Color',
-  args: { platform: 'facebook', size: 'xl', color: true },
-  argTypes: {
-    platform: {
-      control: 'select',
-      options: SOCIAL_PLATFORMS,
-      description: 'Sets data-hds-social, which supplies the brand color',
-    },
-    color: {
-      control: 'boolean',
-      name: 'Brand color',
-      description: 'Toggles .hds-btn-icon--social-color',
-    },
-    size: {
-      control: 'select',
-      options: ['2xs', 'xs', 'sm', 'default', 'lg', 'xl', '2xl', '3xl'],
-    },
-  },
-  render: (args) => socialBtn(args.platform, { color: args.color, size: args.size }),
-};
-
 export const SocialAllPlatforms = {
   name: 'Social — All Platforms',
   tags: ['!dev'],
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <div>
-        ${label('Black & white (default)')}
-        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-          ${SOCIAL_PLATFORMS.map((p) => socialBtn(p)).join('')}
-        </div>
-      </div>
-      <div>
-        ${label('Brand color')}
-        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-          ${SOCIAL_PLATFORMS.map((p) => socialBtn(p, { color: true })).join('')}
-        </div>
-      </div>
-      <div>
-        ${label('No brand hook — falls back to HDS palette')}
-        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-          ${['rss', 'mail']
-            .map(
-              (n) =>
-                `<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl"
-                    href="#" aria-label="${n}"><svg class="hds-icon" aria-hidden="true" focusable="false">
-                    <use xlink:href="assets/img/hds-sprite.svg#${n}"></use></svg></a>`,
-            )
-            .join('')}
-        </div>
-      </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; max-width: 44rem;">
+      ${SOCIAL_PLATFORMS.map((p) => socialBtn(p)).join('')}
     </div>
   `,
 };
@@ -274,7 +226,7 @@ export const GenericShareTargets = {
   render: () => `
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <div>
-        ${label('Figma treatment \u2014 secondary circle')}
+        ${label('Secondary circle \u2014 Figma treatment')}
         <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
           ${['share', 'notification', 'rss', 'mail']
             .map(
@@ -284,15 +236,6 @@ export const GenericShareTargets = {
                      <use xlink:href="assets/img/hds-sprite.svg#${n}"></use></svg></button>`,
             )
             .join('')}
-        </div>
-      </div>
-      <div>
-        ${label('RSS in the feed orange')}
-        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-          <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl"
-             data-hds-social="rss" href="#" aria-label="Subscribe to the RSS feed">
-            <svg class="hds-icon" aria-hidden="true" focusable="false">
-              <use xlink:href="assets/img/hds-sprite.svg#rss"></use></svg></a>
         </div>
       </div>
     </div>

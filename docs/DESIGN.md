@@ -215,34 +215,25 @@ Red = navigates away. Blue = stays on page.
 
 HDS Core ships marks for the platforms NASA maintains an official presence on ([nasa.gov/social-media](https://www.nasa.gov/social-media/)), the share targets used on nasa.gov and plus.nasa.gov, and GitHub for open-source projects. They use the `logo-` prefix, consistent with `logo-figma` and `logo-uswds`.
 
-**Two variants.** `.hds-btn-icon--social` is the black-and-white default. `.hds-btn-icon--social-color` opts into brand color. The platform is declared separately, with `data-hds-social="facebook"`, which sets `--hds-social-brand` and `--hds-social-on-brand` but paints nothing on its own. Keeping declaration and consumption apart is what lets the color class sit on the button _or_ on any ancestor without extra selectors, and it means platforms with no brand entry (`rss`, `mail`) resolve through the `var()` fallback to HDS palette colors — the intended behavior for non-brand share targets.
+**One treatment, grayscale.** `.hds-btn-icon--social` is the whole component. There is no brand-colour variant (creative director decision, 2026-08). The 2020 Figma spec pairs a grayscale and a brand-coloured version for each platform; only the grayscale one ships.
 
-**Brand colors are not tokens.** They live hand-authored in `components/_social.scss`, not in `tokens.json`. They are third-party trademark values, not NASA brand primitives, and the `tokens.json` color group is explicitly scoped to NASA-branded UI. The HDS Figma library treats them the same way — brand fills there are raw values, not variables. No peer USWDS-based system (USWDS, VADS, NYSDS, CMSDS) tokenizes brand colors either; NYSDS ships social marks monochrome and lets consumers pass any color.
+That decision removes a large amount of incidental complexity. Brand colour would have required: each platform's official lockup colours and a re-check on every rebrand; WCAG 1.4.11 logotype exceptions for the several marks that fall below 3:1 against their own glyph; a resolution for marks whose container cannot be separated from the glyph (Spotify, LinkedIn, Apple Podcasts all forbid separating them); and a brand review for the platforms whose guidelines constrain the container shape. Grayscale sidesteps all of it, keeps a social row visually consistent, and is Carbon 05 on Carbon 60 — 6.51:1, identical on every palette.
 
-**Generic share targets are secondary, not social.** `share`, `notification`, `rss`, and `mail` are on-page actions rather than links out to a platform, so the HDS Figma spec places them on the NASA Blue secondary circle — consistent with the wayfinding rule (blue stays on the page). `rss` also carries the de-facto feed orange as an optional brand colour; the feed mark has no trademark owner, so there is no guideline to conflict with. That orange is a deliberate deviation from Figma, which shows RSS on the blue secondary circle.
+**Marks that carry their own container.** Spotify, LinkedIn, and Apple Podcasts publish marks that already contain a disc or rounded square with the glyph knocked out, so on the HDS circle the container reads twice and those three look slightly heavier than the rest of a row. Cosmetic only: each renders that platform's official monochrome logo, which is what their guidelines require.
 
-**Three platforms ship no brand colour.** Spotify, LinkedIn, and Apple Podcasts each publish a mark that already contains its own container (a disc or rounded square) with the glyph knocked out. Filling that shape with a single colour and placing it on a coloured circle inverts the lockup — Spotify renders as a white disc with green waves, the opposite of `Spotify_Primary_Logo_RGB_Green` — and doubles the container. Separating mark from container would fix compositing but is explicitly forbidden: Spotify ("the circle and waves cannot be separated"), LinkedIn ("the 'in' part should always be in the blue square"). Bare marks exist under CC BY 4.0 (Font Awesome), but that licence adds an attribution obligation this CC0 package does not carry. These three therefore fall through the `var()` fallback to HDS palette colours, exactly like `rss` and `mail`. Their black-and-white rendering is each platform's official monochrome logo and is correct.
+**Generic share targets are secondary, not social.** `share`, `notification`, `rss`, and `mail` are on-page actions rather than links out to a platform, so the HDS Figma spec places them on the NASA Blue secondary circle — consistent with the wayfinding rule (blue stays on the page).
 
-Pinterest is **not** in this group: its published glyph composites correctly as a white P on their red, which is their Primary red logo. Their "do not remove the P from the circle" rule is satisfied because HDS never ships a bare P.
-
-**Instagram is a gradient**, in both the Figma spec and Instagram's own guidelines. Gradients are `<image>` values and cannot ride in `background-color`, so the color variant applies `--hds-social-brand-image` via `background-image`, layered over the flat fill which remains the fallback. Hover needs its own gradient because `color-mix()` operates on colors, not images.
+`mail` is derived from the HDS original `tag-mail` rather than USWDS's envelope: its enclosing circle is dropped and the normalizer scales the envelope up. HDS iconography is extrapolated from wherever the shape already exists rather than substituted from USWDS.
 
 #### Deliberate deviations from the 2020 Figma spec
 
-The Figma social spec predates several platform rebrands. Structure follows Figma; marks and colors follow each platform's current official lockup.
-
 | Item | Figma (2020) | HDS Core | Why |
 | --- | --- | --- | --- |
-| Twitter | Blue bird | X mark, `#000` | Brand retired; nasa.gov and plus.nasa.gov both use X |
-| Facebook fill | `#5D77AC` | `#1877F2` | Figma value is desaturated relative to the official color |
-| LinkedIn fill | `#308CBC` | `#0A66C2` | Same |
-| Pinterest fill | `#D22E35` | `#BD081C` | Same |
-| B&W circle fill | Carbon 80 `#2E2E32` | Carbon 60 `#58585B` | See below |
-| Glyph | White/03 `#F6F5F4` | `--hds-palette-social-icon` (Carbon 05) | Existing universal palette token. nasa.gov bakes `#F7F5F4`, a third value — all three are within one step of each other |
+| Colour variant | Paired with each grayscale mark | Not shipped | Creative director decision |
+| Twitter | Blue bird | X mark | Brand retired; nasa.gov and plus.nasa.gov both use X |
+| Circle fill | Carbon 80 `#2E2E32` | Carbon 60 `#58585B` | Carbon 80 measures 1.32:1 against the dark palette background, where the circle would effectively vanish. Carbon 60 holds 7.09:1 on white and 2.52:1 on dark |
 
-**Why Carbon 60 and not Carbon 80.** `--hds-palette-social-fill` sits in `_scheme-universal` — one value across all six palettes — while `--hds-palette-social-hover-fill` varies, moving _darker_ on light schemes (Carbon 70) and _lighter_ on dark ones (Carbon 50). That opposing split only works with a midtone anchor. Carbon 80 measures 13.52:1 on white but **1.32:1 on the dark palette**, where the circle effectively vanishes; Carbon 60 gives 7.09:1 and 2.52:1. The 2020 Figma spec only ever drew these on white, so it never had to solve for dark palettes. Retained deliberately and flagged for creative director review — see Discussion #6.
-
-**Trademark.** Platform names and marks are trademarks of their respective owners. Inclusion indicates no endorsement in either direction. Note that an SVG license and a trademark license are independent: CC0 covers the transcription of a mark, never the mark itself. USWDS ships social marks with no brand-specific notice in its `LICENSE.md`; HDS Core documents them in `src/assets/img/hds-icons/README.md` and in the Storybook Icons page.
+**Trademark.** Platform names and marks are trademarks of their respective owners. Inclusion indicates no endorsement in either direction. An SVG licence and a trademark licence are independent: CC0 covers the transcription of a mark, never the mark itself. Provenance per mark is recorded in `src/assets/img/hds-icons/README.md`.
 
 ### USWDS ↔ HDS Button Mapping
 

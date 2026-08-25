@@ -29,13 +29,9 @@ Brand marks are third-party trademarks. They are included so NASA sites can link
 
 **An SVG license is not a trademark license.** CC0 covers the SVG transcription of a mark; it grants no rights in the mark itself. Use of each mark is governed by that platform's own brand guidelines. Their inclusion here does not indicate endorsement of NASA by the trademark holder, or of the trademark holder by NASA. Use a mark only to refer to the platform it identifies.
 
-Brand colors for the optional color variant are **not** in `tokens.json` — see `src/scss/components/_social.scss` for why, and for the values.
+## Marks that carry their own container
 
-## Container-locked marks
-
-Spotify, LinkedIn, and Apple Podcasts publish marks that already contain their own container (a disc or rounded square) with the glyph knocked out, so on a coloured circle the container reads twice. Separating mark from container would fix it but each platform forbids it, and bare marks exist only under CC BY 4.0 (Font Awesome), a licence this CC0 package does not carry.
-
-Spotify keeps its brand green anyway — the doubling is accepted as the lesser cost against losing the brand colour. LinkedIn and Apple Podcasts stay out of the brand-colour map pending a brand review and fall back to HDS palette colours. All three ship their glyph, and the black-and-white variant renders each platform's official monochrome logo correctly.
+Spotify, LinkedIn, and Apple Podcasts publish marks that already contain a disc or rounded square with the glyph knocked out, so on the HDS circle the container reads twice and they look slightly heavier than the rest of a row. Cosmetic only — each renders that platform's official monochrome logo, which is what their guidelines require. Bare variants exist under CC BY 4.0 (Font Awesome), a licence this CC0 package does not carry, so they are not used.
 
 ## Not included, and why
 

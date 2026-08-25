@@ -133,9 +133,6 @@ src/scss/hds-uswds.scss
 --hds-palette-utility-hover-stroke
 --hds-palette-utility-icon
 --hds-palette-utility-stroke
---hds-social-brand
---hds-social-brand-image
---hds-social-on-brand
 --hds-spacing-0
 --hds-spacing-0-5
 --hds-spacing-1
@@ -412,7 +409,6 @@ hds-type-classes
 .hds-btn-icon--secondary
 .hds-btn-icon--sm
 .hds-btn-icon--social
-.hds-btn-icon--social-color
 .hds-btn-icon--utility
 .hds-btn-icon--xl
 .hds-btn-icon--xs

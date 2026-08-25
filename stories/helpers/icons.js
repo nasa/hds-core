@@ -110,11 +110,11 @@ export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
  * Amazon marks are absent because no CC0-licensed source ships them.
  *
  * These are third-party trademarks. See src/assets/img/hds-icons/README.md for
- * provenance and the trademark notice. Pair with `.hds-btn-icon--social`, and
- * optionally `.hds-btn-icon--social-color` + `data-hds-social` for brand color.
+ * provenance and the trademark notice. Pair with `.hds-btn-icon--social`, which
+ * is grayscale only — HDS ships no brand-color variant.
  *
- * `rss` and `mail` are deliberately NOT here — they are share targets, not
- * brands, and stay on HDS palette colors in the color variant.
+ * `rss` and `mail` are deliberately NOT here — they are share targets rather
+ * than platform brands, and belong with the generic UI icons.
  */
 export const hdsSocialIcons = [
   'logo-android',

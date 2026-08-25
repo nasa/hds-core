@@ -1,236 +1,26 @@
 // ============================================================
-// HDS Component — Social Brand Colors
+// HDS Component — Social Link Bridge
 // @nasa-hds/core
 // ============================================================
-// Optional brand-colored treatment for `.hds-btn-icon--social`.
-// The B&W circle in `_icon-button.scss` remains the default;
-// this file only adds the opt-in color layer.
+// Brings the USWDS government footer's social links onto the HDS
+// social button treatment. There is no brand-colour layer: HDS
+// ships social marks in a single grayscale treatment only
+// (creative director decision), so `.hds-btn-icon--social` in
+// `_icon-button.scss` is the whole component and this file only
+// bridges the USWDS footer onto it.
 //
 // TRADEMARK NOTICE
-// The platform names and marks referenced here are trademarks of
-// their respective owners. Their inclusion does not indicate
+// The platform marks in the HDS sprite are trademarks of their
+// respective owners. Their inclusion does not indicate
 // endorsement of NASA by the trademark holder, or of the
-// trademark holder by NASA. Use these marks only to refer to the
-// platform they identify, and follow each platform's own brand
-// guidelines. Glyphs are sourced from nasa.gov, USWDS (CC0), and
-// Simple Icons (CC0-1.0) — see docs/DESIGN.md → Social Icons.
-//
-// ── How it works ────────────────────────────────────────────
-// Two concerns are kept separate, so neither has to know about
-// the other:
-//
-//   1. The platform hook `[data-hds-social="…"]` DECLARES which
-//      platform a button represents. It paints nothing on its
-//      own — it only sets two custom properties.
-//   2. `.hds-btn-icon--social-color` CONSUMES those properties.
-//
-// Because the hook only sets inherited custom properties, the
-// color modifier works on the button itself OR on any ancestor
-// (a row, a footer, a share bar) with no extra selectors.
-//
-// Marks with no brand entry (mail, share, notification, plus
-// LinkedIn and Apple Podcasts) resolve through the `var()`
-// fallback to the standard HDS social palette colors.
-// That is the intended behavior, not an oversight.
-//
-//   --hds-social-brand        flat fill (a <color>)
-//   --hds-social-brand-image  optional gradient (an <image>)
-//   --hds-social-on-brand     glyph color on that fill
-//
-// Adopters linking to a platform HDS does not ship can set
-// `--hds-social-brand` themselves in `@layer site`.
-//
-// ── Accessibility ───────────────────────────────────────────
-// Brand fills use each platform's official lockup colors. Most
-// clear the 3:1 non-text contrast threshold, but Spotify
-// (1.92:1), WhatsApp (1.98:1), Telegram (2.77:1), and GIPHY
-// (2.86:1) do not.
-// These rely on the WCAG 2.2 SC 1.4.11 logotype exception
-// ("Part of a logo or brand name has no minimum contrast
-// requirement"), because the official lockups are what the
-// platforms' brand guidelines require. The B&W default remains
-// the higher-contrast option for any context that needs it.
+// trademark holder by NASA. Use a mark only to refer to the
+// platform it identifies, and follow that platform's own brand
+// guidelines. Provenance and per-mark sources are recorded in
+// src/assets/img/hds-icons/README.md.
 // ============================================================
 
-@use 'sass:list';
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
-
-// ── Brand fills ───────────────────────────────────────────────
-// Hand-authored, deliberately NOT in tokens.json: these are
-// third-party trademark values, not NASA brand primitives, and
-// tokens.json's color group is scoped to NASA-branded UI.
-// Figma leaves them as raw fills (not variables) for the same
-// reason. Values are each platform's current official color —
-// the 2020 HDS Figma spec predates several rebrands.
-//
-// SOURCES — for both the hex values and the glyph artwork.
-// Re-check these when a platform rebrands; the hex and the mark
-// usually change together.
-//
-//   android         https://developer.android.com/distribute/marketing-tools/brand-guidelines
-//   apple           https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html
-//   apple-podcasts  https://www.apple.com/itunes/marketing-on-podcasts/identity-guidelines.html
-//   facebook        https://about.meta.com/brand/resources/facebook/logo
-//   flickr          https://www.flickr.com/help/brand
-//   giphy           https://support.giphy.com/hc/en-us/articles/360022283772-GIPHY-Brand-Guidelines
-//   github          https://github.com/logos
-//   google-play     https://partnermarketinghub.withgoogle.com/brands/google-play/visual-identity/
-//   instagram       https://about.meta.com/brand/resources/instagram
-//   linkedin        https://brand.linkedin.com/in-logo
-//   pinterest       https://business.pinterest.com/brand-guidelines/
-//   reddit          https://redditbrand.lingoapp.com/s/Social-PXzmWE
-//   snapchat        https://www.snapchat.com/brand-guidelines
-//   soundcloud      https://community.soundcloud.com/company/media-kit
-//   spotify         https://newsroom.spotify.com/media-kit/logo-and-brand-assets/
-//   telegram        https://telegram.org/press
-//   threads         https://www.meta.com/brand/resources/instagram/threads
-//   tiktok          https://www.tiktok.com/about/brand-guidelines
-//   tumblr          https://www.tumblr.com/logo
-//   twitch          https://brand.twitch.tv
-//   whatsapp        https://about.meta.com/brand/resources/whatsapp/whatsapp-brand
-//   x               https://about.x.com/en/who-we-are/brand-toolkit
-//   youtube         https://www.youtube.com/howyoutubeworks/resources/brand-resources/
-//
-// Hex values are cross-checked against the Simple Icons brand
-// dataset, which tracks each platform's published brand color.
-// Two are unresolved and flagged for review:
-//   - pinterest: Simple Icons still lists the pre-rebrand #BD081C;
-//     the live brand page shows the current red used here.
-//   - linkedin: absent from Simple Icons; #0A66C2 is LinkedIn's
-//     current blue, taken from their [in] logo page.
-
-// CONTAINER-LOCKED MARKS. Spotify, LinkedIn, and Apple Podcasts
-// each publish a mark that already contains its own container (a
-// disc or rounded square) with the glyph knocked out of it, so on
-// a coloured circle the container reads twice. Separating mark
-// from container would fix that but is forbidden by each platform
-// ("the circle and waves cannot be separated"; "the 'in' part
-// should always be in the blue square"). Bare marks exist under
-// CC BY 4.0 (Font Awesome), a licence this CC0 package does not
-// carry.
-//
-// Spotify keeps its brand green regardless — the doubling is
-// accepted as the lesser cost against losing the brand colour
-// entirely (maintainer decision). LinkedIn and Apple Podcasts stay
-// out of the map pending a brand review, and fall through the
-// `var()` fallback to HDS palette colours like `mail` and `share`.
-// Their glyphs still ship, and the black-and-white variant renders
-// each platform's official monochrome logo correctly.
-
-$_social-brands: (
-  'android': (#3ddc84, $hds-color-carbon-black),
-  'apple': (#000, $hds-color-spacesuit-white),
-  'facebook': (#0866ff, $hds-color-spacesuit-white),
-  'flickr': (#0063dc, $hds-color-spacesuit-white),
-  'giphy': (#f66, $hds-color-spacesuit-white),
-  'github': (#181717, $hds-color-spacesuit-white),
-  'google-play': (#414141, $hds-color-spacesuit-white),
-  'instagram': (#ff0069, $hds-color-spacesuit-white),
-  'pinterest': (#e60023, $hds-color-spacesuit-white),
-  'reddit': (#ff4500, $hds-color-spacesuit-white),
-  'snapchat': (#fffc00, $hds-color-carbon-black),
-  'soundcloud': (#f50, $hds-color-spacesuit-white),
-  'spotify': (#1ed760, $hds-color-spacesuit-white),
-  'telegram': (#26a5e4, $hds-color-spacesuit-white),
-  'threads': (#000, $hds-color-spacesuit-white),
-  'tiktok': (#000, $hds-color-spacesuit-white),
-  'tumblr': (#36465d, $hds-color-spacesuit-white),
-  'twitch': (#9146ff, $hds-color-spacesuit-white),
-  'whatsapp': (#25d366, $hds-color-spacesuit-white),
-  'x': (#000, $hds-color-spacesuit-white),
-  'youtube': (#f00, $hds-color-spacesuit-white),
-);
-
-// ── Platform hooks ────────────────────────────────────────────
-// Declaration only — these rules paint nothing themselves.
-
-@each $name, $pair in $_social-brands {
-  [data-hds-social='#{$name}'] {
-    --hds-social-brand: #{list.nth($pair, 1)};
-    --hds-social-on-brand: #{list.nth($pair, 2)};
-  }
-}
-
-// RSS is not a platform brand — the feed mark has no trademark
-// owner — so it takes an HDS colour rather than a brand one. The
-// value is palette-aware via `--hds-palette-marker`: NASA Blue on
-// light palettes, NASA Blue Tint on dark. A white glyph clears
-// 3:1 on both (4.74:1 and 3.12:1). Because these are palette
-// tokens rather than literals, the hook is declared here instead
-// of in the map above.
-[data-hds-social='rss'] {
-  --hds-social-brand: var(--hds-palette-marker);
-  --hds-social-on-brand: var(--hds-palette-btn-filled-text);
-}
-
-// Instagram is a gradient in both the HDS Figma spec and the
-// platform's own guidelines. Gradients are <image> values, so
-// they cannot ride in `background-color` — they need their own
-// property applied via `background-image`. The flat fill above
-// stays as the fallback and shows through if the image is
-// unsupported or overridden.
-[data-hds-social='instagram'] {
-  --hds-social-brand-image: linear-gradient(
-    45deg,
-    #f28a4a 0%,
-    #e04762 35%,
-    #a838a8 70%,
-    #9e59be 100%
-  );
-}
-
-// ── Color variant ─────────────────────────────────────────────
-// Consumes whatever the hook declared. Every value falls back to
-// the standard HDS social palette, so a button with no platform
-// hook renders exactly as the B&W default.
-
-.hds-btn-icon--social-color {
-  background-color: var(--hds-social-brand, var(--hds-palette-social-fill));
-  background-image: var(--hds-social-brand-image, none);
-  border-color: var(--hds-social-brand, var(--hds-palette-social-fill));
-  color: var(--hds-social-on-brand, var(--hds-palette-social-icon));
-
-  // Hover darkens the flat fill. `color-mix()` operates on
-  // colors, not images, so gradient platforms get their own
-  // hover gradient below rather than a computed shade.
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    background-color: color-mix(
-      in srgb,
-      var(--hds-social-brand, var(--hds-palette-social-fill)) 85%,
-      #{$hds-color-carbon-black}
-    );
-    border-color: color-mix(
-      in srgb,
-      var(--hds-social-brand, var(--hds-palette-social-fill)) 85%,
-      #{$hds-color-carbon-black}
-    );
-  }
-
-  // Disabled drops the brand entirely — a grayed-out brand color
-  // reads as a rendering bug rather than a disabled state.
-  &[disabled],
-  &:disabled {
-    background-color: var(--hds-palette-btn-disabled-bg);
-    background-image: none;
-    border-color: var(--hds-palette-btn-disabled-bg);
-    color: var(--hds-palette-btn-filled-text);
-  }
-}
-
-.hds-btn-icon--social-color[data-hds-social='instagram'] {
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    background-image: linear-gradient(
-      45deg,
-      #d9773c 0%,
-      #c33b53 35%,
-      #8f2f8f 70%,
-      #854ba1 100%
-    );
-  }
-}
 
 // ── USWDS footer social link bridge ───────────────────────────
 // The government footer has no HDS theme (see Issue #86), so
@@ -249,10 +39,10 @@ $_social-brands: (
 // CSS cannot reach inside an <img>. This block only supplies the
 // circle, which CSS *can* own, so hover stays palette-aware.
 //
-// B&W only, by design. Brand color needs a per-platform hook the
-// USWDS markup has no place to put; adopters who want color
-// should move to `.hds-btn-icon--social` in a `.usa-button-group`
-// — see the Icon Button docs for copy-paste markup.
+// Grayscale, like every HDS social button. Adopters building a
+// social row from scratch should use `.hds-btn-icon--social`
+// inside a `.usa-button-group` — see the Icon Button docs for
+// copy-paste markup.
 //
 // `color` and `fill` are both set so that adopters who have
 // migrated to an inline `<svg class="usa-social-link__icon">`

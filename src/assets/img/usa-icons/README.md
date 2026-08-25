@@ -20,7 +20,7 @@ Replacing the asset is the only way to give a stock USWDS footer HDS-consistent 
 
 ## Consequences
 
-- **Fills are baked**, not `currentColor` — an `<img>` cannot resolve it. The baked value is `#f6f6f6` (`$hds-color-carbon-05`), which is what `--hds-palette-social-icon` resolves to on _every_ HDS palette, so nothing palette-aware is lost. The circle behind the glyph is drawn in CSS by `components/_social.scss` and stays palette-aware.
+- **Fills are baked**, not `currentColor` — an `<img>` cannot resolve it. The baked value is `#f6f6f6` (`$hds-color-carbon-05`), which is what `--hds-palette-social-icon` resolves to on _every_ HDS palette, so nothing palette-aware is lost. HDS social marks are grayscale only, so there is no brand colour to preserve here either. The circle behind the glyph is drawn in CSS by `components/_social.scss` and stays palette-aware.
 - **`twitter.svg` contains the X mark.** USWDS still ships the retired bird under this name. Any NASA site pointing at `twitter.svg` renders a dead brand, so it resolves to the current mark. `x.svg` is also provided for markup that has already migrated.
 - Adopters who load assets from `@uswds/uswds` directly rather than from `@nasa-hds/core/assets` get the stock USWDS icons, not these.
 

@@ -42,9 +42,7 @@ Social media sharing and follow links. Use `<a>` tags since these navigate to ex
 
 HDS Core ships marks for the platforms NASA maintains an official presence on, the share targets used on nasa.gov and plus.nasa.gov, and GitHub. See [Icons](?path=/docs/foundations-icons--docs) for the full set. All use the `logo-` prefix in the sprite.
 
-#### Black and white (default)
-
-The default social button is a neutral circle with a light glyph, identical on every palette. This is the lower-emphasis option and the one to reach for in footers and dense rows.
+HDS ships social marks in a **single grayscale treatment**. There is no brand-colour variant: the neutral circle is used everywhere, on every palette.
 
 ```html
 <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="https://www.facebook.com/NASA" aria-label="NASA on Facebook">
@@ -54,31 +52,7 @@ The default social button is a neutral circle with a light glyph, identical on e
 </a>
 ```
 
-#### Brand color
-
-Add `.hds-btn-icon--social-color` and a `data-hds-social` attribute naming the platform. The attribute supplies the brand color; the class turns it on.
-
-```html
-<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="facebook" href="https://www.facebook.com/NASA" aria-label="NASA on Facebook">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="/assets/img/hds-sprite.svg#logo-facebook"></use>
-  </svg>
-</a>
-```
-
-Because the platform hook only sets inherited custom properties, the color class works **on the button or on any ancestor** — put it on a wrapper to color a whole row at once:
-
-```html
-<ul class="usa-button-group hds-btn-icon--social-color">
-  <li class="usa-button-group__item">
-    <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" data-hds-social="x" href="https://x.com/NASA" aria-label="NASA on X">…</a>
-  </li>
-</ul>
-```
-
-<Canvas of={IconButtonStories.SocialColor} />
-
-Buttons with **no** `data-hds-social` keep the standard HDS social colors even with the color class applied. That is intentional: `rss` and `mail` are share targets rather than brands, so they stay on the palette.
+This is a deliberate simplification. Brand-coloured social buttons require each platform's official lockup colours, which brings per-platform contrast exceptions, marks whose container cannot be separated from the glyph, and a maintenance burden every time a platform rebrands. A single grayscale treatment sidesteps all of it and keeps a social row visually consistent.
 
 <Canvas of={IconButtonStories.SocialAllPlatforms} />
 
@@ -109,37 +83,16 @@ The HDS Figma spec places all of these on the **NASA Blue secondary circle** (`.
 </button>
 ```
 
-`rss` is the one exception with a colour of its own. It is not a platform brand — the feed mark has no trademark owner — so it takes an HDS colour rather than a brand one. `data-hds-social="rss"` supplies a palette-aware blue (NASA Blue on light palettes, NASA Blue Tint on dark), matching the other buttons in the row rather than standing out in orange:
-
-```html
-<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="rss" href="/feed.xml" aria-label="Subscribe to the RSS feed">…</a>
-```
-
-`share`, `notification`, and `mail` have no brand colour and stay on HDS palette colours in the colour variant, by design.
-
 `mail` is the HDS envelope from `tag-mail` with its enclosing circle removed and scaled up — not USWDS's envelope, which is a different shape.
 
 <Canvas of={IconButtonStories.GenericShareTargets} />
 
 #### Bring your own logo
 
-HDS Core cannot ship every platform. Two cases need your own artwork, and both work without an HDS change.
-
-**A platform we ship a glyph for, but no brand colour.** Set the custom properties in `@layer site`:
-
-```css
-@layer site {
-  [data-hds-social='mastodon'] {
-    --hds-social-brand: #6364ff;
-    --hds-social-on-brand: #fff;
-  }
-}
-```
-
-**A platform we ship no glyph for at all.** Add the mark to your own sprite and point `<use>` at it — the button, sizing, focus ring, and hover all still come from HDS:
+HDS Core cannot ship every platform. If you need a mark we do not have, add it to your own sprite and point `<use>` at it — the button, sizing, focus ring, and hover all still come from HDS:
 
 ```html
-<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--social-color hds-btn-icon--xl" data-hds-social="mastodon" href="https://example.social/@nasa" aria-label="NASA on Mastodon">
+<a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="https://example.social/@nasa" aria-label="NASA on Mastodon">
   <svg class="hds-icon" aria-hidden="true" focusable="false">
     <use xlink:href="/assets/img/my-sprite.svg#logo-mastodon"></use>
   </svg>
@@ -150,20 +103,18 @@ Draw your glyph on the HDS convention so it matches the rest of the row: `viewBo
 
 **Use the platform's own published mark.** Don't redraw a logo by hand and don't recolour one — most brand guidelines forbid both. Check the platform's brand page for a monochrome or single-colour asset, which is what the sprite needs.
 
-#### Container-locked marks
+#### Marks that carry their own container
 
-LinkedIn and Apple Podcasts ship a glyph but **no brand colour**, so the colour variant leaves them on HDS palette colours. Each publishes a mark that already contains its own container with the glyph knocked out of it; on a coloured circle the container reads twice. Their guidelines also forbid separating mark from container, so this is not fixable by redrawing the glyph.
+Spotify, LinkedIn, and Apple Podcasts publish marks that already contain their own container — a disc or rounded square with the glyph knocked out of it. On the HDS circle that container reads twice, so those three look slightly heavier than the rest of a row.
 
-Spotify has the same container, but keeps its brand green — the doubled container is accepted as the lesser cost against losing the brand colour entirely.
-
-The black-and-white variant renders all three correctly, since it is that platform's official monochrome logo on a neutral circle. Use it, or supply your own full-colour artwork per **Bring your own logo** above.
+This is cosmetic, not a compliance problem: each renders that platform's official monochrome logo, which is exactly what their guidelines call for. Separating mark from container would even out the row but every one of them forbids it.
 
 <Note type="figma">
   The HDS Figma social spec dates from 2020 and predates several platform rebrands — it shows the retired Twitter bird, and its brand hexes are desaturated relative to today's official lockups. HDS Core follows Figma for <em>structure</em> (32px circle, BW/Color pairing, glyph proportions) and each platform's <em>current official lockup</em> for marks and colors. The Figma B&W fill is Carbon 80; HDS Core ships Carbon 60, which is deliberate — see Accessibility below. Flagged for creative director review.
 </Note>
 
 <Note type="uswds">
-  The USWDS footer renders social links as <code>&lt;img&gt;</code>, which CSS cannot recolor. HDS Core ships replacement assets under the same USWDS filenames, so a stock <code>.usa-social-link</code> footer picks up HDS social marks and the HDS circle with no markup change. Note that <code>twitter.svg</code> resolves to the current X mark, since USWDS still ships the retired bird under that name. The footer bridge is black and white only — for brand color, move to the button group above.
+  The USWDS footer renders social links as <code>&lt;img&gt;</code>, which CSS cannot recolor. HDS Core ships replacement assets under the same USWDS filenames, so a stock <code>.usa-social-link</code> footer picks up HDS social marks and the HDS circle with no markup change. Note that <code>twitter.svg</code> resolves to the current X mark, since USWDS still ships the retired bird under that name.
 </Note>
 
 ### Interactive
@@ -250,7 +201,7 @@ Eight sizes are available. Size and role classes are independent — combine any
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.
 - **Touch target size.** The default size and above all meet the 24×24px minimum recommended by WCAG 2.5.8. The 2xs and xs sizes are below this threshold — use them only in desktop/mouse contexts.
 - **Interactive disclosure buttons** require `aria-expanded` and `aria-controls` linking the button to its popover. The icon glyph must have at least 3:1 contrast against its background. The circle stroke is decorative framing — accessibility does not depend on it being visible.
-- **Social brand colors and the logotype exception.** The color variant uses each platform's official lockup colors. Most clear the 3:1 non-text contrast threshold, but SoundCloud (2.94:1), Telegram (2.54:1), and WhatsApp (1.82:1) do not. These rely on WCAG 2.2 [SC 1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html), which exempts logotypes: "Part of a logo or brand name has no minimum contrast requirement." Altering a mark's colors to pass would conflict with the platform's brand guidelines. **The black-and-white variant is the higher-contrast option** — prefer it wherever brand color is not specifically required.
+- **Social marks are grayscale only**, so no per-platform contrast exception is needed. The glyph is Carbon 05 on Carbon 60 — 6.51:1, comfortably above the 3:1 non-text threshold, and identical on every palette. Brand-coloured social buttons would need several WCAG 1.4.11 logotype exceptions; shipping grayscale avoids them entirely.
 - **Name the platform in the label, not the glyph.** A brand mark carries no accessible name. Write `aria-label="NASA on Facebook"`, not `aria-label="Facebook icon"`.
 - **The social fill is Carbon 60 on every palette, not the Carbon 80 in Figma.** Carbon 80 measures 1.32:1 against the dark palette background, so the circle would effectively disappear there; Carbon 60 holds 2.52:1 on dark and 7.09:1 on white. The circle is decorative framing, so this affects perceived affordance rather than conformance. Flagged for creative director review.
 
