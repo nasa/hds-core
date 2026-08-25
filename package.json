@@ -47,6 +47,8 @@
     "check:uswds-core": "bash scripts/check-uswds-core.sh",
     "check:api-snapshot": "node scripts/check-public-api/index.js",
     "check:tokens": "node scripts/check-tokens-drift.js",
+    "check:markup-coverage": "node scripts/check-markup-coverage.js",
+    "docs:llms": "node scripts/generate-llms.mjs && node scripts/check-markup-coverage.js --write-inventory",
     "update:api-snapshot": "node scripts/check-public-api/update-snapshot.js",
     "sprite": "svg-sprite --config .config/svg-sprite.config.json src/assets/img/hds-icons/*.svg",
     "build:tokens": "style-dictionary build --config .config/sd.config.js",
