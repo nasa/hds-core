@@ -1,0 +1,56 @@
+<!-- Source: ./stories/overview/DesignStandards.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs -->
+# Design Standards
+
+These standards define what every standalone NASA website must achieve visually to comply with [NID 2800.147](https://nodis3.gsfc.nasa.gov/OPD_Docs/NID_2800_147_.pdf). They apply regardless of how you build your site, whether you use HDS Core, reference our guidance to build your own implementation, or take another approach entirely.
+
+Looking for how to use HDS Core? See [Getting Started](./overview-getting-started.md) to find the right path for your site.
+
+## Standards hierarchy
+
+NASA's design standards build on federal requirements and sit alongside other agency-specific standards. You should be familiar with the full picture.
+
+**Federal standards**
+
+- **[Federal Website Standards](https://standards.digital.gov/)**: Requirements for all federal public-facing websites, including page titles, meta descriptions, and the federal government banner.
+- **[Section 508 / WCAG 2.1 AA](https://www.section508.gov/)**: Accessibility requirements for all government websites (public-facing or internal). Includes contrast ratios, keyboard navigation, screen reader support, and visible focus indicators.
+- **[USWDS Design Principles](https://designsystem.digital.gov/design-principles/)**: Human-centered design guidance from the U.S. Web Design System. Focused on user research, trust, consistency, and continuous feedback.
+
+**NASA standards**
+
+- **[NASA Internet Publishing Standards](https://nodis3.gsfc.nasa.gov/OPD_Docs/NAII_2800_2_.pdf) (NAII 2800.2, Appendix D)**: What content can and cannot be published on NASA websites, including restrictions on OPSEC-sensitive information, PII, and export-controlled material.
+- **[NASA Stylebook and Communications Manual](https://website.nasa.gov/style-guide/) (internal NASA link)**: How to write and format content on NASA sites: voice, tone, editorial conventions, and plain language.
+- **NASA Design Standards (this page)**: Graphic design and agency branding requirements for all public-facing NASA sites, per NID 2800.147 section 5(i)(1).
+
+## NASA design standards
+
+The following standards implement NID 2800.147's requirement that standalone sites "adhere to the unified design system and global navigation of the flagship." Compliance is determined by what the public sees and experiences on your site, not by your underlying technology choices.
+
+| Standard                                                    | What compliance looks like                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**Color**](./foundations-color.md)            | Site uses HDS colors in the correct roles: NASA Red for primary actions, NASA Blue for secondary actions, and Carbon scale for text and UI. Any custom or legacy color values are replaced with HDS equivalents.                                                                                                                                                                                                                                                                                                                                  |
+| [**Typography**](./foundations-typography.md)  | Site uses the HDS type stack: Public Sans for body text; Inter for display type, headings, buttons and UI elements; and DM Mono for monospace text, tabular numbers and small labels.                                                                                                                                                                                                                                                                                                                                                             |
+| [**Grid**](./foundations-grid.md)              | Layout is responsive across viewport sizes. Site is functional and readable on mobile devices.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| [**Spacing**](./foundations-spacing.md)        | Layout uses consistent spacing aligned with the HDS spacing scale.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| [**Links**](./components-link-guidance.md)     | Links are styled with dashed gray underlines, and external links to non-NASA domains are followed by an inline diagonal arrow icon.                                                                                                                                                                                                                                                                                                                                                                                                               |
+| [**Buttons**](./components-button-guidance.md) | Site uses only HDS button styles: [Primary Arrow](?path=/docs/components-button-guidance--docs&tags=#primary-arrow) buttons with text labels and red arrow icons, rectangular [filled](./components-button-guidance.md#call-to-action-cta) or [outline](./components-button-guidance.md#outline) buttons with squared corners (not rounded), circular [icon buttons](?path=/docs/components-icon-button-guidance--docs&tags=), or [unstyled](?path=/docs/components-button-guidance--docs&tags=#unstyled) text buttons. |
+| [**Icons**](./foundations-icons.md)            | Site uses HDS icons, supplementing with USWDS icons if no HDS version is available. Any HDS icons reserved for specific meanings across the agency are used correctly.                                                                                                                                                                                                                                                                                                                                                                            |
+| **Agency header**                                           | Site displays an HDS header, including the federal government banner, agency logo linking to nasa.gov, and the Explore navigation menu. Both a full and simplified header variant are planned.                                                                                                                                                                                                                                                                                                                                                    |
+| **Agency footer**                                           | Site displays an HDS footer with required links, the Responsible NASA Official's name, a site/page editor name or team contact, and a "Last Updated" date on every non-authenticated page. Both a full and simplified footer variant are planned.                                                                                                                                                                                                                                                                                                 |
+
+## What "compliance by result" means
+
+These standards describe outcomes, not tools or techniques.
+
+A site that uses HDS Core's compiled CSS and a site that independently implements the same visual standards are equally compliant. HDS Core is the easiest path to these results because it's maintained by the web modernization team and stays current automatically as NASA's design language evolves, but it is not the only valid path.
+
+If your site achieves the results described above through a different implementation, it meets the design standards. The Foundations and Components sections in the sidebar document the design decisions behind each standard and serve as a reference for any implementation approach.
+
+## The bigger picture
+
+Meeting NASA's design standards covers the frontend dimension of modernization. A fully modernized NASA website also addresses:
+
+- **Accessibility**: Full Section 508 / WCAG 2.1 AA compliance, including contrast ratios, keyboard navigation, and screen reader support. HDS Core provides accessible color palettes and focus ring styles, but accessibility also depends on your markup, content structure, and interaction patterns. See [Accessibility](./foundations-accessibility.md) for detailed guidance.
+- **Backend**: Secure, consolidated, cost-effective, up-to-date, and fully resourced for ongoing maintenance.
+- **Content**: Accurate, authoritative, current, written in plain language, and optimized for discoverability per the [NASA Stylebook](https://website.nasa.gov/style-guide/) (internal NASA link).
+- **Federal and agency compliance**: All requirements in [NAII 2800.2](https://nodis3.gsfc.nasa.gov/OPD_Docs/NAII_2800_2_.pdf), Appendix C, including analytics, IT and content security, privacy, and records management.

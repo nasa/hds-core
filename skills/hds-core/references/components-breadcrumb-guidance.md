@@ -1,0 +1,118 @@
+<!-- Source: ./stories/components/Breadcrumb.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-breadcrumb-guidance--docs -->
+# Breadcrumb
+
+Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy. HDS breadcrumbs use USWDS [`.usa-breadcrumb`](https://designsystem.digital.gov/components/breadcrumb/) markup.
+
+Breadcrumbs consist of a list of links separated by forward slashes, beginning with the homepage and ending with the current page. The current page is always the last item — displayed in a distinct color but never as a link. **Maximum 3 visible elements and 2 slashes**, regardless of how deep the page is.
+
+## Variants
+
+### 2 levels
+
+The simplest breadcrumb — root page and current page.
+
+```html
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Home</a></li>
+  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Missions</span></li>
+  </ol>
+</nav>
+```
+
+### 3 levels
+
+Root page, one parent, and the current page. This is the maximum depth shown without truncation.
+
+```html
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Home</a></li>
+  <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Missions</a></li>
+  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Artemis I</span></li>
+  </ol>
+</nav>
+```
+
+### 4+ levels (with ellipsis)
+
+For pages deeper than 3 levels, Home and all intermediate levels are replaced with an ellipsis (`…`). Only the ellipsis, the immediate parent, and the current page are shown.
+
+```html
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    <li class="usa-breadcrumb__list-item"><span class="usa-breadcrumb__link">…</span></li>
+  <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Artemis I</a></li>
+  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Multimedia</span></li>
+  </ol>
+</nav>
+```
+
+> **Differs from USWDS:** HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of chevrons, a strict 3-element maximum with ellipsis truncation, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.
+
+## When to use
+
+- **Multi-level site hierarchies** — any page that is 2+ levels deep in the site structure
+- **Below global navigation** — displayed on most pages at Large and XL screen sizes
+- **Wayfinding** — helping users orient themselves and navigate back up the hierarchy
+
+## When to consider something else
+
+- **Single-level sites** — if there's no meaningful hierarchy, breadcrumbs add noise
+- **Step-by-step processes** — use a step indicator instead. Breadcrumbs show hierarchy, not progress.
+
+## Usability guidance
+
+- **Always include the current page.** The last item shows the user where they are. It's never a clickable link.
+- **Start with Home** for 2- and 3-level breadcrumbs. The first item links to the site root.
+- **Use ellipsis for 4+ levels.** Home disappears, and the ellipsis becomes the first element. Only 3 elements are ever visible.
+- **Use real page names.** "Artemis I" is better than "Mission Detail."
+- **Max 2 slashes.** If you see 3+ slashes, the breadcrumb is too deep — truncate with ellipsis.
+- **Small screens** — breadcrumbs are displayed at Large and XL screen sizes only. Ensure other navigation patterns (back button, menu) cover the same paths on mobile and tablet.
+
+> **Differs from Figma:** The HDS Figma spec shows breadcrumbs inside a "secondary nav bar" that transitions on scroll to display only the current page title. This composed pattern requires JavaScript and is deferred to a future phase.
+
+## Accessibility
+
+- **Keyboard navigation:** Users trigger a breadcrumb link by pressing **Enter** while the link has focus. Users navigate between links with **Tab** and **Shift+Tab**.
+- **ARIA navigation landmark:** Use `<nav>` with `aria-label="Breadcrumbs"`.
+- **`aria-current="page"`:** The current page element must include this attribute.
+- **Ordered list (`<ol>`):** Screen readers announce position and count (e.g., "item 2 of 3"), reinforcing the hierarchical structure.
+- **Current page is not a link.** Linking to the current page creates confusion, especially for screen reader users.
+
+The recommended markup shown above includes all necessary ARIA attributes. The ellipsis variant markup is non-obvious, so both patterns are shown below:
+
+```html
+<!-- 3 levels -->
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    <li class="usa-breadcrumb__list-item">
+      <a class="usa-breadcrumb__link" href="/">Home</a>
+    </li>
+    <li class="usa-breadcrumb__list-item">
+      <a class="usa-breadcrumb__link" href="/missions">Missions</a>
+    </li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
+      <span>Artemis I</span>
+    </li>
+  </ol>
+</nav>
+
+<!-- 4+ levels (ellipsis, Home hidden) -->
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    <li class="usa-breadcrumb__list-item">
+      <span class="usa-breadcrumb__link">…</span>
+    </li>
+    <li class="usa-breadcrumb__list-item">
+      <a class="usa-breadcrumb__link" href="/missions/artemis">Artemis</a>
+    </li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
+      <span>Artemis I Overview</span>
+    </li>
+  </ol>
+</nav>
+```
+
+See [Accessibility](./foundations-accessibility.md) for HDS-wide guidance and the [USWDS breadcrumb accessibility tests](https://designsystem.digital.gov/components/breadcrumb/accessibility-tests/) for component-specific manual testing guidance.

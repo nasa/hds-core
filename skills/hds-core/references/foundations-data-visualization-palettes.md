@@ -1,0 +1,161 @@
+<!-- Source: ./stories/foundations/DataVisualizationPalettes.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-data-visualization-palettes--docs -->
+# Data Visualization Palettes
+
+Color palettes for use in charts and data visualizations. These palettes are **separate from the six HDS component palettes**; they are not intended for use in UI elements.
+
+For general color guidance, see [Color](./foundations-color.md). For chart design guidance, see [Data Visualization](./foundations-data-visualization.md).
+
+## Categorical palettes
+
+Use categorical colors when comparing distinct categories (e.g., agencies, missions, instruments). Colors are ordered to maximize visual separation between adjacent items and vary in both hue and value (lightness) for accessibility, including for users with color vision deficiency.
+
+For visualizations with 1 to 5 categories, use the optimized groupings below. These subsets are hand-selected for maximum contrast at each size. For 6 or more categories, use colors in order from the [full categorical palette](#full-categorical-palette).
+
+_Note: Tilde (~) indicates a fractional curve step optimized for categorical contrast._
+
+### Optimized for 1-5 categories
+
+#### Light backgrounds
+
+<Canvas of={DataVizStories.GroupsLight} sourceState="none" />
+
+##### Dark backgrounds
+
+<Canvas of={DataVizStories.GroupsDark} sourceState="none" />
+
+### Full categorical palette
+
+For 6 or more categories, use colors in order starting from `--hds-dataviz-color-cat-1`.
+
+#### Light backgrounds
+
+<Canvas of={DataVizStories.CategoricalLight} sourceState="none" />
+
+#### Dark backgrounds
+
+<Canvas of={DataVizStories.CategoricalDark} sourceState="none" />
+
+## Sequential palettes
+
+Sequential palettes contain shades and tints of a single hue. For light backgrounds, the darker colors indicate higher values. For dark backgrounds, the palettes are inverted and lighter colors indicate higher values.
+
+Each family provides 10 steps designed on perceptually uniform OKLch curves. For continuous color scales (heatmaps, choropleths, density plots), use these steps as interpolation stops in your charting library. For best results with continuous data, interpolate in OKLch or OKLab color space to preserve the perceptual uniformity of the original curves.
+
+### Core hue families
+
+Blue, Red, Orange, and Green are the primary data visualization hue families in HDS. For most sequential visualizations, start here.
+
+#### Blues
+
+<Canvas of={DataVizStories.SequentialBlues} sourceState="none" />
+
+#### Reds
+
+<Canvas of={DataVizStories.SequentialReds} sourceState="none" />
+
+#### Oranges
+
+<Canvas of={DataVizStories.SequentialOranges} sourceState="none" />
+
+#### Greens
+
+<Canvas of={DataVizStories.SequentialGreens} sourceState="none" />
+
+### Additional hue families
+
+Seven additional families are available when your data has a specific color association or you need to differentiate from other colors on the same page.
+
+#### Yellows
+
+<Canvas of={DataVizStories.SequentialYellows} sourceState="none" />
+
+#### Golds
+
+<Canvas of={DataVizStories.SequentialGolds} sourceState="none" />
+
+#### Limes
+
+<Canvas of={DataVizStories.SequentialLimes} sourceState="none" />
+
+#### Aquas
+
+<Canvas of={DataVizStories.SequentialAquas} sourceState="none" />
+
+#### Slates
+
+<Canvas of={DataVizStories.SequentialSlates} sourceState="none" />
+
+#### Purples
+
+<Canvas of={DataVizStories.SequentialPurples} sourceState="none" />
+
+#### Magentas
+
+<Canvas of={DataVizStories.SequentialMagentas} sourceState="none" />
+
+## Diverging palettes
+
+Diverging palettes use tints and shades of two different hues to convey a range of positive and negative values. Two sequential hue families run from dark to light, meeting at a white center. Diverging palettes do not change for light vs. dark backgrounds.
+
+HDS recommends three diverging pairs:
+
+| Pair           | Hue families                                                            |
+| -------------- | ----------------------------------------------------------------------- |
+| Blue + Red     | For temperature, above/below average, or general positive/negative data |
+| Green + Purple | For data without warm/cool connotation                                  |
+| Aqua + Magenta | High perceptual contrast alternative                                    |
+
+To construct a diverging scale, take the dark-to-light steps from one hue family and the light-to-dark steps from another, meeting at white:
+
+`Blue 80 > Blue 60 > Blue 40 > Blue 20 > White > Red 20 > Red 40 > Red 60 > Red 80`
+
+Build diverging palettes from the sequential hue families above.
+
+## How to use these palettes
+
+HDS provides data visualization colors as CSS custom properties via the optional `hds-dataviz.css` file. Use them in CSS, Sass, or copy the hex values into your charting library config.
+
+### In CSS or Sass
+
+```css
+.my-chart-series-1 {
+  fill: var(--hds-dataviz-color-cat-1);
+}
+.my-chart-series-2 {
+  fill: var(--hds-dataviz-color-cat-2);
+}
+.my-chart-series-3 {
+  fill: var(--hds-dataviz-color-cat-3);
+}
+```
+
+### In JavaScript charting libraries
+
+Chart.js, Highcharts, Plotly, and ECharts accept hex strings. Copy the hex values from the palette tables above:
+
+```js
+const chart = new Chart(ctx, {
+  data: {
+    datasets: [
+      {
+        backgroundColor: ['#1159cd', '#ef483f', '#e8892e'],
+      },
+    ],
+  },
+});
+```
+
+### Palette-aware behavior
+
+On light backgrounds (white, light, midtone, blue), the categorical properties resolve to light-background color values. Inside `.hds-palette-dark` or `.hds-palette-black`, they automatically switch to values optimized for dark backgrounds. No extra classes or overrides needed:
+
+```html
+<section class="hds-palette-dark">
+  <svg>
+    <rect fill="var(--hds-dataviz-color-cat-1)" />
+  </svg>
+</section>
+```
+
+**JavaScript module export.** A dedicated JS module for importing dataviz colors directly into React, Three.js, or other JS frameworks is planned. For now, reference `tokens.json` directly or copy hex values from the palettes above.

@@ -1,0 +1,200 @@
+<!-- Source: ./stories/guides/ReactSetup.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-react-setup--docs -->
+# React Setup
+
+This guide covers HDS Core integration for React projects. It assumes you've read [Installation](./overview-installation.md) and understand the Sass vs. pre-compiled CSS approaches.
+
+## With react-uswds (recommended)
+
+[react-uswds](https://github.com/trussworks/react-uswds) (`@trussworks/react-uswds`) is a widely adopted React component library that wraps USWDS markup in typed React components. HDS Core styles should apply automatically to react-uswds components with no extra configuration.
+
+```bash
+npm install @trussworks/react-uswds @nasa-hds/core @uswds/uswds
+```
+
+react-uswds components render standard USWDS class names (`usa-button`, `usa-accordion`, etc.), and HDS Core overrides those styles with NASA colors, typography, and spacing. Components like `<Button>`, `<Accordion>`, and `<Pagination>` render in the HDS visual identity immediately.
+
+### Sass setup
+
+Use a single compiled stylesheet that includes USWDS base styles, HDS overrides, and your project styles. This avoids loading duplicate CSS and gives you full access to HDS tokens in your own Sass.
+
+**1. Install the asset copy plugin:**
+
+```bash
+npm install -D vite-plugin-static-copy
+```
+
+HDS Core's Sass source references fonts and icons using relative paths (e.g. `url('../assets/fonts/...')`). The pre-compiled CSS path resolves these automatically, but Sass-from-source requires you to copy the assets to the expected location in your build output.
+
+**2. Your Sass entry point:**
+
+```scss
+// src/styles/index.scss
+@forward '@nasa-hds/core/scss';
+@forward './my-project-styles';
+```
+
+**3. Your React entry point:**
+
+```jsx
+// App.jsx
+
+```
+
+**Do not also import react-uswds CSS.** Your Sass entry point already includes USWDS base styles via HDS Core. Loading both creates duplicate rules:
+
+```jsx
+// Remove this — duplicates USWDS styles already in your compiled output
+
+```
+
+**4. Your `vite.config.js`:**
+
+```js
+
+export default defineConfig({
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        // HDS fonts (DM Mono, Inter) — lands at dist/assets/fonts/
+        { src: 'node_modules/@nasa-hds/core/src/assets/fonts', dest: 'assets', rename: { stripBase: 5 } },
+        // HDS icon SVGs (accordion, table sort, external link, form error)
+        { src: 'node_modules/@nasa-hds/core/src/assets/img', dest: 'assets', rename: { stripBase: 5 } },
+        // Public Sans — from USWDS — lands at dist/assets/fonts/public-sans/
+        { src: 'node_modules/@uswds/uswds/dist/fonts/public-sans', dest: 'assets/fonts', rename: { stripBase: 5 } },
+        // USWDS images (checkboxes, radio indicators, etc.)
+        { src: 'node_modules/@uswds/uswds/dist/img', dest: 'assets', rename: { stripBase: 4 } },
+      ],
+    }),
+  ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
+        loadPaths: ['node_modules/@uswds/uswds/packages', 'node_modules/@nasa-hds/core/src/scss'],
+      },
+    },
+  },
+});
+```
+
+The `stripBase` number strips leading path segments from each copied file so it lands at the path the compiled CSS expects. During the build you will see "didn't resolve at build time" warnings for font and image URLs; these are expected and safe. The files are placed by `viteStaticCopy` after Vite's CSS transform phase and will be served correctly at runtime.
+
+### Pre-compiled CSS setup
+
+If your project does not use Sass, import the compiled `hds.min.css` stylesheet directly. It includes all USWDS base styles and HDS overrides in one file, so react-uswds CSS is not needed:
+
+```jsx
+// App.jsx
+
+```
+
+The import specifier is `@nasa-hds/core/css` — the key exposed in the package's `exports` map. A deep path like `@nasa-hds/core/dist/css/hds.min.css` is an internal file reference and will fail to resolve in any bundler that enforces the `exports` map (Vite, webpack 5, Next.js, Rollup).
+
+Do not also import react-uswds CSS. `hds.min.css` already includes everything react-uswds CSS provides, plus HDS overrides on top.
+
+### Do not load `uswds.js` with react-uswds
+
+react-uswds handles all component behavior in React. Loading `uswds.js` alongside react-uswds causes components to initialize twice.
+
+## Without react-uswds
+
+If you prefer not to add a component library dependency, write USWDS markup directly in JSX and let HDS Core handle the styling.
+
+Follow the Sass or pre-compiled setup in [Installation](./overview-installation.md). Then write components using USWDS class names:
+
+```jsx
+function MyButton({ children, ...props }) {
+  return (
+    <button className="usa-button" type="button" {...props}>
+      {children}
+    </button>
+  );
+}
+```
+
+### Interactive USWDS components
+
+Some USWDS components require JavaScript for interactive behavior (accordion, banner, date picker, in-page navigation, tooltip). Without react-uswds, you have two options:
+
+**Option A: Initialize the USWDS component module after render.** USWDS scans the DOM on page load, so dynamically rendered components need manual initialization. In USWDS 3, import the per-component module and call `.on()` (and `.off()` on cleanup):
+
+```jsx
+
+function MyAccordion({ items }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    accordion.on(ref.current);
+    return () => accordion.off(ref.current);
+  }, []);
+
+  return (
+    <div className="usa-accordion" ref={ref}>
+      
+    </div>
+  );
+}
+```
+
+The exact module path and API can vary by USWDS version; verify against the version pinned in your project.
+
+**Option B: Handle behavior in React yourself.** Manage expanded/collapsed state, ARIA attributes, and keyboard navigation in your own code.
+
+Both options require more work than using react-uswds, which is why we recommend it for most React projects.
+
+## HDS-only components
+
+Some HDS components have no USWDS equivalent and no react-uswds wrapper. They are plain markup; use them with `className` in JSX like any other HTML element:
+
+```jsx
+{
+  /* Primary arrow button */
+}
+<a href="/missions" className="hds-btn--primary">
+  Explore Missions
+</a>;
+
+{
+  /* Icon button */
+}
+<button type="button" className="hds-btn-icon hds-btn-icon--utility">
+  <svg className="hds-glyph" role="img" aria-hidden="true">
+    <use href="/assets/hds-sprite.svg#close" />
+  </svg>
+  <span className="usa-sr-only">Close</span>
+</button>;
+
+{
+  /* Overline label */
+}
+<p className="hds-overline">Mission Status</p>;
+```
+
+<Note>**Icon sprite:** HDS icon buttons reference an SVG sprite (`hds-sprite.svg#id`). Copy the sprite from `@nasa-hds/core` into your app's static/public directory (or import it as a URL through your bundler) and point the `<use href>` at that path. The `/assets/...` path above is illustrative.</Note>
+
+Check each component's Guidance page in Storybook for the correct markup.
+
+## Color palettes
+
+Wrap any section in a palette class to switch the color scheme. All child elements including react-uswds components adapt automatically:
+
+```jsx
+<div className="hds-palette-dark">
+  <h2>Dark Section</h2>
+  <p>Text, links, and buttons all adapt to the dark palette.</p>
+  <Button>Styled for dark background</Button>
+</div>
+```
+
+Available palettes: `hds-palette-white` (default), `hds-palette-light`, `hds-palette-midtone`, `hds-palette-dark`, `hds-palette-blue`, `hds-palette-black` (header/footer only).
+
+## Version compatibility
+
+HDS Core and react-uswds v11 are both built on USWDS 3.13.0. If you are using a different version of react-uswds, confirm its USWDS peer dependency aligns with HDS Core's. Minor version differences are generally safe; a major version gap may cause styling inconsistencies.
+
+| Package         | USWDS version |
+| --------------- | ------------- |
+| HDS Core        | ^3.13.0       |
+| react-uswds v11 | ^3.13.0       |

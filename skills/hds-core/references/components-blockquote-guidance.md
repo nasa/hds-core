@@ -1,0 +1,117 @@
+<!-- Source: ./stories/components/Blockquote.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-blockquote-guidance--docs -->
+# Blockquote
+
+Blockquotes highlight quotes with a bold typographic treatment. They use the Light weight of Inter, the HDS default heading font, for a more conversational look. A decorative quote mark icon hangs to the left of the text on desktop, or sits above the text on mobile.
+
+## Variants
+
+### Default
+
+A standalone quote with no attribution. Use when the source is established by surrounding context.
+
+<Canvas of={BlockquoteStories.Default} sourceState="none" />
+
+> **Differs from USWDS:** USWDS does not include a blockquote component. This is an HDS-only component. The same visual treatment is also available on bare `&lt;blockquote&gt;` elements when `$theme-global-content-styles` is `true` or inside a `.usa-prose` wrapper.
+
+### Author
+
+A quote attributed to a person with an optional avatar and description. All attribution elements are optional — delete any child and the layout still works.
+
+<Canvas of={BlockquoteStories.Author} sourceState="none" />
+
+| Element     | Class                          | Element        | Notes                                            |
+| ----------- | ------------------------------ | -------------- | ------------------------------------------------ |
+| Container   | `.hds-blockquote`              | `<blockquote>` | Semantic blockquote element                      |
+| Attribution | `.hds-blockquote__attribution` | `<div>`        | Omit entirely for quote-only treatment           |
+| Avatar      | `.hds-blockquote__avatar`      | `<img>`        | Optional, 40×40px circle, any aspect ratio crops |
+| Name        | `.hds-blockquote__name`        | `<span>`       | Person name, renders uppercase                   |
+| Description | `.hds-blockquote__description` | `<span>`       | Role, title, or supporting context               |
+
+```html
+<blockquote class="hds-blockquote">
+  <p>Quote text</p>
+  <div class="hds-blockquote__attribution">
+    <img class="hds-blockquote__avatar" src="photo.jpg" alt="Scott Kelly" />
+    <span class="hds-blockquote__name">Scott Kelly</span>
+    <span class="hds-blockquote__description">NASA Astronaut</span>
+  </div>
+</blockquote>
+```
+
+### Source
+
+A quote attributed to a document, report, or other work. Uses `<cite>` on the description element to preserve title casing — the name slot renders uppercase, which destroys casing for titles of works.
+
+<Canvas of={BlockquoteStories.Source} sourceState="none" />
+
+```html
+<blockquote class="hds-blockquote">
+  <p>Quote text</p>
+  <div class="hds-blockquote__attribution">
+    <cite class="hds-blockquote__description">Apollo 11 Mission Report, NASA 1969</cite>
+  </div>
+</blockquote>
+```
+
+### All variants
+
+All blockquote treatments in one view, including linked attribution.
+
+<Canvas of={BlockquoteStories.AllVariants} sourceState="none" />
+
+## Linking attribution
+
+Attribution names, sources, and avatars can optionally be wrapped in `<a>` tags to link to bio pages or source documents. Links are not required — most blockquotes on the web do not link attribution.
+
+```html
+<!-- Linked person -->
+<blockquote class="hds-blockquote">
+  <p>Quote text</p>
+  <div class="hds-blockquote__attribution">
+    <a href="/bio/kelly">
+      <img class="hds-blockquote__avatar" src="photo.jpg" alt="Scott Kelly" />
+    </a>
+    <a href="/bio/kelly" class="hds-blockquote__name">Scott Kelly</a>
+    <span class="hds-blockquote__description">NASA Astronaut</span>
+  </div>
+</blockquote>
+
+<!-- Linked source -->
+<blockquote class="hds-blockquote">
+  <p>Quote text</p>
+  <div class="hds-blockquote__attribution">
+    <a href="https://history.nasa.gov/spaceact.html">
+      <cite class="hds-blockquote__description">National Aeronautics and Space Act of 1958</cite>
+    </a>
+  </div>
+</blockquote>
+```
+
+## When to use the blockquote component
+
+- Use blockquotes in **article and feature pages** to call attention to particularly important or interesting pieces of text or speech.
+- Include **attribution** below the text when the source is known. Link to a bio page for the quote author if one is available.
+- **Avatars** can be included with person attribution if available.
+
+## When to consider something else
+
+- For **short inline quotations** within body text, use the `<q>` element or quotation marks — not blockquote.
+- For **pull quotes** that repeat nearby body text purely for visual emphasis, consider whether the repetition benefits the reader or creates noise for screen reader users.
+- If the quote is from a **document or report** and you need a formal citation format, consider a styled reference rather than a blockquote.
+
+## Usability guidance
+
+- **Keep quotes concise.** Long blockquotes lose impact. If the full passage is needed, link to the source.
+- **Always attribute.** Unattributed quotes reduce credibility. If the source is anonymous, say so explicitly.
+- **Use sentence case** for quote text — don't force uppercase.
+- **Avoid nesting blockquotes.** A quote within a quote is confusing both visually and semantically.
+
+## Accessibility
+
+- This component uses the semantic `<blockquote>` element — no ARIA role needed.
+- Add `aria-label` to provide additional context about the quote and its source for screen readers.
+- The avatar is the only potentially interactive element. Not all avatars must be interactive — only link them when a bio page is available. Users can interact with links using **Enter/Return**.
+- The decorative quote icon is rendered via CSS `::before` — it is not in the DOM and is invisible to assistive technology.
+
+> **Differs from Figma:** The HDS Figma spec shows attribution name at 11px and mobile quote text at 29px. HDS Core snaps these to the type scale: 12px and 28px respectively. The Figma attribution description uses 0.8 opacity — HDS Core drops this for WCAG 4.5:1 compliance on light backgrounds.

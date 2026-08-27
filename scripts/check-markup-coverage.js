@@ -40,6 +40,14 @@ const distDir = path.resolve(ROOT, opt('dist', 'storybook-static'));
 const writeInventory = argv.includes('--write-inventory');
 
 /**
+ * Generating the inventory and gating on coverage are separate concerns that
+ * happen to need the same expensive render pass. Doc builds pass --no-gate so
+ * a coverage shortfall reports without failing the build; CI runs without it,
+ * where a shortfall should stop the pipeline.
+ */
+const gate = !argv.includes('--no-gate');
+
+/**
  * Selectors that are part of the public contract but legitimately have no
  * rendered example. Each entry needs a reason — this list is the escape hatch,
  * not a backlog. Anything not listed here must appear in a story.
@@ -218,7 +226,7 @@ if (staleExcuses.length) {
   console.error('\nError: stale entries in ALLOWED_WITHOUT_MARKUP — these now have markup, or are no longer public:\n');
   for (const selector of staleExcuses) console.error(`  .${selector}`);
   console.error('\nRemove them from the allowlist in scripts/check-markup-coverage.js.');
-  process.exit(1);
+  if (gate) process.exit(1);
 }
 
 if (excused.length) {
@@ -231,7 +239,8 @@ if (unexplained.length) {
   for (const selector of unexplained) console.error(`  .${selector}`);
   console.error('\nAdd a story that renders each one, or add it to ALLOWED_WITHOUT_MARKUP');
   console.error('in scripts/check-markup-coverage.js with a reason.');
-  process.exit(1);
+  if (gate) process.exit(1);
+  process.exit(0);
 }
 
 console.log('\n✓ Every public selector has tested markup.');

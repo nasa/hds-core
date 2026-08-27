@@ -1,0 +1,186 @@
+<!-- Source: ./stories/guides/USWDS.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs -->
+# Adopting HDS Core on an Existing USWDS Site
+
+HDS Core adopts cleanly onto an existing USWDS 3.x site. Your existing markup should work unchanged, with no class renames or DOM restructuring required. Some markup additions and CSS review are needed to render correctly in HDS's visual identity. This guide walks through what to expect and what to adjust.
+
+## The adoption shape
+
+Expect three layers of work, in order:
+
+1. **Install**: Swap the stylesheet reference. Your site still renders, nothing crashes.
+2. **Visual alignment**: Add HDS palette classes where your site uses USWDS dark or light context markup. Audit your custom CSS against HDS's cascade architecture.
+3. **Brand compliance**: Review button intent, component variants, and any USWDS patterns HDS renders differently.
+
+A site that completes step 1 but skips steps 2 and 3 will render without breaking, but will not match the HDS design language. Full alignment requires all three.
+
+## Install
+
+Swap the stylesheet reference. USWDS JavaScript is unmodified.
+
+```html
+<!-- Before -->
+<link rel="stylesheet" href="/css/uswds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+
+<!-- After -->
+<link rel="stylesheet" href="/css/hds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+```
+
+`hds.min.css` is self-contained. It includes all USWDS components (themed and unthemed), HDS overrides, and all foundation styles. No other CSS file is required.
+
+**If your site uses USWDS utility classes** (`.padding-2`, `.margin-top-3`, `.text-primary`, etc.), you must also load the utilities bundle:
+
+```html
+<link rel="stylesheet" href="/css/hds.min.css" />
+<link rel="stylesheet" href="/css/hds-uswds.min.css" />
+<script src="/js/uswds.min.js" defer></script>
+```
+
+Load order does not matter. HDS Core uses CSS cascade layers, so priority is determined by layer order, not file order. Not sure if your site uses utility classes? Search your templates for classes not prefixed with `usa-` or `hds-`. Classes like `.padding-2` or `.margin-top-3` are utilities.
+
+For full setup options (Sass integration, load paths, tokens), see [Installation](./overview-installation.md).
+
+## Visual alignment
+
+After installing, review the following to bring your site into HDS's intended visual state.
+
+### Palettes: required for dark and alternate contexts
+
+HDS Core uses a palette system activated through `.hds-palette-*` wrapper classes. When no palette class is set, HDS applies its default white palette.
+
+**USWDS's `.usa-section--dark` does not activate the HDS dark palette.** A section marked `.usa-section--dark` will render with a dark background and white base text, but HDS components placed inside will still inherit white-palette custom properties. This can produce contrast failures, such as light-mode buttons on a dark background.
+
+To activate the full HDS dark palette, add `.hds-palette-dark` to the same element or a parent wrapper:
+
+```html
+<!-- Before -->
+<section class="usa-section usa-section--dark">
+  <!-- components render with white-palette values -->
+</section>
+
+<!-- After -->
+<section class="usa-section hds-palette-dark">
+  <!-- components render with dark-palette values -->
+</section>
+```
+
+Review every page for dark-mode markup and add palette classes accordingly. This is the most common source of visual issues during adoption.
+
+### Header, footer, banner, and identifier
+
+HDS Core does not theme the government banner, site header, footer, or identifier yet. They render as stock USWDS with HDS typography and color settings applied. Your markup keeps working, and there is nothing to change.
+
+These four components pick their own background — white for the banner, header, and footer, black for the identifier — so HDS pins each one to the palette that matches. A `.hds-palette-dark` wrapper further up the page will not push white link text onto a white footer, and the identifier's required links stay white on its black bar.
+
+To give one of them a different surface, put the palette class on the element itself:
+
+```html
+<footer class="usa-footer hds-palette-dark">...</footer>
+```
+
+A palette class on the element wins. A palette wrapper around it does not.
+
+Dedicated HDS header and footer components are the top priority for the first post-v1.0 release. See the [Roadmap](./overview-roadmap.md).
+
+### Custom CSS and the cascade layer contract
+
+HDS Core uses CSS `@layer` to establish a predictable cascade:
+
+```css
+@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
+```
+
+The `site` layer is reserved for your custom CSS. Styles written inside `@layer site {}` always win over HDS without specificity hacks or `!important`.
+
+#### The unlayered CSS trap
+
+Custom CSS written outside any named layer silently beats every HDS rule, regardless of specificity. Unlayered rules always outrank layered rules in the CSS cascade. For existing USWDS sites with accumulated custom CSS, this has real consequences:
+
+- HDS may not render as designed. Your existing rules can override HDS styling in places you do not expect.
+- Debugging cascade issues is harder because "unlayered beats layered" is counterintuitive if you are used to specificity-based overrides.
+
+#### Recommended adoption process for custom CSS
+
+1. **Install HDS Core alongside your existing stylesheets.** Do not remove anything yet.
+
+2. **Temporarily disable your site-specific CSS.** Comment out your custom stylesheets and navigate your site. This shows you what HDS delivers on its own.
+
+3. **Note what breaks or looks wrong without your overrides.** These are the places where your site genuinely needs custom CSS beyond what HDS provides. Many rules that previously fought USWDS specificity are no longer necessary.
+
+4. **Re-enable your CSS inside `@layer site {}`.**
+
+   ```scss
+   @layer site {
+     /* your existing custom CSS */
+   }
+   ```
+
+   Or with Sass:
+
+   ```scss
+   @use 'sass:meta';
+
+   @layer site {
+     @include meta.load-css('your-site-styles');
+   }
+   ```
+
+5. **Audit and remove obsolete overrides over time.** Rules that existed as specificity workarounds against USWDS can often be deleted. Each removal simplifies your codebase.
+
+### Utility class colors
+
+Utility classes (`.text-primary`, `.bg-base-darker`, etc.) continue to work. Their color values use USWDS token approximations, which are close to but not identical to HDS hex values. This is a USWDS architectural constraint. For exact brand colors, use `var(--hds-color-*)` CSS custom properties.
+
+## Brand compliance
+
+Once installation and visual alignment are complete, review the following for brand and interaction patterns.
+
+### Button intent
+
+This is the most significant component-level change. HDS uses a two-color wayfinding system: **red navigates away, blue stays on page.**
+
+| USWDS class              | USWDS default  | Under HDS            | HDS meaning                   |
+| ------------------------ | -------------- | -------------------- | ----------------------------- |
+| `.usa-button`            | Blue filled    | **Red filled**       | Navigates to a new page       |
+| `.usa-button--secondary` | Red filled     | **Blue filled**      | On-page action                |
+| `.usa-button--outline`   | Blue border    | Blue border          | Lower-emphasis on-page action |
+| `.usa-button--unstyled`  | Blue text link | Body-color text link | De-emphasized action          |
+
+If your site uses `.usa-button` for actions that stay on the current page (form submits, toggles, dialogs), those buttons now appear red, which implies navigation. Switch them to `.usa-button--secondary`.
+
+## For sites with existing Sass customization
+
+If your site already customizes USWDS via `@use "uswds-core" with (...)`, you will need to reconcile your settings with HDS Core's.
+
+### The singleton rule
+
+Sass modules can only be configured once. Whoever calls `@use "uswds-core" with (...)` first wins. Subsequent calls with different settings will error. When you adopt HDS Core:
+
+- **Pre-compiled CSS path:** No conflict. HDS Core's CSS is already compiled. Your Sass pipeline keeps its own `uswds-core` configuration for any custom styles you compile separately.
+- **Sass path:** `@forward '@nasa-hds/core/src/scss/hds'` loads HDS Core's configuration first. Any `@use "uswds-core" with (...)` in your own files will fail if it tries to set different values.
+
+Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all USWDS theme settings. Use your own Sass variables or CSS custom properties for project-specific values that HDS does not expose.
+
+### Settings you may have customized
+
+Review these against your current theme file. HDS Core overrides all of them:
+
+| What you set                       | What HDS does                                              | Impact                                  |
+| ---------------------------------- | ---------------------------------------------------------- | --------------------------------------- |
+| Custom primary/secondary colors    | Swaps to NASA Red (primary) / NASA Blue (secondary)        | All buttons and links change color      |
+| Custom font families               | Remaps to Inter, Public Sans, DM Mono                      | All typography changes                  |
+| Custom focus styles                | Replaces with palette-aware dashed outlines, keyboard-only | Focus rings look and behave differently |
+| Custom link colors                 | Changes to body-text color + dashed underline              | Links no longer appear blue             |
+| Custom border radii / input styles | Sets HDS-specific values                                   | Form controls and buttons change shape  |
+
+If any of these are intentional deviations for your project, discuss with the HDS team. Some can be accommodated. Others are core to the HDS visual identity.
+
+### What you can still customize
+
+Settings not reserved by HDS Core continue to work. See the [Sass Configuration guide](./guides-sass-configuration.md) for the full list of adjustable vs. reserved settings.
+
+## Live preview
+
+Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme.

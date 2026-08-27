@@ -1,0 +1,69 @@
+<!-- Source: ./stories/overview/GettingStarted.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs -->
+<Unstyled>
+  <section class="usa-site-alert usa-site-alert--info usa-site-alert--slim margin-bottom-4" aria-label="Alert">
+    <div class="usa-alert">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text"><strong>HDS Core is for NASA-branded <code>*.nasa.gov</code> websites only.</strong> Interagency, non-.gov, and other non-NASA-branded sites should use <a class="usa-link" href="https://designsystem.digital.gov/">USWDS</a> instead.</p>
+      </div>
+    </div>
+  </section>
+</Unstyled>
+
+# Getting Started
+
+This page helps you figure out whether HDS Core is the right tool for your project and where to go next. New to HDS Core? Start with the [Introduction](./overview-introduction.md).
+
+NASA's web modernization aims to deliver a seamless, accessible experience across every `nasa.gov` property: inspiring to explore, easy to use, and easy to find. Non-NASA-branded sites, including interagency sites maintained by NASA staff (e.g., `earth.gov`), should adopt USWDS rather than HDS, as applying NASA branding to a site not intended to represent NASA creates a misleading experience for the public.
+
+HDS Core makes meeting NASA's design standard straightforward. It's a CSS-only package that themes your existing interface without requiring changes to your application code or architecture.
+
+## Where HDS Core fits
+
+NASA is consolidating its public web footprint. Most sites will either be archived (if outdated or duplicative) or migrated to a Flagship Content Management System (CMS) site like `www.nasa.gov` or `science.nasa.gov`, or to another approved enterprise platform like `science.data.nasa.gov`.
+
+Sites that can't consolidate may be authorized by the CIO to remain standalone. **HDS Core is the primary tool for these standalone sites** to meet NASA's [Design Standards](./overview-design-standards.md).
+
+HDS Core also supports **microapps, data visualizations, and interactive embeds** that are served on Flagship CMS sites or enterprise platforms but developed and styled outside the host platform's theme.
+
+## Is HDS Core your path?
+
+**You're in the right place if:**
+
+- Your site has been authorized to remain as a standalone property on a `*.nasa.gov` domain
+- You're building a web application on a broader platform like `science.data.nasa.gov` that needs to match NASA's visual identity independently
+- You're building a microapp, data visualization, or interactive embed served on a Flagship CMS site but developed and styled outside the Flagship WordPress theme
+
+**You probably need a different path if:**
+
+- Your site's content or functionality could move to a Flagship CMS or another enterprise platform, even if you haven't explored that option yet
+- Your site is outdated or no longer actively maintained, and is a candidate for archival and decommissioning
+- Your site is not on a `*.nasa.gov` domain
+
+## Already adopted HDS on your own?
+
+If your team built a compliant site by referencing NASA's Figma files or other design resources before HDS Core was available: **thank you.** You're exactly who we want to collaborate with.
+
+Two things to consider:
+
+- **Contribute back.** If you've built components or patterns that don't exist in HDS Core yet, we'd love to see them. Open a [Discussion](https://github.com/nasa/hds-core/discussions) or submit a pull request.
+- **Consider adopting HDS Core tokens.** Design systems evolve. If your implementation is pinned to specific hex codes or spacing values, it won't stay current as NASA's visual language updates. Mapping your CSS to HDS Core tokens, even without changing your markup, keeps your site in sync automatically. The [Installation](./overview-installation.md) page covers how different integration approaches work.
+
+## Next steps
+
+Depending on your site's current state, adopting HDS Core can range from adding a single CSS file to a more involved migration.
+
+- **[Design Standards](./overview-design-standards.md)**: What every NASA site must achieve visually, whether or not you use HDS Core
+- **[Installation](./overview-installation.md)**: Technical setup for teams adopting HDS Core
+- **Guides**: Detailed walkthroughs for [existing USWDS sites](./guides-existing-uswds-site-guidance.md), [React](?path=/docs/guides-react-guidance--docs), [no-build environments](./guides-no-build-environments.md), and [Sass configuration](./guides-sass-configuration.md)
+
+Sites referencing HDS guidance without adopting the package directly will also find the **Foundations** and **Components** sections in the sidebar useful as a design and implementation reference.
+
+## Get involved
+
+HDS Core is open source and community contributions help it grow, whether that's fixing a bug, proposing a component, or sharing how you solved an integration challenge.
+
+- **Questions or ideas?** [GitHub Discussions](https://github.com/nasa/hds-core/discussions)
+- **Found a bug?** [Open an issue](https://github.com/nasa/hds-core/issues)
+- **Want to contribute code?** See our [contributing guidelines](https://github.com/nasa/hds-core/blob/main/CONTRIBUTING.md)
+- **NASA teams needing direct guidance?** Visit the [Web Toolkit](https://website.nasa.gov) for internal resources and team contacts

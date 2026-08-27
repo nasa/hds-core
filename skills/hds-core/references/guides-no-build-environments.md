@@ -1,0 +1,163 @@
+<!-- Source: ./stories/guides/NoBuildEnvironments.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-no-build-environments--docs -->
+# No-Build Environments
+
+HDS Core works without a build step. If your site runs on a CMS, static HTML, or a legacy framework, you can adopt NASA's visual identity and accessible components by linking a CSS file and adding two script tags. No Node.js, no framework rewrite required.
+
+Before using this guide, confirm your site is approved to remain standalone. See [Getting Started](./overview-getting-started.md) if you haven't already.
+
+## Add the stylesheet and scripts
+
+Download the HDS Core distribution from GitHub or install via npm, then add these to your HTML:
+
+```html
+<head>
+  <!-- Prevents flash of unstyled content on interactive components -->
+  <script src="path/to/hds-core/dist/js/uswds-init.min.js"></script>
+  <link rel="stylesheet" href="path/to/hds-core/dist/css/hds.min.css" />
+</head>
+<body>
+  <!-- your content -->
+  <script src="path/to/hds-core/dist/js/uswds.min.js" defer></script>
+</body>
+```
+
+`hds.min.css` is self-contained. It includes all USWDS components, HDS overrides, and all foundation styles. No other CSS file is required.
+
+USWDS 3.x is written in vanilla JavaScript and does not conflict with jQuery. If your legacy site depends on older versions of jQuery, the USWDS scripts run safely alongside it.
+
+### Verify the download before you copy it onto your server
+
+npm verifies package integrity for you. If you download the dist zip from the [Releases page](https://github.com/nasa/hds-core/releases) instead, that check is yours to run. GitHub displays a SHA-256 digest under the zip asset on the release, and the release notes repeat the same digest under "Verify your download".
+
+Hash your download and confirm it matches the digest on the release before extracting:
+
+```sh
+sha256sum hds-core-*-dist.zip
+```
+
+On macOS, use `shasum -a 256` instead. If the two digests differ, the file was corrupted or tampered with in transit. Do not deploy it: re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
+
+## Use HDS tokens in your existing CSS
+
+Once `hds.min.css` is loaded, HDS design tokens are available as CSS custom properties anywhere in your stylesheets:
+
+### Typography
+
+```css
+body {
+  font-family: var(--hds-font-family-body); /* Public Sans */
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--hds-font-family-heading); /* Inter */
+}
+
+code,
+pre {
+  font-family: var(--hds-font-family-code); /* DM Mono */
+}
+```
+
+### Colors
+
+Replace hardcoded values with HDS tokens. Common mappings:
+
+```css
+/* Before */
+.my-heading {
+  color: #0b3d91;
+}
+.my-text {
+  color: #17171b;
+}
+.my-error {
+  color: #e52207;
+}
+
+/* After */
+.my-heading {
+  color: var(--hds-color-nasa-blue);
+}
+.my-text {
+  color: var(--hds-color-carbon-90);
+}
+.my-error {
+  color: var(--hds-color-nasa-red);
+}
+```
+
+### Overriding HDS styles
+
+HDS Core reserves a `site` cascade layer for your overrides. Wrapping your styles in this layer guarantees they win over HDS defaults without `!important`:
+
+```css
+@layer site {
+  .my-component {
+    border-radius: 0;
+  }
+}
+```
+
+Any CSS you write outside a named layer also wins over `@layer site` by default, so most existing stylesheets will already take precedence over HDS without any changes.
+
+## Modernize your markup incrementally
+
+You do not need to rewrite your application all at once. The areas below are the most common sources of compliance failures. Work through them in order of impact.
+
+### Layout: move off fixed widths
+
+Fixed-width containers break on mobile and fail responsive layout requirements. Replace them with USWDS grid classes as an intermediary step:
+
+| Legacy pattern                | HDS equivalent              | Notes                       |
+| ----------------------------- | --------------------------- | --------------------------- |
+| `width: 960px` on a container | `grid-container`            | Max-width centered layout   |
+| `container-fluid`             | `grid-container-desktop-lg` | Full-width variant          |
+| `row` (Bootstrap)             | `grid-row`                  | Wraps columns               |
+| `col-md-3` (Bootstrap)        | `tablet:grid-col-3`         | Breakpoint as prefix        |
+| `float: left` layout          | `grid-col` + `grid-row`     | Replace float-based columns |
+
+```html
+<!-- Before: broken on mobile -->
+<div style="width: 960px; float: left;">
+  <div class="col-md-3">Sidebar</div>
+</div>
+
+<!-- After: responsive -->
+<div class="grid-container">
+  <div class="grid-row">
+    <div class="grid-col-12 tablet:grid-col-3">Sidebar</div>
+  </div>
+</div>
+```
+
+> These grid and layout classes require loading `hds-uswds.min.css` alongside `hds.min.css`. This is a temporary migration step — as you modernize your markup, the goal is to move toward CSS Grid and Flexbox natively, which removes the need for utility classes entirely.
+
+### Semantics: fix inaccessible markup
+
+Visual compliance requires semantic HTML. Screen readers and keyboard users cannot interact with non-semantic elements regardless of how they are styled.
+
+Common patterns to fix:
+
+- **Fake buttons:** Replace `<div onclick="...">` and `<a>` tags used as buttons with `<button type="button">`.
+- **Fake links:** Replace `<span onclick="...">` with `<a href="...">`.
+- **Table layouts:** Replace `<table>` used for positioning with `.grid-container` and `.grid-col` classes. Tables are for tabular data only.
+- **Unlabeled inputs:** Ensure every `<input>`, `<select>`, and `<textarea>` has a `<label>` linked via matching `for` and `id` attributes.
+
+After fixing your markup, press `Tab` to navigate your site. Every interactive element must show a visible focus ring. If an element is skipped or shows nothing, the underlying HTML needs attention.
+
+### USWDS component markup
+
+For components that require specific HTML structure (accordion, banner, navigation, modal), use the markup from the [USWDS component documentation](https://designsystem.digital.gov/components/overview/). HDS Core styles these components automatically when the correct markup is present.
+
+## What requires a build step
+
+Some HDS features require a Sass compiler:
+
+- Customizing USWDS theme settings (colors, fonts, spacing scale)
+- Using `$hds-color-*` Sass variables in your own component styles
+- Using USWDS design token functions (`family()`, `size()`, `units()`)
+
+See [Installation](./overview-installation.md) for Sass setup instructions.

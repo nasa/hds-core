@@ -1,0 +1,104 @@
+<!-- Source: ./stories/foundations/Accessibility.mdx -->
+<!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-accessibility--docs -->
+# Accessibility
+
+HDS meets **WCAG 2.1 AA** standards, targeting **AAA (7.0:1)** for body text and headings. See the [Color Contrast Tool](./foundations-color-contrast-tool.md) for the full contrast reference with verified ratios.
+
+The best approach to accessibility is to consider it throughout the entire process — from stakeholder discussions through design, development, testing, and distribution — rather than attempting to address it after the build is complete.
+
+## What HDS Core handles for you
+
+HDS Core's color palettes, typography, and component styles are built with accessibility in mind. When you use HDS components as documented, you get:
+
+- **AA color contrast** across all six palettes (AAA in most combinations)
+- **Focus indicators** on all interactive elements (visible on keyboard navigation)
+- **Semantic HTML** in all recommended component markup
+- **Automated accessibility testing** on every component story via [axe-core](https://www.deque.com/axe/) — results are visible in the Accessibility panel when browsing Storybook
+
+These are automatic — you don't need to configure them.
+
+### Color contrast
+
+HDS palettes meet AA contrast across all six background contexts, with AAA for most body text combinations. For the full matrix of verified ratios, see the [Color Contrast Tool](./foundations-color-contrast-tool.md). For color-specific usage rules and pairings, see [Color](./foundations-color.md).
+
+## What you need to handle
+
+### Color usage
+
+Never use color as the only way to communicate information. If color indicates a status or category, provide a text alternative as well.
+
+> **Example:** A red error border on a form field should always be paired with a visible error message — don't rely on the border color alone.
+
+### Semantic hierarchy
+
+Use heading levels (`<h1>` through `<h6>`) in correct order to reflect the structure of your page. Screen readers use headings to build a mental model of the interface — skipping levels or using headings out of order makes navigation difficult.
+
+- Every page should have exactly one `<h1>`
+- Don't skip levels (e.g., `<h2>` to `<h4>`)
+- Use headings for structure, not for visual sizing — use [Typography](./foundations-typography.md) classes to control appearance independently of heading level
+
+### Screen readers and keyboard access
+
+- All interactive elements must be reachable by keyboard (`Tab`, `Enter`, `Space`, arrow keys as appropriate)
+- Define logical tab order — if your page has layered regions, menus, or submenus, define [ARIA landmark roles](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/) to help screen reader users navigate between sections
+- Use `.usa-sr-only` for text that should be read by screen readers but not displayed visually (e.g., "(external)" after external links)
+
+### Alternative text for images
+
+Every image needs one of these three treatments:
+
+| Scenario                                          | What to do                                                    |
+| ------------------------------------------------- | ------------------------------------------------------------- |
+| Image conveys essential information               | Write descriptive `alt` text that communicates the content    |
+| Image has adjacent text that already describes it | Use `alt=""` to avoid redundancy — the screen reader skips it |
+| Image is purely decorative                        | Use `alt=""` so screen readers ignore it entirely             |
+
+The best time to write alt text is when the image is created or selected. If that didn't happen, each image needs to be evaluated in context.
+
+### Icons
+
+All [HDS icons](./foundations-icons.md) in the sprite have descriptive names that are coded into the application. When using icons:
+
+- **Decorative icons** (next to visible text that already describes the action): add `aria-hidden="true"` and `focusable="false"` to the `<svg>`
+- **Meaningful icons** (the icon is the only indicator of an action, such as an icon-only button): add an `aria-label` to the button or a `.usa-sr-only` text span
+
+See each component's Accessibility section for specific ARIA requirements.
+
+### Hover states and tooltips
+
+If hover states or tooltips convey information that isn't available any other way, that information needs a visible or screen-reader-accessible alternative. Hover-only content is inaccessible to keyboard and touch users.
+
+### Audio and video
+
+Media content should provide:
+
+- **Captions** for video content
+- **Transcripts** for audio content
+- Controls that are keyboard-accessible
+
+## Testing
+
+### Built-in tools in Storybook
+
+### Automated testing in HDS Core
+
+Every component story is automatically checked against WCAG 2.1 A and AA rules via axe-core. These checks run in CI and catch regressions in color contrast, ARIA attributes, keyboard access, and semantic structure. Palette-aware components are additionally tested across all six HDS color palettes — including hover and focus states for interactive elements.
+
+### Testing your own implementation
+
+Automated tools catch up to **57% of WCAG issues** ([source](https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/)). Manual testing is essential for the rest:
+
+- **Keyboard testing** — navigate your entire page using only the keyboard (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`)
+- **Screen reader testing** — test with at least one screen reader (NVDA on Windows, VoiceOver on macOS) to verify heading hierarchy, link announcements, and form labels
+- **Automated scanning** — tools like [axe](https://www.deque.com/axe/) or [Lighthouse](https://developer.chrome.com/docs/lighthouse/) catch common issues (contrast, missing alt text, ARIA errors)
+
+### Formal conformance documentation
+
+HDS Core maintains a detailed [Section 508 Conformance Report](https://github.com/nasa/hds-core/blob/main/docs/508.md) covering WCAG 2.0 A/AA and Revised Section 508 Chapters 5 and 6. This documents how HDS Core inherits the USWDS accessibility baseline and what additional testing covers HDS-specific changes (color palettes, typography, focus ring, component overrides, and net-new components).
+
+## Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- [USWDS Accessibility](https://designsystem.digital.gov/documentation/accessibility/)
+- [Section 508 Standards](https://www.section508.gov/)
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
