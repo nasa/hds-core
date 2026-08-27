@@ -10,11 +10,15 @@ Bounding boxes are measured from the rendered path, not taken from the source vi
 
 `mail` is derived from the HDS original `tag-mail` by dropping its enclosing circle and letting the normalizer scale the envelope up to the standard envelope. That keeps HDS's own angular envelope rather than substituting USWDS's rounded one — extrapolate from HDS iconography wherever the shape already exists.
 
-### Optical size correction
+### Glyph size inside a circular button
 
-Bounding-box normalization alone leaves marks looking unevenly sized, because a solid mark (Telegram's plane) carries far more ink than an outline mark (SoundCloud's waves) at the same bounding box. Each glyph therefore gets a scale correction of `sqrt(target_ink / measured_ink)`, where `target_ink` is the median ink coverage across the set, clamped to `[0.92, 1.18]` and hard-capped so no glyph exceeds the 24-unit frame. This narrows the ink spread from 2.99x to 1.86x without distorting any individual mark.
+Bounding-box normalization is the whole rule: every glyph's longest side is 20 units. It is deliberately **not** adjusted per-mark for perceived weight.
 
-Marks whose official lockup includes its own container (Spotify, LinkedIn, Pinterest, Apple Podcasts) sit at the top of the remaining range, because the container is ink. That is inherent to those marks, not a normalization error.
+An earlier revision did apply an ink-coverage correction — scaling thin marks up and solid marks down toward a median. It optimized the wrong thing. In a circular container what reads as "size" is how much of the circle's diameter the mark spans, and the ink correction pushed that in the opposite direction: `logo-x` (a thin outline) grew to 23.5 units and spanned 82% of the circle, while `logo-youtube` (solid) shrank to 13.1 units and spanned 56%. Same nominal envelope, a 1.46x visible difference.
+
+With the plain convention that spread drops to 1.29x, and what remains is purely aspect ratio: a 2.2:1 mark such as `logo-soundcloud` cannot span as much of a circle as a 1:1 mark such as `logo-instagram` without being distorted. That residual is inherent and should not be "corrected".
+
+How large the set renders is a separate, CSS-level decision: `components/_social.scss` sizes social glyphs at 70% of the button rather than the 60% used for UI glyphs, which puts the widest marks at ~82% of the circle's diameter. Tune there, not in the artwork.
 
 ## Social and brand mark provenance
 

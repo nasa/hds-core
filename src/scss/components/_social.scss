@@ -22,6 +22,27 @@
 @use 'hds-tokens' as *;
 @use 'hds-mixins' as *;
 
+// ── Glyph size ────────────────────────────────────────────────
+// `.hds-btn-icon` sizes its glyph at 60% of the button, which suits
+// the UI glyphs it was tuned for. Brand marks are denser and carry
+// more internal detail, so at 60% they read as undersized inside
+// the circle — a bounding box of 20 units spans only ~55-71% of the
+// circle's diameter depending on the mark's aspect ratio.
+//
+// 70% brings the widest marks to ~82% of the diameter, which is
+// where the set reads as intentional rather than lost. The corners
+// of a 20x20 glyph then sit 13.2px from centre against a 16px
+// radius, so nothing approaches the rim.
+//
+// Glyph files themselves stay on the standard convention (max
+// dimension 20 units) — this is a rendering decision, kept in CSS
+// where it can be tuned, not baked into the artwork.
+
+.hds-btn-icon--social .hds-icon {
+  height: 70%;
+  width: 70%;
+}
+
 // ── USWDS footer social link bridge ───────────────────────────
 // The government footer has no HDS theme (see Issue #86), so
 // AGENTS.md normally forbids overriding it. This is a sanctioned
@@ -93,10 +114,10 @@
   }
 }
 
-// USWDS sets this to width: 100%, which would fill the circle
-// edge to edge. 60% matches the glyph-to-circle ratio used by
-// `.hds-btn-icon`.
+// USWDS sets this to width: 100%, which would fill the circle edge
+// to edge. 70% matches the glyph-to-circle ratio used by
+// `.hds-btn-icon--social` above.
 .usa-social-link__icon {
-  height: 60%;
-  width: 60%;
+  height: 70%;
+  width: 70%;
 }
