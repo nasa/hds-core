@@ -2,7 +2,11 @@
 
 # HDS Core class inventory
 
-Every class below is part of the public API surface and appears in at least one story that is rendered in a real browser and checked with axe. The element and example columns are extracted from that rendered markup.
+Every class HDS authors or overrides, with the HTML element it renders on and a story that demonstrates it. Both columns are extracted from markup rendered in a real browser and checked with axe.
+
+**This list is not the full set of classes you may use.** It covers the HDS public API surface only. USWDS ships entirely inside `hds.min.css`, so inherited USWDS classes that HDS does not restyle — `.usa-sr-only` and the utility classes, for example — are absent here but perfectly valid. When a component guidance page shows a class, use it, whether or not it appears below.
+
+Rows marked _no tested example_ are part of the public API but have no story rendering them yet. They are real and documented; there is just no captured markup to copy, so check the guidance page for that component.
 
 This table reports what the tested markup does. It is not a specification, and it does not record which classes are prohibited or which require USWDS JavaScript — see the component guidance pages for that.
 
@@ -45,9 +49,11 @@ This table reports what the tested markup does. It is not a specification, and i
 | `.hds-h5` | `<h5>` | `foundations-typography--heading-scale` |
 | `.hds-h6` | `<h6>` | `foundations-typography--heading-scale` |
 | `.hds-icon` | `<svg>` | `components-icon-button--all-variants` |
+| `.hds-intro` | — | _no tested example_ |
 | `.hds-link--internal` | `<a>` | `components-link--all-variants` |
 | `.hds-metadata` | `<p>`, `<span>` | `foundations-color-palettes--black` |
 | `.hds-overline` | `<p>`, `<span>` | `components-accordion--all-variants` |
+| `.hds-p` | — | _no tested example_ |
 | `.hds-pagination__simplified-btn` | `<button>` | `components-pagination--all-variants` |
 | `.hds-pagination__simplified-text` | `<span>` | `components-pagination--all-variants` |
 | `.hds-palette-black` | `<div>` | `components-accordion--palette-a-11-y` |
@@ -56,6 +62,7 @@ This table reports what the tested markup does. It is not a specification, and i
 | `.hds-palette-light` | `<div>` | `components-accordion--palette-a-11-y` |
 | `.hds-palette-midtone` | `<div>` | `components-accordion--palette-a-11-y` |
 | `.hds-palette-white` | `<div>` | `components-accordion--palette-a-11-y` |
+| `.hds-print-visible` | — | _no tested example_ |
 | `.hds-prose-measure` | `<div>` | `components-prose--prose-measure` |
 | `.hds-stat-lg` | `<span>` | `foundations-typography--numbers` |
 | `.hds-stat-md` | `<span>` | `foundations-typography--numbers` |
@@ -71,10 +78,12 @@ This table reports what the tested markup does. It is not a specification, and i
 | `.usa-alert__text` | `<div>`, `<p>` | `components-site-alert--all-variants` |
 | `.usa-banner` | `<section>` | `guides-existing-uswds-site-documentation--documentation-page` |
 | `.usa-breadcrumb` | `<nav>` | `components-breadcrumb--all-variants` |
+| `.usa-breadcrumb--wrap` | — | _no tested example_ |
 | `.usa-breadcrumb__link` | `<a>`, `<span>` | `components-breadcrumb--all-variants` |
 | `.usa-breadcrumb__list` | `<ol>` | `components-breadcrumb--all-variants` |
 | `.usa-breadcrumb__list-item` | `<li>` | `components-breadcrumb--all-variants` |
 | `.usa-button` | `<a>`, `<button>` | `components-button--all-variants` |
+| `.usa-button--inverse` | — | _no tested example_ |
 | `.usa-button--outline` | `<button>` | `components-button--all-variants` |
 | `.usa-button--secondary` | `<button>` | `components-button--all-variants` |
 | `.usa-button--unstyled` | `<button>` | `components-button--all-variants` |
@@ -110,23 +119,30 @@ This table reports what the tested markup does. It is not a specification, and i
 | `.usa-link` | `<a>` | `components-accordion--all-variants` |
 | `.usa-link--external` | `<a>` | `components-accordion--all-variants` |
 | `.usa-list` | `<ol>`, `<ul>` | `components-list--all-variants` |
+| `.usa-list--horizontal` | — | _no tested example_ |
+| `.usa-list--top-level` | — | _no tested example_ |
 | `.usa-list--unstyled` | `<ul>` | `components-list--all-variants` |
 | `.usa-nav` | `<nav>` | `guides-existing-uswds-site-documentation--documentation-page` |
 | `.usa-pagination` | `<nav>` | `components-pagination--all-variants` |
 | `.usa-pagination__arrow` | `<li>` | `components-pagination--all-variants` |
 | `.usa-pagination__button` | `<a>` | `components-pagination--all-variants` |
+| `.usa-pagination__link-text` | — | _no tested example_ |
 | `.usa-pagination__list` | `<ul>` | `components-pagination--all-variants` |
+| `.usa-pagination__next-page` | — | _no tested example_ |
 | `.usa-pagination__overflow` | `<li>` | `components-pagination--all-variants` |
+| `.usa-pagination__previous-page` | — | _no tested example_ |
 | `.usa-prose` | `<div>`, `<main>` | `components-accordion--all-variants` |
 | `.usa-radio` | `<div>` | `components-form--mixed-elements` |
 | `.usa-radio__input` | `<input>` | `components-form--mixed-elements` |
 | `.usa-radio__input--tile` | `<input>` | `components-radio-button--all-variants` |
 | `.usa-radio__label` | `<label>` | `components-form--mixed-elements` |
+| `.usa-radio__label-description` | — | _no tested example_ |
 | `.usa-section` | `<div>`, `<section>` | `guides-existing-uswds-site-documentation--documentation-page` |
 | `.usa-select` | `<select>` | `components-form--grouped-sections` |
 | `.usa-sidenav` | `<ul>` | `components-side-navigation--all-variants` |
 | `.usa-sidenav__item` | `<li>` | `components-side-navigation--all-variants` |
 | `.usa-sidenav__sublist` | `<ul>` | `components-side-navigation--all-variants` |
+| `.usa-sidenav__sublist-item` | — | _no tested example_ |
 | `.usa-site-alert` | `<section>` | `components-site-alert--all-variants` |
 | `.usa-site-alert--emergency` | `<section>` | `components-site-alert--all-variants` |
 | `.usa-site-alert--info` | `<section>` | `components-site-alert--all-variants` |
@@ -134,6 +150,7 @@ This table reports what the tested markup does. It is not a specification, and i
 | `.usa-table` | `<table>` | `components-table--all-variants` |
 | `.usa-table--borderless` | `<table>` | `components-table--all-variants` |
 | `.usa-table--compact` | `<table>` | `components-table--all-variants` |
+| `.usa-table--striped` | — | _no tested example_ |
 | `.usa-table-container--scrollable` | `<div>` | `components-table--scrollable` |
 | `.usa-table__header__button` | `<button>` | `components-table--all-variants` |
 | `.usa-textarea` | `<textarea>` | `components-form--mixed-elements` |

@@ -159,9 +159,19 @@ function renderInventory(selectors, seen) {
     '',
     '# HDS Core class inventory',
     '',
-    'Every class below is part of the public API surface and appears in at least one',
-    'story that is rendered in a real browser and checked with axe. The element and',
-    'example columns are extracted from that rendered markup.',
+    'Every class HDS authors or overrides, with the HTML element it renders on and a',
+    'story that demonstrates it. Both columns are extracted from markup rendered in a',
+    'real browser and checked with axe.',
+    '',
+    '**This list is not the full set of classes you may use.** It covers the HDS',
+    'public API surface only. USWDS ships entirely inside `hds.min.css`, so inherited',
+    'USWDS classes that HDS does not restyle — `.usa-sr-only` and the utility classes,',
+    'for example — are absent here but perfectly valid. When a component guidance page',
+    'shows a class, use it, whether or not it appears below.',
+    '',
+    'Rows marked _no tested example_ are part of the public API but have no story',
+    'rendering them yet. They are real and documented; there is just no captured',
+    'markup to copy, so check the guidance page for that component.',
     '',
     'This table reports what the tested markup does. It is not a specification, and it',
     'does not record which classes are prohibited or which require USWDS JavaScript —',
@@ -173,7 +183,13 @@ function renderInventory(selectors, seen) {
 
   for (const selector of selectors) {
     const entry = seen.get(selector);
-    if (!entry) continue;
+    if (!entry) {
+      // Listing these keeps the inventory a complete view of the public API.
+      // Omitting them made classes like .usa-button--inverse — recommended by
+      // the button guidance — look invented to anyone checking here first.
+      lines.push(`| \`.${selector}\` | — | _no tested example_ |`);
+      continue;
+    }
     const elements = [...entry.elements]
       .sort()
       .map((el) => `\`<${el}>\``)

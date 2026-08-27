@@ -31,11 +31,19 @@ This matters more here than in most design systems. You have USWDS in training d
 
 **2. If HDS documents no variant you need, use USWDS markup for that component.** `hds.min.css` contains every USWDS component, so USWDS markup renders and gets themed. Still read the HDS page first, because several components change USWDS behavior.
 
-**3. Never infer `hds-*` markup from USWDS patterns.** These have no USWDS equivalent: `.hds-blockquote`, `.hds-btn--primary`, `.hds-btn-icon`, `.hds-stat-*`, `.hds-overline`, and the typography classes. If `references/` doesn't show it, it doesn't exist.
+**3. Never invent an `hds-*` class.** The `hds-*` namespace is HDS-authored and finite: `.hds-blockquote`, `.hds-btn--primary`, `.hds-btn-icon`, `.hds-stat-*`, `.hds-overline`, the palette wrappers, and the typography classes. If no reference page shows an `hds-*` class, it does not exist — an invented one silently does nothing.
 
 **4. Invent markup only when nothing above covers it** — see "Writing new markup" below.
 
-Class names don't follow a predictable pattern across families, so don't extrapolate. `.hds-btn--primary` exists but `.hds-btn--secondary` does not — the secondary button is `.usa-button--secondary`. Meanwhile `.hds-btn-icon--secondary` does exist. Check `references/class-inventory.md` rather than guessing; it lists every public class with the HTML element it renders on.
+Class names don't follow a predictable pattern across families, so don't extrapolate. `.hds-btn--primary` exists but `.hds-btn--secondary` does not — the secondary button is `.usa-button--secondary`. Meanwhile `.hds-btn-icon--secondary` does exist.
+
+### What the class inventory does and doesn't cover
+
+`references/class-inventory.md` lists every class HDS authors or overrides, with the element it renders on. It is a lookup for the HDS public API — **not the full set of classes you may use.**
+
+All of USWDS ships inside `hds.min.css`, so inherited USWDS classes that HDS doesn't restyle are valid but won't appear in the inventory. `.usa-sr-only` is the one you'll hit most: the link guidance requires it on every external link, and it is correct even though the inventory omits it. USWDS utility classes behave the same way.
+
+**A guidance page showing a class is sufficient authority to use it.** Reach for the inventory to check an element binding or to confirm an `hds-*` class exists — not to veto markup a reference page already showed you.
 
 ## Where HDS differs from USWDS
 
@@ -49,7 +57,7 @@ Where the two disagree, HDS wins.
 | Button | secondary is fixed | On the blue palette, secondary filled auto-renders as outline. Automatic. |
 | Accordion | `+`/`−` icons, filled heading row | Circled chevron, palette-aware. No markup change. |
 | Breadcrumb | chevrons, unlimited depth | Slashes, **max 3 elements / 2 separators**, ellipsis truncation, current page always shown. |
-| Link | `.usa-link--external` adds SR text automatically | **You must add it:** `<span class="usa-sr-only"> (external)</span>` |
+| Link | `.usa-link--external` adds SR text automatically | **You must add it:** `<span class="usa-sr-only"> (external)</span>` — note the leading space, and that `.usa-sr-only` is inherited USWDS, so it won't be in the class inventory |
 | List | items inherit body size | One step smaller (14px vs 16px). Intentional. |
 | List (ordered) | native numerals | CSS counters. **Add `role="list"`** or Safari VoiceOver won't announce it as a list. |
 | Pagination | visible Previous/Next text | Text hidden visually, circle containers. Simplified variant is HDS-only markup. |
