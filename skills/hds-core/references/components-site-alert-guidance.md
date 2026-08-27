@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/SiteAlert.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-site-alert-guidance--docs -->
+
 # Site Alert
 
 HDS site alerts use standard USWDS `.usa-site-alert` markup with HDS theming applied automatically.
@@ -15,7 +16,10 @@ Use the emergency variant for critical, time-sensitive alerts: government shutdo
   <div class="usa-alert">
     <div class="usa-alert__body">
       <h4 class="usa-alert__heading">Scheduled site maintenance</h4>
-      <p class="usa-alert__text">NASA.gov will be undergoing maintenance on Saturday, March 22 from 10 p.m. to 2 a.m. ET. Some services may be temporarily unavailable.</p>
+      <p class="usa-alert__text">
+        NASA.gov will be undergoing maintenance on Saturday, March 22 from 10 p.m. to 2 a.m. ET. Some services may be
+        temporarily unavailable.
+      </p>
     </div>
   </div>
 </section>
@@ -26,10 +30,12 @@ Use the emergency variant for critical, time-sensitive alerts: government shutdo
 For brief, single-statement emergencies where a heading and icon aren't needed.
 
 ```html
-<section class="usa-site-alert usa-site-alert--emergency usa-site-alert--slim usa-site-alert--no-icon" aria-label="Site alert">
+<section
+  class="usa-site-alert usa-site-alert--emergency usa-site-alert--slim usa-site-alert--no-icon"
+  aria-label="Site alert"
+>
   <div class="usa-alert">
     <div class="usa-alert__body">
-
       <p class="usa-alert__text">Due to the lapse in federal government funding, NASA is not updating this website.</p>
     </div>
   </div>
@@ -58,7 +64,10 @@ Use the informational variant for non-urgent announcements: live events, languag
   <div class="usa-alert">
     <div class="usa-alert__body">
       <h4 class="usa-alert__heading">NASA TV live event</h4>
-      <p class="usa-alert__text">The NASA Administrator will hold a media briefing on the Artemis II mission today at 2 p.m. ET. <a class="usa-link" href="#">Watch live on NASA TV</a>.</p>
+      <p class="usa-alert__text">
+        The NASA Administrator will hold a media briefing on the Artemis II mission today at 2 p.m. ET.
+        <a class="usa-link" href="#">Watch live on NASA TV</a>.
+      </p>
     </div>
   </div>
 </section>
@@ -70,8 +79,9 @@ Use the informational variant for non-urgent announcements: live events, languag
 <section class="usa-site-alert usa-site-alert--info usa-site-alert--slim" aria-label="Site alert">
   <div class="usa-alert">
     <div class="usa-alert__body">
-
-      <p class="usa-alert__text">Esta página solo está disponible en inglés. <a class="usa-link" href="#">Ir a NASA en español</a>.</p>
+      <p class="usa-alert__text">
+        Esta página solo está disponible en inglés. <a class="usa-link" href="#">Ir a NASA en español</a>.
+      </p>
     </div>
   </div>
 </section>
@@ -84,7 +94,9 @@ Use the informational variant for non-urgent announcements: live events, languag
   <div class="usa-alert">
     <div class="usa-alert__body">
       <h4 class="usa-alert__heading">Informational statement</h4>
-      <p class="usa-alert__text">Additional context and followup information including <a class="usa-link" href="#">a link</a>.</p>
+      <p class="usa-alert__text">
+        Additional context and followup information including <a class="usa-link" href="#">a link</a>.
+      </p>
     </div>
   </div>
 </section>

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/RadioButton.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-radio-button-guidance--docs -->
+
 # Radio Button
 
 Radio buttons allow users to select exactly one option from a list. They use USWDS [`.usa-radio`](https://designsystem.digital.gov/components/radio-buttons/) markup with no additional classes required.
@@ -14,21 +15,20 @@ Radio buttons always include a label and are stacked vertically by default. A gr
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">Select one mission type</legend>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="default-crewed" type="radio" name="default" value="crewed" checked="checked">
-  <label class="usa-radio__label" for="default-crewed">Crewed</label>
-</div>
+  <div class="usa-radio">
+    <input class="usa-radio__input" id="default-crewed" type="radio" name="default" value="crewed" checked="checked" />
+    <label class="usa-radio__label" for="default-crewed">Crewed</label>
+  </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="default-robotic" type="radio" name="default" value="robotic">
-  <label class="usa-radio__label" for="default-robotic">Robotic</label>
-</div>
+  <div class="usa-radio">
+    <input class="usa-radio__input" id="default-robotic" type="radio" name="default" value="robotic" />
+    <label class="usa-radio__label" for="default-robotic">Robotic</label>
+  </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="default-flyby" type="radio" name="default" value="flyby">
-  <label class="usa-radio__label" for="default-flyby">Flyby</label>
-</div>
-
+  <div class="usa-radio">
+    <input class="usa-radio__input" id="default-flyby" type="radio" name="default" value="flyby" />
+    <label class="usa-radio__label" for="default-flyby">Flyby</label>
+  </div>
 </fieldset>
 ```
 
@@ -37,20 +37,20 @@ Radio buttons always include a label and are stacked vertically by default. A gr
 For short lists with brief labels (e.g., Yes/No), radio buttons can be laid out horizontally. Keep horizontal groups to 2–3 options maximum.
 
 ```html
-  <fieldset class="usa-fieldset">
-    <legend class="usa-legend">Label</legend>
-    <div style="display: flex; gap: 24px;">
-  <div class="usa-radio">
-    <input class="usa-radio__input" id="horiz-yes" type="radio" name="horiz" value="yes" checked="checked">
-    <label class="usa-radio__label" for="horiz-yes">Yes</label>
-  </div>
+<fieldset class="usa-fieldset">
+  <legend class="usa-legend">Label</legend>
+  <div style="display: flex; gap: 24px;">
+    <div class="usa-radio">
+      <input class="usa-radio__input" id="horiz-yes" type="radio" name="horiz" value="yes" checked="checked" />
+      <label class="usa-radio__label" for="horiz-yes">Yes</label>
+    </div>
 
-  <div class="usa-radio">
-    <input class="usa-radio__input" id="horiz-no" type="radio" name="horiz" value="no">
-    <label class="usa-radio__label" for="horiz-no">No</label>
+    <div class="usa-radio">
+      <input class="usa-radio__input" id="horiz-no" type="radio" name="horiz" value="no" />
+      <label class="usa-radio__label" for="horiz-no">No</label>
+    </div>
   </div>
-</div>
-  </fieldset>
+</fieldset>
 ```
 
 ### States
@@ -61,26 +61,47 @@ Radio buttons have default, selected, disabled, and disabled + selected states.
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">Radio button states</legend>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="states-default" type="radio" name="states" value="default">
-  <label class="usa-radio__label" for="states-default">Default</label>
-</div>
+  <div class="usa-radio">
+    <input class="usa-radio__input" id="states-default" type="radio" name="states" value="default" />
+    <label class="usa-radio__label" for="states-default">Default</label>
+  </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="states-selected" type="radio" name="states" value="selected" checked="checked">
-  <label class="usa-radio__label" for="states-selected">Selected</label>
-</div>
+  <div class="usa-radio">
+    <input
+      class="usa-radio__input"
+      id="states-selected"
+      type="radio"
+      name="states"
+      value="selected"
+      checked="checked"
+    />
+    <label class="usa-radio__label" for="states-selected">Selected</label>
+  </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="states-disabled" type="radio" name="states-disabled" value="disabled" disabled="disabled">
-  <label class="usa-radio__label" for="states-disabled">Disabled</label>
-</div>
+  <div class="usa-radio">
+    <input
+      class="usa-radio__input"
+      id="states-disabled"
+      type="radio"
+      name="states-disabled"
+      value="disabled"
+      disabled="disabled"
+    />
+    <label class="usa-radio__label" for="states-disabled">Disabled</label>
+  </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input" id="states-disabled-checked" type="radio" name="states-disabled-checked" value="disabled-checked" checked="checked" disabled="disabled">
-  <label class="usa-radio__label" for="states-disabled-checked">Disabled + selected</label>
-</div>
-
+  <div class="usa-radio">
+    <input
+      class="usa-radio__input"
+      id="states-disabled-checked"
+      type="radio"
+      name="states-disabled-checked"
+      value="disabled-checked"
+      checked="checked"
+      disabled="disabled"
+    />
+    <label class="usa-radio__label" for="states-disabled-checked">Disabled + selected</label>
+  </div>
 </fieldset>
 ```
 
@@ -90,25 +111,40 @@ Tile radio buttons provide a larger touch target with an optional description. U
 
 ```html
 <form class="usa-form">
-<fieldset class="usa-fieldset">
-  <legend class="usa-legend">Select destination</legend>
+  <fieldset class="usa-fieldset">
+    <legend class="usa-legend">Select destination</legend>
 
-<div class="usa-radio">
-  <input class="usa-radio__input usa-radio__input--tile" id="tiles-moon" type="radio" name="tiles" value="moon" checked="checked">
-  <label class="usa-radio__label" for="tiles-moon">Moon</label>
-</div>
+    <div class="usa-radio">
+      <input
+        class="usa-radio__input usa-radio__input--tile"
+        id="tiles-moon"
+        type="radio"
+        name="tiles"
+        value="moon"
+        checked="checked"
+      />
+      <label class="usa-radio__label" for="tiles-moon">Moon</label>
+    </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input usa-radio__input--tile" id="tiles-mars" type="radio" name="tiles" value="mars">
-  <label class="usa-radio__label" for="tiles-mars">Mars<span class="usa-checkbox__label-description">Red planet exploration</span></label>
-</div>
+    <div class="usa-radio">
+      <input class="usa-radio__input usa-radio__input--tile" id="tiles-mars" type="radio" name="tiles" value="mars" />
+      <label class="usa-radio__label" for="tiles-mars"
+        >Mars<span class="usa-checkbox__label-description">Red planet exploration</span></label
+      >
+    </div>
 
-<div class="usa-radio">
-  <input class="usa-radio__input usa-radio__input--tile" id="tiles-disabled" type="radio" name="tiles-disabled" value="disabled" disabled="disabled">
-  <label class="usa-radio__label" for="tiles-disabled">Disabled tile</label>
-</div>
-
-</fieldset>
+    <div class="usa-radio">
+      <input
+        class="usa-radio__input usa-radio__input--tile"
+        id="tiles-disabled"
+        type="radio"
+        name="tiles-disabled"
+        value="disabled"
+        disabled="disabled"
+      />
+      <label class="usa-radio__label" for="tiles-disabled">Disabled tile</label>
+    </div>
+  </fieldset>
 </form>
 ```
 
@@ -120,11 +156,26 @@ When a required radio button group has no selection on submit, an error message 
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">Select a destination</legend>
   <div class="usa-radio">
-    <input class="usa-radio__input" id="err-moon" type="radio" name="err" value="moon" aria-describedby="err-group-error">
+    <input
+      class="usa-radio__input"
+      id="err-moon"
+      type="radio"
+      name="err"
+      value="moon"
+      aria-describedby="err-group-error"
+    />
     <label class="usa-radio__label" for="err-moon">Moon</label>
   </div>
   <div class="usa-radio">
-    <input class="usa-radio__input" id="err-mars" type="radio" name="err" value="mars" aria-invalid="true" aria-describedby="err-group-error">
+    <input
+      class="usa-radio__input"
+      id="err-mars"
+      type="radio"
+      name="err"
+      value="mars"
+      aria-invalid="true"
+      aria-describedby="err-group-error"
+    />
     <label class="usa-radio__label" for="err-mars">Mars</label>
   </div>
   <span class="usa-error-message" id="err-group-error" role="alert">Please select a destination</span>

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/Accessibility.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-accessibility--docs -->
+
 # Accessibility
 
 HDS meets **WCAG 2.1 AA** standards, targeting **AAA (7.0:1)** for body text and headings. See the [Color Contrast Tool](./foundations-color-contrast-tool.md) for the full contrast reference with verified ratios.

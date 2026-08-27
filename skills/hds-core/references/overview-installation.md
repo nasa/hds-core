@@ -1,17 +1,18 @@
 <!-- Source: ./stories/overview/Installation.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs -->
+
 # Installation
 
 Technical setup for integrating HDS Core into your project. If you're evaluating whether HDS Core is the right fit for your site, start with [Getting Started](./overview-getting-started.md). For visual requirements, see [Design Standards](./overview-design-standards.md).
 
 ## Choose your approach
 
-|                   | Pre-compiled CSS                                 | Sass (recommended)                                                     |
-| ----------------- | ------------------------------------------------ | ---------------------------------------------------------------------- |
-| **Setup**         | One `<link>` tag                                 | Requires a Sass compiler and load path configuration                   |
-| **Customization** | CSS custom properties only                       | Full access to USWDS settings, HDS Sass variables, and USWDS functions |
-| **Custom code**   | `var(--hds-color-*)`, `var(--hds-font-weight-*)` | `$hds-color-*`, `family()`, `size()`, `units()`, `color()`             |
-| **Upgrade path**  | May need to switch to Sass later                 | Easiest to evolve as HDS Core adds features                            |
+|  | Pre-compiled CSS | Sass (recommended) |
+| --- | --- | --- |
+| **Setup** | One `<link>` tag | Requires a Sass compiler and load path configuration |
+| **Customization** | CSS custom properties only | Full access to USWDS settings, HDS Sass variables, and USWDS functions |
+| **Custom code** | `var(--hds-color-*)`, `var(--hds-font-weight-*)` | `$hds-color-*`, `family()`, `size()`, `units()`, `color()` |
+| **Upgrade path** | May need to switch to Sass later | Easiest to evolve as HDS Core adds features |
 
 If you're evaluating HDS Core, working on a content site, or don't have a build pipeline, start with pre-compiled CSS. You can switch to Sass later without changing your markup.
 

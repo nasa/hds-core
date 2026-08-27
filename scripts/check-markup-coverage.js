@@ -27,6 +27,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
+import * as prettier from 'prettier';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PORT = 6121;
@@ -213,7 +214,17 @@ console.log(
 if (writeInventory) {
   const outPath = path.join(distDir, 'llms', 'class-inventory.md');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
-  fs.writeFileSync(outPath, renderInventory(selectors, seen));
+  // Format with the repo config so `npm run format` passes and regenerating
+  // never dirties the tree. Table alignment is the only visible effect.
+  const options = await prettier.resolveConfig(outPath, {
+    config: path.join(ROOT, '.config/prettierrc.json'),
+  });
+  const formatted = await prettier.format(renderInventory(selectors, seen), {
+    ...options,
+    filepath: outPath,
+    parser: 'markdown',
+  });
+  fs.writeFileSync(outPath, formatted);
   console.log(`Wrote ${path.relative(ROOT, outPath)}`);
 }
 

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/guides/ReactSetup.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-react-setup--docs -->
+
 # React Setup
 
 This guide covers HDS Core integration for React projects. It assumes you've read [Installation](./overview-installation.md) and understand the Sass vs. pre-compiled CSS approaches.
@@ -38,20 +39,17 @@ HDS Core's Sass source references fonts and icons using relative paths (e.g. `ur
 
 ```jsx
 // App.jsx
-
 ```
 
 **Do not also import react-uswds CSS.** Your Sass entry point already includes USWDS base styles via HDS Core. Loading both creates duplicate rules:
 
 ```jsx
 // Remove this — duplicates USWDS styles already in your compiled output
-
 ```
 
 **4. Your `vite.config.js`:**
 
 ```js
-
 export default defineConfig({
   plugins: [
     react(),
@@ -87,7 +85,6 @@ If your project does not use Sass, import the compiled `hds.min.css` stylesheet 
 
 ```jsx
 // App.jsx
-
 ```
 
 The import specifier is `@nasa-hds/core/css` — the key exposed in the package's `exports` map. A deep path like `@nasa-hds/core/dist/css/hds.min.css` is an internal file reference and will fail to resolve in any bundler that enforces the `exports` map (Vite, webpack 5, Next.js, Rollup).
@@ -121,7 +118,6 @@ Some USWDS components require JavaScript for interactive behavior (accordion, ba
 **Option A: Initialize the USWDS component module after render.** USWDS scans the DOM on page load, so dynamically rendered components need manual initialization. In USWDS 3, import the per-component module and call `.on()` (and `.off()` on cleanup):
 
 ```jsx
-
 function MyAccordion({ items }) {
   const ref = useRef(null);
 
@@ -130,11 +126,7 @@ function MyAccordion({ items }) {
     return () => accordion.off(ref.current);
   }, []);
 
-  return (
-    <div className="usa-accordion" ref={ref}>
-      
-    </div>
-  );
+  return <div className="usa-accordion" ref={ref}></div>;
 }
 ```
 

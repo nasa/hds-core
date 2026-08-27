@@ -1,7 +1,7 @@
 <!-- Source: ./stories/overview/Intro.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/overview-introduction--docs -->
-<img src="overview-hds-cover.png" alt="Horizon Design System" style={{ width: '100%', display: 'block' }} />
-<br />
+
+<img src="overview-hds-cover.png" alt="Horizon Design System" style={{ width: '100%', display: 'block' }} /> <br />
 
 # HDS Core
 

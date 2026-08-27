@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/TextInput.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-text-input-guidance--docs -->
+
 # Text Input
 
 Text inputs and textareas capture text from users. Text inputs handle short strings (names, email addresses, URLs). Textareas handle longer content (messages, descriptions). Both use USWDS [`.usa-input`](https://designsystem.digital.gov/components/text-input/) and `.usa-textarea` markup. HDS recommends a different DOM order for error states (see [Form: Legacy USWDS support](./components-form-guidance.md#legacy-uswds-support)).
@@ -13,8 +14,7 @@ Every text input includes a label above the field.
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="default-field">Text input label</label>
-  <input class="usa-input" id="default-field" name="default-field" type="text">
-
+  <input class="usa-input" id="default-field" name="default-field" type="text" />
 </div>
 ```
 
@@ -25,9 +25,8 @@ Help text provides formatting guidance, character limits, or accepted values. Li
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="help-field">Email address</label>
-  <input class="usa-input" id="help-field" name="help-field" type="email" aria-describedby="help-hint">
+  <input class="usa-input" id="help-field" name="help-field" type="email" aria-describedby="help-hint" />
   <span class="usa-hint" id="help-hint">Enter your .gov or .mil email address</span>
-
 </div>
 ```
 
@@ -38,8 +37,7 @@ Placeholder text shows a brief example of expected input. It disappears when the
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="placeholder-field">Text input label</label>
-  <input class="usa-input" id="placeholder-field" name="placeholder-field" type="text" placeholder="e.g., Artemis I">
-
+  <input class="usa-input" id="placeholder-field" name="placeholder-field" type="text" placeholder="e.g., Artemis I" />
 </div>
 ```
 
@@ -50,8 +48,7 @@ A field with an existing value.
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="value-field">Text input label</label>
-  <input class="usa-input" id="value-field" name="value-field" type="text" value="James Webb Space Telescope">
-
+  <input class="usa-input" id="value-field" name="value-field" type="text" value="James Webb Space Telescope" />
 </div>
 ```
 
@@ -64,7 +61,6 @@ Textareas handle longer text content. They are resizable by default.
   <label class="usa-label" for="textarea-field">Textarea label</label>
   <textarea class="usa-textarea" id="textarea-field" name="textarea-field" aria-describedby="textarea-hint"></textarea>
   <span class="usa-hint" id="textarea-hint">Help text (optional)</span>
-
 </div>
 ```
 
@@ -75,44 +71,37 @@ Width classes constrain an input to match an expected data format (zip codes, ph
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="w-2xs-field">Width 2xs (5ex)</label>
-  <input class="usa-input usa-input--2xs" id="w-2xs-field" name="w-2xs-field" type="text">
-
+  <input class="usa-input usa-input--2xs" id="w-2xs-field" name="w-2xs-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-xs-field">Width xs (9ex)</label>
-  <input class="usa-input usa-input--xs" id="w-xs-field" name="w-xs-field" type="text">
-
+  <input class="usa-input usa-input--xs" id="w-xs-field" name="w-xs-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-sm-field">Width sm (13ex)</label>
-  <input class="usa-input usa-input--sm" id="w-sm-field" name="w-sm-field" type="text">
-
+  <input class="usa-input usa-input--sm" id="w-sm-field" name="w-sm-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-md-field">Width md (20ex)</label>
-  <input class="usa-input usa-input--md" id="w-md-field" name="w-md-field" type="text">
-
+  <input class="usa-input usa-input--md" id="w-md-field" name="w-md-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-lg-field">Width lg (30ex)</label>
-  <input class="usa-input usa-input--lg" id="w-lg-field" name="w-lg-field" type="text">
-
+  <input class="usa-input usa-input--lg" id="w-lg-field" name="w-lg-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-xl-field">Width xl (40ex)</label>
-  <input class="usa-input usa-input--xl" id="w-xl-field" name="w-xl-field" type="text">
-
+  <input class="usa-input usa-input--xl" id="w-xl-field" name="w-xl-field" type="text" />
 </div>
 
 <div class="usa-form-group">
   <label class="usa-label" for="w-2xl-field">Width 2xl (50ex)</label>
-  <input class="usa-input usa-input--2xl" id="w-2xl-field" name="w-2xl-field" type="text">
-
+  <input class="usa-input usa-input--2xl" id="w-2xl-field" name="w-2xl-field" type="text" />
 </div>
 ```
 
@@ -123,7 +112,15 @@ When validation fails, the field border turns red and an error message with an i
 ```html
 <div class="usa-form-group usa-form-group--error">
   <label class="usa-label" for="error-modern-field">Email address</label>
-  <input class="usa-input usa-input--error" id="error-modern-field" name="error-modern-field" type="email" value="james.green.nasa.gov" aria-invalid="true" aria-describedby="error-modern-hint error-modern-error">
+  <input
+    class="usa-input usa-input--error"
+    id="error-modern-field"
+    name="error-modern-field"
+    type="email"
+    value="james.green.nasa.gov"
+    aria-invalid="true"
+    aria-describedby="error-modern-hint error-modern-error"
+  />
   <span class="usa-hint" id="error-modern-hint">e.g., mission-lead@nasa.gov</span>
   <span class="usa-error-message" id="error-modern-error" role="alert">Incorrect email address format</span>
 </div>
@@ -134,9 +131,19 @@ On longer messages, the icon stays top-aligned to the first line.
 ```html
 <div class="usa-form-group usa-form-group--error">
   <label class="usa-label" for="error-multiline-field">Password</label>
-  <input class="usa-input usa-input--error" id="error-multiline-field" name="error-multiline-field" type="password" aria-invalid="true" aria-describedby="error-multiline-hint error-multiline-error">
+  <input
+    class="usa-input usa-input--error"
+    id="error-multiline-field"
+    name="error-multiline-field"
+    type="password"
+    aria-invalid="true"
+    aria-describedby="error-multiline-hint error-multiline-error"
+  />
   <span class="usa-hint" id="error-multiline-hint">Help text (optional)</span>
-  <span class="usa-error-message" id="error-multiline-error" role="alert">Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character such as ! or @.</span>
+  <span class="usa-error-message" id="error-multiline-error" role="alert"
+    >Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one
+    number, and one special character such as ! or @.</span
+  >
 </div>
 ```
 
@@ -149,9 +156,15 @@ A green border indicates the field value has passed validation.
 ```html
 <div class="usa-form-group">
   <label class="usa-label" for="success-field">Text input label</label>
-  <input class="usa-input usa-input--success" id="success-field" name="success-field" type="text" value="james.green@nasa.gov" aria-describedby="success-hint">
+  <input
+    class="usa-input usa-input--success"
+    id="success-field"
+    name="success-field"
+    type="text"
+    value="james.green@nasa.gov"
+    aria-describedby="success-hint"
+  />
   <span class="usa-hint" id="success-hint">Help text (optional)</span>
-
 </div>
 ```
 
@@ -164,9 +177,16 @@ Disabled fields prevent interaction. The label dims to match. Help text remains 
 ```html
 <div class="usa-form-group usa-form-group--disabled">
   <label class="usa-label" for="disabled-field">Text input label</label>
-  <input class="usa-input" id="disabled-field" name="disabled-field" type="text" value="Cannot edit" disabled="" aria-describedby="disabled-hint">
+  <input
+    class="usa-input"
+    id="disabled-field"
+    name="disabled-field"
+    type="text"
+    value="Cannot edit"
+    disabled=""
+    aria-describedby="disabled-hint"
+  />
   <span class="usa-hint" id="disabled-hint">Help text (optional)</span>
-
 </div>
 ```
 

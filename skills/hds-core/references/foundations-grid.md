@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/Grid.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-grid--docs -->
+
 # Grid
 
 The basis of NASA.gov is a strong foundation for positioning elements on screen. Designing to the grid helps create seamless, easy-to-follow experiences and visual consistency across different screen sizes.
@@ -12,23 +13,35 @@ Resize your browser to see the grid respond. Uses USWDS `.grid-container`, `.gri
 
 ```html
 <style>
-  .grid-demo [class*="grid-col"] {
+  .grid-demo [class*='grid-col'] {
     background-clip: content-box;
-    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    background-color: var(--hds-color-nasa-blue, #1c67e3);
     opacity: 0.15;
     min-height: 3rem;
   }
   .grid-demo .demo-alt {
-    background-color: var(--hds-color-nasa-red, #F64137);
+    background-color: var(--hds-color-nasa-red, #f64137);
     opacity: 0.2;
   }
-</style><div class="grid-demo">
-    <div class="grid-container">
-      <div class="grid-row grid-gap">
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-      </div>
+</style>
+<div class="grid-demo">
+  <div class="grid-container">
+    <div class="grid-row grid-gap">
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
     </div>
   </div>
+</div>
 ```
 
 ## Breakpoints
@@ -57,98 +70,102 @@ Site margins, column gutters, and the content max-width are exposed as `--hds-la
 
 ```html
 <style>
-  .grid-demo [class*="grid-col"] {
+  .grid-demo [class*='grid-col'] {
     background-clip: content-box;
-    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    background-color: var(--hds-color-nasa-blue, #1c67e3);
     opacity: 0.15;
     min-height: 3rem;
   }
   .grid-demo .demo-alt {
-    background-color: var(--hds-color-nasa-red, #F64137);
+    background-color: var(--hds-color-nasa-red, #f64137);
     opacity: 0.2;
   }
-</style><div class="grid-demo">
-    <div class="grid-container">
-      <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">2 + 10 (sidebar + content)</p>
-      <div class="grid-row grid-gap">
-        <div class="grid-col-2 demo-alt"></div>
-        <div class="grid-col-10"></div>
-      </div>
+</style>
+<div class="grid-demo">
+  <div class="grid-container">
+    <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">2 + 10 (sidebar + content)</p>
+    <div class="grid-row grid-gap">
+      <div class="grid-col-2 demo-alt"></div>
+      <div class="grid-col-10"></div>
     </div>
   </div>
+</div>
 ```
 
 ```html
 <style>
-  .grid-demo [class*="grid-col"] {
+  .grid-demo [class*='grid-col'] {
     background-clip: content-box;
-    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    background-color: var(--hds-color-nasa-blue, #1c67e3);
     opacity: 0.15;
     min-height: 3rem;
   }
   .grid-demo .demo-alt {
-    background-color: var(--hds-color-nasa-red, #F64137);
+    background-color: var(--hds-color-nasa-red, #f64137);
     opacity: 0.2;
   }
-</style><div class="grid-demo">
-    <div class="grid-container">
-      <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">3 + 3 + 3 + 3 (card grid)</p>
-      <div class="grid-row grid-gap">
-        <div class="grid-col-3"></div>
-        <div class="grid-col-3"></div>
-        <div class="grid-col-3"></div>
-        <div class="grid-col-3"></div>
-      </div>
+</style>
+<div class="grid-demo">
+  <div class="grid-container">
+    <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">3 + 3 + 3 + 3 (card grid)</p>
+    <div class="grid-row grid-gap">
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3"></div>
+      <div class="grid-col-3"></div>
     </div>
   </div>
+</div>
 ```
 
 ```html
 <style>
-  .grid-demo [class*="grid-col"] {
+  .grid-demo [class*='grid-col'] {
     background-clip: content-box;
-    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    background-color: var(--hds-color-nasa-blue, #1c67e3);
     opacity: 0.15;
     min-height: 3rem;
   }
   .grid-demo .demo-alt {
-    background-color: var(--hds-color-nasa-red, #F64137);
+    background-color: var(--hds-color-nasa-red, #f64137);
     opacity: 0.2;
   }
-</style><div class="grid-demo">
-    <div class="grid-container">
-      <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">8 + 4 (content + aside)</p>
-      <div class="grid-row grid-gap">
-        <div class="grid-col-8"></div>
-        <div class="grid-col-4 demo-alt"></div>
-      </div>
+</style>
+<div class="grid-demo">
+  <div class="grid-container">
+    <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">8 + 4 (content + aside)</p>
+    <div class="grid-row grid-gap">
+      <div class="grid-col-8"></div>
+      <div class="grid-col-4 demo-alt"></div>
     </div>
   </div>
+</div>
 ```
 
 ```html
 <style>
-  .grid-demo [class*="grid-col"] {
+  .grid-demo [class*='grid-col'] {
     background-clip: content-box;
-    background-color: var(--hds-color-nasa-blue, #1C67E3);
+    background-color: var(--hds-color-nasa-blue, #1c67e3);
     opacity: 0.15;
     min-height: 3rem;
   }
   .grid-demo .demo-alt {
-    background-color: var(--hds-color-nasa-red, #F64137);
+    background-color: var(--hds-color-nasa-red, #f64137);
     opacity: 0.2;
   }
-</style><div class="grid-demo">
-    <div class="grid-container">
-      <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">Responsive: 1 col → 2 col → 4 col</p>
-      <div class="grid-row grid-gap">
-        <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
-        <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
-        <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
-        <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
-      </div>
+</style>
+<div class="grid-demo">
+  <div class="grid-container">
+    <p style="font-size: 0.75rem; opacity: 0.6; margin-block-end: 0.5rem;">Responsive: 1 col → 2 col → 4 col</p>
+    <div class="grid-row grid-gap">
+      <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
+      <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
+      <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
+      <div class="grid-col-12 tablet:grid-col-6 desktop:grid-col-3"></div>
     </div>
   </div>
+</div>
 ```
 
 ## Using the grid
@@ -199,14 +216,14 @@ For the full USWDS grid API, see the [USWDS Layout Grid documentation](https://d
 
 These USWDS settings control grid behavior in HDS Core:
 
-| Setting                            | Value          | Description                                                            |
-| ---------------------------------- | -------------- | ---------------------------------------------------------------------- |
-| `$theme-grid-container-max-width`  | `"desktop-lg"` | Container max-width (1200px). HDS defers the Proposal's `tv` (1920px). |
-| `$theme-site-margins-breakpoint`   | `"desktop"`    | Where margins switch from mobile to desktop                            |
-| `$theme-site-margins-mobile-width` | `2` (16px)     | Site margins below desktop                                             |
-| `$theme-site-margins-width`        | `4` (32px)     | Site margins at desktop+                                               |
-| `$theme-column-gap-mobile`         | `"05"` (4px)   | Responsive column gutter below desktop                                 |
-| `$theme-column-gap-desktop`        | `2` (16px)     | Responsive column gutter at desktop+                                   |
-| `$theme-column-gap-sm`             | `2px`          | `.grid-gap-sm` utility size                                            |
-| `$theme-column-gap-md`             | `2` (16px)     | `.grid-gap-md` utility size (USWDS default gap)                        |
-| `$theme-column-gap-lg`             | `3` (24px)     | `.grid-gap-lg` utility size                                            |
+| Setting | Value | Description |
+| --- | --- | --- |
+| `$theme-grid-container-max-width` | `"desktop-lg"` | Container max-width (1200px). HDS defers the Proposal's `tv` (1920px). |
+| `$theme-site-margins-breakpoint` | `"desktop"` | Where margins switch from mobile to desktop |
+| `$theme-site-margins-mobile-width` | `2` (16px) | Site margins below desktop |
+| `$theme-site-margins-width` | `4` (32px) | Site margins at desktop+ |
+| `$theme-column-gap-mobile` | `"05"` (4px) | Responsive column gutter below desktop |
+| `$theme-column-gap-desktop` | `2` (16px) | Responsive column gutter at desktop+ |
+| `$theme-column-gap-sm` | `2px` | `.grid-gap-sm` utility size |
+| `$theme-column-gap-md` | `2` (16px) | `.grid-gap-md` utility size (USWDS default gap) |
+| `$theme-column-gap-lg` | `3` (24px) | `.grid-gap-lg` utility size |

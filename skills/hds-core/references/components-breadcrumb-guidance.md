@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Breadcrumb.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-breadcrumb-guidance--docs -->
+
 # Breadcrumb
 
 Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy. HDS breadcrumbs use USWDS [`.usa-breadcrumb`](https://designsystem.digital.gov/components/breadcrumb/) markup.
@@ -16,7 +17,7 @@ The simplest breadcrumb — root page and current page.
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Home</a></li>
-  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Missions</span></li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Missions</span></li>
   </ol>
 </nav>
 ```
@@ -29,8 +30,8 @@ Root page, one parent, and the current page. This is the maximum depth shown wit
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Home</a></li>
-  <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Missions</a></li>
-  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Artemis I</span></li>
+    <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Missions</a></li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Artemis I</span></li>
   </ol>
 </nav>
 ```
@@ -43,8 +44,8 @@ For pages deeper than 3 levels, Home and all intermediate levels are replaced wi
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     <li class="usa-breadcrumb__list-item"><span class="usa-breadcrumb__link">…</span></li>
-  <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Artemis I</a></li>
-  <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Multimedia</span></li>
+    <li class="usa-breadcrumb__list-item"><a class="usa-breadcrumb__link" href="#">Artemis I</a></li>
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Multimedia</span></li>
   </ol>
 </nav>
 ```

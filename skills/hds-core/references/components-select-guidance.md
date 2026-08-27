@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Select.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-select-guidance--docs -->
+
 # Select
 
 Select fields allow users to choose one option from a dropdown list. They use USWDS [`.usa-select`](https://designsystem.digital.gov/components/select/) markup. HDS recommends a different DOM order for error messages than vanilla USWDS (see [Form: Legacy USWDS support](./components-form-guidance.md#legacy-uswds-support)).
@@ -16,10 +17,13 @@ Every select includes a label above the field. The first option is a placeholder
     <label class="usa-label" for="default-field">Topic</label>
     <select class="usa-select" name="default-field" id="default-field" aria-describedby="default-hint">
       <option value="">- Select -</option>
-      <option value="humans">Humans in Space</option><option value="moon">Moon to Mars</option><option value="earth">Earth</option><option value="solar">Solar System</option><option value="universe">Universe</option>
+      <option value="humans">Humans in Space</option>
+      <option value="moon">Moon to Mars</option>
+      <option value="earth">Earth</option>
+      <option value="solar">Solar System</option>
+      <option value="universe">Universe</option>
     </select>
     <span class="usa-hint" id="default-hint">Help text (optional)</span>
-
   </div>
 </form>
 ```
@@ -34,10 +38,11 @@ Help text below the field provides guidance on what the selection controls. Link
     <label class="usa-label" for="help-field">Mission type</label>
     <select class="usa-select" name="help-field" id="help-field" aria-describedby="help-hint">
       <option value="">- Select -</option>
-      <option value="crewed">Crewed</option><option value="robotic">Robotic</option><option value="flyby">Flyby</option>
+      <option value="crewed">Crewed</option>
+      <option value="robotic">Robotic</option>
+      <option value="flyby">Flyby</option>
     </select>
     <span class="usa-hint" id="help-hint">Choose the primary mission category</span>
-
   </div>
 </form>
 ```
@@ -52,10 +57,13 @@ A select with an existing selection.
     <label class="usa-label" for="value-field">Topic</label>
     <select class="usa-select" name="value-field" id="value-field" aria-describedby="value-hint">
       <option value="">- Select -</option>
-      <option value="humans" selected="">Humans in Space</option><option value="moon">Moon to Mars</option><option value="earth">Earth</option><option value="solar">Solar System</option><option value="universe">Universe</option>
+      <option value="humans" selected="">Humans in Space</option>
+      <option value="moon">Moon to Mars</option>
+      <option value="earth">Earth</option>
+      <option value="solar">Solar System</option>
+      <option value="universe">Universe</option>
     </select>
     <span class="usa-hint" id="value-hint">Help text (optional)</span>
-
   </div>
 </form>
 ```
@@ -70,10 +78,18 @@ When a list has 7 or more options, a select field is appropriate over radio butt
     <label class="usa-label" for="many-field">NASA center</label>
     <select class="usa-select" name="many-field" id="many-field" aria-describedby="many-hint">
       <option value="">- Select -</option>
-      <option value="ames">Ames Research Center</option><option value="armstrong">Armstrong Flight Research Center</option><option value="glenn">Glenn Research Center</option><option value="goddard">Goddard Space Flight Center</option><option value="jpl">Jet Propulsion Laboratory</option><option value="johnson">Johnson Space Center</option><option value="kennedy">Kennedy Space Center</option><option value="langley">Langley Research Center</option><option value="marshall">Marshall Space Flight Center</option><option value="stennis">Stennis Space Center</option>
+      <option value="ames">Ames Research Center</option>
+      <option value="armstrong">Armstrong Flight Research Center</option>
+      <option value="glenn">Glenn Research Center</option>
+      <option value="goddard">Goddard Space Flight Center</option>
+      <option value="jpl">Jet Propulsion Laboratory</option>
+      <option value="johnson">Johnson Space Center</option>
+      <option value="kennedy">Kennedy Space Center</option>
+      <option value="langley">Langley Research Center</option>
+      <option value="marshall">Marshall Space Flight Center</option>
+      <option value="stennis">Stennis Space Center</option>
     </select>
     <span class="usa-hint" id="many-hint">Use a select field when there are 7 or more options</span>
-
   </div>
 </form>
 ```
@@ -86,9 +102,24 @@ When validation fails, the field border turns red and an error message with an i
 <form class="usa-form">
   <div class="usa-form-group usa-form-group--error">
     <label class="usa-label" for="error-modern-field">NASA center</label>
-    <select class="usa-select usa-input--error" name="error-modern-field" id="error-modern-field" aria-invalid="true" aria-describedby="error-modern-hint error-modern-error">
+    <select
+      class="usa-select usa-input--error"
+      name="error-modern-field"
+      id="error-modern-field"
+      aria-invalid="true"
+      aria-describedby="error-modern-hint error-modern-error"
+    >
       <option value="">- Select -</option>
-      <option value="ames">Ames Research Center</option><option value="armstrong">Armstrong Flight Research Center</option><option value="glenn">Glenn Research Center</option><option value="goddard">Goddard Space Flight Center</option><option value="jpl">Jet Propulsion Laboratory</option><option value="johnson">Johnson Space Center</option><option value="kennedy">Kennedy Space Center</option><option value="langley">Langley Research Center</option><option value="marshall">Marshall Space Flight Center</option><option value="stennis">Stennis Space Center</option>
+      <option value="ames">Ames Research Center</option>
+      <option value="armstrong">Armstrong Flight Research Center</option>
+      <option value="glenn">Glenn Research Center</option>
+      <option value="goddard">Goddard Space Flight Center</option>
+      <option value="jpl">Jet Propulsion Laboratory</option>
+      <option value="johnson">Johnson Space Center</option>
+      <option value="kennedy">Kennedy Space Center</option>
+      <option value="langley">Langley Research Center</option>
+      <option value="marshall">Marshall Space Flight Center</option>
+      <option value="stennis">Stennis Space Center</option>
     </select>
     <span class="usa-hint" id="error-modern-hint">Choose the center closest to your location</span>
     <span class="usa-error-message" id="error-modern-error" role="alert">Please select a NASA center</span>
@@ -102,12 +133,30 @@ On longer messages, the icon stays top-aligned to the first line.
 <form class="usa-form">
   <div class="usa-form-group usa-form-group--error">
     <label class="usa-label" for="error-multiline-field">NASA center</label>
-    <select class="usa-select usa-input--error" name="error-multiline-field" id="error-multiline-field" aria-invalid="true" aria-describedby="error-multiline-hint error-multiline-error">
+    <select
+      class="usa-select usa-input--error"
+      name="error-multiline-field"
+      id="error-multiline-field"
+      aria-invalid="true"
+      aria-describedby="error-multiline-hint error-multiline-error"
+    >
       <option value="">- Select -</option>
-      <option value="ames">Ames Research Center</option><option value="armstrong">Armstrong Flight Research Center</option><option value="glenn">Glenn Research Center</option><option value="goddard">Goddard Space Flight Center</option><option value="jpl">Jet Propulsion Laboratory</option><option value="johnson">Johnson Space Center</option><option value="kennedy">Kennedy Space Center</option><option value="langley">Langley Research Center</option><option value="marshall">Marshall Space Flight Center</option><option value="stennis">Stennis Space Center</option>
+      <option value="ames">Ames Research Center</option>
+      <option value="armstrong">Armstrong Flight Research Center</option>
+      <option value="glenn">Glenn Research Center</option>
+      <option value="goddard">Goddard Space Flight Center</option>
+      <option value="jpl">Jet Propulsion Laboratory</option>
+      <option value="johnson">Johnson Space Center</option>
+      <option value="kennedy">Kennedy Space Center</option>
+      <option value="langley">Langley Research Center</option>
+      <option value="marshall">Marshall Space Flight Center</option>
+      <option value="stennis">Stennis Space Center</option>
     </select>
     <span class="usa-hint" id="error-multiline-hint">Help text (optional)</span>
-    <span class="usa-error-message" id="error-multiline-error" role="alert">Please select a valid NASA center. If your center is not listed, contact your program office for assistance.</span>
+    <span class="usa-error-message" id="error-multiline-error" role="alert"
+      >Please select a valid NASA center. If your center is not listed, contact your program office for
+      assistance.</span
+    >
   </div>
 </form>
 ```
@@ -124,10 +173,8 @@ Disabled selects prevent interaction. The label dims to match.
     <label class="usa-label" for="disabled-field">Topic</label>
     <select class="usa-select" name="disabled-field" id="disabled-field" disabled="" aria-describedby="disabled-hint">
       <option value="">- Select -</option>
-
     </select>
     <span class="usa-hint" id="disabled-hint">Help text (optional)</span>
-
   </div>
 </form>
 ```

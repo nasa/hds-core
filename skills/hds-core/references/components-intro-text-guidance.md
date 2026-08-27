@@ -1,11 +1,15 @@
 <!-- Source: ./stories/components/IntroText.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-intro-text-guidance--docs -->
+
 # Intro Text
 
 Intro text is a larger, lighter lead paragraph that introduces a page or section. It uses the USWDS [`.usa-intro`](https://designsystem.digital.gov/components/prose/) class.
 
 ```html
-<p class="usa-intro">NASA's Artemis campaign is the next chapter in human space exploration. Working with commercial and international partners, NASA will establish a long-term presence at and around the Moon.</p>
+<p class="usa-intro">
+  NASA's Artemis campaign is the next chapter in human space exploration. Working with commercial and international
+  partners, NASA will establish a long-term presence at and around the Moon.
+</p>
 ```
 
 ## In page context
@@ -15,15 +19,12 @@ Intro text works alongside headings and body text to create a clear content hier
 ```html
 <h1>Mission Overview</h1>
 <p class="usa-intro">
-  The International Space Station serves as a national laboratory for
-  scientific research and technology development.
+  The International Space Station serves as a national laboratory for scientific research and technology development.
 </p>
 <p>
-  More than 3,600 research investigations have been conducted aboard
-  the station since the first expedition crew arrived in November 2000.
-  These experiments span biology, Earth science, physical sciences,
-  and technology demonstrations that benefit life on Earth and prepare
-  us for future missions to the Moon and Mars.
+  More than 3,600 research investigations have been conducted aboard the station since the first expedition crew arrived
+  in November 2000. These experiments span biology, Earth science, physical sciences, and technology demonstrations that
+  benefit life on Earth and prepare us for future missions to the Moon and Mars.
 </p>
 ```
 

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/guides/SassConfiguration.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-sass-configuration--docs -->
+
 # Sass Configuration
 
 This guide covers advanced USWDS theme customization for projects using the Sass integration path. For basic Sass setup, see [Installation](./overview-installation.md).
@@ -40,24 +41,24 @@ Adjust these if your build pipeline outputs assets to a different location than 
 
 If your site has a fixed or sticky header, these prevent content from being hidden behind it.
 
-| Setting                          | Default    | What it controls                                                                                                            |
-| -------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `$theme-in-page-nav-top`         | `4` (32px) | Distance from the top of the viewport when the in-page navigation sidebar becomes sticky. Increase to clear a fixed header. |
-| `$theme-table-sticky-top-offset` | `0px`      | Offset for sticky table headers. Increase to clear a fixed header.                                                          |
+| Setting | Default | What it controls |
+| --- | --- | --- |
+| `$theme-in-page-nav-top` | `4` (32px) | Distance from the top of the viewport when the in-page navigation sidebar becomes sticky. Increase to clear a fixed header. |
+| `$theme-table-sticky-top-offset` | `0px` | Offset for sticky table headers. Increase to clear a fixed header. |
 
 ### Form input width
 
-| Setting                  | Default       | What it controls                                                                       |
-| ------------------------ | ------------- | -------------------------------------------------------------------------------------- |
+| Setting | Default | What it controls |
+| --- | --- | --- |
 | `$theme-input-max-width` | `"mobile-lg"` | Max width of text inputs and selects. Increase if your layout needs wider form fields. |
 
 ### Compile output
 
-| Setting                        | HDS Default | What it controls                                                                                         |
-| ------------------------------ | ----------- | -------------------------------------------------------------------------------------------------------- |
-| `$utilities-use-important`     | `false`     | Whether utility classes use `!important`. Set to `true` if utilities conflict with your existing styles. |
-| `$theme-show-compile-warnings` | `false`     | Show Sass warnings from USWDS. Enable for debugging.                                                     |
-| `$theme-show-notifications`    | `false`     | Show USWDS build notifications. Enable for debugging.                                                    |
+| Setting | HDS Default | What it controls |
+| --- | --- | --- |
+| `$utilities-use-important` | `false` | Whether utility classes use `!important`. Set to `true` if utilities conflict with your existing styles. |
+| `$theme-show-compile-warnings` | `false` | Show Sass warnings from USWDS. Enable for debugging. |
+| `$theme-show-notifications` | `false` | Show USWDS build notifications. Enable for debugging. |
 
 ## Reserved settings
 
@@ -153,8 +154,8 @@ USWDS has [hundreds of settings](https://designsystem.digital.gov/documentation/
 
 HDS Core provides a small number of utility classes beyond what USWDS offers.
 
-| Class                | Purpose                                                                                                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Class | Purpose |
+| --- | --- |
 | `.hds-print-visible` | Makes an element visible in print that is hidden on screen. Use for content that should only appear in printed output (e.g., expanded URLs, critical alerts). |
 
 All [USWDS utility classes](https://designsystem.digital.gov/utilities/) for layout, spacing, and typography work as expected with HDS Core. USWDS color utilities (`.bg-*`, `.text-*`, `.border-*`) also work, but use USWDS system token values which are close approximations of HDS colors — not exact matches. For exact HDS colors in custom styles, use `$hds-color-*` Sass variables or `var(--hds-color-*)` CSS custom properties.

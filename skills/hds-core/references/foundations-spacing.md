@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/Spacing.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-spacing--docs -->
+
 # Spacing
 
 All elements, components, and modules should align to an **8px baseline grid** whenever possible. HDS Core uses USWDS `units()` spacing tokens, which map to multiples of 8px and are exposed to CSS authors as `--hds-spacing-*` custom properties.
@@ -26,8 +27,8 @@ Vertical rhythm between elements uses consistent spacing tokens:
     <p style="margin: 0;">NASA's Artemis program aims to land the first woman and first person of color on the Moon.</p>
     <div style="height: 24px; background: #1C67E3; opacity: 0.2; margin: 0;"></div>
     <span style="font-size: 0.8rem;">
-      ↑ <code>units(1)</code> 8px — eyebrow to heading<br>
-      ↑ <code>units(2)</code> 16px — heading to paragraph<br>
+      ↑ <code>units(1)</code> 8px — eyebrow to heading<br />
+      ↑ <code>units(2)</code> 16px — heading to paragraph<br />
       ↑ <code>units(3)</code> 24px — paragraph to next section
     </span>
   </div>

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/IconButton.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-icon-button-guidance--docs -->
+
 # Icon Button
 
 Circle-shaped buttons containing a single icon and no visible text. Use them for compact actions where space is limited and the icon's meaning is universally understood. USWDS has no equivalent component — icon buttons use HDS-specific `.hds-btn-icon` classes.
@@ -20,9 +21,10 @@ Three emphasis levels for actions. Choose based on how much attention the button
 
 ```html
 <button class="hds-btn-icon hds-btn-icon--cta" type="button" aria-label="Navigate to page">
-    <svg class="hds-icon" aria-hidden="true" focusable="false">
-      <use xlink:href="assets/img/hds-sprite.svg#arrow-line-right"></use>
-    </svg></button>
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="assets/img/hds-sprite.svg#arrow-line-right"></use>
+  </svg>
+</button>
 ```
 
 ### Utility
@@ -33,9 +35,10 @@ Use utility icons only with universally recognized icons in predictable location
 
 ```html
 <button class="hds-btn-icon hds-btn-icon--utility" type="button" aria-label="Settings">
-    <svg class="hds-icon" aria-hidden="true" focusable="false">
-      <use xlink:href="assets/img/hds-sprite.svg#settings"></use>
-    </svg></button>
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="assets/img/hds-sprite.svg#settings"></use>
+  </svg>
+</button>
 ```
 
 ### Social
@@ -44,9 +47,10 @@ Social media sharing and follow links. Use `<a>` tags since these navigate to ex
 
 ```html
 <button class="hds-btn-icon hds-btn-icon--social" type="button" aria-label="RSS feed">
-    <svg class="hds-icon" aria-hidden="true" focusable="false">
-      <use xlink:href="assets/img/hds-sprite.svg#rss"></use>
-    </svg></button>
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="assets/img/hds-sprite.svg#rss"></use>
+  </svg>
+</button>
 ```
 
 ### Interactive
@@ -57,15 +61,22 @@ The visual state inverts on hover and when expanded — NASA Blue Shade + white 
 
 ```html
 <button class="hds-btn-icon hds-btn-icon--interactive" type="button" aria-label="More info" aria-expanded="false">
-    <svg class="hds-icon" aria-hidden="true" focusable="false">
-      <use xlink:href="assets/img/hds-sprite.svg#plus"></use>
-    </svg></button>
+  <svg class="hds-icon" aria-hidden="true" focusable="false">
+    <use xlink:href="assets/img/hds-sprite.svg#plus"></use>
+  </svg>
+</button>
 ```
 
 Per HDS Figma accessibility guidance, popovers should **automatically display when the button receives focus** and hide when the user tabs away. When the popover is open, users should be able to tab to the link inside the popover.
 
 ```html
-<button class="hds-btn-icon hds-btn-icon--interactive" type="button" aria-label="Sample Handling" aria-expanded="false" aria-controls="popover-sample">
+<button
+  class="hds-btn-icon hds-btn-icon--interactive"
+  type="button"
+  aria-label="Sample Handling"
+  aria-expanded="false"
+  aria-controls="popover-sample"
+>
   <svg class="hds-icon" aria-hidden="true" focusable="false">
     <use xlink:href="/assets/img/hds-sprite.svg#plus"></use>
   </svg>
@@ -97,71 +108,93 @@ Eight sizes are available. Size and role classes are independent — combine any
 
 ```html
 <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">2XS (12px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--2xs" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">2XS (12px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--2xs" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">XS (16px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xs" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">XS (16px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xs" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">SM (20px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--sm" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">SM (20px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--sm" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">Default (24px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">Default (24px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">LG (28px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--lg" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">LG (28px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--lg" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">XL (32px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xl" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">XL (32px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--xl" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">2XL (36px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--2xl" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">2XL (36px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--2xl" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
-
-<div style="min-width: 5rem; text-align: center;">
-  <span class="hds-overline">3XL (40px)</span>
-  <div style="margin-top: 0.5rem;"><button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--3xl" type="button" aria-label="Play">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#play"></use>
-  </svg></button></div>
-</div>
-
+  <div style="min-width: 5rem; text-align: center;">
+    <span class="hds-overline">3XL (40px)</span>
+    <div style="margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary hds-btn-icon--3xl" type="button" aria-label="Play">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#play"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
 </div>
 ```
 
@@ -195,57 +228,57 @@ Eight sizes are available. Size and role classes are independent — combine any
 ## Usage patterns
 
 ```html
-  <div style="display: flex; flex-direction: column; gap: 2rem;">
-    <div>
-      <span class="hds-overline">Social row</span>
-      <div style="margin-top: 0.5rem;">
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
-
-          <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="Notifications">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#notification"></use>
-  </svg></a>
-          <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="RSS feed">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#rss"></use>
-  </svg></a>
-          <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="Share">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#share"></use>
-  </svg></a>
-
-</div>
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">Action bar</span>
-      <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
-        <button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Download">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#download"></use>
-  </svg></button>
-        <button class="hds-btn-icon hds-btn-icon--outline" type="button" aria-label="Print">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#print"></use>
-  </svg></button>
-        <button class="hds-btn-icon hds-btn-icon--utility" type="button" aria-label="Expand">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#expand"></use>
-  </svg></button>
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">CTA with adjacent text</span>
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-        <span style="font-weight: 600;">Explore the mission</span>
-        <a class="hds-btn-icon hds-btn-icon--cta hds-btn-icon--sm" href="#" aria-label="Go to mission page">
-  <svg class="hds-icon" aria-hidden="true" focusable="false">
-    <use xlink:href="assets/img/hds-sprite.svg#arrow-line-right"></use>
-  </svg></a>
+<div style="display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <span class="hds-overline">Social row</span>
+    <div style="margin-top: 0.5rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="Notifications">
+          <svg class="hds-icon" aria-hidden="true" focusable="false">
+            <use xlink:href="assets/img/hds-sprite.svg#notification"></use></svg
+        ></a>
+        <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="RSS feed">
+          <svg class="hds-icon" aria-hidden="true" focusable="false">
+            <use xlink:href="assets/img/hds-sprite.svg#rss"></use></svg
+        ></a>
+        <a class="hds-btn-icon hds-btn-icon--social hds-btn-icon--xl" href="#" aria-label="Share">
+          <svg class="hds-icon" aria-hidden="true" focusable="false">
+            <use xlink:href="assets/img/hds-sprite.svg#share"></use></svg
+        ></a>
       </div>
     </div>
   </div>
+  <div>
+    <span class="hds-overline">Action bar</span>
+    <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+      <button class="hds-btn-icon hds-btn-icon--secondary" type="button" aria-label="Download">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#download"></use>
+        </svg>
+      </button>
+      <button class="hds-btn-icon hds-btn-icon--outline" type="button" aria-label="Print">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#print"></use>
+        </svg>
+      </button>
+      <button class="hds-btn-icon hds-btn-icon--utility" type="button" aria-label="Expand">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#expand"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div>
+    <span class="hds-overline">CTA with adjacent text</span>
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Explore the mission</span>
+      <a class="hds-btn-icon hds-btn-icon--cta hds-btn-icon--sm" href="#" aria-label="Go to mission page">
+        <svg class="hds-icon" aria-hidden="true" focusable="false">
+          <use xlink:href="assets/img/hds-sprite.svg#arrow-line-right"></use></svg
+      ></a>
+    </div>
+  </div>
+</div>
 ```
 
 ## Accessibility

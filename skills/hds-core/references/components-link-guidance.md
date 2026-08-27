@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Link.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-link-guidance--docs -->
+
 # Link
 
 Links direct visitors to other pages on and off the NASA website. HDS links use USWDS [`.usa-link`](https://designsystem.digital.gov/components/link/) markup.
@@ -21,7 +22,12 @@ The default link. Apply `.usa-link` to any `<a>` tag. The link renders in the cu
 Add `.usa-link--external` to display a diagonal arrow icon after the link text. Use this for any URL that takes the visitor **outside of NASA.gov**.
 
 ```html
-<p>View the gallery on <a class="usa-link usa-link--external" href="https://flickr.com/nasa" rel="noreferrer">NASA's Flickr<span class="usa-sr-only"> (external)</span></a>.</p>
+<p>
+  View the gallery on
+  <a class="usa-link usa-link--external" href="https://flickr.com/nasa" rel="noreferrer"
+    >NASA's Flickr<span class="usa-sr-only"> (external)</span></a
+  >.
+</p>
 ```
 
 Toggle the "Internal escape" control above to see `.hds-link--internal` — an HDS-only escape hatch that suppresses the arrow for NASA subdomains (e.g., `science.nasa.gov`) while keeping any CMS-driven external class intact.
@@ -37,7 +43,9 @@ Links work in headings, body text, and across line breaks. The external arrow sc
   <div>
     <span class="hds-overline">In headings</span>
     <h2 style="margin-top: 0.5rem;">
-      <a class="usa-link usa-link--external" href="https://www.spacex.com" rel="noreferrer">Heading with external link<span class="usa-sr-only"> (external)</span></a>
+      <a class="usa-link usa-link--external" href="https://www.spacex.com" rel="noreferrer"
+        >Heading with external link<span class="usa-sr-only"> (external)</span></a
+      >
     </h2>
     <h3>
       <a class="usa-link" href="#">Heading with internal link</a>
@@ -47,19 +55,24 @@ Links work in headings, body text, and across line breaks. The external arrow sc
     <span class="hds-overline">In body text</span>
     <p style="margin-top: 0.5rem;">
       As NASA advances its plans to explore the Moon under its
-      <a class="usa-link" href="#">Artemis program</a>, the two will
-      discuss areas of collaboration that include support for
-      <a class="usa-link" href="#">human spaceflight</a>, emerging
-      space transportation, and
-      <a class="usa-link usa-link--external" href="https://science.nasa.gov/" rel="noreferrer">scientific research<span class="usa-sr-only"> (external)</span></a>.
+      <a class="usa-link" href="#">Artemis program</a>, the two will discuss areas of collaboration that include support
+      for <a class="usa-link" href="#">human spaceflight</a>, emerging space transportation, and
+      <a class="usa-link usa-link--external" href="https://science.nasa.gov/" rel="noreferrer"
+        >scientific research<span class="usa-sr-only"> (external)</span></a
+      >.
     </p>
   </div>
   <div>
     <span class="hds-overline">Multi-line wrap</span>
     <p style="max-width: 320px; margin-top: 0.5rem;">
       On narrow viewports, this longer link wraps to multiple lines:
-      <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer">a multi-line external link that demonstrates
-      the underline following across line breaks<span class="usa-sr-only"> (external)</span></a>.
+      <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer"
+        >a multi-line external link that demonstrates the underline following across line breaks<span
+          class="usa-sr-only"
+        >
+          (external)</span
+        ></a
+      >.
     </p>
   </div>
 </div>
@@ -96,7 +109,9 @@ By default, bare `<a>` tags are unstyled. HDS link treatment only applies via `.
 
 - **External links require screen reader text.** The HDS external arrow is CSS-only and invisible to screen readers. Add SR text manually:
   ```html
-  <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer"> Example<span class="usa-sr-only"> (external)</span> </a>
+  <a class="usa-link usa-link--external" href="https://example.com" rel="noreferrer">
+    Example<span class="usa-sr-only"> (external)</span>
+  </a>
   ```
 - **Visited links** look the same as unvisited links — intentional to prevent contrast issues across palettes.
 - **Don't remove focus styles.** HDS Core applies a visible focus ring on all interactive elements.

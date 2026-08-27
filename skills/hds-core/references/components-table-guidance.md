@@ -1,12 +1,15 @@
 <!-- Source: ./stories/components/Table.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-table-guidance--docs -->
+
 # Table
 
 A table shows information in columns and rows. Uses standard USWDS [table markup](https://designsystem.digital.gov/components/table/) with `.usa-table`.
 
 ```html
 <table class="usa-table" aria-describedby="basic-desc">
-  <caption>Moon missions by decade</caption>
+  <caption>
+    Moon missions by decade
+  </caption>
   <thead>
     <tr>
       <th scope="col">Mission</th>
@@ -55,7 +58,9 @@ Tables support inline text links and icon buttons. Use `.usa-link` for text link
 
 ```html
 <table class="usa-table">
-  <caption>Mission documents</caption>
+  <caption>
+    Mission documents
+  </caption>
   <thead>
     <tr>
       <th scope="col">Document</th>
@@ -96,7 +101,11 @@ Tables support inline text links and icon buttons. Use `.usa-link` for text link
         <a class="usa-link usa-link--external" href="https://arc.aiaa.org">AIAA Digital Library</a>
       </td>
       <td>
-        <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Orion Heat Shield Analysis" type="button">
+        <button
+          class="hds-btn-icon hds-btn-icon--secondary"
+          aria-label="Download Orion Heat Shield Analysis"
+          type="button"
+        >
           <svg class="hds-icon" aria-hidden="true" focusable="false">
             <use xlink:href="assets/img/hds-sprite.svg#download"></use>
           </svg>
@@ -144,7 +153,11 @@ Tables support inline text links and icon buttons. Use `.usa-link` for text link
         <a class="usa-link usa-link--external" href="https://scholar.google.com">Google Scholar</a>
       </td>
       <td>
-        <button class="hds-btn-icon hds-btn-icon--secondary" aria-label="Download Lunar Surface Science Plan" type="button">
+        <button
+          class="hds-btn-icon hds-btn-icon--secondary"
+          aria-label="Download Lunar Surface Science Plan"
+          type="button"
+        >
           <svg class="hds-icon" aria-hidden="true" focusable="false">
             <use xlink:href="assets/img/hds-sprite.svg#download"></use>
           </svg>
@@ -165,7 +178,10 @@ Attribution or source text goes below the table using the `.hds-caption` class, 
 
 ```html
 <table class="usa-table" aria-describedby="capsub-desc">
-  <caption><strong>Close approach data</strong><span>Close approaches to the Earth by near-Earth objects (NEOs)</span></caption>
+  <caption>
+    <strong>Close approach data</strong
+    ><span>Close approaches to the Earth by near-Earth objects (NEOs)</span>
+  </caption>
   <thead>
     <tr>
       <th scope="col">Object</th>
@@ -213,7 +229,10 @@ Attribution or source text goes below the table using the `.hds-caption` class, 
     </tr>
   </tbody>
 </table>
-<p class="hds-caption" id="capsub-desc">This table shows close approaches to the Earth by near-Earth objects (NEOs). Data are not available prior to 1900 A.D. nor after 2200 A.D.</p>
+<p class="hds-caption" id="capsub-desc">
+  This table shows close approaches to the Earth by near-Earth objects (NEOs). Data are not available prior to 1900 A.D.
+  nor after 2200 A.D.
+</p>
 ```
 
 > **Differs from USWDS:** USWDS styles `` as a small bold label. HDS styles it as a heading with an optional subtitle line. The markup is the same — only the visual treatment differs.
@@ -226,57 +245,123 @@ Include an `aria-live` region immediately after the table so screen readers anno
 
 ```html
 <table class="usa-table" aria-describedby="sortable-desc">
-  <caption>Planetary fact sheet</caption>
+  <caption>
+    Planetary fact sheet
+  </caption>
   <thead>
     <tr>
-      <th scope="col" data-sortable="" aria-label="Planet, sortable column, currently unsorted">Planet<button tabindex="0" class="usa-table__header__button" title="Click to sort by Planet in ascending order.">
+      <th scope="col" data-sortable="" aria-label="Planet, sortable column, currently unsorted">
+        Planet<button
+          tabindex="0"
+          class="usa-table__header__button"
+          title="Click to sort by Planet in ascending order."
+        >
           <svg class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g class="descending" fill="transparent">
               <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
             </g>
             <g class="ascending" fill="transparent">
-              <path transform="rotate(180, 12, 12)" d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
+              <path
+                transform="rotate(180, 12, 12)"
+                d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
+              ></path>
             </g>
             <g class="unsorted" fill="transparent">
-              <polygon points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"></polygon>
+              <polygon
+                points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
+              ></polygon>
             </g>
-          </svg></button></th>
-      <th scope="col" data-sortable="" class="text-right" aria-label="Mass (10²⁴ kg), sortable column, currently unsorted">Mass (10²⁴ kg)<button tabindex="0" class="usa-table__header__button" title="Click to sort by Mass (10²⁴ kg) in ascending order.">
+          </svg>
+        </button>
+      </th>
+      <th
+        scope="col"
+        data-sortable=""
+        class="text-right"
+        aria-label="Mass (10²⁴ kg), sortable column, currently unsorted"
+      >
+        Mass (10²⁴ kg)<button
+          tabindex="0"
+          class="usa-table__header__button"
+          title="Click to sort by Mass (10²⁴ kg) in ascending order."
+        >
           <svg class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g class="descending" fill="transparent">
               <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
             </g>
             <g class="ascending" fill="transparent">
-              <path transform="rotate(180, 12, 12)" d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
+              <path
+                transform="rotate(180, 12, 12)"
+                d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
+              ></path>
             </g>
             <g class="unsorted" fill="transparent">
-              <polygon points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"></polygon>
+              <polygon
+                points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
+              ></polygon>
             </g>
-          </svg></button></th>
-      <th scope="col" data-sortable="" class="text-right" aria-label="Diameter (km), sortable column, currently unsorted">Diameter (km)<button tabindex="0" class="usa-table__header__button" title="Click to sort by Diameter (km) in ascending order.">
+          </svg>
+        </button>
+      </th>
+      <th
+        scope="col"
+        data-sortable=""
+        class="text-right"
+        aria-label="Diameter (km), sortable column, currently unsorted"
+      >
+        Diameter (km)<button
+          tabindex="0"
+          class="usa-table__header__button"
+          title="Click to sort by Diameter (km) in ascending order."
+        >
           <svg class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g class="descending" fill="transparent">
               <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
             </g>
             <g class="ascending" fill="transparent">
-              <path transform="rotate(180, 12, 12)" d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
+              <path
+                transform="rotate(180, 12, 12)"
+                d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
+              ></path>
             </g>
             <g class="unsorted" fill="transparent">
-              <polygon points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"></polygon>
+              <polygon
+                points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
+              ></polygon>
             </g>
-          </svg></button></th>
-      <th scope="col" data-sortable="" aria-sort="descending" class="text-right" aria-label="Gravity (m/s²), sortable column, currently sorted descending">Gravity (m/s²)<button tabindex="0" class="usa-table__header__button" title="Click to sort by Gravity (m/s²) in ascending order.">
+          </svg>
+        </button>
+      </th>
+      <th
+        scope="col"
+        data-sortable=""
+        aria-sort="descending"
+        class="text-right"
+        aria-label="Gravity (m/s²), sortable column, currently sorted descending"
+      >
+        Gravity (m/s²)<button
+          tabindex="0"
+          class="usa-table__header__button"
+          title="Click to sort by Gravity (m/s²) in ascending order."
+        >
           <svg class="usa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g class="descending" fill="transparent">
               <path d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
             </g>
             <g class="ascending" fill="transparent">
-              <path transform="rotate(180, 12, 12)" d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"></path>
+              <path
+                transform="rotate(180, 12, 12)"
+                d="M17 17L15.59 15.59L12.9999 18.17V2H10.9999V18.17L8.41 15.58L7 17L11.9999 22L17 17Z"
+              ></path>
             </g>
             <g class="unsorted" fill="transparent">
-              <polygon points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"></polygon>
+              <polygon
+                points="15.17 15 13 17.17 13 6.83 15.17 9 16.58 7.59 12 3 7.41 7.59 8.83 9 11 6.83 11 17.17 8.83 15 7.42 16.41 12 21 16.59 16.41 15.17 15"
+              ></polygon>
             </g>
-          </svg></button></th>
+          </svg>
+        </button>
+      </th>
       <th scope="col">Type</th>
     </tr>
   </thead>
@@ -335,7 +420,9 @@ Removes row borders and header background. Best for tables with more text than n
 
 ```html
 <table class="usa-table usa-table--borderless">
-  <caption>Orbital parameters</caption>
+  <caption>
+    Orbital parameters
+  </caption>
   <thead>
     <tr>
       <th scope="col">Parameter</th>
@@ -369,7 +456,9 @@ Reduced padding for dense numerical data. Not recommended for text-heavy content
 
 ```html
 <table class="usa-table usa-table--compact">
-  <caption>Element abundance</caption>
+  <caption>
+    Element abundance
+  </caption>
   <thead>
     <tr>
       <th scope="col">Element</th>
@@ -425,71 +514,71 @@ Horizontal scroll for tables with many columns.
 
 ```html
 <div class="usa-table-container--scrollable" tabindex="0">
-
-<table class="usa-table">
-  <caption>Mission timeline</caption>
-  <thead>
-    <tr>
-      <th scope="col">Mission</th>
-      <th scope="col">Launch date</th>
-      <th scope="col">Vehicle</th>
-      <th scope="col">Launch site</th>
-      <th scope="col">Duration</th>
-      <th scope="col">Orbit type</th>
-      <th scope="col">Crew size</th>
-      <th scope="col">Primary objective</th>
-      <th scope="col">Secondary objective</th>
-      <th scope="col">Landing site</th>
-      <th scope="col">Recovery</th>
-      <th scope="col">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Artemis I</th>
-      <td>Nov 16, 2022</td>
-      <td>SLS Block 1</td>
-      <td>KSC LC-39B</td>
-      <td>25d 10h</td>
-      <td>Lunar DRO</td>
-      <td>0 (uncrewed)</td>
-      <td>Orion flight test</td>
-      <td>Heat shield reentry test</td>
-      <td>Pacific Ocean</td>
-      <td>USS Portland</td>
-      <td>Complete</td>
-    </tr>
-    <tr>
-      <th scope="row">Artemis II</th>
-      <td>Apr 2026</td>
-      <td>SLS Block 1</td>
-      <td>KSC LC-39B</td>
-      <td>~10 days</td>
-      <td>Lunar flyby</td>
-      <td>4</td>
-      <td>Crewed lunar flyby</td>
-      <td>Life support validation</td>
-      <td>Pacific Ocean</td>
-      <td>TBD</td>
-      <td>Planned</td>
-    </tr>
-    <tr>
-      <th scope="row">Artemis III</th>
-      <td>2027</td>
-      <td>SLS Block 1</td>
-      <td>KSC LC-39B</td>
-      <td>~30 days</td>
-      <td>Lunar orbit + landing</td>
-      <td>4</td>
-      <td>Crewed lunar landing</td>
-      <td>South pole exploration</td>
-      <td>Lunar south pole</td>
-      <td>TBD</td>
-      <td>Planned</td>
-    </tr>
-  </tbody>
-</table>
-
+  <table class="usa-table">
+    <caption>
+      Mission timeline
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Mission</th>
+        <th scope="col">Launch date</th>
+        <th scope="col">Vehicle</th>
+        <th scope="col">Launch site</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Orbit type</th>
+        <th scope="col">Crew size</th>
+        <th scope="col">Primary objective</th>
+        <th scope="col">Secondary objective</th>
+        <th scope="col">Landing site</th>
+        <th scope="col">Recovery</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Artemis I</th>
+        <td>Nov 16, 2022</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>25d 10h</td>
+        <td>Lunar DRO</td>
+        <td>0 (uncrewed)</td>
+        <td>Orion flight test</td>
+        <td>Heat shield reentry test</td>
+        <td>Pacific Ocean</td>
+        <td>USS Portland</td>
+        <td>Complete</td>
+      </tr>
+      <tr>
+        <th scope="row">Artemis II</th>
+        <td>Apr 2026</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>~10 days</td>
+        <td>Lunar flyby</td>
+        <td>4</td>
+        <td>Crewed lunar flyby</td>
+        <td>Life support validation</td>
+        <td>Pacific Ocean</td>
+        <td>TBD</td>
+        <td>Planned</td>
+      </tr>
+      <tr>
+        <th scope="row">Artemis III</th>
+        <td>2027</td>
+        <td>SLS Block 1</td>
+        <td>KSC LC-39B</td>
+        <td>~30 days</td>
+        <td>Lunar orbit + landing</td>
+        <td>4</td>
+        <td>Crewed lunar landing</td>
+        <td>South pole exploration</td>
+        <td>Lunar south pole</td>
+        <td>TBD</td>
+        <td>Planned</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 ```
 

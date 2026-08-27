@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Form.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-form-guidance--docs -->
+
 # Form
 
 Forms are groups of related input fields that allow users to enter information or configure options. HDS forms use USWDS [`.usa-form`](https://designsystem.digital.gov/components/form/) markup. HDS recommends a different DOM order for error messages than vanilla USWDS (see [Legacy USWDS support](#legacy-uswds-support)).
@@ -17,19 +18,19 @@ Most forms use a single column of fields with related inputs grouped into fields
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-first">First name</label>
-      <input class="usa-input" id="group-first" name="group-first" type="text">
+      <input class="usa-input" id="group-first" name="group-first" type="text" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-last">Last name</label>
-      <input class="usa-input" id="group-last" name="group-last" type="text">
+      <input class="usa-input" id="group-last" name="group-last" type="text" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-title">Title</label>
-      <input class="usa-input" id="group-title" name="group-title" type="text">
+      <input class="usa-input" id="group-title" name="group-title" type="text" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
   </fieldset>
@@ -39,13 +40,13 @@ Most forms use a single column of fields with related inputs grouped into fields
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-email">Email address</label>
-      <input class="usa-input" id="group-email" name="group-email" type="email">
+      <input class="usa-input" id="group-email" name="group-email" type="email" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-phone">Phone number</label>
-      <input class="usa-input" id="group-phone" name="group-phone" type="tel">
+      <input class="usa-input" id="group-phone" name="group-phone" type="tel" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
 
@@ -68,19 +69,19 @@ Most forms use a single column of fields with related inputs grouped into fields
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-username">Username</label>
-      <input class="usa-input" id="group-username" name="group-username" type="text">
+      <input class="usa-input" id="group-username" name="group-username" type="text" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-password">Password</label>
-      <input class="usa-input" id="group-password" name="group-password" type="password">
+      <input class="usa-input" id="group-password" name="group-password" type="password" />
       <span class="usa-hint">8 character minimum</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="group-confirm">Confirm password</label>
-      <input class="usa-input" id="group-confirm" name="group-confirm" type="password">
+      <input class="usa-input" id="group-confirm" name="group-confirm" type="password" />
       <span class="usa-hint">Help text (optional)</span>
     </div>
   </fieldset>
@@ -103,20 +104,20 @@ Mark required fields with an asterisk and include instructional text at the top 
       <label class="usa-label" for="req-name">
         Mission name <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
       </label>
-      <input class="usa-input" id="req-name" name="req-name" type="text" required="">
+      <input class="usa-input" id="req-name" name="req-name" type="text" required="" />
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="req-email">
         Contact email <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
       </label>
-      <input class="usa-input" id="req-email" name="req-email" type="email" required="">
+      <input class="usa-input" id="req-email" name="req-email" type="email" required="" />
       <span class="usa-hint" id="req-email-hint">e.g., mission-lead@nasa.gov</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="req-nickname">Nickname (optional)</label>
-      <input class="usa-input" id="req-nickname" name="req-nickname" type="text">
+      <input class="usa-input" id="req-nickname" name="req-nickname" type="text" />
     </div>
   </fieldset>
 </form>
@@ -138,7 +139,7 @@ Forms often combine text inputs, selects, checkboxes, and radio buttons. Use fie
       <label class="usa-label" for="mix-name">
         Mission name <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
       </label>
-      <input class="usa-input" id="mix-name" name="mix-name" type="text" required="">
+      <input class="usa-input" id="mix-name" name="mix-name" type="text" required="" />
     </div>
 
     <div class="usa-form-group">
@@ -162,15 +163,15 @@ Forms often combine text inputs, selects, checkboxes, and radio buttons. Use fie
   <fieldset class="usa-fieldset">
     <legend class="usa-legend">Areas of interest</legend>
     <div class="usa-checkbox">
-      <input class="usa-checkbox__input" id="mix-earth" type="checkbox" name="mix-interests" value="earth">
+      <input class="usa-checkbox__input" id="mix-earth" type="checkbox" name="mix-interests" value="earth" />
       <label class="usa-checkbox__label" for="mix-earth">Earth Science</label>
     </div>
     <div class="usa-checkbox">
-      <input class="usa-checkbox__input" id="mix-planetary" type="checkbox" name="mix-interests" value="planetary">
+      <input class="usa-checkbox__input" id="mix-planetary" type="checkbox" name="mix-interests" value="planetary" />
       <label class="usa-checkbox__label" for="mix-planetary">Planetary Science</label>
     </div>
     <div class="usa-checkbox">
-      <input class="usa-checkbox__input" id="mix-astro" type="checkbox" name="mix-interests" value="astro">
+      <input class="usa-checkbox__input" id="mix-astro" type="checkbox" name="mix-interests" value="astro" />
       <label class="usa-checkbox__label" for="mix-astro">Astrophysics</label>
     </div>
   </fieldset>
@@ -178,15 +179,22 @@ Forms often combine text inputs, selects, checkboxes, and radio buttons. Use fie
   <fieldset class="usa-fieldset">
     <legend class="usa-legend">Mission category</legend>
     <div class="usa-radio">
-      <input class="usa-radio__input" id="mix-exploration" type="radio" name="mix-category" value="exploration" checked="checked">
+      <input
+        class="usa-radio__input"
+        id="mix-exploration"
+        type="radio"
+        name="mix-category"
+        value="exploration"
+        checked="checked"
+      />
       <label class="usa-radio__label" for="mix-exploration">Exploration</label>
     </div>
     <div class="usa-radio">
-      <input class="usa-radio__input" id="mix-science" type="radio" name="mix-category" value="science">
+      <input class="usa-radio__input" id="mix-science" type="radio" name="mix-category" value="science" />
       <label class="usa-radio__label" for="mix-science">Science</label>
     </div>
     <div class="usa-radio">
-      <input class="usa-radio__input" id="mix-technology" type="radio" name="mix-category" value="technology">
+      <input class="usa-radio__input" id="mix-technology" type="radio" name="mix-category" value="technology" />
       <label class="usa-radio__label" for="mix-technology">Technology</label>
     </div>
   </fieldset>
@@ -203,8 +211,8 @@ For a preview of how USWDS multi-step form markup currently renders with HDS Cor
 
 ## Field types
 
-| Field                                                                 | Use case                                           |
-| --------------------------------------------------------------------- | -------------------------------------------------- |
+| Field                                                    | Use case                                           |
+| -------------------------------------------------------- | -------------------------------------------------- |
 | [Text Input](./components-text-input-guidance.md)        | Short strings: names, addresses, phone numbers     |
 | [Textarea](./components-text-input-guidance.md#textarea) | Multiple lines: questions, feedback, descriptions  |
 | [Select](./components-select-guidance.md)                | Choose one item from a longer list of options      |
@@ -290,7 +298,15 @@ Error messages should describe the issue and how to fix it. Common errors includ
       <label class="usa-label" for="val-name">
         Full name <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
       </label>
-      <input class="usa-input usa-input--error" id="val-name" name="val-name" type="text" aria-invalid="true" aria-describedby="val-name-error" required="">
+      <input
+        class="usa-input usa-input--error"
+        id="val-name"
+        name="val-name"
+        type="text"
+        aria-invalid="true"
+        aria-describedby="val-name-error"
+        required=""
+      />
       <span class="usa-error-message" id="val-name-error" role="alert">This field is required</span>
     </div>
 
@@ -298,14 +314,23 @@ Error messages should describe the issue and how to fix it. Common errors includ
       <label class="usa-label" for="val-email">
         Email address <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
       </label>
-      <input class="usa-input usa-input--error" id="val-email" name="val-email" type="email" value="james.green.nasa.gov" aria-invalid="true" aria-describedby="val-email-hint val-email-error" required="">
+      <input
+        class="usa-input usa-input--error"
+        id="val-email"
+        name="val-email"
+        type="email"
+        value="james.green.nasa.gov"
+        aria-invalid="true"
+        aria-describedby="val-email-hint val-email-error"
+        required=""
+      />
       <span class="usa-hint" id="val-email-hint">e.g., mission-lead@nasa.gov</span>
       <span class="usa-error-message" id="val-email-error" role="alert">Incorrect email address format</span>
     </div>
 
     <div class="usa-form-group">
       <label class="usa-label" for="val-phone">Phone number (optional)</label>
-      <input class="usa-input" id="val-phone" name="val-phone" type="tel" value="301-286-2000">
+      <input class="usa-input" id="val-phone" name="val-phone" type="tel" value="301-286-2000" />
     </div>
 
     <div class="usa-form-group">
@@ -336,18 +361,33 @@ Use this approach as a fallback when inline validation is not technically feasib
 
     <div class="usa-form-group">
       <label class="usa-label" for="srv-name">Full Name</label>
-      <input class="usa-input" id="srv-name" name="srv-name" type="text" value="Jim Green">
+      <input class="usa-input" id="srv-name" name="srv-name" type="text" value="Jim Green" />
     </div>
 
     <div class="usa-form-group usa-form-group--error">
       <label class="usa-label" for="srv-email">Email Address</label>
-      <input class="usa-input usa-input--error" id="srv-email" name="srv-email" type="email" value="james.green.nasa.gov" aria-invalid="true" aria-describedby="srv-email-error">
+      <input
+        class="usa-input usa-input--error"
+        id="srv-email"
+        name="srv-email"
+        type="email"
+        value="james.green.nasa.gov"
+        aria-invalid="true"
+        aria-describedby="srv-email-error"
+      />
       <span class="usa-error-message" id="srv-email-error" role="alert">Incorrect email address format</span>
     </div>
 
     <div class="usa-form-group usa-form-group--error">
       <label class="usa-label" for="srv-terms">
-        <input class="usa-checkbox__input" id="srv-terms" type="checkbox" name="srv-terms" aria-invalid="true" aria-describedby="srv-terms-error">
+        <input
+          class="usa-checkbox__input"
+          id="srv-terms"
+          type="checkbox"
+          name="srv-terms"
+          aria-invalid="true"
+          aria-describedby="srv-terms-error"
+        />
         <span class="usa-checkbox__label" for="srv-terms">I agree to the terms and conditions</span>
       </label>
       <span class="usa-error-message" id="srv-terms-error" role="alert">This field is required</span>
@@ -358,10 +398,11 @@ Use this approach as a fallback when inline validation is not technically feasib
     <button class="usa-button" type="submit" disabled="">Sign Up</button>
   </div>
 
-  <hr style="border: none; border-top: 2px solid var(--hds-palette-error-indicator, #F64137); margin-top: 2rem;">
+  <hr style="border: none; border-top: 2px solid var(--hds-palette-error-indicator, #F64137); margin-top: 2rem;" />
 
   <span class="usa-error-message" role="alert" style="margin-top: 1rem;">
-    Correct the following fields before submitting this form: incorrect email address format, agree to the terms and conditions.
+    Correct the following fields before submitting this form: incorrect email address format, agree to the terms and
+    conditions.
   </span>
 </form>
 ```
@@ -403,7 +444,15 @@ Standard USWDS markup places the error message before the input. HDS Core suppor
     </label>
     <span class="usa-error-message" id="legacy-email-error" role="alert">Incorrect email address format</span>
     <span class="usa-hint" id="legacy-email-hint">e.g., mission-lead@nasa.gov</span>
-    <input class="usa-input usa-input--error" id="legacy-email" name="legacy-email" type="email" value="james.green.nasa.gov" aria-invalid="true" aria-describedby="legacy-email-hint legacy-email-error">
+    <input
+      class="usa-input usa-input--error"
+      id="legacy-email"
+      name="legacy-email"
+      type="email"
+      value="james.green.nasa.gov"
+      aria-invalid="true"
+      aria-describedby="legacy-email-hint legacy-email-error"
+    />
   </div>
 </form>
 ```

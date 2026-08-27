@@ -2,13 +2,9 @@
 
 # HDS Core class inventory
 
-Every class below is part of the public API surface and appears in at least one
-story that is rendered in a real browser and checked with axe. The element and
-example columns are extracted from that rendered markup.
+Every class below is part of the public API surface and appears in at least one story that is rendered in a real browser and checked with axe. The element and example columns are extracted from that rendered markup.
 
-This table reports what the tested markup does. It is not a specification, and it
-does not record which classes are prohibited or which require USWDS JavaScript —
-see the component guidance pages for that.
+This table reports what the tested markup does. It is not a specification, and it does not record which classes are prohibited or which require USWDS JavaScript — see the component guidance pages for that.
 
 | Class | Element(s) | Example story |
 | --- | --- | --- |

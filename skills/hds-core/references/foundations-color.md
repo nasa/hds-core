@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/Color.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-color--docs -->
+
 # Color
 
 Color is used in restrained and purposeful ways throughout HDS. With content at the forefront, color gives attention and hierarchy without distraction.
@@ -55,11 +56,11 @@ For verified contrast ratios, see the [Color Contrast Tool](./foundations-color-
 
 HDS Core provides three ways to reference colors:
 
-| Method                    | Syntax                       | Values                                | When to use                                     |
-| ------------------------- | ---------------------------- | ------------------------------------- | ----------------------------------------------- |
-| **HDS Sass variables**    | `$hds-color-carbon-90`       | Exact HDS hex                         | Custom Sass. Recommended.                       |
-| **CSS custom properties** | `var(--hds-color-carbon-90)` | Exact HDS hex                         | Plain CSS / JS. Recommended.                    |
-| **USWDS theme tokens**    | `color("base-darker")`       | USWDS system values (differ from HDS) | Inside USWDS mixins only. Not exact HDS values. |
+| Method | Syntax | Values | When to use |
+| --- | --- | --- | --- |
+| **HDS Sass variables** | `$hds-color-carbon-90` | Exact HDS hex | Custom Sass. Recommended. |
+| **CSS custom properties** | `var(--hds-color-carbon-90)` | Exact HDS hex | Plain CSS / JS. Recommended. |
+| **USWDS theme tokens** | `color("base-darker")` | USWDS system values (differ from HDS) | Inside USWDS mixins only. Not exact HDS values. |
 
 > **How this works:** USWDS theme tokens map to USWDS system colors, which are different values than HDS tokens. For example, `color("base-darker")` returns `#1b1b1b`; `$hds-color-carbon-90` is `#17171B`. Always use HDS variables or custom properties when exact HDS values are required.
 

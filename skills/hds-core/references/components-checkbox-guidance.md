@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Checkbox.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-checkbox-guidance--docs -->
+
 # Checkbox
 
 Checkboxes allow users to select zero, one, or multiple options from a list. They use USWDS [`.usa-checkbox`](https://designsystem.digital.gov/components/checkbox/) markup with no additional classes required.
@@ -14,31 +15,37 @@ Checkboxes always include a label and are stacked vertically to form a list of o
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">Missions</legend>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="default-artemis" type="checkbox" name="default" value="artemis">
-  <label class="usa-checkbox__label" for="default-artemis">Artemis</label>
-</div>
+  <div class="usa-checkbox">
+    <input class="usa-checkbox__input" id="default-artemis" type="checkbox" name="default" value="artemis" />
+    <label class="usa-checkbox__label" for="default-artemis">Artemis</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="default-commercial-crew" type="checkbox" name="default" value="commercial-crew" checked="checked">
-  <label class="usa-checkbox__label" for="default-commercial-crew">Commercial Crew</label>
-</div>
+  <div class="usa-checkbox">
+    <input
+      class="usa-checkbox__input"
+      id="default-commercial-crew"
+      type="checkbox"
+      name="default"
+      value="commercial-crew"
+      checked="checked"
+    />
+    <label class="usa-checkbox__label" for="default-commercial-crew">Commercial Crew</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="default-curiosity" type="checkbox" name="default" value="curiosity">
-  <label class="usa-checkbox__label" for="default-curiosity">Curiosity Mars Rover</label>
-</div>
+  <div class="usa-checkbox">
+    <input class="usa-checkbox__input" id="default-curiosity" type="checkbox" name="default" value="curiosity" />
+    <label class="usa-checkbox__label" for="default-curiosity">Curiosity Mars Rover</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="default-hubble" type="checkbox" name="default" value="hubble">
-  <label class="usa-checkbox__label" for="default-hubble">Hubble Space Telescope</label>
-</div>
+  <div class="usa-checkbox">
+    <input class="usa-checkbox__input" id="default-hubble" type="checkbox" name="default" value="hubble" />
+    <label class="usa-checkbox__label" for="default-hubble">Hubble Space Telescope</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="default-jwst" type="checkbox" name="default" value="jwst">
-  <label class="usa-checkbox__label" for="default-jwst">James Webb Space Telescope</label>
-</div>
-
+  <div class="usa-checkbox">
+    <input class="usa-checkbox__input" id="default-jwst" type="checkbox" name="default" value="jwst" />
+    <label class="usa-checkbox__label" for="default-jwst">James Webb Space Telescope</label>
+  </div>
 </fieldset>
 ```
 
@@ -50,26 +57,47 @@ Checkboxes have default, selected, disabled, and disabled + selected states.
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">Checkbox states</legend>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="states-default" type="checkbox" name="states" value="default">
-  <label class="usa-checkbox__label" for="states-default">Default</label>
-</div>
+  <div class="usa-checkbox">
+    <input class="usa-checkbox__input" id="states-default" type="checkbox" name="states" value="default" />
+    <label class="usa-checkbox__label" for="states-default">Default</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="states-selected" type="checkbox" name="states" value="selected" checked="checked">
-  <label class="usa-checkbox__label" for="states-selected">Selected</label>
-</div>
+  <div class="usa-checkbox">
+    <input
+      class="usa-checkbox__input"
+      id="states-selected"
+      type="checkbox"
+      name="states"
+      value="selected"
+      checked="checked"
+    />
+    <label class="usa-checkbox__label" for="states-selected">Selected</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="states-disabled" type="checkbox" name="states" value="disabled" disabled="disabled">
-  <label class="usa-checkbox__label" for="states-disabled">Disabled</label>
-</div>
+  <div class="usa-checkbox">
+    <input
+      class="usa-checkbox__input"
+      id="states-disabled"
+      type="checkbox"
+      name="states"
+      value="disabled"
+      disabled="disabled"
+    />
+    <label class="usa-checkbox__label" for="states-disabled">Disabled</label>
+  </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input" id="states-disabled-checked" type="checkbox" name="states" value="disabled-checked" checked="checked" disabled="disabled">
-  <label class="usa-checkbox__label" for="states-disabled-checked">Disabled + selected</label>
-</div>
-
+  <div class="usa-checkbox">
+    <input
+      class="usa-checkbox__input"
+      id="states-disabled-checked"
+      type="checkbox"
+      name="states"
+      value="disabled-checked"
+      checked="checked"
+      disabled="disabled"
+    />
+    <label class="usa-checkbox__label" for="states-disabled-checked">Disabled + selected</label>
+  </div>
 </fieldset>
 ```
 
@@ -79,25 +107,47 @@ Tile checkboxes provide a larger touch target with an optional description. Use 
 
 ```html
 <form class="usa-form">
-<fieldset class="usa-fieldset">
-  <legend class="usa-legend">Select format</legend>
+  <fieldset class="usa-fieldset">
+    <legend class="usa-legend">Select format</legend>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input usa-checkbox__input--tile" id="tiles-pdf" type="checkbox" name="tiles" value="pdf">
-  <label class="usa-checkbox__label" for="tiles-pdf">PDF<span class="usa-checkbox__label-description">Download as a PDF document</span></label>
-</div>
+    <div class="usa-checkbox">
+      <input
+        class="usa-checkbox__input usa-checkbox__input--tile"
+        id="tiles-pdf"
+        type="checkbox"
+        name="tiles"
+        value="pdf"
+      />
+      <label class="usa-checkbox__label" for="tiles-pdf"
+        >PDF<span class="usa-checkbox__label-description">Download as a PDF document</span></label
+      >
+    </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input usa-checkbox__input--tile" id="tiles-csv" type="checkbox" name="tiles" value="csv">
-  <label class="usa-checkbox__label" for="tiles-csv">CSV<span class="usa-checkbox__label-description">Download as a spreadsheet</span></label>
-</div>
+    <div class="usa-checkbox">
+      <input
+        class="usa-checkbox__input usa-checkbox__input--tile"
+        id="tiles-csv"
+        type="checkbox"
+        name="tiles"
+        value="csv"
+      />
+      <label class="usa-checkbox__label" for="tiles-csv"
+        >CSV<span class="usa-checkbox__label-description">Download as a spreadsheet</span></label
+      >
+    </div>
 
-<div class="usa-checkbox">
-  <input class="usa-checkbox__input usa-checkbox__input--tile" id="tiles-disabled" type="checkbox" name="tiles" value="disabled" disabled="disabled">
-  <label class="usa-checkbox__label" for="tiles-disabled">Disabled tile</label>
-</div>
-
-</fieldset>
+    <div class="usa-checkbox">
+      <input
+        class="usa-checkbox__input usa-checkbox__input--tile"
+        id="tiles-disabled"
+        type="checkbox"
+        name="tiles"
+        value="disabled"
+        disabled="disabled"
+      />
+      <label class="usa-checkbox__label" for="tiles-disabled">Disabled tile</label>
+    </div>
+  </fieldset>
 </form>
 ```
 
@@ -109,11 +159,26 @@ When a required checkbox group has no selection, an error message appears below 
 <fieldset class="usa-fieldset" aria-describedby="err-group-error">
   <legend class="usa-legend">Select areas of interest</legend>
   <div class="usa-checkbox">
-    <input class="usa-checkbox__input" id="err-earth" type="checkbox" name="err" value="earth" aria-describedby="err-group-error">
+    <input
+      class="usa-checkbox__input"
+      id="err-earth"
+      type="checkbox"
+      name="err"
+      value="earth"
+      aria-describedby="err-group-error"
+    />
     <label class="usa-checkbox__label" for="err-earth">Earth Science</label>
   </div>
   <div class="usa-checkbox">
-    <input class="usa-checkbox__input" id="err-planetary" type="checkbox" name="err" value="planetary" aria-invalid="true" aria-describedby="err-group-error">
+    <input
+      class="usa-checkbox__input"
+      id="err-planetary"
+      type="checkbox"
+      name="err"
+      value="planetary"
+      aria-invalid="true"
+      aria-describedby="err-group-error"
+    />
     <label class="usa-checkbox__label" for="err-planetary">Planetary Science</label>
   </div>
   <span class="usa-error-message" id="err-group-error" role="alert">Please select at least one area of interest</span>

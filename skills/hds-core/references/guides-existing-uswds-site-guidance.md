@@ -1,5 +1,6 @@
 <!-- Source: ./stories/guides/USWDS.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs -->
+
 # Adopting HDS Core on an Existing USWDS Site
 
 HDS Core adopts cleanly onto an existing USWDS 3.x site. Your existing markup should work unchanged, with no class renames or DOM restructuring required. Some markup additions and CSS review are needed to render correctly in HDS's visual identity. This guide walks through what to expect and what to adjust.
@@ -167,13 +168,13 @@ Do not reconfigure `uswds-core` directly. HDS Core's configuration handles all U
 
 Review these against your current theme file. HDS Core overrides all of them:
 
-| What you set                       | What HDS does                                              | Impact                                  |
-| ---------------------------------- | ---------------------------------------------------------- | --------------------------------------- |
-| Custom primary/secondary colors    | Swaps to NASA Red (primary) / NASA Blue (secondary)        | All buttons and links change color      |
-| Custom font families               | Remaps to Inter, Public Sans, DM Mono                      | All typography changes                  |
-| Custom focus styles                | Replaces with palette-aware dashed outlines, keyboard-only | Focus rings look and behave differently |
-| Custom link colors                 | Changes to body-text color + dashed underline              | Links no longer appear blue             |
-| Custom border radii / input styles | Sets HDS-specific values                                   | Form controls and buttons change shape  |
+| What you set | What HDS does | Impact |
+| --- | --- | --- |
+| Custom primary/secondary colors | Swaps to NASA Red (primary) / NASA Blue (secondary) | All buttons and links change color |
+| Custom font families | Remaps to Inter, Public Sans, DM Mono | All typography changes |
+| Custom focus styles | Replaces with palette-aware dashed outlines, keyboard-only | Focus rings look and behave differently |
+| Custom link colors | Changes to body-text color + dashed underline | Links no longer appear blue |
+| Custom border radii / input styles | Sets HDS-specific values | Form controls and buttons change shape |
 
 If any of these are intentional deviations for your project, discuss with the HDS team. Some can be accommodated. Others are core to the HDS visual identity.
 

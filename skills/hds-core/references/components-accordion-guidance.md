@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Accordion.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-accordion-guidance--docs -->
+
 # Accordion
 
 Expandable sections that let users show and hide content, reducing vertical scrolling on long pages. Uses standard [USWDS Accordion](https://designsystem.digital.gov/components/accordion/) markup with HDS theming.
@@ -11,70 +12,77 @@ Expandable sections that let users show and hide content, reducing vertical scro
 One section open at a time. Clicking a new heading closes the previously open section. Set `aria-expanded="true"` on one button to have that section open on page load. Toggle "First item expanded" in the controls to see the all-collapsed state.
 
 ```html
-  <div class="usa-accordion">
+<div class="usa-accordion">
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="true" aria-controls="default-1">
+      What is the Horizon Design System?
+    </button>
+  </h4>
+  <div id="default-1" class="usa-accordion__content usa-prose">
+    <p>
+      The Horizon Design System (HDS) is NASA's unified visual language for digital products. It provides colors,
+      typography, spacing, icons, and component patterns that ensure a consistent experience across NASA websites.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="true" aria-controls="default-1">
-    What is the Horizon Design System?
-  </button>
-</h4>
-<div id="default-1" class="usa-accordion__content usa-prose">
-  <p>The Horizon Design System (HDS) is NASA's unified visual language for
-    digital products. It provides colors, typography, spacing, icons, and component
-    patterns that ensure a consistent experience across NASA websites.</p>
-</div>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-2">
+      How does HDS Core relate to USWDS?
+    </button>
+  </h4>
+  <div id="default-2" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      HDS Core is a Sass/CSS theme layer on top of the U.S. Web Design System (USWDS). All standard USWDS components and
+      utility classes continue to work — HDS Core configures them with NASA's brand values.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-2">
-    How does HDS Core relate to USWDS?
-  </button>
-</h4>
-<div id="default-2" class="usa-accordion__content usa-prose" hidden="">
-  <p>HDS Core is a Sass/CSS theme layer on top of the U.S. Web Design System
-    (USWDS). All standard USWDS components and utility classes continue to work — HDS
-    Core configures them with NASA's brand values.</p>
-</div>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-3">
+      Do I need JavaScript for accordions?
+    </button>
+  </h4>
+  <div id="default-3" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      Yes. Accordions require the standard
+      <a
+        class="usa-link usa-link--external"
+        href="https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript"
+        >USWDS JavaScript <span class="usa-sr-only">(external)</span></a
+      >
+      for expand/collapse toggling. HDS Core does not add any additional JavaScript.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-3">
-    Do I need JavaScript for accordions?
-  </button>
-</h4>
-<div id="default-3" class="usa-accordion__content usa-prose" hidden="">
-  <p>Yes. Accordions require the standard
-    <a class="usa-link usa-link--external" href="https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript">USWDS JavaScript
-    <span class="usa-sr-only">(external)</span></a>
-    for expand/collapse toggling. HDS Core does not add any additional JavaScript.</p>
-</div>
-
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-4">
-    Can accordion content include more than text?
-  </button>
-</h4>
-<div id="default-4" class="usa-accordion__content usa-prose" hidden="">
-  <p>Yes. Accordion content panels are flexible — they can include paragraphs,
-    lists, links, images, and other components. Wrap content in
-    <code>.usa-prose</code> for full typography styling.</p>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-4">
+      Can accordion content include more than text?
+    </button>
+  </h4>
+  <div id="default-4" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      Yes. Accordion content panels are flexible — they can include paragraphs, lists, links, images, and other
+      components. Wrap content in <code>.usa-prose</code> for full typography styling.
+    </p>
     <ul>
       <li>Paragraphs and formatted text</li>
       <li>Bulleted and numbered lists</li>
       <li>Links and inline elements</li>
     </ul>
-</div>
-
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-5">
-    How do accordions adapt to color palettes?
-  </button>
-</h4>
-<div id="default-5" class="usa-accordion__content usa-prose" hidden="">
-  <p>HDS accordions are fully palette-aware. Heading text, separator lines,
-    chevron circles, and content text all adapt automatically when placed inside a
-    palette wrapper.</p>
-</div>
-
   </div>
+
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="default-5">
+      How do accordions adapt to color palettes?
+    </button>
+  </h4>
+  <div id="default-5" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      HDS accordions are fully palette-aware. Heading text, separator lines, chevron circles, and content text all adapt
+      automatically when placed inside a palette wrapper.
+    </p>
+  </div>
+</div>
 ```
 
 ### Multiselectable
@@ -82,70 +90,77 @@ One section open at a time. Clicking a new heading closes the previously open se
 Multiple sections can be open at the same time. Add `data-allow-multiple` and the `usa-accordion--multiselectable` class.
 
 ```html
-  <div class="usa-accordion usa-accordion--multiselectable" data-allow-multiple="">
+<div class="usa-accordion usa-accordion--multiselectable" data-allow-multiple="">
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="true" aria-controls="multi-1">
+      What is the Horizon Design System?
+    </button>
+  </h4>
+  <div id="multi-1" class="usa-accordion__content usa-prose">
+    <p>
+      The Horizon Design System (HDS) is NASA's unified visual language for digital products. It provides colors,
+      typography, spacing, icons, and component patterns that ensure a consistent experience across NASA websites.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="true" aria-controls="multi-1">
-    What is the Horizon Design System?
-  </button>
-</h4>
-<div id="multi-1" class="usa-accordion__content usa-prose">
-  <p>The Horizon Design System (HDS) is NASA's unified visual language for
-    digital products. It provides colors, typography, spacing, icons, and component
-    patterns that ensure a consistent experience across NASA websites.</p>
-</div>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-2">
+      How does HDS Core relate to USWDS?
+    </button>
+  </h4>
+  <div id="multi-2" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      HDS Core is a Sass/CSS theme layer on top of the U.S. Web Design System (USWDS). All standard USWDS components and
+      utility classes continue to work — HDS Core configures them with NASA's brand values.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-2">
-    How does HDS Core relate to USWDS?
-  </button>
-</h4>
-<div id="multi-2" class="usa-accordion__content usa-prose" hidden="">
-  <p>HDS Core is a Sass/CSS theme layer on top of the U.S. Web Design System
-    (USWDS). All standard USWDS components and utility classes continue to work — HDS
-    Core configures them with NASA's brand values.</p>
-</div>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-3">
+      Do I need JavaScript for accordions?
+    </button>
+  </h4>
+  <div id="multi-3" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      Yes. Accordions require the standard
+      <a
+        class="usa-link usa-link--external"
+        href="https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript"
+        >USWDS JavaScript <span class="usa-sr-only">(external)</span></a
+      >
+      for expand/collapse toggling. HDS Core does not add any additional JavaScript.
+    </p>
+  </div>
 
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-3">
-    Do I need JavaScript for accordions?
-  </button>
-</h4>
-<div id="multi-3" class="usa-accordion__content usa-prose" hidden="">
-  <p>Yes. Accordions require the standard
-    <a class="usa-link usa-link--external" href="https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#step-4-add-the-uswds-javascript">USWDS JavaScript
-    <span class="usa-sr-only">(external)</span></a>
-    for expand/collapse toggling. HDS Core does not add any additional JavaScript.</p>
-</div>
-
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-4">
-    Can accordion content include more than text?
-  </button>
-</h4>
-<div id="multi-4" class="usa-accordion__content usa-prose" hidden="">
-  <p>Yes. Accordion content panels are flexible — they can include paragraphs,
-    lists, links, images, and other components. Wrap content in
-    <code>.usa-prose</code> for full typography styling.</p>
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-4">
+      Can accordion content include more than text?
+    </button>
+  </h4>
+  <div id="multi-4" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      Yes. Accordion content panels are flexible — they can include paragraphs, lists, links, images, and other
+      components. Wrap content in <code>.usa-prose</code> for full typography styling.
+    </p>
     <ul>
       <li>Paragraphs and formatted text</li>
       <li>Bulleted and numbered lists</li>
       <li>Links and inline elements</li>
     </ul>
-</div>
-
-<h4 class="usa-accordion__heading">
-  <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-5">
-    How do accordions adapt to color palettes?
-  </button>
-</h4>
-<div id="multi-5" class="usa-accordion__content usa-prose" hidden="">
-  <p>HDS accordions are fully palette-aware. Heading text, separator lines,
-    chevron circles, and content text all adapt automatically when placed inside a
-    palette wrapper.</p>
-</div>
-
   </div>
+
+  <h4 class="usa-accordion__heading">
+    <button type="button" class="usa-accordion__button" aria-expanded="false" aria-controls="multi-5">
+      How do accordions adapt to color palettes?
+    </button>
+  </h4>
+  <div id="multi-5" class="usa-accordion__content usa-prose" hidden="">
+    <p>
+      HDS accordions are fully palette-aware. Heading text, separator lines, chevron circles, and content text all adapt
+      automatically when placed inside a palette wrapper.
+    </p>
+  </div>
+</div>
 ```
 
 > **Differs from USWDS:** USWDS accordions display +/− icons with a filled background on the heading row. HDS replaces these with a circled chevron that adapts to palettes — no markup changes needed.

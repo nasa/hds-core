@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Button.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-button-guidance--docs -->
+
 # Button
 
 A button draws attention to important actions with a large selectable surface. HDS buttons use USWDS [`.usa-button`](https://designsystem.digital.gov/components/button/) classes with NASA brand colors — no markup changes needed for existing USWDS sites.
@@ -121,89 +122,91 @@ A button that looks like a link (`.usa-button--unstyled`). Use for cancel or dis
 All button types in one view, including disabled states. Disabled buttons use distinct colors rather than opacity, so they remain readable on all palette backgrounds.
 
 ```html
-  <div style="display: flex; flex-direction: column; gap: 2rem;">
-    <div>
-      <span class="hds-overline">Primary Arrow</span>
-      <div style="margin-top: 0.5rem;">
+<div style="display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <span class="hds-overline">Primary Arrow</span>
+    <div style="margin-top: 0.5rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Internal</span>
+          <div style="margin-top: 0.5rem;"><a class="hds-btn--primary" href="#">Explore the Mission</a></div>
+        </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Internal</span>
-  <div style="margin-top: 0.5rem;"><a class="hds-btn--primary" href="#">Explore the Mission</a></div>
-</div>
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">External</span>
-  <div style="margin-top: 0.5rem;"><a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a></div>
-</div>
-
-</div>
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">Filled</span>
-      <div style="margin-top: 0.5rem;">
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">CTA</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button" type="button">Download Report</button></div>
-</div>
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Secondary</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button usa-button--secondary" type="button">Apply Filters</button></div>
-</div>
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Unstyled</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button usa-button--unstyled" type="button">Cancel</button></div>
-</div>
-
-</div>
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">Outline</span>
-      <div style="margin-top: 0.5rem;">
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Outline</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button usa-button--outline" type="button">View Details</button></div>
-</div>
-
-</div>
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">Disabled</span>
-      <div style="margin-top: 0.5rem;">
-
-<div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">CTA</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button" type="button" disabled="disabled">Download Report</button></div>
-</div>
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Secondary</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button></div>
-</div>
-
-<div style="min-width: 10rem;">
-  <span class="hds-overline">Outline</span>
-  <div style="margin-top: 0.5rem;"><button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button></div>
-</div>
-
-</div>
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">External</span>
+          <div style="margin-top: 0.5rem;">
+            <a class="hds-btn--primary usa-link--external" href="https://flickr.com">View on Flickr</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <div>
+    <span class="hds-overline">Filled</span>
+    <div style="margin-top: 0.5rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">CTA</span>
+          <div style="margin-top: 0.5rem;"><button class="usa-button" type="button">Download Report</button></div>
+        </div>
+
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Secondary</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button usa-button--secondary" type="button">Apply Filters</button>
+          </div>
+        </div>
+
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Unstyled</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button usa-button--unstyled" type="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <span class="hds-overline">Outline</span>
+    <div style="margin-top: 0.5rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Outline</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button usa-button--outline" type="button">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <span class="hds-overline">Disabled</span>
+    <div style="margin-top: 0.5rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">CTA</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button" type="button" disabled="disabled">Download Report</button>
+          </div>
+        </div>
+
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Secondary</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button usa-button--secondary" type="button" disabled="disabled">Apply Filters</button>
+          </div>
+        </div>
+
+        <div style="min-width: 10rem;">
+          <span class="hds-overline">Outline</span>
+          <div style="margin-top: 0.5rem;">
+            <button class="usa-button usa-button--outline" type="button" disabled="disabled">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
 > **Differs from USWDS:** USWDS uses `opacity` for disabled buttons. HDS Core uses explicit color changes so disabled states are consistent across all six palettes.

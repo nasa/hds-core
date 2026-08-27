@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/DataVisualization.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-data-visualization--docs -->
+
 # Data Visualization
 
 Guidance for creating charts and data visualizations that are consistent with HDS and accessible to all users. For the recommended color palettes, see [Data Visualization Palettes](./foundations-data-visualization-palettes.md).

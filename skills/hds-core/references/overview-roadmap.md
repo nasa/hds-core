@@ -1,5 +1,6 @@
 <!-- Source: ./stories/overview/Roadmap.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/overview-roadmap--docs -->
+
 # Roadmap
 
 HDS Core is working toward a **v1.0 release**. This page shows what's available now and what's planned for future releases.
@@ -8,8 +9,8 @@ HDS Core is working toward a **v1.0 release**. This page shows what's available 
 
 These components and foundations are fully styled and documented:
 
-| Component                                                                                       | USWDS equivalent   |
-| ----------------------------------------------------------------------------------------------- | ------------------ |
+| Component                                                                          | USWDS equivalent   |
+| ---------------------------------------------------------------------------------- | ------------------ |
 | [Accordion](./components-accordion-guidance.md)                                    | `.usa-accordion`   |
 | [Blockquote](./components-blockquote-guidance.md)                                  | —                  |
 | [Breadcrumb](./components-breadcrumb-guidance.md)                                  | `.usa-breadcrumb`  |

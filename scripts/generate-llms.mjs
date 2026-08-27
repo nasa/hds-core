@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import * as prettier from 'prettier';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -272,6 +273,31 @@ server.close();
 fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 
+/**
+ * Format generated Markdown with the repo's Prettier config so `npm run format`
+ * passes and regenerating never dirties the tree.
+ *
+ * The config sets `embeddedLanguageFormatting: "off"` for these files, which is
+ * the point: Prettier's whitespace-sensitive HTML mode would rewrite the
+ * captured markup into dangling-bracket form (`</a\n>`) to avoid changing
+ * rendering. That's correct HTML and terrible to copy. Leaving fences untouched
+ * keeps each example byte-identical to the DOM we tested.
+ */
+const prettierOptions = await prettier.resolveConfig(path.join(outDir, 'example.md'), {
+  config: path.join(repoRoot, '.config/prettierrc.json'),
+});
+
+const formatMarkdown = async (source, filepath) => {
+  try {
+    return await prettier.format(source, { ...prettierOptions, filepath, parser: 'markdown' });
+  } catch (err) {
+    // A malformed page shouldn't sink the whole build — emit it unformatted
+    // and let `npm run format` surface it.
+    console.warn(`  ! could not format ${path.basename(filepath)}: ${err.message.split('\n')[0]}`);
+    return source;
+  }
+};
+
 const unresolved = new Set();
 const strippedLines = [];
 const written = [];
@@ -284,7 +310,8 @@ for (const { entry, source, storyIdFor } of pages) {
     `<!-- Storybook: ${baseUrl}/?path=/docs/${entry.id} -->`,
     '',
   ].join('\n');
-  fs.writeFileSync(path.join(outDir, `${slug}.md`), `${header}${body}\n`);
+  const filepath = path.join(outDir, `${slug}.md`);
+  fs.writeFileSync(filepath, await formatMarkdown(`${header}${body}\n`, filepath));
   written.push({ slug, title: entry.title });
 }
 

@@ -9,6 +9,12 @@
       "options": {
         "printWidth": 9999
       }
+    },
+    {
+      "files": "**/skills/hds-core/references/*.md",
+      "options": {
+        "embeddedLanguageFormatting": "off"
+      }
     }
   ]
 }

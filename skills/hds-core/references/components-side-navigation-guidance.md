@@ -1,75 +1,68 @@
 <!-- Source: ./stories/components/SideNavigation.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-side-navigation-guidance--docs -->
+
 # Side Navigation
 
 The side navigation component is a vertical list of links used for navigating between pages within a section or topic.
 
 ```html
-  <div style="display: flex; flex-direction: column; gap: 3rem;">
-    <div>
-      <span class="hds-overline">Single level</span>
-      <div style="margin-top: 1rem;">
-
-<nav aria-label="Secondary navigation" style="max-width: 300px;">
-  <ul class="usa-sidenav">
-
-<li class="usa-sidenav__item">
-  <a href="#" class="usa-current" aria-current="page">Parent link (active)</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-
-  </ul>
-</nav>
-
-      </div>
-    </div>
-    <div>
-      <span class="hds-overline">Multi-level</span>
-      <div style="margin-top: 1rem;">
-
-<nav aria-label="Tertiary navigation" style="max-width: 300px;">
-  <ul class="usa-sidenav">
-
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#" class="usa-current">Parent link (active)</a>
-  <ul class="usa-sidenav__sublist">
-    <li class="usa-sidenav__item">
-      <a href="#">Child link</a>
-    </li>
-    <li class="usa-sidenav__item">
-      <a href="#" class="usa-current">Child link (active)</a>
-      <ul class="usa-sidenav__sublist">
-        <li class="usa-sidenav__item">
-          <a href="#">Grandchild link</a>
-        </li>
-        <li class="usa-sidenav__item">
-          <a href="#" class="usa-current" aria-current="page">Grandchild link (active)</a>
-        </li>
-      </ul>
-    </li>
-    <li class="usa-sidenav__item">
-      <a href="#">Child link</a>
-    </li>
-  </ul>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-
-  </ul>
-</nav>
-
-      </div>
+<div style="display: flex; flex-direction: column; gap: 3rem;">
+  <div>
+    <span class="hds-overline">Single level</span>
+    <div style="margin-top: 1rem;">
+      <nav aria-label="Secondary navigation" style="max-width: 300px;">
+        <ul class="usa-sidenav">
+          <li class="usa-sidenav__item">
+            <a href="#" class="usa-current" aria-current="page">Parent link (active)</a>
+          </li>
+          <li class="usa-sidenav__item">
+            <a href="#">Parent link</a>
+          </li>
+          <li class="usa-sidenav__item">
+            <a href="#">Parent link</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
+  <div>
+    <span class="hds-overline">Multi-level</span>
+    <div style="margin-top: 1rem;">
+      <nav aria-label="Tertiary navigation" style="max-width: 300px;">
+        <ul class="usa-sidenav">
+          <li class="usa-sidenav__item">
+            <a href="#">Parent link</a>
+          </li>
+          <li class="usa-sidenav__item">
+            <a href="#" class="usa-current">Parent link (active)</a>
+            <ul class="usa-sidenav__sublist">
+              <li class="usa-sidenav__item">
+                <a href="#">Child link</a>
+              </li>
+              <li class="usa-sidenav__item">
+                <a href="#" class="usa-current">Child link (active)</a>
+                <ul class="usa-sidenav__sublist">
+                  <li class="usa-sidenav__item">
+                    <a href="#">Grandchild link</a>
+                  </li>
+                  <li class="usa-sidenav__item">
+                    <a href="#" class="usa-current" aria-current="page">Grandchild link (active)</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="usa-sidenav__item">
+                <a href="#">Child link</a>
+              </li>
+            </ul>
+          </li>
+          <li class="usa-sidenav__item">
+            <a href="#">Parent link</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
 ```
 
 ## Variants
@@ -81,17 +74,15 @@ The default implementation uses a flat, single-level hierarchy.
 ```html
 <nav aria-label="Secondary navigation" style="max-width: 300px;">
   <ul class="usa-sidenav">
-
-<li class="usa-sidenav__item">
-  <a href="#" class="usa-current" aria-current="page">Parent link (active)</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-
+    <li class="usa-sidenav__item">
+      <a href="#" class="usa-current" aria-current="page">Parent link (active)</a>
+    </li>
+    <li class="usa-sidenav__item">
+      <a href="#">Parent link</a>
+    </li>
+    <li class="usa-sidenav__item">
+      <a href="#">Parent link</a>
+    </li>
   </ul>
 </nav>
 ```
@@ -103,36 +94,34 @@ The component supports nested hierarchies up to three levels deep (parent, child
 ```html
 <nav aria-label="Tertiary navigation" style="max-width: 300px;">
   <ul class="usa-sidenav">
-
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#" class="usa-current">Parent link (active)</a>
-  <ul class="usa-sidenav__sublist">
     <li class="usa-sidenav__item">
-      <a href="#">Child link</a>
+      <a href="#">Parent link</a>
     </li>
     <li class="usa-sidenav__item">
-      <a href="#" class="usa-current">Child link (active)</a>
+      <a href="#" class="usa-current">Parent link (active)</a>
       <ul class="usa-sidenav__sublist">
         <li class="usa-sidenav__item">
-          <a href="#">Grandchild link</a>
+          <a href="#">Child link</a>
         </li>
         <li class="usa-sidenav__item">
-          <a href="#" class="usa-current" aria-current="page">Grandchild link (active)</a>
+          <a href="#" class="usa-current">Child link (active)</a>
+          <ul class="usa-sidenav__sublist">
+            <li class="usa-sidenav__item">
+              <a href="#">Grandchild link</a>
+            </li>
+            <li class="usa-sidenav__item">
+              <a href="#" class="usa-current" aria-current="page">Grandchild link (active)</a>
+            </li>
+          </ul>
+        </li>
+        <li class="usa-sidenav__item">
+          <a href="#">Child link</a>
         </li>
       </ul>
     </li>
     <li class="usa-sidenav__item">
-      <a href="#">Child link</a>
+      <a href="#">Parent link</a>
     </li>
-  </ul>
-</li>
-<li class="usa-sidenav__item">
-  <a href="#">Parent link</a>
-</li>
-
   </ul>
 </nav>
 ```

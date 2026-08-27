@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Blockquote.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-blockquote-guidance--docs -->
+
 # Blockquote
 
 Blockquotes highlight quotes with a bold typographic treatment. They use the Light weight of Inter, the HDS default heading font, for a more conversational look. A decorative quote mark icon hangs to the left of the text on desktop, or sits above the text on mobile.

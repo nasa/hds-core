@@ -1,5 +1,6 @@
 <!-- Source: ./stories/components/Prose.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/components-prose-guidance--docs -->
+
 # Prose
 
 Prose applies HDS styling to a block of bare HTML elements using the `.usa-prose` wrapper class. Use it for content where individual component classes can't be applied — blog posts, CMS output, markdown-rendered pages, or any long-form content.
@@ -11,9 +12,8 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
   <h1>The Apollo Program</h1>
 
   <p class="usa-intro">
-    NASA's Apollo program was one of the greatest achievements in human
-    history. Between 1969 and 1972, twelve astronauts walked on the surface
-    of the Moon — the first time human beings set foot on another world.
+    NASA's Apollo program was one of the greatest achievements in human history. Between 1969 and 1972, twelve
+    astronauts walked on the surface of the Moon — the first time human beings set foot on another world.
   </p>
 
   <h2>Road to the Moon</h2>
@@ -21,37 +21,33 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
   <h3>The Mercury and Gemini foundations</h3>
 
   <p>
-    Before Apollo could reach the Moon, NASA needed to prove that humans
-    could survive and work in space. The
-    <a href="#">Mercury program</a> accomplished this in the early 1960s,
-    beginning with Alan Shepard's suborbital flight on May 5, 1961.
+    Before Apollo could reach the Moon, NASA needed to prove that humans could survive and work in space. The
+    <a href="#">Mercury program</a> accomplished this in the early 1960s, beginning with Alan Shepard's suborbital
+    flight on May 5, 1961.
   </p>
 
   <h4>Gemini: learning to walk before you run</h4>
 
   <p>
-    The <a href="#">Gemini program</a> flew ten crewed missions between 1965
-    and 1966, developing the techniques Apollo would need: rendezvous and
-    docking in orbit, extravehicular activity, and long-duration spaceflight.
+    The <a href="#">Gemini program</a> flew ten crewed missions between 1965 and 1966, developing the techniques Apollo
+    would need: rendezvous and docking in orbit, extravehicular activity, and long-duration spaceflight.
   </p>
 
   <h5>Kennedy's challenge</h5>
 
   <p>
-    On May 25, 1961, President John F. Kennedy committed the nation to
-    "landing a man on the Moon and returning him safely to the Earth"
-    before the end of the decade.
+    On May 25, 1961, President John F. Kennedy committed the nation to "landing a man on the Moon and returning him
+    safely to the Earth" before the end of the decade.
   </p>
 
   <h6>The cost of exploration</h6>
 
   <p>
-    The Apollo program cost approximately $25.4 billion in 1970s dollars.
-    At its peak, NASA's budget consumed roughly 4 percent of the federal
-    budget.
+    The Apollo program cost approximately $25.4 billion in 1970s dollars. At its peak, NASA's budget consumed roughly 4
+    percent of the federal budget.
   </p>
 
-  <hr>
+  <hr />
 
   <h2>Key missions</h2>
 
@@ -70,18 +66,15 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
   </ol>
 
   <blockquote>
-    <p>
-      That's one small step for man, one giant leap for mankind.
-    </p>
+    <p>That's one small step for man, one giant leap for mankind.</p>
     <cite>Neil Armstrong, July 20, 1969</cite>
   </blockquote>
 
   <h2>The Saturn V rocket</h2>
 
   <p>
-    The <a href="#">Saturn V</a> remains the most powerful rocket ever
-    successfully flown. Standing 363 feet tall, it generated roughly
-    7.5 million pounds of thrust at liftoff.
+    The <a href="#">Saturn V</a> remains the most powerful rocket ever successfully flown. Standing 363 feet tall, it
+    generated roughly 7.5 million pounds of thrust at liftoff.
   </p>
 
   <ul>
@@ -99,8 +92,8 @@ Inside `.usa-prose`, headings, paragraphs, lists, tables, blockquotes, links, co
   <h2>Mission data</h2>
 
   <p>
-    Ground Elapsed Time (<code>GET</code>) was measured from the moment of
-    liftoff. All Apollo missions used GET as the primary timing reference.
+    Ground Elapsed Time (<code>GET</code>) was measured from the moment of liftoff. All Apollo missions used GET as the
+    primary timing reference.
   </p>
 
   <pre><code>APOLLO 11 — LUNAR SURFACE TIMELINE
@@ -115,7 +108,9 @@ EVA termination         111:39:13</code></pre>
   <h2>Apollo by the numbers</h2>
 
   <table>
-    <caption>Crewed Apollo lunar landing missions</caption>
+    <caption>
+      Crewed Apollo lunar landing missions
+    </caption>
     <thead>
       <tr>
         <th scope="col">Mission</th>
@@ -151,7 +146,6 @@ EVA termination         111:39:13</code></pre>
       </tr>
     </tbody>
   </table>
-
 </div>
 ```
 

@@ -1,5 +1,6 @@
 <!-- Source: ./stories/foundations/DataVisualizationPalettes.mdx -->
 <!-- Storybook: https://nasa.github.io/hds-core/?path=/docs/foundations-data-visualization-palettes--docs -->
+
 # Data Visualization Palettes
 
 Color palettes for use in charts and data visualizations. These palettes are **separate from the six HDS component palettes**; they are not intended for use in UI elements.
