@@ -108,6 +108,25 @@ async function captureStories(page, ids) {
 
 // ─── MDX → Markdown ───────────────────────────────────────────────────────────
 
+/**
+ * Lines that instruct a reader to interact with the Storybook UI. They are
+ * correct in the app and meaningless in an export — worse than meaningless for
+ * an agent, which cannot reach a toolbar and may waste turns looking for one.
+ * `react-setup` even tells the reader to fetch markup from the "Show code"
+ * panel, which this generator has already inlined into the page.
+ *
+ * Patterns are deliberately narrow and the count of stripped lines is logged,
+ * so over-matching shows up rather than silently deleting guidance.
+ */
+const STORYBOOK_ONLY_PATTERNS = [
+  /palette switcher/i,
+  /\bShow code\b/i,
+  /addons panel/i,
+  /Storybook toolbar/i,
+  /\bin the toolbar\b/i,
+  /^Storybook includes tools\b/i,
+];
+
 const NOTE_LABELS = {
   uswds: 'Differs from USWDS',
   figma: 'Differs from Figma',
@@ -139,13 +158,20 @@ function rewriteDocLinks(text, knownSlugs, unresolved) {
   });
 }
 
-function mdxToMarkdown(source, { storyIdFor, markup, knownSlugs, unresolved }) {
+function mdxToMarkdown(source, { storyIdFor, markup, knownSlugs, unresolved, strippedLines }) {
   let text = source;
 
   // Storybook scaffolding that carries no meaning outside the app.
   text = text.replace(/^import\s[\s\S]*?;\s*$/gm, '');
   text = text.replace(/<Meta\b[^>]*\/>\s*/g, '');
-  text = text.replace(/^>\s*Use the palette switcher.*$/gm, '');
+  text = text
+    .split('\n')
+    .filter((line) => {
+      const isStorybookOnly = STORYBOOK_ONLY_PATTERNS.some((pattern) => pattern.test(line));
+      if (isStorybookOnly) strippedLines.push(line.trim());
+      return !isStorybookOnly;
+    })
+    .join('\n');
   text = text.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 
   // <Canvas of={NS.Export} /> → the story's real rendered markup.
@@ -247,11 +273,12 @@ fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 
 const unresolved = new Set();
+const strippedLines = [];
 const written = [];
 
 for (const { entry, source, storyIdFor } of pages) {
   const slug = slugOf(entry);
-  const body = mdxToMarkdown(source, { storyIdFor, markup, knownSlugs, unresolved });
+  const body = mdxToMarkdown(source, { storyIdFor, markup, knownSlugs, unresolved, strippedLines });
   const header = [
     `<!-- Source: ${entry.importPath} -->`,
     `<!-- Storybook: ${baseUrl}/?path=/docs/${entry.id} -->`,
@@ -300,6 +327,12 @@ fs.writeFileSync(path.join(distDir, 'llms.txt'), lines.join('\n'));
 
 console.log(`Wrote ${written.length} pages to ${path.relative(repoRoot, outDir)}/`);
 console.log(`Wrote ${path.relative(repoRoot, path.join(distDir, 'llms.txt'))}`);
+const uniqueStripped = [...new Set(strippedLines)];
+console.log(`Stripped ${strippedLines.length} Storybook-only line(s) (${uniqueStripped.length} distinct)`);
+for (const line of uniqueStripped) {
+  console.log(`  - ${line.length > 96 ? `${line.slice(0, 96)}…` : line}`);
+}
+
 if (unresolved.size) {
   console.warn(`\nBroken doc links in source MDX (target does not exist):`);
   for (const slug of [...unresolved].sort()) console.warn(`  ?path=/docs/${slug}--docs`);
