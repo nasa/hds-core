@@ -6,7 +6,7 @@ Add social platform icons to the HDS sprite.
 
 **Added: 23 social and platform marks**, plus a `mail` glyph derived from the HDS original `tag-mail`. Covers the platforms NASA maintains an official presence on, the share targets used on nasa.gov and plus.nasa.gov, GitHub, and the app/podcast platforms NASA distributes on. All use the existing `logo-` prefix.
 
-Glyphs are sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), then normalized to the HDS geometry convention. Bounding boxes are measured from the rendered path rather than read from the donor viewBox, so padding baked into a donor asset does not leak into apparent size, and each glyph gets a clamped optical-size correction toward the set's median ink coverage — narrowing the visual size spread from 2.99x to 1.86x. Provenance and trademark notice: `src/assets/img/hds-icons/README.md`.
+Glyphs are sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), then normalized to the HDS geometry convention. Bounding boxes are measured from the rendered path rather than read from the donor viewBox, so padding baked into a donor asset does not leak into apparent size. Social glyphs render at 70% of the button rather than the 60% used for UI glyphs, since brand marks are denser and read undersized at 60%. Provenance and trademark notice: `src/assets/img/hds-icons/README.md`.
 
 **Grayscale only.** `.hds-btn-icon--social` is the whole component; there is no brand-color variant. The glyph is Carbon 05 on Carbon 60 (6.51:1) on every palette, so no per-platform contrast exception is needed.
 

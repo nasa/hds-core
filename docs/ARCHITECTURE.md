@@ -270,7 +270,7 @@ Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defi
 
 **Naming prefixes:** `arrow-*` (directional), `tag-*` (category markers), `logo-*` (third-party marks, including social platform marks).
 
-**Social marks:** Sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), then normalized to the HDS geometry convention. Provenance and the trademark notice live in `src/assets/img/hds-icons/README.md`. Brand colors for the optional color variant are hand-authored in `components/_social.scss`, deliberately not in `tokens.json` — see DESIGN.md → Social Icons.
+**Social marks:** Sourced from nasa.gov (public domain), USWDS `usa-icons` (CC0), and Simple Icons (CC0-1.0), then normalized to the HDS geometry convention. Provenance and the trademark notice live in `src/assets/img/hds-icons/README.md`. Social marks ship in a single grayscale treatment with no brand-color variant — see DESIGN.md → Social Icons.
 
 **Inline glyphs:** `.hds-glyph` renders icons inline with text. Uses `vertical-align: baseline` — do not change to `middle`.
 
@@ -300,7 +300,7 @@ Components are organized by category in `components/_index.scss`:
 | **Foundational** | `_link.scss` | Loaded before button (unstyled button depends on link appearance) |
 |  | `_button.scss` | CTA, secondary, outline, unstyled, blue palette override |
 |  | `_icon-button.scss` | 6 roles, 8 sizes, inline glyph |
-|  | `_social.scss` | Brand-color variant for the social icon button role + USWDS footer social link bridge |
+|  | `_social.scss` | Social glyph sizing + USWDS footer social link bridge |
 |  | `_primary-arrow-button.scss` | Text + red circle arrow, 6 sizes |
 | **Form controls** | `_form.scss` | Text inputs, selects, checkbox, radio, labels, help text, errors, file input |
 | **Content** | `_intro-text.scss` |  |

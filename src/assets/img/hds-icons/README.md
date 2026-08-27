@@ -4,7 +4,7 @@ Every file here is compiled into `dist/assets/img/hds-sprite.svg` by `npm run sp
 
 ## Geometry convention
 
-`viewBox="-2 -2 24 24"`, glyph normalized so its bounding box has a maximum dimension of 20 units, centered at (10, 10). The viewBox padding is what makes the 60% icon ratio in `.hds-btn-icon` render glyphs at the Figma-intended size.
+`viewBox="-2 -2 24 24"`, glyph normalized so its bounding box has a maximum dimension of 20 units, centered at (10, 10). The viewBox padding is what lets `.hds-btn-icon` render glyphs at the Figma-intended size when it scales them to a fraction of the button.
 
 Bounding boxes are measured from the rendered path, not taken from the source viewBox, so padding baked into a donor asset does not leak into the glyph's apparent size.
 
@@ -47,4 +47,4 @@ Spotify, LinkedIn, and Apple Podcasts publish marks that already contain a disc 
 
 ## Deliberate deviations from the 2020 HDS Figma spec
 
-The Figma social spec predates several platform rebrands. Structure (32px circle, BW/Color pairing, glyph proportions) follows Figma; brand marks and colors follow each platform's current official lockup. See `docs/DESIGN.md` → Social Icons for the itemized list.
+The Figma social spec pairs a grayscale and a brand-colored version of each mark. HDS Core ships **only the grayscale one** (creative director decision). Figma also predates several platform rebrands and shows the retired Twitter bird, so marks follow each platform's current official artwork. See `docs/DESIGN.md` → Social Icons for the itemized list.
