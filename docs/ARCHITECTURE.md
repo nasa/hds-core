@@ -158,6 +158,13 @@ First declaration wins. Subsequent declarations in other bundles are ignored.
 
 USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any USWDS version bump. Run `npm run check:uswds-core` to verify `uswds-core` still emits zero CSS (a regression here would break the token flow above).
 
+### Upgrading USWDS (maintainer)
+
+When bumping the `@uswds/uswds` dependency in `package.json`, CI runs two blocking checks:
+
+1. **`npm run check:uswds-core` (architectural gate):** the CSS layer cascade relies on `@use 'uswds-core'` emitting zero CSS selectors. If this fails, USWDS introduced CSS into their core package, breaking the layer specificity strategy. Do not merge the upgrade until the architecture is updated.
+2. **`npm run check:uswds` (component tracker):** monitors the USWDS components that HDS themes. Fails if upstream Sass source for those components changed, as a reminder to check for visual regressions. To resolve: review the USWDS release notes, verify overrides in Storybook, and regenerate the baseline with `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
+
 ### Module singleton rule
 
 `_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
@@ -373,6 +380,8 @@ Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (di
 3. **SpriteRegression story** — renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
 
 Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+
+**CI trigger (when Chromatic runs).** The `detect-css-change` job runs Chromatic only when a PR actually moves compiled CSS, guarding the full-rebuild cost above. It compares freshly built base vs PR CSS rather than a committed baseline, so it needs no manual upkeep and stays correct even when main moves under a long-lived PR. Fork PRs run too, once a maintainer approves the workflow. See `.github/workflows/ci.yml` for the wiring.
 
 ## Storybook
 
