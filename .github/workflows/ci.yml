@@ -17,19 +17,9 @@
 # mdx/storybook-config changes where build doesn't run, so it always does
 # its own full build via the shared composite.
 #
-# Visual-regression gate: instead of rebuilding the base branch to diff CSS,
-# the build job verifies the compiled CSS against a committed baseline hash
-# (scripts/css-output-hash.txt via check:css-hash). A change to that file is
-# the signal that CSS output moved, which gates Chromatic -- no base build.
-#
-# Chromatic story-only gap (intentional): Chromatic only runs when CSS
-# output changes. New stories added without CSS changes don't get
-# baselines set automatically. This is intentional cost management
-# given the 5k free tier. Revisit if budget expands.
-#
-# Chromatic + forks: fork-triggered runs don't receive repository secrets,
-# so Chromatic is gated to same-repo PRs. Fork PRs skip it cleanly; the
-# build job's step summary flags the CSS delta for a maintainer to review.
+# Visual-regression gate: detect-css-change gates Chromatic on whether the
+# PR actually moved compiled CSS. New stories added without a CSS change
+# won't be auto-baselined, so a maintainer must do an npm run test:visual.
 
 name: CI
 
@@ -55,8 +45,7 @@ permissions:
 jobs:
   # -----------------------------------------------------------------------
   # Filter -- determines which jobs (and which lint/build steps) run based
-  # on what changed. `css_output` fires when the committed CSS hash baseline
-  # changes, which is how Chromatic is gated (see file header).
+  # on what changed.
   #
   # `output_affecting` gates the build job and the contract checks inside it.
   # Use it -- not `scss` -- for anything that validates the published
@@ -79,7 +68,6 @@ jobs:
       pkg: ${{ steps.filter.outputs.pkg }}
       storybook_config: ${{ steps.filter.outputs.storybook_config }}
       tokens: ${{ steps.filter.outputs.tokens }}
-      css_output: ${{ steps.filter.outputs.css_output }}
       output_affecting: ${{ steps.filter.outputs.output_affecting }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -113,21 +101,17 @@ jobs:
             tokens:
               - 'tokens.json'
               - '.config/sd.config.js'
-            css_output:
-              - 'scripts/css-output-hash.txt'
             # Anything that can change the published artifact -- compiled CSS,
-            # the asset tree, or the packed tarball. Gates the build job and
-            # the three contract checks inside it. Deliberately wider than
-            # `scss`: the build pipeline itself (postcss config and plugins,
-            # Style Dictionary config, the sprite config) moves output without
-            # a single .scss file changing, and package.json `files`/`exports`
+            # the asset tree, or the packed tarball. Gates the build job, the
+            # contract checks inside it (bundle size, public API snapshot), and
+            # the detect-css-change VR trigger. Deliberately wider than `scss`:
+            # the build pipeline itself (postcss config and plugins, Style
+            # Dictionary config, the sprite config) moves output without a
+            # single .scss file changing, and package.json `files`/`exports`
             # move what ships without moving CSS at all. src/assets feeds
             # dist/ (copy:hds + sprite) without touching .scss, and scripts/
-            # holds both the check gates themselves and the committed
-            # css-output-hash.txt baseline -- an edit to any of those must
-            # run the build and contract checks it controls. False positives
-            # here cost one build; a false negative ships an unverified
-            # artifact.
+            # holds the check gates themselves -- an edit to any of those must
+            # run the build and contract checks it controls.
             output_affecting:
               - 'src/scss/**'
               - 'src/assets/**'
@@ -226,22 +210,6 @@ jobs:
         if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
         run: npm run check:api-snapshot
 
-      - name: Check CSS output hash
-        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
-        run: npm run check:css-hash
-
-      - name: Flag CSS output change
-        if: ${{ !cancelled() && needs.filter.outputs.css_output == 'true' }}
-        run: |
-          {
-            echo "### Compiled CSS output changed"
-            if [ "${{ github.event.pull_request.head.repo.full_name }}" = "${{ github.repository }}" ]; then
-              echo "Chromatic visual regression will run for this PR."
-            else
-              echo "Fork PR — Chromatic can't run (no repo secrets). A maintainer should review the visual diff before merge."
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Upload dist
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -338,26 +306,85 @@ jobs:
         run: npm run check:docs-render
 
   # -----------------------------------------------------------------------
-  # Chromatic -- runs only when the committed CSS baseline changed (i.e.
-  # CSS output moved) AND the PR is from a branch on this repo, not a fork.
-  # Fork-triggered runs don't receive repository secrets, so
-  # CHROMATIC_PROJECT_TOKEN would be empty; fork PRs skip cleanly and the
-  # build job's step summary flags the delta instead. Draft PRs are excluded
-  # (heavy) via the draft check. Downloads the dist artifact from build.
-  # fetch-depth: 0 required for Chromatic's TurboSnap baseline detection.
+  # Detect CSS change -- the Chromatic trigger. Compares freshly built base
+  # vs PR CSS rather than a committed baseline, so it stays correct no matter
+  # when the PR branched or whether main moved since (a committed hash goes
+  # stale against the PR's merge-base; this recomputes on every re-run).
+  # -----------------------------------------------------------------------
+  detect-css-change:
+    name: Detect CSS output change
+    runs-on: ubuntu-latest
+    needs: filter
+    timeout-minutes: 15
+    if: needs.filter.outputs.output_affecting == 'true'
+    outputs:
+      css_output: ${{ steps.compare.outputs.css_output }}
+    steps:
+      - name: Check out PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          path: pr
+
+      - name: Check out base branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+          path: base
+
+      - name: Build + hash base CSS
+        id: base
+        working-directory: base
+        run: |
+          npm ci
+          npm run build
+          echo "hash=$(bash scripts/css-output-hash.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Build + hash PR CSS
+        id: pr
+        working-directory: pr
+        run: |
+          npm ci
+          npm run build
+          echo "hash=$(bash scripts/css-output-hash.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Compare
+        id: compare
+        run: |
+          if [ "${{ steps.base.outputs.hash }}" = "${{ steps.pr.outputs.hash }}" ]; then
+            echo "Compiled CSS unchanged (${{ steps.pr.outputs.hash }}). Chromatic will skip."
+            echo "css_output=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Compiled CSS changed."
+            echo "  base: ${{ steps.base.outputs.hash }}"
+            echo "  pr:   ${{ steps.pr.outputs.hash }}"
+            echo "css_output=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Compiled CSS output changed"
+              echo "Chromatic visual regression will run for this PR (fork PRs run once a maintainer approves the workflow)."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  # -----------------------------------------------------------------------
+  # Chromatic. Fork PRs run this too, but the token only reaches them after a
+  # maintainer approves the run -- enforced by the repo Setting "Require
+  # approval for all outside collaborators"). DO NOT remove that Setting.
+  # The token can only upload snapshots (not accept baselines or touch account
+  # settings), so risk is low. Can be reset from the Chromatic Configure page.
   # -----------------------------------------------------------------------
   chromatic:
     name: Chromatic visual regression
     runs-on: ubuntu-latest
-    needs: [filter, build]
+    needs: [filter, build, detect-css-change]
     timeout-minutes: 15
     if: |
       github.event.pull_request.draft == false &&
-      needs.filter.outputs.css_output == 'true' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      needs.detect-css-change.outputs.css_output == 'true'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # fetch-depth: 0 required for Chromatic TurboSnap baseline detection.
           fetch-depth: 0
 
       - uses: ./.github/actions/setup
