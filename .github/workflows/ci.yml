@@ -396,7 +396,7 @@ jobs:
           path: dist/
 
       - name: Run Chromatic
-        uses: chromaui/action@37b88badc3a1122c01861af329554d8a227d7e52 # v18.4.0
+        uses: chromaui/action@69be7d88fc9479eedbe5b2861f847eb48f97cabc # v18.6.1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           onlyChanged: true
