@@ -34,8 +34,8 @@
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, readdirSync, statSync, existsSync } from 'fs';
-import { join } from 'path';
+import { writeFileSync, readFileSync, readdirSync, statSync, existsSync } from 'fs';
+import { join, resolve, dirname, relative } from 'path';
 
 // ─── GitHub username fallback map ─────────────────────────────────────────────
 // Contributors who commit locally with a real email address (rather than
@@ -106,6 +106,21 @@ function resolveGitHubUsername(email, name) {
   return GITHUB_USERNAMES[name] ?? null;
 }
 
+/**
+ * Some About pages are thin wrappers that render a canonical .md from docs/
+ * via a `?raw` import. For those, the footer should track the source doc's
+ * history, not the wrapper's. Returns the repo-relative path of the imported
+ * .md if this MDX file is such a wrapper, otherwise null.
+ */
+function resolveRenderedSource(mdxFile) {
+  const src = readFileSync(mdxFile, 'utf8');
+  const match = src.match(/import\s+\w+\s+from\s+['"]([^'"]+\.md)\?raw['"]/);
+  if (!match) return null;
+  const target = resolve(dirname(mdxFile), match[1]);
+  if (!existsSync(target)) return null;
+  return relative('.', target).replace(/\\/g, '/');
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 const files = findMdxFiles('stories');
@@ -113,11 +128,14 @@ const manifest = {};
 
 for (const file of files) {
   try {
+    // Wrapper pages stamp from the .md they render, not the wrapper itself.
+    const gitTarget = resolveRenderedSource(file) ?? file;
+
     // %at  author Unix timestamp
     // %aN  author name, honoring .mailmap
     // %aE  author email, honoring .mailmap
     // --follow  tracks the file across renames
-    const raw = execSync(`git log --follow -1 --format="%at|%aN|%aE" -- "${file}"`, {
+    const raw = execSync(`git log --follow -1 --format="%at|%aN|%aE" -- "${gitTarget}"`, {
       encoding: 'utf8',
       stdio: ['pipe', 'pipe', 'pipe'],
     }).trim();
