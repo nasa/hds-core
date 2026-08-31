@@ -1,0 +1,18 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import content from '../../docs/508.md?raw';
+
+<Meta title="About/Section 508 Conformance" />
+
+{/_ Wide GFM tables (the contrast matrix) scroll horizontally instead of overflowing under the docs TOC. Scoped to source-rendered pages so it never touches themed usa-table component examples. _/}
+
+<style>{`
+  .hds-doc-md :is(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+`}</style>
+
+<div className="hds-doc-md">
+  <Markdown>{content}</Markdown>
+</div>
