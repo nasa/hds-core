@@ -9,6 +9,7 @@
 
 import initInPageNav from './utils/in-page-nav-init';
 import { DocsContainer } from './DocsContainer.jsx';
+import 'remark-github-blockquote-alert/alert.css';
 
 const preview = {
   parameters: {
@@ -41,6 +42,8 @@ const preview = {
           ['*', ['Guidance', '*']],
           'Guides',
           ['Existing USWDS Site', 'React', 'No-Build Environments', 'Sass Configuration'],
+          'About',
+          ['Credits', 'Section 508 Conformance', 'Changelog', 'For Contributors'],
         ],
       },
     },
