@@ -1,10 +1,10 @@
 # Contributing to HDS Core
 
-HDS Core is NASA's design system for public-facing websites on `*.nasa.gov` domains. It's maintained by a small team and we welcome contributions from everyone: NASA employees, other federal staff, and members of the public.
+HDS Core is NASA's design system for public-facing websites on `*.nasa.gov` domains. It is maintained by a small team and we welcome contributions from everyone: NASA employees, other federal staff, and members of the public.
 
-Whether you're fixing a typo, reporting a browser bug, proposing a new component pattern, or improving accessibility, your contribution helps make NASA's web presence better for the public. We want to make the contribution process as clear and low-friction as possible.
+Whether you are fixing a typo, reporting a browser bug, proposing a new component pattern, or improving accessibility, your contribution helps make NASA's web presence better for the public. We want to make the contribution process as clear and low-friction as possible.
 
-All contributions are released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see our [LICENSE](LICENSE.md) file for details.
+All contributions are released into the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/); see our [LICENSE](https://github.com/nasa/hds-core/blob/main/LICENSE.md) file for details.
 
 ## Scope
 
@@ -26,11 +26,11 @@ Start a [Discussion](https://github.com/nasa/hds-core/discussions). This is the 
 
 ### Edit documentation
 
-The Storybook documentation site has an **Edit this page on GitHub ↗** link at the bottom of every page. Clicking it opens the file in GitHub's browser editor — no local development environment needed.
+The Storybook documentation site has an **Edit this page on GitHub ↗** link at the bottom of every page. Clicking it opens the file in GitHub's browser editor, with no local development environment needed.
 
 **Safe to edit:** paragraph text, headings, list items, and table cell content.
 
-**Leave alone:** any line starting with `import`, the `<Meta title="..." />` line near the top of each file, and anything inside `< >` angle brackets. These are code, not prose — editing them can break the page silently.
+**Leave alone:** any line starting with `import`, the `<Meta title="..." />` line near the top of each file, and anything inside `< >` angle brackets. These are code, not prose. Editing them can break the page silently.
 
 To submit your changes:
 
@@ -41,6 +41,27 @@ To submit your changes:
 ### Submit a code change
 
 Open a pull request. See the sections below for setup instructions, conventions, and what we look for in review.
+
+## Design proposals
+
+Want to propose a new component or a change to an existing component's visual design?
+
+**Start with a Discussion, not a PR.** Design changes affect NASA's visual identity across potentially hundreds of sites. We review design proposals separately from code implementation so that PR reviews can focus on code quality rather than design debates.
+
+In your Discussion, include:
+
+- What problem the change solves
+- Which audience it serves (standalone apps, data tools, microapps, etc.)
+- Visual examples (screenshots, Figma mockups, or a description of the intended result)
+- Whether you have seen this pattern on an existing NASA site
+
+Settle these gates up front, since they are the ones that sink proposals late:
+
+- **Scope fit:** is it appropriate for public `*.nasa.gov` sites? Example content must use public NASA data.
+- **USWDS-first:** does a USWDS component already cover this? If so it is a `usa-` override, not a net-new `hds-` component.
+- **System fit:** it must work across all six palettes, stay responsive, and meet WCAG 2.1 AA.
+
+Once a design direction is agreed on, the code PR follows. For the implementation workflow, see [docs/COMPONENTS.md](https://github.com/nasa/hds-core/blob/main/docs/COMPONENTS.md) or [docs/DESIGN_TOKENS.md](https://github.com/nasa/hds-core/blob/main/docs/DESIGN_TOKENS.md).
 
 ## Development setup
 
@@ -95,7 +116,7 @@ When you open a Pull Request, a template will populate automatically. Fill it ou
 
 ### Match the design standards
 
-HDS Core implements NASA's [Design Standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](docs/DESIGN.md) for how we map to USWDS, color precision, and link logic. If you're unsure whether a visual change fits, open a Discussion first and we'll work through it together before you write code.
+HDS Core implements NASA's [Design Standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](https://github.com/nasa/hds-core/blob/main/docs/DESIGN.md) for how we map to USWDS, color precision, and link logic. If you are unsure whether a visual change fits, open a Discussion first and we will work through it together before you write code.
 
 ### Test across palettes
 
@@ -117,7 +138,16 @@ When your change alters the compiled CSS, CI automatically runs visual-regressio
 
 ## Public API and versioning
 
-HDS Core maintains a committed file called `public-api.snapshot.txt` that lists every public symbol the package promises to keep stable: custom properties, selectors, Sass variables, Sass mixins, entry points, and the adopter layer position. CI regenerates this snapshot on every PR that touches `src/scss/**` and fails if the committed file is stale.
+HDS Core maintains a committed file, `public-api.snapshot.txt`, capturing every public symbol the package promises to keep stable: custom properties, selectors, Sass variables, Sass mixins, entry points, and the adopter layer position. CI regenerates the snapshot on every PR that touches `src/scss/**` and fails if the committed file is stale.
+
+### What counts as public
+
+Two rules define the public Sass surface:
+
+1. **Prefix:** only `$hds-*` variables and `@mixin hds-*` / `@function hds-*` declarations are public.
+2. **Location:** only root-level Sass partials are public. Anything in `base/` or `components/` is internal, whatever its name.
+
+The public Sass files are `_hds-tokens.scss`, `_hds-config.scss`, `_hds-mixins.scss`, and `_hds-dataviz-palettes.scss`. Compiled CSS custom properties and selectors are public too and are tracked in the snapshot; the internal Sass that produces them is not. Refactoring internals without changing compiled output needs no changeset.
 
 ### When CI fails the snapshot check
 
@@ -136,43 +166,37 @@ To resolve:
 
 ### Semver rubric
 
-Use this table to decide the bump level for your changeset when the snapshot changes.
+When the snapshot changes, use this to pick the bump for your changeset. The snapshot is the arbiter; you are classifying the diff.
 
-| What changed in the snapshot                                      | Bump (post-v1.0) | Bump (pre-v1.0) |
-| ----------------------------------------------------------------- | ---------------- | --------------- |
-| Line removed (custom property, Sass variable, mixin, or selector) | major            | minor           |
-| Entry point removed                                               | major            | minor           |
-| `@layer site` no longer last or missing                           | major            | minor           |
-| `.usa-*` selector removed (HDS dropped its override)              | major            | minor           |
-| Line added (new custom property, variable, mixin, or selector)    | minor            | minor           |
-| New `.usa-*` selector appears (HDS adopted a USWDS component)     | minor            | minor           |
-| Only change is sort-order fix from a stale snapshot               | none             | none            |
+| What changed in the snapshot | Bump (post-v1.0) | Bump (pre-v1.0) |
+| --- | --- | --- |
+| Public symbol removed or renamed (custom property, variable, mixin, selector, or entry point), or `@layer site` no longer last | major | minor |
+| Public symbol added, or a component promoted to stable | minor | minor |
+| Only a sort-order fix from a stale snapshot | none | none |
+
+### Experimental components
+
+Experimental components are not covered by the stability guarantee. Adding one is a minor, because it is additive. Changing or removing one is a minor at most, never a major, with no deprecation cycle required, at any version. The rubric rows above apply once a component is marked stable. See [docs/COMPONENTS.md](https://github.com/nasa/hds-core/blob/main/docs/COMPONENTS.md#component-lifecycle-and-status) for the status model.
 
 ### Pre-v1.0 semantics
 
 While the major version is 0, SemVer permits breaking changes in minor releases. Removals are minor bumps, not major. Deprecation grace periods still apply: keep deprecated symbols for at least one minor release cycle before removal.
 
+### Deprecation
+
+Before removing a stable public symbol, deprecate it for at least one minor release cycle. Record the deprecation and its replacement in the symbol's source (a component SCSS file header, or a token's `$description`), in the relevant Storybook page, and in the changeset summary. HDS has no formal deprecation annotation yet, so those are the only signals; be explicit. If a removal ships without a prior deprecation cycle (allowed pre-v1.0), flag it in the changeset summary so adopters can prepare. The step-by-step mechanics are in [docs/COMPONENTS.md](https://github.com/nasa/hds-core/blob/main/docs/COMPONENTS.md) step 9 and [docs/DESIGN_TOKENS.md](https://github.com/nasa/hds-core/blob/main/docs/DESIGN_TOKENS.md) step 8.
+
 ### Additional guidance
 
 - If your PR is a visual restyling that does not change the snapshot but will meaningfully affect adopter layouts, apply the `visual-breaking-change` label and bump one notch above what the rubric otherwise suggests.
 - When in doubt, bump more severely. A minor that could have been a patch is fine; a patch that should have been a minor can break someone.
-- Removals that lack a prior deprecation: still allowed pre-v1.0 (minor bump), but flag in your changeset summary so adopters scanning the changelog can prepare.
 
-## Adding new components
+## Adding components and tokens
 
-If you are adding a new component to the system:
+Follow the step-by-step guides. Each covers where code goes, docs and stories, tests, the changeset, and how the thing is deprecated and removed.
 
-1. Create `src/scss/components/_component-name.scss`
-2. Add `@use` statements for dependencies (`uswds-core`, `hds-tokens`, `hds-mixins`)
-3. Add `@forward` to `components/_index.scss` in the appropriate category
-4. Document palette behavior and USWDS override rationale in the file header comment
-5. If the component requires a new USWDS package, add its `meta.load-css()` call to the `@layer uswds` block in `hds.scss` and remove it from `hds-uswds.scss`
-6. Run `npm run check:uswds` to regenerate the hash baseline if the USWDS package list changed
-7. Run `npm run update:api-snapshot` if new selectors or custom properties appear in the build
-
-See `components/_button.scss` as a reference for comment style and organization.
-
-Upgrading the `@uswds/uswds` dependency is a maintainer task with its own CI gates. See [Upgrading USWDS](docs/ARCHITECTURE.md#upgrading-uswds-maintainer).
+- New or updated component: [docs/COMPONENTS.md](https://github.com/nasa/hds-core/blob/main/docs/COMPONENTS.md)
+- New or changed design token: [docs/DESIGN_TOKENS.md](https://github.com/nasa/hds-core/blob/main/docs/DESIGN_TOKENS.md)
 
 ## Handling USWDS bugs
 
@@ -189,33 +213,15 @@ When filing, note in the issue title or description that the root cause is upstr
 
 - **Sass and PostCSS:** Write styles using Sass, processed with PostCSS. Keep code clean, modular, and lean.
 - **Naming conventions:** Follow BEM (Block Element Modifier) for custom CSS classes (`.hds-block`, `.hds-block__element`, `.hds-block--modifier`). For Sass variables and DTCG tokens, use lowercase kebab-case.
-- **File organization:** Place component styles in `src/scss/components/`. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
+- **File organization:** Place component styles in `src/scss/components/`. Foundational updates or tokens belong in `src/scss/base/` or root `src/scss/` files. See [ARCHITECTURE.md](https://github.com/nasa/hds-core/blob/main/docs/ARCHITECTURE.md) for full details.
 
 ## Storybook documentation
 
-Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](docs/DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms).
+Storybook is the primary reference for adopters. Review [DOCUMENTATION.md](https://github.com/nasa/hds-core/blob/main/docs/DOCUMENTATION.md) for guidelines on writing documentation (plain language, palette awareness, avoiding internal architecture terms).
 
-For prose-only edits — rewording guidance, fixing typos, updating copy — see [Edit documentation](#edit-documentation) above. No development setup needed.
+For prose-only edits (rewording guidance, fixing typos, updating copy), see [Edit documentation](#edit-documentation) above. No development setup needed.
 
-When changing or adding a component:
-
-- Update or create the `.mdx` file for documentation and the `.stories.js` file for interactive examples in `stories/components/`.
-- A complete component requires a **Guidance** page (how and when to use, accessibility notes), key variants as standalone interactive stories (with exposed controls for users to change their content and settings), and an "All Variants" story (if more than one variant).
-
-## Design proposals
-
-Want to propose a new component or a change to an existing component's visual design?
-
-**Start with a Discussion, not a PR.** Design changes affect NASA's visual identity across potentially hundreds of sites. We review design proposals separately from code implementation so that PR reviews can focus on code quality rather than design debates.
-
-In your Discussion, include:
-
-- What problem the change solves
-- Which audience it serves (standalone apps, data tools, microapps, etc.)
-- Visual examples (screenshots, Figma mockups, or a description of the intended result)
-- Whether you've seen this pattern on an existing NASA site
-
-Once a design direction is agreed on, the code PR follows. This keeps things moving and avoids wasted effort on both sides.
+When changing or adding a component, see [docs/COMPONENTS.md](https://github.com/nasa/hds-core/blob/main/docs/COMPONENTS.md) for which stories and pages a complete component needs, and [DOCUMENTATION.md](https://github.com/nasa/hds-core/blob/main/docs/DOCUMENTATION.md) for how to author them.
 
 ## Review process
 
@@ -232,15 +238,15 @@ Design changes that affect NASA's visual identity may involve additional review 
 
 ## Releasing
 
-All contributors need to do is add a changeset and open a PR. Releases are cut by maintainers, who merge the accumulated changesets via the Version Packages PR and publish to npm. See [docs/RELEASING.md](docs/RELEASING.md) for the release process.
+All contributors need to do is add a changeset and open a PR. Releases are cut by maintainers, who merge the accumulated changesets via the Version Packages PR and publish to npm. See [docs/RELEASING.md](https://github.com/nasa/hds-core/blob/main/docs/RELEASING.md) for the release process.
 
 ## Licensing of contributions
 
 HDS Core is released into the worldwide public domain under the [CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).
 
-By submitting a contribution — code, documentation, or any other material — you agree that your contribution is released under CC0 1.0 alongside the rest of the project. You are dedicating it to the public domain and waiving all copyright and related rights, worldwide, to the fullest extent permitted by law.
+By submitting a contribution (code, documentation, or any other material), you agree that your contribution is released under CC0 1.0 alongside the rest of the project. You are dedicating it to the public domain and waiving all copyright and related rights, worldwide, to the fullest extent permitted by law.
 
-Only contribute work you have the right to dedicate this way. Don't submit code, fonts, images, or other assets that are owned by someone else or licensed under terms incompatible with CC0. Bundled third-party assets (such as the Inter and DM Mono fonts under the SIL Open Font License) are the exception and are tracked separately in [LICENSE.md](LICENSE.md).
+Only contribute work you have the right to dedicate this way. Do not submit code, fonts, images, or other assets that are owned by someone else or licensed under terms incompatible with CC0. Bundled third-party assets (such as the Inter and DM Mono fonts under the SIL Open Font License) are the exception and are tracked separately in [LICENSE.md](https://github.com/nasa/hds-core/blob/main/LICENSE.md).
 
 ## Questions?
 
