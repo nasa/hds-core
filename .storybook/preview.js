@@ -43,7 +43,7 @@ const preview = {
           'Guides',
           ['Existing USWDS Site', 'React', 'No-Build Environments', 'Sass Configuration'],
           'About',
-          ['Credits', 'Section 508 Conformance', 'Changelog', 'For Contributors'],
+          ['Credits', 'Section 508 Conformance', 'Changelog', 'Contributing'],
         ],
       },
     },
