@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-07-27
+Last updated: 2026-08-30
 
 ## Package Overview
 
@@ -185,7 +185,7 @@ _hds-uswds-theme.scss (feeds tokens into USWDS config)
 Everything else (receives configured USWDS)
 ```
 
-Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation (see AGENTS.md → Token flow for why).
+Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation: palettes and dataviz values are hand-authored contracts, breakpoints cannot drive media or container queries from CSS custom properties, and typography composites are assembled in Sass from generated primitives. For the token authoring workflow, see DESIGN_TOKENS.md.
 
 Each component file can have its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
 
@@ -309,7 +309,7 @@ Components are organized by category in `components/_index.scss`:
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
 
-Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions.
+Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions. To add, update, or remove a component, follow COMPONENTS.md.
 
 ### USWDS surface bridges
 
@@ -430,7 +430,3 @@ Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
 - [ ] Grid overlay toolbar toggle for verifying component alignment
 - [ ] USWDS JS re-initialization: Date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
 - [ ] Migrate remaining pending work into GitHub Issues and Discussions
-
-## Contributing
-
-This package is maintained by the NASA HDS team. For conventions on adding new components, formatting code and submitting PRs, please see [CONTRIBUTING.md](../CONTRIBUTING.md).

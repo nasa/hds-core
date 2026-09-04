@@ -1,259 +1,60 @@
 # AGENTS.md — HDS Core
 
-## Scope
+This file orients AI agents working in this repository. It is a map plus the non-obvious constraints you must not violate, and each item points to the human doc that covers it in full. Humans do not need this file; everything here lives in the docs it links to.
 
-HDS Core is a CSS-only design system for NASA-branded `*.nasa.gov` sites. It is not a general-purpose system. It is not a component library. It ships compiled CSS, not JavaScript.
+## What HDS Core is
 
-Do not add features targeting non-NASA or non-.gov use cases. All example content MUST use publicly available NASA data. NEVER include PII, ITAR, or EAR data anywhere in the repo.
+A CSS-only design system (it ships compiled CSS, no JavaScript) for NASA-branded `*.nasa.gov` sites, built as a Sass theme layer on `@uswds/uswds`. It is not general-purpose and not a component library. Do not add features for non-NASA or non-.gov use cases. All example content must use public NASA data; never include PII, ITAR, or EAR material. Full scope: [CONTRIBUTING.md](CONTRIBUTING.md#scope).
 
-## Architecture
+## Where to look
 
-`@nasa-hds/core` is built on `@uswds/uswds ^3.13.0`, compiled with `sass` CLI + `postcss` + `autoprefixer` + `postcss-discard-comments` + `cssnano`.
-
-### Three CSS bundles
-
-| Bundle                | Owner | Modify styles?                           |
-| --------------------- | ----- | ---------------------------------------- |
-| `hds.min.css`         | HDS   | Yes                                      |
-| `hds-uswds.min.css`   | USWDS | NEVER — utility classes passthrough only |
-| `hds-dataviz.min.css` | HDS   | Yes                                      |
-
-`hds.min.css` contains ALL USWDS components (both HDS-themed and unthemed) plus HDS base and component overrides. It is self-contained.
-
-`hds-uswds.min.css` contains ONLY USWDS utility classes (`.padding-*`, `.margin-*`, etc.). It is an optional add-on for sites migrating from USWDS that use utility classes. NEVER add component styles or HDS overrides here.
-
-If a USWDS component needs HDS styling, add overrides to the appropriate file in `src/scss/components/`. Do not touch `hds-uswds.min.css`.
-
-### Cascade layer order — do not modify
-
-All three bundles declare:
-
-```css
-@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
-```
-
-| Layer            | Contents                                           |
-| ---------------- | -------------------------------------------------- |
-| `uswds`          | All USWDS component defaults                       |
-| `uswds-utils`    | USWDS utility classes (empty if add-on not loaded) |
-| `hds-base`       | HDS custom properties, element styles, palettes    |
-| `hds-components` | HDS component overrides                            |
-| `hds-dataviz`    | Dataviz palettes (empty if add-on not loaded)      |
-| `site`           | Reserved for adopter overrides — always wins       |
-
-HTML load order does not affect cascade priority. Layers determine specificity, not file order.
-
-### Sass load order — critical, do not violate
-
-```
-_hds-tokens.scss → _hds-uswds-theme.scss → everything else
-```
-
-`_hds-tokens.scss` MUST NOT `@use "uswds-core"` — it loads before the theme file. It is **generated** from `tokens.json` (flat `$hds-*` scalars only — no maps, no `@use`); see Design Tokens → Token flow. Configuration flags live in `_hds-config.scss`, not here.
-
-`_hds-uswds-theme-utils.scss` is the theme variant used by `hds-uswds.scss`. It is identical to `_hds-uswds-theme.scss` except `$output-these-utilities` is unrestricted. If you change a theme setting, change it in both files.
-
-`hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')` call inside `@layer uswds`. Do NOT revert to per-package `meta.load-css()` calls — this causes fonts to emit once per package (144 declarations vs. 6).
-
-## Design Tokens
-
-`tokens.json` (W3C DTCG format) is the canonical source for primitive design values: colors, spacing, breakpoints, borders, layout, and typography primitives (line-height, letter-spacing, font-weight, font-size, font-family). These are **generated into Sass** (see Token flow). The committed `public-api.snapshot.txt` plus compiled CSS remain the **enforced consumer contract** — what HDS actually promises adopters. When implementation differs from `tokens.json`, flag for reconciliation but do not assume implementation is wrong by default.
-
-### Token flow
-
-`_hds-tokens.scss` and `base/_custom-properties.scss` are **generated** from `tokens.json` by Style Dictionary (`sd.config.js`). Both carry a "Do not edit directly" header — never hand-edit them.
-
-```
-tokens.json
-  └─ npm run build:tokens (Style Dictionary, sd.config.js)
-       ├─ _hds-tokens.scss             ($hds-* Sass scalars)
-       └─ base/_custom-properties.scss (CSS :root custom properties)
-
-_hds-tokens.scss → _hds-uswds-theme.scss → compiled CSS
-```
-
-- **Regenerate:** `npm run build:tokens`. After any `tokens.json` or `sd.config.js` change, regenerate and commit the output.
-- **Drift gate:** `npm run check:tokens` (also in CI) regenerates and fails if the committed files don't match `tokens.json`. It complements `check:api-snapshot` (which guards compiled output) — different layers, not duplicates.
-- **Not generated** (filtered out in `sd.config.js`): palette CSS (hand-authored — see Palette system), dataviz tokens (parallel contract), breakpoints (Sass-only; can't drive media/container queries), and typography _composites_ (assembled in Sass from the generated primitives).
-
-See `sd.config.js` for name transforms, platforms, and filters. When implementation differs from `tokens.json`, flag for reconciliation rather than auto-correcting either direction; check the semver rubric in CONTRIBUTING.md.
-
-### Reading tokens.json
-
-- `$description` fields contain usage constraints: allowed uses, prohibited uses, required pairings. These are rules, not suggestions.
-- `$extensions.gov.nasa.hds.prefix` declares the CSS prefix (`hds`).
-- `$extensions.gov.nasa.hds.domains` maps groups to output bundles.
-
-### Token rules
-
-- NEVER introduce colors outside the `color` group.
-- NEVER introduce spacing values outside the `spacing` group.
-- NEVER hardcode values that exist in the token scale.
-- Intermediate spacing (fractional keys: 0.5, 1.5, 2.5) is for component-internal use ONLY. Layout spacing MUST use whole-number primary values.
-- Dataviz tokens (`dataviz.color.*`) are for charts ONLY. NEVER use for UI components.
-
-### When sources conflict
-
-Priority order for **design intent** (what should be true):
-
-1. `tokens.json` `$description` (design intent)
-2. HDS Core Proposal (CD-approved)
-3. Figma source files
-4. Live SCSS implementation
-
-Priority order for **public contract** (what we promise adopters today):
-
-1. `public-api.snapshot.txt` (the enforced surface)
-2. Compiled CSS output (`dist/css/*.min.css`)
-3. Root-level Sass exports (`_hds-tokens.scss`, `_hds-mixins.scss`, `_hds-dataviz-palettes.scss`)
-
-If design intent and compiled output disagree, flag for reconciliation — do not silently "fix" either one, because both may have downstream consequences.
-
-## Hard Constraints
-
-### Palette system — do NOT flatten
-
-HDS uses CSS custom property scoping for 6 palettes. Components reference `var(--hds-palette-*)` and values change per ancestor `.hds-palette-*` wrapper.
-
-- NEVER convert palette assignments to static variables.
-- NEVER generate palette CSS from tokens.json.
-- The palette system is hand-authored in `base/_palettes.scss`. It is not represented in tokens.json.
-
-Always include fallbacks to the default (white palette) values:
-
-```scss
-color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-```
-
-### USWDS surface bridges — do NOT flatten
-
-`base/_palettes.scss` pins `.usa-banner`, `.usa-header`, and `.usa-footer` to the white palette and `.usa-identifier` to the black palette. These components have no HDS theme, so without the bridge their text and link colors resolve against the surrounding palette instead of the surface USWDS paints.
-
-- Keep the selectors inside `:where()`. Zero specificity is what lets an adopter override with `.hds-palette-*`.
-- Do not remove the explicit `background-color` — `.usa-header` and `.usa-footer` have none of their own.
-- Remove the bridges only when the components get real HDS theming.
-
-### USWDS dark contexts — do NOT flatten
-
-`base/_palettes.scss` also maps `.usa-hero__callout`, `.usa-section--dark`, and `.usa-dark-background` onto the dark palette. USWDS fills the first two with `primary-darker` (NASA Red under the HDS theme) and colors their headings `accent-cool` (cyan); `.usa-dark-background` uses `base-darker` and reverses only `<p>`, `<span>`, and `<a>`. A palette wrapper can reach none of it.
-
-- Apply the full `_scheme-dark`, not just a background. Components inside read `--hds-palette-*`; a background-only fix leaves them on light-palette values.
-- Keep `:where()` here too, for the same override contract.
-- The family is closed. Do not add a fourth selector without checking that USWDS actually paints its own dark surface there — background _utility_ classes stay on the manual `.hds-palette-*` path.
-- These are not a stopgap. Change them only on a design call — see Issues #148 and #177 and docs/DESIGN.md → USWDS Dark Contexts.
-
-### Class naming
-
-- `usa-*` for components that map to a USWDS component (even if they have HDS-only variants).
-- `hds-*` for components with no USWDS equivalent.
-
-NEVER mix prefixes on a single component.
-
-### Components without HDS theming
-
-Card, modal, footer, banner, header, identifier, and nav have no HDS theme overrides yet. Their USWDS default styles ship inside `@layer uswds` in `hds.min.css`. Do not search for or assume HDS-themed versions exist. Do not add overrides for these components without explicit permission — the surface bridges above are the one sanctioned exception, and they exist only to prevent contrast failures.
-
-### Spacing usage
-
-| Scale        | Values                                | Use for                      |
-| ------------ | ------------------------------------- | ---------------------------- |
-| Primary      | 8, 16, 24, 32, 48, 64, 72, 120, 240px | Layout, component separation |
-| Intermediate | 4, 12, 20px                           | Component-internal only      |
-
-## Public Sass Surface
-
-HDS Core offers two consumption paths: compiled CSS (`<link>` tag) and Sass (`@forward` entry points). The public Sass surface is defined by two rules:
-
-1. **Prefix:** only `$hds-*` variables and `@mixin hds-*` / `@function hds-*` declarations are public.
-2. **File location:** only root-level Sass partials are public surface. Anything in `base/` or `components/` is internal regardless of naming.
-
-Public Sass files (tracked in `public-api.snapshot.txt`):
-
-| File | What it exports |
+| Topic | Canonical doc |
 | --- | --- |
-| `_hds-tokens.scss` | `$hds-*` primitive variables (colors, spacing, borders, layout, typography primitives). **Generated** from `tokens.json` — regenerate, don't hand-edit. |
-| `_hds-config.scss` | `$hds-enable-*` configuration flags (dataviz emission, auto dark mode); set via `@use ... with (...)` |
-| `_hds-mixins.scss` | `@mixin hds-*` and `@function hds-*` (focus ring, typography, links, buttons) |
-| `_hds-dataviz-palettes.scss` | `$hds-dataviz-*` variables (CSS custom property values for dataviz scales) |
+| Build pipeline, cascade layers, file structure, focus-ring architecture, icon architecture, component inventory, testing infrastructure | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Visual and UX rationale, intentional Figma or USWDS deviations | [docs/DESIGN.md](docs/DESIGN.md) |
+| Storybook and MDX authoring, story structure, palette and focus test patterns | [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md) |
+| Add, update, or remove a component; component lifecycle and status | [docs/COMPONENTS.md](docs/COMPONENTS.md) |
+| Add, change, or remove a design token | [docs/DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md) |
+| Contribution process, semver rubric, public API surface, deprecation policy | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Release process (maintainers) | [docs/RELEASING.md](docs/RELEASING.md) |
+| The enforced adopter contract | [public-api.snapshot.txt](public-api.snapshot.txt) |
+| Accessibility standards | [docs/508.md](docs/508.md) |
 
-Internal (NOT public, free to change without a changeset):
+## Hard constraints (do not violate)
 
-- Everything in `base/` (including `_custom-properties.scss`, `_palettes.scss`, `_elements.scss`)
-- Everything in `components/`
-- `_hds-uswds-theme.scss` and `_hds-uswds-theme-utils.scss`
+- **Never hand-edit generated files:** `src/scss/_hds-tokens.scss` and `src/scss/base/_custom-properties.scss` are regenerated by `npm run build:tokens`. → [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
+- **Never modify anything in `dist/`.**
+- **Cascade layer order is fixed:** `@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;`. First declaration wins; layers set priority, not file order. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Sass load order:** `_hds-tokens.scss` → `_hds-uswds-theme.scss` → everything else. `_hds-tokens.scss` must NOT `@use 'uswds-core'` (it loads before the theme is configured). → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **One USWDS load:** `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')`. Do not revert to per-package calls; that emits fonts 144 times instead of 6. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Palette system, never flatten:** components use `var(--hds-palette-*)` with a white-default fallback. Palettes are hand-authored in `base/_palettes.scss` and are never generated from `tokens.json`. → [DESIGN.md](docs/DESIGN.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Class naming:** `usa-*` for components that map to a USWDS component, `hds-*` for net-new. Never mix prefixes on one component. → [DESIGN.md](docs/DESIGN.md)
+- **Token rules:** colors only in the `color` group, spacing only in the `spacing` group, never hardcode a value already in a scale. Layout uses whole-number spacing; fractional keys (`0.5`, `1.5`, `2.5`) are component-internal only. Dataviz tokens are for charts only. → [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
+- **`hds-uswds.min.css` is USWDS utility passthrough only.** Never add component or HDS styles there. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Components with no HDS theming yet** ship USWDS defaults. Do not assume HDS versions exist, and do not add overrides for them without explicit permission. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Focus rings:** use the existing mixins (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). Never hardcode focus styles. If the Figma spec will not fit the mixins, flag it; do not modify the mixin. → [ARCHITECTURE.md](docs/ARCHITECTURE.md), [DESIGN.md](docs/DESIGN.md)
 
-The outputs of internal files (compiled CSS custom properties, selectors) ARE tracked — but the Sass internals that produce them are not. Refactoring internals without changing compiled output requires no changeset.
+## Silent-failure gotchas (Storybook and MDX)
 
-Adding a new public symbol (variable or mixin) to a root-level file requires updating `public-api.snapshot.txt` and writing a changeset (minor bump).
+These break the build or the story indexer with no obvious error. Full detail in [DOCUMENTATION.md](docs/DOCUMENTATION.md).
 
-## Commands
+- `<Meta title="..." />` must be a string. Never `<Meta of={...} />`.
+- Story `tags` must be literal arrays (`tags: ['!dev']`). No spreads or factory calls.
+- Never use a key literally named `label:` inside a render function. Hoist the array to module scope and rename the key to `text`.
 
-| Task                           | Command(s)                                     |
-| ------------------------------ | ---------------------------------------------- |
-| Local dev                      | `npm run dev`                                  |
-| Production build               | `npm run build`                                |
-| Regenerate design tokens       | `npm run build:tokens`                         |
-| Static Storybook build         | `npm run build-storybook`                      |
-| Tests (unit + a11y)            | `npm test`                                     |
-| Visual regression (Chromatic)  | `npm run test:visual`                          |
-| Check token generation drift   | `npm run check:tokens`                         |
-| Verify USWDS unchanged         | `npm run check:uswds`                          |
-| Verify uswds-core emits no CSS | `npm run check:uswds-core`                     |
-| Format check                   | `npm run format` or `npm run format:fix`       |
-| Lint Sass                      | `npm run lint:scss` or `npm run lint:scss:fix` |
-| Lint JS                        | `npm run lint:js` or `npm run lint:js:fix`     |
-| Lint Markdown                  | `npm run lint:md`                              |
-| Lint MDX                       | `npm run lint:mdx`                             |
-| Verify public API snapshot     | `npm run check:api-snapshot`                   |
-| Regenerate API snapshot        | `npm run update:api-snapshot`                  |
+## When sources conflict
 
-## Code style
+- **Design intent** (what should be true), in priority order: `tokens.json` `$description`, then the HDS Core Proposal (CD-approved), then Figma, then live SCSS.
+- **Public contract** (what we promise adopters today), in priority order: `public-api.snapshot.txt`, then compiled CSS, then root-level Sass exports.
 
-Run `npm run format:fix` and all `lint:*` commands (or `lint:*:fix` if available) before pushing.
+If design intent and compiled output disagree, flag for reconciliation. Do not silently fix either side. → [CONTRIBUTING.md](CONTRIBUTING.md#public-api-and-versioning), [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
 
-- **Sass:** Stylelint (`stylelint-config-standard-scss`). No lint-disable comments without an explanation.
-- **JS:** ESLint flat config. Stories files and helpers only.
-- **Markdown:** remark-lint. Plain `.md` files only.
-- **MDX:** remark-lint with `remark-mdx`. Files under `stories/`.
-- **Formatting:** Prettier. Run `npm run format:fix` to auto-fix. Do not hand-format.
+## Gate commands
 
-## Storybook / MDX rules
+Run the relevant checks before finishing SCSS, token, or doc work. Full list in [ARCHITECTURE.md → Quick Start](docs/ARCHITECTURE.md#quick-start).
 
-These prevent silent parser failures:
-
-- ALWAYS use `<Meta title="..." />` with a string value. NEVER use `<Meta of={...} />`.
-- NEVER use a key named `label:` inside story render functions. Storybook's AST parser breaks silently on this.
-- Story `tags` MUST be literal arrays (`tags: ['!dev']`). NEVER use spread operators for tags.
-
-## Known bugs — do not re-investigate
-
-- **Table blue palette:** White link text on white table body background. Blue palette sets link text to white; table renders as white surface.
-- **Form error hover:** Red error border lost on hover due to specificity mismatch (hover 0,3,0 vs error 0,1,0).
-- **Table sort focus:** Focus ring clipped by `mask-image`. Needs surface-inverse treatment per Figma.
-
-### Focus rings
-
-- Implementation: `_hds-mixins.scss` (mixins), `base/_focus.scss` (global baseline). See docs/ARCHITECTURE.md for signatures and application methods, docs/DESIGN.md for treatment rationale.
-- When adding focus rings to a new component, use the existing mixin infrastructure (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). If you cannot match the Figma spec with the existing mixins, flag to the user for a strategic call — do not hardcode focus styles at the component level or silently modify the mixin.
-- Form text inputs, textareas, and selects use a solid blue 2px border highlight, not the dashed system. Intentional, tracked in Issue #20.
-- `.hds-btn-icon--interactive` uses the same `hds-focus-ring($shape: 'circle')` as all other icon button roles but overrides `::before { background-color }` with a hardcoded `$hds-color-carbon-40`. These buttons live over images, video, and 3D content where palette containers don't apply.
-
-## Verification rules
-
-- ONLY reference files and code read in the current session.
-- If a search returns no results, say "not found" — NEVER speculate.
-- Distinguish "I read this and saw X" (verified) from "I believe X may be the case" (unverified).
-- Cite file paths for every claim about the codebase.
-- Flag uncertainties with ⚠️.
-- NEVER modify files in `dist/`.
-
-## Reference files
-
-For deeper context beyond these instructions:
-
-- **CONTRIBUTING.md** — PR guidelines, code style conventions, steps for adding new components, semver rubric for deciding changeset bump levels.
-- **public-api.snapshot.txt** — The committed, machine-generated list of everything HDS promises adopters. If it changes in your PR, you need a changeset.
-- **docs/ARCHITECTURE.md** — Build pipeline, cascade layer architecture, Chromatic setup, focus ring implementation details, icon architecture.
-- **docs/DESIGN.md** — Visual and UX rationale. Explains intentional deviations from USWDS and Figma. Check here before "fixing" any apparent Figma discrepancy.
-- **docs/DOCUMENTATION.md** — Full standards for authoring Storybook `.mdx` files and component stories. Read when creating or editing documentation pages.
-- **docs/RELEASING.md** — Maintainer runbook for cutting a release: the changesets → Version Packages PR → environment-approved OIDC npm publish flow, standing configuration, and troubleshooting.
+- `npm test` — render and axe accessibility checks across palettes
+- `npm run check:tokens` — token generation drift
+- `npm run check:api-snapshot` — public API drift
+- `npm run check:uswds` and `check:uswds-core` — USWDS integrity
+- `npm run format:fix`, `npm run lint:scss`, `lint:js`, `lint:md`, `lint:mdx`
