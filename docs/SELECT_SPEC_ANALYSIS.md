@@ -35,6 +35,19 @@ The gap is therefore not "polish the select field." Three of the four surfaces d
 
 There is no `_select.scss`; Select is styled inside `_form.scss` alongside the other form controls. Everything except the chevron is an HDS override in `@layer hds-components` over the USWDS `.usa-select` defaults in `@layer uswds`.
 
+### 2.1 What the package actually redistributes
+
+`AGENTS.md` opens with "It ships compiled CSS, not JavaScript." That is true of what HDS **authors** and is easy to over-read. The package also redistributes USWDS's unmodified scripts:
+
+- `package.json` `files` is `["dist/", "src/scss/"]`, and `exports` includes `./js/uswds` → `dist/js/uswds.min.js` and `./js/uswds-init` → `dist/js/uswds-init.min.js`.
+- `npm run copy:uswds-js` copies `node_modules/@uswds/uswds/dist/js` into `dist/js` as part of `copy:all`.
+- `stories/overview/Installation.mdx`, `stories/guides/NoBuildEnvironments.mdx`, and `stories/guides/USWDS.mdx` all document loading both scripts, and `Installation.mdx` calls them "the unmodified USWDS scripts."
+- `comboBox` is present in the shipped `dist/js/uswds.min.js`.
+
+**This materially changes the panel question.** The behavior for a filterable dropdown is already in the package an adopter installs, and already documented. The open question is not "can HDS get JavaScript" — it is whether HDS takes on _theming_ an interactive USWDS component it has so far left alone. Every "requires JavaScript, deferred to a future phase" note in the current docs conflates those two things.
+
+Likewise, `hds.min.css` contains every USWDS component, themed or not (`AGENTS.md` → Three CSS bundles). The unthemed ones are shipping to adopters today in stock USWDS appearance; see §8.1.
+
 ## 3. The Figma spec, extracted
 
 ### 3.1 Select field (`2295:182682`)
@@ -254,14 +267,28 @@ Two of those solve problems this analysis raised elsewhere: `::checkmark` suppli
 ### 6.2 What customizable select does not cover
 
 - **`<select multiple>` is out of scope for the feature.** The CSS Working Group has resolved to extend base appearance to listbox and multi-select rendering, but it is not implemented. The §3.3 multiselect panel therefore needs a different mechanism — and HDS's own guidance already steers authors away from `<select multiple>` toward checkboxes, so this is not a loss.
-- **Filtering is behavior, not styling.** The §3.4 inline search panel needs JavaScript to filter the list no matter how the panel is rendered.
+- **Filtering is behavior, not styling.** The §3.4 inline search panel needs JavaScript to filter the list no matter how the panel is rendered. Per §2.1 that behavior already ships in `dist/js/uswds.min.js` as `comboBox`; what is missing is the theming, not the script.
 
 ### 6.3 Routes for the two variants base-select does not reach
 
-1. **Do not build them.** Document them as out of scope for a CSS-only system and remove the "deferred to a future phase" language that implies otherwise.
-2. **Ship CSS only; markup and behavior are the adopter's.** Theme USWDS's `.usa-combo-box`, which HDS already distributes unthemed inside `dist/css/hds.min.css`. Gets the visual spec into HDS without HDS owning any JavaScript. This is the strongest route for inline search.
-3. **A CSS-only disclosure for the multiselect.** A `<details>` element (universally supported, zero JS) or the `popover` attribute wrapping a `<fieldset>` of HDS checkboxes gets the §3.3 panel with no scripting. The checkboxes already match spec; only the panel box and its shadow are new. ⚠️ `<details>` has its own semantics and focus behavior — check against the ARIA APG before assuming it is appropriate for a menu.
-4. **Change the scope constraint** and ship a JS-backed component. A significant departure from the stated architecture; a decision well above this analysis.
+1. **Do not build them.** Document them as out of scope and remove the "deferred to a future phase" language that implies otherwise.
+2. **Theme USWDS's `.usa-combo-box`.** The markup, the behavior, and the unthemed CSS all ship today (§2.1). This is the strongest route for inline search — but it is not the cheap win §2 of an earlier draft implied. Measured from the compiled bundle, the combo box currently renders like this and each row is a deliberate override:
+
+   | Compiled today | Figma §3.2/§3.4 | Note |
+   | --- | --- | --- |
+   | `--selected` fill `#d83933`, white text | Blue **text**, no fill | `#d83933` is USWDS `red-50v` — the combo box is not even picking up NASA Red |
+   | `--focused` `outline: 2px dashed #162e51` | HDS dashed focus ring | USWDS `blue-warm-80v`, hardcoded past the theme |
+   | `__list` 1px `#2e2e2e` border, no shadow | No border, `0 0 20px` shadow |  |
+   | `__list` `max-height: 12.1em; overflow-y: scroll` | Not specified | Always-visible scrollbar, even for short lists |
+   | `__list-option` `padding: 8px`, `border-bottom` divider | `padding: 0 24px`, 32px row, no divider |  |
+   | `__toggle-list` `add-background-svg("usa-icons/expand_more")` | HDS chevron | Same palette-blind background-image as G1 |
+   | `__input-button-separator` vertical rule | Not in Figma | Structural element to suppress |
+   | `__clear-input` × button | Not in Figma | Structural element to suppress |
+
+   Eight overrides plus two suppressions, against a component with no HDS stories or Guidance page today. Real, but a component-sized piece of work, not a restyle.
+
+3. **A CSS-only disclosure for the multiselect.** A `<details>` element (universally supported, zero JS) or the `popover` attribute wrapping a `<fieldset>` of HDS checkboxes gets the §3.3 panel with no scripting. The checkboxes already match spec; only the panel box and its shadow are new. ⚠️ `<details>` is a disclosure, not a menu — check the ARIA APG before assuming the semantics fit. USWDS's own precedent for this shape is `.usa-nav__submenu` / `.usa-language__submenu`: `position: absolute` panels toggled by `[aria-hidden]` against a button carrying `aria-expanded`, driven by the shipped JS.
+4. **Author HDS JavaScript.** The genuine departure from the stated architecture — and, given routes 2 and 3, the one with the least to recommend it.
 
 ### 6.4 Spec details most likely to be lost
 
@@ -292,7 +319,26 @@ Both are panel _contents_ and are blocked behind the §6 decision. Two things ar
 
 - The multiselect rows are ordinary HDS checkboxes at the sizes `_form.scss` already produces. If the panel gets built, the rows need no new checkbox work.
 - The multiselect panel's shadow is `0 0 10px rgba(0, 0, 0, 0.1)` where every other panel in the set uses `0 0 20px`. ⚠️ Almost certainly a Figma inconsistency rather than intent — confirm before encoding either value.
-- HDS has no elevation or shadow token. `tokens.json` has no shadow group, and no shipped component casts one. Any panel work introduces the design system's first shadow, which is a token decision that should be settled independently of Select.
+- HDS has no elevation or shadow **token** — `tokens.json` has no shadow group — but it does already ship one ad-hoc elevation shadow: `.hds-btn-icon--interactive` casts `box-shadow: 0 2px 8px rgb(0 0 0 / 10%)` on hover, active, and `[aria-expanded='true']` (`components/_icon-button.scss` line 208). So panel work would be the _second_ untokenised shadow, not the first, which is the argument for tokenising rather than adding another one-off. A panel value also has to be reconciled against that existing `0 2px 8px` — three different shadows across two components is not a system.
+
+### 8.1 Other unthemed USWDS components in scope
+
+`components/_index.scss` forwards 18 HDS overrides. Every other USWDS component ships in `hds.min.css` in stock USWDS appearance, and none of them appear in `public-api.snapshot.txt` — so they are shipping to adopters but not under contract. Verified present in the compiled bundle and relevant to this work:
+
+| Component | Why it matters here |
+| --- | --- |
+| `.usa-combo-box` | The filterable single-select. Route 2 above. Behavior ships in `dist/js/uswds.min.js`. |
+| `.usa-time-picker` | `src/index.js` imports `enhanceComboBox` from `usa-combo-box` — it _is_ a combo box with a preset filter. Whatever combo box gets, it inherits for free. |
+| `.usa-date-picker` | A second anchored panel (`.usa-date-picker__calendar`) with its own trigger button. Will look unrelated to the Select panel unless the panel treatment is designed as a shared surface. |
+| `.usa-nav__submenu`, `.usa-language__submenu`, `.usa-megamenu` | USWDS's own button-opens-panel pattern: `position: absolute` + `[aria-hidden]` + `aria-expanded`. The closest structural precedent for §3.5, and the header/footer/nav work the Roadmap calls the top post-v1.0 priority will have to settle the same panel questions. |
+| `.usa-tooltip`, `.usa-modal` | The other floating surfaces. Any elevation token from §8 governs these too; `--hds-modal-border-radius` already exists in `base/_component-properties.scss`. |
+| `.usa-search`, `.usa-input-prefix`, `.usa-input-group` | The existing mechanisms for an icon inside a field — directly reusable for §3.4's search row rather than inventing one. |
+| `.usa-file-input`, `.usa-character-count`, `.usa-input-mask`, `.usa-memorable-date`, `.usa-range` | Unthemed form controls that share `%block-input-styles` with `.usa-select`. **G5 and G6 reach all of them**, so a fix to the label gap or input line-height changes their rendering too. |
+
+Two consequences worth carrying into any scheduling conversation:
+
+- The form-wide fixes (G5, G6) touch a wider surface than the three components named in §12. Regression coverage should include the unthemed controls, which have no stories today.
+- Select's panel is not a one-off. Date picker, time picker, nav submenus, the language selector and the megamenu all need the same anchored-panel treatment. Designing the panel as a shared surface once is cheaper than doing it per component, and the navigation work is already queued.
 
 ## 9. Accessibility
 
@@ -341,16 +387,17 @@ The two genuine failures are G1 (a defect) and the default field border (inherit
 These are not implementation questions. Each needs an answer before the corresponding work can start.
 
 1. **Does HDS Core adopt `appearance: base-select`?** §6.1. A progressive enhancement that stays inside the CSS-only scope rule, but it means shipping styles a minority of browsers will not render, and the system has no precedent for that. Gates the single-select panel and nothing else.
-2. **Do the multiselect and inline search panels get built, and by what mechanism?** §6.3. Separate from item 1 — base-select does not reach either.
+2. **Does HDS start theming interactive USWDS components?** §2.1 and §6.3. The scripts already ship and are already documented, so this is a maintenance-surface decision, not a capability one: combo box is the first USWDS component HDS would theme whose behavior it does not control. Answering it settles the multiselect and inline search panels, and also date picker and time picker.
 3. **Menu item hover and keyboard-focus states.** Not drawn in Figma. Must be designed, not derived. Needed under every route.
 4. **A non-color indicator for the selected menu item.** Required by 1.4.1. `::checkmark` covers it where base-select is supported; the fallback still needs an answer.
 5. **11px type.** Add a token below `$hds-font-size-3xs`, or render the utility button at 12px? Recurs across several components.
-6. **Shadow tokens.** Panels are HDS's first elevation. `0 0 20px rgba(0,0,0,0.1)` versus the multiselect's `0 0 10px` also needs settling.
-7. **The Placeholder state versus the always-visible-label rule.** `Select.mdx` says "Always include a visible label. Labels go above the field, never inside it." Figma's Placeholder variant does exactly the opposite. One of the two is wrong.
-8. **Menu item row height.** Fixed 32px (§3.2) versus `8px 24px` padding with wrapping (§3.5). Long options — NASA center names, timezone names — wrap in real use, so the fixed height likely cannot hold.
-9. **The default field border's 1.4.11 failure.** Form-wide, spec-inherited, affects every input. Out of Select's scope to fix unilaterally.
-10. **Error row alignment and icon size.** Figma's Select frame shows a 20px icon, vertically centred; `_form.scss` ships 18px, top-aligned, and its header comment cites 18px as the Figma spec. ⚠️ Probably a difference between the Select and Text Input frames; confirm which governs.
-11. **`role=button` on the trigger.** §9. The Figma note conflicts with the ARIA APG.
+6. **Shadow tokens.** Three values are now in play: Figma's panel `0 0 20px rgba(0,0,0,0.1)`, the multiselect's `0 0 10px`, and the `0 2px 8px rgb(0 0 0 / 10%)` `.hds-btn-icon--interactive` already ships untokenised (§8). Tooltip and modal want the same answer.
+7. **Is the dropdown panel a Select feature or a shared surface?** §8.1. Date picker, time picker, nav submenus, the language selector and the megamenu all need the same anchored panel, and navigation is the top post-v1.0 priority on the Roadmap. Deciding this inside Select scopes it wrong.
+8. **The Placeholder state versus the always-visible-label rule.** `Select.mdx` says "Always include a visible label. Labels go above the field, never inside it." Figma's Placeholder variant does exactly the opposite. One of the two is wrong.
+9. **Menu item row height.** Fixed 32px (§3.2) versus `8px 24px` padding with wrapping (§3.5). Long options — NASA center names, timezone names — wrap in real use, so the fixed height likely cannot hold.
+10. **The default field border's 1.4.11 failure.** Form-wide, spec-inherited, affects every input. Out of Select's scope to fix unilaterally.
+11. **Error row alignment and icon size.** Figma's Select frame shows a 20px icon, vertically centred; `_form.scss` ships 18px, top-aligned, and its header comment cites 18px as the Figma spec. ⚠️ Probably a difference between the Select and Text Input frames; confirm which governs.
+12. **`role=button` on the trigger.** §9. The Figma note conflicts with the ARIA APG.
 
 ## 11. Corrections to existing HDS documentation
 
@@ -377,7 +424,7 @@ Ordered by whether the work is blocked on a decision.
 
 1. G1 + G2 + G3 — palette-aware HDS chevron-down at the correct inset. One change, closes the only hard accessibility failure in the component.
 2. G11 — remove or annotate `select` in the `base/_focus.scss` baseline.
-3. §11 — correct the three documentation statements.
+3. §11 — correct the five documentation statements (three wrong about Figma, two overtaken by the platform).
 
 **Unblocked, but form-wide rather than Select-only — coordinate with Text Input and Textarea:**
 
@@ -387,11 +434,13 @@ Ordered by whether the work is blocked on a decision.
 
 **Blocked on a decision from §10, cheapest first:**
 
-1. G4 + G9 — hover and dark default border, together (item 9).
-2. G7 — Placeholder state (item 7).
-3. **Utility button** (items 5, 6). No behavior, no panel dependency — pure type, icon, and focus work. The smallest buildable piece in the whole set, though it ships a trigger with nothing to trigger until a panel exists.
-4. **Single-select panel** via `appearance: base-select` (items 1, 3, 4, 6, 8). Now the second-cheapest of the three panels rather than the most expensive.
-5. **Multiselect panel** (items 2, 3, 6, 8). No native primitive, but the checkboxes already match spec and a `<details>`-based disclosure needs no JS.
-6. **Inline search** (items 2, 3, 6). Visually trivial — a text input with a bottom rule and an icon HDS already ships — but filtering is behavior, so it is the only one of the three that cannot be finished inside the CSS-only scope rule.
+1. G4 + G9 — hover and dark default border, together (item 10).
+2. G7 — Placeholder state (item 8).
+3. **Utility button** (items 5, 6). No behavior, no panel dependency — pure type, icon, and focus work. HDS already has two `aria-expanded` disclosure precedents to follow: `.usa-accordion__button` swaps its glyph, and `.hds-btn-icon--interactive` inverts and casts a shadow. The Figma circle-down → circle-up flip is the accordion pattern exactly.
+4. **Single-select panel** via `appearance: base-select` (items 1, 3, 4, 6, 7, 9).
+5. **Multiselect panel** (items 3, 6, 7, 9). No native primitive, but the checkboxes already match spec and a `<details>` or `[aria-hidden]` disclosure needs no new script.
+6. **Inline search** (items 2, 3, 6, 7). Visually trivial — `.usa-search` and `.usa-input-prefix` already solve the icon-in-a-field problem — but it means theming `.usa-combo-box`, which is eight overrides and two suppressions against a component with no stories today (§6.3).
 
-Select is tagged `status:experimental`. Per `docs/COMPONENTS.md`, promotion to `status:stable` requires no open design questions — so it stays experimental until at least items 7 and 9 in §10 are settled, independently of whether any panel is ever built.
+⚠️ Items 4–6 should not be scheduled as Select work until item 7 is answered. The same panel is needed by date picker, time picker, and the navigation components the Roadmap puts first after v1.0 (§8.1).
+
+Select is tagged `status:experimental`. Per `docs/COMPONENTS.md`, promotion to `status:stable` requires no open design questions — so it stays experimental until at least items 8 and 10 in §10 are settled, independently of whether any panel is ever built.
