@@ -172,7 +172,9 @@ Verified by rendering: on dark, black, and blue the select has **no visible drop
 
 `_form.scss` line 128 describes this as "Currently uses USWDS default arrow," and `DESIGN.md` files it under "Deferred to Phase 2+." Neither records that the icon disappears entirely on half the palettes. This should be reclassified from deferred polish to a bug.
 
-The fix does not need JavaScript or a custom dropdown. `<select>` cannot carry pseudo-elements, so a CSS mask is out, but a per-palette `background-image` with an inline data-URI chevron (the same technique `_form.scss` already uses for `$hds-checkbox-icon`) works: one declaration in each `.hds-palette-*` block, or a single rule keyed off a `--hds-palette-select-chevron` custom property. ⚠️ Adding such a property is a permanent public-API commitment; see `docs/COMPONENTS.md` → Palette custom properties.
+The fix does not need JavaScript or a custom dropdown. In the default appearance a `<select>` cannot carry pseudo-elements, so a CSS mask is out, but a per-palette `background-image` with an inline data-URI chevron (the same technique `_form.scss` already uses for `$hds-checkbox-icon`) works: one declaration in each `.hds-palette-*` block, or a single rule keyed off a `--hds-palette-select-chevron` custom property. ⚠️ Adding such a property is a permanent public-API commitment; see `docs/COMPONENTS.md` → Palette custom properties.
+
+Under `appearance: base-select` (§6) the chevron becomes a real `::picker-icon` pseudo-element that takes `currentColor` and a mask, which is the cleaner fix — but only in supporting browsers. **Both are needed:** the data-URI background-image is the fallback path and is what actually closes this defect today.
 
 ### G2. The chevron is the wrong glyph
 
@@ -224,21 +226,48 @@ USWDS zeroes `padding-right` and drops the background image under `@media (force
 
 Nothing in the codebase implements §3.2–§3.4. This is the largest single gap and the one that decides the shape of the rest.
 
-**The blocking constraint is architectural, not visual.** HDS Core "ships compiled CSS, not JavaScript" (`AGENTS.md` → Scope). A native `<select>` renders its option list through the operating system; `option` accepts almost no styling, panel geometry and shadow are unreachable, and the selected-item blue text is not addressable. The Figma panel therefore cannot be built on `.usa-select` at all. `Select.mdx` and `DESIGN.md` both already say so.
+The premise the current HDS docs work from — that a native `<select>` cannot be styled, so the panel needs JavaScript — **is out of date.** `Select.mdx` ("Native browser `<select>` can't be styled. Requires JavaScript") and `DESIGN.md` line 404 both state it, and it was true when they were written. It no longer is, and the three panel variants now sit at very different difficulty levels as a result. See §11.
 
-That leaves three routes, and picking one is a prerequisite to any work here:
+### 6.1 Customizable select changes the answer for the single-select panel
 
-1. **Do not build it.** Keep native `<select>` for form fields, document the panel as out of scope for a CSS-only system, and delete the "deferred to a future phase" language that implies it is coming. Cheapest, and honest about the constraint.
-2. **Ship CSS only, markup and behavior are the adopter's.** Provide `.usa-combo-box`-style classes for a panel an adopter wires up themselves — plausible, since USWDS already ships `.usa-combo-box` markup and JS that HDS could theme. `dist/css/hds.min.css` already contains unthemed `.usa-combo-box` rules from the USWDS bundle. This gets the visual spec into HDS without HDS shipping JS.
-3. **Change the scope constraint** and ship a JS-backed component. A significant departure from the stated architecture; needs a decision well above this analysis.
+CSS `appearance: base-select` opts a `<select>` out of OS rendering and into the normal CSS box model, exposing the panel and its contents as styleable pseudo-elements. It requires no JavaScript, which is precisely the constraint that previously blocked this work.
 
-⚠️ Route 2 is the one worth costing out first: it satisfies the Figma spec, reuses an upstream component HDS already distributes, and does not require HDS to own any JavaScript. It should be raised as a Discussion under `CONTRIBUTING.md` → Design proposals rather than started as a PR.
+The spec in §3.2 maps onto it almost one-to-one:
 
-Whichever route is taken, these spec details are the ones most likely to be lost:
+| §3.2 requirement                                      | Mechanism                      |
+| ----------------------------------------------------- | ------------------------------ |
+| Panel fill, `padding: 16px 0`, shadow, square corners | `::picker(select)`             |
+| Item height 32px, `padding: 0 24px`                   | `option`                       |
+| Selected item in NASA Blue                            | `option:checked`               |
+| Non-color indicator for the selected item             | `::checkmark`                  |
+| Item hover and keyboard focus                         | `option:hover`, `option:focus` |
+| Palette-aware chevron                                 | `::picker-icon`                |
+| Value shown in the closed field                       | `<selectedcontent>`            |
+| Panel anchored to the field's left edge               | CSS anchor positioning         |
+
+Two of those solve problems this analysis raised elsewhere: `::checkmark` supplies the non-color selected indicator that WCAG 1.4.1 requires, and `::picker-icon` is a real element that takes `currentColor`, which is the clean form of the G1 fix.
+
+**Support, as of this writing:** Chrome and Edge 135+ and Safari 27; Firefox has it behind a flag and not enabled by default. MDN classifies the feature as "Limited availability — not Baseline." For a `.gov` system that is not a blocker, because a browser that does not understand `appearance: base-select` ignores the declaration and renders an ordinary native select — the fallback is a real, accessible, keyboard-operable control, not a broken one. That makes it a genuine progressive enhancement rather than a bet on adoption, and it is the one route that keeps HDS inside its own CSS-only scope rule.
+
+⚠️ Verify current support before building rather than trusting this paragraph; the picture is moving. Note also that MDN warns some JS frameworks block these features or hit hydration failures under SSR — worth checking against the React guidance in `stories/guides/ReactSetup.mdx`.
+
+### 6.2 What customizable select does not cover
+
+- **`<select multiple>` is out of scope for the feature.** The CSS Working Group has resolved to extend base appearance to listbox and multi-select rendering, but it is not implemented. The §3.3 multiselect panel therefore needs a different mechanism — and HDS's own guidance already steers authors away from `<select multiple>` toward checkboxes, so this is not a loss.
+- **Filtering is behavior, not styling.** The §3.4 inline search panel needs JavaScript to filter the list no matter how the panel is rendered.
+
+### 6.3 Routes for the two variants base-select does not reach
+
+1. **Do not build them.** Document them as out of scope for a CSS-only system and remove the "deferred to a future phase" language that implies otherwise.
+2. **Ship CSS only; markup and behavior are the adopter's.** Theme USWDS's `.usa-combo-box`, which HDS already distributes unthemed inside `dist/css/hds.min.css`. Gets the visual spec into HDS without HDS owning any JavaScript. This is the strongest route for inline search.
+3. **A CSS-only disclosure for the multiselect.** A `<details>` element (universally supported, zero JS) or the `popover` attribute wrapping a `<fieldset>` of HDS checkboxes gets the §3.3 panel with no scripting. The checkboxes already match spec; only the panel box and its shadow are new. ⚠️ `<details>` has its own semantics and focus behavior — check against the ARIA APG before assuming it is appropriate for a menu.
+4. **Change the scope constraint** and ship a JS-backed component. A significant departure from the stated architecture; a decision well above this analysis.
+
+### 6.4 Spec details most likely to be lost
 
 - The selected item is **blue text, not a blue fill** — both `DESIGN.md` line 404 and the Figma callout in `Select.mdx` describe "rounded corners and a blue active highlight." Neither is in the Figma: the panel has square corners and the selection is a text-color change. See §11.
-- There is **no hover or focus state drawn for menu items**. A keyboard-operable menu needs both, so they will have to be invented, which makes this a design proposal rather than a build-to-spec.
-- Menu item blue on white is 5.1:1, so the selected item passes AA for text — but color is then the **only** signal distinguishing it, which fails WCAG 1.4.1. A check glyph or equivalent non-color indicator is needed regardless of route.
+- There is **no hover or focus state drawn for menu items**. A keyboard-operable menu needs both, so they have to be designed, which makes this a design proposal rather than a build-to-spec.
+- Menu item blue on white is 5.1:1, so the selected item passes AA for text — but color is then the **only** signal distinguishing it, which fails WCAG 1.4.1. `::checkmark` is the natural fix where base-select is available; the fallback path needs one too.
 
 ## 7. Gap analysis C — the utility button
 
@@ -269,7 +298,7 @@ Both are panel _contents_ and are blocked behind the §6 decision. Two things ar
 
 ### Against the Figma a11y frame
 
-The native `<select>` HDS ships already satisfies the entire keyboard contract in §3.6 — open on Space/Enter/Down, cycle with arrows, commit with Space/Enter, dismiss with Esc — for free, in every browser, including the parts a custom panel would have to reimplement. That is a strong argument for route 1 or 2 in §6 over route 3.
+The native `<select>` HDS ships already satisfies the entire keyboard contract in §3.6 — open on Space/Enter/Down, cycle with arrows, commit with Space/Enter, dismiss with Esc — for free, in every browser, including the parts a custom panel would have to reimplement. **`appearance: base-select` preserves all of it**, because the element is still a `<select>`; only its rendering changes. That is the decisive accessibility argument for §6.1 over any hand-built panel, and against §6.3 route 4.
 
 The stated ARIA contract does not hold up, however. **`role=button` on the element that opens the menu is wrong for a single-select field.** A button announces no value and no expanded state; the ARIA APG pattern for this is `role="combobox"` with `aria-expanded` and `aria-controls`, and for a form field a native `<select>` is better still. `role=button` is defensible only for the §3.5 utility-button trigger, where the control is genuinely a menu opener and not a form value. ⚠️ Flagging for reconciliation rather than treating the Figma note as authoritative — per `docs/COMPONENTS.md`, a spec that conflicts with an accessibility requirement gets flagged, not silently corrected, and the conflict gets noted in the Guidance page.
 
@@ -311,16 +340,17 @@ The two genuine failures are G1 (a defect) and the default field border (inherit
 
 These are not implementation questions. Each needs an answer before the corresponding work can start.
 
-1. **Does HDS Core ship a dropdown panel at all, and if so how?** §6. Blocks the multiselect, inline search, and the utility button's reason to exist.
-2. **Menu item hover and keyboard-focus states.** Not drawn in Figma. Must be designed, not derived.
-3. **A non-color indicator for the selected menu item.** Required by 1.4.1 regardless of route.
-4. **11px type.** Add a token below `$hds-font-size-3xs`, or render the utility button at 12px? Recurs across several components.
-5. **Shadow tokens.** Panels are HDS's first elevation. `0 0 20px rgba(0,0,0,0.1)` versus the multiselect's `0 0 10px` also needs settling.
-6. **The Placeholder state versus the always-visible-label rule.** `Select.mdx` says "Always include a visible label. Labels go above the field, never inside it." Figma's Placeholder variant does exactly the opposite. One of the two is wrong.
-7. **Menu item row height.** Fixed 32px (§3.2) versus `8px 24px` padding with wrapping (§3.5). Long options — NASA center names, timezone names — wrap in real use, so the fixed height likely cannot hold.
-8. **The default field border's 1.4.11 failure.** Form-wide, spec-inherited, affects every input. Out of Select's scope to fix unilaterally.
-9. **Error row alignment and icon size.** Figma's Select frame shows a 20px icon, vertically centred; `_form.scss` ships 18px, top-aligned, and its header comment cites 18px as the Figma spec. ⚠️ Probably a difference between the Select and Text Input frames; confirm which governs.
-10. **`role=button` on the trigger.** §9. The Figma note conflicts with the ARIA APG.
+1. **Does HDS Core adopt `appearance: base-select`?** §6.1. A progressive enhancement that stays inside the CSS-only scope rule, but it means shipping styles a minority of browsers will not render, and the system has no precedent for that. Gates the single-select panel and nothing else.
+2. **Do the multiselect and inline search panels get built, and by what mechanism?** §6.3. Separate from item 1 — base-select does not reach either.
+3. **Menu item hover and keyboard-focus states.** Not drawn in Figma. Must be designed, not derived. Needed under every route.
+4. **A non-color indicator for the selected menu item.** Required by 1.4.1. `::checkmark` covers it where base-select is supported; the fallback still needs an answer.
+5. **11px type.** Add a token below `$hds-font-size-3xs`, or render the utility button at 12px? Recurs across several components.
+6. **Shadow tokens.** Panels are HDS's first elevation. `0 0 20px rgba(0,0,0,0.1)` versus the multiselect's `0 0 10px` also needs settling.
+7. **The Placeholder state versus the always-visible-label rule.** `Select.mdx` says "Always include a visible label. Labels go above the field, never inside it." Figma's Placeholder variant does exactly the opposite. One of the two is wrong.
+8. **Menu item row height.** Fixed 32px (§3.2) versus `8px 24px` padding with wrapping (§3.5). Long options — NASA center names, timezone names — wrap in real use, so the fixed height likely cannot hold.
+9. **The default field border's 1.4.11 failure.** Form-wide, spec-inherited, affects every input. Out of Select's scope to fix unilaterally.
+10. **Error row alignment and icon size.** Figma's Select frame shows a 20px icon, vertically centred; `_form.scss` ships 18px, top-aligned, and its header comment cites 18px as the Figma spec. ⚠️ Probably a difference between the Select and Text Input frames; confirm which governs.
+11. **`role=button` on the trigger.** §9. The Figma note conflicts with the ARIA APG.
 
 ## 11. Corrections to existing HDS documentation
 
@@ -329,6 +359,13 @@ Three statements in the current docs do not match what is in the Figma file:
 - `docs/DESIGN.md` line 404 — "Figma shows styled dropdown with rounded corners and blue active highlight." The panel has **square corners** (`overflow: clip`, no radius) and the active item is **blue text**, not a highlight.
 - `stories/components/Select.mdx`, Figma callout — repeats the same "rounded corners and a blue highlight for the selected item."
 - `docs/DESIGN.md` line 405 — "Floating Label: Figma shows label-inside-field pattern." The Placeholder variant does put the label inside the field, but nothing in the file specifies a _floating_ label; there is no transition or raised-label state drawn.
+
+Two more are no longer true of the platform rather than wrong about Figma, and both steer the roadmap:
+
+- `docs/DESIGN.md` line 404 — "Native browser `<select>` can't be styled. Requires JavaScript."
+- `stories/components/Select.mdx`, Figma callout — "HDS Core uses the native browser `<select>` dropdown, which varies by operating system. Custom dropdown panels require JavaScript and are deferred to a future phase."
+
+`appearance: base-select` makes the panel styleable without JavaScript (§6.1). Both statements should be rewritten rather than deleted — the OS-rendered fallback is still what non-supporting browsers get, so the caveat holds for them.
 
 `_form.scss` line 128's "Chevron icon: deferred to custom dropdown component phase. Currently uses USWDS default arrow" is accurate but incomplete — it should record that the icon is invisible on three palettes.
 
@@ -348,11 +385,13 @@ Ordered by whether the work is blocked on a decision.
 2. G6 — value and help text line-heights.
 3. G10 — forced-colors padding.
 
-**Blocked on a decision from §10:**
+**Blocked on a decision from §10, cheapest first:**
 
-1. G4 + G9 — hover and dark default border, together (item 8).
-2. G7 — Placeholder state (item 6).
-3. Utility button (items 4 and 1).
-4. Dropdown panel, multiselect, inline search (items 1, 2, 3, 5, 7, 10).
+1. G4 + G9 — hover and dark default border, together (item 9).
+2. G7 — Placeholder state (item 7).
+3. **Utility button** (items 5, 6). No behavior, no panel dependency — pure type, icon, and focus work. The smallest buildable piece in the whole set, though it ships a trigger with nothing to trigger until a panel exists.
+4. **Single-select panel** via `appearance: base-select` (items 1, 3, 4, 6, 8). Now the second-cheapest of the three panels rather than the most expensive.
+5. **Multiselect panel** (items 2, 3, 6, 8). No native primitive, but the checkboxes already match spec and a `<details>`-based disclosure needs no JS.
+6. **Inline search** (items 2, 3, 6). Visually trivial — a text input with a bottom rule and an icon HDS already ships — but filtering is behavior, so it is the only one of the three that cannot be finished inside the CSS-only scope rule.
 
-Select is tagged `status:experimental`. Per `docs/COMPONENTS.md`, promotion to `status:stable` requires no open design questions — so it stays experimental until at least items 6 and 8 in §10 are settled, independently of whether the panel is ever built.
+Select is tagged `status:experimental`. Per `docs/COMPONENTS.md`, promotion to `status:stable` requires no open design questions — so it stays experimental until at least items 7 and 9 in §10 are settled, independently of whether any panel is ever built.
