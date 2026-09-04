@@ -1,6 +1,8 @@
 import remarkGfm from 'remark-gfm';
 import { remarkAlert } from 'remark-github-blockquote-alert';
 
+import { STATUS_TAGS } from './componentStatus.js';
+
 const config = {
   stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -27,6 +29,12 @@ const config = {
   features: {
     disableSaveFromUI: true,
   },
+  // Registering the statuses surfaces them in the sidebar's tag
+  // filter. Options are explicit so stories keep appearing in the
+  // sidebar and in each Guidance page's Stories block.
+  tags: Object.fromEntries(
+    STATUS_TAGS.map((tag) => [tag, { excludeFromSidebar: false, excludeFromDocsStories: false }]),
+  ),
   framework: {
     name: '@storybook/html-vite',
     options: {},
