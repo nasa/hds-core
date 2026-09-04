@@ -6,15 +6,6 @@ For implementation architecture, see ARCHITECTURE.md. For Storybook documentatio
 
 Last updated: 2026-07-27
 
-## Class Naming Convention
-
-| Pattern | When to use | Examples |
-| --- | --- | --- |
-| `usa-*` | HDS maps to a USWDS component — same markup, same class names | `.usa-button`, `.usa-link`, `.usa-accordion`, `.usa-pagination` |
-| `hds-*` | No USWDS equivalent | `.hds-btn--primary`, `.hds-btn-icon`, `.hds-overline`, `.hds-palette-*` |
-
-**Rule of thumb:** If a component maps to a USWDS component, it keeps `usa-*` regardless of how much HDS changes the styling or internals. If USWDS doesn't have it, it's `hds-*`. Where HDS diverges from USWDS in ways that affect developer markup or behavior, those differences are documented with "Differs from USWDS" callout notes in component guidance pages and migration guide entries.
-
 ## Navigation Component Mapping
 
 HDS Figma, USWDS, and HDS Core use overlapping terms for navigation components. This table defines the canonical mapping for Phase 2 implementation.
@@ -90,27 +81,6 @@ USWDS also pins `<p>`, `<span>`, and `<a>` inside these contexts to white. Those
 `.usa-section--light` is untouched. USWDS paints it `base-lightest`, which the HDS theme maps to white, so it already agrees with the default palette.
 
 Tracked in [Issue #148](https://github.com/nasa/hds-core/issues/148) and [Issue #177](https://github.com/nasa/hds-core/issues/177). See ARCHITECTURE.md for the cascade contract.
-
-### Data Visualization Color Alignment
-
-The original HDS Figma data visualization palette used custom hex values unique to HDS. The HDS Core Proposal recommended aligning data viz colors with USWDS system color tokens for compatibility and maintainability, while keeping the HDS brand palette (NASA Red, Carbon series, etc.) as custom values. HDS Core follows this recommendation.
-
-Data viz colors are exposed as `--hds-dataviz-color-cat-1` through `--hds-dataviz-color-cat-12` CSS custom properties. Light-background defaults are set in `:root` (`base/_dataviz-properties.scss`). Dark-background overrides are set in `_scheme-dark` (`_hds-dataviz-palettes.scss`) — dark and black palettes inherit automatically. Blue palette inherits light defaults (chart surfaces inside blue sections use a light background, same as tables).
-
-The HDS Figma naming system (Blue 80, Slate 70, Purple 80, etc.) and the USWDS token names (blue-70v, blue-cool-60, indigo-warm-70v) are deliberately hidden from consumers. Dataviz tokens now live in `tokens.json` under `dataviz.color.*`. Consumers use the `--hds-dataviz-color-cat-*` properties or copy hex values from the Palettes documentation.
-
-Sequential palette custom properties are deferred — categorical covers the primary use case. See `base/_custom-properties.scss` for the full mapping table.
-
-### Highlighting data
-
-To highlight a specific data point against a baseline in a chart:
-
-- Focal point: Use a saturated, dark-step hue (e.g., `dataviz.color.seq.blue.70`)
-- Baseline: Use a desaturated, light-step hue (e.g., `dataviz.color.seq.slate.40`)
-
-Always contrast in both hue AND value. The step gap (e.g., 70 vs 40) ensures the highlight is perceptible without relying on color alone — a user who cannot distinguish blue from slate will still see the lightness difference.
-
-This pattern is documented in the `dataviz.color` `$description` in `tokens.json`.
 
 ## Naming & Organization
 
