@@ -11,7 +11,7 @@ A CSS-only design system (it ships compiled CSS, no JavaScript) for NASA-branded
 | Topic | Canonical doc |
 | --- | --- |
 | Build pipeline, cascade layers, file structure, focus-ring architecture, icon architecture, component inventory, testing infrastructure | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Visual and UX rationale, intentional Figma or USWDS deviations | [docs/DESIGN.md](docs/DESIGN.md) |
+| Visual and UX rationale, intentional Figma or USWDS deviations | Each component's SCSS file header and its Storybook Guidance page |
 | Storybook and MDX authoring, story structure, palette and focus test patterns | [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md) |
 | Add, update, or remove a component; component lifecycle and status | [docs/COMPONENTS.md](docs/COMPONENTS.md) |
 | Add, change, or remove a design token | [docs/DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md) |
@@ -27,12 +27,12 @@ A CSS-only design system (it ships compiled CSS, no JavaScript) for NASA-branded
 - **Cascade layer order is fixed:** `@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;`. First declaration wins; layers set priority, not file order. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Sass load order:** `_hds-tokens.scss` → `_hds-uswds-theme.scss` → everything else. `_hds-tokens.scss` must NOT `@use 'uswds-core'` (it loads before the theme is configured). → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **One USWDS load:** `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')`. Do not revert to per-package calls; that emits fonts 144 times instead of 6. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- **Palette system, never flatten:** components use `var(--hds-palette-*)` with a white-default fallback. Palettes are hand-authored in `base/_palettes.scss` and are never generated from `tokens.json`. → [DESIGN.md](docs/DESIGN.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- **Class naming:** `usa-*` for components that map to a USWDS component, `hds-*` for net-new. Never mix prefixes on one component. → [DESIGN.md](docs/DESIGN.md)
+- **Palette system, never flatten:** components use `var(--hds-palette-*)` with a white-default fallback. Palettes are hand-authored in `base/_palettes.scss` and are never generated from `tokens.json`. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Class naming:** `usa-*` for components that map to a USWDS component, `hds-*` for net-new. Never mix prefixes on one component.
 - **Token rules:** colors only in the `color` group, spacing only in the `spacing` group, never hardcode a value already in a scale. Layout uses whole-number spacing; fractional keys (`0.5`, `1.5`, `2.5`) are component-internal only. Dataviz tokens are for charts only. → [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
 - **`hds-uswds.min.css` is USWDS utility passthrough only.** Never add component or HDS styles there. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Components with no HDS theming yet** ship USWDS defaults. Do not assume HDS versions exist, and do not add overrides for them without explicit permission. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- **Focus rings:** use the existing mixins (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). Never hardcode focus styles. If the Figma spec will not fit the mixins, flag it; do not modify the mixin. → [ARCHITECTURE.md](docs/ARCHITECTURE.md), [DESIGN.md](docs/DESIGN.md)
+- **Focus rings:** use the existing mixins (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). Never hardcode focus styles. If the Figma spec will not fit the mixins, flag it; do not modify the mixin. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ## Silent-failure gotchas (Storybook and MDX)
 
@@ -44,7 +44,8 @@ These break the build or the story indexer with no obvious error. Full detail in
 
 ## When sources conflict
 
-- **Design intent** (what should be true), in priority order: `tokens.json` `$description`, then the HDS Core Proposal (CD-approved), then Figma, then live SCSS.
+- **For components HDS Core already ships:** the implementation is the source of truth. Design intent lives in `tokens.json` `$description` (for token values) and in each component's SCSS header and Storybook Guidance page (for visual and UX decisions). The internal HDS Core Proposal and the HDS Figma files are historical: both predate the shipped system and are known to disagree with it. Do not treat them as authoritative for existing components, and do not "correct" the implementation to match them.
+- **For net-new components not yet in HDS Core:** the HDS Figma files are the design starting point, interpreted against current HDS conventions (tokens, palettes, patterns in comparable shipped components). The Figma library is several years old and unmaintained, so expect to reconcile it with the shipped system; a goal of building a component is to move its decisions out of Figma and into CSS, markup, and Storybook so they can evolve.
 - **Public contract** (what we promise adopters today), in priority order: `public-api.snapshot.txt`, then compiled CSS, then root-level Sass exports.
 
 If design intent and compiled output disagree, flag for reconciliation. Do not silently fix either side. → [CONTRIBUTING.md](CONTRIBUTING.md#public-api-and-versioning), [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)

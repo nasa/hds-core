@@ -156,6 +156,8 @@ This is the component change most likely to affect your site. HDS uses a two-col
 
 If your site uses `.usa-button` for actions that stay on the current page (form submits, toggles, dialogs), those buttons now appear red, which implies navigation. Switch them to `.usa-button--secondary`.
 
+**USWDS button variants HDS does not support.** `.usa-button--accent-cool` and `.usa-button--accent-warm` fall outside the two-color wayfinding system and are not themed. If your site uses them, switch to `.usa-button` (away) or `.usa-button--secondary` (on-page). `.usa-button--base` (neutral) has no direct equivalent; use an [Icon Button](?path=/docs/components-icon-button-guidance--docs) utility variant for neutral actions. HDS also adds one button type with no USWDS class, the [Primary Arrow](?path=/docs/components-button-guidance--docs) (`.hds-btn--primary`), for editorial CTAs.
+
 ## For sites with existing Sass customization
 
 If your site already customizes USWDS via `@use "uswds-core" with (...)`, you will need to reconcile your settings with HDS Core's.

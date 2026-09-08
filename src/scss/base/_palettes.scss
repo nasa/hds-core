@@ -413,8 +413,7 @@
 // the statement itself. Painting both with the heading color
 // would flatten that, so the eyebrow takes the muted token HDS
 // already uses for overlines and metadata (Carbon 30, 9.1:1 on
-// Carbon 90). Flagged for creative director review in
-// docs/DESIGN.md.
+// Carbon 90). Tracked in Issues #148 and #177.
 :where(.usa-hero__callout) .usa-hero__heading--alt {
   color: var(--hds-palette-muted);
 }

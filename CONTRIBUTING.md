@@ -116,7 +116,7 @@ When you open a Pull Request, a template will populate automatically. Fill it ou
 
 ### Match the design standards
 
-HDS Core implements NASA's [Design Standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. See [DESIGN.md](https://github.com/nasa/hds-core/blob/main/docs/DESIGN.md) for how we map to USWDS, color precision, and link logic. If you are unsure whether a visual change fits, open a Discussion first and we will work through it together before you write code.
+HDS Core implements NASA's [Design Standards](https://nasa.github.io/hds-core/?path=/docs/overview-design-standards--docs). Contributions that change how components look should align with these standards. Each component's Storybook Guidance page and its SCSS file document how HDS maps to USWDS and why it deviates. If you are unsure whether a visual change fits, open a Discussion first and we will work through it together before you write code.
 
 ### Test across palettes
 
