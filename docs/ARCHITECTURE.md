@@ -2,7 +2,7 @@
 
 Technical decisions by maintainers and conventions for contributors.
 
-Last updated: 2026-08-30
+Last updated: 2026-09-09
 
 ## Package Overview
 
@@ -117,6 +117,8 @@ Load order does not matter. All styles use CSS cascade layers.
 
 ## Sass Architecture
 
+Authoring rules for component and token work (naming, token usage, palette custom properties, mask icons, asset paths) live in [COMPONENTS.md](COMPONENTS.md) and [DESIGN_TOKENS.md](DESIGN_TOKENS.md). The Sass value APIs they build on: HDS brand and Carbon colors are `$hds-color-*`; USWDS values come through USWDS functions (`color("error")`, `color("primary")` → NASA Red, `family("heading")`, `size("body", "xs")`, `units(3)`); CSS and JS consumers read `var(--hds-color-*)`.
+
 ### Entry points and layer structure
 
 All CSS output is organized into named cascade layers declared in every entry point:
@@ -158,22 +160,9 @@ First declaration wins. Subsequent declarations in other bundles are ignored.
 
 USWDS version is pinned and hash-verified. Run `npm run check:uswds` after any USWDS version bump. Run `npm run check:uswds-core` to verify `uswds-core` still emits zero CSS (a regression here would break the token flow above).
 
-### Upgrading USWDS (maintainer)
-
-When bumping the `@uswds/uswds` dependency in `package.json`, CI runs two blocking checks:
-
-1. **`npm run check:uswds-core` (architectural gate):** the CSS layer cascade relies on `@use 'uswds-core'` emitting zero CSS selectors. If this fails, USWDS introduced CSS into their core package, breaking the layer specificity strategy. Do not merge the upgrade until the architecture is updated.
-2. **`npm run check:uswds` (component tracker):** monitors the USWDS components that HDS themes. Fails if upstream Sass source for those components changed, as a reminder to check for visual regressions. To resolve: review the USWDS release notes, verify overrides in Storybook, and regenerate the baseline with `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
-
-### Module singleton rule
-
-`_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
-
-Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is generated from `tokens.json` as flat `$hds-*` scalars (no maps, no `@use`); configuration flags live in `_hds-config.scss`.
-
 ### Token flow
 
-`_hds-tokens.scss` and `base/_custom-properties.scss` are generated from `tokens.json` by Style Dictionary (`npm run build:tokens`, config in `.config/sd.config.js`); `npm run check:tokens` fails CI if they drift from the source. The Sass module flow:
+`_hds-tokens.scss` and `base/_custom-properties.scss` are generated from `tokens.json` by Style Dictionary (config in `.config/sd.config.js`). The authoring workflow (regenerate, wire in, drift gate) is in [DESIGN_TOKENS.md](DESIGN_TOKENS.md). The Sass module flow:
 
 ```
 tokens.json
@@ -185,46 +174,22 @@ _hds-uswds-theme.scss (feeds tokens into USWDS config)
 Everything else (receives configured USWDS)
 ```
 
-Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation: palettes and dataviz values are hand-authored contracts, breakpoints cannot drive media or container queries from CSS custom properties, and typography composites are assembled in Sass from generated primitives. For the token authoring workflow, see DESIGN_TOKENS.md.
+Palette CSS, dataviz tokens, breakpoints, and typography composites are deliberately excluded from generation: palettes and dataviz values are hand-authored contracts, breakpoints cannot drive media or container queries from CSS custom properties, and typography composites are assembled in Sass from generated primitives.
 
 Each component file can have its own `@use` statements for what it needs. Multiple `@use` of the same module doesn't re-emit CSS.
 
-## Conventions
+### Module singleton rule
 
-### Colors
+`_hds-uswds-theme.scss` must be the first file to `@use "uswds-core" with (...)`. Sass module singletons ensure USWDS is configured once and shared everywhere.
 
-| Context                 | Use                                                             |
-| ----------------------- | --------------------------------------------------------------- |
-| HDS brand/Carbon colors | `$hds-color-*`                                                  |
-| USWDS state colors      | `color("error")`                                                |
-| USWDS theme colors      | `color("primary")` → NASA Red, `color("secondary")` → NASA Blue |
-| Typography              | `family("heading")`, `size("body", "xs")`                       |
-| Spacing                 | `units(3)`                                                      |
-| CSS/JS consumers        | `var(--hds-color-*)`                                            |
+Note that `_hds-tokens.scss` cannot `@use "uswds-core"`; it loads before the theme and would trigger an unconfigured load. It is generated from `tokens.json` as flat `$hds-*` scalars (no maps, no `@use`); configuration flags live in `_hds-config.scss`.
 
-### Palette variables
+### Upgrading USWDS (maintainer)
 
-Always include fallbacks so styles work with or without palette wrappers:
+When bumping the `@uswds/uswds` dependency in `package.json`, CI runs two blocking checks:
 
-```scss
-color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
-```
-
-### SVG icon coloring
-
-Always set **both** `color` and `fill` on icon containers. `<path fill="currentColor">` inherits from the CSS `color` property, but some SVG structures inherit from `fill` instead. Setting both covers all paths.
-
-```scss
-// ✅ Both — covers all SVG inheritance paths
-.icon {
-  color: var(--hds-palette-utility-icon);
-  fill: var(--hds-palette-utility-icon);
-}
-```
-
-### Asset paths
-
-Always use `../assets/img/` in component styles. Configured in `_hds-uswds-theme.scss` via `$theme-image-path` and `$theme-font-path`.
+1. **`npm run check:uswds-core` (architectural gate):** the CSS layer cascade relies on `@use 'uswds-core'` emitting zero CSS selectors. If this fails, USWDS introduced CSS into their core package, breaking the layer specificity strategy. Do not merge the upgrade until the architecture is updated.
+2. **`npm run check:uswds` (component tracker):** monitors the USWDS components that HDS themes. Fails if upstream Sass source for those components changed, as a reminder to check for visual regressions. To resolve: review the USWDS release notes, verify overrides in Storybook, and regenerate the baseline with `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
 
 ## Focus Ring Architecture
 
@@ -232,9 +197,9 @@ HDS focus rings target a 1px dashed Figma spec (`2,3` dasharray) while sidestepp
 
 ### Three Focus Systems
 
-1. **Hybrid Dashed Ring** — most interactive components (links, buttons, accordion, pagination, in-page nav, breadcrumb, checkbox, radio). Palette-aware via `--hds-palette-focus-*` tokens. Four adaptive treatments (`default`, `bold`, `subtle`, `minimal`) plus one fixed exemption. See DESIGN.md for treatment rationale and Figma deviations.
+1. **Hybrid Dashed Ring** — most interactive components (links, buttons, accordion, pagination, in-page nav, breadcrumb, checkbox, radio). Palette-aware via `--hds-palette-focus-*` tokens. Four adaptive treatments (`default`, `bold`, `subtle`, `minimal`) plus one fixed exemption. Treatment rationale is in `_hds-mixins.scss`; the bold-on-light 1.4.11 shortfall is documented in docs/508.md.
 2. **Solid Blue Element Highlight** — text inputs, textareas, selects. Border thickens to 2px in `--hds-palette-btn-secondary-bg`. Intentionally separate from the dashed system. See `components/_form.scss` and Issue #20.
-3. **Surface-inverse Ring** — table cells. Ring color is calculated as the inverse of the cell fill. **Not yet implemented** — currently inherits the global default ring. Tracked as Phase 2 work in DESIGN.md.
+3. **Surface-inverse Ring** — table cells. Ring color is calculated as the inverse of the cell fill. **Not yet implemented** — currently inherits the global default ring. Tracked as Phase 2 work in the `_table.scss` FOCUS RING comment.
 
 ### Mixins
 
@@ -269,7 +234,7 @@ The mixin you call depends on the host element's layout:
 
 ### Tokens and Global Fallback
 
-Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defined in `base/_palettes.scss`. That file also contains the midtone-and-blue palette swap logic that prevents contrast failures (see DESIGN.md "Figma Deviations").
+Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defined in `base/_palettes.scss`. That file also contains the midtone-and-blue palette swap logic that prevents contrast failures, documented in its inline comments.
 
 `base/_focus.scss` applies `hds-focus-ring()` with default treatment and rect shape to all natively focusable elements (`button`, `input`, `select`, `textarea`, `[tabindex]`, `[contenteditable]`, `iframe`). Component selectors override this baseline. The baseline is what gives stock USWDS markup an HDS focus ring out of the box — see `stories/guides/USWDSDocumentation.stories.js` for the integration scenario this protects.
 
@@ -284,6 +249,15 @@ Semantic tokens (`--hds-palette-focus`, `-bold`, `-subtle`, `-minimal`) are defi
 **Inline glyphs:** `.hds-glyph` renders icons inline with text. Uses `vertical-align: baseline` — do not change to `middle`.
 
 **USWDS icons:** USWDS's icon sprite (`sprite.svg`) and individual icons (`usa-icons/`) are copied to `dist/assets/img/` for components that reference them. See the UswdsIconDemo story under Foundations/Icons.
+
+**Coloring inline and sprite SVGs:** For icons drawn with a CSS mask, see [COMPONENTS.md → Icons](COMPONENTS.md#icons). For an SVG rendered inline (sprite `<use>` or embedded markup), set **both** `color` and `fill` on the container. `<path fill="currentColor">` inherits from the CSS `color` property, but some SVG structures inherit from `fill` instead, so setting both covers all paths.
+
+```scss
+.icon {
+  color: var(--hds-palette-utility-icon);
+  fill: var(--hds-palette-utility-icon);
+}
+```
 
 ## Component Files
 
@@ -309,7 +283,7 @@ Components are organized by category in `components/_index.scss`:
 |  | `_alert.scss` | Minimal override. Pure USWDS, not in HDS Figma. |
 | **Layout** | `_grid-utilities.scss` | Responsive reverse, horizontal lists, section spacing |
 
-Each component file has detailed code comments covering palette behavior, hover/disabled states, and USWDS override rationale. See DESIGN.md for design decisions. To add, update, or remove a component, follow COMPONENTS.md.
+Each component file's header comments cover its palette behavior, states, USWDS override rationale, and design decisions. To add, update, or remove a component, follow [COMPONENTS.md](COMPONENTS.md).
 
 ### USWDS surface bridges
 
@@ -349,39 +323,11 @@ Selectors use `:where()`, so specificity stays at zero and `.hds-palette-*` on t
 
 `base/_print.scss` lists all three selectors alongside the palette containers. Browsers drop background colors when printing, so a dark surface that keeps its white text prints as blank paper. The print reset also has to override USWDS's white `<p>`, `<span>`, and `<a>` inside `.usa-section--dark` and `.usa-dark-background` directly, because those are set on the children and only reached by inheritance otherwise.
 
-Unlike the surface bridges, these are not a stopgap for missing theming. They stay in place unless the design direction for dark sections changes. See DESIGN.md for the color decisions and contrast figures.
+Unlike the surface bridges, these are not a stopgap for missing theming. They stay in place unless the design direction for dark sections changes. The color decisions are documented in `base/_palettes.scss`, and are tracked for review in Issues #148 and #177.
 
 ### USWDS accordion-class guard
 
 USWDS reuses the `.usa-accordion*` classes outside real accordions — for the banner's "Here's how you know" toggle and the primary nav's dropdown behavior. The HDS accordion restyle (circled chevron, heading treatment) leaked into both, misplacing the toggle icon. The overrides in `components/_accordion.scss` are therefore guarded with `:not(.usa-banner *):not(.usa-nav *)` so the HDS treatment applies only to genuine accordions and leaves the banner and nav toggles as bare USWDS. Remove the guard once those components get real HDS theming.
-
-## Testing
-
-| Script                | Purpose                                     |
-| --------------------- | ------------------------------------------- |
-| `npm test`            | Run all tests once (CI mode)                |
-| `npm run test:watch`  | Watch mode (development)                    |
-| `npm run test:visual` | Visual regression via Chromatic (on demand) |
-
-Vitest runs every exported story in headless Chromium via @storybook/addon-vitest/vitest-plugin (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden PaletteA11y stories that render all six palettes via paletteRender — Vitest axe-core checks contrast across all palettes in one pass. FocusTest stories include play-function assertions that validate tab order and :focus-visible activation; Vitest runs these against the default palette.
-
-**Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Sass output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
-
-**Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
-
-### Visual Regression Testing
-
-Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (disableSnapshot: true in preview.js) and enabled per-story via parameters. Two snapshot strategies:
-
-1. **PaletteA11y stories** — stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. One snapshot per story.
-
-2. **FocusTest stories** — Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story. Modes defined in `.storybook/modes.js` — imported in story files, not `preview.js`, to avoid TurboSnap full rebuilds.
-
-3. **SpriteRegression story** — renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
-
-Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
-
-**CI trigger (when Chromatic runs).** The `detect-css-change` job runs Chromatic only when a PR actually moves compiled CSS, guarding the full-rebuild cost above. It compares freshly built base vs PR CSS rather than a committed baseline, so it needs no manual upkeep and stays correct even when main moves under a long-lived PR. Fork PRs run too, once a maintainer approves the workflow. See `.github/workflows/ci.yml` for the wiring.
 
 ## Storybook
 
@@ -404,6 +350,30 @@ Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core
 
 For story model, branding, viewport presets, sidebar sort, and all documentation conventions, see DOCUMENTATION.md.
 
+## Testing
+
+Test commands are in [Quick Start](#quick-start) above.
+
+Vitest runs every exported story in headless Chromium via @storybook/addon-vitest/vitest-plugin (story discovery) and Playwright. Each story gets a render check and an axe-core accessibility check (WCAG 2.1 A + AA). Palette-aware components have hidden PaletteA11y stories that render all six palettes via paletteRender — Vitest axe-core checks contrast across all palettes in one pass. FocusTest stories include play-function assertions that validate tab order and :focus-visible activation; Vitest runs these against the default palette.
+
+**Watch mode ignores non-component files** (`vitest.config.js`): Markdown docs, `package.json`, config files, and raw Sass source (`src/`) do not trigger reruns. Tests rerun when `dist/css/` changes (Sass output) or when story files change. This keeps the feedback loop fast during documentation and config edits.
+
+**Test results are CLI-only.** The `@storybook/addon-vitest` Storybook UI addon is not used — it requires Vitest to run as a sidecar process connected to Storybook, which adds significant latency to the Storybook UI for all users. Test output lives in the terminal via `npm test` or `npm run test:watch`. The `@storybook/addon-a11y` panel in Storybook still provides per-story accessibility inspection in the browser.
+
+### Visual Regression Testing
+
+Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (disableSnapshot: true in preview.js) and enabled per-story via parameters. Two snapshot strategies:
+
+1. **PaletteA11y stories** — stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. One snapshot per story.
+
+2. **FocusTest stories** — Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story. Modes defined in `.storybook/modes.js` — imported in story files, not `preview.js`, to avoid TurboSnap full rebuilds.
+
+3. **SpriteRegression story** — renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
+
+Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+
+**CI trigger (when Chromatic runs).** The `detect-css-change` job runs Chromatic only when a PR actually moves compiled CSS, guarding the full-rebuild cost above. It compares freshly built base vs PR CSS rather than a committed baseline, so it needs no manual upkeep and stays correct even when main moves under a long-lived PR. Fork PRs run too, once a maintainer approves the workflow. See `.github/workflows/ci.yml` for the wiring.
+
 ## Codespaces
 
 The devcontainer (`.devcontainer/devcontainer.json`) automates the full setup:
@@ -415,18 +385,9 @@ The intended Codespace experience: open → wait for build → Storybook auto-op
 
 ## Pending Work
 
-Bugs tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues).
+Bugs and enhancements are tracked in [GitHub Issues](https://github.com/nasa/hds-core/issues). A few maintainer-facing items not yet filed:
 
-### Bugs (pre-1.0)
-
-- [ ] Table blue palette: links inside white table body have white text on white background — link color assumes palette background instead of table cell background
-- [ ] Form error: red outline on error fields lost on hover — hover state overrides error border color
-- [ ] Table: Sort button focus ring clipped by mask-image — invisible in all palettes (see FocusSortButton Chromatic baseline)
-
-### Post-1.0
-
-- [ ] Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
-- [ ] Re-evaluate Chromatic a11y tests when independent a11y/visual toggle ships
-- [ ] Grid overlay toolbar toggle for verifying component alignment
-- [ ] USWDS JS re-initialization: Date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
-- [ ] Migrate remaining pending work into GitHub Issues and Discussions
+- Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
+- Re-evaluate Chromatic a11y tests when an independent a11y/visual toggle ships
+- Grid overlay toolbar toggle for verifying component alignment
+- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
