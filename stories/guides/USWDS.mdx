@@ -48,7 +48,7 @@ After installing, review the following to bring your site into HDS's intended vi
 
 HDS Core uses a palette system activated through `.hds-palette-*` wrapper classes. When no palette class is set, HDS applies its default white palette.
 
-**Two USWDS dark contexts are handled for you.** A hero callout (`.usa-hero__callout`) and a section marked `.usa-section--dark` render on the HDS dark surface, and the headings, text, links, and buttons inside them follow. Your markup does not change. In vanilla USWDS these two contexts paint themselves with the primary color, which under HDS would put them in NASA red.
+**The three USWDS dark contexts are handled for you.** A hero callout (`.usa-hero__callout`), a section marked `.usa-section--dark`, and a `.usa-dark-background` wrapper all render on the HDS dark surface, and the headings, text, links, and buttons inside them follow. Your markup does not change. In vanilla USWDS the first two paint themselves with the primary color, which under HDS would put them in NASA red; `.usa-dark-background` gets its surface right but leaves headings and HDS components resolving against the surrounding palette.
 
 To put one of them on a different surface, add a palette class to the same element:
 
@@ -58,16 +58,16 @@ To put one of them on a different surface, add a palette class to the same eleme
 </section>
 ```
 
-**Every other dark context still needs a palette class.** `.usa-dark-background`, background utility classes, and your own dark wrappers give you a dark background, but HDS components inside them still use white-palette colors. This can produce contrast failures, such as light-mode buttons on a dark background. Add `.hds-palette-dark` to the element or a parent wrapper:
+**Your own dark contexts still need a palette class.** Background utility classes (`.bg-base-darker`, `.bg-primary-darker`) and custom dark wrappers give you a dark background, but HDS components inside them still use white-palette colors. This can produce contrast failures, such as light-mode buttons on a dark background. Add `.hds-palette-dark` to the element or a parent wrapper:
 
 ```html
 <!-- Before -->
-<div class="usa-dark-background">
+<div class="bg-base-darker">
   <!-- components render with white-palette values -->
 </div>
 
 <!-- After -->
-<div class="usa-dark-background hds-palette-dark">
+<div class="bg-base-darker hds-palette-dark">
   <!-- components render with dark-palette values -->
 </div>
 ```
@@ -189,4 +189,4 @@ Because HDS Core configures `uswds-core` first, you cannot change any `$theme-*`
 
 ## Live preview
 
-Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme. [**Dark Sections**](?path=/story/guides-existing-uswds-site-dark-sections--dark-sections) shows the hero callout and dark section on their own, which is the quickest way to check how your own dark markup will land.
+Use the **Documentation**, **Landing Page**, and **Multi-Step Form** stories in the sidebar to see unmodified USWDS template markup rendered under the HDS Core theme. [**Dark Sections**](?path=/story/guides-existing-uswds-site-dark-sections--dark-sections) shows all three bridged dark contexts together, which is the quickest way to check how your own dark markup will land.

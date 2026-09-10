@@ -38,7 +38,7 @@ Full command list: CONTRIBUTING.md. -->
 **If your change ships in the package (styles, tokens, or `src/assets/**`):**
 
 - [ ] Added a changeset (`npx changeset`) at the [semver rubric](../CONTRIBUTING.md#semver-rubric) level
-- [ ] Ran `npm run check:api-snapshot` and `npm run check:css-hash`; if either flags drift, ran the matching `update:*` and committed the result
+- [ ] Ran `npm run check:api-snapshot`; if it flags drift, ran `npm run update:api-snapshot` and committed the result
 
 ## Notes for reviewers
 

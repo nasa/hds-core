@@ -471,6 +471,7 @@ hds-type-classes
 .usa-checkbox__label
 .usa-checkbox__label-description
 .usa-current
+.usa-dark-background
 .usa-error-message
 .usa-fieldset
 .usa-footer

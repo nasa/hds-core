@@ -15,7 +15,8 @@
   [data-hds-palette],
   [class*='hds-palette-'],
   .usa-hero__callout,
-  .usa-section--dark {
+  .usa-section--dark,
+  .usa-dark-background {
     --hds-palette-bg: #ffffff !important;
     --hds-palette-heading: #000000 !important;
     --hds-palette-text: #000000 !important;
@@ -29,10 +30,11 @@
     color: #000000 !important;
   }
 
-  // USWDS pins paragraphs and links inside .usa-section--dark to
-  // white on the elements themselves, so the reset above only
-  // reaches them by inheritance and loses.
-  .usa-section--dark :is(p, a) {
+  // USWDS pins paragraphs, spans, and links inside the dark
+  // contexts to white on the elements themselves, so the reset
+  // above only reaches them by inheritance and loses.
+  .usa-section--dark :is(p, a),
+  .usa-dark-background :is(p, span, a) {
     color: #000000 !important;
   }
 

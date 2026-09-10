@@ -344,20 +344,32 @@
 // ============================================================
 // USWDS DARK CONTEXT SURFACES
 // ============================================================
-// USWDS paints its two dark layout contexts — the hero callout
-// and .usa-section--dark (which the graphic list sits on in the
-// USWDS landing page template) — with color("primary-darker"),
-// and colors the headings inside them with color("accent-cool").
+// Three USWDS contexts paint their own dark background: the
+// hero callout, .usa-section--dark (which the graphic list sits
+// on in the USWDS landing page template), and the
+// .usa-dark-background typography wrapper.
 //
-// HDS themes the primary family to NASA Red, so both surfaces
-// come out as a dark red block, and accent-cool is a family HDS
-// never themes, so the headings come out USWDS cyan. Neither
-// color is in the HDS palette. The red block also puts a red
-// .usa-button on a red background, roughly 2.1:1 apart.
+// The first two use color("primary-darker") and color their
+// headings color("accent-cool"). HDS themes the primary family
+// to NASA Red, so both come out as a dark red block, and
+// accent-cool is a family HDS never themes, so the headings
+// come out USWDS cyan. Neither color is in the HDS palette. The
+// red block also puts a red .usa-button on a red background,
+// roughly 2.1:1 apart.
 //
-// A .hds-palette-* wrapper cannot correct this: the red is a
-// background-color on the component itself, not a palette
-// custom property, so it survives any wrapper (Issue #148).
+// .usa-dark-background fails differently. It uses
+// color("base-darker"), which the HDS theme maps to gray-90
+// (#1b1b1b) — near Carbon 90, so the surface itself looks
+// right. But it only reverses <p>, <span>, and <a>: headings
+// and every HDS component inside keep resolving against
+// whatever palette wraps the page. On the default white palette
+// that is a Carbon Black heading at 1.22:1 and a .usa-link at
+// 1.04:1 (Issue #177).
+//
+// A .hds-palette-* wrapper cannot correct any of it: the
+// background is set on the component itself, not through a
+// palette custom property, so it survives any wrapper
+// (Issue #148).
 //
 // HDS already has a designed dark surface — palette 4, Carbon
 // 90 — so each USWDS dark context is mapped onto it. Text,
@@ -366,7 +378,7 @@
 // guarantee .hds-palette-dark gives, without asking adopters to
 // add a class to markup they already have.
 //
-// USWDS also pins <p> and <a> inside .usa-section--dark to
+// USWDS also pins <p>, <span>, and <a> inside these contexts to
 // white. Those are left as they are: white is what the dark
 // scheme resolves to, and the blue palette — the other surface
 // an adopter would plausibly swap in here — is also a dark
@@ -378,7 +390,7 @@
 // bridges above.
 // ============================================================
 
-:where(.usa-hero__callout, .usa-section--dark) {
+:where(.usa-hero__callout, .usa-section--dark, .usa-dark-background) {
   @include _scheme-universal;
   @include _scheme-dark;
 

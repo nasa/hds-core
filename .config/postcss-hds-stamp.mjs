@@ -11,8 +11,8 @@
  * changesets bump with nothing to regenerate.
  *
  * Scoped to the HDS bundles by output filename -- see STAMPABLE. The version
- * string is deliberately excluded from the CSS-output hash baseline; see
- * scripts/check-css-hash.sh.
+ * string is deliberately excluded from the CSS-output hash; see
+ * scripts/css-output-hash.sh.
  */
 
 import fs from 'node:fs';

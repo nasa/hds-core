@@ -51,8 +51,10 @@ Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/nasa/hds-core.git
 cd hds-core
-npm install
+npm ci
 ```
+
+Use `npm ci`, not `npm install`. It installs exactly what the lockfile pins, so your local build matches CI. `npm install` can quietly upgrade build tools and produce different compiled output.
 
 Start the local dev server (Storybook + Sass watcher):
 
@@ -107,9 +109,11 @@ Components must be fully responsive. Test your work across mobile, tablet, and d
 
 Interactive elements need visible focus indicators. Color alone cannot convey meaning. Contrast ratios must meet WCAG 2.1 AA. See [Accessibility](https://nasa.github.io/hds-core/?path=/docs/foundations-accessibility--docs) for detailed guidance.
 
-### Automated checks
+### PR checks and visual regression
 
 Ensure your code passes the automated accessibility and linting checks in the PR workflow before requesting review.
+
+When your change alters the compiled CSS, CI automatically runs visual-regression tests (Chromatic) so a maintainer can review the visual diff. You do not need to trigger this yourself, and there is no baseline file to update. If you are contributing from a fork, the visual-regression run starts once a maintainer approves your PR's workflow. It is a normal part of review for outside contributions, not a problem with your PR.
 
 ## Public API and versioning
 
@@ -168,12 +172,7 @@ If you are adding a new component to the system:
 
 See `components/_button.scss` as a reference for comment style and organization.
 
-## Upgrading USWDS
-
-When bumping the `@uswds/uswds` dependency in `package.json`, CI runs two blocking checks:
-
-1. **`npm run check:uswds-core` (Architectural Gate):** Our CSS layer cascade relies on the assumption that `@use 'uswds-core'` emits zero CSS selectors. If this test fails, USWDS introduced CSS into their core package, breaking our layer specificity strategy. Do not merge the upgrade until architecture is updated.
-2. **`npm run check:uswds` (Component Tracker):** Monitors the USWDS components that HDS themes. Fails if upstream Sass source for those components changed, serving as a reminder to check for visual regressions. To resolve: review the USWDS release notes, verify overrides in Storybook, and regenerate the baseline with `rm scripts/uswds-package-hashes.txt && npm run check:uswds`.
+Upgrading the `@uswds/uswds` dependency is a maintainer task with its own CI gates. See [Upgrading USWDS](docs/ARCHITECTURE.md#upgrading-uswds-maintainer).
 
 ## Handling USWDS bugs
 

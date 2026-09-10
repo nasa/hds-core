@@ -1,15 +1,21 @@
 // ============================================================
-// USWDS Dark Sections — Surface Mapping Check
+// USWDS Dark Contexts — Surface Mapping Check
 // ============================================================
-// The two USWDS layout contexts that paint their own dark
-// surface: the hero callout and .usa-section--dark, which the
-// graphic list sits on in the USWDS landing page template.
+// The three USWDS contexts that paint their own dark surface:
+// the hero callout, .usa-section--dark (which the graphic list
+// sits on in the USWDS landing page template), and the
+// .usa-dark-background typography wrapper.
 //
-// USWDS fills both with color("primary-darker") and colors the
-// headings inside them with color("accent-cool"). Under the HDS
-// theme that reads as a NASA-red block with cyan headings, so
-// base/_palettes.scss maps both surfaces onto the HDS dark
-// palette instead (Issue #148).
+// USWDS fills the first two with color("primary-darker") and
+// colors the headings inside them with color("accent-cool").
+// Under the HDS theme that reads as a NASA-red block with cyan
+// headings. .usa-dark-background uses color("base-darker"), which
+// HDS themes to a near-Carbon-90 gray, so it looks right but
+// leaves every heading and HDS component inside it resolving
+// against whatever palette wraps the page.
+//
+// base/_palettes.scss maps all three onto the HDS dark palette
+// (Issues #148 and #177).
 //
 // The palette story is the regression guard. It renders the same
 // markup inside all six palette wrappers — the surfaces are
@@ -78,10 +84,32 @@ const graphicList = `
   </section>
 `;
 
+const darkBackground = `
+  <div class="usa-dark-background usa-section">
+    <div class="grid-container">
+      <div class="usa-prose">
+        <h2>Dark background wrapper</h2>
+        <p>
+          <span>This typography wrapper</span> is the third USWDS context that
+          paints its own dark surface. USWDS reverses paragraphs, spans, and
+          links inside it, but stops there.
+        </p>
+        <p>
+          Headings and HDS components are the gap the bridge closes:
+          <a class="usa-link" href="#">an explicit link</a> and the buttons
+          below read palette values, not USWDS ones.
+        </p>
+      </div>
+      <a class="usa-button" href="#">Call to action</a>
+      <a class="usa-button usa-button--outline" href="#">On-page action</a>
+    </div>
+  </div>
+`;
+
 export const DarkSections = {
-  name: 'Hero and dark section',
+  name: 'Hero, dark section, and dark background',
   tags: ['!dev'],
-  render: () => `${hero}${graphicList}`,
+  render: () => `${hero}${graphicList}${darkBackground}`,
 };
 
 export const PaletteA11y = {

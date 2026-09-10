@@ -53,11 +53,13 @@ HDS links use body text color — not brand color — for the text itself. The d
 
 ### USWDS Dark Contexts
 
-USWDS fills its two dark layout contexts — the hero callout (`.usa-hero__callout`) and `.usa-section--dark`, which the graphic list sits on — with `color("primary-darker")`, and colors the headings inside them with `color("accent-cool")`. HDS themes the primary family to NASA Red and never themes accent-cool, so both surfaces rendered as a dark red block with cyan headings, with a red `.usa-button` on the red hero callout.
+USWDS has three contexts that paint their own dark background: the hero callout (`.usa-hero__callout`), `.usa-section--dark` (which the graphic list sits on), and the `.usa-dark-background` typography wrapper. All three are mapped onto palette 4 (dark, Carbon 90) in `base/_palettes.scss`. That reuses a surface HDS already designed rather than inventing a new one, and everything inside — headings, body text, links, buttons, focus rings — resolves against the surface it is actually sitting on.
+
+They were broken in two different ways.
+
+**Hero callout and dark section** use `color("primary-darker")` and color their headings `color("accent-cool")`. HDS themes the primary family to NASA Red and never themes accent-cool, so both rendered as a dark red block with cyan headings, with a red `.usa-button` on the red hero callout.
 
 A `.hds-palette-*` wrapper could not correct this. The red is a `background-color` on the component itself, not a palette custom property, and a wrapper actually made the headings worse: inside `.hds-palette-white` they resolved to Carbon Black on the red block.
-
-Both surfaces are now mapped onto palette 4 (dark, Carbon 90) in `base/_palettes.scss`. That reuses a surface HDS already designed rather than inventing a new one, and everything inside — headings, body text, links, buttons, focus rings — resolves against the surface it is actually sitting on.
 
 | What | Before | After |
 | --- | --- | --- |
@@ -68,11 +70,26 @@ Both surfaces are now mapped onto palette 4 (dark, Carbon 90) in `base/_palettes
 | `.usa-button--outline` label inside a dark section | Carbon Black on the red block (2.1:1) | White (17.9:1) |
 | `.usa-button` on the hero callout | `#d83933` on `#8b0a03` (2.1:1 against its container) | `#d83933` on Carbon 90 (3.9:1) |
 
-USWDS also pins `<p>` and `<a>` inside `.usa-section--dark` to white. Those declarations are left alone: white is what the dark scheme resolves to, and the blue palette — the other surface an adopter would plausibly swap in on a section marked dark — is also a dark surface with white body text.
+**`.usa-dark-background`** fails differently, and worse. It uses `color("base-darker")`, which the HDS theme maps to `gray-90` (`#1b1b1b`) — four RGB points off Carbon 90, so the surface itself already looked right and there was no red block to notice. But USWDS only reverses `<p>`, `<span>`, and `<a>` inside it. Headings and every HDS component keep resolving against whatever palette wraps the page, which on the default white palette is near-invisible.
+
+The measured values below are for the three light palettes (white, light, midtone). The dark, blue, and black palettes were already correct by accident, which is what made this easy to miss.
+
+| What                               | Before (light palettes)                       | After (all palettes) |
+| ---------------------------------- | --------------------------------------------- | -------------------- |
+| Surface                            | USWDS `base-darker` `#1b1b1b`                 | Carbon 90 `#17171b`  |
+| Headings                           | `--hds-palette-heading` Carbon Black (1.22:1) | White (17.9:1)       |
+| `.usa-link` and `.usa-prose` links | `--hds-palette-link-text` Carbon 90 (1.04:1)  | White (17.9:1)       |
+| `.usa-button--outline` label       | `--hds-palette-heading` Carbon Black (1.22:1) | White (17.9:1)       |
+| `.usa-button--outline` border      | NASA Blue `#1c67e3` (3.5:1)                   | Unchanged (3.5:1)    |
+| `<p>`, `<span>`, bare `<a>`        | White, pinned by USWDS (17.2:1)               | White (17.9:1)       |
+
+Bridging it rather than leaving it on the manual `.hds-palette-dark` path was a deliberate call: it is the same family as the other two, the surface shift is imperceptible, and the alternative is asking adopters to add a class to fix a heading that is currently 1.22:1 against its own background.
+
+USWDS also pins `<p>`, `<span>`, and `<a>` inside these contexts to white. Those declarations are left alone: white is what the dark scheme resolves to, and the blue palette — the other surface an adopter would plausibly swap in on a section marked dark — is also a dark surface with white body text.
 
 `.usa-section--light` is untouched. USWDS paints it `base-lightest`, which the HDS theme maps to white, so it already agrees with the default palette.
 
-Tracked in [Issue #148](https://github.com/nasa/hds-core/issues/148). See ARCHITECTURE.md for the cascade contract.
+Tracked in [Issue #148](https://github.com/nasa/hds-core/issues/148) and [Issue #177](https://github.com/nasa/hds-core/issues/177). See ARCHITECTURE.md for the cascade contract.
 
 ### Data Visualization Color Alignment
 
@@ -489,7 +506,7 @@ Pending visual sign-offs:
 
 | Item | Question | Context |
 | --- | --- | --- |
-| USWDS dark contexts | Is the HDS dark palette (Carbon 90) the right surface for the USWDS hero callout and `.usa-section--dark`, or should a red hero be a deliberate NASA treatment? And should the hero's `--alt` eyebrow stay muted Carbon 30 rather than matching the heading white? | Issue #148. Shipping the dark palette mapping; every value is an existing palette token, so a different call is a one-line change in `base/_palettes.scss`. |
+| USWDS dark contexts | Is the HDS dark palette (Carbon 90) the right surface for the USWDS hero callout, `.usa-section--dark`, and `.usa-dark-background`, or should a red hero be a deliberate NASA treatment? And should the hero's `--alt` eyebrow stay muted Carbon 30 rather than matching the heading white? | Issues #148 and #177. Shipping the dark palette mapping for all three; every value is an existing palette token, so a different call is a one-line change in `base/_palettes.scss`. |
 | Focus bold on light backgrounds | C30 on white/light/midtone fails WCAG 1.4.11 (3:1 non-text contrast). Should bold focus treatment use a darker value on light backgrounds? | Tracked in Issue #40. Ships as Figma spec for now. |
 | Overline font-weight | Should overline use 400 (Proposal) or 500 (Figma)? | Proposal says "normal" (400). Figma uses Medium (500). Currently shipping 500. |
 | Blue palette utility | Blue palette utility now uses Proposal palette 5 values (Carbon Black fill, Carbon 60 stroke — matching dark scheme). Figma shows NASA Blue fill + Blue Tint stroke. | Currently shipping Proposal values. Flagged in case CD prefers Figma treatment. |
