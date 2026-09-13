@@ -8,6 +8,7 @@
 // ============================================================
 
 import initInPageNav from './utils/in-page-nav-init';
+import initUswdsComponents from './utils/uswds-components';
 import { DocsContainer } from './DocsContainer.jsx';
 
 const preview = {
@@ -229,6 +230,40 @@ const preview = {
 
       setTimeout(() => {
         initInPageNav(document);
+      }, 0);
+
+      return html;
+    },
+
+    // USWDS component DOM enhancement — opt-in per story via
+    // `parameters: { uswds: ['comboBox', 'modal'] }`.
+    //
+    // uswds.min.js runs each component's init() once, on
+    // DOMContentLoaded, before any story exists. Its delegated
+    // listeners still reach story markup (they live on document.body),
+    // but the DOM enhancement pass never runs, so JS-built components
+    // render as their bare pre-enhancement HTML. This re-runs that pass
+    // — and only that pass — against the rendered story.
+    //
+    // Opt-in rather than global: the decorators above already handle
+    // accordion, table sort, and in-page navigation with their own
+    // hand-rolled logic, and running both would be redundant.
+    //
+    // NOT shipped to consumers. See utils/uswds-components.js.
+    (Story, context) => {
+      const html = Story();
+      const names = context.parameters?.uswds;
+
+      if (!Array.isArray(names) || names.length === 0) return html;
+
+      setTimeout(() => {
+        // Scope to this story's own canvas, not `document`. Several
+        // USWDS `init()` routines rewrite the markup they enhance
+        // (tooltip replaces its trigger with a wrapper, combo box
+        // rebuilds its select), so re-running one over an already
+        // enhanced story — every other Canvas embed on a docs page —
+        // nests the enhancement instead of skipping it.
+        initUswdsComponents(names, context.canvasElement);
       }, 0);
 
       return html;
