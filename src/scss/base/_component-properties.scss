@@ -13,44 +13,46 @@
 // Generated custom properties from tokens.json live in
 // _custom-properties.scss. This file contains manual component
 // derivations that don't belong in the design token source.
+//
+// No @layer wrapper here: hds.scss loads the base tree inside
+// `@layer hds-base` already, and a second wrapper would nest an
+// hds-base sublayer that loses to direct hds-base rules.
 // ============================================================
 
 @use 'hds-tokens' as hds;
 @use 'hds-uswds-theme';
 @use 'uswds-core' as *;
 
-@layer hds-base {
-  :root {
-    // ========================================================
-    // Component Border Radius
-    // ========================================================
-    // Derived from USWDS $theme-*-border-radius settings,
-    // which pull from HDS primitives ($hds-border-radius,
-    // $hds-border-radius-control).
+:root {
+  // ========================================================
+  // Component Border Radius
+  // ========================================================
+  // Derived from USWDS $theme-*-border-radius settings,
+  // which pull from HDS primitives ($hds-border-radius,
+  // $hds-border-radius-control).
 
-    --hds-button-border-radius: #{$theme-button-border-radius};
-    --hds-card-border-radius: #{$theme-card-border-radius};
-    --hds-checkbox-border-radius: #{$theme-checkbox-border-radius};
-    --hds-input-tile-border-radius: #{$theme-input-tile-border-radius};
-    --hds-modal-border-radius: #{$theme-modal-border-radius};
-    --hds-pagination-border-radius: #{$theme-pagination-button-border-radius};
-    --hds-summary-border-radius: #{$theme-summary-box-border-radius};
+  --hds-button-border-radius: #{$theme-button-border-radius};
+  --hds-card-border-radius: #{$theme-card-border-radius};
+  --hds-checkbox-border-radius: #{$theme-checkbox-border-radius};
+  --hds-input-tile-border-radius: #{$theme-input-tile-border-radius};
+  --hds-modal-border-radius: #{$theme-modal-border-radius};
+  --hds-pagination-border-radius: #{$theme-pagination-button-border-radius};
+  --hds-summary-border-radius: #{$theme-summary-box-border-radius};
 
-    // ========================================================
-    // Component Border Width
-    // ========================================================
-    // Derived from USWDS $theme-*-border-width / stroke-width
-    // settings, which pull from HDS primitives
-    // ($hds-border-width-thin, $hds-border-width-thick).
+  // ========================================================
+  // Component Border Width
+  // ========================================================
+  // Derived from USWDS $theme-*-border-width / stroke-width
+  // settings, which pull from HDS primitives
+  // ($hds-border-width-thin, $hds-border-width-thick).
 
-    --hds-accordion-border-width: 0; // HDS design: no border
-    --hds-button-border-width: #{$theme-button-stroke-width};
-    --hds-card-border-width: #{$theme-card-border-width};
-    --hds-input-select-border-width: #{$theme-input-select-border-width};
-    --hds-input-state-border-width: #{$theme-input-state-border-width};
-    --hds-input-tile-border-width: #{$theme-input-tile-border-width};
-    --hds-pagination-border-width: #{$theme-pagination-button-border-width};
-    --hds-summary-border-width: #{$theme-summary-box-border-width};
-    --hds-table-border-width: #{hds.$hds-border-width-thin};
-  }
+  --hds-accordion-border-width: 0; // HDS design: no border
+  --hds-button-border-width: #{$theme-button-stroke-width};
+  --hds-card-border-width: #{$theme-card-border-width};
+  --hds-input-select-border-width: #{$theme-input-select-border-width};
+  --hds-input-state-border-width: #{$theme-input-state-border-width};
+  --hds-input-tile-border-width: #{$theme-input-tile-border-width};
+  --hds-pagination-border-width: #{$theme-pagination-button-border-width};
+  --hds-summary-border-width: #{$theme-summary-box-border-width};
+  --hds-table-border-width: #{hds.$hds-border-width-thin};
 }

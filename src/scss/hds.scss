@@ -24,6 +24,11 @@
 //   - CSS @layer blocks       — Base, Components, USWDS
 // ============================================================
 
+// Consumer configuration flags. Forwarded first so `@use` with a
+// configuration reaches them before any module that reads them:
+//   @use 'pkg:@nasa-hds/core/scss' as * with ($hds-enable-auto-dark-mode: true);
+@forward 'hds-config';
+
 // Configure USWDS with HDS values (must be first USWDS load)
 @forward 'hds-uswds-theme';
 @use 'sass:meta';

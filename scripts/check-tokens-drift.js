@@ -19,8 +19,9 @@ const targets = Object.values(baseConfig.platforms).flatMap((platform) =>
 const tempDir = resolve(tmpdir(), `hds-tokens-check-${process.pid}`);
 mkdirSync(tempDir, { recursive: true });
 
-let buildFailed = false;
-
+// Failures set process.exitCode instead of calling process.exit():
+// Node skips pending `finally` blocks on process.exit(), which would
+// leak tempDir on every run.
 try {
   // Build into a scratch directory instead of the real tree. The committed
   // files are never touched, so there's no window where an interrupted run
@@ -36,22 +37,20 @@ try {
     ),
   };
 
+  let buildFailed = false;
   try {
     const sd = new StyleDictionary(scratchConfig);
     await sd.buildAllPlatforms();
   } catch (err) {
     buildFailed = true;
+    process.exitCode = 1;
     console.error('Error: token generation failed during the drift check.\n');
     console.error(err.stack ?? err.message);
   }
 
-  if (buildFailed) {
-    process.exit(1);
-  }
-
   // Compare
   let hasDrift = false;
-  for (const relPath of targets) {
+  for (const relPath of buildFailed ? [] : targets) {
     const committedPath = resolve(ROOT, relPath);
     const generatedPath = resolve(tempDir, relPath);
 
@@ -61,7 +60,8 @@ try {
     } catch {
       console.error(`Error: ${relPath} not found.`);
       console.error('Run `npm run build:tokens` to generate it.');
-      process.exit(1);
+      process.exitCode = 1;
+      continue;
     }
 
     const generated = readFileSync(generatedPath, 'utf-8');
@@ -97,10 +97,9 @@ try {
   }
 
   if (hasDrift) {
-    process.exit(1);
-  } else {
+    process.exitCode = 1;
+  } else if (process.exitCode === undefined) {
     console.log('✓ Token generation is up to date.');
-    process.exit(0);
   }
 } finally {
   rmSync(tempDir, { recursive: true, force: true });

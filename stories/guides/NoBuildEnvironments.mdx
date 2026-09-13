@@ -10,7 +10,7 @@ Before using this guide, confirm your site is approved to remain standalone. See
 
 ## Add the stylesheet and scripts
 
-Download the HDS Core distribution from GitHub or install via npm, then add these to your HTML:
+First [get the package](?path=/docs/overview-installation--docs#get-the-package): download the dist zip or install via npm, and verify the download. Then add these to your HTML:
 
 ```html
 <head>
@@ -28,17 +28,13 @@ Download the HDS Core distribution from GitHub or install via npm, then add thes
 
 USWDS 3.x is written in vanilla JavaScript and does not conflict with jQuery. If your legacy site depends on older versions of jQuery, the USWDS scripts run safely alongside it.
 
-### Verify the download before you copy it onto your server
+A copied `dist/` keeps no record of what you installed, so the stylesheet carries its own version. Read it at runtime to confirm what is deployed:
 
-npm verifies package integrity for you. If you download the dist zip from the [Releases page](https://github.com/nasa/hds-core/releases) instead, that check is yours to run. GitHub displays a SHA-256 digest under the zip asset on the release, and the release notes repeat the same digest under "Verify your download".
-
-Hash your download and confirm it matches the digest on the release before extracting:
-
-```sh
-sha256sum hds-core-*-dist.zip
+```js
+getComputedStyle(document.documentElement).getPropertyValue('--hds-version').trim(); // 0.9.0
 ```
 
-On macOS, use `shasum -a 256` instead. If the two digests differ, the file was corrupted or tampered with in transit. Do not deploy it: re-download, and if it still fails, [open an issue](https://github.com/nasa/hds-core/issues).
+See [Installation](?path=/docs/overview-installation--docs#which-version-am-i-running) for the full version and provenance details.
 
 ## Use HDS tokens in your existing CSS
 
@@ -135,7 +131,7 @@ Fixed-width containers break on mobile and fail responsive layout requirements. 
 </div>
 ```
 
-> These grid and layout classes require loading `hds-uswds.min.css` alongside `hds.min.css`. This is a temporary migration step — as you modernize your markup, the goal is to move toward CSS Grid and Flexbox natively, which removes the need for utility classes entirely.
+> These grid and layout classes are included in `hds.min.css`, so no extra file is needed. (The optional `hds-uswds.min.css` bundle adds spacing, color, and other utility classes like `.padding-2` or `.text-primary`, not grid.) Grid is a temporary migration step: as you modernize your markup, the goal is to move toward CSS Grid and Flexbox natively, which removes the need for utility classes entirely.
 
 ### Semantics: fix inaccessible markup
 

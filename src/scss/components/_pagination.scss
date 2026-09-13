@@ -197,7 +197,7 @@
 
   // Hide USWDS "Previous"/"Next" text labels
   .usa-pagination__link-text {
-    @include visually-hidden;
+    @include hds-visually-hidden;
   }
 }
 
@@ -265,7 +265,12 @@
   button#{&}:focus-visible {
     @include hds-focus-ring($color: 'subtle');
 
-    outline: none !important; // override global focus
+    // Override the global focus outline in normal mode only. In
+    // forced-colors the mixin's own outline is the visible ring
+    // (the ::before dash is dropped), so this reset must not run.
+    @media not (forced-colors: active) {
+      outline: none !important;
+    }
   }
 
   // Disabled — text and icon both mute, element stays visible

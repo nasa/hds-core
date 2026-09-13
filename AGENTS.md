@@ -135,11 +135,12 @@ color: var(--hds-palette-link-text, #{$hds-color-carbon-90});
 
 ### USWDS dark contexts — do NOT flatten
 
-`base/_palettes.scss` also maps `.usa-hero__callout` and `.usa-section--dark` onto the dark palette. USWDS fills both with `primary-darker` (NASA Red under the HDS theme) and colors their headings `accent-cool` (cyan), neither of which a palette wrapper can reach.
+`base/_palettes.scss` also maps `.usa-hero__callout`, `.usa-section--dark`, and `.usa-dark-background` onto the dark palette. USWDS fills the first two with `primary-darker` (NASA Red under the HDS theme) and colors their headings `accent-cool` (cyan); `.usa-dark-background` uses `base-darker` and reverses only `<p>`, `<span>`, and `<a>`. A palette wrapper can reach none of it.
 
 - Apply the full `_scheme-dark`, not just a background. Components inside read `--hds-palette-*`; a background-only fix leaves them on light-palette values.
 - Keep `:where()` here too, for the same override contract.
-- These are not a stopgap. Change them only on a design call — see Issue #148 and docs/DESIGN.md → USWDS Dark Contexts.
+- The family is closed. Do not add a fourth selector without checking that USWDS actually paints its own dark surface there — background _utility_ classes stay on the manual `.hds-palette-*` path.
+- These are not a stopgap. Change them only on a design call — see Issues #148 and #177 and docs/DESIGN.md → USWDS Dark Contexts.
 
 ### Class naming
 

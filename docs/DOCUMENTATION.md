@@ -67,7 +67,7 @@ Component and foundation pages follow a predictable naming convention: `{Name}.m
 | `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
 | `.storybook/preview-head.html` | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`) |
 | `.storybook/utils/in-page-nav-init.js` | Re-initializes USWDS in-page navigation per story render. Required because `DOMContentLoaded` has already fired when stories mount — USWDS JS does not auto-initialize dynamically rendered components. |
-| `chromatic.config.json` | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`) |
+| `.config/chromatic.config.json` | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`) |
 | `vitest.config.json` | Vitest |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
@@ -586,7 +586,7 @@ Chromatic a11y tests are **OFF** for now. Vitest handles local a11y via axe-core
 
 ### TurboSnap
 
-Enabled via `chromatic.config.json` (`onlyChanged: true`). External Sass and asset files are declared via `externals` — any SCSS or asset change triggers a full rebuild. This is correct behavior for a CSS design system where a token change can affect any component.
+Enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files are declared via `externals` — any SCSS or asset change triggers a full rebuild. This is correct behavior for a CSS design system where a token change can affect any component.
 
 TurboSnap savings apply to story-only and docs-only changes (no SCSS changes in the commit). Most active HDS Core development involves SCSS, so expect ~30–60% of builds to be full rebuilds.
 
@@ -596,7 +596,7 @@ TurboSnap unlocks after 10 successful Chromatic builds on CI.
 
 `.storybook/modes.js` — Chromatic palette modes. Imported by story files only (not `preview.js`) to avoid TurboSnap full rebuilds when modes change.
 
-`chromatic.config.json` — TurboSnap config, project ID, external file globs.
+`.config/chromatic.config.json` — TurboSnap config, project ID, external file globs.
 
 `preview.js` — Global `disableSnapshot: true`. Individual test stories override to `false`.
 

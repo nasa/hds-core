@@ -4,20 +4,27 @@
 // ============================================================
 // Use this file to import ONLY the dataviz custom properties.
 // Useful for charting libraries that don't need the full HDS bundle.
+//
+// This entry point never configures shared modules itself, so it
+// composes with the main entry point (hds.scss) in a single consumer
+// stylesheet. The dataviz tokens are emitted unconditionally; the
+// $hds-enable-dataviz-tokens flag only controls emission through the
+// main entry point.
 // ============================================================
 
-@use 'sass:meta';
-@use 'hds-config' as * with (
-  $hds-enable-dataviz-tokens: true
-);
-@use 'hds-tokens' as *;
+// Consumer configuration flags, forwarded first so this entry point
+// can also be loaded with a configuration:
+//   @use 'pkg:@nasa-hds/core/scss/dataviz' as * with ($hds-enable-auto-dark-mode: true);
+@forward 'hds-config';
+@use 'hds-config' as *;
+@use 'base/dataviz-properties' as dataviz;
 @use 'hds-dataviz-palettes' as *;
 
 // ── DECLARE CASCADE LAYER ORDER ──
 @layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;
 
 @layer hds-dataviz {
-  @include meta.load-css('base/dataviz-properties');
+  @include dataviz.dataviz-properties;
 
   .hds-palette-dark,
   [data-hds-palette='dark'] {

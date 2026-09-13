@@ -1,8 +1,15 @@
-@use 'uswds-core' as *;
-@use 'hds-config' as *;
-@use 'hds-tokens' as *;
+// ============================================================
+// HDS Base: Dataviz Custom Properties
+// @nasa-hds/core
+// ============================================================
+// Pure mixin module, emits nothing when loaded. Two consumers:
+//   - base/_index.scss includes it into @layer hds-base when
+//     $hds-enable-dataviz-tokens is set on the main entry point.
+//   - hds-dataviz.scss includes it unconditionally into
+//     @layer hds-dataviz (the add-on always ships the tokens).
+// ============================================================
 
-@if $hds-enable-dataviz-tokens {
+@mixin dataviz-properties {
   :root {
     // ----------------------------------------------------------
     // Categorical — light background defaults

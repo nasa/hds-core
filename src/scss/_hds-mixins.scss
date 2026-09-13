@@ -6,7 +6,7 @@
 // and components.
 //
 // CONTENTS:
-//   Accessibility — visually-hidden
+//   Accessibility — hds-visually-hidden
 //   Focus         — hds-focus-ring, hds-focus-ring-size,
 //                   hds-focus-ring-inline
 //   Buttons       — button-styles (bundles button-padding-border,
@@ -27,7 +27,7 @@
 // Accessibility
 // ------------------------------------------------------------
 
-@mixin visually-hidden {
+@mixin hds-visually-hidden {
   border: 0;
   clip-path: inset(50%);
   height: 1px;
@@ -37,6 +37,13 @@
   position: absolute;
   width: 1px;
   overflow-wrap: normal;
+}
+
+// Deprecated: unprefixed name. Only `hds-*` mixins are public surface
+// (see AGENTS.md). Kept for one minor cycle (v0.10.x) per the deprecation
+// policy in CONTRIBUTING.md; remove after the next minor release (v0.11.x).
+@mixin visually-hidden {
+  @include hds-visually-hidden;
 }
 
 // ------------------------------------------------------------
@@ -126,6 +133,18 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
       mask-size: 100% 100%;
     }
   }
+
+  // Forced-colors keeps the masked dash (too faint for 1.4.11) painting
+  // in a system color. Hide it and draw a solid outline the UA repaints
+  // instead, matching hds-focus-ring-inline.
+  @media (forced-colors: active) {
+    outline: $border-high-contrast;
+    outline-offset: 0;
+
+    &::#{$pseudo} {
+      display: none;
+    }
+  }
 }
 
 // Overrides circle ring geometry for icon button size modifiers
@@ -204,6 +223,16 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
     0 0,
     100% 0;
   background-repeat: no-repeat;
+
+  // Forced-colors mode does not paint background images, so all four
+  // gradient layers drop out. `outline: none` above has already removed the
+  // native ring, which leaves the element with no focus indicator at all.
+  // Restore an outline there, using the USWDS high-contrast border the UA
+  // repaints in a system color.
+  @media (forced-colors: active) {
+    outline: $border-high-contrast;
+    outline-offset: 0;
+  }
 }
 
 // ------------------------------------------------------------
@@ -328,6 +357,13 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
   background-size: calc(100% - 8px) 1px;
   background-position: center 100%;
   background-repeat: no-repeat;
+
+  // Forced-colors drops the gradient underline. Restore it as a real
+  // text-decoration underline the UA keeps and repaints.
+  @media (forced-colors: active) {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
 }
 
 @mixin hds-link-hover {
