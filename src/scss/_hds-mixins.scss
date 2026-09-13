@@ -211,6 +211,16 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
     0 0,
     100% 0;
   background-repeat: no-repeat;
+
+  // Forced-colors mode does not paint background images, so all four
+  // gradient layers drop out. `outline: none` above has already removed the
+  // native ring, which leaves the element with no focus indicator at all.
+  // Restore an outline there, using the USWDS high-contrast border the UA
+  // repaints in a system color.
+  @media (forced-colors: active) {
+    outline: $border-high-contrast;
+    outline-offset: 0;
+  }
 }
 
 // ------------------------------------------------------------
