@@ -74,6 +74,14 @@
   mask-position: center;
   mask-repeat: no-repeat;
   vertical-align: baseline;
+
+  // Forced-colors drops mask-image painting outright, so the arrow disappears
+  // regardless of background-color. Opt this pseudo-element out and repaint
+  // it with a system color, matching the .usa-social-link precedent.
+  @media (forced-colors: active) {
+    background-color: CanvasText;
+    forced-color-adjust: none;
+  }
 }
 
 // ── Internal link escape hatch ────────────────────────────────
