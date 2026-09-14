@@ -24,7 +24,10 @@ Findings are derived from the USWDS 3.14 source in `node_modules/@uswds/uswds/pa
 | --- | --- | --- |
 | [Summary Box](#summary-box) | `Unusable` | White link text at 1.11:1 on the pinned cyan surface across dark, blue and black — measured. |
 | [Card](#card) | `Unusable` | Container hardcodes a white surface, so palette-aware content inside it resolves against the wrong background. |
-| [Character Count](#character-count) | `Unusable` | HDS `.usa-hint` in a later layer erases the over-limit state entirely — both states measure identical. |
+| [Character Count](#character-count) | `Unusable` | HDS `.usa-hint` in a later layer erases the over-limit state — both states measure identical. |
+| [Combo Box](#combo-box) | `Unusable` | The themed control is the hidden one; the visible field matches no HDS selector. Measured border/radius differ from every other text field. |
+| [Step Indicator](#step-indicator) | `Unusable` | Upstream USWDS: `--no-labels` hides the sr-only state text from the a11y tree. State is colour-only for everyone. |
+| [File Input](#file-input) | `Unusable` | Rejected file types announce in blue on an orange border — the bug 3.14 fixed one code path over. |
 | [Banner](#banner) | `Off-brand` | Compliance bar is pure white with no border — invisible on the white palette, a hard slab on dark/blue/black. |
 | [Icon List](#icon-list) | `Off-brand` | Static icon colour ignores the palette; red on blue measures 2.18:1, under the 3:1 non-text threshold. |
 | [Tag](#tag) | `Off-brand` | No theme hook at all; hardcoded gray-80 box that nearly vanishes on dark and black. |
@@ -32,9 +35,10 @@ Findings are derived from the USWDS 3.14 source in `node_modules/@uswds/uswds/pa
 | [Process List](#process-list) | `Off-brand` | Counter circles are literal white/ink, sitting as cutouts on dark, blue and black. |
 | [Button Group](#button-group) | `Off-brand` | Segmented separators are static compiled colours; the blue palette leaves a seam on outline-styled buttons. |
 | [Tooltip](#tooltip) | `Off-brand` | Fixed black body on every palette; USWDS focus ring on the trigger. |
+| [Identifier](#identifier) | `Off-brand` | Pinned to the black palette by the bridge; links get a 1px dashed outline, not the 2px HDS ring. |
 | [Memorable Date](#memorable-date) | `Close` | Themed almost entirely by composition — only field geometry is raw USWDS. |
 
-11 of 27 components triaged so far.
+15 of 27 components triaged so far.
 
 ## Components
 
@@ -127,6 +131,116 @@ Findings are derived from the USWDS 3.14 source in `node_modules/@uswds/uswds/pa
 - Give the invalid counter the same `error.svg` mask treatment as `.usa-error-message::before`, so the two error messages in a form read as one system and the over-limit state is not colour-only.
 - Decide whether `.usa-label--error` should keep bold under HDS type — if yes, re-declare it in `hds-components` alongside `.usa-label`; if no, record the deviation in `docs/DESIGN.md`.
 - Give the status element HDS spacing (`units(1)` gap consistent with `.usa-error-message`) rather than the hardcoded `padding-top: units(0.5)`, and check that it is not visually orphaned from the field group it describes.
+
+## Combo Box
+
+- **File:** `stories/lab/ComboBox.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/combo-box/>
+- **USWDS JS:** required (`parameters.uswds: ['comboBox']`)
+- **Severity:** Unusable
+- **Variants covered:** 7 variant stories + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** Only the label and the focus ring. `.usa-label` in `src/scss/components/_form.scss` (`@include hds-type('h6')`, `color: var(--hds-palette-control-text)`) reaches the authored label and survives enhancement, and the element-keyed rules in `src/scss/base/_focus.scss` (`input:not([disabled]):focus-visible`, `button:not([disabled]):focus-visible`, `[tabindex]:focus-visible`) give the generated input, the toggle/clear buttons and the focused `<li>` the HDS dashed `--hds-palette-focus` ring. Typography is Public Sans via `$theme-form-font-family: 'body'`. Nothing else transfers.
+
+**Breaks or reads as foreign:**
+
+- **The themed control is the one nobody sees.** HDS keys every form rule to `.usa-input` / `.usa-textarea` / `.usa-select` (`src/scss/components/_form.scss`). `enhanceComboBox()` (`node_modules/@uswds/uswds/packages/usa-combo-box/src/index.js`) hides the authored `<select class="usa-select">` with `usa-sr-only` + `aria-hidden` and builds a `.usa-combo-box__input` in its place — a class no HDS selector matches. The visible field therefore takes `%block-input-styles` (`uswds-core/src/styles/placeholders/_forms.scss`), compiled in `dist/css/hds.min.css` as `border-color:#2e2e2e`, `border-radius:0`, `color:#000`, `height:2.5rem`, `padding:.5rem`, `font-size:1rem` — against HDS's `var(--hds-palette-border)`, `$hds-border-radius-control`, `var(--hds-palette-control-text)`, `height:auto`, `14px 16px`, `size('body','2xs')` (14px). The HDS `--hds-palette-input-bg` background and the `.usa-input::placeholder` colour never arrive either.
+- **The listbox is a hardcoded white sheet.** `.usa-combo-box__list` sets `background-color: color("white")` and `u-border(1px, "base-dark")`; `.usa-combo-box__list-option` sets `border-bottom: 1px solid color("base-lighter")` (`#f0f0f0`). No palette custom property anywhere in `_usa-combo-box.scss`.
+- **`--selected` uses the wrong red.** `.usa-combo-box__list-option--selected` compiles to `background-color:#d83933` from `color("primary")` (`$theme-color-primary: 'red-50'` in `src/scss/_hds-uswds-theme.scss`) — USWDS system red, not even NASA Red `#f64137`. `_hds-tokens.scss` states the wayfinding rule on `$hds-color-nasa-red`: red means "go somewhere", "never for on-page actions". HDS paints on-page selection with `--hds-palette-control-fill` (NASA Blue), as `.usa-checkbox` / `.usa-radio` do.
+- **⚠️ Cascade-layer collision on the focused option.** `.usa-combo-box__list-option--focused` sets `outline: 2px dashed #162e51` (hardcoded `blue-warm-80v`, ignoring `$theme-focus-color: 'gray-60'`) in `@layer uswds`. The generated `<li>`s carry `tabindex`, so `[tabindex]:focus-visible` in `src/scss/base/_focus.scss` matches and applies `hds-focus-ring`, whose first declarations are `position: relative; outline: none` — `@layer hds-base` beats `@layer uswds` regardless of specificity. `displayList()` marks the first (or selected) option `--focused` with `skipFocus: true`, so at list-open the navy USWDS outline shows; the instant `highlightOption()` calls `.focus()` it is erased and replaced by the HDS ring. The "current option" indicator changes style mid-keyboard-interaction. Unlike character count's `.usa-hint` case the USWDS state is not permanently erased, but it is unreliable.
+- **The field gets half the HDS focus treatment.** The dashed ring arrives from `base/_focus.scss` (element-keyed), but the solid 2px `var(--hds-palette-btn-secondary-bg)` border highlight in `_form.scss` is class-keyed to `.usa-input/.usa-textarea/.usa-select` and never fires. AGENTS.md records that solid-blue border as the deliberate treatment for form text inputs (Issue #20); combo box is the only text field in the system without it.
+- **Disabled state ignores the disabled tokens.** `u-disabled` compiles to `color:#454545` on `background-color:#c9c9c9`, while `.usa-select:disabled` two elements away uses `--hds-palette-disabled` / `--hds-palette-disabled-bg`. The separator is `color("gray-cool-20")` (`#c6cace`) and the chevron/close glyphs sit at `opacity: .6`.
+
+**Palette behaviour:** It does not adapt. Nothing in `_usa-combo-box.scss` reads a `--hds-palette-*` property, and `grep -rn "combo-box" src/scss/` returns nothing — no theme file, no surface bridge in `base/_palettes.scss`, no print rule. White, light and midtone are survivable because the hardcoded values assume a light surface. Dark (Carbon 90), blue (NASA Blue Shade) and black (Carbon Black) all fail: a `#fff` listbox with a `#2e2e2e` border and a `#d83933` selected row is dropped onto a dark surface, and the input's `color:#000` text sits on no declared background at all — it resolves to the browser's `field` colour, which follows the OS light/dark setting rather than the palette wrapper. Midtone additionally loses the `--selected` row's distinctness against the surrounding red-adjacent chrome.
+
+**Accessibility risk today:** Real, on three palettes. The input's hardcoded `color:#000` with no declared background is the concrete 1.4.3 risk on dark/blue/black; the `#2e2e2e` border and `#c6cace` separator are the 1.4.11 risk on the same three. The `--focused` outline is 1.4.11-relevant too — `#162e51` on the `#d83933` selected fill is roughly 1.5:1, and on a white row it is fine, so the indicator's contrast depends on which row is current. Beyond that, USWDS's own ACR marks combo box "Partially Supports" for 3.3.2 and 502.3.6, which `docs/508.md` already mirrors. Note also that `docs/508.md` line 82 asserts "HDS Core v1.0 does not ship combo box" while line 19 says all USWDS components ship as-is — worth reconciling once this component is triaged.
+
+**Verified in a browser.** `init()` does enhance under the decorator — `.usa-combo-box__input`, `__toggle-list`, `__list` and `__status` are all built and the authored `<select>` is `aria-hidden`. Measuring the visible field against a themed HDS text field confirms the core finding:
+
+| Element                                      | Border               | Border radius |
+| -------------------------------------------- | -------------------- | ------------- |
+| `.usa-combo-box__input` (what the user sees) | `rgb(46, 46, 46)`    | `0px`         |
+| `.usa-input` (themed HDS text field)         | `rgb(209, 209, 209)` | `2px`         |
+
+The combo box's visible field is a different control from every other text field in the system — darker border, square corners — because no HDS selector matches `.usa-combo-box__input`.
+
+**What theming would need to do:**
+
+- Add `src/scss/components/_combo-box.scss` and retarget the existing form rules at `.usa-combo-box__input` as well — border, radius, background, text colour, padding, font size, placeholder, hover and the solid blue focus border — so the enhanced field matches `.usa-input` instead of USWDS defaults.
+- Repaint `.usa-combo-box__list`, `__list-option` and `__list-option--no-results` on `--hds-palette-input-bg` / `--hds-palette-border` / `--hds-palette-control-text` so the dropdown is a palette surface rather than a white sheet.
+- Move `--selected` off `color("primary")` onto `--hds-palette-control-fill` (NASA Blue) per the `$hds-color-nasa-red` wayfinding rule, and resolve the `--focused` indicator to one treatment: either suppress the USWDS outline deliberately and let the HDS ring own the state, or exclude `.usa-combo-box__list-option` from the `[tabindex]:focus-visible` baseline. Today it is whichever of the two happens to match.
+- Replace `u-disabled` and the separator/chevron chrome with `--hds-palette-disabled`, `--hds-palette-disabled-bg` and `--hds-palette-utility-stroke`, and decide whether the chevron follows the select-chevron work already deferred in `_form.scss` ("deferred to custom dropdown component phase").
+
+## Step Indicator
+
+- **File:** `stories/lab/StepIndicator.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/step-indicator/>
+- **USWDS JS:** none
+- **Severity:** Unusable
+- **Variants covered:** 6 variant stories (Default with labels, Counters, Counters small, No labels, Centered, Progress positions) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The segment colors do resolve through the HDS theme rather than shipping raw USWDS blue: `$theme-step-indicator-segment-color-current: 'primary'` and `$theme-step-indicator-segment-color-complete: 'primary-darker'` (`node_modules/@uswds/uswds/packages/uswds-core/src/styles/settings/_settings-components.scss`) both pick up the HDS primary-family swap to NASA Red in `src/scss/_hds-uswds-theme.scss`, so current = `red-50` and complete = `red-70v`. No `src/scss/components/_step-indicator.scss` exists and no HDS rule touches `.usa-step-indicator*` anywhere in `src/scss/` — confirmed by grep, no match at all, not even a `_palettes.scss`/`_print.scss` mention.
+
+**Breaks or reads as foreign:**
+
+- Because both "current" and "complete" inherit from the same NASA Red family (`red-50` vs `red-70v`), the component loses the hue separation upstream's blue-vs-red default gave it for free — the two states now differ only by shade, which is harder to tell apart at a glance and at small size (`_usa-step-indicator.scss`, segment `::after` / counter `::before` rules).
+- `$theme-step-indicator-text-pending-color: 'base-dark'` and `$theme-step-indicator-heading-color: 'ink'` are fixed values (Carbon 80 / Carbon Black, per the approximation table in `_hds-uswds-theme.scss`), not `--hds-palette-*` custom properties — text does not adapt to the surrounding palette.
+- No focus-ring gap to report: the markup is `<ol>`/`<li>`/`<span>` only, no links or buttons, so there is nothing for `base/_focus.scss`'s `:focus-visible` baseline to attach to.
+
+**Palette behaviour:** Segment bars carry their own background color (`red-50`/`red-70v`/`gray-40`) so they stay visible regardless of the palette wrapper. But the pending-label text (`base-dark`/Carbon 80, a dark near-black gray) and the heading text (`ink`/Carbon Black) are hardcoded dark values with no palette wiring — on the dark and black palettes, where the surrounding background is itself near-black, that text is likely to have insufficient contrast. ⚠️ Not measured directly (no rendered/computed contrast check was run in this session); flagged from the fixed-value pattern only, the same pattern already documented for Card and Tooltip in this repo's other lab baselines.
+
+**Accessibility risk today:** The core finding, verified directly from `_usa-step-indicator.scss`: `.usa-step-indicator--no-labels` sets `.usa-step-indicator__segment-label { display: none; }`. That label element is also where the authored markup nests each segment's `.usa-sr-only` "completed"/"not completed" text — `display: none` removes that text from the accessibility tree, not just the screen. In the `--no-labels` variant, whether a step is complete or still pending is conveyed by segment-bar color alone, for both sighted and assistive-tech users — a direct WCAG 1.4.1 (Use of Color) failure, and unusable as shipped on a NASA site. The `aria-current="true"` attribute on the `<li>` survives (it isn't inside the hidden span), so the _current_ step is still identifiable to AT; only complete-vs-pending is lost. The default (labeled) variant does not have this problem — the visible label, its nested `.usa-sr-only` status text, and the current segment's bold font-weight together give a non-color cue, matching what the USWDS ACR reports for that configuration. Separately, `docs/508.md` already carries an open citation for this component: USWDS ACR issue #5294, under WCAG 1.3.1 (Info and Relationships) and 1.3.2 (Meaningful Sequence), noted there as shipping as-is because HDS does not style step indicator.
+
+**Verified in a browser.** Walking each segment's `.usa-sr-only` node and checking every ancestor for `display: none`:
+
+| Story         | Segment state text                                     |
+| ------------- | ------------------------------------------------------ |
+| Default       | exposed / exposed / (current, none) / exposed          |
+| `--no-labels` | **hidden** / **hidden** / (current, none) / **hidden** |
+
+So in `--no-labels` the "completed" / "not completed" text is not merely visually hidden, it is out of the accessibility tree entirely. Complete-versus-pending is carried by colour alone for sighted and assistive-technology users alike.
+
+**What theming would need to do:**
+
+- Give complete/current/pending distinct hues again (not three shades of one family) once HDS assigns real theme settings, or add a non-color cue (icon/checkmark, pattern) to the segment bar itself so state does not depend on hue discrimination.
+- Fix the `--no-labels` variant specifically: either don't ship it, or replace `display: none` on the label with a visually-hidden-but-AT-visible technique so segment status text still reaches screen readers.
+- Route `$theme-step-indicator-text-pending-color` and `$theme-step-indicator-heading-color` through `--hds-palette-*` (or an equivalent override) so text keeps contrast on the dark/blue/black palettes.
+- Decide whether HDS wants square vs. round counters and whatever HDS's focus-ring/typography scale should say about `usa-step-indicator__heading`, since it currently sits outside both.
+- Note in the issue that this component is a step-by-step process indicator by definition: `stories/components/Breadcrumb.mdx` and `stories/components/Pagination.mdx` both explicitly point authors at step indicator instead ("Step-by-step processes — use a step indicator"), so once themed it is likely to see real adoption soon.
+
+## File Input
+
+- **File:** `stories/lab/FileInput.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/file-input/>
+- **USWDS JS:** required (`parameters.uswds: ['fileInput']`)
+- **Severity:** Unusable
+- **Variants covered:** 6 variant stories + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The USWDS 3.14.0 blue-to-red error fix lands, and it survives the cascade layers. `.usa-form-group--error .usa-file-input__target` takes `border-color: color("error-dark")` at 2px (`node_modules/@uswds/uswds/packages/usa-file-input/src/styles/_usa-file-input.scss`), and `$theme-color-error-dark: 'red-60v'` (`src/scss/_hds-uswds-theme.scss` line 154) resolves to `#b50909` — matching the value already recorded in `docs/508.md` §1.4.1. The one HDS rule that touches `.usa-form-group--error` (`src/scss/components/_form.scss` line 442, `@layer hds-components`) only zeroes `border-left` / `padding-left` / `margin-left`, so the `hds-components` > `uswds` layer ordering does **not** erase the fix. Label, hint, and error message pick up the full HDS form theme (`_form.scss` lines 169, 187, 451), so the text around the control is on-brand. Font size on the target is `size("body", "2xs")`, the same step HDS gives `.usa-input`.
+
+**Breaks or reads as foreign:**
+
+- **The blue-error bug 3.14.0 fixed is still live on the runtime state.** `preventInvalidFiles()` (`packages/usa-file-input/src/index.js`) adds `.has-invalid-file` and inserts `.usa-file-input__accepted-files-message`. The SCSS colours that message `color("secondary-dark")` → `$theme-color-secondary-dark: 'blue-70v'` (`_hds-uswds-theme.scss` line 118) and the border `color("accent-warm")` → `$theme-color-accent-warm: 'orange-40v'` (line 135). A rejected file type therefore reports itself as **blue text on an orange border** — the exact 1.4.1 failure `docs/USWDS-3.14.0-IMPACT.md` §2.1 calls the most consequential a11y change in the release, untouched on this code path.
+- **The drop zone's only boundary is invisible.** `.usa-file-input__target { border: 1px dashed color("base-light"); }` → `$theme-color-base-light: 'gray-10'` (`_hds-uswds-theme.scss` line 78, `#e6e6e6`) drawn against `.usa-file-input__box { background: white; }`, which is hardcoded. That is roughly 1.3:1, against the 3:1 WCAG 1.4.11 asks of non-text UI. `:hover` only steps it to `color("base")`.
+- **The white box is hardcoded**, so the control is a white cutout on the dark, blue, and black palettes — the same behaviour `stories/lab/Card.stories.js` records for `.usa-card__container`.
+- **Wrong red, wrong weight, no palette response.** HDS themed inputs use `--hds-palette-error-indicator` (NASA Red `#f64137`) at `$hds-border-width-thin` (`_form.scss` line 432) and swap to NASA Red Tint on dark/black (`src/scss/base/_palettes.scss` lines 153, 283). The file input keeps USWDS `#b50909` at 2px on every palette — one hex off `$hds-color-nasa-red-shade` (`#b60109`, `_hds-tokens.scss` line 6) and never moving.
+- **The call to action is not styled as one.** `.usa-file-input__choose` is `@include typeset-link` with `$theme-link-color: 'ink'` (line 203), so it is ink with a plain underline. It is a `<span>`, so the HDS gradient link treatment in `base/` never reaches it.
+- **Square corners, no radius token.** USWDS sets no radius on `.usa-file-input__target`, while HDS controls use `$hds-border-radius-control` (2px).
+
+**Palette behaviour:** It does not adapt at all. `.usa-file-input__box` is hardcoded `white` and every other colour resolves through `$theme-*` settings at build time, not through `--hds-palette-*`. All six palettes render the identical white panel with a `#e6e6e6` dashed edge, ink instructions, and a `#b50909` error border. It reads as a foreign white cutout on dark, blue, and black; on white/light the near-invisible border is the worst of it. No palette is correct, and none is worse than the others.
+
+**Accessibility risk today:** Three, on every palette. (1) 1.4.1 Use of Color — the invalid-file-type message renders blue on an orange border, so the rejection carries no error affordance. (2) 1.4.11 Non-text Contrast — the drop zone boundary is ~1.3:1. (3) ⚠️ 2.4.7 / 502.3.12 Focus — `src/scss/base/_focus.scss` (`@layer hds-base`) applies `hds-focus-ring` to `input:not([disabled]):focus-visible`, which sets `outline: none` and paints the ring in a `::before`; after enhancement that input is `.usa-file-input__input`, absolutely positioned at `z-index: 1` beneath `.usa-file-input__box` at `z-index: 2`. The suppression of the USWDS outline is certain from source; whether any HDS ring paints was not verified in a browser. Upstream USWDS #5616 is already cited in `docs/508.md` under 2.4.7 and 502.3.12.
+
+**Verified in a browser** (this is the first time any of it has been observable in Storybook): with `parameters.uswds: ['fileInput']` the decorator builds `.usa-file-input__target` and `.usa-file-input__instructions`, and the error state's target border computes to `rgb(181, 9, 9)` — `#b50909`, `red-60v`. The 3.14 blue-to-red fix is real and now visible.
+
+One mismatch the source reading does not surface: in the same error story the adjacent `.usa-error-message` computes to `rgb(182, 1, 9)` — `#b60109`, HDS's `$hds-color-nasa-red-shade`. So the USWDS file-input border red and the HDS error-message red sit side by side one unit apart per channel. Not a contrast problem; a "two nearly-identical reds in one control" problem that whoever themes this should collapse to a single token.
+
+**What theming would need to do:**
+
+- Repaint `.usa-file-input__target.has-invalid-file` and `.has-invalid-file .usa-file-input__accepted-files-message` onto `--hds-palette-error-indicator` / `--hds-palette-error-text`, and align `.usa-form-group--error .usa-file-input__target` to the same token at `$hds-border-width-thin`, so all three error paths match the themed `.usa-input--error`.
+- Replace the hardcoded `.usa-file-input__box { background: white }` with `--hds-palette-input-bg`, and the `base-light` dashed edge with `--hds-palette-border` / `--hds-palette-control-border` on hover, so the control is palette-aware and clears 3:1.
+- Give focus a treatment that survives the overlay — move the ring onto `.usa-file-input__target` (which is a `<div>` and can carry a pseudo-element) driven by `.usa-file-input__input:focus-visible`, rather than leaving it on the occluded input.
+- Style `.usa-file-input__choose` with the HDS link treatment and apply `$hds-border-radius-control` to `.usa-file-input__target`.
 
 ## Banner
 
@@ -331,6 +445,40 @@ So the static icon color is not merely off-brand: on the blue palette it drops b
 - Set the tooltip surface from the palette, or invert it explicitly on the black palette.
 - Zero the radius in the theme files.
 - Apply `hds-focus-ring` to `.usa-tooltip__trigger`.
+
+## Identifier
+
+- **File:** `stories/lab/Identifier.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/identifier/>
+- **USWDS JS:** none
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories (Default, No logos, Multiple parents and logos, Taxpayer disclaimer) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The black background (`#000`) and its white/gray text (`#fff`, `#e6e6e6`) all resolve through HDS's remapped `base-darkest`/`base-light`/`base-ink` tokens (`src/scss/_hds-uswds-theme.scss:78,86,88`) rather than raw USWDS defaults, and every color combination passes contrast comfortably — verified against the compiled selectors in `dist/css/hds.min.css`.
+
+**Breaks or reads as foreign:**
+
+- Typesets in Inter (`$theme-font-role-ui: 'serif'` → `$theme-font-type-serif: 'inter'`, `_hds-uswds-theme.scss:232,235`) while HDS body copy is Public Sans — same mismatch already flagged for Banner.
+- The masthead and USA.gov links carry no distinct link color: `set-link-from-bg`'s WCAG token search can't reach HDS's `$theme-link-color: 'ink'` (→ black) on this black surface, so it substitutes white — compiled `color:#fff`, identical to the surrounding body text (`dist/css/hds.min.css`). Links read only via underline.
+- No focus ring on any interactive element. Every clickable element is a plain `<a>` with no `tabindex`; `base/_focus.scss`'s `:focus-visible` selector list (`[contenteditable]`, `[tabindex]`, `iframe`, `button`, `input`, `select`, `textarea`) never matches it, and USWDS's own `typeset-link` mixin (the one place a `:focus { outline }` is defined, `uswds-core/.../typeset.scss:92-94`) is never invoked by `.usa-identifier` — it only calls the plain `typeset()` mixin. Keyboard users get the bare browser default outline.
+
+**Palette behaviour:** Pinned to the BLACK palette (`--hds-palette-bg: $hds-color-carbon-black`) by the surface bridge in `base/_palettes.scss:335-342` — the one bridge pinned dark rather than white (banner/header/footer are pinned white, `_palettes.scss:326-333`). All six wrapping palettes render near-identically by design; a visible difference between them would indicate the bridge broke, not a passing result.
+
+**Accessibility risk today:** No color-contrast failures found (verified compiled hex values). The real risk is the missing focus indicator described above — every identifier link falls back to the browser's native outline rather than HDS's dashed ring, so its visibility is inconsistent across browsers/OSes and never matches the rest of the site.
+
+**Verified in a browser** — with one correction to the characterisation above. Focusing a required link computes `outline: 1px dashed rgb(92, 92, 92)` and `::before { content: none }`. So:
+
+- HDS's `hds-focus-ring` is definitively **not** applied — that mixin paints through a `::before` pseudo-element at 2px, and there is no such pseudo-element here.
+- But this is not the _bare browser_ default either. `_hds-uswds-theme.scss:221-225` sets `$theme-focus-width: 1px`, `$theme-focus-style: dashed`, `$theme-focus-color: 'gray-60'`, so what renders is the USWDS focus treatment as HDS configured it.
+
+The practical gap is thickness and consistency: identifier links get a 1px dashed outline where every themed HDS control gets the 2px ring. ⚠️ The exact source of the measured `rgb(92, 92, 92)` was not traced to a specific token in this pass.
+
+**What theming would need to do:**
+
+- Set `$theme-identifier-font-family` (or remap `$theme-font-role-ui`) so the bar matches HDS's Public Sans body type.
+- Decide a deliberate primary-link treatment for the identifier instead of relying on the WCAG auto-substitution landing on plain white.
+- Extend focus-ring coverage to unadorned in-content links (or add `tabindex`-independent selectors) so identifier links get `hds-focus-ring` like every other interactive HDS element.
+- Once themed, remove the `:where(.usa-identifier)` bridge in `base/_palettes.scss` per its own comment ("Remove these once the components get real HDS theming").
 
 ## Memorable Date
 
