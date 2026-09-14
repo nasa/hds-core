@@ -22,29 +22,35 @@ Findings are derived from the USWDS 3.14 source in `node_modules/@uswds/uswds/pa
 
 | Component | Severity | Headline |
 | --- | --- | --- |
-| [Input Mask](#input-mask) | `Unusable` | Mask is completely invisible — HDS paints an opaque background over the transparent overlay USWDS relies on. |
-| [Summary Box](#summary-box) | `Unusable` | White link text at 1.11:1 on the pinned cyan surface across dark, blue and black — measured. |
-| [Search](#search) | `Unusable` | HDS input padding against USWDS's fixed 32px height leaves ~2px of content box; text clips. |
-| [Combo Box](#combo-box) | `Unusable` | The themed control is the hidden one; the visible field matches no HDS selector. |
+| [Input Mask](#input-mask) | `Unusable` | Mask invisible — HDS paints an opaque background over the transparent overlay USWDS relies on. |
+| [Summary Box](#summary-box) | `Unusable` | White link text at 1.11:1 on the pinned cyan surface across dark, blue and black. |
+| [Combo Box](#combo-box) | `Unusable` | The themed control is the one USWDS hides; the visible field matches no HDS selector. |
 | [Character Count](#character-count) | `Unusable` | HDS `.usa-hint` in a later layer erases the over-limit state — both states measure identical. |
 | [Input Prefix and Suffix](#input-prefix-and-suffix) | `Unusable` | HDS input border reappears nested inside the group border; focus outline stripped from error states. |
 | [Card](#card) | `Unusable` | Container hardcodes a white surface, so palette-aware content resolves against the wrong background. |
-| [Step Indicator](#step-indicator) | `Unusable` | Upstream USWDS: `--no-labels` hides the sr-only state text from the a11y tree. State is colour-only. |
+| [Step Indicator](#step-indicator) | `Unusable` | Upstream USWDS: `--no-labels` hides the sr-only state text from the a11y tree. |
 | [File Input](#file-input) | `Unusable` | Rejected file types announce in blue on an orange border — the bug 3.14 fixed, one code path over. |
-| [Modal](#modal) | `Unusable` | No HDS theming at all; `init()` relocates the dialog out of the canvas, so the open state needs a play function. |
+| [Modal](#modal) | `Unusable` | No HDS theming at all; `init()` relocates the dialog out of the canvas. |
+| [Search](#search) | `Off-brand` | A 2px content box where every other HDS field has 10px — crowded, though it does not clip. |
+| [Date Picker](#date-picker) | `Off-brand` | Calendar wholly unthemed; hardcoded selected-date fills cannot follow a palette. |
+| [Time Picker](#time-picker) | `Off-brand` | Same defect as Combo Box, measured identical — one fix covers both. |
+| [Date Range Picker](#date-range-picker) | `Off-brand` | Ships no styles of its own; inherits Date Picker entirely. |
 | [Banner](#banner) | `Off-brand` | Compliance bar is pure white with no border — invisible on the white palette. |
-| [Icon List](#icon-list) | `Off-brand` | Static icon colour ignores the palette; red on blue measures 2.18:1, under the 3:1 non-text threshold. |
+| [Header](#header) | `Off-brand` | Bridged to white; nav links and site title sit outside the HDS type and colour systems. |
+| [Footer](#footer) | `Off-brand` | Bridge flattens three USWDS bands into one white panel separated by a 1px rule. |
+| [Identifier](#identifier) | `Off-brand` | Pinned to the black palette; links get a 1px dashed outline, not the 2px HDS ring. |
+| [Language Selector](#language-selector) | `Off-brand` | Dropdown panel hardcodes NASA Red on all six palettes; submenu links match no HDS focus rule. |
+| [Icon List](#icon-list) | `Off-brand` | Static icon colour ignores the palette; red on blue measures 2.18:1, under the 3:1 threshold. |
 | [Range Slider](#range-slider) | `Off-brand` | Two focus indicators fire at once — HDS dashed rectangle plus USWDS grey thumb ring. |
 | [Tag](#tag) | `Off-brand` | No theme hook at all; hardcoded gray-80 box that nearly vanishes on dark and black. |
 | [Collection](#collection) | `Off-brand` | Body copy renders in Inter instead of Public Sans; tags and date block ignore the palette. |
 | [Process List](#process-list) | `Off-brand` | Counter circles are literal white/ink, sitting as cutouts on dark, blue and black. |
-| [Button Group](#button-group) | `Off-brand` | Segmented separators are static compiled colours; the blue palette leaves a seam on outline-styled buttons. |
+| [Button Group](#button-group) | `Off-brand` | Segmented separators are static compiled colours; blue palette leaves a seam. |
 | [Tooltip](#tooltip) | `Off-brand` | Fixed black body on every palette; USWDS focus ring on the trigger. |
-| [Identifier](#identifier) | `Off-brand` | Pinned to the black palette by the bridge; links get a 1px dashed outline, not the 2px HDS ring. |
 | [Validation](#validation) | `Off-brand` | Checkmark is a hardcoded blue background SVG no theme setting can reach. No cascade collision. |
 | [Memorable Date](#memorable-date) | `Close` | Themed almost entirely by composition — only field geometry is raw USWDS. |
 
-21 of 27 components triaged so far — 10 Unusable, 10 Off-brand, 1 Close.
+All 27 unthemed components triaged: 9 Unusable, 17 Off-brand, 1 Close.
 
 ## Components
 
@@ -125,34 +131,6 @@ Typed characters land 6px right and 6px below the mask glyphs. USWDS gives both 
 - Either move the background onto a palette token, or bridge the component in `base/_palettes.scss` the way `.usa-banner` is bridged, so the link color and the background move together.
 - Apply `hds-focus-ring-inline` to `.usa-summary-box__link`.
 - `src/scss/components/_site-alert.scss` and `_alert.scss` are the closest existing precedent for what this override should look like.
-
-## Search
-
-- **File:** `stories/lab/Search.stories.js`
-- **USWDS docs:** <https://designsystem.digital.gov/components/search/>
-- **USWDS JS:** required (`parameters.uswds: ['search']`) — but a no-op against this markup; see file header for why.
-- **Severity:** Unusable
-- **Variants covered:** 3 variant stories (Default, Big, Small) + All Variants + 2 palette tests
-
-**Inherits correctly from the HDS theme:** The submit `<button class="usa-button">` is fully themed — square corners via `$theme-button-border-radius: hds.$hds-border-radius` (`src/scss/_hds-uswds-theme.scss:439`) and the standard HDS button focus ring (`button-interactive-states`, `src/scss/_hds-mixins.scss`). `.usa-input` also picks up HDS's palette-aware border color and background (`src/scss/components/_form.scss`).
-
-**Breaks or reads as foreign:**
-
-- Padding/height collision: HDS's `.usa-input` sets `padding: 14px 16px` (`src/scss/components/_form.scss`) with no explicit height, while `.usa-search`'s unthemed `[type="search"]` (`node_modules/@uswds/uswds/packages/usa-search/src/styles/_usa-search.scss`) pins `height: units(4)` = 32px, `box-sizing: border-box`. 28px of vertical padding plus a 1–2px border leaves ~2px of content box — input text clips in the Default and Small variants. `usa-search--big` raises the fixed height to `units(6)` = 48px at `mobile-lg`+, which has room; the smaller ones do not.
-- Cascade-layer trap (sixth confirmed instance on this branch, after Character Count, Combo Box, Summary Box, Card, and Step Indicator): unthemed `[type="search"]` zeroes `border-right` and the two right corners so the input reads as one shape with the button. HDS's `.usa-input` rule sets an unconditional `border: ... ; border-radius: 2px;` shorthand in `@layer hds-components`, which outranks `@layer uswds` regardless of specificity — so the right border and right-side radius come back, breaking the seam against the button's square left edge.
-- `:focus` compounds the seam: `.usa-input:focus` thickens the border to 2px solid blue on all sides (the non-dashed input focus system, AGENTS.md → Focus rings), so the leaked right border grows again against the button.
-- `.usa-search` itself never sets `$theme-search-font-family`, so it resolves to USWDS's own default (`"ui"`, `uswds-core/.../settings-components.scss:170`), not the HDS/Public Sans type used elsewhere.
-
-**Palette behaviour:** `.usa-input` and `.usa-button` are both palette-aware (`var(--hds-palette-*)`), so text/border/fill colors adapt across all six palettes. The height-clipping and seam defects above are geometry problems, not color problems, so they reproduce identically on every palette.
-
-**Accessibility risk today:** The clipped input text (see above) is a real usability failure, not just a color one — at the default/small heights, typed or placeholder text does not fully fit the 32px control. USWDS's own accessibility-tests page for Search (14 pass / 1 pass-with-exceptions / 7 conditional / 0 fail) assumes USWDS's own box model; that result does not hold once HDS's larger input padding is layered in without a matching height.
-
-**What theming would need to do:**
-
-- Give `.usa-search [type="search"]`/`.usa-search__input` an explicit height (or unset the fixed `height` and switch to `min-height`) that accounts for HDS's 14px vertical padding, at every `usa-search` size variant.
-- Add a component-scoped override for `.usa-search [type="search"]`/`.usa-search__input` that re-zeroes `border-right` and the two right corners so `.usa-input`'s shorthand border/radius doesn't leak through the cascade-layer priority.
-- Re-check the focus state once the seam is fixed, since the 2px focus border currently makes the leak worse.
-- Decide whether `.usa-search` should consume the HDS input/body type scale via `$theme-search-font-family` instead of the USWDS default.
 
 ## Combo Box
 
@@ -375,6 +353,158 @@ One mismatch the source reading does not surface: in the same error story the ad
 - A themed Modal story will need a **play function** to open the modal and capture the true dialog state (overlay, focus trap, `aria-modal`) — this lab story cannot, and per this task's own constraints should not, fake that DOM.
 - Confirm the close-button/footer-button focus ring is the intended HDS treatment for a floating dialog (no palette ancestor) rather than an oversight of the layer order.
 
+## Search
+
+- **File:** `stories/lab/Search.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/search/>
+- **USWDS JS:** required (`parameters.uswds: ['search']`) — but a no-op against this markup; see file header for why.
+- **Severity:** Off-brand
+- **Variants covered:** 3 variant stories (Default, Big, Small) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The submit `<button class="usa-button">` is fully themed — square corners via `$theme-button-border-radius: hds.$hds-border-radius` (`src/scss/_hds-uswds-theme.scss:439`) and the standard HDS button focus ring (`button-interactive-states`, `src/scss/_hds-mixins.scss`). `.usa-input` also picks up HDS's palette-aware border color and background (`src/scss/components/_form.scss`).
+
+**Breaks or reads as foreign:**
+
+- Padding/height collision: HDS's `.usa-input` sets `padding: 14px 16px` (`src/scss/components/_form.scss`) with no explicit height, while `.usa-search`'s unthemed `[type="search"]` (`node_modules/@uswds/uswds/packages/usa-search/src/styles/_usa-search.scss`) pins `height: units(4)` = 32px, `box-sizing: border-box`. 28px of vertical padding plus a 1–2px border leaves ~2px of content box — input text clips in the Default and Small variants. `usa-search--big` raises the fixed height to `units(6)` = 48px at `mobile-lg`+, which has room; the smaller ones do not.
+- Cascade-layer trap (sixth confirmed instance on this branch, after Character Count, Combo Box, Summary Box, Card, and Step Indicator): unthemed `[type="search"]` zeroes `border-right` and the two right corners so the input reads as one shape with the button. HDS's `.usa-input` rule sets an unconditional `border: ... ; border-radius: 2px;` shorthand in `@layer hds-components`, which outranks `@layer uswds` regardless of specificity — so the right border and right-side radius come back, breaking the seam against the button's square left edge.
+- `:focus` compounds the seam: `.usa-input:focus` thickens the border to 2px solid blue on all sides (the non-dashed input focus system, AGENTS.md → Focus rings), so the leaked right border grows again against the button.
+- `.usa-search` itself never sets `$theme-search-font-family`, so it resolves to USWDS's own default (`"ui"`, `uswds-core/.../settings-components.scss:170`), not the HDS/Public Sans type used elsewhere.
+
+**Palette behaviour:** `.usa-input` and `.usa-button` are both palette-aware (`var(--hds-palette-*)`), so text/border/fill colors adapt across all six palettes. The height-clipping and seam defects above are geometry problems, not color problems, so they reproduce identically on every palette.
+
+**Accessibility risk today:** The clipped input text (see above) is a real usability failure, not just a color one — at the default/small heights, typed or placeholder text does not fully fit the 32px control. USWDS's own accessibility-tests page for Search (14 pass / 1 pass-with-exceptions / 7 conditional / 0 fail) assumes USWDS's own box model; that result does not hold once HDS's larger input padding is layered in without a matching height.
+
+**Correction after browser verification — the box-model measurement is right, the consequence is not.**
+
+Measured against a plain themed HDS text input:
+
+| Element                             | Height | Vertical padding | Content box |
+| ----------------------------------- | ------ | ---------------- | ----------- |
+| `.usa-search [type="search"]`       | 32px   | 14px             | **2px**     |
+| `.usa-input` (plain HDS text field) | 40px   | 14px             | 10px        |
+
+The 2px content box is confirmed exactly as described, and it is a genuine anomaly — this is the only text field in the system at 32px where the rest are 40px. But it does **not** clip text. Screenshotting the field with `05/12/2026` typed in shows the value rendering legibly: an `<input>` centres its value vertically instead of clipping on content-box overflow. The visible result is a shorter, more crowded control, not an unreadable one.
+
+**Severity lowered from `Unusable` to `Off-brand` on that basis.** The seam defects (HDS's border shorthand restoring the right border and radius that USWDS zeroes, and `:focus` thickening it to 2px solid blue) stand as described and are cosmetic. The claim that USWDS's own accessibility-test result "does not hold" under HDS is withdrawn — nothing measured here breaks it.
+
+**What theming would need to do:**
+
+- Give `.usa-search [type="search"]`/`.usa-search__input` an explicit height (or unset the fixed `height` and switch to `min-height`) that accounts for HDS's 14px vertical padding, at every `usa-search` size variant.
+- Add a component-scoped override for `.usa-search [type="search"]`/`.usa-search__input` that re-zeroes `border-right` and the two right corners so `.usa-input`'s shorthand border/radius doesn't leak through the cascade-layer priority.
+- Re-check the focus state once the seam is fixed, since the 2px focus border currently makes the leak worse.
+- Decide whether `.usa-search` should consume the HDS input/body type scale via `$theme-search-font-family` instead of the USWDS default.
+
+## Date Picker
+
+- **File:** `stories/lab/DatePicker.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/date-picker/>
+- **USWDS JS:** required (`parameters.uswds: ['datePicker']`)
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The dashed HDS `:focus-visible` ring in `src/scss/base/_focus.scss:22-28` targets bare `input:not([disabled])`, so the external input `enhanceDatePicker()` builds (`usa-date-picker/src/index.js:929-930`, keeps `.usa-date-picker__external-input` + `.usa-input`) gets the HDS ring, not USWDS's own. Selected-date colors (`primary-vivid`, `blue-10v` in `_usa-date-picker.scss:295-341`) also pick up the HDS theme's NASA-Blue remap of those tokens.
+
+**Breaks or reads as foreign:**
+
+- `.usa-input` (`src/scss/components/_form.scss:108-118`) sits in `@layer hds-components`, which outranks `@layer uswds` by layer order alone regardless of specificity (`AGENTS.md` → Cascade layer order). Its `padding: 14px 16px` (`_form.scss:117`) overrides USWDS's `padding: units(1)` (8px, `uswds-core/.../tokens/units/spacing.scss`) but does not touch `height`. USWDS's `%block-input-styles` (`uswds-core/.../placeholders/_forms.scss:18-29`) still sets a fixed `height: units(5)` = 40px. At `$theme-input-line-height: 2` (`_hds-uswds-theme.scss:349`), 40px minus 28px of vertical padding leaves ~12px for a line box sized for ~32px of text — clipped/overflowing input text, the same fixed-height-vs-enlarged-padding mismatch already confirmed for Search.
+- `background-color: var(--hds-palette-input-bg)` (`_form.scss:111`) also reaches the external input via the same layer mechanism, replacing USWDS's white/`base-dark`-bordered box with an opaque, palette-driven fill.
+- No selector anywhere in `src/scss/` matches `.usa-date-picker*` (`grep -rn "usa-date-picker" src/scss/` returns nothing) — not even a print or palette-bridge entry — so the calendar-toggle button and calendar itself are unaffected but also fully unthemed: USWDS's own `add-background-svg` icon and `base-lightest`/`primary-vivid` fills ship as-is.
+
+**Palette behaviour:** Not fully testable. `.usa-input`'s `background-color: var(--hds-palette-input-bg)` and `border-color: var(--hds-palette-border)` do adapt the external input across all six `.hds-palette-*` wrappers, since those are custom properties resolved per ancestor (`base/_palettes.scss`). But the calendar itself never renders in this story set (see coverage limit below), so the selected-date `primary-vivid`/`blue-10v` fills — which are hardcoded USWDS colors, not palette variables — are untested against the black and blue palettes where contrast is most likely to fail.
+
+**Accessibility risk today:** The clipped input-text risk above is the most consequential — an accessibility failure (illegible/truncated field value), not just an off-brand look, which is why this is `Unusable` rather than `Off-brand`. Beyond that: none identified in the closed-picker state beyond USWDS defaults; the open calendar's `--focused`/`--selected` contrast against the six palettes is an unverified coverage gap (see below), not a confirmed pass.
+
+**Correction after browser verification — the headline claim above does not hold.**
+
+The external input was measured against a plain themed HDS text input, rendering the compiled CSS:
+
+| Element                             | Height | Vertical padding | Content box | Line-height |
+| ----------------------------------- | ------ | ---------------- | ----------- | ----------- |
+| `.usa-date-picker__external-input`  | 40px   | 14px             | 10px        | 16.9px      |
+| `.usa-input` (plain HDS text field) | 40px   | 14px             | 10px        | 16.9px      |
+
+They are identical. USWDS's fixed `height: units(5)` is 40px, which is also what HDS text fields are, so the padding override changes nothing here. If this box model clipped text, every HDS text input would clip. It does not: screenshotting the field with `05/12/2026` typed in shows the value rendering normally, because an `<input>` centres its value vertically rather than clipping on content-box overflow the way a block element does.
+
+`$theme-input-line-height: 2` does not produce a "~32px line box" inside the input either — the measured used line-height is 16.9px.
+
+**Severity lowered from `Unusable` to `Off-brand` on that basis.** What remains is real but cosmetic: the calendar is entirely unthemed, and its hardcoded `primary-vivid` / `blue-10v` selected-date fills are untested against the black and blue palettes because the open calendar is unreachable without a play function.
+
+**What theming would need to do:**
+
+- Give `.usa-date-picker__external-input` (or `.usa-date-picker .usa-input`) its own padding/height pairing instead of inheriting the generic `.usa-input` rule verbatim, so the fixed-height clipping is fixed the same way Search's was.
+- Decide whether the external input should keep the opaque `--hds-palette-input-bg` fill or read as an inline calendar trigger.
+- Theme `.usa-date-picker__button`, `.usa-date-picker__calendar`, and the selected/range date states (`_usa-date-picker.scss:169-341`) against the HDS palette variables rather than USWDS's hardcoded `base-lightest`/`primary-vivid`/`blue-10v`.
+- Add a play-function-driven open-calendar story once theming lands, to actually exercise and snapshot the calendar grid, month/year pickers, and range-selection classes this lab file cannot reach.
+
+**Coverage limit:** `enhanceDatePicker()` guards re-initialization on `datePickerEl.dataset.enhanced` (`usa-date-picker/src/index.js:898`, set at `:967`) the same way combo box and character count do, so the re-init decorator is safe to run per Storybook render. But the calendar node is built `hidden` (`index.js:938`) and only shown by a click handler inside the component's delegated event map — there is no markup-only way to reach the open state. Per the lab story rules (no play functions, no hand-faked calendar markup), every story here snapshots as input + toggle button only.
+
+## Time Picker
+
+- **File:** `stories/lab/TimePicker.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/time-picker/>
+- **USWDS JS:** required (`parameters.uswds: ['timePicker', 'comboBox']`)
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** Nothing distinctive — it inherits exactly what any unthemed USWDS component inherits: NASA-theme colors via `$theme-*` settings in `_hds-uswds-theme.scss` (confirmed no time-picker- or combo-box-specific settings exist there) and the base HDS type/color primitives that reach all USWDS defaults inside `@layer uswds`.
+
+**Breaks or reads as foreign:**
+
+- Identical defect to the Combo Box lab finding, not a distinct one: `enhanceComboBox()` (`node_modules/@uswds/uswds/packages/usa-combo-box/src/index.js:221-230`) builds `.usa-combo-box__input` and hides the generated `<select>`. `.usa-combo-box__input` is absent from the `.usa-input, .usa-textarea, .usa-select` selector list in `src/scss/components/_form.scss:108-118`, so the visible field never gets `var(--hds-palette-border)` / `$hds-border-radius-control`. Time picker's own `init()` (`packages/usa-time-picker/src/index.js:141-149`) calls that same `enhanceComboBox()` directly, so it inherits this exactly.
+- Focus/hover: `_form.scss:141-161` styles `.usa-input:focus`/`:hover`, never `.usa-combo-box__input:focus`/`:hover` — the field keeps USWDS's own combo-box focus/hover treatment, not the HDS solid-blue highlight.
+- Disabled state styling comes from USWDS's own `u-disabled` / `u-disabled-high-contrast-border` mixins in `_usa-combo-box.scss`, not `_form.scss:400`'s `.usa-input:disabled` rule.
+- `.usa-time-picker { width: 10em; }` (`usa-time-picker/src/styles/_usa-time-picker.scss`) is a hardcoded width on top of `.usa-combo-box`'s own `max-width: units($theme-input-max-width)` — a setting `_hds-uswds-theme.scss` never overrides, so this is a pure USWDS default no themed HDS input carries.
+
+**Palette behaviour:** Not measured directly in this session, but nothing in `_form.scss` or `base/_palettes.scss` targets `.usa-combo-box*`/`.usa-time-picker*`, so there is no HDS palette-aware rule to fail — the field renders identically (USWDS defaults) on all six palettes, same as the Combo Box finding.
+
+**Accessibility risk today:** None identified beyond the USWDS defaults already tracked in `docs/508.md` (time picker is named there, under 3.3.2 and 502.3.6, as a component "not styled by HDS" shipped as-is; USWDS 3.14.0 is recorded as having repaired most of its ACR-flagged issues per `docs/USWDS-3.14.0-IMPACT.md`). Without the re-init decorator this story uses, the component would not exist at all in Storybook — it would render as a bare, non-functional `<input type="text">`, the same native-input-fallback gap `docs/508.md:165` records for file input.
+
+**Measured in a browser**, closing the gap the analysis flagged. Rendering the default story under the decorator, the enhanced field computes to:
+
+| Property                 | Time Picker       | Combo Box (measured separately) |
+| ------------------------ | ----------------- | ------------------------------- |
+| `border-top-color`       | `rgb(46, 46, 46)` | `rgb(46, 46, 46)`               |
+| `border-top-left-radius` | `0px`             | `0px`                           |
+
+Identical, which confirms the claim that this is the same defect rather than a related one — `usa-time-picker/src/index.js` calls `enhanceComboBox()` directly, so the two components share one visible control and one fix. The enhancement itself works: the input, toggle button and listbox are all built.
+
+Both should be resolved by a single change — teaching HDS's form rules about `.usa-combo-box__input` — and the theming issue should cover them together rather than separately.
+
+**What theming would need to do:**
+
+- Extend the `.usa-input, .usa-textarea, .usa-select` rule in `_form.scss:108-118` (and its `:focus`/`:hover`/`:disabled` companions) to include `.usa-combo-box__input`, or add a parallel combo-box-specific ruleset — this single gap is the whole defect, shared with Combo Box.
+- Decide whether `.usa-time-picker`'s hardcoded `width: 10em` should stay a fixed width or move to the token spacing/sizing scale.
+- Theme `.usa-combo-box__list` / `.usa-combo-box__list-option` (the dropdown) once the field itself is themed — untouched by this triage.
+- Any combo-box theming issue should explicitly note it also fixes time picker, so the two aren't tracked (or fixed) independently.
+
+## Date Range Picker
+
+- **File:** `stories/lab/DateRangePicker.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/date-range-picker/>
+- **USWDS JS:** required (`parameters.uswds: ['dateRangePicker', 'datePicker']`)
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories (Default range, Min/max bounds, Pre-filled range, Disabled) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** Both visible `<input>` elements keep the plain `.usa-input` class after USWDS clones them (`node_modules/@uswds/uswds/packages/usa-date-picker/src/index.js` `enhanceDatePicker`), so they get the full HDS text-field treatment — palette-aware background/border, hover, and the solid-blue focus highlight — from `src/scss/components/_form.scss:108-150`. `grep -rn "usa-date-range-picker\|usa-date-picker" src/scss/` returns nothing, confirming no dedicated HDS rule exists; this input theming is inherited only because the picker reuses the generic `.usa-input` selector.
+
+**Breaks or reads as foreign:**
+
+- The calendar popup's selected/range-date fills are hardcoded literal colors — `color("primary-vivid")` and `color("blue-10v")` — in `node_modules/@uswds/uswds/packages/usa-date-picker/src/styles/_usa-date-picker.scss:262-311`, not `$theme-*` settings, so they cannot adapt to any HDS palette.
+- The calendar's focused-date ring is a hardcoded `focus-outline(... $color: "blue-warm-80v")` (`_usa-date-picker.scss:230,343,404,462`) — the USWDS ring, never HDS's `hds-focus-ring` mixin (`src/scss/_hds-mixins.scss`, `src/scss/base/_focus.scss`).
+- Each `.usa-date-picker__wrapper` is capped by `max-width: units($theme-input-max-width)` (`_usa-date-picker.scss:57`), and `$theme-input-max-width` is unset in `src/scss/_hds-uswds-theme.scss`, so picker width falls back to a USWDS default rather than an HDS one.
+- The calendar toggle button and popup container are unstyled USWDS chrome (`.usa-date-picker__button`, `.usa-date-picker__calendar`) sitting directly beside the fully-themed `.usa-input` field, so the seam between "HDS" and "USWDS" is visible on every palette.
+
+**Palette behaviour:** The closed-picker chrome (both input fields, labels, hints) adapts correctly across all six palettes via `--hds-palette-*` custom properties in `_form.scss`. The calendar popup itself — reachable only once opened — cannot be measured statically; per the hardcoded literal colors above it is expected to clash on the blue palette (saturated blue-on-blue) and to be untested against the black palette.
+
+**Accessibility risk today:** None identified in the static (closed) markup beyond USWDS defaults — the two inputs carry `aria-labelledby`/`aria-describedby` and USWDS's own accessibility-tests page (`https://designsystem.digital.gov/components/date-range-picker/accessibility-tests/`) reports 13/16 passed, 1 passed-with-exception (no visible instructions for the calendar button), 0 failures. ⚠️ The open calendar's contrast against the six HDS palettes is unverified — it could not be reached without a play function, which this lab file intentionally omits.
+
+**What theming would need to do:**
+
+- Route the calendar's selected/range/within-range fills through `--hds-palette-*` custom properties instead of literal `primary-vivid`/`blue-10v`.
+- Replace the calendar's hardcoded `blue-warm-80v` focus outline with the `hds-focus-ring` mixin infrastructure.
+- Set `$theme-input-max-width` (or an equivalent override) so both pickers take an intentional HDS width instead of the USWDS default.
+- Verify the reachable-only-when-open calendar against all six palettes once a themed build exists — this triage could not measure it statically.
+
 ## Banner
 
 - **File:** `stories/lab/Banner.stories.js`
@@ -403,6 +533,127 @@ One mismatch the source reading does not surface: in the same error story the ad
 - Decide the banner's type role: either set `$theme-banner-font-family` to `'body'` so it matches HDS body copy, or accept Inter as the deliberate "system chrome" voice and record it in docs/DESIGN.md.
 - Decide whether the HDS accordion chevron should reach the banner toggle, and either narrow `$_accordion-guard` in `src/scss/components/_accordion.scss:39` or style `.usa-banner__button` directly.
 - Verify the mobile (`< tablet`) focus state on a real device width before shipping any banner theming, and if the collision is real, give `.usa-banner__button` an explicit `hds-focus-ring` call that does not fight `u-pin` or the expanded-state `::before`.
+
+## Header
+
+- **File:** `stories/lab/Header.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/header/>
+- **USWDS JS:** required (`parameters.uswds: ['navigation']`)
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories (Basic, Basic + megamenu, Extended, Extended + megamenu) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** Type sizing along `$theme-header-min-width`/`$theme-header-max-width` (`_hds-uswds-theme.scss:386-387`) and the font-role mapping (`$theme-header-font-family`) flow through the shared HDS type scale, and the whole surface is pinned to a readable white-on-white presentation by the surface bridge (`base/_palettes.scss:326`, `_scheme-light`), so text/link contrast holds on every palette even though the palette itself is ignored.
+
+**Breaks or reads as foreign:**
+
+- The accordion initial-state decorator (`.storybook/preview.js`) does set `hidden` on `.usa-nav:not(.is-visible)`, but it does **not** hide the nav. Measured at 1200px: `.usa-nav` computes `display: flex` — USWDS's own rule out-cascades `[hidden]`'s UA `display: none` — and renders 53.9px tall, with `.usa-nav__primary` at 45.9px and all three top-level items visible. Screenshotting the story shows the complete header: site title, Missions / News & Events / About NASA with dropdown chevrons, search field and submit button. The only zero-height links are those inside `.usa-nav__submenu`, which the decorator correctly collapses because their trigger carries `aria-expanded="false"`. These stories are visually reviewable as they stand.
+- Search input/`​.usa-input` picks up the global HDS text-field override (`components/_form.scss:111-117`) — different padding/background/radius than USWDS's own compact search field.
+- Search submit `.usa-button` gets the full NASA-Red CTA button treatment (`components/_button.scss:68-92`) — a wide red button where USWDS ships a small icon-only affordance.
+- Primary nav link color is hardcoded to `color($nav-link-color)` (`base-dark`, `usa-nav/src/styles/_usa-nav.scss`), not a `--hds-palette-*` custom property.
+- Site title (`.usa-logo__text`) uses USWDS's own font-size/line-height mapping off `$theme-header-font-family`, independent of HDS's heading scale.
+
+**Palette behaviour:** Pinned to the white palette by the surface bridge (`base/_palettes.scss:326`, shared with `.usa-banner`/`.usa-footer`); all six `PaletteA11y` copies render near-identically — expected, not a bug, per the same pattern documented in `Footer.stories.js`/`Banner.stories.js`.
+
+**Accessibility risk today:** Beyond the Storybook-only nav-visibility artifact above, none identified from source: `base/_focus.scss:25`'s bare `button:not([disabled]):focus-visible` reaches `.usa-menu-btn`, `.usa-nav__close`, and the submenu-trigger buttons (none carry `.usa-button`), giving them the HDS ring; the search submit button is `.usa-button`-classed, so it gets `components/_button.scss`'s own `:focus-visible` in the later `hds-components` layer instead — both paths resolve to a visible ring, just two different ones. USWDS's own accessibility-tests page (fetched) reports 19/26 passed, 1 passed-with-exceptions (mobile search tab order, standard variant only — resolved in extended), 6 conditional/implementation-dependent, 0 failed.
+
+**Correction after browser verification.** An earlier reading of this component claimed the decorator made the entire nav invisible at every width, and rated it `Unusable` on that basis. Measurement disproves it (see the first bullet above); severity lowered to `Off-brand`. A real defect did turn up in the same pass, though — the search submit icon pointed at `assets/img/usa-icons/search--white.svg`, which 404s. That file lives in `usa-icons-bg/`, not `usa-icons/`. Fixed in the story, and the story now loads with no 404s.
+
+**What theming would need to do:**
+
+- Decide whether the header/nav get a real HDS surface (removing the white-palette bridge) or stay pinned per `docs/DESIGN.md` → "Header, Footer, and Banner: untouched until Phase 2".
+- Route nav link color and the search input/button through `--hds-palette-*` custom properties instead of USWDS's hardcoded `base-dark`/CTA-red.
+- Reconcile the site title's type scale with HDS headings.
+- Give the mobile "Menu"/close/submenu-trigger buttons the same focus treatment intentionally, rather than as a byproduct of the bare `button:focus-visible` rule.
+
+## Footer
+
+- **File:** `stories/lab/Footer.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/footer/>
+- **USWDS JS:** required (`parameters.uswds: ['footer']`)
+- **Severity:** Off-brand
+- **Variants covered:** 3 variant stories (Slim, Medium, Big) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The surface bridge in `base/_palettes.scss:326-333` pins `.usa-footer` to the full `_scheme-light` custom-property set (not just a background), so the big footer's sign-up `.usa-input` (`components/_form.scss:111-117`) always gets a defined `--hds-palette-input-bg`/`-border`/`-control-text`, regardless of what palette (if any) wraps the page — contrast holds. `.usa-label` and `.usa-button` inside that same form are also global HDS overrides (`_form.scss:169-174`, `components/_button.scss:68-73`), so the sign-up form is the one part of this component that is substantially HDS-styled already, not stock USWDS.
+
+**Breaks or reads as foreign:**
+
+- Three visual bands (return-to-top, primary, secondary) collapse into one flat white panel: `_usa-footer.scss:61,186` hardcode `base-lightest`/`base-lighter`, both remapped to white-ish values by `_hds-uswds-theme.scss`, then the bridge repaints the whole thing `$hds-color-spacesuit-white` again — only a 1px `base-light` rule separates the bands.
+- Footer nav links (`.usa-footer__primary-link`, `.usa-footer__secondary-link a`) carry no `.usa-link` class in the authored USWDS 3.14 twig markup, and `components/_link.scss` only targets `.usa-link`/`.usa-link--external` — so none of HDS's dashed-underline or diagonal-arrow link treatment reaches them; they render as bold USWDS-default `ink` text.
+- The HDS-themed sign-up label/input/button sit inside an otherwise-unstyled `.usa-sign-up`/`.usa-form` wrapper — a themed control in an unthemed container, the same mismatch already flagged for Card's footer button, compounded three ways here.
+- Big-footer section headings (`@include h4`, `_usa-footer.scss:337`) and the sign-up heading (`@include h3`) resolve through HDS's type scale independently, so the two headings in the same row are not guaranteed to look like an HDS heading pair.
+
+**Palette behaviour:** Pinned to white by the surface bridge (`base/_palettes.scss:326`), so all six `PaletteA11y` copies are expected to render near-identically — sameness is the pass condition, matching the peer bridged component in `stories/lab/Banner.stories.js`. ⚠️ One gap the palette stories cannot surface: the sign-up `<h3>` heading's color rule is scoped to `[class*="hds-palette-"]` descendants (`base/_elements.scss:25,102-114`); the bridge sets custom properties on `.usa-footer` but does not itself add a `hds-palette-*` class, so on a real page with no ancestor palette wrapper, that heading may not receive `--hds-palette-heading` at all. Every story here wraps the footer in a `.hds-palette-*` div, so this can't be verified visually from the lab stories — flagged, not confirmed broken.
+
+**Accessibility risk today:** None identified beyond USWDS defaults — USWDS's own accessibility-tests page reports 13/15 passed, 0 failed, 2 conditional (link-text specificity and image alt text, both content-dependent, not a theming defect). The big footer's disclosure buttons only exist below a 480px viewport (`usa-footer/src/index.js`); above that, `.usa-footer__primary-link` stays a plain, non-interactive `<h4>` by design — not a missing enhancement.
+
+**What theming would need to do:**
+
+- Give the three footer bands distinct tonal surfaces (or a deliberate flat-white decision) instead of inheriting USWDS's `base-lightest`/`base-lighter` remap only to have the bridge flatten it back to white.
+- Decide whether footer nav links should carry `.usa-link` (HDS dashed underline) or stay a footer-specific link treatment — right now they get neither deliberately.
+- Reconcile the sign-up form's already-HDS-themed controls with an unthemed `.usa-sign-up`/`.usa-form` shell (spacing, heading style, label/legend rhythm).
+- Confirm (design call, not implementation) whether the big-footer `h4` and sign-up `h3` should share one HDS heading treatment, and verify the `$_p`-scoped heading-color gap noted above against a real, unwrapped page.
+
+## Identifier
+
+- **File:** `stories/lab/Identifier.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/identifier/>
+- **USWDS JS:** none
+- **Severity:** Off-brand
+- **Variants covered:** 4 variant stories (Default, No logos, Multiple parents and logos, Taxpayer disclaimer) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The black background (`#000`) and its white/gray text (`#fff`, `#e6e6e6`) all resolve through HDS's remapped `base-darkest`/`base-light`/`base-ink` tokens (`src/scss/_hds-uswds-theme.scss:78,86,88`) rather than raw USWDS defaults, and every color combination passes contrast comfortably — verified against the compiled selectors in `dist/css/hds.min.css`.
+
+**Breaks or reads as foreign:**
+
+- Typesets in Inter (`$theme-font-role-ui: 'serif'` → `$theme-font-type-serif: 'inter'`, `_hds-uswds-theme.scss:232,235`) while HDS body copy is Public Sans — same mismatch already flagged for Banner.
+- The masthead and USA.gov links carry no distinct link color: `set-link-from-bg`'s WCAG token search can't reach HDS's `$theme-link-color: 'ink'` (→ black) on this black surface, so it substitutes white — compiled `color:#fff`, identical to the surrounding body text (`dist/css/hds.min.css`). Links read only via underline.
+- No focus ring on any interactive element. Every clickable element is a plain `<a>` with no `tabindex`; `base/_focus.scss`'s `:focus-visible` selector list (`[contenteditable]`, `[tabindex]`, `iframe`, `button`, `input`, `select`, `textarea`) never matches it, and USWDS's own `typeset-link` mixin (the one place a `:focus { outline }` is defined, `uswds-core/.../typeset.scss:92-94`) is never invoked by `.usa-identifier` — it only calls the plain `typeset()` mixin. Keyboard users get the bare browser default outline.
+
+**Palette behaviour:** Pinned to the BLACK palette (`--hds-palette-bg: $hds-color-carbon-black`) by the surface bridge in `base/_palettes.scss:335-342` — the one bridge pinned dark rather than white (banner/header/footer are pinned white, `_palettes.scss:326-333`). All six wrapping palettes render near-identically by design; a visible difference between them would indicate the bridge broke, not a passing result.
+
+**Accessibility risk today:** No color-contrast failures found (verified compiled hex values). The real risk is the missing focus indicator described above — every identifier link falls back to the browser's native outline rather than HDS's dashed ring, so its visibility is inconsistent across browsers/OSes and never matches the rest of the site.
+
+**Verified in a browser** — with one correction to the characterisation above. Focusing a required link computes `outline: 1px dashed rgb(92, 92, 92)` and `::before { content: none }`. So:
+
+- HDS's `hds-focus-ring` is definitively **not** applied — that mixin paints through a `::before` pseudo-element at 2px, and there is no such pseudo-element here.
+- But this is not the _bare browser_ default either. `_hds-uswds-theme.scss:221-225` sets `$theme-focus-width: 1px`, `$theme-focus-style: dashed`, `$theme-focus-color: 'gray-60'`, so what renders is the USWDS focus treatment as HDS configured it.
+
+The practical gap is thickness and consistency: identifier links get a 1px dashed outline where every themed HDS control gets the 2px ring. ⚠️ The exact source of the measured `rgb(92, 92, 92)` was not traced to a specific token in this pass.
+
+**What theming would need to do:**
+
+- Set `$theme-identifier-font-family` (or remap `$theme-font-role-ui`) so the bar matches HDS's Public Sans body type.
+- Decide a deliberate primary-link treatment for the identifier instead of relying on the WCAG auto-substitution landing on plain white.
+- Extend focus-ring coverage to unadorned in-content links (or add `tabindex`-independent selectors) so identifier links get `hds-focus-ring` like every other interactive HDS element.
+- Once themed, remove the `:where(.usa-identifier)` bridge in `base/_palettes.scss` per its own comment ("Remove these once the components get real HDS theming").
+
+## Language Selector
+
+- **File:** `stories/lab/LanguageSelector.stories.js`
+- **USWDS docs:** <https://designsystem.digital.gov/components/language-selector/>
+- **USWDS JS:** required (`parameters.uswds: ['languageSelector']`)
+- **Severity:** Off-brand
+- **Variants covered:** 5 variant stories (Two languages, Three or more, Small, Unstyled, Open) + All Variants + 2 palette tests
+
+**Inherits correctly from the HDS theme:** The trigger button (`.usa-language__link.usa-button`) is a real `.usa-button` and gets the full HDS button theme from `src/scss/components/_button.scss` — square corners, Inter type, NASA Red fill, and the HDS focus-ring override in `button-interactive-states`.
+
+**Breaks or reads as foreign:**
+
+- `.usa-language__submenu` hardcodes `background-color: color("primary-darker")` (NASA Red 70v) instead of a `--hds-palette-*` property (`node_modules/@uswds/uswds/packages/usa-language-selector/src/styles/_usa-language-selector.scss`, lines 61-67) — the dropdown panel is a fixed red box on every palette.
+- The same rule hardcodes link/hover text to `color("white")` rather than `--hds-palette-link-text` (same file, lines 74-89) — legible only by accident of the fixed red background.
+- No `$theme-navigation-font-family` override exists in `src/scss/_hds-uswds-theme.scss`, so submenu list type resolves against USWDS's un-overridden `"ui"` default rather than an HDS type slot.
+- `.usa-language--small .usa-button` keys off `$theme-header-font-family` / `$theme-button-small-width`, neither set by HDS, so the header-sized trigger's type and min-width are USWDS defaults.
+
+**Palette behaviour:** The trigger adapts (themed `.usa-button`). The dropdown panel does not — same NASA-Red-Shade box with white text on all six palettes, most jarring on blue, dark, and black.
+
+**Accessibility risk today:** Confirmed cascade-layer check, selector by selector: `base/_focus.scss`'s bare `button:not([disabled]):focus-visible` (in `@layer hds-base`) never actually reaches the trigger — the more specific `.usa-button` override in `@layer hds-components` wins regardless, since later layers beat earlier ones at any specificity, so the trigger's ring is themed as designed. But the dropdown's plain `<a>` submenu items match **no** HDS selector at all — `_focus.scss` has no bare `a:focus-visible` rule, and `hds-link-appearance` (`components/_link.scss`) is scoped to `.usa-link`. Keyboard focus on a submenu item falls through to the unstyled browser default outline (USWDS's own rule only sets `outline-offset`), while `_focus.scss`'s `a:focus:not(:focus-visible){outline:none}` _does_ reach those same links and suppresses even that on mouse click. Net effect: a keyboard user gets an inconsistent, unthemed ring on dropdown items right below a fully-themed trigger button.
+
+**What theming would need to do:**
+
+- Wire `.usa-language__submenu` background/text to `--hds-palette-*` (surface + link-text) so the panel matches its ancestor palette instead of always painting NASA Red.
+- Give submenu links a real focus treatment — likely `hds-focus-ring-inline` via a `.usa-language__submenu-item a` rule, since the bare-selector/base-layer approach doesn't cover plain anchors.
+- Decide whether `$theme-navigation-font-family` should be set explicitly (to `'body'` or a dedicated slot) rather than left at USWDS's `"ui"` default.
+- Confirm the small/header variant's type and min-width against the real header component once header theming is scoped (currently out of theming scope per AGENTS.md "Components without HDS theming").
 
 ## Icon List
 
@@ -613,40 +864,6 @@ So on keyboard focus the control shows **a dashed HDS rectangle around the whole
 - Set the tooltip surface from the palette, or invert it explicitly on the black palette.
 - Zero the radius in the theme files.
 - Apply `hds-focus-ring` to `.usa-tooltip__trigger`.
-
-## Identifier
-
-- **File:** `stories/lab/Identifier.stories.js`
-- **USWDS docs:** <https://designsystem.digital.gov/components/identifier/>
-- **USWDS JS:** none
-- **Severity:** Off-brand
-- **Variants covered:** 4 variant stories (Default, No logos, Multiple parents and logos, Taxpayer disclaimer) + All Variants + 2 palette tests
-
-**Inherits correctly from the HDS theme:** The black background (`#000`) and its white/gray text (`#fff`, `#e6e6e6`) all resolve through HDS's remapped `base-darkest`/`base-light`/`base-ink` tokens (`src/scss/_hds-uswds-theme.scss:78,86,88`) rather than raw USWDS defaults, and every color combination passes contrast comfortably — verified against the compiled selectors in `dist/css/hds.min.css`.
-
-**Breaks or reads as foreign:**
-
-- Typesets in Inter (`$theme-font-role-ui: 'serif'` → `$theme-font-type-serif: 'inter'`, `_hds-uswds-theme.scss:232,235`) while HDS body copy is Public Sans — same mismatch already flagged for Banner.
-- The masthead and USA.gov links carry no distinct link color: `set-link-from-bg`'s WCAG token search can't reach HDS's `$theme-link-color: 'ink'` (→ black) on this black surface, so it substitutes white — compiled `color:#fff`, identical to the surrounding body text (`dist/css/hds.min.css`). Links read only via underline.
-- No focus ring on any interactive element. Every clickable element is a plain `<a>` with no `tabindex`; `base/_focus.scss`'s `:focus-visible` selector list (`[contenteditable]`, `[tabindex]`, `iframe`, `button`, `input`, `select`, `textarea`) never matches it, and USWDS's own `typeset-link` mixin (the one place a `:focus { outline }` is defined, `uswds-core/.../typeset.scss:92-94`) is never invoked by `.usa-identifier` — it only calls the plain `typeset()` mixin. Keyboard users get the bare browser default outline.
-
-**Palette behaviour:** Pinned to the BLACK palette (`--hds-palette-bg: $hds-color-carbon-black`) by the surface bridge in `base/_palettes.scss:335-342` — the one bridge pinned dark rather than white (banner/header/footer are pinned white, `_palettes.scss:326-333`). All six wrapping palettes render near-identically by design; a visible difference between them would indicate the bridge broke, not a passing result.
-
-**Accessibility risk today:** No color-contrast failures found (verified compiled hex values). The real risk is the missing focus indicator described above — every identifier link falls back to the browser's native outline rather than HDS's dashed ring, so its visibility is inconsistent across browsers/OSes and never matches the rest of the site.
-
-**Verified in a browser** — with one correction to the characterisation above. Focusing a required link computes `outline: 1px dashed rgb(92, 92, 92)` and `::before { content: none }`. So:
-
-- HDS's `hds-focus-ring` is definitively **not** applied — that mixin paints through a `::before` pseudo-element at 2px, and there is no such pseudo-element here.
-- But this is not the _bare browser_ default either. `_hds-uswds-theme.scss:221-225` sets `$theme-focus-width: 1px`, `$theme-focus-style: dashed`, `$theme-focus-color: 'gray-60'`, so what renders is the USWDS focus treatment as HDS configured it.
-
-The practical gap is thickness and consistency: identifier links get a 1px dashed outline where every themed HDS control gets the 2px ring. ⚠️ The exact source of the measured `rgb(92, 92, 92)` was not traced to a specific token in this pass.
-
-**What theming would need to do:**
-
-- Set `$theme-identifier-font-family` (or remap `$theme-font-role-ui`) so the bar matches HDS's Public Sans body type.
-- Decide a deliberate primary-link treatment for the identifier instead of relying on the WCAG auto-substitution landing on plain white.
-- Extend focus-ring coverage to unadorned in-content links (or add `tabindex`-independent selectors) so identifier links get `hds-focus-ring` like every other interactive HDS element.
-- Once themed, remove the `:where(.usa-identifier)` bridge in `base/_palettes.scss` per its own comment ("Remove these once the components get real HDS theming").
 
 ## Validation
 
