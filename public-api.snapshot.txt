@@ -456,7 +456,7 @@ hds-type-classes
 .usa-alert__text
 .usa-banner
 .usa-breadcrumb
-.usa-breadcrumb--wrap
+.usa-breadcrumb--truncate
 .usa-breadcrumb__link
 .usa-breadcrumb__list
 .usa-breadcrumb__list-item
