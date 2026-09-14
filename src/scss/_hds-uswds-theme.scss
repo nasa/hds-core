@@ -43,7 +43,6 @@
 // HDS Core Proposal: primary = NASA Red, secondary = NASA Blue.
 // This file swaps the families so that USWDS components like
 // .usa-button automatically render with HDS brand colors.
-// See docs/DESIGN.md Class Naming Convention for rationale.
 // ============================================================
 
 @use 'hds-tokens' as hds;

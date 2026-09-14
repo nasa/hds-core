@@ -39,8 +39,6 @@
 //   - Mobile quote text: 28px per Proposal (Figma 29px off-scale)
 //   - Description opacity dropped — fails WCAG 4.5:1 on light
 //   - Dark attribution color inconsistency — ships --hds-palette-muted
-//
-// See docs/DESIGN.md for full rationale.
 // ============================================================
 
 @use 'sass:map';

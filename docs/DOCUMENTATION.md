@@ -6,7 +6,7 @@ Last updated: 2026-05-20
 
 ## Audience
 
-HDS Core Storybook documentation is for developers, designers, and site administrators implementing HDS components. It is not for HDS Core maintainers — maintainer context belongs in code comments, DESIGN.md, and ARCHITECTURE.md.
+HDS Core Storybook documentation is for developers, designers, and site administrators implementing HDS components. It is not for HDS Core maintainers. Maintainer context belongs in code comments and ARCHITECTURE.md.
 
 Write as if the reader knows HTML/CSS and USWDS basics, but has never looked at HDS Core source code.
 
@@ -14,7 +14,7 @@ Write as if the reader knows HTML/CSS and USWDS basics, but has never looked at 
 
 **No emojis in section headers.** Emojis can look unprofessional or like AI-generated text. Use them very sparingly, and only in body text if absolutely necessary.
 
-**No internal architecture terms in docs.** "Tier 1 override," "palette-aware custom properties," "shared mixin" — these belong in code comments and DESIGN.md.
+**No internal architecture terms in docs.** "Tier 1 override," "palette-aware custom properties," "shared mixin" — these belong in code comments.
 
 **No visual implementation details.** Don't explain which CSS tokens produce a color or how a `::after` pseudo-element creates an indicator. Show the result, not the mechanism.
 
@@ -204,7 +204,7 @@ import { Note } from '../helpers/Note';
 - Main text must stand alone without Notes
 - Only when a developer would be genuinely confused
 - **USWDS notes:** Focus on markup and usage differences, not visual differences. HDS is a visual theme — everything looks different from vanilla USWDS. Only note differences that affect how a developer writes markup.
-- **Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in DESIGN.md.
+- **Figma notes:** Flag where developers or designers would see a discrepancy between Storybook and Figma. Don't flag maintainer concerns (pending reviews, inferred values) — those belong in code comments or GitHub issues.
 
 ### Future Foundations improvements
 

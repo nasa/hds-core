@@ -18,6 +18,7 @@ import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/palet
 
 export default {
   title: 'Components/Select',
+  tags: ['status:experimental'],
 };
 
 // --- Helpers ---
