@@ -101,7 +101,7 @@
     "@storybook/addon-vitest": "^10.5.3",
     "@storybook/html-vite": "^10.5.3",
     "@vitest/browser-playwright": "^4.1.11",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.1",
     "autoprefixer": "^10.5.4",
     "concurrently": "^10.0.4",
     "cssnano": "^9.0.4",
