@@ -15,6 +15,10 @@
 // Midtone and blue use the same palette vars — may need
 // creative director review once visible in Storybook.
 //
+// HDS trails are short and single-line (kept at line-height 1.35,
+// where USWDS 3.14.0 raised its wrapped default to 1.5). --truncate
+// is unsupported; see the override below.
+//
 // Restyles: https://designsystem.digital.gov/components/breadcrumb/
 // ============================================================
 
@@ -33,10 +37,18 @@
   line-height: 1.35; // scale 3 — snug
 }
 
-// USWDS clips the list to hide overflow for truncation. Override
-// overflow only so focus ring gradients can paint outside list bounds.
-.usa-breadcrumb:not(.usa-breadcrumb--wrap) .usa-breadcrumb__list {
+// Let the focus ring paint outside the list bounds. Scoped off the
+// --truncate variant (USWDS 3.14.0's opt-in clip) so opting in still
+// gets the upstream ellipsis.
+.usa-breadcrumb:not(.usa-breadcrumb--truncate) .usa-breadcrumb__list {
   overflow: visible;
+}
+
+// On --truncate, clip horizontally only so the ellipsis works without
+// clipping the focus ring above and below the line.
+.usa-breadcrumb--truncate .usa-breadcrumb__list {
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 // ------------------------------------------------------------
@@ -49,6 +61,13 @@
   color: inherit;
   text-decoration: none;
   background-image: none;
+}
+
+// USWDS underlines the link's inner <span> (present in the RDFa /
+// structured-data markup). HDS uses hover/focus underlines instead, so
+// clear it here too or the crumb text renders permanently underlined.
+.usa-breadcrumb__link span {
+  text-decoration: none;
 }
 
 .usa-breadcrumb__link:hover {
@@ -84,6 +103,16 @@
 
 .usa-breadcrumb__list-item.usa-current {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
+
+  // Cap a long current-page title so the trail stays on one line;
+  // ancestor links are never clipped. inline-block because USWDS
+  // renders list items inline, which ignores max-width/text-overflow.
+  display: inline-block;
+  max-width: 40ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
 }
 
 // ------------------------------------------------------------
