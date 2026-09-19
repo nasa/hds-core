@@ -16,9 +16,15 @@ PACKAGES=(
   uswds-form-controls
   usa-table
   usa-accordion
+  usa-alert
   usa-breadcrumb
   usa-in-page-navigation
+  usa-intro
+  usa-link
+  usa-list
   usa-pagination
+  usa-prose
+  usa-sidenav
   usa-site-alert
 )
 
