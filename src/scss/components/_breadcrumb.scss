@@ -37,15 +37,9 @@
   line-height: 1.35; // scale 3 — snug
 }
 
-// Let the focus ring paint outside the list bounds. Scoped off the
-// --truncate variant (USWDS 3.14.0's opt-in clip) so opting in still
-// gets the upstream ellipsis.
-.usa-breadcrumb:not(.usa-breadcrumb--truncate) .usa-breadcrumb__list {
-  overflow: visible;
-}
-
-// On --truncate, clip horizontally only so the ellipsis works without
-// clipping the focus ring above and below the line.
+// USWDS 3.14.0's opt-in --truncate sets overflow: hidden on the list,
+// which clips the focus ring. Clip horizontally only so the ellipsis
+// still works while the ring paints above and below the line.
 .usa-breadcrumb--truncate .usa-breadcrumb__list {
   overflow-x: clip;
   overflow-y: visible;
@@ -104,11 +98,13 @@
 .usa-breadcrumb__list-item.usa-current {
   color: var(--hds-palette-heading, #{$hds-color-carbon-black});
 
-  // Cap a long current-page title so the trail stays on one line;
-  // ancestor links are never clipped. inline-block because USWDS
-  // renders list items inline, which ignores max-width/text-overflow.
-  display: inline-block;
-  max-width: 40ch;
+  // Cap a long current-page title with an ellipsis; ancestor links are
+  // never clipped. USWDS renders each crumb inline-block at mobile-lg and
+  // up (below that the current item is sr-only), so the cap applies
+  // without setting display here. On --truncate USWDS switches crumbs to
+  // inline, so the cap steps aside for the list-level ellipsis. The 100%
+  // bound keeps the label inside narrow containers.
+  max-width: min(40ch, 100%);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
