@@ -111,7 +111,7 @@ Register the component with a `@forward` in the correct category block of `src/s
 
 You do not add anything to the USWDS import. Every USWDS component already ships, loaded once via `meta.load-css('uswds')` in `hds.scss`; a restyle just adds an overriding layer on top. The only reason to touch USWDS loading is if USWDS itself releases a brand-new component package, which is rare and outside the everyday flow.
 
-> [!NOTE] **Restyling a USWDS component.** Add the upstream package to the `PACKAGES` list in `scripts/check-uswds.sh`, then regenerate the baseline (`rm scripts/uswds-package-hashes.txt && npm run check:uswds`). This is what fails the build when a future USWDS upgrade changes a package that HDS styles, so we know to re-verify. The package name is the directory under `node_modules/@uswds/uswds/packages/` (usually `usa-<component>`; form controls live in `uswds-form-controls`).
+> [!NOTE] **Restyling a USWDS component.** Add the upstream package to the `PACKAGES` list in `scripts/check-uswds.sh`, then regenerate the baseline (`rm scripts/uswds-package-hashes.txt && npm run check:uswds`). This is what fails the build when a future USWDS upgrade changes a package that HDS styles, so we know to re-verify. The package name is the directory under `node_modules/@uswds/uswds/packages/` (usually `usa-<component>`). Form controls are separate packages too (`usa-input`, `usa-checkbox`, and so on); do not register the `uswds-form-controls` aggregator, which contains only `@forward` lines and never changes when the controls do.
 
 ## 4. Write the stories
 
