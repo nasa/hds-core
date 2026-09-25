@@ -137,6 +137,93 @@ export const AllVariants = {
   `,
 };
 
+// --- Guidance embeds (MDX Canvas targets, hidden from sidebar) ---
+
+// Long current-page title, demonstrating the ellipsis cap on the
+// current crumb. Only the non-link current page clips; ancestor
+// links stay fully readable.
+export const LongTitle = {
+  name: 'Long current-page title',
+  tags: ['!dev'],
+  render: () =>
+    breadcrumb([
+      '…',
+      'Contracting assistance programs',
+      'Women-owned small business federal contracting program overview and eligibility',
+    ]),
+};
+
+// Structured-data (RDFa) markup for schema.org BreadcrumbList, which
+// powers breadcrumb rich results in search. Adapted from the USWDS
+// metadata pattern to the HDS 3-element trail with real hrefs.
+export const StructuredData = {
+  name: 'Structured data (RDFa)',
+  tags: ['!dev'],
+  render: () => `
+    <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+      <ol vocab="https://schema.org/" typeof="BreadcrumbList" class="usa-breadcrumb__list">
+        <li property="itemListElement" typeof="ListItem" class="usa-breadcrumb__list-item">
+          <a property="item" typeof="WebPage" href="/" class="usa-breadcrumb__link">
+            <span property="name">Home</span>
+          </a>
+          <meta property="position" content="1" />
+        </li>
+        <li property="itemListElement" typeof="ListItem" class="usa-breadcrumb__list-item">
+          <a property="item" typeof="WebPage" href="/missions" class="usa-breadcrumb__link">
+            <span property="name">Missions</span>
+          </a>
+          <meta property="position" content="2" />
+        </li>
+        <li property="itemListElement" typeof="ListItem" class="usa-breadcrumb__list-item usa-current" aria-current="page">
+          <span property="name">Artemis I</span>
+          <meta property="position" content="3" />
+        </li>
+      </ol>
+    </nav>
+  `,
+};
+
+// Legacy USWDS wrapping default: verbatim USWDS markup with a full
+// trail (no HDS 3-element collapse). Constrained width so the wrap is
+// visible. Shows what unmodified USWDS breadcrumb markup renders as
+// under HDS Core.
+export const LegacyWrap = {
+  name: 'Legacy USWDS wrap (default)',
+  tags: ['!dev'],
+  render: () => `
+    <div style="max-width: 30rem;">
+      ${breadcrumb(['Home', 'Missions', 'Artemis', 'Artemis I', 'Multimedia', 'Launch Coverage'])}
+    </div>
+  `,
+};
+
+// Legacy USWDS --truncate: verbatim USWDS markup with the opt-in
+// single-line clip. Constrained width so the ellipsis clipping shows.
+export const LegacyTruncate = {
+  name: 'Legacy USWDS --truncate',
+  tags: ['!dev'],
+  render: () => `
+    <div style="max-width: 30rem;">
+      <nav class="usa-breadcrumb usa-breadcrumb--truncate" aria-label="Breadcrumbs">
+        <ol class="usa-breadcrumb__list">
+          <li class="usa-breadcrumb__list-item">
+            <a class="usa-breadcrumb__link" href="/">Home</a>
+          </li>
+          <li class="usa-breadcrumb__list-item">
+            <a class="usa-breadcrumb__link" href="/missions">Missions</a>
+          </li>
+          <li class="usa-breadcrumb__list-item">
+            <a class="usa-breadcrumb__link" href="/missions/artemis">Artemis</a>
+          </li>
+          <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
+            <span>Artemis I Launch Coverage and Multimedia</span>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  `,
+};
+
 // --- Palette accessibility tests ---
 
 export const PaletteA11y = {

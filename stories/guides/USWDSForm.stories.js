@@ -222,11 +222,14 @@ const step1 = `
       <!-- Date of Birth -->
       <fieldset class="usa-fieldset margin-bottom-4">
         <legend class="usa-legend usa-legend--large">Date of birth</legend>
-        <span class="usa-hint" id="form-dob-hint">For example: January 19 2000</span>
+        <span class="usa-hint" aria-hidden="true" id="form-dob-hint">
+          Select a month. Enter 1 or 2 digits for the day and 4 digits for the year.
+        </span>
         <div class="usa-memorable-date">
           <div class="usa-form-group usa-form-group--month usa-form-group--select">
             <label class="usa-label" for="form-dob-month">Month</label>
-            <select class="usa-select" id="form-dob-month" name="dob_month" aria-describedby="form-dob-hint">
+            <span class="usa-hint usa-sr-only" id="form-dob-month-hint">Select a month from the dropdown.</span>
+            <select class="usa-select" id="form-dob-month" name="dob_month" aria-describedby="form-dob-month-hint">
               <option value>- Select -</option>
               <option value="1">01 - January</option>
               <option value="2">02 - February</option>
@@ -244,9 +247,10 @@ const step1 = `
           </div>
           <div class="usa-form-group usa-form-group--day">
             <label class="usa-label" for="form-dob-day">Day</label>
+            <span class="usa-hint usa-sr-only" id="form-dob-day-hint">Enter 1 or 2 digits for the day.</span>
             <input
               class="usa-input"
-              aria-describedby="form-dob-hint"
+              aria-describedby="form-dob-day-hint"
               id="form-dob-day"
               name="dob_day"
               maxlength="2"
@@ -257,9 +261,10 @@ const step1 = `
           </div>
           <div class="usa-form-group usa-form-group--year">
             <label class="usa-label" for="form-dob-year">Year</label>
+            <span class="usa-hint usa-sr-only" id="form-dob-year-hint">Enter 4 digits for the year.</span>
             <input
               class="usa-input"
-              aria-describedby="form-dob-hint"
+              aria-describedby="form-dob-year-hint"
               id="form-dob-year"
               name="dob_year"
               minlength="4"

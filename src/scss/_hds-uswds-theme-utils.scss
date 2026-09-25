@@ -407,6 +407,9 @@
   $theme-pagination-button-border-width: hds.$hds-border-width-thin,
   $theme-summary-box-border-width: hds.$hds-border-width-thin,
 
+  // Keep the chevron on the trailing edge (see components/_accordion.scss).
+  $theme-accordion-icon-position: 'end',
+
   // Button typography
   $theme-button-font-family: 'heading',
 

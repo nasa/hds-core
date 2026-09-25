@@ -11,6 +11,11 @@
 // require !important to override because they compile to the same
 // specificity and load earlier in the cascade.
 //
+// $theme-accordion-icon-position is pinned to 'end' in the theme
+// files; USWDS 3.14.0 defaults it to 'start'. The --icon-start /
+// --icon-end modifier classes are unsupported: they only pad for the
+// USWDS background icon HDS does not draw.
+//
 // Chevron circle uses 1.5em (24px at 16px base) to match Figma M
 // size. This is a component-specific value until the icon button
 // size system adds --md. See GitHub Discussions #13.
