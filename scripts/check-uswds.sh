@@ -13,7 +13,19 @@ PACKAGES=(
   uswds-typography
   usa-layout-grid
   usa-button
-  uswds-form-controls
+  # Form controls: list each package HDS restyles. The uswds-form-controls
+  # aggregator is only @forward lines, so hashing it misses real changes.
+  usa-checkbox
+  usa-error-message
+  usa-fieldset
+  usa-form-group
+  usa-hint
+  usa-input
+  usa-label
+  usa-legend
+  usa-radio
+  usa-select
+  usa-textarea
   usa-table
   usa-accordion
   usa-alert

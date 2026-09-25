@@ -58,10 +58,11 @@ For pages deeper than 3 levels, the trail is shortened: Home and all intermediat
 
 You do not hand-write the trail on each page. Your site generator or backend already knows where a page sits in the hierarchy, so it can produce the HDS trail automatically: show the full trail when the page is 2 or 3 levels deep, and collapse to `… / parent / current` when it is 4 or more levels deep.
 
-The example below is Hugo, which exposes the page's ancestry through `.Ancestors` and `.Parent`. The same length-check-then-branch logic ports to any generator (Eleventy's `eleventyNavigation`, Jekyll's `parent:` front matter) or backend that can walk the page tree.
+The example below is Hugo, which exposes the page's ancestry through `.Ancestors` and `.Parent`. The same length-check-then-branch logic ports to any generator (Eleventy's `eleventyNavigation`, Jekyll's `parent:` front matter) or backend that can walk the page tree. Hugo's home page `.LinkTitle` is usually the site title, so the template labels that crumb "Home" explicitly, and the home page itself gets no breadcrumb.
 
 {/* prettier-ignore */}
 ```html
+{{ if not .IsHome }}
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs">
   <ol class="usa-breadcrumb__list">
     {{ if ge (len .Ancestors) 3 }}
@@ -74,7 +75,7 @@ The example below is Hugo, which exposes the page's ancestry through `.Ancestors
       {{/* 2-3 levels: full trail */}}
       {{ range .Ancestors.Reverse }}
         <li class="usa-breadcrumb__list-item">
-          <a class="usa-breadcrumb__link" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          <a class="usa-breadcrumb__link" href="{{ .RelPermalink }}">{{ if .IsHome }}Home{{ else }}{{ .LinkTitle }}{{ end }}</a>
         </li>
       {{ end }}
     {{ end }}
@@ -83,6 +84,7 @@ The example below is Hugo, which exposes the page's ancestry through `.Ancestors
     </li>
   </ol>
 </nav>
+{{ end }}
 ```
 
 ## Long page titles
@@ -90,6 +92,8 @@ The example below is Hugo, which exposes the page's ancestry through `.Ancestors
 Breadcrumb labels should be short. Most generators let you set a navigation label separate from the full page title (Hugo `linkTitle`, Eleventy navigation `title`, Jekyll front matter). Use it so a long `<title>` does not become a long crumb.
 
 As a safety net, HDS caps the current page label with an ellipsis if it does run long, so the trail still stays on one line. Only the current page (the non-link last item) is ever clipped; ancestor links are always shown in full.
+
+<Canvas of={BreadcrumbStories.LongTitle} />
 
 ## Structured data
 
@@ -105,7 +109,7 @@ Verbatim USWDS markup with a full trail wraps to multiple lines at narrow widths
 
 <Canvas of={BreadcrumbStories.LegacyWrap} />
 
-Adding `usa-breadcrumb--truncate` clips the trail to one line with an ellipsis. Avoid it: the `overflow: hidden` it applies also clips the HDS focus ring.
+Adding `usa-breadcrumb--truncate` clips the trail to one line with an ellipsis. Avoid it: truncation hides part of the trail from sighted users at high zoom, at larger text sizes, and at narrow widths. HDS keeps the focus ring visible on this variant, but the clipped crumbs are still lost.
 
 <Canvas of={BreadcrumbStories.LegacyTruncate} />
 
