@@ -1,0 +1,51 @@
+// ============================================================
+// HDS Webfonts — Inter extended Unicode range
+// @nasa-hds/core
+// ============================================================
+// USWDS emits the base Inter faces (Latin-1, technical symbols, modern
+// Greek, no unicode-range). This adds one `.extended` file per weight
+// for Latin Extended, Vietnamese, combining marks, and currency, fetched
+// only when a page uses them. Cyrillic and polytonic Greek are not
+// shipped: Public Sans (body) lacks them too, so headings and body
+// fall back to the same system font.
+//
+// Hand-authored because USWDS's at-font-face mixin cannot emit
+// unicode-range. font-display mirrors that mixin's hard-coded value.
+//
+// Regenerate after an Inter upgrade with fontTools: subset each weight
+// twice (base keeps the original filename), passing --layout-features='*'
+// so OpenType features survive. Derive $_inter-extended-range from the
+// extended cmap minus the base cmap; the two must not overlap or a
+// shared character forces the extra download.
+// ============================================================
+
+@use 'uswds-core' as *;
+
+// Quoted because Sass only understands U+ ranges directly inside a
+// unicode-range declaration; interpolated where it is used.
+$_inter-extended-range: 'U+0100-0130, U+0132-0148, U+014A-0151, U+0154-01C3, U+01C5-024F, U+0259, U+0300-0304, U+0306-030A, U+030C, U+030F, U+0313, U+0315, U+031B, U+0323, U+0326-0328, U+032C, U+0337-0338, U+0342-0343, U+0346-036F, U+1E00-1E9B, U+1E9D-1EFF, U+20A0-20AB, U+20AD-20AF, U+20B1-20B5, U+20B8-20BA, U+20BC-20C0, U+2C7C, U+2C7F, U+A7FF';
+
+// file-name stem, weight, style
+$_inter-extended-faces: (
+  'Light' 300 normal,
+  'Regular' 400 normal,
+  'Medium' 500 normal,
+  'SemiBold' 600 normal,
+  'Bold' 700 normal,
+  'LightItalic' 300 italic,
+  'Italic' 400 italic,
+  'MediumItalic' 500 italic,
+  'SemiBoldItalic' 600 italic,
+  'BoldItalic' 700 italic
+);
+
+@each $file, $weight, $style in $_inter-extended-faces {
+  @font-face {
+    font-family: Inter;
+    font-style: $style;
+    font-weight: $weight;
+    font-display: fallback;
+    src: url('#{$theme-font-path}/inter/Inter-#{$file}.extended.woff2') format('woff2');
+    unicode-range: #{$_inter-extended-range};
+  }
+}

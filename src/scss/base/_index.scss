@@ -6,18 +6,21 @@
 // into the hds-base cascade layer in hds.scss.
 //
 // Load order:
-//   1. Custom properties — :root token output (primitives from tokens.json)
-//   2. Component properties — :root component-level aliases
-//   3. Elements — bare HTML styles + palette wiring
-//   4. Focus — always active, after elements so it can layer on top
-//   5. Palettes — explicit palette classes
-//   6. Print — @media print, last so it overrides everything above
-//   7. Dataviz properties: opt-in :root token output, no conflicts
+//   1. Webfonts — Inter extended-range @font-face (USWDS emits the
+//      base faces; these add back the subset-out scripts)
+//   2. Custom properties — :root token output (primitives from tokens.json)
+//   3. Component properties — :root component-level aliases
+//   4. Elements — bare HTML styles + palette wiring
+//   5. Focus — always active, after elements so it can layer on top
+//   6. Palettes — explicit palette classes
+//   7. Print — @media print, last so it overrides everything above
+//   8. Dataviz properties: opt-in :root token output, no conflicts
 //      with the blocks above so ordering is not significant
 // ============================================================
 
 @use 'hds-config' as config;
 @use 'dataviz-properties' as dataviz;
+@forward 'webfonts';
 @forward 'custom-properties';
 @forward 'component-properties';
 @forward 'elements';
