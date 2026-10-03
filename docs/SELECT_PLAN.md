@@ -38,7 +38,7 @@ Working document, written to be carried out in one thread or split into issues (
   - [#6193](https://github.com/uswds/uswds/issues/6193): combo box rebuilds its list on every open.
   - [#151](https://github.com/uswds/uswds/issues/151): multi-select dropdown, requested since 2015 and never built.
 
-The combo box issues are why §4.5 stays deferred: restyling it inherits these behaviour bugs.
+HDS already ships the combo box with these bugs today. A restyle (§4.5) can fix the visual ones but not the JS behaviour ones.
 
 ## 3. Platform status, October 2026
 
@@ -68,7 +68,7 @@ All prototypes are CSS only, loaded after `hds.min.css` in the same `hds-compone
 
 Prototyped and verified on all six palettes with `base-select` disabled:
 
-- A single chevron (`arrow-chevron-down`, 10px glyph in a 20px box) at Figma's 16px inset. Because the fallback is a `background-image`, the glyph colour must be baked into a data URI per palette (C80 on light, C20 on dark). The palettes do not set `color-scheme`, so `light-dark()` cannot drive it.
+- A single 10px chevron, centred in a 20px box at Figma's 16px inset. It is drawn with two `linear-gradient` strokes instead of an SVG `background-image`. An SVG in a data URI cannot read custom properties, but a gradient can, so the chevron uses the **existing** `--hds-palette-control-text` (C80 on light, C20 on dark, which matches the value text, as in Figma). It switches to `--hds-palette-disabled` when disabled. **No new palette property, no public API change, and no per-palette assets.** Verified at 1× and 3× on all six palettes. The palettes do not set `color-scheme`, so `light-dark()` was not an option.
 - `padding-right` is 46px (16 + 20 + 10 gap) instead of 48px. Restore `padding-right` to 16px under `forced-colors` (G10).
 - `.usa-select:has(option[value='']:checked)` colours the "- Select -" prompt `--hds-palette-disabled`. This delivers the visual half of Figma's Placeholder state without moving the label inside the field, which Select.mdx forbids.
 
@@ -90,7 +90,7 @@ Wrapped in `@supports (appearance: base-select)`. Verified in Chromium 141:
 
 The NASA TV time-zone control picks one value from a list, and the Figma layer for its panel is literally named "Select". Built as `<select class="usa-select--utility">` with a visually hidden label:
 
-- **Closed, every browser:** Inter Bold 11px uppercase, C60 text, circle-down icon, C90 on hover, and a 1px dashed `--hds-palette-focus` border on focus. This matches Figma pixel-for-pixel. The fallback select sizes to its widest option, so the icon drifts right; `field-sizing: content` (Baseline since June 2026) fixes this and needs verifying in the real build.
+- **Closed, every browser:** Inter Bold uppercase at **12px**, `size('body', '3xs')`. HDS never sets 11px: blockquote, list, and the content-rules eyebrow all snap Figma's 11px to 12px, so this follows precedent and needs no new token. Also C60 text, C60 text, circle-down icon, C90 on hover, and a 1px dashed `--hds-palette-focus` border on focus. This matches Figma pixel-for-pixel. The fallback select sizes to its widest option, so the icon drifts right; `field-sizing: content` (Baseline since June 2026) fixes this and needs verifying in the real build.
 - **Open, with `base-select`:** a 260px panel, items `padding: 8px 24px` with wrapping, the selected item blue, and the icon swapping to circle-up on `:open`. Keyboard choice was verified.
 - **Without `base-select`:** the OS list, exactly like today's selects.
 
@@ -108,9 +108,24 @@ Caveats:
 
 Net-new, so `hds-` prefix (working name `.hds-menu-panel`).
 
+**Why this is not the combo box:** the USWDS combo box is **single-select only**. `usa-combo-box/src/index.js` has no `multiple` handling and sets a single `selectEl.value`. USWDS has never shipped a multi-select; [#151](https://github.com/uswds/uswds/issues/151) has been open since 2015. Figma's multiselect panel also has no search field, just checkboxes. If HDS ever needs a _filterable_ multi-select, that is a new pattern for both systems, not a restyle.
+
 ### 4.5 Inline search panel (Figma `2339:125646`)
 
-Filtering is behaviour, so this is the USWDS combo box, which HDS already ships unthemed: dividers, 1px border, separator and clear button, all visible in the test screenshot. Restyling is in scope, but it inherits the USWDS bugs in §2. **Defer until a consuming site needs it**, then reuse the panel surface from §5.
+Filtering is behaviour, so this is the USWDS combo box (single-select, type to filter), which HDS already ships unthemed: dividers, 1px border, separator and clear button, all visible in the test screenshot. Native CSS cannot replace it: `base-select` gives type-ahead _jump_ but not _filtering_, and `<datalist>` is not styleable. The combo box stays the recommended markup for long, searchable lists, on top of the USWDS JS HDS already redistributes.
+
+Restyling it is a normal USWDS restyle that reuses the panel surface from §5. It **can** fix the visual USWDS bugs in HDS:
+
+- [#3978](https://github.com/uswds/uswds/issues/3978): no error styling.
+- [#6424](https://github.com/uswds/uswds/issues/6424): wrong clear-button focus outline.
+
+It **cannot** fix the behaviour bugs, which live in USWDS JS that HDS does not author:
+
+- [#5905](https://github.com/uswds/uswds/issues/5905): verbose announcements.
+- [#5787](https://github.com/uswds/uswds/issues/5787): iOS keyboard not dismissed.
+- [#6193](https://github.com/uswds/uswds/issues/6193): list rebuilt on every open.
+
+Those should be documented on the Guidance page and reported upstream.
 
 ## 5. The shared "panel surface"
 
@@ -124,7 +139,13 @@ What nav, date picker, combo box and the multiselect share with Select is the **
 
 Define it once now, while building §4.2, as an internal Sass mixin (for example `hds-panel-surface`) plus a shadow token. Nav later _consumes_ it. This reverses the earlier draft's dependency.
 
-Shadow values to reconcile in that token decision:
+**Shadow decision** (comparison in `14-shadow-compare.png`):
+
+1. **Light palettes:** use Figma's select/search value `0 0 20px rgb(0 0 0 / 10%)` as one "overlay" elevation token. Treat the multiselect's `0 0 10px` as Figma drift; side by side the two are nearly indistinguishable.
+2. **Dark palettes:** Figma never draws a dark panel, and a black shadow is invisible on black. The recommendation is a 1px `--hds-palette-border` (C60) edge on the panel, which matches the dark field border and the forced-colors border. The alternative is a raised C90 panel fill.
+3. **Icon-button shadow:** leave `.hds-btn-icon--interactive`'s `0 2px 8px` as is. It is a hover "lift", not an overlay; tokenise it separately later if wanted.
+
+Shadow values in play:
 
 | Value                        | Where                                                         |
 | ---------------------------- | ------------------------------------------------------------- |
@@ -145,15 +166,15 @@ Comparing against the Text Field and Textarea Figma frames would still help. The
 
 | # | Issue | Size | Depends on | Needs a decision? |
 | --- | --- | --- | --- | --- |
-| 1 | **Select chevron: palette-aware single chevron, 16px inset, forced-colors padding; placeholder colour via `:has()`** | S | — | Name of the palette property for the icon (public API) |
+| 1 | **Select chevron: gradient chevron on `--hds-palette-control-text`, 16px inset, forced-colors padding; placeholder colour via `:has()`** | S | — | — |
 | 2 | **Select: customizable-select enhancement (`base-select`)**, with forced-colors and reduced-motion handling, Storybook open-state stories, and a manual Safari 27 / iOS / Android / screen-reader pass | M | 1 | Option hover and focus, checkmark, dark-palette panel edge (propose in Storybook; non-blocking) |
-| 3 | **Panel surface mixin and elevation/shadow token** (land inside #2, promote later) | S | — | Shadow value(s) |
-| 4 | **`.usa-select--utility` variant** (NASA TV trigger) | S | 1, 2, 3 | 11px size token versus 12px |
+| 3 | **Panel surface mixin and overlay shadow token** (land inside #2) | S | — | Dark-palette panel edge versus raised fill (§5) |
+| 4 | **`.usa-select--utility` variant** (NASA TV trigger), at 12px per precedent | S | 1, 2, 3 | — |
 | 5 | **Select.mdx and `_form.scss` doc corrections**: the Figma note (square corners, blue text, not a highlight), "requires JavaScript" (now false), combo box "deferred" wording, and recording the chevron defect | XS | ships with 1 or 2 | — |
 | 6 | **Remove `select` from the `base/_focus.scss` baseline ring or annotate it** (G11); re-check under `base-select` | XS | 2 | — |
 | 7 | **Form-system pass**: hover no-op (G4), then the design calls on gap, line-height and dark border (G5, G6, G9) | M | design input; Text Field and Textarea Figma links | Yes, form-wide |
 | 8 | **Multiselect filter panel** (`hds-` popover + anchor) | M | 3 | Pattern and a11y review; whether HDS wants it at all |
-| 9 | **Combo box restyle** (inline search) | M–L | 3 | Defer until a site needs it |
+| 9 | **Combo box restyle** (inline search), fixing #3978 and #6424 and documenting the JS bugs | M–L | 3 | — |
 
 Issues 1, 5 and 6 can ship together immediately. Issue 2 can start in parallel and ship as soon as the decisions it surfaces are settled in Storybook. Select can stay `status:experimental` through #2; nothing here blocks on navigation.
 
