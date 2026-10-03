@@ -90,7 +90,7 @@ Wrapped in `@supports (appearance: base-select)`. Verified in Chromium 141:
 
 The NASA TV time-zone control picks one value from a list, and the Figma layer for its panel is literally named "Select". Built as `<select class="usa-select--utility">` with a visually hidden label:
 
-- **Closed, every browser:** Inter Bold uppercase at **12px**, `size('body', '3xs')`. HDS never sets 11px: blockquote, list, and the content-rules eyebrow all snap Figma's 11px to 12px, so this follows precedent and needs no new token. Also C60 text, C60 text, circle-down icon, C90 on hover, and a 1px dashed `--hds-palette-focus` border on focus. This matches Figma pixel-for-pixel. The fallback select sizes to its widest option, so the icon drifts right; `field-sizing: content` (Baseline since June 2026) fixes this and needs verifying in the real build.
+- **Closed, every browser:** Inter Bold uppercase at **12px**, `size('body', '3xs')`. HDS never sets 11px: blockquote, list, and the content-rules eyebrow all snap Figma's 11px to 12px, so this follows precedent and needs no new token. Also C60 text, circle-down icon, C90 on hover, and a 1px dashed `--hds-palette-focus` border on focus. Apart from the 1px size snap, this matches Figma. The fallback select sizes to its widest option, so the icon drifts right; `field-sizing: content` (Baseline since June 2026) fixes this and needs verifying in the real build.
 - **Open, with `base-select`:** a 260px panel, items `padding: 8px 24px` with wrapping, the selected item blue, and the icon swapping to circle-up on `:open`. Keyboard choice was verified.
 - **Without `base-select`:** the OS list, exactly like today's selects.
 
