@@ -440,7 +440,23 @@ Two more are no longer true of the platform rather than wrong about Figma, and b
 
 ## 12. Recommended sequencing
 
-Four tiers, cut by blast radius rather than by component or by file adjacency. The tier boundaries are the useful part: tier 1 is safe to ship alone, tier 2 is not safe to ship until a question is answered, tier 3 is one batch, tier 4 belongs to another epic.
+Four tiers, cut by blast radius rather than by component or by file adjacency. The tier boundaries are the useful part: tier 1 is safe to ship alone, tier 2 is a verification gate rather than work, tier 3 is one batch, tier 4 belongs to another epic.
+
+**The numbering is not a sequence.** Only one ordering constraint exists in this document:
+
+| Tier | Depends on | Can start |
+| --- | --- | --- |
+| 1 — chevron, dead focus rule, doc fixes | nothing | immediately |
+| 2 — read four more Figma frames | nothing | immediately, in parallel with tier 1 |
+| 3 — form-system pass | **tier 2** | only once tier 2 answers |
+| 4 — panels | a design call (§10 item 1) and navigation scoping | independently of 1–3 |
+
+Start tier 2 first if you can. It is the long pole — it needs frames and possibly a design conversation — while tier 1 is contained SCSS work that needs nobody.
+
+Two consequences:
+
+- **Tier 2 can reshape tier 3.** If the other frames specify the same 4px gap and 20px line-height, tier 3 is the form-wide batch as written. If they show Select is the odd one out, G5 and G6 collapse into a Select-local fix small enough to fold into tier 1, and tier 3 shrinks to G4 + G9 alone. Which of those is true is unknown until the frames are read.
+- **Tiers 1 and 3 both edit `components/_form.scss`.** That is a merge consideration, not a dependency. Ship tier 1 first and tier 3 rebases over it cleanly.
 
 Context that shapes this: Select is **the only component carrying a status tag**. The lifecycle system landed in `2560f7c` on this branch and Select is its pilot; the other 18 components in `stories/components/` are untagged. Select is not uniquely broken — it is the first component anyone audited. Three of its findings turned out to be form-wide, which is a signal about the other 18 rather than about Select.
 
@@ -454,7 +470,7 @@ Context that shapes this: Select is **the only component carrying a status tag**
 
 Keep Select `status:experimental` through this. Nothing here promotes it.
 
-### Tier 2 — blocked on reading four more Figma frames
+### Tier 2 — a verification gate, not work (unblocks tier 3)
 
 **Do not ship G5 or G6 yet.** They are labelled form-wide in §5 and that is only half proven: the _implementation_ is demonstrably shared (`%block-input-styles` reaches select, input, textarea, file-input, character-count, input-mask, memorable-date and range), but the _spec_ is not. Every number in §3 comes from one frame, `2295-182682`.
 
@@ -462,7 +478,7 @@ If Text Input's frame specifies an 8px label gap, then G5 is a **Select-local de
 
 What unblocks it: the Figma frames for **Text Input, Textarea, Checkbox and Radio**, run through the same extraction as §3 and compared against measured computed styles as in §4.
 
-### Tier 3 — one form-system pass, after tier 2
+### Tier 3 — one form-system pass (requires tier 2)
 
 G4 + G5 + G6 + G9, batched. This is where the "same files" instinct is right: one file (`components/_form.scss`), one regression surface, one changeset. Two conditions:
 
