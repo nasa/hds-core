@@ -68,7 +68,11 @@ All prototypes are CSS only, loaded after `hds.min.css` in the same `hds-compone
 
 Prototyped and verified on all six palettes with `base-select` disabled:
 
-- A single 10px chevron, centred in a 20px box at Figma's 16px inset. It is drawn with two `linear-gradient` strokes instead of an SVG `background-image`. An SVG in a data URI cannot read custom properties, but a gradient can, so the chevron uses the **existing** `--hds-palette-control-text` (C80 on light, C20 on dark, which matches the value text, as in Figma). It switches to `--hds-palette-disabled` when disabled. **No new palette property, no public API change, and no per-palette assets.** Verified at 1× and 3× on all six palettes. The palettes do not set `color-scheme`, so `light-dark()` was not an option.
+- A single chevron: the existing `arrow-chevron-down` SVG, 10px glyph centred in a 20px box at Figma's 16px inset.
+- **Why the fallback can't reuse the accordion/link/error pattern:** those components colour an icon with `mask-image` plus `background-color: var(--hds-palette-*)` on a `::before`/`::after` pseudo-element. A classic `appearance: none` `<select>` cannot render pseudo-elements, so the only paint surface is the select's own `background-image`. An SVG used as an image cannot read CSS variables, so the colour has to be baked into the SVG.
+- **Fallback colouring:** use a private `--_hds-select-icon` property whose _value is the image_, i.e. `url("data:…fill='%232E2E32'…")`, set once in `_scheme-light` and `_scheme-dark` in `base/_palettes.scss` (C80 / C20, matching `--hds-palette-control-text`). This is why an image-valued property works where a colour property can't. The public-API extractor only records `--hds-*` declarations (`scripts/check-public-api/lib/extract-custom-properties.js`), so a `--_` property is **not** a public API commitment. A disabled variant needs one more image pair (C40 / C60).
+- **Alternative with no palette coupling:** a single C50 `#77777A` chevron, which is 4.5:1 on white and 4.7:1 on black, passing 3:1 on every palette. It's simpler but lighter than Figma's C80 / C20.
+- Gradient-drawn chevrons were tried and **rejected**: they don't match the icon.
 - `padding-right` is 46px (16 + 20 + 10 gap) instead of 48px. Restore `padding-right` to 16px under `forced-colors` (G10).
 - `.usa-select:has(option[value='']:checked)` colours the "- Select -" prompt `--hds-palette-disabled`. This delivers the visual half of Figma's Placeholder state without moving the label inside the field, which Select.mdx forbids.
 
@@ -76,13 +80,13 @@ Prototyped and verified on all six palettes with `base-select` disabled:
 
 Wrapped in `@supports (appearance: base-select)`. Verified in Chromium 141:
 
-- **Closed field:** `::picker-icon` is a masked `arrow-chevron-down` in `currentColor`, so it follows palettes with no per-palette asset, and rotates 180° on `:open`.
+- **Closed field:** `::picker-icon` **is** a pseudo-element, so it uses exactly the accordion pattern: `mask-image: arrow-chevron-down.svg` plus `background-color: var(--hds-palette-control-text)` (or `currentColor`). No baked colours are needed here. It rotates 180° on `:open`.
 - **Panel (`::picker(select)`):** palette background, no border or radius, `padding: 16px 0`, Figma shadow `0 0 20px rgb(0 0 0 / 10%)`, opening 4px below, `inline-size: anchor-size(inline)`, capped at `min(334px, 50dvh)` and scrolling. The UA's built-in `position-try` flips the panel above the field when there's no room below; this was observed in testing.
 - **Options:** Inter 14/19, −0.25px, `min-block-size: 32px`, `padding: 0 24px` vertically centred. They **wrap** rather than clip, which settles the old 32px-versus-wrapping question in favour of a minimum height.
-- **Selected option:** NASA Blue text on light, Blue Tint on dark (Blue on black is only 4.1:1 for text), plus `::checkmark` as the non-colour indicator WCAG 1.4.1 needs. Figma has no checkmark; this is an addition.
-- **Hover and keyboard focus:** not drawn in Figma. The proposal is a C05 or C90 row fill, with an HDS dashed inset ring on `option:focus-visible`. Final version should use the `hds-focus-ring` mixin, not the prototype's outline. The `::before` and `::after` pseudo-elements the mixin renders through are allowed on options.
+- **Selected option:** NASA Blue text on light, Blue Tint on dark (Blue on black is only 4.1:1 for text). Figma's single-select panels mark the selection with colour only. Adding `::checkmark` as the non-colour indicator WCAG 1.4.1 needs is an addition. The proposal is to reuse the HDS `check.svg` glyph, the same check already shipped inside `.usa-checkbox` (`$hds-checkbox-icon`), so it is drawn from existing Figma artwork. Checkboxes themselves are in Figma, but a tick beside a selected _option_ is not.
+- **Hover and keyboard focus:** not drawn in Figma. These pages were searched: Dropdown Menus, Filters & Sorts (Filter Variants, Sort Menus), Navigation (Menu Dropdown), Global Nav, and Tooltips & Popovers. None has a hover, focus or highlighted variant for a menu or option row; Menu Dropdown's only variant property is `Type`. The proposal is a C05 or C90 row fill, with the HDS dashed inset ring on `option:focus-visible` via the `hds-focus-ring` mixin. Options allow the `::before` and `::after` pseudo-elements that the mixin renders through.
 - **Keyboard:** Enter, arrows and Esc worked natively. Focus moves into the options while the picker is open.
-- **Dark palettes:** the picker inherits `--hds-palette-*` from the select, so it themes for free. On dark, the shadow is invisible, so the prototype adds a 1px C60 ring.
+- **Dark palettes:** the picker inherits `--hds-palette-*` from the select, so it themes for free. The edge treatment is tabled pending design review (§5).
 - **Forced colors (new finding):** masked icons paint with `background-color`, which forced colors overrides, so the chevron and checkmark **vanish** without `background-color: CanvasText; forced-color-adjust: none`. The panel also loses its edge because box-shadow is dropped, so it needs a `CanvasText` border.
 - **Motion:** a 120ms opacity fade on open, using `@starting-style` and `allow-discrete`, gated on `prefers-reduced-motion: no-preference`.
 
@@ -106,9 +110,18 @@ Caveats:
 - A filter panel usually needs an "Apply" or live-update story, and that behaviour belongs to the adopter.
 - The alternative is `<select multiple>` with `base-select` (Chromium 145+, Safari unconfirmed). It is a listbox with no panel, and its fallback is the native multi-select that Select.mdx tells authors to avoid. Not recommended yet.
 
-Net-new, so `hds-` prefix (working name `.hds-menu-panel`).
+Net-new, so `hds-` prefix (`.hds-multiselect`).
 
-**Why this is not the combo box:** the USWDS combo box is **single-select only**. `usa-combo-box/src/index.js` has no `multiple` handling and sets a single `selectEl.value`. USWDS has never shipped a multi-select; [#151](https://github.com/uswds/uswds/issues/151) has been open since 2015. Figma's multiselect panel also has no search field, just checkboxes. If HDS ever needs a _filterable_ multi-select, that is a new pattern for both systems, not a restyle.
+**Why this is not the combo box:** the USWDS combo box is **single-select only**. `usa-combo-box/src/index.js` has no `multiple` handling and sets a single `selectEl.value`. USWDS has never shipped a multi-select; [#151](https://github.com/uswds/uswds/issues/151) has been open since 2015.
+
+**Naming:**
+
+- If HDS uses native `<select multiple>` with `base-select`, it stays `.usa-select`. USWDS already styles `.usa-select[multiple]` by attribute, so a `--multi` modifier would only be needed for an HDS-specific look.
+- The popover-plus-checkboxes markup shares nothing with `<select>`, so it would be `.hds-multiselect`.
+
+**Figma also has a filterable multi-select:** Filters & Sorts → Filter Variants (`2483:101451`) shows Author as a search field whose results are checkboxes ("Expanded - Author" and "Filtered - Author"). Type and Topic are plain checkbox lists, which matches `2339:122290`. Filtering needs script, and HDS doesn't author JS, so this variant would need either USWDS to ship one or an adopter-supplied script.
+
+**Note:** Date Range in the same frame uses the **opposite** colour convention to the Select panel. The unselected options are blue (link-like) and the current "All Time" is black. One convention needs picking.
 
 ### 4.5 Inline search panel (Figma `2339:125646`)
 
@@ -139,11 +152,15 @@ What nav, date picker, combo box and the multiselect share with Select is the **
 
 Define it once now, while building §4.2, as an internal Sass mixin (for example `hds-panel-surface`) plus a shadow token. Nav later _consumes_ it. This reverses the earlier draft's dependency.
 
-**Shadow decision** (comparison in `14-shadow-compare.png`):
+**Shadow decision:**
 
-1. **Light palettes:** use Figma's select/search value `0 0 20px rgb(0 0 0 / 10%)` as one "overlay" elevation token. Treat the multiselect's `0 0 10px` as Figma drift; side by side the two are nearly indistinguishable.
-2. **Dark palettes:** Figma never draws a dark panel, and a black shadow is invisible on black. The recommendation is a 1px `--hds-palette-border` (C60) edge on the panel, which matches the dark field border and the forced-colors border. The alternative is a raised C90 panel fill.
-3. **Icon-button shadow:** leave `.hds-btn-icon--interactive`'s `0 2px 8px` as is. It is a hover "lift", not an overlay; tokenise it separately later if wanted.
+1. **Light palettes: decided.** Use `0 0 20px rgb(0 0 0 / 10%)` as the overlay elevation token. Figma's Popover components (`2338:90832`) use the same value, which confirms it. The multiselect's `0 0 10px` is Figma drift.
+2. **Dark palettes: tabled** while design looks for Figma examples. Evidence so far:
+   - The only dark panels in the file are the nav **Menu Dropdown** (`2577:99391`): `#000000` fill, no stroke, no shadow, C80 `#2E2E32` dividers, sitting flush under the black header.
+   - Select, multiselect, search and popover panels are only drawn on light.
+   - A black shadow is invisible on black.
+   - The prototype used a 1px C60 edge as a placeholder.
+3. **Floating icon shadow: decided.** Keep `.hds-btn-icon--interactive`'s `0 2px 8px rgb(0 0 0 / 10%)` as a second, separate elevation token.
 
 Shadow values in play:
 
@@ -160,20 +177,20 @@ G4, G5, G6 and G9 come from `_form.scss` rules shared by `.usa-input`, `.usa-tex
 - **G4 (hover no-op):** the one that is arguably a bug, because the SCSS comment states an intent the tokens do not deliver.
 - **G5, G6, G9:** places where shipped HDS differs from the old Figma. Per `AGENTS.md`, the implementation is the source of truth, so these need a design decision before anyone "fixes" them.
 
-Comparing against the Text Field and Textarea Figma frames would still help. The design-system search finds them, but returns no node IDs, so links are needed.
+The Text Field and Textarea frames are now located: Text Field `2295:169885` and Textarea `6010:155740`, on the page "Text Fields, Textareas and Select Fields" (`1292:14370`). The §6 comparison can proceed without asking for links.
 
 ## 7. Plan: issues to file, in dependency order
 
 | # | Issue | Size | Depends on | Needs a decision? |
 | --- | --- | --- | --- | --- |
-| 1 | **Select chevron: gradient chevron on `--hds-palette-control-text`, 16px inset, forced-colors padding; placeholder colour via `:has()`** | S | — | — |
+| 1 | **Select chevron: HDS `arrow-chevron-down` at 16px inset; fallback colour via private image-valued `--_hds-select-icon` in the scheme mixins (or single C50); forced-colors padding; placeholder colour via `:has()`** | S | — | Scheme-coloured versus single C50 fallback |
 | 2 | **Select: customizable-select enhancement (`base-select`)**, with forced-colors and reduced-motion handling, Storybook open-state stories, and a manual Safari 27 / iOS / Android / screen-reader pass | M | 1 | Option hover and focus, checkmark, dark-palette panel edge (propose in Storybook; non-blocking) |
-| 3 | **Panel surface mixin and overlay shadow token** (land inside #2) | S | — | Dark-palette panel edge versus raised fill (§5) |
+| 3 | **Panel surface mixin; overlay (`0 0 20px`) and floating-icon (`0 2px 8px`) shadow tokens** (land inside #2) | S | — | Dark-palette panel edge (tabled, §5) |
 | 4 | **`.usa-select--utility` variant** (NASA TV trigger), at 12px per precedent | S | 1, 2, 3 | — |
 | 5 | **Select.mdx and `_form.scss` doc corrections**: the Figma note (square corners, blue text, not a highlight), "requires JavaScript" (now false), combo box "deferred" wording, and recording the chevron defect | XS | ships with 1 or 2 | — |
 | 6 | **Remove `select` from the `base/_focus.scss` baseline ring or annotate it** (G11); re-check under `base-select` | XS | 2 | — |
 | 7 | **Form-system pass**: hover no-op (G4), then the design calls on gap, line-height and dark border (G5, G6, G9) | M | design input; Text Field and Textarea Figma links | Yes, form-wide |
-| 8 | **Multiselect filter panel** (`hds-` popover + anchor) | M | 3 | Pattern and a11y review; whether HDS wants it at all |
+| 8 | **Multiselect** (`.hds-multiselect` popover + checkboxes, or `.usa-select[multiple]` with `base-select`) | M | 3 | Which markup; the searchable Author variant; Date Range colour convention |
 | 9 | **Combo box restyle** (inline search), fixing #3978 and #6424 and documenting the JS bugs | M–L | 3 | — |
 
 Issues 1, 5 and 6 can ship together immediately. Issue 2 can start in parallel and ship as soon as the decisions it surfaces are settled in Storybook. Select can stay `status:experimental` through #2; nothing here blocks on navigation.
