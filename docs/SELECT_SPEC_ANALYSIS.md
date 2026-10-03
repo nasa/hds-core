@@ -294,7 +294,7 @@ Two of those solve problems this analysis raised elsewhere: `::checkmark` suppli
 ### 6.3 Routes for the two variants base-select does not reach
 
 1. **Do not build them.** Document them as out of scope and remove the "deferred to a future phase" language that implies otherwise.
-2. **Theme USWDS's `.usa-combo-box`.** The markup, the behavior, and the unthemed CSS all ship today (§2.1). This is the strongest route for inline search — but it is not the cheap win §2 of an earlier draft implied. Measured from the compiled bundle, the combo box currently renders like this and each row is a deliberate override:
+2. **Theme USWDS's `.usa-combo-box`.** The markup, the behavior, and the unthemed CSS all ship today (§2.1). This is the strongest route for inline search. It is in scope (§2.1) but not small: measured from the compiled bundle, the combo box currently renders like this, and each row is a deliberate override:
 
    | Compiled today | Figma §3.2/§3.4 | Note |
    | --- | --- | --- |
@@ -307,7 +307,7 @@ Two of those solve problems this analysis raised elsewhere: `::checkmark` suppli
    | `__input-button-separator` vertical rule | Not in Figma | Structural element to suppress |
    | `__clear-input` × button | Not in Figma | Structural element to suppress |
 
-   Eight overrides plus two suppressions, against a component with no HDS stories or Guidance page today. Real, but a component-sized piece of work, not a restyle.
+   Eight overrides plus two suppressions, against a component with no HDS stories or Guidance page today. Ordinary work, but component-sized — budget it like a new component, not like a tweak.
 
 3. **A CSS-only disclosure for the multiselect.** A `<details>` element (universally supported, zero JS) or the `popover` attribute wrapping a `<fieldset>` of HDS checkboxes gets the §3.3 panel with no scripting. The checkboxes already match spec; only the panel box and its shadow are new. ⚠️ `<details>` is a disclosure, not a menu — check the ARIA APG before assuming the semantics fit. USWDS's own precedent for this shape is `.usa-nav__submenu` / `.usa-language__submenu`: `position: absolute` panels toggled by `[aria-hidden]` against a button carrying `aria-expanded`, driven by the shipped JS.
 4. **Author HDS JavaScript.** The genuine departure from the stated architecture — and, given routes 2 and 3, the one with the least to recommend it.
@@ -333,11 +333,11 @@ What is missing:
 - **There is no 11px size token.** `$hds-font-size-3xs` is 12px (`_hds-tokens.scss` line 88) and the scale has nothing below it. Figma specs 11px. ⚠️ Either accept 12px, or add a token — and `AGENTS.md` forbids hardcoding a value that ought to live in the scale, so this is a token decision, not a component one. The same 11px turns up in the NASA TV date nav and the `+2 more` link, so it is unlikely to be a one-off typo.
 - The Figma focus treatment is a plain 1px dashed **border**, whereas HDS's dashed ring is drawn via `hds-focus-ring`'s masked pseudo-element with a `2,3` dasharray and 2px inset. ⚠️ Per `AGENTS.md` → Focus rings, if the spec cannot be met with the existing mixins this is a strategic call, not a component-level override. It looks reachable with `hds-focus-ring-inline`, but that needs checking against the real thing.
 
-The utility button is the smallest, most self-contained piece of this whole set and the only one with no JavaScript dependency for its default state. It is a reasonable standalone component to build even if the panel work stalls — but note that its entire purpose is to open a menu, so shipping it alone leaves a trigger with nothing to trigger.
+The utility button is the smallest, most self-contained piece of this whole set and the only one with no JavaScript dependency for its default state. Its entire purpose is to open a menu, though, so shipping it alone leaves a trigger with nothing to trigger — §12 tier 4 recommends building it alongside the first panel rather than ahead of it.
 
 ## 8. Gap analysis D — multiselect and inline search
 
-Both are panel _contents_ and are blocked behind the §6 decision. Two things are worth recording now:
+Both are panel _contents_, and §12 tier 4 governs when they get built. Three things are worth recording now:
 
 - The multiselect rows are ordinary HDS checkboxes at the sizes `_form.scss` already produces. If the panel gets built, the rows need no new checkbox work.
 - The multiselect panel's shadow is `0 0 10px rgba(0, 0, 0, 0.1)` where every other panel in the set uses `0 0 20px`. ⚠️ Almost certainly a Figma inconsistency rather than intent — confirm before encoding either value.
