@@ -75,12 +75,11 @@
   mask-repeat: no-repeat;
   vertical-align: baseline;
 
-  // Forced-colors drops mask-image painting outright, so the arrow disappears
-  // regardless of background-color. Opt this pseudo-element out and repaint
-  // it with a system color, matching the .usa-social-link precedent.
+  // Forced colors overrides palette colors with the page background,
+  // which hides the masked arrow. System color keywords are exempt
+  // from that override, so use one to keep the arrow visible.
   @media (forced-colors: active) {
     background-color: CanvasText;
-    forced-color-adjust: none;
   }
 }
 

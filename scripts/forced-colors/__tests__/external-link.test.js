@@ -14,7 +14,6 @@ it('keeps the external-link arrow perceivable in forced-colors mode', () => {
   });
   const stylesheet = postcss.parse(css);
   let arrowColor;
-  let adjust;
 
   stylesheet.walkAtRules('media', (media) => {
     if (media.params !== '(forced-colors: active)') return;
@@ -22,14 +21,8 @@ it('keeps the external-link arrow perceivable in forced-colors mode', () => {
       rule.walkDecls('background-color', (decl) => {
         arrowColor = decl.value;
       });
-      rule.walkDecls('forced-color-adjust', (decl) => {
-        adjust = decl.value;
-      });
     });
   });
 
-  // forced-color-adjust: none is required here — forced-colors drops
-  // mask-image painting outright, so the color alone isn't enough.
-  expect(adjust).toBe('none');
   expect(arrowColor).toBe('CanvasText');
 }, 15_000);
