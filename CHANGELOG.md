@@ -1,5 +1,52 @@
 # @nasa-hds/core
 
+## 0.11.0
+
+### Minor Changes
+
+- 3959de6: `.usa-dark-background` now renders on the HDS dark surface, closing the USWDS dark-context family.
+
+  `.usa-hero__callout` and `.usa-section--dark` were bridged onto the HDS dark palette in the previous release. `.usa-dark-background` is the third and last USWDS context that paints its own dark background, and it was still left to the manual `.hds-palette-dark` path. Its surface already looked correct — USWDS uses `base-darker`, which HDS themes to a near-Carbon-90 gray — but USWDS only reverses `<p>`, `<span>`, and `<a>` inside it. Headings and HDS components kept resolving against whatever palette wrapped the page, so on the default white palette a heading came out Carbon Black at 1.22:1 and a `.usa-link` at 1.04:1 against their own background.
+
+  The wrapper now carries the full dark palette, so headings, links, buttons, and focus rings inside it match the surface they sit on. No markup changes are needed. To put one of these blocks on a different surface, add a palette class to the same element (`class="usa-dark-background hds-palette-blue"`).
+
+  Background utility classes (`.bg-base-darker` and friends) and your own dark wrappers are unchanged — those still need an explicit `.hds-palette-dark`.
+
+- 30425d3: Upgrade to USWDS 3.14.0 and update breadcrumb guidance.
+
+  The peer dependency moves to `@uswds/uswds ^3.14.0`. No HDS-authored symbol is added or removed. One upstream selector leaves the public API snapshot without a prior deprecation cycle: USWDS 3.14.0 dropped `.usa-breadcrumb--wrap` (wrapping is now the default, so existing markup that uses the class still wraps and the class can be removed). The compiled surface and adopter-facing behavior also change in ways worth calling out:
+
+  - **Accordion icon position.** USWDS 3.14.0 flipped its default expand/collapse icon to the leading (left) edge. HDS pins `$theme-accordion-icon-position: 'end'` in both theme files to keep the circled chevron on the trailing edge, matching the Figma spec. The new USWDS `usa-accordion--icon-start` / `usa-accordion--icon-end` modifier classes are not supported by HDS Core at this time.
+  - **Breadcrumb variant model.** USWDS made wrapping the default and moved single-line truncation to a new `usa-breadcrumb--truncate` class (`usa-breadcrumb--wrap` is now inert). The new wrapping default no longer clips the list, so HDS drops its old overflow override, and the `--truncate` variant now clips only horizontally so the HDS focus ring stays visible. `--truncate` is documented as unsupported for new work.
+  - **Breadcrumb long titles.** The current-page label is capped with an ellipsis (`max-width: min(40ch, 100%)`) as a safety net for long titles. Only the non-link current page is ever clipped; ancestor links are always shown in full.
+  - **Breadcrumb guidance reframed.** The docs no longer recommend hand-authoring each trail. A new "Generating breadcrumbs" section shows producing the HDS pattern from the site tree (Hugo example), plus long-title guidance and a structured-data (RDFa) example.
+  - **Memorable date markup.** The multi-step form guide adopts the USWDS 3.14.0 per-field hint pattern (group hint `aria-hidden`, per-field `usa-hint usa-sr-only` referenced by each field's `aria-describedby`).
+  - **Accessibility fixes reaching adopters through the bundle.** The file input error border changes from blue to red under the HDS theme, the range slider border gains contrast, and modal, character count, banner, and language selector behaviors improve. See `docs/508.md` for the full updated conformance record.
+
+  **Sass consumption path floor.** USWDS 3.14.0 requires Dart Sass >= 1.99.0. Adopters who consume HDS via the `./scss` entry points must be on Dart Sass 1.99.0 or newer; the compiled-CSS path (`./css`) is unaffected.
+
+### Patch Changes
+
+- 597a18b: Block-level focus rings (buttons, accordion, icon buttons, pagination, side navigation) and link underlines now stay visible in forced-colors mode (Windows High Contrast). Both were drawn with effects the browser drops there; they now fall back to a solid outline and a real `text-decoration` underline. Default rendering is unchanged. Extends the inline-ring fix; refs #176.
+- 7ca210f: Keep checked radio buttons visibly selected in forced-colors mode by repainting the selected state with the system `SelectedItem` color.
+- 94649ee: Text links and other inline focus targets now show a focus ring in forced-colors mode (Windows High Contrast).
+
+  `hds-focus-ring-inline` draws its dashed ring with four `repeating-linear-gradient` layers and sets `outline: none` first. Forced-colors mode does not paint background images, so all four layers drop out, and because the native outline was already removed there was nothing left to see. Keyboard users on a high-contrast theme had no way to tell which link was focused.
+
+  The mixin now restores an outline inside a `@media (forced-colors: active)` block, using the same `$border-high-contrast` value USWDS uses elsewhere, so the browser repaints it in a system color. Everything that takes the inline ring benefits: links, breadcrumb links, blockquote attribution links, unstyled buttons, and bare links in prose.
+
+  Nothing changes outside forced-colors mode. The gradient ring is untouched, so default rendering is identical.
+
+- eb1fa01: The external-link arrow now stays visible in forced-colors mode (Windows High Contrast), painted in the system `CanvasText` color.
+- 2a9e333: Restore sortable-table icons and keyboard focus outlines in forced-colors mode using the existing USWDS SVG fallback. Normal palette rendering and sorting behavior are unchanged.
+- 51a92cb: Inter now ships subset by Unicode range, cutting the webfont a typical page downloads by about 63%.
+
+  Each Inter weight is now two files. The base file keeps its original name (existing URLs still resolve) and covers Latin-1, punctuation, the scientific and technical set (math operators, arrows, sub/superscripts, units, modern Greek), and common symbols (✓ ✗ ★ ⚠, circled numbers). A new `.extended` file covers Latin Extended, Vietnamese, combining diacritics, and currency signs, and is fetched automatically through `unicode-range` only when a page uses those characters.
+
+  Cyrillic, polytonic Greek, and IPA are no longer bundled. Public Sans (body) never covered them, so headings fall back to the same system font as body text.
+
+  Base is about 41 KB per weight (was 110 KB); extended about 31 KB.
+
 ## 0.10.0
 
 ### Minor Changes
