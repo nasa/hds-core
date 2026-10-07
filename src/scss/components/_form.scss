@@ -137,6 +137,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 // standardization (Issue #20).
 // Light palettes: NASA Blue. Dark palettes: NASA Blue/Tint.
 // Provided by --hds-palette-btn-secondary-bg.
+//
+// Forced colors repaints the blue border in the text color, leaving
+// a 1px → 2px width change as the only focus cue. The outline reset
+// is skipped there so the global focus ring's solid outline paints
+// instead, matching buttons and pagination.
 
 .usa-input:focus,
 .usa-textarea:focus,
@@ -146,7 +151,10 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
 .usa-select:focus-visible {
   border-color: var(--hds-palette-btn-secondary-bg);
   border-width: $hds-border-width-thick;
-  outline: none !important;
+
+  @media not (forced-colors: active) {
+    outline: none !important;
+  }
 }
 
 // ── Input hover ───────────────────────────────────────────────
@@ -258,6 +266,14 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
+
+  // Forced colors drops box-shadow, so the box is drawn only by the
+  // USWDS high-contrast outline. Keep it on focus (same values as
+  // USWDS checkbox-and-radio-colors) or the box disappears.
+  @media (forced-colors: active) {
+    outline: $border-high-contrast;
+    outline-offset: 2px;
+  }
 }
 
 // Selected — blue fill, HDS check icon, Shade/Tint stroke
@@ -269,6 +285,17 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   background-repeat: no-repeat;
   border: 0;
   box-shadow: 0 0 0 1px var(--hds-palette-control-stroke);
+
+  // Forced colors repaints the blue fill as the page color, which
+  // hides the white check on light themes. Fill with Highlight and cut
+  // the check out of it, so the page color shows through as the glyph
+  // and contrasts with the fill on every theme, as native checkboxes do.
+  @media (forced-colors: active) {
+    background-color: Highlight;
+    mask:
+      #{$hds-checkbox-icon} center / 16px auto no-repeat exclude,
+      linear-gradient(#000, #000);
+  }
 }
 
 // Disabled
@@ -291,6 +318,11 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   background-repeat: no-repeat;
   border: 0;
   box-shadow: 0 0 0 1px var(--hds-palette-border);
+
+  // Dimmed fill for the forced-colors cut-out above, as USWDS does.
+  @media (forced-colors: active) {
+    background-color: GrayText;
+  }
 }
 
 // Tile — checked border
@@ -362,6 +394,12 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
   border: 0;
   box-shadow: 0 0 0 2px var(--hds-palette-btn-secondary-bg);
   outline: none;
+
+  // Same as checkbox focus: keep the USWDS high-contrast circle.
+  @media (forced-colors: active) {
+    outline: $border-high-contrast;
+    outline-offset: 2px;
+  }
 }
 
 // Selected — blue center dot, white gap ring, blue outer border
@@ -477,6 +515,13 @@ $hds-checkbox-icon: url("data:image/svg+xml,%3Csvg viewBox='-2 -2 24 24' xmlns='
     mask-repeat: no-repeat;
     mask-size: 21.6px 21.6px;
     width: 18px;
+
+    // Forced colors repaints the red as the page color, erasing the
+    // icon. A system color is kept. The error stays carried by icon,
+    // text, and border rather than by a forced accent hue.
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
   }
 }
 

@@ -454,6 +454,13 @@ $_focus-ring-rect-svg: "data:image/svg+xml,%3Csvg width='100%25' height='100%25'
 
       // Note: components must handle top/bottom/left positioning
       // of this pseudo-element according to their specific layout.
+
+      // Forced colors repaints the bar as the page color, so where it
+      // overlaps the nav's border line it reads as a gap. Highlight is
+      // kept, and marks the current page the way selection is marked.
+      @media (forced-colors: active) {
+        background-color: Highlight;
+      }
     }
   }
 }

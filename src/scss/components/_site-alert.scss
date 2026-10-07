@@ -42,9 +42,15 @@
     color: var(--hds-palette-text);
   }
 
-  // Icon — set-text-from-bg sets background-color on ::before
+  // Icon — set-text-from-bg sets background-color on ::before.
+  // Forced colors repaints it as the page color, erasing the masked
+  // icon; a system color is kept, matching the alert text.
   .usa-alert .usa-alert__body::before {
     background-color: var(--hds-palette-icon);
+
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
   }
 
   // Heading
