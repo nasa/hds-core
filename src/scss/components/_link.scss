@@ -74,6 +74,13 @@
   mask-position: center;
   mask-repeat: no-repeat;
   vertical-align: baseline;
+
+  // Forced colors overrides palette colors with the page background,
+  // which hides the masked arrow. System color keywords are exempt
+  // from that override, so use one to keep the arrow visible.
+  @media (forced-colors: active) {
+    background-color: CanvasText;
+  }
 }
 
 // ── Internal link escape hatch ────────────────────────────────
