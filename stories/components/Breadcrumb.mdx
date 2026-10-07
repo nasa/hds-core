@@ -8,13 +8,13 @@ import * as BreadcrumbStories from './Breadcrumb.stories';
 
 Breadcrumbs are a secondary navigation component that helps visitors understand where the current page is in the site hierarchy. HDS breadcrumbs use USWDS [`.usa-breadcrumb`](https://designsystem.digital.gov/components/breadcrumb/) markup.
 
-Breadcrumbs consist of a list of links separated by forward slashes, beginning with the homepage and ending with the current page. The current page is always the last item — displayed in a distinct color but never as a link. **Maximum 3 visible elements and 2 slashes**, regardless of how deep the page is.
+Breadcrumbs are a list of links separated by forward slashes, beginning with the homepage and ending with the current page. The current page is always the last item and is never a link. HDS breadcrumbs show a **maximum of 3 elements and 2 slashes**, regardless of how deep the page is.
 
 ## Variants
 
 ### 2 levels
 
-The simplest breadcrumb — root page and current page.
+The simplest breadcrumb: root page and current page.
 
 <Canvas of={BreadcrumbStories.Default} />
 
@@ -28,31 +28,90 @@ Root page, one parent, and the current page. This is the maximum depth shown wit
 
 ### 4+ levels (with ellipsis)
 
-For pages deeper than 3 levels, Home and all intermediate levels are replaced with an ellipsis (`…`). Only the ellipsis, the immediate parent, and the current page are shown.
+For pages deeper than 3 levels, the trail is shortened: Home and all intermediate levels collapse into a leading ellipsis (`…`), leaving the ellipsis, the immediate parent, and the current page. You do not write this collapse by hand on every page; your site generator or backend produces it from the page's position in the site tree (see [Generating breadcrumbs](#generating-breadcrumbs)).
 
 <Canvas of={BreadcrumbStories.Truncated} />
 
-<Note type="uswds">HDS breadcrumbs differ from USWDS defaults in several ways: forward-slash separators instead of chevrons, a strict 3-element maximum with ellipsis truncation, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.</Note>
+<Note type="uswds">HDS breadcrumbs differ from USWDS defaults in three ways: forward-slash separators instead of chevrons, a maximum of 3 visible elements, and the current page always shown. These follow the HDS Figma spec and nasa.gov production patterns.</Note>
 
 ## When to use
 
-- **Multi-level site hierarchies** — any page that is 2+ levels deep in the site structure
-- **Below global navigation** — displayed on most pages at Large and XL screen sizes
-- **Wayfinding** — helping users orient themselves and navigate back up the hierarchy
+- **Multi-level site hierarchies:** any page that is 2 or more levels deep in the site structure
+- **Below global navigation:** displayed on most pages at Large and XL screen sizes
+- **Wayfinding:** helping users orient themselves and navigate back up the hierarchy
 
 ## When to consider something else
 
-- **Single-level sites** — if there's no meaningful hierarchy, breadcrumbs add noise
-- **Step-by-step processes** — use a step indicator instead. Breadcrumbs show hierarchy, not progress.
+- **Single-level sites:** if there's no meaningful hierarchy, breadcrumbs add noise
+- **Step-by-step processes:** use a step indicator instead. Breadcrumbs show hierarchy, not progress.
 
 ## Usability guidance
 
 - **Always include the current page.** The last item shows the user where they are. It's never a clickable link.
 - **Start with Home** for 2- and 3-level breadcrumbs. The first item links to the site root.
-- **Use ellipsis for 4+ levels.** Home disappears, and the ellipsis becomes the first element. Only 3 elements are ever visible.
-- **Use real page names.** "Artemis I" is better than "Mission Detail."
-- **Max 2 slashes.** If you see 3+ slashes, the breadcrumb is too deep — truncate with ellipsis.
-- **Small screens** — breadcrumbs are displayed at Large and XL screen sizes only. Ensure other navigation patterns (back button, menu) cover the same paths on mobile and tablet.
+- **Shorten to an ellipsis for 4+ levels.** Home and the intermediate levels collapse into a leading `…`, leaving the ellipsis, the immediate parent, and the current page. Only 3 elements are ever visible.
+- **Use real, short page names.** "Artemis I" is better than "Mission Detail." Keep labels short so the trail stays on one line (see [Long page titles](#long-page-titles)).
+- **Max 2 slashes.** If you see 3 or more slashes, the breadcrumb is too deep. Shorten it with the ellipsis.
+- **Small screens:** breadcrumbs are displayed at Large and XL screen sizes only. Ensure other navigation patterns (back button, menu) cover the same paths on mobile and tablet.
+
+## Generating breadcrumbs
+
+You do not hand-write the trail on each page. Your site generator or backend already knows where a page sits in the hierarchy, so it can produce the HDS trail automatically: show the full trail when the page is 2 or 3 levels deep, and collapse to `… / parent / current` when it is 4 or more levels deep.
+
+The example below is Hugo, which exposes the page's ancestry through `.Ancestors` and `.Parent`. The same length-check-then-branch logic ports to any generator (Eleventy's `eleventyNavigation`, Jekyll's `parent:` front matter) or backend that can walk the page tree. Hugo's home page `.LinkTitle` is usually the site title, so the template labels that crumb "Home" explicitly, and the home page itself gets no breadcrumb.
+
+{/* prettier-ignore */}
+```html
+{{ if not .IsHome }}
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    {{ if ge (len .Ancestors) 3 }}
+      {{/* 4+ levels: … / immediate parent / current */}}
+      <li class="usa-breadcrumb__list-item"><span class="usa-breadcrumb__link">…</span></li>
+      <li class="usa-breadcrumb__list-item">
+        <a class="usa-breadcrumb__link" href="{{ .Parent.RelPermalink }}">{{ .Parent.LinkTitle }}</a>
+      </li>
+    {{ else }}
+      {{/* 2-3 levels: full trail */}}
+      {{ range .Ancestors.Reverse }}
+        <li class="usa-breadcrumb__list-item">
+          <a class="usa-breadcrumb__link" href="{{ .RelPermalink }}">{{ if .IsHome }}Home{{ else }}{{ .LinkTitle }}{{ end }}</a>
+        </li>
+      {{ end }}
+    {{ end }}
+    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
+      <span>{{ .LinkTitle }}</span>
+    </li>
+  </ol>
+</nav>
+{{ end }}
+```
+
+## Long page titles
+
+Breadcrumb labels should be short. Most generators let you set a navigation label separate from the full page title (Hugo `linkTitle`, Eleventy navigation `title`, Jekyll front matter). Use it so a long `<title>` does not become a long crumb.
+
+As a safety net, HDS caps the current page label with an ellipsis if it does run long, so the trail still stays on one line. Only the current page (the non-link last item) is ever clipped; ancestor links are always shown in full.
+
+<Canvas of={BreadcrumbStories.LongTitle} />
+
+## Structured data
+
+To make a page eligible for breadcrumb rich results in search, add schema.org `BreadcrumbList` metadata using RDFa attributes. Each label is wrapped in a `<span property="name">` and each item carries a `<meta property="position">`. The breadcrumb looks and behaves the same as a standard one.
+
+<Canvas of={BreadcrumbStories.StructuredData} />
+
+## Legacy USWDS support
+
+USWDS 3.14.0 makes breadcrumb **wrapping** the default and moves single-line truncation behind a new `usa-breadcrumb--truncate` class (the former `usa-breadcrumb--wrap` is now inert upstream). HDS uses neither: the short trail above is generated from the site tree, not produced by a modifier. Both USWDS variants still render under HDS, but they are not the HDS pattern and are shown here only so you know what unmodified USWDS markup produces.
+
+Verbatim USWDS markup with a full trail wraps to multiple lines at narrow widths (the USWDS default):
+
+<Canvas of={BreadcrumbStories.LegacyWrap} />
+
+Adding `usa-breadcrumb--truncate` clips the trail to one line with an ellipsis. Avoid it: truncation hides part of the trail from sighted users at high zoom, at larger text sizes, and at narrow widths. HDS keeps the focus ring visible on this variant, but the clipped crumbs are still lost.
+
+<Canvas of={BreadcrumbStories.LegacyTruncate} />
 
 <Note type="figma">The HDS Figma spec shows breadcrumbs inside a "secondary nav bar" that transitions on scroll to display only the current page title. This composed pattern requires JavaScript and is deferred to a future phase.</Note>
 
@@ -63,39 +122,8 @@ For pages deeper than 3 levels, Home and all intermediate levels are replaced wi
 - **`aria-current="page"`:** The current page element must include this attribute.
 - **Ordered list (`<ol>`):** Screen readers announce position and count (e.g., "item 2 of 3"), reinforcing the hierarchical structure.
 - **Current page is not a link.** Linking to the current page creates confusion, especially for screen reader users.
+- **Shortened trails omit ancestors on purpose.** When a deep trail collapses to `… / parent / current`, the higher-level pages are not in the breadcrumb. The breadcrumb is a convenience wayfinding aid, not the only path to those pages, so ensure they remain reachable through the site's primary navigation.
 
-The recommended markup shown above includes all necessary ARIA attributes. The ellipsis variant markup is non-obvious, so both patterns are shown below:
-
-```html
-<!-- 3 levels -->
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
-  <ol class="usa-breadcrumb__list">
-    <li class="usa-breadcrumb__list-item">
-      <a class="usa-breadcrumb__link" href="/">Home</a>
-    </li>
-    <li class="usa-breadcrumb__list-item">
-      <a class="usa-breadcrumb__link" href="/missions">Missions</a>
-    </li>
-    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
-      <span>Artemis I</span>
-    </li>
-  </ol>
-</nav>
-
-<!-- 4+ levels (ellipsis, Home hidden) -->
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
-  <ol class="usa-breadcrumb__list">
-    <li class="usa-breadcrumb__list-item">
-      <span class="usa-breadcrumb__link">…</span>
-    </li>
-    <li class="usa-breadcrumb__list-item">
-      <a class="usa-breadcrumb__link" href="/missions/artemis">Artemis</a>
-    </li>
-    <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
-      <span>Artemis I Overview</span>
-    </li>
-  </ol>
-</nav>
-```
+Use the "Show code" control on any example above to copy markup with the correct ARIA attributes in place.
 
 See [Accessibility](?path=/docs/foundations-accessibility--docs) for HDS-wide guidance and the [USWDS breadcrumb accessibility tests](https://designsystem.digital.gov/components/breadcrumb/accessibility-tests/) for component-specific manual testing guidance.

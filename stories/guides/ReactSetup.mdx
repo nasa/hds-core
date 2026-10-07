@@ -205,9 +205,11 @@ Use the palette switcher in the Storybook toolbar to preview all six palettes on
 
 ## Version compatibility
 
-HDS Core and react-uswds v11 are both built on USWDS 3.13.0. If you are using a different version of react-uswds, confirm its USWDS peer dependency aligns with HDS Core's. Minor version differences are generally safe; a major version gap may cause styling inconsistencies.
+HDS Core is built on USWDS 3.14.0. react-uswds declares `^3.13.0`, which 3.14.0 satisfies, so the two remain compatible. If you are using a different version of react-uswds, confirm its USWDS peer dependency aligns with HDS Core's. Minor version differences are generally safe; a major version gap may cause styling inconsistencies.
 
-| Package         | USWDS version |
-| --------------- | ------------- |
-| HDS Core        | ^3.13.0       |
-| react-uswds v11 | ^3.13.0       |
+| Package                 | USWDS peer range | Resolves to |
+| ----------------------- | ---------------- | ----------- |
+| HDS Core                | ^3.14.0          | 3.14.0      |
+| react-uswds v11 and v12 | ^3.13.0          | 3.14.0      |
+
+Because both ranges resolve to the same USWDS install, npm will not produce a duplicate copy.
