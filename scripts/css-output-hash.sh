@@ -1,7 +1,7 @@
 #!/bin/bash
 # Prints a stable hash of the compiled CSS bundles. Requires a build first.
 # CI compares two invocations (base vs PR) to decide whether to run Chromatic;
-# see .github/workflows/ci.yml (detect-css-change).
+# see .github/workflows/ci.yml (detect-visual-change, via visual-fingerprint.sh).
 set -e
 
 BUNDLES=(

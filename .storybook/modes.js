@@ -6,8 +6,8 @@
 // Used by FocusTest stories to capture :focus-visible rings
 // on each palette background independently.
 //
-// Import in story files, NOT in preview.js — importing here
-// avoids TurboSnap full rebuilds when modes change.
+// Import in the story files that need them, NOT globally in
+// preview.js, which would put six modes on every snapshot.
 //
 // Usage in a story:
 //   import { paletteModes } from '../../.storybook/modes';
