@@ -398,4 +398,4 @@ Bugs and enhancements are tracked in [GitHub Issues](https://github.com/nasa/hds
 - Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - Re-evaluate Chromatic a11y tests when an independent a11y/visual toggle ships
 - Grid overlay toolbar toggle for verifying component alignment
-- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
+- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `scripts/manual-tests/uswds-js.html`.
