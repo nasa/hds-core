@@ -55,7 +55,11 @@ updates:
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'
-    directory: '/'
+    # `/` alone only covers .github/workflows; the composite actions under
+    # .github/actions pin their own action SHAs and need listing explicitly.
+    directories:
+      - '/'
+      - '/.github/actions/*'
     schedule:
       interval: 'weekly'
       day: 'friday'
