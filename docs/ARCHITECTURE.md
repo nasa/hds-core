@@ -80,14 +80,14 @@ hds-core/
 │           ├── usa-icons/              ← Copied from USWDS
 │           ├── sprite.svg              ← USWDS icon sprite
 │           └── us_flag*.{png,svg}      ← USWDS banner assets
-├── postcss.config.mjs                  ← PostCSS pipeline (imports .config/postcss-hds-stamp.mjs)
 ├── vitest.config.js
 └── .config/                            # Tool configs not required at the repo root
     ├── sd.config.js                    ← Style Dictionary config (generates token Sass)
     ├── svg-sprite.config.json
     ├── chromatic.config.json
+    ├── postcss.config.mjs              ← PostCSS pipeline
     ├── postcss-hds-stamp.mjs           ← Stamps HDS/USWDS versions into compiled bundles
-    └── ...                             ← Prettier, remark, and stylelint configs
+    └── ...                             ← ESLint, Prettier, remark, and stylelint configs
 ```
 
 The browserslist targets live in `package.json` (`browserslist` key), not a `.browserslistrc` file.
@@ -398,4 +398,4 @@ Bugs and enhancements are tracked in [GitHub Issues](https://github.com/nasa/hds
 - Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - Re-evaluate Chromatic a11y tests when an independent a11y/visual toggle ships
 - Grid overlay toolbar toggle for verifying component alignment
-- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
+- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `scripts/manual-tests/uswds-js.html`.

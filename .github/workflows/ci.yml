@@ -125,7 +125,6 @@ jobs:
               - 'src/assets/**'
               - 'tokens.json'
               - 'package.json'
-              - 'postcss.config.*'
               - '.config/**'
               - 'scripts/**'
             # Dependencies and the CI definition. Runs everything.

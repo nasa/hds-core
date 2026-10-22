@@ -3,7 +3,7 @@
   Tests USWDS JS components that require DOMContentLoaded initialization.
   These components fall back to native elements in Storybook due to
   timing — this page confirms they work in a standard HTML context.
-  Not shipped. Open directly: npx serve . → /test-form.html
+  Not shipped. Open directly: npx serve . → /scripts/manual-tests/uswds-js.html
 -->
 <!doctype html>
 <html lang="en">
@@ -11,9 +11,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>HDS Core — USWDS JS Component Test</title>
-    <link rel="stylesheet" href="dist/css/hds-uswds.css" />
-    <link rel="stylesheet" href="dist/css/hds.css" />
-    <script src="dist/js/uswds.min.js" defer></script>
+    <link rel="stylesheet" href="../../dist/css/hds-uswds.min.css" />
+    <link rel="stylesheet" href="../../dist/css/hds.min.css" />
+    <script src="../../dist/js/uswds.min.js" defer></script>
   </head>
   <body>
     <main id="main-content">
@@ -129,7 +129,7 @@
         </div>
         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
           <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-            <use href="dist/assets/img/sprite.svg#close"></use>
+            <use href="../../dist/assets/img/sprite.svg#close"></use>
           </svg>
         </button>
       </div>

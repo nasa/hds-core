@@ -68,7 +68,7 @@ Component and foundation pages follow a predictable naming convention: `{Name}.m
 | `.storybook/preview-head.html` | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`) |
 | `.storybook/utils/in-page-nav-init.js` | Re-initializes USWDS in-page navigation per story render. Required because `DOMContentLoaded` has already fired when stories mount — USWDS JS does not auto-initialize dynamically rendered components. |
 | `.config/chromatic.config.json` | Chromatic project link and upload settings (TurboSnap is off; see ARCHITECTURE.md) |
-| `vitest.config.json` | Vitest |
+| `vitest.config.js` | Vitest |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
@@ -570,7 +570,7 @@ For play-function stories, the play function itself provides implicit delay — 
 
 USWDS accordion-based components (Banner, Header nav) also need initial DOM state correction. The accordion initial-state decorator in preview.js collapses panels whose trigger has aria-expanded="false" and hides mobile nav elements. This runs globally on all stories — no per-story configuration needed.
 
-USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See `test-uswds-js.html` for validation outside Storybook.
+USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See `scripts/manual-tests/uswds-js.html` for validation outside Storybook.
 
 ## Guide stories
 

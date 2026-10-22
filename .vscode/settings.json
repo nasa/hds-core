@@ -6,6 +6,8 @@
   "stylelint.ignorePath": ".config/stylelintignore",
   "stylelint.validate": ["css", "scss"],
 
+  "eslint.options": { "overrideConfigFile": ".config/eslint.config.mjs" },
+
   "[mdx]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
