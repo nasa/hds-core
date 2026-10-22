@@ -36,10 +36,8 @@ const USWDS_VERSION = read(path.join(REPO_ROOT, 'node_modules/@uswds/uswds/packa
 const STAMPS_PROPERTIES = new Set(['hds.min.css', 'hds.css']);
 
 /**
- * Only our own published bundles get stamped. The root postcss config is
- * picked up by Vite too (Storybook runs `@storybook/html-vite` with no
- * `css.postcss` override), and without this guard every CSS chunk Storybook
- * processes gets an HDS banner naming an unrelated file.
+ * Only our own published bundles get stamped, so any other CSS run through
+ * this config (e.g. by a bundler) doesn't get an HDS banner.
  */
 const STAMPABLE = new Set([
   ...STAMPS_PROPERTIES,

@@ -80,14 +80,14 @@ hds-core/
 │           ├── usa-icons/              ← Copied from USWDS
 │           ├── sprite.svg              ← USWDS icon sprite
 │           └── us_flag*.{png,svg}      ← USWDS banner assets
-├── postcss.config.mjs                  ← PostCSS pipeline (imports .config/postcss-hds-stamp.mjs)
 ├── vitest.config.js
 └── .config/                            # Tool configs not required at the repo root
     ├── sd.config.js                    ← Style Dictionary config (generates token Sass)
     ├── svg-sprite.config.json
     ├── chromatic.config.json
+    ├── postcss.config.mjs              ← PostCSS pipeline
     ├── postcss-hds-stamp.mjs           ← Stamps HDS/USWDS versions into compiled bundles
-    └── ...                             ← Prettier, remark, and stylelint configs
+    └── ...                             ← ESLint, Prettier, remark, and stylelint configs
 ```
 
 The browserslist targets live in `package.json` (`browserslist` key), not a `.browserslistrc` file.
