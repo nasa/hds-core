@@ -271,7 +271,7 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Download dist
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -326,7 +326,7 @@ jobs:
 
       - name: Install Playwright browser
         if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Check docs render
         if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
