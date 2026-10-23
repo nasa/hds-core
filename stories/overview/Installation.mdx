@@ -236,12 +236,16 @@ Without that `@use`, `$hds-color-carbon-05` raises `Error: Undefined variable`. 
 
 ### Copy the assets
 
-A Sass compiler does not copy fonts and icons, so your build tool must place the `assets/` directory beside your compiled CSS (see [Assets](#assets)). How you do that depends on your toolchain. For Vite, the [React guide](?path=/docs/guides-react-guidance--docs#sass-setup) shows a `vite-plugin-static-copy` configuration that applies to any Vite project; other bundlers have their own asset-copy step.
+A Sass compiler does not copy fonts and icons, so your build tool must place the `assets/` directory beside your compiled CSS (see [Assets](#assets)). How you do that depends on your toolchain. For Vite, the [React guide](?path=/docs/guides-react-setup--docs#sass-setup) shows a `vite-plugin-static-copy` configuration that applies to any Vite project; other bundlers have their own asset-copy step.
 
 Once HDS Core is compiling, see the [Sass Configuration guide](?path=/docs/guides-sass-configuration--docs) for what you can build with HDS tokens, functions, and mixins, and what the theme seals.
 
 ## Framework-specific guides
 
-- [React](?path=/docs/guides-react-guidance--docs): integration with and without [react-uswds](https://github.com/trussworks/react-uswds)
+- [React](?path=/docs/guides-react-setup--docs): integration with and without [react-uswds](https://github.com/trussworks/react-uswds)
 
 {/* Additional framework guides will be added as they become available. */}
+
+## Using coding agents
+
+These docs are also published as Markdown for LLMs and coding agents, indexed at [nasa.github.io/hds-core/llms.txt](https://nasa.github.io/hds-core/llms.txt). Each page includes the markup for every example, plus guidance on tokens and class prefixes. Point your agent at the index, or add it to your project's agent instructions (such as `AGENTS.md`), so it writes supported HDS markup instead of falling back to stock USWDS from memory.
