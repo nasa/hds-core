@@ -71,6 +71,11 @@ jobs:
       - name: Check docs render
         run: npm run check:docs-render
 
+      # Writes llms.txt and llms/*.md into storybook-static/ for adopters'
+      # AI agents. Fails on any gap so a partial export never publishes.
+      - name: Generate llms.txt
+        run: npm run docs:llms
+
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 

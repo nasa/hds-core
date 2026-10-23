@@ -106,6 +106,9 @@ jobs:
               - '**/*.stories.js'
             storybook_config:
               - '.storybook/**'
+              # Storybook-only gates; not otherwise matched by a filter that runs build-storybook.
+              - 'scripts/check-docs-render.js'
+              - 'scripts/generate-llms.mjs'
             tokens:
               - 'tokens.json'
               - '.config/sd.config.js'
@@ -328,6 +331,12 @@ jobs:
       - name: Check docs render
         if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
         run: npm run check:docs-render
+
+      # Same generator the deploy runs, so a Storybook upgrade or MDX change
+      # that breaks llms.txt fails here instead of after merge.
+      - name: Generate llms.txt
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
+        run: npm run docs:llms
 
   # -----------------------------------------------------------------------
   # Detect visual change -- the Chromatic trigger. Builds base and PR fresh

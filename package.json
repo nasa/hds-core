@@ -67,6 +67,7 @@
     "prepack": "npm run build",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
     "docs:meta": "node scripts/generate-docs-meta.mjs",
+    "docs:llms": "node scripts/generate-llms.mjs",
     "dev": "npm run docs:meta && concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
     "storybook": "storybook dev -p 6006 --no-open --ci",
     "build-storybook": "npm run docs:meta && storybook build",
