@@ -137,6 +137,15 @@ Include this caption once per page only.
 
 When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
 
+### llms.txt export
+
+The Storybook deploy publishes `llms.txt` and one Markdown file per docs page at `nasa.github.io/hds-core/llms/` for adopters' AI agents. `scripts/generate-llms.mjs` builds them from the MDX source (`npm run docs:llms` after `npm run build-storybook`). Nothing generated is committed. How you write MDX shapes what agents see:
+
+- **Each `<Canvas>` becomes a fenced HTML block** of the story's own render output, captured without decorators, so it shows the markup adopters write before USWDS JS runs.
+- **`sourceState="none"` excludes a Canvas.** If adopters need that example's markup, add a hand-written ` ```html ` snippet next to it (see Blockquote).
+- **Lines about Storybook UI are stripped**, such as the palette switcher caption and "Show code" instructions. Put real guidance on its own line so it isn't removed with them.
+- **Broken doc links, unresolved Canvases, and empty renders fail CI and the deploy.**
+
 ### Live component demos
 
 Never inline live HDS component HTML directly in MDX. MDX renders in React context, not the HTML story renderer. HDS classes, SVG sprites, and palette wiring won't work.
