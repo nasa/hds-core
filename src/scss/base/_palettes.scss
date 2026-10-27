@@ -97,6 +97,15 @@
   --hds-palette-disabled-bg: #{$hds-color-carbon-05};
   --hds-palette-error-indicator: #{$hds-color-nasa-red};
   --hds-palette-error-text: #{$hds-color-nasa-red-shade};
+
+  // Step indicator bars. Contrast-ranked, not hue-coded: current is
+  // the higher-contrast blue against the surface, complete the lower
+  // (both clear WCAG 1.4.11 3:1). The upcoming track stays a
+  // translucent 20% overlay per Figma; it is decorative, the label
+  // and its visually hidden status text carry the state.
+  --hds-palette-step-track: rgb(0 0 0 / 20%);
+  --hds-palette-step-complete: #{$hds-color-nasa-blue-tint};
+  --hds-palette-step-current: #{$hds-color-nasa-blue};
 }
 
 // --- Dark scheme (dark, black) ---
@@ -152,6 +161,12 @@
   --hds-palette-disabled-bg: #{$hds-color-carbon-90};
   --hds-palette-error-indicator: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-nasa-red-tint};
+
+  // Step indicator: the two blues swap against light schemes so
+  // current stays the higher-contrast bar on a dark surface.
+  --hds-palette-step-track: rgb(255 255 255 / 20%);
+  --hds-palette-step-complete: #{$hds-color-nasa-blue};
+  --hds-palette-step-current: #{$hds-color-nasa-blue-tint};
 
   @if $hds-enable-dataviz-tokens {
     @include scheme-dataviz-dark;
@@ -209,6 +224,13 @@
   // ~2.6:1 on Carbon 20, failing WCAG 1.4.11 (3:1 non-text).
   // NASA Red Shade (#B60109) passes with ~4.7:1 on Carbon 20.
   --hds-palette-error-indicator: #{$hds-color-nasa-red-shade};
+
+  // Step indicator — not specced in Figma. The light-scheme Blue
+  // Tint complete bar is ~2.2:1 on Carbon 20, failing 1.4.11. Step
+  // both blues down one shade to hold the hierarchy: NASA Blue
+  // complete 3.36:1, NASA Blue Shade current 6.58:1.
+  --hds-palette-step-complete: #{$hds-color-nasa-blue};
+  --hds-palette-step-current: #{$hds-color-nasa-blue-shade};
 }
 
 // Palette 4 — Dark (Carbon 90)
@@ -282,6 +304,14 @@
   // White passes with 9.9:1.
   --hds-palette-error-indicator: #{$hds-color-nasa-red-tint};
   --hds-palette-error-text: #{$hds-color-spacesuit-white};
+
+  // Step indicator — not specced in Figma. Blue bars on the Blue
+  // Shade surface top out at 2.98:1, so the bars go achromatic,
+  // the same way this palette handles headings, text, and links:
+  // Carbon 30 complete 5.13:1, Spacesuit White current 10.04:1.
+  --hds-palette-step-track: rgb(255 255 255 / 20%);
+  --hds-palette-step-complete: #{$hds-color-carbon-30};
+  --hds-palette-step-current: #{$hds-color-spacesuit-white};
 
   // Data visualization: Blue palette inherits light defaults
   // from :root (base/_custom-properties.scss). Chart surfaces

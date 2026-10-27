@@ -1,0 +1,113 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Note } from '../helpers/Note';
+import * as StepIndicatorStories from './StepIndicator.stories';
+
+<Meta title="Components/Step Indicator/Guidance" />
+
+# Step Indicator
+
+A step indicator shows where a person is in a multi-step process, such as a form split across several pages. HDS step indicators use USWDS [`.usa-step-indicator`](https://designsystem.digital.gov/components/step-indicator/) markup. In HDS Figma this component is called the Stepper.
+
+Each step is a bar. A step is upcoming, current, complete, or has an error. The step indicator is not interactive: buttons for moving between steps sit outside it.
+
+## Variants
+
+### Default
+
+A bar per step with a short title and an optional caption. Use when the steps are clearly defined and distinct from each other.
+
+<Canvas of={StepIndicatorStories.Default} />
+
+> Use the palette switcher (🖌 toolbar) to preview on all six HDS backgrounds.
+
+The current step's title is bold. Completed steps show a check icon, so completion never depends on bar color alone.
+
+Below tablet width (640px) the default step indicator collapses to the condensed form automatically. Titles and captions are hidden visually but still read by screen readers.
+
+<Note type="uswds">`.usa-step-indicator__segment-caption` is an HDS addition with no USWDS equivalent. Place it after the label, inside the same list item.</Note>
+
+### Condensed
+
+Bars only, with a "Step X of Y" line beneath. Add `.usa-step-indicator--condensed` to the container. Use when space is tight, there are many steps, or step titles carry little meaning on their own.
+
+<Canvas of={StepIndicatorStories.Condensed} />
+
+The "Step X of Y" line uses the USWDS header markup, with the word "Step" visible and no heading text:
+
+```html
+<div class="usa-step-indicator__header">
+  <p class="usa-step-indicator__heading">
+    <span class="usa-step-indicator__heading-counter"
+      >Step
+      <span class="usa-step-indicator__current-step">2</span>
+      <span class="usa-step-indicator__total-steps">of 4</span>
+    </span>
+  </p>
+</div>
+```
+
+Condensed bars are a fixed width and shrink to fit when there are many steps:
+
+<Canvas of={StepIndicatorStories.CondensedManySteps} />
+
+<Note type="uswds">`.usa-step-indicator--condensed` is an HDS addition. Use it instead of USWDS `--no-labels`. Condensed keeps the step titles in your markup, so you do not need to add `aria-hidden` to segments.</Note>
+
+### Error state
+
+Add `.usa-step-indicator__segment--error` to a step whose answers need fixing. The bar turns red and an alert icon appears before the title.
+
+<Canvas of={StepIndicatorStories.ErrorState} />
+
+<Note type="uswds">The error state is an HDS addition. USWDS step indicators have no error state.</Note>
+
+<Note type="figma">The error red matches the red used for form errors on the same palette, so a step indicator and the form beneath it always show one red. Figma specifies the lighter and darker reds the other way round.</Note>
+
+## When to use
+
+- **Multi-page forms and transactions** with a known, fixed number of steps, such as an internship application or a grant submission.
+- **Natural groupings:** each step is a meaningful section (Personal information, Academic background), not an arbitrary page break.
+- **Three or more steps.** For long processes, prefer the condensed form.
+
+## When to consider something else
+
+- **Short forms:** if a form has fewer than three sections, or fits on one page, use [Form](?path=/docs/components-form-guidance--docs) section headings instead.
+- **A changing number of steps:** if answers add or remove steps, the total shown would be wrong partway through.
+- **Non-linear tasks:** if people can complete sections in any order, a step indicator implies a sequence that does not exist. Consider a list of sections with their status.
+- **Site navigation:** the step indicator is not a navigation control. Use [Side Navigation](?path=/docs/components-side-navigation-guidance--docs) or [Breadcrumb](?path=/docs/components-breadcrumb-guidance--docs) to show where a page sits in a site.
+
+## Usability guidance
+
+- **Put the step title in the page heading.** Place the step indicator above the page `<h1>`, and use the current step's title as that heading. The step indicator then needs no USWDS header.
+- **Keep titles short.** One to three words per step. Titles wrap within their segment, so long titles make the row uneven.
+- **Captions are optional.** Use them to say what a step covers ("Name and contact details"), not to repeat the title.
+- **Place navigation outside.** Back, Continue, and Cancel controls go below the form, not inside the step indicator.
+- **Show errors where they are.** Mark a step with an error only when its answers need fixing, and explain the error on that step's page.
+- **Small screens:** the default form collapses to bars only. If people need to see their position on small screens, use the condensed form, which always shows the "Step X of Y" line.
+
+<Note type="uswds">USWDS recommends showing "step of total" (such as "Step 2 of 4") next to the page heading. The HDS default form shows the count through the bars and their titles instead; the condensed form keeps the "Step X of Y" line.</Note>
+
+<Canvas of={StepIndicatorStories.InContext} />
+
+<Note type="figma">Three type details follow the HDS type ramp rather than Figma: step titles use the ramp's tighter tracking (−0.02em, about −0.32px at 16px, where Figma shows −0.5px); captions use the ramp's 1.35 line height (Figma 16/12, about 1.33); and the "Step X of Y" line uses the caption style, where Figma sets it in Inter.</Note>
+
+## Legacy USWDS support
+
+Step indicator markup from an existing USWDS site renders in HDS styles with no changes. That includes the USWDS header, which repeats the step title and shows the step number in a circle. HDS styles the header as a plain "3 of 4" line in caption type rather than hiding it, so content inside it stays visible on migrated sites.
+
+<Canvas of={StepIndicatorStories.LegacyUSWDS} />
+
+For new pages, drop the header and use the current step's title as the page heading (see [Usability guidance](#usability-guidance)). If you keep the header, use the heading level that fits your page outline rather than the `<h4>` in the USWDS sample code. HDS Figma shows no header on the default step indicator. Whether HDS should hide the header on the default form to match is under design review; for now it stays visible.
+
+The USWDS `--counters`, `--counters-sm`, and `--center` variants still render, but they are not part of the HDS design and their numbered circles keep the USWDS look on every background. `--no-labels` hides titles visually the same way condensed does.
+
+For a full multi-page form built from unmodified USWDS markup, see the [Multi-Step Form guide](?path=/story/guides-existing-uswds-site-multi-step-form--form-templates).
+
+## Accessibility
+
+- **Label the container:** add `aria-label="progress"` to `.usa-step-indicator`.
+- **Mark the current step:** add `aria-current="true"` to the current `<li>`.
+- **State every other step in text:** inside each non-current label, add visually hidden status text: `<span class="usa-sr-only">completed</span>`, `<span class="usa-sr-only">not completed</span>`, or for an error step, `<span class="usa-sr-only">not completed, has errors</span>`. Bar color and icons are never the only signal: upcoming bars are deliberately quiet, at lower contrast than USWDS asks for pending segments, and the complete check icon is low contrast on light backgrounds, so the status text is what carries each step's state.
+- **Keep titles in condensed markup.** Condensed hides titles visually but screen readers still read them, so every step keeps its name. Do not use `display: none` or `aria-hidden` to hide them yourself.
+- **Not focusable:** the step indicator contains no links or buttons and is not in the tab order.
+
+See [Accessibility](?path=/docs/foundations-accessibility--docs) for HDS-wide guidance and the [USWDS step indicator accessibility tests](https://designsystem.digital.gov/components/step-indicator/accessibility-tests/) for component-specific manual testing guidance.

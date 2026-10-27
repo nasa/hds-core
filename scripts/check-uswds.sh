@@ -38,6 +38,7 @@ PACKAGES=(
   usa-prose
   usa-sidenav
   usa-site-alert
+  usa-step-indicator
 )
 
 if [ ! -f "$HASH_FILE" ]; then

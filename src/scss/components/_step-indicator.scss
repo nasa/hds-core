@@ -1,0 +1,308 @@
+// ============================================================
+// HDS Component — Step Indicator (Stepper)
+// @nasa-hds/core
+// ============================================================
+// USWDS .usa-step-indicator override. Two forms per the HDS
+// Figma Stepper spec:
+//   Default   — a bar per step with a short title and an
+//               optional caption.
+//   Condensed — bars only, plus a "Step X of Y" line beneath.
+//
+// MARKUP (recommended — default):
+//   <div class="usa-step-indicator" aria-label="progress">
+//     <ol class="usa-step-indicator__segments">
+//       <li class="usa-step-indicator__segment
+//                  usa-step-indicator__segment--complete">
+//         <span class="usa-step-indicator__segment-label">Title
+//           <span class="usa-sr-only">completed</span></span>
+//         <span class="usa-step-indicator__segment-caption">Optional</span>
+//       </li>
+//       <li class="usa-step-indicator__segment
+//                  usa-step-indicator__segment--current"
+//           aria-current="true">…</li>
+//       <li class="usa-step-indicator__segment">…
+//         <span class="usa-sr-only">not completed</span>…</li>
+//     </ol>
+//   </div>
+//
+// MARKUP (condensed): add .usa-step-indicator--condensed and a
+// "Step X of Y" line in the USWDS header:
+//   <div class="usa-step-indicator__header">
+//     <p class="usa-step-indicator__heading">
+//       <span class="usa-step-indicator__heading-counter">Step
+//         <span class="usa-step-indicator__current-step">2</span>
+//         <span class="usa-step-indicator__total-steps">of 4</span>
+//       </span>
+//     </p>
+//   </div>
+//
+// HDS-invented parts (kept in the usa- namespace, like
+// .usa-list--top-level): --condensed, __segment--error,
+// __segment-caption.
+//
+// STATES: upcoming (default), current, complete, error.
+// Complete and error draw their icon from CSS (mask-image on
+// the label's ::before), so they need no icon markup.
+//
+// PALETTE BEHAVIOR:
+//   Upcoming bar → --hds-palette-step-track (20% overlay)
+//   Complete bar → --hds-palette-step-complete
+//   Current bar  → --hds-palette-step-current
+//   Error bar    → --hds-palette-error-indicator (one red with
+//                  the form beneath; token wins over Figma)
+//   Title        → --hds-palette-text
+//   Caption      → --hds-palette-muted
+//   Complete icon → Active Green, every palette
+//
+// RESPONSIVE:
+//   Mobile (<640px):  condensed form, whatever the markup.
+//   Desktop (≥640px): default form unless --condensed is set.
+//   Both are driven by the one step-indicator-condensed mixin.
+//
+// INTERACTION: presentational only. Nothing inside is focusable
+// or hoverable; navigation controls sit outside the stepper.
+//
+// DEVIATIONS (detail in StepIndicator.mdx):
+//   - Bar height 6px is off the USWDS scale; applied directly.
+//   - Segments fill the row (USWDS caps them at card-lg).
+//   - Condensed labels are visually hidden, not display: none,
+//     so every segment keeps its step name for screen readers.
+//
+// Restyles: https://designsystem.digital.gov/components/step-indicator/
+// ============================================================
+
+@use 'uswds-core' as *;
+@use 'hds-tokens' as *;
+@use 'hds-mixins' as *;
+@use 'hds-typography' as *;
+
+// 6px per Figma at every viewport. Off the spacing scale
+// ('05' = 4px, '1' = 8px), so not expressible through
+// $theme-step-indicator-segment-height.
+$_bar-height: 6px;
+
+// Condensed segments: 40px, fixed but allowed to shrink.
+$_condensed-segment-width: units(5);
+
+// USWDS counter sizes, needed to re-place labels in the legacy
+// counters variants (see below).
+$_counter-size: units(5);
+$_counter-size-sm: units(3);
+
+// ------------------------------------------------------------
+// Condensed form
+// ------------------------------------------------------------
+// One source for both the explicit --condensed variant and the
+// below-tablet collapse of the default form.
+// ------------------------------------------------------------
+
+@mixin step-indicator-condensed {
+  .usa-step-indicator__segment {
+    flex: 0 1 $_condensed-segment-width;
+    min-width: 0;
+  }
+
+  // Labels and captions stay in the accessibility tree so each
+  // segment keeps its step name and status text.
+  .usa-step-indicator__segment-label,
+  .usa-step-indicator__segment-caption {
+    @include hds-visually-hidden;
+  }
+
+  .usa-step-indicator__heading {
+    margin-block-start: units(1);
+  }
+}
+
+// ------------------------------------------------------------
+// Container
+// ------------------------------------------------------------
+// USWDS paints the container white, which shows as a white
+// block on every dark palette. USWDS cancels the outer half-gaps
+// with negative margins on the container, mobile only; HDS moves
+// them to the segment list at every width so the first and last
+// bars sit flush with the content edge and the header text
+// lines up with the bars.
+// ------------------------------------------------------------
+
+.usa-step-indicator {
+  background-color: transparent;
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  margin-inline: 0;
+}
+
+.usa-step-indicator__segments {
+  margin-inline: calc(#{units($theme-step-indicator-segment-gap)} / -2);
+}
+
+// ------------------------------------------------------------
+// Segment + bar
+// ------------------------------------------------------------
+// USWDS pins the mobile bar to units(1) regardless of theme
+// settings; one unconditional height replaces both its rules.
+// ------------------------------------------------------------
+
+.usa-step-indicator__segment {
+  max-width: none;
+  min-height: $_bar-height;
+
+  &::after {
+    background-color: var(--hds-palette-step-track, rgb(0 0 0 / 20%));
+    height: $_bar-height;
+  }
+}
+
+.usa-step-indicator__segment--complete::after {
+  background-color: var(--hds-palette-step-complete, #{$hds-color-nasa-blue-tint});
+}
+
+.usa-step-indicator__segment--current::after {
+  background-color: var(--hds-palette-step-current, #{$hds-color-nasa-blue});
+}
+
+.usa-step-indicator__segment--error::after {
+  background-color: var(--hds-palette-error-indicator, #{$hds-color-nasa-red});
+}
+
+// ------------------------------------------------------------
+// Label (step title)
+// ------------------------------------------------------------
+// h5 matches the current step exactly; other states re-declare
+// weight only. Title color is the same in every state — the bar
+// and icon carry the state, so USWDS's colored labels are reset.
+// 12px gap below the bar.
+// ------------------------------------------------------------
+
+.usa-step-indicator__segment-label {
+  @include hds-type('h5');
+
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  display: block;
+  font-weight: $hds-font-weight-normal;
+  margin-block-start: calc(#{$_bar-height} + #{units('105')});
+  padding-inline-end: units(1);
+}
+
+.usa-step-indicator__segment--complete .usa-step-indicator__segment-label,
+.usa-step-indicator__segment--error .usa-step-indicator__segment-label {
+  // Icon sits on the title line: 20px box (one 20px line), 18px
+  // glyph, 4px gap. Glyph is 20 in a 24 viewBox, so mask-size
+  // 21.6px renders it at 18px (same math as components/_form.scss).
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    margin-inline-end: units('05');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 21.6px 21.6px;
+    vertical-align: top;
+    width: 20px;
+  }
+}
+
+.usa-step-indicator__segment--complete .usa-step-indicator__segment-label::before {
+  background-color: $hds-color-active-green;
+  mask-image: url('../assets/img/hds-icons/check-circled.svg');
+}
+
+.usa-step-indicator__segment--error .usa-step-indicator__segment-label::before {
+  background-color: var(--hds-palette-error-indicator, #{$hds-color-nasa-red});
+  mask-image: url('../assets/img/hds-icons/error.svg');
+}
+
+.usa-step-indicator__segment--current .usa-step-indicator__segment-label {
+  font-weight: $hds-font-weight-semibold;
+}
+
+// ------------------------------------------------------------
+// Caption (HDS-invented, optional)
+// ------------------------------------------------------------
+
+.usa-step-indicator__segment-caption {
+  @include hds-type('caption');
+
+  color: var(--hds-palette-muted, #{$hds-color-carbon-60});
+  display: block;
+  margin-block-start: units('05');
+  padding-inline-end: units(1);
+}
+
+// ------------------------------------------------------------
+// Header ("Step X of Y")
+// ------------------------------------------------------------
+// The condensed form's "Step X of Y" line. In the default form
+// Figma has no header — the step title is the page <h1> — but
+// it is styled rather than hidden so markup carried over from a
+// USWDS site still renders in HDS type. Open for creative-
+// director review; see the Legacy USWDS support section of
+// StepIndicator.mdx. The USWDS counter circle is flattened to
+// plain text.
+// ------------------------------------------------------------
+
+.usa-step-indicator__heading {
+  @include hds-type('caption');
+
+  color: var(--hds-palette-text, #{$hds-color-carbon-90});
+  margin: units(2) 0 0;
+}
+
+.usa-step-indicator__current-step,
+.usa-step-indicator__total-steps {
+  background-color: transparent;
+  border-radius: 0;
+  color: inherit;
+  font-weight: inherit;
+  height: auto;
+  padding: 0;
+  width: auto;
+}
+
+.usa-step-indicator__current-step {
+  display: inline;
+}
+
+// ------------------------------------------------------------
+// Condensed: explicit variant + mobile collapse
+// ------------------------------------------------------------
+
+.usa-step-indicator--condensed {
+  @include step-indicator-condensed;
+}
+
+.usa-step-indicator {
+  @include at-media-max($theme-step-indicator-min-width) {
+    @include step-indicator-condensed;
+  }
+}
+
+// ------------------------------------------------------------
+// Legacy USWDS variants
+// ------------------------------------------------------------
+// Not part of the HDS spec; kept rendering for sites migrating
+// from USWDS. Because this layer outranks USWDS, rules above
+// would otherwise override USWDS's variant-specific ones.
+//
+// --no-labels: full-width bars, labels hidden. Hidden visually
+// (not display: none) for the same reason as condensed.
+// ------------------------------------------------------------
+
+.usa-step-indicator--no-labels {
+  .usa-step-indicator__segment-label,
+  .usa-step-indicator__segment-caption {
+    @include hds-visually-hidden;
+  }
+}
+
+// --counters / --counters-sm: re-place the label below the
+// counter circle using HDS's bar height. Counter circles keep
+// the USWDS treatment and are not palette-aware.
+@include at-media($theme-step-indicator-min-width) {
+  .usa-step-indicator--counters .usa-step-indicator__segment-label {
+    margin-block-start: calc((#{$_counter-size} + #{$_bar-height}) / 2 + #{units(1)});
+  }
+
+  .usa-step-indicator--counters-sm .usa-step-indicator__segment-label {
+    margin-block-start: calc((#{$_counter-size-sm} + #{$_bar-height}) / 2 + #{units(1)});
+  }
+}

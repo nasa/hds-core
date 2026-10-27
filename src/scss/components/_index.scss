@@ -6,7 +6,8 @@
 //   1. Foundational — link and button, used/extended by others
 //   2. Form controls — inputs, selects, checkboxes, radios
 //   3. Content — tables, lists, intro text, accordion, blockquote
-//   4. Navigation — breadcrumb, pagination, in-page nav
+//   4. Navigation — breadcrumb, pagination, in-page nav, side nav,
+//      step indicator
 //   5. Notifications — site alert, alert
 //   6. Layout — grid utilities
 // ============================================================
@@ -33,6 +34,7 @@
 @forward 'pagination';
 @forward 'in-page-nav';
 @forward 'sidenav';
+@forward 'step-indicator';
 
 // ── Notifications ──
 @forward 'site-alert';

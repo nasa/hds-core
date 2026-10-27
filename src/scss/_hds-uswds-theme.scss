@@ -469,5 +469,22 @@
   $theme-in-page-nav-background-radius: 0,
   $theme-in-page-nav-bar-color: 'secondary',
   $theme-in-page-nav-bar-width: hds.$hds-border-width-thick,
-  $theme-in-page-nav-font-family: 'heading'
+  $theme-in-page-nav-font-family: 'heading',
+
+  // ----------------------------------------------------------
+  // Step Indicator
+  // ----------------------------------------------------------
+  // Segment gap is 4px per Figma, reachable on the scale as '05'.
+  // Bar height (6px) is off the scale (between '05' and '1'), so
+  // it is applied directly in components/_step-indicator.scss.
+  // Min-width pinned to USWDS's own default ('tablet', 640px) so
+  // an upstream default change cannot move the condensed collapse.
+  // Segment colors are placeholders for parts HDS does not restyle
+  // (the USWDS counters variants); bars and labels resolve palette
+  // colors in components/_step-indicator.scss.
+  $theme-step-indicator-min-width: 'tablet',
+  $theme-step-indicator-segment-gap: '05',
+  $theme-step-indicator-segment-color-pending: 'gray-30',
+  $theme-step-indicator-segment-color-complete: 'blue-40v',
+  $theme-step-indicator-segment-color-current: 'blue-60v'
 );

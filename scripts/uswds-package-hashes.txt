@@ -26,3 +26,4 @@ usa-pagination: 3141119e
 usa-prose: e49b959a
 usa-sidenav: bb92d39e
 usa-site-alert: efbbce4c
+usa-step-indicator: 1346ea5b
