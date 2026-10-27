@@ -10,7 +10,7 @@
 
 import { expect } from 'storybook/test';
 import { paletteModes } from '../../.storybook/modes';
-import { hdsUiIcons, uswdsUniqueIcons } from '../helpers/icons';
+import { hdsUiIcons, hdsSocialIcons, uswdsUniqueIcons } from '../helpers/icons';
 import { paletteA11yParams, paletteRender, pseudoParams } from '../helpers/paletteTests';
 
 export default {
@@ -165,11 +165,11 @@ export const Outline = {
 export const Utility = {
   name: 'Utility',
   args: {
-    ariaLabel: 'Settings',
+    ariaLabel: 'Next slide',
     spriteSource: 'HDS',
-    hdsIcon: 'settings',
+    hdsIcon: 'arrow-chevron-right',
     uswdsIcon: 'search',
-    size: 'default',
+    size: '3xl',
     disabled: false,
     element: 'button',
   },
@@ -180,15 +180,18 @@ export const Utility = {
 export const Social = {
   name: 'Social',
   args: {
-    ariaLabel: 'RSS feed',
+    ariaLabel: 'NASA on Facebook',
     spriteSource: 'HDS',
-    hdsIcon: 'rss',
+    hdsIcon: 'logo-facebook',
     uswdsIcon: 'search',
-    size: 'default',
+    size: 'xl',
     disabled: false,
-    element: 'button',
+    element: 'a',
   },
-  argTypes: sharedArgTypes,
+  argTypes: {
+    ...sharedArgTypes,
+    hdsIcon: { ...sharedArgTypes.hdsIcon, options: hdsSocialIcons },
+  },
   render: roleRender('social'),
 };
 
@@ -237,7 +240,7 @@ export const AllVariants = {
             ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download'))}
             ${gridItem('Outline', iconBtn('outline', 'share', 'Share'))}
             ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings'))}
-            ${gridItem('Social', iconBtn('social', 'rss', 'RSS'))}
+            ${gridItem('Social', iconBtn('social', 'logo-facebook', 'NASA on Facebook', { element: 'a' }))}
             ${gridItem('Interactive', iconBtn('interactive', 'plus', 'More info'))}
           `)}
         </div>
@@ -250,7 +253,7 @@ export const AllVariants = {
             ${gridItem('Secondary', iconBtn('secondary', 'download', 'Download', { disabled: true }))}
             ${gridItem('Outline', iconBtn('outline', 'share', 'Share', { disabled: true }))}
             ${gridItem('Utility', iconBtn('utility', 'settings', 'Settings', { disabled: true }))}
-            ${gridItem('Social', iconBtn('social', 'rss', 'RSS', { disabled: true }))}
+            ${gridItem('Social', iconBtn('social', 'logo-facebook', 'NASA on Facebook', { disabled: true }))}
             ${gridItem('Expanded', iconBtn('interactive', 'minus', 'Close', { expanded: true }))}
           `)}
         </div>
@@ -292,38 +295,93 @@ export const Sizes = {
     `),
 };
 
-export const UsagePatterns = {
-  name: 'Usage patterns',
+// Accessible names for every social mark, written to be copied as-is.
+// Telegram and WhatsApp are share targets on NASA+, not NASA accounts.
+const socialLabels = {
+  'logo-android': 'NASA app for Android',
+  'logo-apple': 'NASA app on the App Store',
+  'logo-apple-podcasts': 'NASA podcasts on Apple Podcasts',
+  'logo-facebook': 'NASA on Facebook',
+  'logo-flickr': 'NASA on Flickr',
+  'logo-giphy': 'NASA on Giphy',
+  'logo-github': 'NASA on GitHub',
+  'logo-google-play': 'NASA app on Google Play',
+  'logo-instagram': 'NASA on Instagram',
+  'logo-linkedin': 'NASA on LinkedIn',
+  'logo-pinterest': 'NASA on Pinterest',
+  'logo-reddit': 'NASA on Reddit',
+  'logo-snapchat': 'NASA on Snapchat',
+  'logo-soundcloud': 'NASA on SoundCloud',
+  'logo-spotify': 'NASA on Spotify',
+  'logo-telegram': 'Share on Telegram',
+  'logo-threads': 'NASA on Threads',
+  'logo-tiktok': 'NASA on TikTok',
+  'logo-tumblr': 'NASA on Tumblr',
+  'logo-twitch': 'NASA on Twitch',
+  'logo-whatsapp': 'Share on WhatsApp',
+  'logo-x': 'NASA on X',
+  'logo-youtube': 'NASA on YouTube',
+};
+
+const socialBtn = (name) => iconBtn('social', name, socialLabels[name], { element: 'a', size: 'xl' });
+
+const socialRow = `
+  <ul class="usa-button-group">
+    ${['logo-facebook', 'logo-instagram', 'logo-x', 'logo-youtube', 'logo-linkedin']
+      .map((n) => `<li class="usa-button-group__item">${socialBtn(n)}</li>`)
+      .join('')}
+  </ul>`;
+
+export const SocialRow = {
+  name: 'Social row',
+  tags: ['!dev'],
+  render: () => socialRow,
+};
+
+export const SocialAllPlatforms = {
+  name: 'Social platforms',
   tags: ['!dev'],
   render: () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      <div>
-        ${label('Social row')}
-        <div style="margin-top: 0.5rem;">
-          ${grid(`
-            ${iconBtn('social', 'notification', 'Notifications', { element: 'a', size: 'xl' })}
-            ${iconBtn('social', 'rss', 'RSS feed', { element: 'a', size: 'xl' })}
-            ${iconBtn('social', 'share', 'Share', { element: 'a', size: 'xl' })}
-          `)}
-        </div>
-      </div>
-      <div>
-        ${label('Action bar')}
-        <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
-          ${iconBtn('secondary', 'download', 'Download')}
-          ${iconBtn('outline', 'print', 'Print')}
-          ${iconBtn('utility', 'expand', 'Expand')}
-        </div>
-      </div>
-      <div>
-        ${label('CTA with adjacent text')}
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-          <span style="font-weight: 600;">Explore the mission</span>
-          ${iconBtn('cta', 'arrow-line-right', 'Go to mission page', { size: 'sm', element: 'a' })}
-        </div>
-      </div>
-    </div>
-  `,
+    <div style="display: flex; flex-wrap: wrap; gap: 0.25rem; max-width: 72em;">
+      ${hdsSocialIcons
+        .map(
+          (n) => `
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem 0.5rem; min-width: 6rem;">
+          ${socialBtn(n)}
+          <code style="font-size: 0.65rem; word-break: break-all; opacity: 0.7;">${n}</code>
+        </div>`,
+        )
+        .join('')}
+    </div>`,
+};
+
+const shareTargets = [
+  ['share', 'Share this page'],
+  ['notification', 'Get notifications'],
+  ['rss', 'Subscribe by RSS'],
+  ['mail', 'Share by email'],
+];
+
+export const ShareTargets = {
+  name: 'Share targets',
+  tags: ['!dev'],
+  render: () => `
+    <ul class="usa-button-group">
+      ${shareTargets
+        .map(([n, text]) => `<li class="usa-button-group__item">${iconBtn('secondary', n, text, { size: 'xl' })}</li>`)
+        .join('')}
+    </ul>`,
+};
+
+export const ActionBar = {
+  name: 'Action bar',
+  tags: ['!dev'],
+  render: () => `
+    <ul class="usa-button-group">
+      <li class="usa-button-group__item">${iconBtn('secondary', 'download', 'Download report')}</li>
+      <li class="usa-button-group__item">${iconBtn('outline', 'print', 'Print report')}</li>
+      <li class="usa-button-group__item">${iconBtn('outline', 'expand', 'View full screen')}</li>
+    </ul>`,
 };
 
 // --- Palette accessibility tests ---
