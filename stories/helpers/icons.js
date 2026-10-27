@@ -65,6 +65,7 @@ export const hdsUiIcons = [
   'info',
   'list',
   'location',
+  'mail',
   'map',
   'menu',
   'minus',
@@ -96,6 +97,37 @@ export const hdsUiIcons = [
 
 /** Logo/brand icons — third-party platform marks. */
 export const hdsLogoIcons = ['logo-figma', 'logo-uswds'];
+
+/**
+ * Social and platform marks: NASA's official accounts (nasa.gov/social-media),
+ * share targets used on nasa.gov and plus.nasa.gov, and the platforms NASA
+ * publishes apps, podcasts, and code on. Pair with `.hds-btn-icon--social`.
+ */
+export const hdsSocialIcons = [
+  'logo-android',
+  'logo-apple',
+  'logo-apple-podcasts',
+  'logo-facebook',
+  'logo-flickr',
+  'logo-giphy',
+  'logo-github',
+  'logo-google-play',
+  'logo-instagram',
+  'logo-linkedin',
+  'logo-pinterest',
+  'logo-reddit',
+  'logo-snapchat',
+  'logo-soundcloud',
+  'logo-spotify',
+  'logo-telegram',
+  'logo-threads',
+  'logo-tiktok',
+  'logo-tumblr',
+  'logo-twitch',
+  'logo-whatsapp',
+  'logo-x',
+  'logo-youtube',
+];
 
 /** Tag/category icons — used in chips, filters, content type indicators. */
 export const hdsTagIcons = [
@@ -129,8 +161,8 @@ export const hdsTagIcons = [
   'tag-topic',
 ];
 
-/** All HDS icons (UI + Tag + Logo combined). */
-export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons];
+/** All HDS icons (UI + Tag + Logo + Social combined). */
+export const hdsIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons, ...hdsSocialIcons];
 
 // ---------------------------------------------------------------------------
 // USWDS Icons (sprite.svg)

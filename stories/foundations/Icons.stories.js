@@ -1,4 +1,4 @@
-import { hdsUiIcons, hdsTagIcons, hdsLogoIcons } from '../helpers/icons';
+import { hdsUiIcons, hdsTagIcons, hdsLogoIcons, hdsSocialIcons } from '../helpers/icons';
 
 export default {
   title: 'Foundations/Icons',
@@ -115,10 +115,10 @@ export const LogoIcons = {
   render: () => `
     <div style="max-width: 72em;">
       <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
-        ${hdsLogoIcons.map((n) => iconCell(n, '2rem')).join('')}
+        ${[...hdsLogoIcons, ...hdsSocialIcons].map((n) => iconCell(n, '2rem')).join('')}
       </div>
       <p style="font-size: 0.875rem; opacity: 0.7; margin-block-start: 1rem;">
-        ${hdsLogoIcons.length} logo icons available. Names in the sprite use the <code>logo-</code> prefix.
+        ${hdsLogoIcons.length + hdsSocialIcons.length} logo icons available. Names in the sprite use the <code>logo-</code> prefix.
       </p>
     </div>
   `,
@@ -292,7 +292,7 @@ export const SpriteRegression = {
     chromatic: { disableSnapshot: false },
   },
   render: () => {
-    const allIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons];
+    const allIcons = [...hdsUiIcons, ...hdsTagIcons, ...hdsLogoIcons, ...hdsSocialIcons];
     return `
       <div style="
         display: grid;
