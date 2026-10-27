@@ -10,7 +10,8 @@
 //   --secondary   NASA Blue filled, on-page actions
 //   --outline     NASA Blue border, lower emphasis
 //   --utility     Neutral/adaptive, carousel/accordion controls
-//   --social      Social media share/follow links
+//   --social      Links out to a social platform (logo-* marks).
+//                 Grayscale only; no brand-color variant.
 //   --interactive Small tooltip/popover triggers (fixed color)
 //
 // Sizes:
@@ -162,9 +163,8 @@
   }
 }
 
-// Social — social media share/follow links
+// Social: links out to a social platform
 // Social states are inferred (not in Figma or Proposal).
-// Flagged for creative director review.
 .hds-btn-icon--social {
   background-color: var(--hds-palette-social-fill);
   border-color: var(--hds-palette-social-fill);
@@ -181,6 +181,14 @@
     background-color: var(--hds-palette-btn-disabled-bg);
     border-color: var(--hds-palette-btn-disabled-bg);
     color: var(--hds-palette-btn-filled-text);
+  }
+
+  // 70% matches the Figma social spec. Brand marks are denser than
+  // UI glyphs and read undersized at the base 60%. Glyph artwork
+  // stays on the standard 20-unit convention; size is tuned here.
+  .hds-icon {
+    height: 70%;
+    width: 70%;
   }
 }
 
@@ -231,7 +239,6 @@
 //
 // --2xs and --3xl are not in the Figma icon button spec
 // but are commonly observed in Figma modules and templates.
-// Flagged for creative director confirmation.
 
 // 12px — filter dropdowns (desktop only).
 // Below WCAG 2.5.8 minimum touch target (24px).
