@@ -26,7 +26,11 @@ Full documentation, component examples, and integration guides are published in 
 
 - [Getting Started](https://nasa.github.io/hds-core/?path=/docs/overview-getting-started--docs): Figure out whether HDS Core is the right tool for your project
 - [Installation](https://nasa.github.io/hds-core/?path=/docs/overview-installation--docs): Technical setup for teams adopting HDS Core
-- Guides for [existing USWDS sites](https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs), [React](https://nasa.github.io/hds-core/?path=/docs/guides-react-guidance--docs), [no-build environments](https://nasa.github.io/hds-core/?path=/docs/guides-no-build-environments--docs) and [Sass configuration](https://nasa.github.io/hds-core/?path=/docs/guides-sass-configuration--docs)
+- Guides for [existing USWDS sites](https://nasa.github.io/hds-core/?path=/docs/guides-existing-uswds-site-guidance--docs), [React](https://nasa.github.io/hds-core/?path=/docs/guides-react-setup--docs), [no-build environments](https://nasa.github.io/hds-core/?path=/docs/guides-no-build-environments--docs) and [Sass configuration](https://nasa.github.io/hds-core/?path=/docs/guides-sass-configuration--docs)
+
+### For coding agents
+
+The same documentation is published as Markdown for LLMs and coding agents, indexed at <https://nasa.github.io/hds-core/llms.txt>. Each page includes the markup for every example, plus guidance on tokens and class prefixes. Point your agent at the index so it writes supported HDS markup instead of falling back to stock USWDS from memory.
 
 ## Installation
 

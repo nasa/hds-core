@@ -17,9 +17,15 @@
 # mdx/storybook-config changes where build doesn't run, so it always does
 # its own full build via the shared composite.
 #
-# Visual-regression gate: detect-css-change gates Chromatic on whether the
-# PR actually moved compiled CSS. New stories added without a CSS change
-# won't be auto-baselined, so a maintainer must do an npm run test:visual.
+# Visual-regression gate: Chromatic runs a full build only when the PR changes
+# something a snapshot can see. detect-visual-change compares one fingerprint
+# (scripts/visual-fingerprint.sh: compiled CSS, built JS/assets, story sources
+# and Storybook config) between base and PR. The chromatic job then compares
+# it against the last clean Chromatic build on this PR and skips the rebuild
+# when nothing moved, so rebases and doc-only pushes cost no snapshots.
+#
+# Toolchain gate: a dependency or CI-definition change runs every job and
+# every lint step (see the `toolchain` filter).
 
 name: CI
 
@@ -53,6 +59,9 @@ jobs:
   # config) or a package.json `files`/`exports` change moves what ships
   # without touching a .scss file, and gating those checks on `scss` alone
   # let PR #175 through with every output check reported as skipped.
+  #
+  # `toolchain` (dependencies, CI definition) can break any check, so every
+  # job and lint step ORs it in.
   # -----------------------------------------------------------------------
   filter:
     name: Detect changed paths
@@ -65,10 +74,11 @@ jobs:
       md: ${{ steps.filter.outputs.md }}
       mdx: ${{ steps.filter.outputs.mdx }}
       stories: ${{ steps.filter.outputs.stories }}
-      pkg: ${{ steps.filter.outputs.pkg }}
       storybook_config: ${{ steps.filter.outputs.storybook_config }}
       tokens: ${{ steps.filter.outputs.tokens }}
       output_affecting: ${{ steps.filter.outputs.output_affecting }}
+      toolchain: ${{ steps.filter.outputs.toolchain }}
+      visual_inputs: ${{ steps.filter.outputs.visual_inputs }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -94,17 +104,18 @@ jobs:
               - 'stories/**/*.mdx'
             stories:
               - '**/*.stories.js'
-            pkg:
-              - 'package.json'
             storybook_config:
               - '.storybook/**'
+              # Storybook-only gates; not otherwise matched by a filter that runs build-storybook.
+              - 'scripts/check-docs-render.js'
+              - 'scripts/generate-llms.mjs'
             tokens:
               - 'tokens.json'
               - '.config/sd.config.js'
             # Anything that can change the published artifact -- compiled CSS,
             # the asset tree, or the packed tarball. Gates the build job, the
             # contract checks inside it (bundle size, public API snapshot), and
-            # the detect-css-change VR trigger. Deliberately wider than `scss`:
+            # the detect-visual-change VR trigger. Deliberately wider than `scss`:
             # the build pipeline itself (postcss config and plugins, Style
             # Dictionary config, the sprite config) moves output without a
             # single .scss file changing, and package.json `files`/`exports`
@@ -117,9 +128,21 @@ jobs:
               - 'src/assets/**'
               - 'tokens.json'
               - 'package.json'
-              - 'postcss.config.*'
               - '.config/**'
               - 'scripts/**'
+            # Dependencies and the CI definition. Runs everything.
+            toolchain:
+              - 'package.json'
+              - 'package-lock.json'
+              - '.github/workflows/**'
+              - '.github/actions/**'
+            # Story sources and Storybook config a snapshot can render. Excludes
+            # .mdx so docs edits don't trigger a Chromatic build.
+            visual_inputs:
+              - 'stories/**/*.js'
+              - 'stories/**/*.jsx'
+              - 'stories/assets/**'
+              - '.storybook/**'
 
   # -----------------------------------------------------------------------
   # Lint -- one runner for every linter. The lockfile check always runs
@@ -148,27 +171,27 @@ jobs:
         run: npm run lint:lockfile
 
       - name: Stylelint
-        if: ${{ !cancelled() && needs.filter.outputs.scss == 'true' }}
+        if: ${{ !cancelled() && (needs.filter.outputs.scss == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run lint:scss
 
       - name: ESLint
-        if: ${{ !cancelled() && (needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true') }}
+        if: ${{ !cancelled() && (needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run lint:js
 
       - name: remark-lint (Markdown)
-        if: ${{ !cancelled() && needs.filter.outputs.md == 'true' }}
+        if: ${{ !cancelled() && (needs.filter.outputs.md == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run lint:md
 
       - name: remark-lint (MDX)
-        if: ${{ !cancelled() && needs.filter.outputs.mdx == 'true' }}
+        if: ${{ !cancelled() && (needs.filter.outputs.mdx == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run lint:mdx
 
       - name: Prettier format check
-        if: ${{ !cancelled() && (needs.filter.outputs.md == 'true' || needs.filter.outputs.mdx == 'true' || needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true') }}
+        if: ${{ !cancelled() && (needs.filter.outputs.md == 'true' || needs.filter.outputs.mdx == 'true' || needs.filter.outputs.js == 'true' || needs.filter.outputs.json == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run format
 
       - name: Token generation drift
-        if: ${{ !cancelled() && (needs.filter.outputs.tokens == 'true' || needs.filter.outputs.scss == 'true') }}
+        if: ${{ !cancelled() && (needs.filter.outputs.tokens == 'true' || needs.filter.outputs.scss == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run check:tokens
 
   # -----------------------------------------------------------------------
@@ -192,7 +215,9 @@ jobs:
     if: |
       needs.filter.outputs.output_affecting == 'true' ||
       needs.filter.outputs.stories == 'true' ||
-      needs.filter.outputs.js == 'true'
+      needs.filter.outputs.js == 'true' ||
+      needs.filter.outputs.toolchain == 'true' ||
+      needs.filter.outputs.visual_inputs == 'true'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -203,15 +228,15 @@ jobs:
         run: npm run build
 
       - name: Check bundle size
-        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
+        if: ${{ !cancelled() && (needs.filter.outputs.output_affecting == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: bash scripts/check-bundle-size.sh
 
       - name: Check public API snapshot
-        if: ${{ !cancelled() && needs.filter.outputs.output_affecting == 'true' }}
+        if: ${{ !cancelled() && (needs.filter.outputs.output_affecting == 'true' || needs.filter.outputs.toolchain == 'true') }}
         run: npm run check:api-snapshot
 
       - name: Upload dist
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: dist
           path: dist/
@@ -231,7 +256,8 @@ jobs:
       github.event.pull_request.draft == false &&
       (needs.filter.outputs.output_affecting == 'true' ||
       needs.filter.outputs.stories == 'true' ||
-      needs.filter.outputs.js == 'true')
+      needs.filter.outputs.js == 'true' ||
+      needs.filter.outputs.toolchain == 'true')
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -245,10 +271,10 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Download dist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: dist
           path: dist/
@@ -279,7 +305,8 @@ jobs:
       (needs.filter.outputs.mdx == 'true' ||
       needs.filter.outputs.stories == 'true' ||
       needs.filter.outputs.scss == 'true' ||
-      needs.filter.outputs.storybook_config == 'true')
+      needs.filter.outputs.storybook_config == 'true' ||
+      needs.filter.outputs.toolchain == 'true')
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -291,34 +318,45 @@ jobs:
         uses: ./.github/actions/build-storybook
 
       - name: Cache Playwright browsers
-        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browser
-        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
-        run: npx playwright install --with-deps chromium
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
+        run: npx playwright install chromium
 
       - name: Check docs render
-        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' }}
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
         run: npm run check:docs-render
 
+      # Same generator the deploy runs, so a Storybook upgrade or MDX change
+      # that breaks llms.txt fails here instead of after merge.
+      - name: Generate llms.txt
+        if: ${{ needs.filter.outputs.mdx == 'true' || needs.filter.outputs.stories == 'true' || needs.filter.outputs.storybook_config == 'true' || needs.filter.outputs.toolchain == 'true' }}
+        run: npm run docs:llms
+
   # -----------------------------------------------------------------------
-  # Detect CSS change -- the Chromatic trigger. Compares freshly built base
-  # vs PR CSS rather than a committed baseline, so it stays correct no matter
-  # when the PR branched or whether main moved since (a committed hash goes
-  # stale against the PR's merge-base; this recomputes on every re-run).
+  # Detect visual change -- the Chromatic trigger. Builds base and PR fresh
+  # (not against a committed baseline, which goes stale as main moves) and
+  # compares their scripts/visual-fingerprint.sh output. Both sides use the
+  # PR's copy of the script, so a change to the fingerprint compares like
+  # with like.
   # -----------------------------------------------------------------------
-  detect-css-change:
-    name: Detect CSS output change
+  detect-visual-change:
+    name: Detect visual change
     runs-on: ubuntu-latest
     needs: filter
     timeout-minutes: 15
-    if: needs.filter.outputs.output_affecting == 'true'
+    if: |
+      needs.filter.outputs.output_affecting == 'true' ||
+      needs.filter.outputs.toolchain == 'true' ||
+      needs.filter.outputs.visual_inputs == 'true'
     outputs:
-      css_output: ${{ steps.compare.outputs.css_output }}
+      visual_change: ${{ steps.compare.outputs.visual_change }}
+      fingerprint: ${{ steps.pr.outputs.fingerprint }}
     steps:
       - name: Check out PR
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -333,36 +371,36 @@ jobs:
           persist-credentials: false
           path: base
 
-      - name: Build + hash base CSS
+      - name: Build + fingerprint base
         id: base
         working-directory: base
         run: |
           npm ci
           npm run build
-          echo "hash=$(bash scripts/css-output-hash.sh)" >> "$GITHUB_OUTPUT"
+          echo "fingerprint=$(bash ../pr/scripts/visual-fingerprint.sh .)" >> "$GITHUB_OUTPUT"
 
-      - name: Build + hash PR CSS
+      - name: Build + fingerprint PR
         id: pr
         working-directory: pr
         run: |
           npm ci
           npm run build
-          echo "hash=$(bash scripts/css-output-hash.sh)" >> "$GITHUB_OUTPUT"
+          echo "fingerprint=$(bash scripts/visual-fingerprint.sh .)" >> "$GITHUB_OUTPUT"
 
       - name: Compare
         id: compare
         run: |
-          if [ "${{ steps.base.outputs.hash }}" = "${{ steps.pr.outputs.hash }}" ]; then
-            echo "Compiled CSS unchanged (${{ steps.pr.outputs.hash }}). Chromatic will skip."
-            echo "css_output=false" >> "$GITHUB_OUTPUT"
+          if [ "${{ steps.base.outputs.fingerprint }}" = "${{ steps.pr.outputs.fingerprint }}" ]; then
+            echo "Nothing visual changed (${{ steps.pr.outputs.fingerprint }}). Chromatic will skip."
+            echo "visual_change=false" >> "$GITHUB_OUTPUT"
           else
-            echo "Compiled CSS changed."
-            echo "  base: ${{ steps.base.outputs.hash }}"
-            echo "  pr:   ${{ steps.pr.outputs.hash }}"
-            echo "css_output=true" >> "$GITHUB_OUTPUT"
+            echo "Visual inputs changed."
+            echo "  base: ${{ steps.base.outputs.fingerprint }}"
+            echo "  pr:   ${{ steps.pr.outputs.fingerprint }}"
+            echo "visual_change=true" >> "$GITHUB_OUTPUT"
             {
-              echo "### Compiled CSS output changed"
-              echo "Chromatic visual regression will run for this PR (fork PRs run once a maintainer approves the workflow)."
+              echo "### Visual inputs changed"
+              echo "Chromatic will run for this PR unless this exact fingerprint already passed cleanly on it (fork PRs run once a maintainer approves the workflow)."
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
@@ -372,42 +410,89 @@ jobs:
   # approval for all outside collaborators"). DO NOT remove that Setting.
   # The token can only upload snapshots (not accept baselines or touch account
   # settings), so risk is low. Can be reset from the Chromatic Configure page.
+  # Dependabot PRs use the Dependabot secret of the same name.
+  #
+  # TurboSnap is off (it can't trace the CSS Storybook loads from dist/), so
+  # every build is full, ~177 snapshots.
+  #
+  # Re-run dedupe: if this fingerprint already had a clean build (0 changes,
+  # 0 errors) on this PR, mark the commit passing with `skip` instead of
+  # rebuilding. Only clean builds are recorded, because `skip` passes a
+  # commit even with unreviewed changes.
   # -----------------------------------------------------------------------
   chromatic:
-    name: Chromatic visual regression
+    name: Chromatic upload
     runs-on: ubuntu-latest
-    needs: [filter, build, detect-css-change]
+    needs: [filter, build, detect-visual-change]
     timeout-minutes: 15
     if: |
       github.event.pull_request.draft == false &&
-      needs.detect-css-change.outputs.css_output == 'true'
+      needs.detect-visual-change.outputs.visual_change == 'true'
+    env:
+      CLEAN_BUILD_KEY: chromatic-clean-${{ needs.detect-visual-change.outputs.fingerprint }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # fetch-depth: 0 required for Chromatic TurboSnap baseline detection.
+          # Chromatic walks git history to find each story's baseline.
           fetch-depth: 0
 
+      - name: Look up a clean build of this fingerprint
+        id: clean
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .chromatic-clean
+          key: ${{ env.CLEAN_BUILD_KEY }}
+          lookup-only: true
+
+      - name: Mark commit passing (already clean at this fingerprint)
+        if: steps.clean.outputs.cache-hit == 'true'
+        uses: chromaui/action@5bcadb5104b09e360e210c54f95a7437c2d82bab # v18.13.3
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          configFile: .config/chromatic.config.json
+          skip: true
+
       - uses: ./.github/actions/setup
+        if: steps.clean.outputs.cache-hit != 'true'
 
       - name: Download dist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: steps.clean.outputs.cache-hit != 'true'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: dist
           path: dist/
 
       - name: Run Chromatic
-        uses: chromaui/action@db3ceb5efb0cd7447d63c2d8cce7da732ce89322 # v18.10.1
+        id: chromatic
+        if: steps.clean.outputs.cache-hit != 'true'
+        uses: chromaui/action@5bcadb5104b09e360e210c54f95a7437c2d82bab # v18.13.3
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          onlyChanged: true
-          # The CLI only auto-detects chromatic.config.json at the repo
-          # root; without this input the .config/ file is silently ignored
-          # and the externals (src/scss/**, src/assets/**) are lost, so
-          # TurboSnap skips every story on a CSS-only change.
+          # The CLI only auto-detects the config at the repo root.
           configFile: .config/chromatic.config.json
 
+      # A build that didn't report counts leaves them unset, which never
+      # equals '0', so it isn't recorded as clean.
+      - name: Record clean build
+        id: record
+        if: |
+          steps.clean.outputs.cache-hit != 'true' &&
+          steps.chromatic.outputs.changeCount == '0' &&
+          steps.chromatic.outputs.errorCount == '0'
+        run: |
+          mkdir -p .chromatic-clean
+          echo "${{ steps.chromatic.outputs.buildUrl }}" > .chromatic-clean/build-url
+
+      - name: Save clean-build marker
+        if: steps.record.outcome == 'success'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .chromatic-clean
+          key: ${{ env.CLEAN_BUILD_KEY }}
+
   # -----------------------------------------------------------------------
-  # USWDS integrity -- runs when package.json changes (potential USWDS bump)
+  # USWDS integrity -- runs on dependency changes (a USWDS bump can be
+  # lockfile-only)
   # check:uswds-core  architectural gate: @use 'uswds-core' must emit no CSS
   # check:uswds       component tracker: USWDS Sass source unchanged
   # If either fails, do not merge until resolved per CONTRIBUTING.md.
@@ -417,7 +502,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: filter
     timeout-minutes: 10
-    if: needs.filter.outputs.pkg == 'true'
+    if: needs.filter.outputs.toolchain == 'true'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

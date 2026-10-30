@@ -2,7 +2,7 @@ import autoprefixer from 'autoprefixer';
 import discardComments from 'postcss-discard-comments';
 import cssnano from 'cssnano';
 
-import hdsStamp from './.config/postcss-hds-stamp.mjs';
+import hdsStamp from './postcss-hds-stamp.mjs';
 
 const plugins = [autoprefixer(), discardComments()];
 

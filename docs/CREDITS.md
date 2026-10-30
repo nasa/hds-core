@@ -26,6 +26,18 @@ Before the Horizon Design System was even conceived, there was the trailblazing 
 - **[DM Mono](https://github.com/googlefonts/dm-mono)** by Colophon Foundry — SIL Open Font License 1.1
 - **[Public Sans](https://github.com/uswds/public-sans)** by USWDS / GSA — CC0 1.0 (Public Domain)
 
+### Platform marks
+
+The `logo-*` social and platform icons are normalized to the HDS icon grid from these sources:
+
+| Icons | Source | License |
+| --- | --- | --- |
+| `logo-facebook`, `logo-instagram`, `logo-x`, `logo-youtube` | nasa.gov footer | U.S. government work, public domain |
+| `logo-flickr`, `logo-github`, `logo-linkedin` | [USWDS](https://designsystem.digital.gov/components/icon/) `usa-icons` | CC0 1.0 |
+| `logo-android`, `logo-apple`, `logo-apple-podcasts`, `logo-giphy`, `logo-google-play`, `logo-pinterest`, `logo-reddit`, `logo-snapchat`, `logo-soundcloud`, `logo-spotify`, `logo-telegram`, `logo-threads`, `logo-tiktok`, `logo-tumblr`, `logo-twitch`, `logo-whatsapp` | [Simple Icons](https://simpleicons.org/) 16.28 | CC0 1.0 |
+
+These licenses cover the SVG files only. The marks themselves are trademarks of their respective owners, used under each platform's brand guidelines, and their inclusion does not indicate endorsement in either direction.
+
 ### Development Tools
 
 HDS Core's development environment uses open-source tools including [Storybook](https://storybook.js.org/), [Vite](https://vite.dev/), [Vitest](https://vitest.dev/), [Playwright](https://playwright.dev/), and [Prettier](https://prettier.io/). These development tools are not included in the HDS Core distribution.

@@ -25,8 +25,8 @@ on:
       - '.config/sd.config.js' # token generation
       - 'scripts/**' # docs:meta + build helpers
       - '.config/svg-sprite.config.json' # sprite -> dist/ assets
-      - 'postcss.config.mjs' # affects compiled CSS
-      - '.config/postcss-hds-stamp.mjs' # imported by postcss.config.mjs
+      - '.config/postcss.config.mjs' # affects compiled CSS
+      - '.config/postcss-hds-stamp.mjs' # imported by .config/postcss.config.mjs
       - 'package.json' # deps / build scripts (incl. browserslist for autoprefixer)
       - 'package-lock.json'
       - '.github/workflows/deploy-storybook.yml'
@@ -66,10 +66,15 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Check docs render
         run: npm run check:docs-render
+
+      # Writes llms.txt and llms/*.md into storybook-static/ for adopters'
+      # AI agents. Fails on any gap so a partial export never publishes.
+      - name: Generate llms.txt
+        run: npm run docs:llms
 
       - name: Configure Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0

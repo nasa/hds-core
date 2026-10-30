@@ -45,9 +45,9 @@
     "sass:hds": "sass src/scss/hds.scss dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "sass:uswds": "sass src/scss/hds-uswds.scss dist/css/hds-uswds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
     "sass:dataviz": "sass src/scss/hds-dataviz.scss dist/css/hds-dataviz.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps",
-    "postcss:hds": "postcss dist/css/hds.css -o dist/css/hds.min.css --map --env production",
-    "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --map --env production",
-    "postcss:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --map --env production",
+    "postcss:hds": "postcss dist/css/hds.css -o dist/css/hds.min.css --map --env production --config .config",
+    "postcss:uswds": "postcss dist/css/hds-uswds.css -o dist/css/hds-uswds.min.css --map --env production --config .config",
+    "postcss:dataviz": "postcss dist/css/hds-dataviz.css -o dist/css/hds-dataviz.min.css --map --env production --config .config",
     "clean:intermediate": "node -e \"const fs=require('fs'),p=require('path'),d='dist/css';fs.readdirSync(d).filter(f=>f.endsWith('.css')&&!f.includes('.min.')||f.endsWith('.css.map')&&!f.includes('.min.')).forEach(f=>fs.unlinkSync(p.join(d,f)))\"",
     "copy:uswds-fonts": "node -e \"const fs=require('fs'),src='node_modules/@uswds/uswds/dist/fonts/public-sans',dst='dist/assets/fonts/public-sans';fs.mkdirSync(dst,{recursive:true});fs.readdirSync(src).filter(f=>f.endsWith('.woff2')).forEach(f=>fs.copyFileSync(src+'/'+f,dst+'/'+f))\"",
     "copy:uswds-img": "node -e \"require('fs').cpSync('node_modules/@uswds/uswds/dist/img', 'dist/assets/img', {recursive: true})\"",
@@ -67,6 +67,7 @@
     "prepack": "npm run build",
     "watch": "sass --watch src/scss/hds.scss:dist/css/hds.css --load-path=node_modules/@uswds/uswds/packages --load-path=src/scss --source-map --style=expanded --quiet-deps --poll",
     "docs:meta": "node scripts/generate-docs-meta.mjs",
+    "docs:llms": "node scripts/generate-llms.mjs",
     "dev": "npm run docs:meta && concurrently \"npm run watch\" \"npm run storybook\" --names sass,storybook --prefix-colors yellow,blue",
     "storybook": "storybook dev -p 6006 --no-open --ci",
     "build-storybook": "npm run docs:meta && storybook build",
@@ -75,8 +76,8 @@
     "lint": "npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx && npm run lint:lockfile",
     "lint:scss": "stylelint \"src/scss/**/*.scss\" --config .config/stylelintrc.json --ignore-path .config/stylelintignore",
     "lint:scss:fix": "stylelint \"src/scss/**/*.scss\" --fix --config .config/stylelintrc.json --ignore-path .config/stylelintignore",
-    "lint:js": "eslint .",
-    "lint:js:fix": "eslint . --fix",
+    "lint:js": "eslint . --config .config/eslint.config.mjs",
+    "lint:js:fix": "eslint . --fix --config .config/eslint.config.mjs",
     "lint:md": "remark --rc-path .config/remarkrc.mjs --quiet --frail *.md docs/**/*.md .github/**/*.md",
     "lint:mdx": "remark --rc-path .config/remarkrc.mdx.mjs --quiet --frail stories/**/*.mdx",
     "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --validate-https --allowed-hosts npm --validate-integrity",
@@ -147,5 +148,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/nasa/hds-core.git"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "esbuild@0.28.1": true,
+    "libxmljs2@0.37.0": true
   }
 }

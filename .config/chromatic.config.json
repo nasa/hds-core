@@ -1,6 +1,4 @@
 {
-  "onlyChanged": true,
   "projectId": "Project:69c86234709fb66fd7e0b4ab",
-  "zip": true,
-  "externals": ["src/scss/**", "src/assets/**"]
+  "zip": true
 }

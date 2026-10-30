@@ -80,14 +80,14 @@ hds-core/
 │           ├── usa-icons/              ← Copied from USWDS
 │           ├── sprite.svg              ← USWDS icon sprite
 │           └── us_flag*.{png,svg}      ← USWDS banner assets
-├── postcss.config.mjs                  ← PostCSS pipeline (imports .config/postcss-hds-stamp.mjs)
 ├── vitest.config.js
 └── .config/                            # Tool configs not required at the repo root
     ├── sd.config.js                    ← Style Dictionary config (generates token Sass)
     ├── svg-sprite.config.json
     ├── chromatic.config.json
+    ├── postcss.config.mjs              ← PostCSS pipeline
     ├── postcss-hds-stamp.mjs           ← Stamps HDS/USWDS versions into compiled bundles
-    └── ...                             ← Prettier, remark, and stylelint configs
+    └── ...                             ← ESLint, Prettier, remark, and stylelint configs
 ```
 
 The browserslist targets live in `package.json` (`browserslist` key), not a `.browserslistrc` file.
@@ -364,15 +364,23 @@ Vitest runs every exported story in headless Chromium via @storybook/addon-vites
 
 Uses Chromatic via @chromatic-com/storybook. Snapshots are disabled globally (disableSnapshot: true in preview.js) and enabled per-story via parameters. Two snapshot strategies:
 
-1. **PaletteA11y stories** — stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. One snapshot per story.
+1. **PaletteA11y stories:** stacked paletteRender (all 6 palettes in one image). Used for default-state and hover visual regression. One snapshot per story.
 
-2. **FocusTest stories** — Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story. Modes defined in `.storybook/modes.js` — imported in story files, not `preview.js`, to avoid TurboSnap full rebuilds.
+2. **FocusTest stories:** Chromatic modes (one palette per snapshot via real toolbar decorator). Used for :focus-visible ring regression. Play functions trigger real keyboard focus via userEvent.tab(). 6 snapshots per story. Modes defined in `.storybook/modes.js` and imported by the story files that use them.
 
-3. **SpriteRegression story** — renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
+3. **SpriteRegression story:** renders all icons from `hds-sprite.svg` in a flat grid. Catches any glyph changes after sprite tooling updates.
 
-Chromatic accessibility tests are OFF — Vitest handles local a11y via axe-core. TurboSnap enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files declared via `externals` — any change triggers a full rebuild. Budget: ~100–120 snapshots per build (~40+ builds/month at 5k free tier).
+Chromatic accessibility tests are OFF; Vitest handles local a11y via axe-core. TurboSnap is OFF, because it can't trace the compiled CSS Storybook loads from `dist/`. Every build is full: 177 snapshots, about 28 builds a month on the 5k free tier. Recount when adding snapshot stories or modes.
 
-**CI trigger (when Chromatic runs).** The `detect-css-change` job runs Chromatic only when a PR actually moves compiled CSS, guarding the full-rebuild cost above. It compares freshly built base vs PR CSS rather than a committed baseline, so it needs no manual upkeep and stays correct even when main moves under a long-lived PR. Fork PRs run too, once a maintainer approves the workflow. See `.github/workflows/ci.yml` for the wiring.
+**When Chromatic runs.** Only when a PR changes something a snapshot can see: compiled CSS, built JS or assets, story sources, or Storybook config. Edits to `.mdx` and `.md` docs pages never cost a build. Later pushes to the same PR (rebases, doc-only commits, re-runs) are free if nothing visual changed since the last clean build. After you accept changes in Chromatic, the next push pays for one more full build. Fork PRs run once a maintainer approves the workflow. The fingerprint is `scripts/visual-fingerprint.sh`, and the gating logic is in `.github/workflows/ci.yml`.
+
+**Where to look on a PR.** The **Chromatic upload** check only reports that the build uploaded, and goes green even with visual changes pending. The review verdict is the **UI Tests** status, which Chromatic updates as you accept or deny changes. Don't run `npm run test:visual` against a PR commit: it spends a full build and posts a second set of statuses.
+
+**Secret.** `CHROMATIC_PROJECT_TOKEN` is stored twice: as an Actions secret, and as a Dependabot secret (Settings → Secrets and variables → Dependabot), because Dependabot PRs can't read Actions secrets. Rotate both together.
+
+### Dependency and Toolchain Changes
+
+Any change to `package.json`, `package-lock.json`, `.github/workflows/` or `.github/actions/` runs every CI job and lint step, so Dependabot PRs get full CI. If a bump changes built output, Chromatic runs too.
 
 ## Codespaces
 
@@ -390,4 +398,4 @@ Bugs and enhancements are tracked in [GitHub Issues](https://github.com/nasa/hds
 - Framework-specific setup guides (Vite, Next.js, webpack) for Sass load paths
 - Re-evaluate Chromatic a11y tests when an independent a11y/visual toggle ships
 - Grid overlay toolbar toggle for verifying component alignment
-- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `test-uswds-js.html`.
+- USWDS JS re-initialization: date picker, time picker, combo box, character count, and file input fall back to native elements in Storybook due to DOMContentLoaded timing. Works correctly in production. See `scripts/manual-tests/uswds-js.html`.

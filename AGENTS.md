@@ -1,4 +1,4 @@
-# AGENTS.md — HDS Core
+# AGENTS.md: HDS Core
 
 This file orients AI agents working in this repository. It is a map plus the non-obvious constraints you must not violate, and each item points to the human doc that covers it in full. Humans do not need this file; everything here lives in the docs it links to.
 
@@ -26,13 +26,14 @@ A CSS-only design system (it ships compiled CSS, no JavaScript) for NASA-branded
 - **Never modify anything in `dist/`.**
 - **Cascade layer order is fixed:** `@layer uswds, uswds-utils, hds-base, hds-components, hds-dataviz, site;`. First declaration wins; layers set priority, not file order. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Sass load order:** `_hds-tokens.scss` → `_hds-uswds-theme.scss` → everything else. `_hds-tokens.scss` must NOT `@use 'uswds-core'` (it loads before the theme is configured). → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- **One USWDS load:** `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')`. Do not revert to per-package calls; that emits fonts 144 times instead of 6. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **One USWDS load:** `hds.scss` loads all USWDS packages via a single `meta.load-css('uswds')`. Do not revert to per-package calls; that duplicates the USWDS font output. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Palette system, never flatten:** components use `var(--hds-palette-*)` with a white-default fallback. Palettes are hand-authored in `base/_palettes.scss` and are never generated from `tokens.json`. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Class naming:** `usa-*` for components that map to a USWDS component, `hds-*` for net-new. Never mix prefixes on one component.
 - **Token rules:** colors only in the `color` group, spacing only in the `spacing` group, never hardcode a value already in a scale. Layout uses whole-number spacing; fractional keys (`0.5`, `1.5`, `2.5`) are component-internal only. Dataviz tokens are for charts only. → [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
 - **`hds-uswds.min.css` is USWDS utility passthrough only.** Never add component or HDS styles there. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Components with no HDS theming yet** ship USWDS defaults. Do not assume HDS versions exist, and do not add overrides for them without explicit permission. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - **Focus rings:** use the existing mixins (`hds-focus-ring`, `hds-focus-ring-inline`, `hds-focus-ring-size`). Never hardcode focus styles. If the Figma spec will not fit the mixins, flag it; do not modify the mixin. → [ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Never run `npm run test:visual` without explicit permission.** It spends a full Chromatic build (about 177 snapshots of a 5k monthly budget) and posts statuses on the commit. CI runs it on PRs. → [ARCHITECTURE.md](docs/ARCHITECTURE.md#visual-regression-testing)
 
 ## Silent-failure gotchas (Storybook and MDX)
 
@@ -50,12 +51,21 @@ These break the build or the story indexer with no obvious error. Full detail in
 
 If design intent and compiled output disagree, flag for reconciliation. Do not silently fix either side. → [CONTRIBUTING.md](CONTRIBUTING.md#public-api-and-versioning), [DESIGN_TOKENS.md](docs/DESIGN_TOKENS.md)
 
-## Gate commands
+## Commands
 
-Run the relevant checks before finishing SCSS, token, or doc work. Full list in [ARCHITECTURE.md → Quick Start](docs/ARCHITECTURE.md#quick-start).
+Setup: `npm ci`, then `npm run build`. Day-to-day: `npm run dev` (Sass watch plus Storybook). Full list in [ARCHITECTURE.md → Quick Start](docs/ARCHITECTURE.md#quick-start).
 
-- `npm test` — render and axe accessibility checks across palettes
-- `npm run check:tokens` — token generation drift
-- `npm run check:api-snapshot` — public API drift
-- `npm run check:uswds` and `check:uswds-core` — USWDS integrity
-- `npm run format:fix`, `npm run lint:scss`, `lint:js`, `lint:md`, `lint:mdx`
+Run the relevant checks before finishing SCSS, token, or doc work:
+
+- `npm run lint` and `npm run format`: every linter, and the Prettier check (`npm run format:fix` to fix)
+- `npm test`: unit tests, plus render and axe accessibility checks across palettes
+- `npm run check:tokens`: token generation drift
+- `npm run check:api-snapshot`: public API drift
+- `npm run check:uswds` and `check:uswds-core`: USWDS integrity
+
+## Commits and pull requests
+
+- Branch from `main` with a prefix (`feature/`, `fix/`, `docs/`, `chore/`). → [CONTRIBUTING.md](CONTRIBUTING.md#branch-naming)
+- Commit messages use Conventional Commits: `type(scope): summary`, for example `fix(link): ...` or `ci: ...`.
+- Anything that ships (styles, tokens, `src/assets/**`) needs a changeset (`npx changeset`) at the semver rubric level. Changes that leave compiled output identical don't. → [CONTRIBUTING.md](CONTRIBUTING.md#semver-rubric)
+- Fill in the PR template (`.github/pull_request_template.md`).

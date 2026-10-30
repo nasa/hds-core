@@ -67,8 +67,8 @@ Component and foundation pages follow a predictable naming convention: `{Name}.m
 | `.storybook/preview.js` | Palette toolbar, decorators, storySort, a11y test config, code panel, Chromatic global opt-out |
 | `.storybook/preview-head.html` | CSS links to `hds.min.css` and `hds-uswds.min.css`, `uswds-init.min.js` script, docs-only CSS (`.hds-note__icon`) |
 | `.storybook/utils/in-page-nav-init.js` | Re-initializes USWDS in-page navigation per story render. Required because `DOMContentLoaded` has already fired when stories mount — USWDS JS does not auto-initialize dynamically rendered components. |
-| `.config/chromatic.config.json` | Chromatic project link, TurboSnap (`onlyChanged`), external file tracking (`externals`) |
-| `vitest.config.json` | Vitest |
+| `.config/chromatic.config.json` | Chromatic project link and upload settings (TurboSnap is off; see ARCHITECTURE.md) |
+| `vitest.config.js` | Vitest |
 
 Do not add `tags: ['autodocs']` to component meta. The Guidance MDX replaces any auto-generated page.
 
@@ -136,6 +136,15 @@ Below the first Canvas on each Guidance page, add:
 Include this caption once per page only.
 
 When renaming or removing story exports, always check the corresponding MDX file for `<Canvas of={} />` references — stale references cause `of={undefined}` build errors.
+
+### llms.txt export
+
+The Storybook deploy publishes `llms.txt` and one Markdown file per docs page at `nasa.github.io/hds-core/llms/` for adopters' AI agents. `scripts/generate-llms.mjs` builds them from the MDX source (`npm run docs:llms` after `npm run build-storybook`). Nothing generated is committed. How you write MDX shapes what agents see:
+
+- **Each `<Canvas>` becomes a fenced HTML block** of the story's own render output, captured without decorators, so it shows the markup adopters write before USWDS JS runs.
+- **`sourceState="none"` excludes a Canvas.** If adopters need that example's markup, add a hand-written ` ```html ` snippet next to it (see Blockquote).
+- **Lines about Storybook UI are stripped**, such as the palette switcher caption and "Show code" instructions. Put real guidance on its own line so it isn't removed with them.
+- **Broken doc links, unresolved Canvases, and empty renders fail CI and the deploy.**
 
 ### Live component demos
 
@@ -517,7 +526,7 @@ export const FocusButton = {
 };
 ```
 
-**Import path:** `paletteModes` is imported from `.storybook/modes.js` in each story file — never from `preview.js`. This avoids TurboSnap full rebuilds when modes change.
+**Import path:** `paletteModes` is imported from `.storybook/modes.js` in each story file that uses it. Never apply it globally from `preview.js`, which would put six modes on every snapshot.
 
 **Storybook API:** Use the Storybook 10 play function context — `canvas` and `userEvent` come from the context, not imported separately. Import `expect` from `storybook/test`.
 
@@ -570,7 +579,7 @@ For play-function stories, the play function itself provides implicit delay — 
 
 USWDS accordion-based components (Banner, Header nav) also need initial DOM state correction. The accordion initial-state decorator in preview.js collapses panels whose trigger has aria-expanded="false" and hides mobile nav elements. This runs globally on all stories — no per-story configuration needed.
 
-USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See `test-uswds-js.html` for validation outside Storybook.
+USWDS components that transform DOM on init (date picker, time picker, combo box, character count, file input) are not re-initialized in Storybook and fall back to native elements. This is a known limitation. See `scripts/manual-tests/uswds-js.html` for validation outside Storybook.
 
 ## Guide stories
 
@@ -586,17 +595,13 @@ Chromatic a11y tests are **OFF** for now. Vitest handles local a11y via axe-core
 
 ### TurboSnap
 
-Enabled via `.config/chromatic.config.json` (`onlyChanged: true`). External Sass and asset files are declared via `externals` — any SCSS or asset change triggers a full rebuild. This is correct behavior for a CSS design system where a token change can affect any component.
-
-TurboSnap savings apply to story-only and docs-only changes (no SCSS changes in the commit). Most active HDS Core development involves SCSS, so expect ~30–60% of builds to be full rebuilds.
-
-TurboSnap unlocks after 10 successful Chromatic builds on CI.
+Off. Storybook loads the compiled CSS from `dist/` through `preview-head.html`, outside the module graph TurboSnap traces, so TurboSnap could only rebuild everything (any Sass change) or copy stale baselines without testing anything (a dependency-only CSS change). Every build is full; CI controls cost by deciding _whether_ to build instead. See [ARCHITECTURE.md → Visual Regression Testing](ARCHITECTURE.md#visual-regression-testing) for the fingerprint gate and the snapshot budget.
 
 ### Configuration files
 
-`.storybook/modes.js` — Chromatic palette modes. Imported by story files only (not `preview.js`) to avoid TurboSnap full rebuilds when modes change.
+`.storybook/modes.js`: Chromatic palette modes. Imported by the story files that use them (not applied globally from `preview.js`).
 
-`.config/chromatic.config.json` — TurboSnap config, project ID, external file globs.
+`.config/chromatic.config.json`: Chromatic project ID and upload settings.
 
 `preview.js` — Global `disableSnapshot: true`. Individual test stories override to `false`.
 
