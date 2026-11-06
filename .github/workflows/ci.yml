@@ -446,7 +446,7 @@ jobs:
 
       - name: Mark commit passing (already clean at this fingerprint)
         if: steps.clean.outputs.cache-hit == 'true'
-        uses: chromaui/action@5bcadb5104b09e360e210c54f95a7437c2d82bab # v18.13.3
+        uses: chromaui/action@add73a4a1d7bc609b8664be286b7309707f1938d # v18.14.0
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           configFile: .config/chromatic.config.json
@@ -465,7 +465,7 @@ jobs:
       - name: Run Chromatic
         id: chromatic
         if: steps.clean.outputs.cache-hit != 'true'
-        uses: chromaui/action@5bcadb5104b09e360e210c54f95a7437c2d82bab # v18.13.3
+        uses: chromaui/action@add73a4a1d7bc609b8664be286b7309707f1938d # v18.14.0
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # The CLI only auto-detects the config at the repo root.
