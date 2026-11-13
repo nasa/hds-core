@@ -100,8 +100,14 @@ Themeable icons are drawn with a CSS mask so their color follows the palette. Se
   mask-repeat: no-repeat;
   mask-size: 24px 24px; // hds-icons use viewBox="-2 -2 24 24"
   width: 20px;
+
+  @media (forced-colors: active) {
+    background-color: CanvasText; // ButtonText inside a button
+  }
 }
 ```
+
+Forced-colors mode (Windows High Contrast) repaints any `background-color` that is not a system color in the page color, which erases a mask icon. The `@media (forced-colors: active)` block gives it a system color instead. System colors are kept as-is, so `forced-color-adjust: none` is not needed. The same applies to fills and bars that carry state, such as a checked box or a current-page marker.
 
 Precedent: `_accordion.scss`, `_link.scss`, `_table.scss`, `_form.scss`, `_blockquote.scss`. For an icon in markup rather than CSS, use the sprite: `<svg class="hds-glyph"><use href="/assets/img/hds-sprite.svg#<name>"></use></svg>`. One gotcha: `mask-image` does not load over `file://`, so a local HTML file shows an empty icon box. Serve over HTTP to check.
 
@@ -160,7 +166,7 @@ npm run lint:scss && npm run lint:js && npm run lint:md && npm run lint:mdx
 
 `check:api-snapshot` reads the compiled `dist/`, so run `npm run build` first if you have not already (step 6 covers this).
 
-Then verify by hand in Storybook: the palette switcher across all six palettes, mobile through desktop viewports, visible focus indicators, and meaning never carried by color alone. Check contrast at both thresholds: AA text contrast (4.5:1, or 3:1 for large text), and WCAG 1.4.11 for non-text (3:1 for UI components and meaningful graphics, which axe does not fully cover). Chromatic (`npm run test:visual`) runs in CI.
+Then verify by hand in Storybook: the palette switcher across all six palettes, mobile through desktop viewports, visible focus indicators, and meaning never carried by color alone. Check forced-colors mode too (a Windows contrast theme, or Chrome DevTools > Rendering > Emulate CSS media feature `forced-colors: active`): icons, focus rings, and selected states must stay visible. Check contrast at both thresholds: AA text contrast (4.5:1, or 3:1 for large text), and WCAG 1.4.11 for non-text (3:1 for UI components and meaningful graphics, which axe does not fully cover). Chromatic (`npm run test:visual`) runs in CI.
 
 ## 8. Open the PR
 

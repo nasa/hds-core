@@ -115,11 +115,6 @@ $_accordion-guard: ':not(.usa-banner *):not(.usa-nav *)';
     }
   }
 
-  // High Contrast Mode: USWDS uses ::before for +/- icons in
-  // forced-colors mode. Our mask-image chevron won't render there.
-  // Keep the USWDS ::before visible for accessibility.
-  // Outside forced-colors, no ::before exists so no override needed.
-
   // Chevron circle — mirrors external link arrow technique
   // (mask-image + currentColor for palette awareness)
   &::after {
@@ -145,6 +140,21 @@ $_accordion-guard: ':not(.usa-banner *):not(.usa-nav *)';
   // Expanded = chevron up (rotate)
   &[aria-expanded='true']::after {
     transform: rotate(180deg);
+  }
+
+  // Forced colors (Windows High Contrast): the UA repaints the chevron's
+  // background-color as the page color, erasing it, so paint it in a
+  // system color, which is kept. Hide the +/- icon USWDS adds on ::before
+  // in this mode: the chevron replaces it, and ::before also hosts the
+  // focus ring, so the +/- vanished whenever the button had focus.
+  @media (forced-colors: active) {
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      background-color: ButtonText;
+    }
   }
 }
 
