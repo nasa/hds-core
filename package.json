@@ -132,7 +132,7 @@
     "storybook-design-token": "^5.0.0",
     "style-dictionary": "^5.5.0",
     "stylelint": "^17.14.0",
-    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-config-standard-scss": "^18.0.0",
     "svg-sprite": "^2.0.4",
     "vitest": "^4.1.11",
     "wait-on": "^9.1.0"
