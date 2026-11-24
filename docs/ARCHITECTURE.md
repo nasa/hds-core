@@ -198,7 +198,7 @@ HDS focus rings target a 1px dashed Figma spec (`2,3` dasharray) while sidestepp
 ### Three Focus Systems
 
 1. **Hybrid Dashed Ring** — most interactive components (links, buttons, accordion, pagination, in-page nav, breadcrumb, checkbox, radio). Palette-aware via `--hds-palette-focus-*` tokens. Four adaptive treatments (`default`, `bold`, `subtle`, `minimal`) plus one fixed exemption. Treatment rationale is in `_hds-mixins.scss`; the bold-on-light 1.4.11 shortfall is documented in docs/508.md.
-2. **Solid Blue Element Highlight** — text inputs, textareas, selects. Border thickens to 2px in `--hds-palette-btn-secondary-bg`. Intentionally separate from the dashed system. See `components/_form.scss` and Issue #20.
+2. **Solid Blue Element Highlight** — text inputs, textareas, selects. Border thickens to 2px in `--hds-palette-btn-secondary-bg`. Intentionally separate from the dashed system. In forced-colors mode, where the blue is repainted, the global focus outline paints as well. See `components/_form.scss` and Issue #20.
 3. **Surface-inverse Ring** — table cells. Ring color is calculated as the inverse of the cell fill. **Not yet implemented** — currently inherits the global default ring. Tracked as Phase 2 work in the `_table.scss` FOCUS RING comment.
 
 ### Mixins
